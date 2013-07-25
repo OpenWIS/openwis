@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DisseminatedDataStatistics" targetNamespace="http://monitoring.management.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://monitoring.management.openwis.org/" schemaLocation="DisseminatedDataStatistics_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getUsersDisseminatedDataResponse">
+    <wsdl:part name="parameters" element="tns:getUsersDisseminatedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserDisseminatedDataInInterval">
+    <wsdl:part name="parameters" element="tns:getUserDisseminatedDataInInterval">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserDisseminatedByToolDataResponse">
+    <wsdl:part name="parameters" element="tns:updateUserDisseminatedByToolDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserDisseminatedDataInIntervalResponse">
+    <wsdl:part name="parameters" element="tns:getUserDisseminatedDataInIntervalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDisseminatedDataStatistics">
+    <wsdl:part name="parameters" element="tns:getDisseminatedDataStatistics">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDisseminatedData">
+    <wsdl:part name="parameters" element="tns:getDisseminatedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDisseminatedDataResponse">
+    <wsdl:part name="parameters" element="tns:getDisseminatedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserExtractedDataResponse">
+    <wsdl:part name="parameters" element="tns:updateUserExtractedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsersDisseminatedDataByUserResponse">
+    <wsdl:part name="parameters" element="tns:getUsersDisseminatedDataByUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDisseminatedDataInInterval">
+    <wsdl:part name="parameters" element="tns:getDisseminatedDataInInterval">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserDisseminatedByToolData">
+    <wsdl:part name="parameters" element="tns:updateUserDisseminatedByToolData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsersDisseminatedDataByUser">
+    <wsdl:part name="parameters" element="tns:getUsersDisseminatedDataByUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsersDisseminatedData">
+    <wsdl:part name="parameters" element="tns:getUsersDisseminatedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserExtractedData">
+    <wsdl:part name="parameters" element="tns:updateUserExtractedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDisseminatedDataStatisticsResponse">
+    <wsdl:part name="parameters" element="tns:getDisseminatedDataStatisticsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserDisseminatedDataResponse">
+    <wsdl:part name="parameters" element="tns:getUserDisseminatedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserDisseminatedData">
+    <wsdl:part name="parameters" element="tns:getUserDisseminatedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDisseminatedDataInIntervalResponse">
+    <wsdl:part name="parameters" element="tns:getDisseminatedDataInIntervalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DisseminatedDataStatistics">
+    <wsdl:operation name="getDisseminatedDataStatistics">
+      <wsdl:input name="getDisseminatedDataStatistics" message="tns:getDisseminatedDataStatistics">
+    </wsdl:input>
+      <wsdl:output name="getDisseminatedDataStatisticsResponse" message="tns:getDisseminatedDataStatisticsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsersDisseminatedDataByUser">
+      <wsdl:input name="getUsersDisseminatedDataByUser" message="tns:getUsersDisseminatedDataByUser">
+    </wsdl:input>
+      <wsdl:output name="getUsersDisseminatedDataByUserResponse" message="tns:getUsersDisseminatedDataByUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserExtractedData">
+      <wsdl:input name="updateUserExtractedData" message="tns:updateUserExtractedData">
+    </wsdl:input>
+      <wsdl:output name="updateUserExtractedDataResponse" message="tns:updateUserExtractedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserDisseminatedData">
+      <wsdl:input name="getUserDisseminatedData" message="tns:getUserDisseminatedData">
+    </wsdl:input>
+      <wsdl:output name="getUserDisseminatedDataResponse" message="tns:getUserDisseminatedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsersDisseminatedData">
+      <wsdl:input name="getUsersDisseminatedData" message="tns:getUsersDisseminatedData">
+    </wsdl:input>
+      <wsdl:output name="getUsersDisseminatedDataResponse" message="tns:getUsersDisseminatedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDisseminatedDataInInterval">
+      <wsdl:input name="getDisseminatedDataInInterval" message="tns:getDisseminatedDataInInterval">
+    </wsdl:input>
+      <wsdl:output name="getDisseminatedDataInIntervalResponse" message="tns:getDisseminatedDataInIntervalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserDisseminatedByToolData">
+      <wsdl:input name="updateUserDisseminatedByToolData" message="tns:updateUserDisseminatedByToolData">
+    </wsdl:input>
+      <wsdl:output name="updateUserDisseminatedByToolDataResponse" message="tns:updateUserDisseminatedByToolDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserDisseminatedDataInInterval">
+      <wsdl:input name="getUserDisseminatedDataInInterval" message="tns:getUserDisseminatedDataInInterval">
+    </wsdl:input>
+      <wsdl:output name="getUserDisseminatedDataInIntervalResponse" message="tns:getUserDisseminatedDataInIntervalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDisseminatedData">
+      <wsdl:input name="getDisseminatedData" message="tns:getDisseminatedData">
+    </wsdl:input>
+      <wsdl:output name="getDisseminatedDataResponse" message="tns:getDisseminatedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DisseminatedDataStatisticsSoapBinding" type="tns:DisseminatedDataStatistics">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getDisseminatedDataStatistics">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDisseminatedDataStatistics">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDisseminatedDataStatisticsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsersDisseminatedDataByUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsersDisseminatedDataByUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsersDisseminatedDataByUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserExtractedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUserExtractedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserExtractedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserDisseminatedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserDisseminatedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserDisseminatedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsersDisseminatedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUsersDisseminatedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUsersDisseminatedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDisseminatedDataInInterval">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDisseminatedDataInInterval">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDisseminatedDataInIntervalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserDisseminatedByToolData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUserDisseminatedByToolData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserDisseminatedByToolDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserDisseminatedDataInInterval">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserDisseminatedDataInInterval">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserDisseminatedDataInIntervalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDisseminatedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDisseminatedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDisseminatedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DisseminatedDataStatistics">
+    <wsdl:port name="DisseminatedDataStatisticsPort" binding="tns:DisseminatedDataStatisticsSoapBinding">
+      <soap:address location="http://localhost:9090/DisseminatedDataStatisticsPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

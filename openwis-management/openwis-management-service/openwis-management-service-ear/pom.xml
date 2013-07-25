@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openwis-management-service</artifactId>
+		<groupId>org.openwis.management.service</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.openwis.management.service</groupId>
+	<artifactId>openwis-management-service-ear</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>ear</packaging>
+
+	<name>openwis-management-service-ear</name>
+
+	<properties>
+		<openwis-alerts-logging>openwis-alerts-logging.xml</openwis-alerts-logging>
+	</properties>
+
+	<build>
+		<finalName>openwis-management-service</finalName>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+					<!-- Permet de generer le fichier de configuration jboss-app.xml -->
+					<jboss>
+						<version>5</version>
+						<loader-repository>openwis-management-service:archive=openwis-management-service.ear</loader-repository>
+					</jboss>
+					<!--
+						Permet de mettre tous les JAR autres que modules dans le
+						repertoire lib
+					-->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+				</configuration>
+			</plugin>
+			<!--
+			Permet de delpoyer l'EAR dans JBoss
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jboss-maven-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>hard-deploy</goal>
+						</goals>
+						<configuration>
+							<serverName>${env.JBOSS_CONF}</serverName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--
+				Permet de copier les fichiers de config
+			-->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-config-files</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="========== Copy alerts logging configuration  =============" />
+								<copy overwrite="true" file="${basedir}/src/main/config/${openwis-alerts-logging}"
+									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
+							</tasks>
+						</configuration>
+					</execution>
+               
+                     <execution>
+                              <id>copy-meta-inf-file</id>
+                              <phase>prepare-package</phase>
+                              <goals>
+                                  <goal>run</goal>
+                              </goals>
+                              <configuration>
+                                  <tasks>
+                                      <copy overwrite="true" file="${basedir}/src/main/resources/META-INF/aliases.txt"
+                                          todir="${basedir}/target/openwis-management-service/META-INF" />
+                                      <copy overwrite="true" file="${basedir}/src/main/resources/META-INF/aliases.txt"
+                                          todir="${basedir}/target/openwis-management-service" />
+                                  </tasks>
+                              </configuration>
+                          </execution>
+                     
+
+					<execution>
+						<id>clean-config-files</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<delete failonerror="false">
+									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
+										includes="${openwis-alerts-logging}" />
+								</delete>
+
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.openwis.management.service</groupId>
+			<artifactId>openwis-management-service-common</artifactId>
+			<version>${project.parent.version}</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>org.openwis.management.service</groupId>
+			<artifactId>openwis-management-service-ejb</artifactId>
+			<version>${project.parent.version}</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+</project>

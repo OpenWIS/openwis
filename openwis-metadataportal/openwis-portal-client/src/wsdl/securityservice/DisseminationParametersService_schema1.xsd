@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://securityservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://securityservice.openwis.org/">
+    <xs:element name="addOrUpdateEmailForDisseminationParameters" type="tns:addOrUpdateEmailForDisseminationParameters"/>
+    <xs:element name="addOrUpdateEmailForDisseminationParametersResponse" type="tns:addOrUpdateEmailForDisseminationParametersResponse"/>
+    <xs:element name="addOrUpdateFTPForDisseminationParameters" type="tns:addOrUpdateFTPForDisseminationParameters"/>
+    <xs:element name="addOrUpdateFTPForDisseminationParametersResponse" type="tns:addOrUpdateFTPForDisseminationParametersResponse"/>
+    <xs:element name="getEmailForDisseminationParameters" type="tns:getEmailForDisseminationParameters"/>
+    <xs:element name="getEmailForDisseminationParametersResponse" type="tns:getEmailForDisseminationParametersResponse"/>
+    <xs:element name="getFTPForDisseminationParameters" type="tns:getFTPForDisseminationParameters"/>
+    <xs:element name="getFTPForDisseminationParametersResponse" type="tns:getFTPForDisseminationParametersResponse"/>
+    <xs:element name="removeEmailForDisseminationParameters" type="tns:removeEmailForDisseminationParameters"/>
+    <xs:element name="removeEmailForDisseminationParametersResponse" type="tns:removeEmailForDisseminationParametersResponse"/>
+    <xs:element name="removeFTPForDisseminationParameters" type="tns:removeFTPForDisseminationParameters"/>
+    <xs:element name="removeFTPForDisseminationParametersResponse" type="tns:removeFTPForDisseminationParametersResponse"/>
+    <xs:complexType name="getFTPForDisseminationParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getFTPForDisseminationParametersResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISFTP"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISFTP">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="host" type="xs:string"/>
+            <xs:element minOccurs="0" name="path" type="xs:string"/>
+            <xs:element minOccurs="0" name="user" type="xs:string"/>
+            <xs:element minOccurs="0" name="password" type="xs:string"/>
+            <xs:element minOccurs="0" name="port" type="xs:string"/>
+            <xs:element name="passive" type="xs:boolean"/>
+            <xs:element name="encrypted" type="xs:boolean"/>
+            <xs:element name="checkFileSize" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+            <xs:element minOccurs="0" name="disseminationTool" type="tns:disseminationTool"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeEmailForDisseminationParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="email" type="tns:openWISEmail"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISEmail">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="address" type="xs:string"/>
+            <xs:element minOccurs="0" name="headerLine" type="xs:string"/>
+            <xs:element minOccurs="0" name="mailAttachmentMode" type="xs:string"/>
+            <xs:element minOccurs="0" name="subject" type="xs:string"/>
+            <xs:element minOccurs="0" name="mailDispatchMode" type="xs:string"/>
+            <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+            <xs:element minOccurs="0" name="disseminationTool" type="tns:disseminationTool"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeEmailForDisseminationParametersResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="addOrUpdateFTPForDisseminationParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="ftp" type="tns:openWISFTP"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addOrUpdateFTPForDisseminationParametersResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="removeFTPForDisseminationParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="ftp" type="tns:openWISFTP"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeFTPForDisseminationParametersResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="addOrUpdateEmailForDisseminationParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="email" type="tns:openWISEmail"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addOrUpdateEmailForDisseminationParametersResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getEmailForDisseminationParameters">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEmailForDisseminationParametersResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISEmail"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="disseminationTool">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RMDCN"/>
+            <xs:enumeration value="PUBLIC"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="UserManagementException" type="tns:UserManagementException"/>
+    <xs:complexType name="UserManagementException">
+        <xs:sequence>
+            <xs:element name="message" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

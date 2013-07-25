@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="AlertService" targetNamespace="http://alert.management.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://alert.management.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://alert.management.openwis.org/" schemaLocation="AlertService_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="raiseWarningResponse">
+    <wsdl:part name="parameters" element="tns:raiseWarningResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFilteredEventsSorted">
+    <wsdl:part name="parameters" element="tns:getFilteredEventsSorted">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFilteredEventsCount">
+    <wsdl:part name="parameters" element="tns:getFilteredEventsCount">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseErrorResponse">
+    <wsdl:part name="parameters" element="tns:raiseErrorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRecentEventsSortedResponse">
+    <wsdl:part name="parameters" element="tns:getRecentEventsSortedResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFilteredEventsCountResponse">
+    <wsdl:part name="parameters" element="tns:getFilteredEventsCountResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRecentEvents">
+    <wsdl:part name="parameters" element="tns:getRecentEvents">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseWarning">
+    <wsdl:part name="parameters" element="tns:raiseWarning">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRecentEventsSorted">
+    <wsdl:part name="parameters" element="tns:getRecentEventsSorted">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRecentEventsCountResponse">
+    <wsdl:part name="parameters" element="tns:getRecentEventsCountResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFilteredEventsSortedResponse">
+    <wsdl:part name="parameters" element="tns:getFilteredEventsSortedResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFilteredEventsResponse">
+    <wsdl:part name="parameters" element="tns:getFilteredEventsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseError">
+    <wsdl:part name="parameters" element="tns:raiseError">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRecentEventsCount">
+    <wsdl:part name="parameters" element="tns:getRecentEventsCount">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRecentEventsResponse">
+    <wsdl:part name="parameters" element="tns:getRecentEventsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseInformationResponse">
+    <wsdl:part name="parameters" element="tns:raiseInformationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFilteredEvents">
+    <wsdl:part name="parameters" element="tns:getFilteredEvents">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseInformation">
+    <wsdl:part name="parameters" element="tns:raiseInformation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseEventResponse">
+    <wsdl:part name="parameters" element="tns:raiseEventResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="raiseEvent">
+    <wsdl:part name="parameters" element="tns:raiseEvent">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AlertService">
+    <wsdl:operation name="getFilteredEventsSorted">
+      <wsdl:input name="getFilteredEventsSorted" message="tns:getFilteredEventsSorted">
+    </wsdl:input>
+      <wsdl:output name="getFilteredEventsSortedResponse" message="tns:getFilteredEventsSortedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFilteredEvents">
+      <wsdl:input name="getFilteredEvents" message="tns:getFilteredEvents">
+    </wsdl:input>
+      <wsdl:output name="getFilteredEventsResponse" message="tns:getFilteredEventsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseInformation">
+      <wsdl:input name="raiseInformation" message="tns:raiseInformation">
+    </wsdl:input>
+      <wsdl:output name="raiseInformationResponse" message="tns:raiseInformationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseError">
+      <wsdl:input name="raiseError" message="tns:raiseError">
+    </wsdl:input>
+      <wsdl:output name="raiseErrorResponse" message="tns:raiseErrorResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecentEventsSorted">
+      <wsdl:input name="getRecentEventsSorted" message="tns:getRecentEventsSorted">
+    </wsdl:input>
+      <wsdl:output name="getRecentEventsSortedResponse" message="tns:getRecentEventsSortedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecentEventsCount">
+      <wsdl:input name="getRecentEventsCount" message="tns:getRecentEventsCount">
+    </wsdl:input>
+      <wsdl:output name="getRecentEventsCountResponse" message="tns:getRecentEventsCountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecentEvents">
+      <wsdl:input name="getRecentEvents" message="tns:getRecentEvents">
+    </wsdl:input>
+      <wsdl:output name="getRecentEventsResponse" message="tns:getRecentEventsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseEvent">
+      <wsdl:input name="raiseEvent" message="tns:raiseEvent">
+    </wsdl:input>
+      <wsdl:output name="raiseEventResponse" message="tns:raiseEventResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFilteredEventsCount">
+      <wsdl:input name="getFilteredEventsCount" message="tns:getFilteredEventsCount">
+    </wsdl:input>
+      <wsdl:output name="getFilteredEventsCountResponse" message="tns:getFilteredEventsCountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseWarning">
+      <wsdl:input name="raiseWarning" message="tns:raiseWarning">
+    </wsdl:input>
+      <wsdl:output name="raiseWarningResponse" message="tns:raiseWarningResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AlertServiceSoapBinding" type="tns:AlertService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getFilteredEventsSorted">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFilteredEventsSorted">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFilteredEventsSortedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFilteredEvents">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFilteredEvents">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFilteredEventsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseError">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="raiseError">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="raiseErrorResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseInformation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="raiseInformation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="raiseInformationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecentEventsSorted">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRecentEventsSorted">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRecentEventsSortedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecentEvents">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRecentEvents">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRecentEventsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRecentEventsCount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRecentEventsCount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRecentEventsCountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFilteredEventsCount">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFilteredEventsCount">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFilteredEventsCountResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseEvent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="raiseEvent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="raiseEventResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="raiseWarning">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="raiseWarning">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="raiseWarningResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AlertService">
+    <wsdl:port name="AlertServicePort" binding="tns:AlertServiceSoapBinding">
+      <soap:address location="http://localhost:9090/AlertServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

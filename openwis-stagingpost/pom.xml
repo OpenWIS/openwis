@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>eu.akka.openwis</groupId>
+        <artifactId>openwis</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+
+	<!-- =========================================================== -->
+	<!-- Module Description -->
+	<!-- =========================================================== -->
+	<groupId>org.openwis.stagingpost</groupId>
+	<artifactId>openwis-stagingpost</artifactId>
+	<packaging>war</packaging>
+	<name>OpenWIS Staging Post</name>
+	<description>
+        OpenWIS Staging Post.
+    </description>
+  
+	<properties>
+		<geonetwork.webapp.dir>${basedir}/src/main/webapp</geonetwork.webapp.dir>
+		<geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
+		<minify.verbose>false</minify.verbose>
+		<solr.version>1.4.1</solr.version>
+	</properties>
+
+	<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <attachClasses>true</attachClasses>
+                    <warName>stagingPost</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

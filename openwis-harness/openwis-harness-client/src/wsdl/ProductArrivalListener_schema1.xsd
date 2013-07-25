@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://dataservice.openwis.org/" version="1.0">
+<xs:element name="onProductArrival" type="tns:onProductArrival"/>
+<xs:element name="onProductArrivalResponse" type="tns:onProductArrivalResponse"/>
+<xs:complexType name="onProductArrival">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="productDate" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="urns" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="onProductArrivalResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>

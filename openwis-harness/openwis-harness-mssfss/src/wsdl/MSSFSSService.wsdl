@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="MSSFSSImplService"
+	targetNamespace="http://mssfss.harness.openwis.org/" xmlns:ns1="http://schemas.xmlsoap.org/wsdl/soap/http"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://mssfss.harness.openwis.org/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+    <xsd:schema>
+      <xsd:import namespace="http://mssfss.harness.openwis.org/" schemaLocation="MSSFSSService.xsd"/>
+    </xsd:schema>
+
+	</wsdl:types>
+	<wsdl:message name="getChannelsForUser">
+		<wsdl:part element="tns:getChannelsForUser" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getChannelsForUserResponse">
+		<wsdl:part element="tns:getChannelsForUserResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="changeRouting">
+		<wsdl:part element="tns:changeRouting" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createRouting">
+		<wsdl:part name="parameters" element="tns:createRouting"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createRoutingResponse">
+		<wsdl:part name="parameters" element="tns:createRoutingResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteRouting">
+		<wsdl:part name="parameters" element="tns:deleteRouting"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="listRouting">
+		<wsdl:part name="parameters" element="tns:listRouting"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="listRoutingResponse">
+		<wsdl:part name="parameters" element="tns:listRoutingResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getRecentEventsForARouting">
+		<wsdl:part name="parameters" element="tns:getRecentEventsForARouting"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getRecentEventsForARoutingResponse">
+		<wsdl:part name="parameters" element="tns:getRecentEventsForARoutingResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="changeRoutingResponse">
+		<wsdl:part name="parameters" element="tns:changeRoutingResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteRoutingResponse">
+		<wsdl:part name="parameters" element="tns:deleteRoutingResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="MSSFSS">
+		<wsdl:operation name="getChannelsForUser">
+			<wsdl:input message="tns:getChannelsForUser" name="getChannelsForUser">
+			</wsdl:input>
+			<wsdl:output message="tns:getChannelsForUserResponse"
+				name="getChannelsForUserResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="changeRouting">
+			<wsdl:input message="tns:changeRouting" name="changeRouting">
+			</wsdl:input>
+			<wsdl:output message="tns:changeRoutingResponse" name="changeRoutingResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createRouting">
+			<wsdl:input message="tns:createRouting"></wsdl:input>
+			<wsdl:output message="tns:createRoutingResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteRouting">
+			<wsdl:input message="tns:deleteRouting"></wsdl:input>
+			<wsdl:output message="tns:deleteRoutingResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="listRouting">
+			<wsdl:input message="tns:listRouting" name="listRouting"></wsdl:input>
+			<wsdl:output message="tns:listRoutingResponse" name="listRoutingResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getRecentEventsForARouting">
+			<wsdl:input message="tns:getRecentEventsForARouting"></wsdl:input>
+			<wsdl:output message="tns:getRecentEventsForARoutingResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MSSFSSImplServiceSoapBinding" type="tns:MSSFSS">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getChannelsForUser">
+			<soap:operation
+				soapAction="http://mssfss.harness.openwis.org/getChannelsForUser" />
+			<wsdl:input name="getChannelsForUser">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getChannelsForUserResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="changeRouting">
+			<soap:operation soapAction="http://mssfss.harness.openwis.org/changeRouting" />
+			<wsdl:input name="changeRouting">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="changeRoutingResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createRouting">
+			<soap:operation soapAction="http://mssfss.harness.openwis.org/createRouting" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="deleteRouting">
+			<soap:operation soapAction="http://mssfss.harness.openwis.org/deleteRouting" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="listRouting">
+			<soap:operation soapAction="http://mssfss.harness.openwis.org/listRouting" />
+			<wsdl:input name="listRouting">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getRecentEventsForARouting">
+			<soap:operation
+				soapAction="http://mssfss.harness.openwis.org/getRecentEventsForARouting" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="MSSFSSImplService">
+		<wsdl:port binding="tns:MSSFSSImplServiceSoapBinding" name="MSSFSSImplPort">
+			<soap:address
+				location="http://openwis-02.vcsnt.local:8080/openwis-harness-mssfss-1.0-SNAPSHOT/harness" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

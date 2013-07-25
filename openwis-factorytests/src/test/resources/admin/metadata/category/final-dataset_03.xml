@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    <categories name="datasets" />
+    <categories name="draft" />
+	<categories name="mycategory" />
+
+</dataset>

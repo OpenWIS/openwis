@@ -1,0 +1,186 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <artifactId>AkkaToulouseSuperPom</artifactId>
+      <groupId>eu.akka</groupId>
+      <version>1.0</version>
+   </parent>
+   <groupId>eu.akka.openwis</groupId>
+   <artifactId>openwis</artifactId>
+   <version>1.0-SNAPSHOT</version>
+   <packaging>pom</packaging>
+   <name>OpenWis</name>
+
+   <scm>
+      <connection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</connection>
+      <developerConnection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</developerConnection>
+      <url>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</url>
+   </scm>
+
+   <build>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>build-helper-maven-plugin</artifactId>
+               <version>1.5</version>
+            </plugin>
+            <plugin>
+			    <artifactId>maven-jar-plugin</artifactId>
+	            <configuration>
+	                <archive>
+						<addMavenDescriptor/>
+	                    <manifest>
+						    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						    <addDefaultSpecificationEntries/>		
+	                    </manifest>
+	                </archive>
+	            </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+   </build>
+
+   <organization>
+      <name>AKKA informatique &amp; Systèmes</name>
+      <url>http://www.akka.eu</url>
+   </organization>
+   <profiles>
+      <profile>
+         <id>all</id>
+         <activation>
+            <activeByDefault>false</activeByDefault>
+         </activation>
+         <modules>
+            <module>openwis-harness</module>
+            <module>openwis-dataservice</module>
+            <module>openwis-metadataportal</module>
+            <module>openwis-securityservice</module>
+            <module>openwis-management</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>Hudson</id>
+         <activation>
+            <activeByDefault>false</activeByDefault>
+         </activation>
+         <modules>
+            <module>openwis-harness</module>
+            <module>openwis-dataservice</module>
+            <module>openwis-metadataportal</module>
+            <module>openwis-securityservice</module>
+            <module>openwis-management</module>
+         </modules>
+      </profile>
+   </profiles>
+
+   <url>http://www.openwis.org</url>
+   <inceptionYear>2010</inceptionYear>
+   <developers>
+      <developer>
+         <id>y.lizzi</id>
+         <name>Yannick Lizzi</name>
+         <email>y.lizzi@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Project Leader</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>l.baresse</id>
+         <name>Laurent Baresse</name>
+         <email>l.baresse@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Architect</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>m.coudert</id>
+         <name>Mathieu Coudert</name>
+         <email>m.coudert@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Java-J2EE Development Engineer</role>
+            <role>Metadata Expert</role>
+            <role>GeoNetwork community member</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>n.guerrier</id>
+         <name>Nicolas Guerrier</name>
+         <email>n.guerrier@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Java-J2EE Development Engineer</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>f.racaru</id>
+         <name>Florin Racaru</name>
+         <email>f.racaru@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Java-J2EE Development Engineer</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>a.audevart</id>
+         <name>Alexia Audevart</name>
+         <email>a.audevart@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Java-J2EE Development Engineer</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>j.baillagou</id>
+         <name>Julien Baillagou</name>
+         <email>j.baillagou@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Java-J2EE Development Engineer</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>i.laborie</id>
+         <name>Igor Laborie</name>
+         <email>i.laborie@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Java-J2EE Development Engineer</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+      <developer>
+         <id>n.sayer</id>
+         <name>Nelly Sayer</name>
+         <email>n.sayer@akka.eu</email>
+         <organization>AKKA Technologies</organization>
+         <organizationUrl>http://www.akka.eu</organizationUrl>
+         <roles>
+            <role>Graphist</role>
+         </roles>
+         <timezone>GMT+1</timezone>
+      </developer>
+   </developers>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+</project>

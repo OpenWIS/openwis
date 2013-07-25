@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ExchangedDataStatistics" targetNamespace="http://monitoring.management.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://monitoring.management.openwis.org/" schemaLocation="ExchangedDataStatistics_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="updateExchangedDataResponse">
+    <wsdl:part name="parameters" element="tns:updateExchangedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataStatisticsResponse">
+    <wsdl:part name="parameters" element="tns:getExchangedDataStatisticsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTotalExchangedDataInInterval">
+    <wsdl:part name="parameters" element="tns:getTotalExchangedDataInInterval">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataInIntervalBySources">
+    <wsdl:part name="parameters" element="tns:getExchangedDataInIntervalBySources">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateExchangedData">
+    <wsdl:part name="parameters" element="tns:updateExchangedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataInIntervalBySourcesResponse">
+    <wsdl:part name="parameters" element="tns:getExchangedDataInIntervalBySourcesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataResponse">
+    <wsdl:part name="parameters" element="tns:getExchangedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTotalExchangedDataInIntervalResponse">
+    <wsdl:part name="parameters" element="tns:getTotalExchangedDataInIntervalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataStatistics">
+    <wsdl:part name="parameters" element="tns:getExchangedDataStatistics">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataInIntervalForAllSources">
+    <wsdl:part name="parameters" element="tns:getExchangedDataInIntervalForAllSources">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedDataInIntervalForAllSourcesResponse">
+    <wsdl:part name="parameters" element="tns:getExchangedDataInIntervalForAllSourcesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getExchangedData">
+    <wsdl:part name="parameters" element="tns:getExchangedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ExchangedDataStatistics">
+    <wsdl:operation name="updateExchangedData">
+      <wsdl:input name="updateExchangedData" message="tns:updateExchangedData">
+    </wsdl:input>
+      <wsdl:output name="updateExchangedDataResponse" message="tns:updateExchangedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedDataInIntervalForAllSources">
+      <wsdl:input name="getExchangedDataInIntervalForAllSources" message="tns:getExchangedDataInIntervalForAllSources">
+    </wsdl:input>
+      <wsdl:output name="getExchangedDataInIntervalForAllSourcesResponse" message="tns:getExchangedDataInIntervalForAllSourcesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTotalExchangedDataInInterval">
+      <wsdl:input name="getTotalExchangedDataInInterval" message="tns:getTotalExchangedDataInInterval">
+    </wsdl:input>
+      <wsdl:output name="getTotalExchangedDataInIntervalResponse" message="tns:getTotalExchangedDataInIntervalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedDataInIntervalBySources">
+      <wsdl:input name="getExchangedDataInIntervalBySources" message="tns:getExchangedDataInIntervalBySources">
+    </wsdl:input>
+      <wsdl:output name="getExchangedDataInIntervalBySourcesResponse" message="tns:getExchangedDataInIntervalBySourcesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedData">
+      <wsdl:input name="getExchangedData" message="tns:getExchangedData">
+    </wsdl:input>
+      <wsdl:output name="getExchangedDataResponse" message="tns:getExchangedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedDataStatistics">
+      <wsdl:input name="getExchangedDataStatistics" message="tns:getExchangedDataStatistics">
+    </wsdl:input>
+      <wsdl:output name="getExchangedDataStatisticsResponse" message="tns:getExchangedDataStatisticsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ExchangedDataStatisticsSoapBinding" type="tns:ExchangedDataStatistics">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updateExchangedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateExchangedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateExchangedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedDataInIntervalForAllSources">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getExchangedDataInIntervalForAllSources">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getExchangedDataInIntervalForAllSourcesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedDataInIntervalBySources">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getExchangedDataInIntervalBySources">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getExchangedDataInIntervalBySourcesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTotalExchangedDataInInterval">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTotalExchangedDataInInterval">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTotalExchangedDataInIntervalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getExchangedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getExchangedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExchangedDataStatistics">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getExchangedDataStatistics">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getExchangedDataStatisticsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExchangedDataStatistics">
+    <wsdl:port name="ExchangedDataStatisticsPort" binding="tns:ExchangedDataStatisticsSoapBinding">
+      <soap:address location="http://localhost:9090/ExchangedDataStatisticsPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

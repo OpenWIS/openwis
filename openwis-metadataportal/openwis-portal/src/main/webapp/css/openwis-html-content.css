@@ -1,0 +1,21 @@
+
+#contentElement h1              { font-size: 2.2em; margin: .67em 0 }
+#contentElement h2              { font-size: 1.7em; margin: .75em 0 }
+#contentElement h3              { font-size: 1.37em; margin: .83em 0 }
+#contentElement strong          { font-weight: bolder }
+#contentElement h4, p, blockquote, ul, ol, dl, dir, h5, a        { font-size: 1.07em; margin: 1.5em 0 }
+#contentElement li              { font-size: 1.03em }
+#contentElement h6              { font-size: .95em; margin: 1.67em 0 }
+#contentElement h1, h2, h3, h4, h5, h6, b, strong          { font-weight: bolder }
+#contentElement ol, ul, dir, dd        { margin-left: 40px }
+#contentElement ol, ul {
+    list-style: disc inside none;
+}
+
+.errorMsg {
+	text-align: center;
+	margin-top: 100px;
+	width: 100%;
+	font-size: 12px;
+	font-weight: bold
+}

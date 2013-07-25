@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+	<display-name>Harness - Database sample</display-name>
+	<servlet>
+		<servlet-name>LocalDataSource</servlet-name>
+		<servlet-class>org.openwis.harness.samples.db.localdatasource.DatabaseLocalDatasource</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SubSelectionParameters</servlet-name>
+		<servlet-class>org.openwis.harness.samples.db.subselectionparameters.SubSelectionParametersImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>LocalDataSource</servlet-name>
+		<url-pattern>/LocalDataSource</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SubSelectionParameters</servlet-name>
+		<url-pattern>/SubSelectionParameters</url-pattern>
+	</servlet-mapping>
+</web-app>

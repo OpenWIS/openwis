@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
+		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+	<artifactId>openwis-securityservice-usermanagement-server-ear</artifactId>
+	<name>openwis-securityservice-usermanagement-server-ear</name>
+	<packaging>ear</packaging>
+
+	<properties>
+		<securityservice-jndi-service>openwis-securityservice-jndi-service.xml</securityservice-jndi-service>
+	</properties>
+
+	<build>
+		<finalName>openwis-securityservice</finalName>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+                    <!-- Generate the conf file jboss-app.xml -->
+					<jboss>
+						<version>5</version>
+						<loader-repository>openwis-securityservice-usermanagement:archive=openwis-securityservice-usermanagement.ear</loader-repository>
+					</jboss>
+
+                    <!--
+                        Copy all jar except for modules ones in lib
+                    -->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+
+				</configuration>
+			</plugin>
+
+            <!-- 
+            Deploy the EAR in JBoss
+            -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jboss-maven-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>hard-deploy</goal>
+						</goals>
+						<configuration>
+							<serverName>${env.JBOSS_CONF}</serverName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+            <!--
+                Copy config files in JBoss: disabled since tokens have been introduced the JNDI file
+            -->
+			<!--<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-config-files</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="==========      Copy security-jndi-service file =============" />
+								<copy overwrite="true"
+									file="${basedir}/src/main/config/${securityservice-jndi-service}"
+									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
+							</tasks>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>clean-config-files</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<delete failonerror="false">
+									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
+										includes="${securityservice-jndi-service}" />
+								</delete>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		--></plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
+			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
+			<version>${project.parent.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+			<artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
+			<version>${project.parent.version}</version>
+			<type>ejb</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+			<artifactId>openwis-securityservice-usermanagement-server-webapp</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+</project>
+

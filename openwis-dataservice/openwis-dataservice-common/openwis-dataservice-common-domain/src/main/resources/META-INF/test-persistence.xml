@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+	<persistence-unit name="sample" transaction-type="RESOURCE_LOCAL">
+		<class>org.openwis.dataservice.common.domain.entity.request.Request</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.adhoc.AdHoc</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.Parameter</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.ProcessedRequest</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.ProductMetadata</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.UpdateFrequency</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.RecurrentUpdateFrequency</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.Value</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.Temporal</class>
+		<class>org.openwis.dataservice.common.domain.entity.subscription.Subscription</class>
+		<class>org.openwis.dataservice.common.domain.entity.subscription.Frequency</class>
+		<class>org.openwis.dataservice.common.domain.entity.subscription.RecurrentFrequency</class>
+		<class>org.openwis.dataservice.common.domain.entity.subscription.EventBasedFrequency</class>
+		<class>org.openwis.dataservice.common.domain.entity.subscription.SubscriptionBackup</class>
+		
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.Dissemination</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.ShoppingCartDissemination</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.RMDCNDissemination</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.PublicDissemination</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.Dissemination</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.MSSFSSDissemination</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.Diffusion</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.MailDiffusion</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.FTPDiffusion</class>
+		<class>org.openwis.dataservice.common.domain.entity.request.dissemination.MSSFSSChannel</class>
+		
+		<class>org.openwis.dataservice.common.domain.entity.cache.PatternMetadataMapping</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.CachedFile</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.CacheConfiguration</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.FeedingFilter</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.FiletypeFilter</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.IngestionFilter</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.MappedMetadata</class>
+		<class>org.openwis.dataservice.common.domain.entity.cache.ReplicationFilter</class>
+		
+		<class>org.openwis.dataservice.common.domain.entity.blacklist.BlacklistInfo</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
+			<property name="hibernate.connection.username" value="sa" />
+			<property name="hibernate.connection.password" value="" />
+			<!--<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost/jpatest" /> -->
+			<property name="hibernate.connection.url" value="jdbc:hsqldb:mem" />
+			<property name="hibernate.show_sql" value="true" />
+         
+            <property name="hibernate.cache.use_second_level_cache"
+                value="true" />
+            <property name="hibernate.cache.use_query_cache" value="true" />
+            
+            
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
+            
+         </properties>
+	</persistence-unit>
+
+</persistence>

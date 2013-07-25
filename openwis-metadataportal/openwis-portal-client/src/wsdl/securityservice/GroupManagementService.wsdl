@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GroupManagementService" targetNamespace="http://securityservice.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://securityservice.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://securityservice.openwis.org/" schemaLocation="GroupManagementService_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="removeGlobalGroupId">
+    <wsdl:part name="parameters" element="tns:removeGlobalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createGlobalGroupResponse">
+    <wsdl:part name="parameters" element="tns:createGlobalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countUsersInGroup">
+    <wsdl:part name="parameters" element="tns:countUsersInGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGlobalGroupIdsResponse">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGlobalGroupIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLocalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:updateLocalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeGlobalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:removeGlobalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserNameByCentre">
+    <wsdl:part name="parameters" element="tns:getAllUserNameByCentre">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLocalGroupId">
+    <wsdl:part name="parameters" element="tns:updateLocalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGroups">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGroups">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="synchronizeLDAP">
+    <wsdl:part name="parameters" element="tns:synchronizeLDAP">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createGlobalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:createGlobalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGlobalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGlobalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeLocalGroupResponse">
+    <wsdl:part name="parameters" element="tns:removeLocalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllGroupsResponse">
+    <wsdl:part name="parameters" element="tns:getAllGroupsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGlobalGroupResponse">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGlobalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGlobalGroup">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGlobalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeLocalGroupId">
+    <wsdl:part name="parameters" element="tns:removeLocalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByLocalGroupId">
+    <wsdl:part name="parameters" element="tns:getAllUsersByLocalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeGlobalGroupResponse">
+    <wsdl:part name="parameters" element="tns:removeGlobalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLocalGroupResponse">
+    <wsdl:part name="parameters" element="tns:createLocalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countUsersInGroupResponse">
+    <wsdl:part name="parameters" element="tns:countUsersInGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resetGroups">
+    <wsdl:part name="parameters" element="tns:resetGroups">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createGlobalGroupId">
+    <wsdl:part name="parameters" element="tns:createGlobalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGlobalGroupIds">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGlobalGroupIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGlobalGroupId">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGlobalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="synchronizeLDAPResponse">
+    <wsdl:part name="parameters" element="tns:synchronizeLDAPResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGroup">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGroupsResponse">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGroupsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserNameByGroupsResponse">
+    <wsdl:part name="parameters" element="tns:getAllUserNameByGroupsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserNameByCentreResponse">
+    <wsdl:part name="parameters" element="tns:getAllUserNameByCentreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createGlobalGroup">
+    <wsdl:part name="parameters" element="tns:createGlobalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllGroups">
+    <wsdl:part name="parameters" element="tns:getAllGroups">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserNameByGroups">
+    <wsdl:part name="parameters" element="tns:getAllUserNameByGroups">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByLocalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:getAllUsersByLocalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeGlobalGroup">
+    <wsdl:part name="parameters" element="tns:removeGlobalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeLocalGroup">
+    <wsdl:part name="parameters" element="tns:removeLocalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resetGroupsResponse">
+    <wsdl:part name="parameters" element="tns:resetGroupsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UserManagementException">
+    <wsdl:part name="UserManagementException" element="tns:UserManagementException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUsersByGroupResponse">
+    <wsdl:part name="parameters" element="tns:getAllUsersByGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeLocalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:removeLocalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLocalGroup">
+    <wsdl:part name="parameters" element="tns:createLocalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLocalGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:createLocalGroupIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLocalGroupId">
+    <wsdl:part name="parameters" element="tns:createLocalGroupId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="GroupManagementService">
+    <wsdl:operation name="removeGlobalGroup">
+      <wsdl:input name="removeGlobalGroup" message="tns:removeGlobalGroup">
+    </wsdl:input>
+      <wsdl:output name="removeGlobalGroupResponse" message="tns:removeGlobalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="synchronizeLDAP">
+      <wsdl:input name="synchronizeLDAP" message="tns:synchronizeLDAP">
+    </wsdl:input>
+      <wsdl:output name="synchronizeLDAPResponse" message="tns:synchronizeLDAPResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGlobalGroupId">
+      <wsdl:input name="getAllUsersByGlobalGroupId" message="tns:getAllUsersByGlobalGroupId">
+    </wsdl:input>
+      <wsdl:output name="getAllUsersByGlobalGroupIdResponse" message="tns:getAllUsersByGlobalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGlobalGroup">
+      <wsdl:input name="getAllUsersByGlobalGroup" message="tns:getAllUsersByGlobalGroup">
+    </wsdl:input>
+      <wsdl:output name="getAllUsersByGlobalGroupResponse" message="tns:getAllUsersByGlobalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserNameByGroups">
+      <wsdl:input name="getAllUserNameByGroups" message="tns:getAllUserNameByGroups">
+    </wsdl:input>
+      <wsdl:output name="getAllUserNameByGroupsResponse" message="tns:getAllUserNameByGroupsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeLocalGroup">
+      <wsdl:input name="removeLocalGroup" message="tns:removeLocalGroup">
+    </wsdl:input>
+      <wsdl:output name="removeLocalGroupResponse" message="tns:removeLocalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllGroups">
+      <wsdl:input name="getAllGroups" message="tns:getAllGroups">
+    </wsdl:input>
+      <wsdl:output name="getAllGroupsResponse" message="tns:getAllGroupsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLocalGroupId">
+      <wsdl:input name="createLocalGroupId" message="tns:createLocalGroupId">
+    </wsdl:input>
+      <wsdl:output name="createLocalGroupIdResponse" message="tns:createLocalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByLocalGroupId">
+      <wsdl:input name="getAllUsersByLocalGroupId" message="tns:getAllUsersByLocalGroupId">
+    </wsdl:input>
+      <wsdl:output name="getAllUsersByLocalGroupIdResponse" message="tns:getAllUsersByLocalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGlobalGroupIds">
+      <wsdl:input name="getAllUsersByGlobalGroupIds" message="tns:getAllUsersByGlobalGroupIds">
+    </wsdl:input>
+      <wsdl:output name="getAllUsersByGlobalGroupIdsResponse" message="tns:getAllUsersByGlobalGroupIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserNameByCentre">
+      <wsdl:input name="getAllUserNameByCentre" message="tns:getAllUserNameByCentre">
+    </wsdl:input>
+      <wsdl:output name="getAllUserNameByCentreResponse" message="tns:getAllUserNameByCentreResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGroup">
+      <wsdl:input name="getAllUsersByGroup" message="tns:getAllUsersByGroup">
+    </wsdl:input>
+      <wsdl:output name="getAllUsersByGroupResponse" message="tns:getAllUsersByGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeLocalGroupId">
+      <wsdl:input name="removeLocalGroupId" message="tns:removeLocalGroupId">
+    </wsdl:input>
+      <wsdl:output name="removeLocalGroupIdResponse" message="tns:removeLocalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createGlobalGroupId">
+      <wsdl:input name="createGlobalGroupId" message="tns:createGlobalGroupId">
+    </wsdl:input>
+      <wsdl:output name="createGlobalGroupIdResponse" message="tns:createGlobalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="countUsersInGroup">
+      <wsdl:input name="countUsersInGroup" message="tns:countUsersInGroup">
+    </wsdl:input>
+      <wsdl:output name="countUsersInGroupResponse" message="tns:countUsersInGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createGlobalGroup">
+      <wsdl:input name="createGlobalGroup" message="tns:createGlobalGroup">
+    </wsdl:input>
+      <wsdl:output name="createGlobalGroupResponse" message="tns:createGlobalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGroups">
+      <wsdl:input name="getAllUsersByGroups" message="tns:getAllUsersByGroups">
+    </wsdl:input>
+      <wsdl:output name="getAllUsersByGroupsResponse" message="tns:getAllUsersByGroupsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeGlobalGroupId">
+      <wsdl:input name="removeGlobalGroupId" message="tns:removeGlobalGroupId">
+    </wsdl:input>
+      <wsdl:output name="removeGlobalGroupIdResponse" message="tns:removeGlobalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLocalGroup">
+      <wsdl:input name="createLocalGroup" message="tns:createLocalGroup">
+    </wsdl:input>
+      <wsdl:output name="createLocalGroupResponse" message="tns:createLocalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLocalGroupId">
+      <wsdl:input name="updateLocalGroupId" message="tns:updateLocalGroupId">
+    </wsdl:input>
+      <wsdl:output name="updateLocalGroupIdResponse" message="tns:updateLocalGroupIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="resetGroups">
+      <wsdl:input name="resetGroups" message="tns:resetGroups">
+    </wsdl:input>
+      <wsdl:output name="resetGroupsResponse" message="tns:resetGroupsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GroupManagementServiceSoapBinding" type="tns:GroupManagementService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="removeGlobalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeGlobalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeGlobalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGlobalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUsersByGlobalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUsersByGlobalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="synchronizeLDAP">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="synchronizeLDAP">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="synchronizeLDAPResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGlobalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUsersByGlobalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUsersByGlobalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserNameByGroups">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUserNameByGroups">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUserNameByGroupsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeLocalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeLocalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeLocalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllGroups">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllGroups">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllGroupsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLocalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLocalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLocalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserNameByCentre">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUserNameByCentre">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUserNameByCentreResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGlobalGroupIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUsersByGlobalGroupIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUsersByGlobalGroupIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByLocalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUsersByLocalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUsersByLocalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUsersByGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUsersByGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeLocalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeLocalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeLocalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createGlobalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createGlobalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createGlobalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="countUsersInGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="countUsersInGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="countUsersInGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createGlobalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createGlobalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createGlobalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUsersByGroups">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUsersByGroups">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUsersByGroupsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeGlobalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeGlobalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeGlobalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLocalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLocalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLocalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="resetGroups">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="resetGroups">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="resetGroupsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLocalGroupId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLocalGroupId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLocalGroupIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GroupManagementService">
+    <wsdl:port name="GroupManagementServicePort" binding="tns:GroupManagementServiceSoapBinding">
+      <soap:address location="http://localhost:9090/GroupManagementServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

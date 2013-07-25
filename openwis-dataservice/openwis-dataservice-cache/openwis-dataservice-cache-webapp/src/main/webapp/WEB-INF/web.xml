@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app id="openwis-dataservice-cache-webapp">
+	<display-name>Data Service Cache Initializer</display-name>
+	<description>Initializer servlet for OpenWIS Data Service Cache Module</description>
+
+<!--
+	<listener>
+	    <listener-class> org.openwis.datasource.server.init.ExtractionTimerListener</listener-class> 
+	</listener> 
+-->
+
+	<servlet>
+		<servlet-name>ServiceServlet</servlet-name>
+		<servlet-class>org.openwis.dataservice.webapp.ServiceServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+<!-- 
+	<servlet-mapping>
+		<servlet-name>TimerClient</servlet-name>
+		<url-pattern>/initDataSource</url-pattern>
+	</servlet-mapping>
+
+	<resource-ref>
+		<description>WebService LocalDataSourceService</description>
+		<res-ref-name>ws/localdatasourceservice</res-ref-name>
+		<res-type>java.net.URL</res-type>
+		<res-auth>Application</res-auth>
+	</resource-ref> 
+-->
+</web-app>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IngestedDataStatistics" targetNamespace="http://monitoring.management.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://monitoring.management.openwis.org/" schemaLocation="IngestedDataStatistics_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getIngestedDataResponse">
+    <wsdl:part name="parameters" element="tns:getIngestedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIngestedDataStatisticsResponse">
+    <wsdl:part name="parameters" element="tns:getIngestedDataStatisticsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIngestedDataStatistics">
+    <wsdl:part name="parameters" element="tns:getIngestedDataStatistics">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateIngestedData">
+    <wsdl:part name="parameters" element="tns:updateIngestedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateIngestedDataResponse">
+    <wsdl:part name="parameters" element="tns:updateIngestedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIngestedDataInIntervalResponse">
+    <wsdl:part name="parameters" element="tns:getIngestedDataInIntervalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIngestedDataInInterval">
+    <wsdl:part name="parameters" element="tns:getIngestedDataInInterval">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIngestedData">
+    <wsdl:part name="parameters" element="tns:getIngestedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IngestedDataStatistics">
+    <wsdl:operation name="getIngestedDataStatistics">
+      <wsdl:input name="getIngestedDataStatistics" message="tns:getIngestedDataStatistics">
+    </wsdl:input>
+      <wsdl:output name="getIngestedDataStatisticsResponse" message="tns:getIngestedDataStatisticsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIngestedData">
+      <wsdl:input name="getIngestedData" message="tns:getIngestedData">
+    </wsdl:input>
+      <wsdl:output name="getIngestedDataResponse" message="tns:getIngestedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIngestedDataInInterval">
+      <wsdl:input name="getIngestedDataInInterval" message="tns:getIngestedDataInInterval">
+    </wsdl:input>
+      <wsdl:output name="getIngestedDataInIntervalResponse" message="tns:getIngestedDataInIntervalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateIngestedData">
+      <wsdl:input name="updateIngestedData" message="tns:updateIngestedData">
+    </wsdl:input>
+      <wsdl:output name="updateIngestedDataResponse" message="tns:updateIngestedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IngestedDataStatisticsSoapBinding" type="tns:IngestedDataStatistics">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getIngestedDataStatistics">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getIngestedDataStatistics">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getIngestedDataStatisticsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIngestedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getIngestedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getIngestedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIngestedDataInInterval">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getIngestedDataInInterval">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getIngestedDataInIntervalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateIngestedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateIngestedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateIngestedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IngestedDataStatistics">
+    <wsdl:port name="IngestedDataStatisticsPort" binding="tns:IngestedDataStatisticsSoapBinding">
+      <soap:address location="http://localhost:9090/IngestedDataStatisticsPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

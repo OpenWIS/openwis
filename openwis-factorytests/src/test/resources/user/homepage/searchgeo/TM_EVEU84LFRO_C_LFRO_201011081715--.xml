@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco" xmlns="http://www.isotc211.org/2005/gmd" xmlns:ns3="http://www.isotc211.org/2005/gmx" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" xmlns:ns6="http://www.isotc211.org/2005/gts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd">
+    <fileIdentifier>
+        <gco:CharacterString>urn:x-wmo:md:int.wmo.wis::EVEU84LFRO</gco:CharacterString>
+    </fileIdentifier>
+    <language>
+        <LanguageCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</LanguageCode>
+    </language>
+    <characterSet>
+        <MD_CharacterSetCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</MD_CharacterSetCode>
+    </characterSet>
+    <hierarchyLevel>
+        <MD_ScopeCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</MD_ScopeCode>
+    </hierarchyLevel>
+    <hierarchyLevelName>
+        <gco:CharacterString>EVEU84 bulletin available from LFRO at 00, 06, 12 and 18 UTC</gco:CharacterString>
+    </hierarchyLevelName>
+    <contact>
+        <CI_ResponsibleParty>
+            <individualName>
+                <gco:CharacterString>Jean-Pierre Aubagnac</gco:CharacterString>
+            </individualName>
+            <organisationName>
+                <gco:CharacterString>Meteo-France - DSI / DEV</gco:CharacterString>
+            </organisationName>
+            <contactInfo>
+                <CI_Contact>
+                    <phone>
+                        <CI_Telephone>
+                            <voice>
+<gco:CharacterString>+33 5 61078245</gco:CharacterString>
+                            </voice>
+                            <facsimile>
+<gco:CharacterString>+33 5 61078109</gco:CharacterString>
+                            </facsimile>
+                        </CI_Telephone>
+                    </phone>
+                    <address>
+                        <CI_Address>
+                            <deliveryPoint>
+<gco:CharacterString>42 Avenue Coriolis</gco:CharacterString>
+                            </deliveryPoint>
+                            <city>
+<gco:CharacterString>Toulouse</gco:CharacterString>
+                            </city>
+                            <postalCode>
+<gco:CharacterString>31057</gco:CharacterString>
+                            </postalCode>
+                            <country>
+<gco:CharacterString>France</gco:CharacterString>
+                            </country>
+                            <electronicMailAddress>
+<gco:CharacterString>jean-pierre.aubagnac@meteo.fr</gco:CharacterString>
+                            </electronicMailAddress>
+                        </CI_Address>
+                    </address>
+                    <onlineResource>
+                        <CI_OnlineResource>
+                            <linkage>
+<URL>http://www.wmo.int/pages/prog/www/WIS/wiswiki/tiki-index.php?page=metadatagen_fr</URL>
+                            </linkage>
+                            <protocol>
+<gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                            </protocol>
+                            <name>
+<gco:CharacterString>Meteo-France GTS metadata Generator on the WIS-WIKI</gco:CharacterString>
+                            </name>
+                            <description>
+<gco:CharacterString>Go there for a general overview and further details on reviewing GTS metadata records</gco:CharacterString>
+                            </description>
+                            <function>
+<CI_OnLineFunctionCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</CI_OnLineFunctionCode>
+                            </function>
+                        </CI_OnlineResource>
+                    </onlineResource>
+                </CI_Contact>
+            </contactInfo>
+            <role>
+                <CI_RoleCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_RoleCode" codeListValue="author">author</CI_RoleCode>
+            </role>
+        </CI_ResponsibleParty>
+    </contact>
+    <dateStamp>
+        <gco:DateTime>2010-11-08T17:15:55.171</gco:DateTime>
+    </dateStamp>
+    <metadataStandardName>
+        <gco:CharacterString>ISO 19115-2 Geographic information - Metadata - Part 2: Extensions for imagery and gridded data</gco:CharacterString>
+    </metadataStandardName>
+    <metadataStandardVersion>
+        <gco:CharacterString>ISO 19115-2:2009-02-15</gco:CharacterString>
+    </metadataStandardVersion>
+    <metadataExtensionInfo>
+        <MD_MetadataExtensionInformation>
+            <extensionOnLineResource>
+                <CI_OnlineResource>
+                    <linkage>
+                        <URL>http://www.wmo.int/pages/prog/www/WDM/IPET-MDI-I/report/Report_IPETMDI_I_20100503.htm</URL>
+                    </linkage>
+                    <name>
+                        <gco:CharacterString>WMO Core Profile of ISO 19115, v1.2, IPET-MDI I implementing guidelines</gco:CharacterString>
+                    </name>
+                </CI_OnlineResource>
+            </extensionOnLineResource>
+        </MD_MetadataExtensionInformation>
+    </metadataExtensionInfo>
+    <identificationInfo>
+        <MD_DataIdentification>
+            <citation>
+                <CI_Citation>
+                    <title>
+                        <gco:CharacterString>EVEU84 bulletin available from LFRO at 00, 06, 12 and 18 UTC</gco:CharacterString>
+                    </title>
+                    <date>
+                        <CI_Date>
+                            <date>
+<gco:Date>2010-11-05</gco:Date>
+                            </date>
+                            <dateType>
+<CI_DateTypeCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</CI_DateTypeCode>
+                            </dateType>
+                        </CI_Date>
+                    </date>
+                    <identifier>
+                        <MD_Identifier>
+                            <code>
+<gco:CharacterString>urn:x-wmo:md:int.wmo.wis::EVEU84LFRO</gco:CharacterString>
+                            </code>
+                        </MD_Identifier>
+                    </identifier>
+                    <presentationForm>
+                        <CI_PresentationFormCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</CI_PresentationFormCode>
+                    </presentationForm>
+                </CI_Citation>
+            </citation>
+            <abstract>
+                <gco:CharacterString>The EVEU84 TTAAii Data Designators decode (2) as:
+-T1 (E): Satellite imagery
+-T2 (V): Visible
+-A1A2 (EU): Europe
+
+(2: Refer to WMO # 386 - Manual on the GTS - Attachment II.5)
+
+WMO # 9 - Volume C1 'Content' field:
+-MSG Visible 0.6 microns over EURATL
+
+</gco:CharacterString>
+            </abstract>
+            <pointOfContact>
+                <CI_ResponsibleParty>
+                    <organisationName>
+                        <gco:CharacterString>RTH Toulouse</gco:CharacterString>
+                    </organisationName>
+                    <contactInfo>
+                        <CI_Contact>
+                            <phone>
+<CI_Telephone>
+    <voice>
+        <gco:CharacterString>+33 5 61078572</gco:CharacterString>
+    </voice>
+    <facsimile>
+        <gco:CharacterString>+33 5 61078109</gco:CharacterString>
+    </facsimile>
+</CI_Telephone>
+                            </phone>
+                            <address>
+<CI_Address>
+    <deliveryPoint>
+        <gco:CharacterString>Météo-France/ DSI/Opérations, Direction des systèmes d'information, 42 avenue Gaspard Coriolis</gco:CharacterString>
+    </deliveryPoint>
+    <city>
+        <gco:CharacterString>toulouse cédex 1</gco:CharacterString>
+    </city>
+    <postalCode>
+        <gco:CharacterString>F-31057</gco:CharacterString>
+    </postalCode>
+    <country>
+        <gco:CharacterString>france</gco:CharacterString>
+    </country>
+    <electronicMailAddress>
+        <gco:CharacterString>jacques.anquetil@meteo.fr</gco:CharacterString>
+    </electronicMailAddress>
+</CI_Address>
+                            </address>
+                        </CI_Contact>
+                    </contactInfo>
+                    <role>
+                        <CI_RoleCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_RoleCode" codeListValue="resourceProvider">resourceProvider</CI_RoleCode>
+                    </role>
+                </CI_ResponsibleParty>
+            </pointOfContact>
+            <resourceMaintenance>
+                <MD_MaintenanceInformation>
+                    <maintenanceAndUpdateFrequency>
+                        <MD_MaintenanceFrequencyCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_FrequencyCode" codeListValue="continual"/>
+                    </maintenanceAndUpdateFrequency>
+                    <userDefinedMaintenanceFrequency>
+                        <ns6:TM_PeriodDuration>P0Y0M0DT6H0M0S</ns6:TM_PeriodDuration>
+                    </userDefinedMaintenanceFrequency>
+                    <updateScope>
+                        <MD_ScopeCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</MD_ScopeCode>
+                    </updateScope>
+                    <updateScopeDescription>
+                        <MD_ScopeDescription>
+                            <dataset>
+<gco:CharacterString>Instances of bulletin EVEU84 are available every 6 hours starting at 0 UTC </gco:CharacterString>
+                            </dataset>
+                        </MD_ScopeDescription>
+                    </updateScopeDescription>
+                </MD_MaintenanceInformation>
+            </resourceMaintenance>
+            <resourceConstraints>
+                <MD_LegalConstraints>
+                    <useLimitation>
+                        <gco:CharacterString>WMO Essential</gco:CharacterString>
+                    </useLimitation>
+                    <useConstraints>
+                        <MD_RestrictionCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</MD_RestrictionCode>
+                    </useConstraints>
+                    <otherConstraints>
+                        <gco:CharacterString>WMO Essential</gco:CharacterString>
+                    </otherConstraints>
+                </MD_LegalConstraints>
+            </resourceConstraints>
+            <resourceConstraints>
+                <MD_LegalConstraints>
+                    <useLimitation>
+                        <gco:CharacterString>GTS Priority 3</gco:CharacterString>
+                    </useLimitation>
+                    <useConstraints>
+                        <MD_RestrictionCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</MD_RestrictionCode>
+                    </useConstraints>
+                    <otherConstraints>
+                        <gco:CharacterString>GTS Priority 3</gco:CharacterString>
+                    </otherConstraints>
+                </MD_LegalConstraints>
+            </resourceConstraints>
+            <language>
+                <LanguageCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</LanguageCode>
+            </language>
+            <topicCategory>
+                <MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</MD_TopicCategoryCode>
+            </topicCategory>
+            <extent>
+                <EX_Extent id="boundingExtent">
+                    <geographicElement>
+                        <EX_GeographicBoundingBox>
+                            <westBoundLongitude>
+<gco:Decimal>-180.00</gco:Decimal>
+                            </westBoundLongitude>
+                            <eastBoundLongitude>
+<gco:Decimal>180.00</gco:Decimal>
+                            </eastBoundLongitude>
+                            <southBoundLatitude>
+<gco:Decimal>-90.00</gco:Decimal>
+                            </southBoundLatitude>
+                            <northBoundLatitude>
+<gco:Decimal>90.00</gco:Decimal>
+                            </northBoundLatitude>
+                        </EX_GeographicBoundingBox>
+                    </geographicElement>
+                    <temporalElement>
+                        <EX_TemporalExtent id="boundingTemporalExtent">
+                            <extent>
+<gml:TimePeriod gml:id="boundingTemporalExtentTP">
+    <gml:beginPosition>2010-11-05</gml:beginPosition>
+    <gml:endPosition indeterminatePosition="now"/>
+</gml:TimePeriod>
+                            </extent>
+                        </EX_TemporalExtent>
+                    </temporalElement>
+                </EX_Extent>
+            </extent>
+        </MD_DataIdentification>
+    </identificationInfo>
+    <distributionInfo>
+        <MD_Distribution>
+            <distributor>
+                <MD_Distributor>
+                    <distributorContact>
+                        <CI_ResponsibleParty>
+                            <organisationName>
+<gco:CharacterString>OpenWIS DCPC/NC demo Centre</gco:CharacterString>
+                            </organisationName>
+                            <role>
+<CI_RoleCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_RoleCode" codeListValue="resourceProvider">resourceProvider</CI_RoleCode>
+                            </role>
+                        </CI_ResponsibleParty>
+                    </distributorContact>
+                    <distributorTransferOptions>
+                        <MD_DigitalTransferOptions>
+                            <onLine>
+<CI_OnlineResource>
+    <linkage>
+        <URL>http://dcpcdemo.openwis.org:8080/openwis-user-portal/retrieve/request/urn%3Ax-wmo%3Aint.wmo.wis%3Amd%3A%3Aimage.meteosat.europe</URL>
+    </linkage>
+    <protocol>
+        <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+    </protocol>
+    <name>
+        <gco:CharacterString>Request (Provider)</gco:CharacterString>
+    </name>
+    <description>
+        <gco:CharacterString>EVEU84LFRO at the Resource Provider</gco:CharacterString>
+    </description>
+    <function>
+        <CI_OnLineFunctionCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</CI_OnLineFunctionCode>
+    </function>
+</CI_OnlineResource>
+                            </onLine>
+                        </MD_DigitalTransferOptions>
+                    </distributorTransferOptions>
+                    <distributorTransferOptions>
+                        <MD_DigitalTransferOptions>
+                            <onLine>
+<CI_OnlineResource>
+    <linkage>
+        <URL>http://dcpcdemo.openwis.org:8080/openwis-user-portal/retrieve/subscribe/urn%3Ax-wmo%3Aint.wmo.wis%3Amd%3A%3Aimage.meteosat.europe</URL>
+    </linkage>
+    <protocol>
+        <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+    </protocol>
+    <name>
+        <gco:CharacterString>Subscribe (Provider)</gco:CharacterString>
+    </name>
+    <description>
+        <gco:CharacterString>EVEU84LFRO at the Resource Provider</gco:CharacterString>
+    </description>
+    <function>
+        <CI_OnLineFunctionCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="order">order</CI_OnLineFunctionCode>
+    </function>
+</CI_OnlineResource>
+                            </onLine>
+                        </MD_DigitalTransferOptions>
+                    </distributorTransferOptions>
+                </MD_Distributor>
+            </distributor>
+            <transferOptions>
+                <MD_DigitalTransferOptions>
+                    <onLine>
+                        <CI_OnlineResource>
+                            <linkage>
+<URL>http://dcpcdemo.openwis.org:8080/openwis-user-portal/retrieve/request/urn%3Ax-wmo%3Aint.wmo.wis%3Amd%3A%3Aimage.meteosat.europe</URL>
+                            </linkage>
+                            <protocol>
+<gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                            </protocol>
+                            <name>
+<gco:CharacterString>Request (Provider)</gco:CharacterString>
+                            </name>
+                            <description>
+<gco:CharacterString>EVEU84 bulletin available from LFRO at 00, 06, 12 and 18 UTC at the Resource Provider</gco:CharacterString>
+                            </description>
+                        </CI_OnlineResource>
+                    </onLine>
+                </MD_DigitalTransferOptions>
+            </transferOptions>
+            <transferOptions>
+                <MD_DigitalTransferOptions>
+                    <onLine>
+                        <CI_OnlineResource>
+                            <linkage>
+<URL>http://dcpcdemo.openwis.org:8080/openwis-user-portal/retrieve/subscribe/urn%3Ax-wmo%3Aint.wmo.wis%3Amd%3A%3Aimage.meteosat.europe</URL>
+                            </linkage>
+                            <protocol>
+<gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                            </protocol>
+                            <name>
+<gco:CharacterString>Subscribe (Provider)</gco:CharacterString>
+                            </name>
+                            <description>
+<gco:CharacterString>EVEU84 bulletin available from LFRO at 00, 06, 12 and 18 UTC at the Resource Provider</gco:CharacterString>
+                            </description>
+                        </CI_OnlineResource>
+                    </onLine>
+                </MD_DigitalTransferOptions>
+            </transferOptions>
+        </MD_Distribution>
+    </distributionInfo>
+    <dataQualityInfo>
+        <DQ_DataQuality>
+            <scope>
+                <DQ_Scope>
+                    <level>
+                        <MD_ScopeCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</MD_ScopeCode>
+                    </level>
+                </DQ_Scope>
+            </scope>
+            <report>
+                <DQ_DomainConsistency>
+                    <measureIdentification>
+                        <RS_Identifier>
+                            <code>
+<gco:CharacterString>Conformity_001</gco:CharacterString>
+                            </code>
+                            <codeSpace>
+<gco:CharacterString>INSPIRE</gco:CharacterString>
+                            </codeSpace>
+                        </RS_Identifier>
+                    </measureIdentification>
+                    <result>
+                        <DQ_ConformanceResult>
+                            <specification>
+<CI_Citation>
+    <title>
+        <gco:CharacterString>INSPIRE Implementing Rules</gco:CharacterString>
+    </title>
+    <date>
+        <CI_Date>
+            <date>
+                <gco:Date>2011-05-15</gco:Date>
+            </date>
+            <dateType>
+                <CI_DateTypeCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</CI_DateTypeCode>
+            </dateType>
+        </CI_Date>
+    </date>
+</CI_Citation>
+                            </specification>
+                            <explanation>
+<gco:CharacterString></gco:CharacterString>
+                            </explanation>
+                            <pass>
+<gco:Boolean>true</gco:Boolean>
+                            </pass>
+                        </DQ_ConformanceResult>
+                    </result>
+                </DQ_DomainConsistency>
+            </report>
+            <lineage>
+                <LI_Lineage>
+                    <statement>
+                        <gco:CharacterString>High data quality controlled according to the procedures of the GTS</gco:CharacterString>
+                    </statement>
+                </LI_Lineage>
+            </lineage>
+        </DQ_DataQuality>
+    </dataQualityInfo>
+    <metadataConstraints>
+        <MD_Constraints>
+            <useLimitation>
+                <gco:CharacterString>This metadata record was created automatically as a representation of the bulletin declaration found in WMO # 9 Volume C1. Other references were used in the process, including WMO References such as WMO # 9 Volume A, WMO # 386 Manual on the GTS and WMO # 306 Manual on Codes. Other elements of information were also collected or created for the purpose of the GTS Metadata Generation. This work, as well as the creation of the representation of the WMO references was done by Météo-France on a &quot;best effort&quot; basis. The current metadata record is therefore provided more for information than for reference.</gco:CharacterString>
+            </useLimitation>
+        </MD_Constraints>
+    </metadataConstraints>
+    <metadataMaintenance>
+        <MD_MaintenanceInformation>
+            <maintenanceAndUpdateFrequency>
+                <MD_MaintenanceFrequencyCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#MD_FrequencyCode" codeListValue="asNeeded">asNeeded</MD_MaintenanceFrequencyCode>
+            </maintenanceAndUpdateFrequency>
+            <contact>
+                <CI_ResponsibleParty>
+                    <organisationName>
+                        <gco:CharacterString>Meteo-France (on behalf of the Producer)</gco:CharacterString>
+                    </organisationName>
+                    <contactInfo>
+                        <CI_Contact>
+                            <phone>
+<CI_Telephone>
+    <voice>
+        <gco:CharacterString>+33 5 61078245</gco:CharacterString>
+    </voice>
+</CI_Telephone>
+                            </phone>
+                            <address>
+<CI_Address>
+    <electronicMailAddress/>
+</CI_Address>
+                            </address>
+                        </CI_Contact>
+                    </contactInfo>
+                    <role>
+                        <CI_RoleCode codeList="http://wis.wmo.int/2006/catalogues/gmxCodelists.xml#CI_RoleCode" codeListValue="author">author</CI_RoleCode>
+                    </role>
+                </CI_ResponsibleParty>
+            </contact>
+        </MD_MaintenanceInformation>
+    </metadataMaintenance>
+</MD_Metadata>

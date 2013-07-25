@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://monitoring.management.openwis.org/" version="1.0">
+<xs:element name="getDisseminatedData" type="tns:getDisseminatedData"/>
+<xs:element name="getDisseminatedDataInInterval" type="tns:getDisseminatedDataInInterval"/>
+<xs:element name="getDisseminatedDataInIntervalResponse" type="tns:getDisseminatedDataInIntervalResponse"/>
+<xs:element name="getDisseminatedDataResponse" type="tns:getDisseminatedDataResponse"/>
+<xs:element name="getDisseminatedDataStatistics" type="tns:getDisseminatedDataStatistics"/>
+<xs:element name="getDisseminatedDataStatisticsResponse" type="tns:getDisseminatedDataStatisticsResponse"/>
+<xs:element name="getUserDisseminatedData" type="tns:getUserDisseminatedData"/>
+<xs:element name="getUserDisseminatedDataInInterval" type="tns:getUserDisseminatedDataInInterval"/>
+<xs:element name="getUserDisseminatedDataInIntervalResponse" type="tns:getUserDisseminatedDataInIntervalResponse"/>
+<xs:element name="getUserDisseminatedDataResponse" type="tns:getUserDisseminatedDataResponse"/>
+<xs:element name="getUsersDisseminatedData" type="tns:getUsersDisseminatedData"/>
+<xs:element name="getUsersDisseminatedDataByUser" type="tns:getUsersDisseminatedDataByUser"/>
+<xs:element name="getUsersDisseminatedDataByUserResponse" type="tns:getUsersDisseminatedDataByUserResponse"/>
+<xs:element name="getUsersDisseminatedDataResponse" type="tns:getUsersDisseminatedDataResponse"/>
+<xs:element name="updateUserDisseminatedByToolData" type="tns:updateUserDisseminatedByToolData"/>
+<xs:element name="updateUserDisseminatedByToolDataResponse" type="tns:updateUserDisseminatedByToolDataResponse"/>
+<xs:element name="updateUserExtractedData" type="tns:updateUserExtractedData"/>
+<xs:element name="updateUserExtractedDataResponse" type="tns:updateUserExtractedDataResponse"/>
+<xs:complexType name="getDisseminatedDataStatistics">
+    <xs:sequence>
+      <xs:element name="maxItemsCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDisseminatedDataStatisticsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userDisseminationData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="userDisseminationData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+      <xs:element minOccurs="0" name="size" type="xs:long"/>
+      <xs:element minOccurs="0" name="nbFiles" type="xs:int"/>
+      <xs:element minOccurs="0" name="dissToolSize" type="xs:long"/>
+      <xs:element minOccurs="0" name="dissToolNbFiles" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUsersDisseminatedDataByUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+      <xs:element name="firstResult" type="xs:int"/>
+      <xs:element name="maxResults" type="xs:int"/>
+      <xs:element minOccurs="0" name="column" type="tns:UserDisseminatedDataColumn "/>
+      <xs:element minOccurs="0" name="sortDirection" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUsersDisseminatedDataByUserResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:disseminatedDataResult"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="disseminatedDataResult">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="list" nillable="true" type="tns:userDisseminationData"/>
+      <xs:element name="count" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateUserExtractedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+      <xs:element name="nbFiles" type="xs:int"/>
+      <xs:element name="totalSize" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateUserExtractedDataResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getUserDisseminatedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserDisseminatedDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:userDisseminationData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUsersDisseminatedData">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="users" type="xs:string"/>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUsersDisseminatedDataResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userDisseminationData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDisseminatedDataInInterval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:int"/>
+      <xs:element minOccurs="0" name="arg4" type="tns:UserDisseminatedDataColumn "/>
+      <xs:element minOccurs="0" name="arg5" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDisseminatedDataInIntervalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:disseminatedDataResult"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateUserDisseminatedByToolData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+      <xs:element name="nbFiles" type="xs:int"/>
+      <xs:element name="totalSize" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateUserDisseminatedByToolDataResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getUserDisseminatedDataInInterval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+      <xs:element minOccurs="0" name="from" type="xs:string"/>
+      <xs:element minOccurs="0" name="to" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserDisseminatedDataInIntervalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:userDisseminationData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDisseminatedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDisseminatedDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:userDisseminationData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:simpleType name="UserDisseminatedDataColumn ">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DATE"/>
+      <xs:enumeration value="TOTAL_SIZE"/>
+      <xs:enumeration value="FILES_NUMBER"/>
+      <xs:enumeration value="DISS_TOOL_TOTAL_SIZE"/>
+      <xs:enumeration value="DISS_TOOL_FILES_NUMBER"/>
+      <xs:enumeration value="USER"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="SortDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC"/>
+      <xs:enumeration value="DESC"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

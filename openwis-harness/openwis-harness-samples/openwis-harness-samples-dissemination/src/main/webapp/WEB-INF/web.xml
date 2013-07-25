@@ -1,0 +1,11 @@
+<web-app>
+	<servlet>
+		<servlet-name>Dissemination</servlet-name>
+		<servlet-class>org.openwis.harness.samples.dissemination.DisseminationImpl</servlet-class>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>Dissemination</servlet-name>
+		<url-pattern>/diss</url-pattern>			
+	</servlet-mapping>		
+</web-app>

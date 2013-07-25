@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+   <operationNames name="Download" />
+   <operationNames name="Editing" />
+   <operationNames name="PublicEmail" />
+
+</dataset>

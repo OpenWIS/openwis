@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<users id="1" username="myadmin" password="d033e22ae348aeb566fc214aec3585c4da997"
+		surname="myadmin" name="myadmin" profile="Administrator" address="" city=""
+		state="" zip="" country="" email="myadmin@akka.eu" organisation="" kind="" />
+	<users id="2" username="myaccessadmin" password="d033e22ae348aeb566fc214aec3585c4da997"
+		surname="myaccessadmin" name="myaccessadmin" profile="AccessAdmin" address="" city=""
+		state="" zip="" country="" email="myaccessadmin@akka.eu" organisation="" kind="" />
+    <users id="3" username="myoperator" password="d033e22ae348aeb566fc214aec3585c4da997"
+        surname="myoperator" name="myoperator" profile="Operator" address="" city=""
+        state="" zip="" country="" email="myoperator@akka.eu" organisation="" kind="" />
+    <users id="4" username="myinstitutional" password="d033e22ae348aeb566fc214aec3585c4da997"
+        surname="myinstitutional" name="myinstitutional" profile="User" address="" city=""
+        state="" zip="" country="" email="myinstitutional@akka.eu" organisation="" kind="" />
+    <users id="5" username="mylocal" password="d033e22ae348aeb566fc214aec3585c4da997"
+        surname="mylocal" name="mylocal" profile="User" address="" city=""
+        state="" zip="" country="" email="mylocal@akka.eu" organisation="" kind="" />
+
+</dataset>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server PUBLIC "-//JBoss//DTD MBean Service 4.0//EN"
+          "http://www.jboss.org/j2ee/dtd/jboss-service_4_0.dtd">
+<server>
+	<mbean code="org.jboss.naming.JNDIBindingServiceMgr" name="openwis:service=openwis-securityservice-jndi-service">
+		<attribute name="BindingsConfig" serialDataType="jbxb">
+			<jndi:bindings xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+				xmlns:jndi="urn:jboss:jndi-binding-service:1.0"
+				xs:schemaLocation="urn:jboss:jndi-binding-service:1.0 resource:jndi-binding-service_1_0.xsd">
+				
+				<jndi:binding name="ws/ldapdatasourceservice">
+					<java:properties xmlns:java="urn:jboss:java-properties"
+						xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+						xs:schemaLocation="urn:jboss:java-properties resource:java-properties_1_0.xsd">
+						<java:property>
+							<java:key>ldap_host</java:key>
+							<java:value>@ldap.host@</java:value>
+						</java:property>
+						<java:property>
+							<java:key>ldap_port</java:key>
+							<java:value>1389</java:value>
+						</java:property>
+						<java:property>
+							<java:key>ldap_user</java:key>
+							<java:value>cn=Directory Manager</java:value>
+						</java:property>
+						<java:property>
+							<java:key>ldap_password</java:key>
+							<java:value>@ldap.password@</java:value>
+						</java:property>
+						<java:property>
+							<java:key>global_groups</java:key>
+							<java:value>Institutional</java:value>
+						</java:property>
+						<java:property>
+							<java:key>register_users_threshold</java:key>
+							<java:value>10000</java:value>
+						</java:property>
+						<java:property>
+							<java:key>openwis.management.alertservice.wsdl</java:key>
+							<java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/AlertService?wsdl</java:value>
+						</java:property>
+						<java:property>
+                            <java:key>log.timer.url</java:key>
+                            <java:value>openwis-securityservice/LogTimerService/local</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>log.timer.period</java:key>
+                            <java:value>10000</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>log.timer.file</java:key>
+                            <java:value>@openam.baseDir@/opensso/log/amAuthentication.error</java:value>
+                        </java:property>
+					</java:properties>
+				</jndi:binding>
+
+			</jndi:bindings>
+		</attribute>
+		<depends>jboss:service=Naming</depends>
+	</mbean>
+</server>

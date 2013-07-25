@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://dissemination.harness.openwis.org/" version="1.0" xmlns:tns="http://dissemination.harness.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="disseminate" type="tns:disseminate" />
+<xs:element name="disseminateResponse" type="tns:disseminateResponse" />
+<xs:element name="monitorDissemination" type="tns:monitorDissemination" />
+<xs:element name="monitorDisseminationResponse" type="tns:monitorDisseminationResponse" />
+<xs:complexType name="monitorDissemination">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="1" name="requestId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="monitorDisseminationResponse">
+	<xs:sequence>
+		<xs:element maxOccurs="unbounded" minOccurs="0"
+			name="disseminationStatus" type="tns:disseminationStatus" />
+	</xs:sequence>
+</xs:complexType>
+<xs:complexType name="disseminate">
+	<xs:sequence>
+		<xs:element name="requestId" type="xs:string" maxOccurs="1" minOccurs="1"></xs:element>
+		<xs:element name="fileURI" minOccurs="1" maxOccurs="1" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>This URI corresponds to the path at which the delivery files are found on the SP.</xs:documentation>
+			</xs:annotation></xs:element>
+		<xs:element minOccurs="1" name="disseminationInfo"
+			type="tns:disseminationInfo" />
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Diffusion" abstract="true">
+	<xs:sequence>
+		<xs:element name="fileName" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>This filename is chosen by the user - it is not the original filename of a file as used within OpenWIS but rather employed for the delivery process.</xs:documentation></xs:annotation></xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+	<xs:complexType name="FTPDiffusion">
+		<xs:complexContent>
+			<xs:extension base="tns:Diffusion">
+
+				<xs:sequence>
+					<xs:element name="host" type="xs:string"></xs:element>
+					<xs:element name="port" type="xs:string"></xs:element>
+					<xs:element name="user" type="xs:string"></xs:element>
+					<xs:element name="password" type="xs:string"></xs:element>
+					<xs:element name="passive" type="xs:boolean"></xs:element>
+					<xs:element name="remotePath" type="xs:string"></xs:element>
+                    <xs:element name="checkFileSize" type="xs:boolean"></xs:element>
+                    <xs:element name="encrypted" type="xs:boolean"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="MailDiffusion">
+		<xs:complexContent>
+			<xs:extension base="tns:Diffusion">
+				<xs:sequence>
+					<xs:element name="address" type="xs:string"></xs:element>
+					<xs:element name="headerLine" type="xs:string"></xs:element>
+					<xs:element name="subject" type="xs:string"></xs:element>
+                    <xs:element name="dispatchMode" minOccurs="0" maxOccurs="1" type="tns:MailDispatchMode"></xs:element>
+                    <xs:element name="attachmentMode" minOccurs="1" maxOccurs="1" type="tns:MailAttachmentMode"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="disseminationInfo">
+	<xs:sequence>
+		<xs:element name="priority" type="xs:int" />
+		<xs:element name="SLA" type="xs:int" />
+		<xs:element name="dataPolicy" type="xs:string"></xs:element>
+		<xs:element name="diffusion" type="tns:Diffusion">
+		</xs:element>
+		<xs:element name="alternativeDiffusion" type="tns:Diffusion">
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+<xs:complexType name="disseminateResponse">
+<xs:sequence>
+<xs:element name="disseminationResult" type="tns:disseminationStatus" />
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="requestStatus">
+<xs:restriction base="xs:string">
+<xs:enumeration value="ONGOING_DISSEMINATION" />
+<xs:enumeration value="DISSEMINATED" />
+<xs:enumeration value="FAILED" />
+</xs:restriction>
+</xs:simpleType>
+
+            <xs:complexType name="disseminationStatus">
+            	<xs:sequence>
+            		<xs:element name="requestId" type="xs:string"></xs:element>
+            		<xs:element name="requestStatus" type="tns:requestStatus"></xs:element>
+            		<xs:element name="message" type="xs:string"></xs:element>
+            	</xs:sequence>
+            </xs:complexType>
+
+            <xs:simpleType name="MailDispatchMode">
+            	<xs:restriction base="xs:string">
+            		<xs:enumeration value="TO"></xs:enumeration>
+            		<xs:enumeration value="CC"></xs:enumeration>
+            		<xs:enumeration value="BCC"></xs:enumeration>
+            	</xs:restriction>
+            </xs:simpleType>
+
+            <xs:simpleType name="MailAttachmentMode">
+            	<xs:restriction base="xs:string">
+            		<xs:enumeration value="EMBEDDED_IN_BODY"></xs:enumeration>
+            		<xs:enumeration value="AS_ATTACHMENT"></xs:enumeration>
+            	</xs:restriction>
+            </xs:simpleType>
+</xs:schema>

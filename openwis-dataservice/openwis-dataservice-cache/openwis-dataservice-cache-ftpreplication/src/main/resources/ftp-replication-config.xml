@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- OpenWIS configuration file for Replication. -->
+<Replication-Config>
+
+   <!-- "sending/destinations" folder that will contain the links of files 
+      to send for each destination -->
+   <destinationsFolder>@dataService.baseLocation@/replication/sending/destinations</destinationsFolder>
+
+   <!-- Folder in which the replication status file will be dropped -->
+   <replicationStatusFolder>@dataService.baseLocation@/replication</replicationStatusFolder>
+
+   <!-- 
+    Definition of destinations (one Destination element per replication destination)
+   -->
+   <destinations>
+   
+      <!-- 
+        Definition of one replication destination. 
+        (Duplicate to define as many destination configurations as necessary)
+      -->
+
+      <Destination server="@dataService.replication.host@">
+         <port>@dataService.replication.port@</port>
+         <username>@dataService.replication.username@</username>
+         <password>@dataService.replication.password@</password>
+         <localPath>@dataService.replication.localPath@</localPath>
+         <remotePath>@dataService.replication.remotePath@</remotePath>
+         <secured>false</secured>
+         <maxConnections>5</maxConnections>
+         <connectionRetryDelay>1000</connectionRetryDelay>
+      </Destination>
+      
+   </destinations>
+
+
+   <!-- *** Advanced Settings *** -->
+   <!-- Scanner period of the sending folders (when JNotify is not used)  -->
+   <sendingScannerPeriod>1000</sendingScannerPeriod>
+
+   <!-- Whether JNotify should be used -->
+   <useJNotifyScanner>true</useJNotifyScanner>
+   
+</Replication-Config>

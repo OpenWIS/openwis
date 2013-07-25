@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://localdatasource.harness.openwis.org/" xmlns:tns="http://localdatasource.harness.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="extract" type="tns:extract"/>
+
+  <xs:element name="extractResponse" type="tns:extractResponse"/>
+
+  <xs:element name="getAvailability" type="tns:getAvailability"/>
+
+  <xs:element name="getAvailabilityResponse" type="tns:getAvailabilityResponse"/>
+
+  <xs:element name="monitorExtraction" type="tns:monitorExtraction"/>
+
+  <xs:element name="monitorExtractionResponse" type="tns:monitorExtractionResponse"/>
+
+  <xs:complexType name="monitorExtraction">
+    <xs:sequence>
+      <xs:element name="requestId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="monitorExtractionResponse">
+    <xs:sequence>
+      <xs:element name="extractionStatus" type="tns:monitorStatus" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="monitorStatus">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="tns:status" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAvailability">
+    <xs:sequence>
+      <xs:element name="timeSinceUTC" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAvailabilityResponse">
+    <xs:sequence>
+      <xs:element name="urns" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extract">
+    <xs:sequence>
+      <xs:element name="metadataURN" type="xs:string" minOccurs="0"/>
+      <xs:element name="parametersList" type="tns:parameter" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="requestId" type="xs:long"/>
+      <xs:element name="stagingPostURI" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extractResponse">
+    <xs:sequence>
+      <xs:element name="extractionStatus" type="tns:monitorStatus" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="status">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ERROR"/>
+      <xs:enumeration value="ONGOING_EXTRACTION"/>
+      <xs:enumeration value="NO_RESULT_FOUND"/>
+      <xs:enumeration value="EXTRACTED"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="parameter">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
+      <xs:element name="values" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

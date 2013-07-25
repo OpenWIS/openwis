@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://monitoring.management.openwis.org/" version="1.0">
+<xs:element name="getIngestedData" type="tns:getIngestedData"/>
+<xs:element name="getIngestedDataInInterval" type="tns:getIngestedDataInInterval"/>
+<xs:element name="getIngestedDataInIntervalResponse" type="tns:getIngestedDataInIntervalResponse"/>
+<xs:element name="getIngestedDataResponse" type="tns:getIngestedDataResponse"/>
+<xs:element name="getIngestedDataStatistics" type="tns:getIngestedDataStatistics"/>
+<xs:element name="getIngestedDataStatisticsResponse" type="tns:getIngestedDataStatisticsResponse"/>
+<xs:element name="updateIngestedData" type="tns:updateIngestedData"/>
+<xs:element name="updateIngestedDataResponse" type="tns:updateIngestedDataResponse"/>
+<xs:complexType name="getIngestedDataStatistics">
+    <xs:sequence>
+      <xs:element name="firstResult" type="xs:int"/>
+      <xs:element name="maxItemsCount" type="xs:int"/>
+      <xs:element minOccurs="0" name="column" type="tns:IngestedDataColumn "/>
+      <xs:element minOccurs="0" name="dir" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getIngestedDataStatisticsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ingestedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="ingestedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="size" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getIngestedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getIngestedDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ingestedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getIngestedDataInInterval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:string"/>
+      <xs:element minOccurs="0" name="to" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getIngestedDataInIntervalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ingestedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateIngestedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+      <xs:element name="size" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateIngestedDataResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:simpleType name="IngestedDataColumn ">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DATE"/>
+      <xs:enumeration value="SIZE"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="SortDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC"/>
+      <xs:enumeration value="DESC"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

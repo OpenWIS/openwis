@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<categories id="3" name="mycategory"/>
+	<categories id="4" name="mycategory2"/>
+	<categories id="5" name="mycategory3"/>
+	
+</dataset>

@@ -1,0 +1,43 @@
+#md_dialog_content {
+    overflow: auto !important;
+}
+
+#md_dialog_content .x-panel-bwrap {
+    background-color: transparent !important;  
+    overflow: auto !important;
+}
+#md_dialog_content .x-panel-body {
+    background-color: transparent !important;  
+    overflow: auto !important;
+}
+
+
+table.md {
+	font-size: 8pt;
+}
+
+th.md {
+	text-align: left;
+}
+
+ul.md {
+     list-style-type: circle;
+     margin-left: 20px;
+}
+
+input.md, select.md, textarea.md {
+	font-family: Verdana;
+	font-size: 8pt;
+	color: #064377;
+	/* max-width: 400; */
+	border: 1px solid #266397; /* moved here from tr since IE accepts it only here */
+}
+
+button.md {
+	font-family: Verdana;
+	font-size: 8pt;
+	color: #064377;
+	/* max-width: 400; */
+	cursor: pointer;
+	border: 1px solid #266397; /* moved here from tr since IE accepts it only here */
+}

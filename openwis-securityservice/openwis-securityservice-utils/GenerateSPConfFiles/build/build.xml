@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     5 nov. 2010 15:31:05                                                        
+
+     project    
+     description
+                   
+     audevart                                                                
+     ====================================================================== -->
+<project name="project" default="all" basedir="..">
+	<description>
+            Generate Package for Tools : Copy configuration for Service Provdier
+    </description>
+
+	<property name="conf.dir" value="conf" />
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="lib.dir" value="lib" />
+	<property name="target.dir" value="target" />
+	<property name="ant.dir" value="apache-ant-1.8.1" />
+
+	<property name="classes.dir" value="${target.dir}/classes" />
+
+	<property name="copyWCToFile.jar" value="${target.dir}/${lib.dir}/CopyWCToFile.jar" />
+
+	<!-- ================================= 
+          target: all              
+         ================================= -->
+	<target name="all" depends="clean, init, compile-copy.web.content.to.File, copy-ressources, create-jar-copy.web.content.to.File, copy-conf-files, zip-content" 
+		description="description">
+
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: Init
+	          Create directory
+	                                
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+		<mkdir dir="${target.dir}" />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${target.dir}/${lib.dir}" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: Compile Copy Web Content To File
+          Compile src files
+                                
+         - - - - - - - - - - - - - - - - - -->
+	<target name="compile-copy.web.content.to.File">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: Copy Ressources
+	          Copy Ressources
+	                                
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="copy-ressources">
+		<copy todir="${target.dir}/${lib.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+				<exclude name="org/**"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: Copy Web Content To File
+          Create Jar Archives
+                                
+         - - - - - - - - - - - - - - - - - -->
+	<target name="create-jar-copy.web.content.to.File">
+		<jar destfile="${copyWCToFile.jar}" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="org.openwis.CopyWebContentToFile" />
+			</manifest>
+		</jar>
+		<delete dir="${classes.dir}"/>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: Copy Configuration Files
+          Copy Configuration Files
+                                
+         - - - - - - - - - - - - - - - - - -->
+	<target name="copy-conf-files">
+		<copy todir="${target.dir}/${conf.dir}">
+			<fileset dir="${conf.dir}" />
+		</copy>
+		<copy todir="${target.dir}/${lib.dir}">
+			<fileset dir="${lib.dir}" />
+		</copy>
+		<copy todir="${target.dir}/${ant.dir}">
+			<fileset dir="${ant.dir}" />
+		</copy>
+		<copy tofile="${target.dir}/${conf.dir}/build.xml" file="${build.dir}/Generate-SP-Conf-Files.xml" />
+		<copy todir="${target.dir}" file="${build.dir}/Generate-SP-Conf-Files.bat" />
+		<copy todir="${target.dir}" file="${build.dir}/Generate-SP-Conf-Files.sh" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: Clean
+          Remove target folder
+                                
+         - - - - - - - - - - - - - - - - - -->
+	<target name="clean">
+		<delete dir="${target.dir}" />
+	</target>
+	
+	<target name="zip-content">
+		<zip destfile="${target.dir}/GenerateSPConfFiles.zip" basedir="${target.dir}"/>
+	</target>
+
+</project>

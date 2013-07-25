@@ -1,0 +1,297 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, FreeSans, sans-serif;
+	font-size: 11px;
+	line-height: 1.4;
+	color: black;
+}
+
+.body-west-panel {
+	background: url("../images/openwis/body-border-left.gif") repeat-y right top
+		#F2F2F2;
+}
+
+.body-east-panel {
+	background: url("../images/openwis/body-border-right.gif") repeat-y left top
+		#F2F2F2;
+}
+
+.body-center-panel {
+	background: url("../images/openwis/fond.png") repeat-x scroll 0 70px white !important;
+}
+
+#loginFormEl {
+    text-align: right;
+    padding-right: 10px;
+}
+
+/***** MENU ******/
+#menu .leftEl {
+	background: url("../images/openwis/menu-l.png") no-repeat;
+	width: 56px;
+	height: 30px;
+}
+
+#menu .centerEl {
+	background: url("../images/openwis/menu-c.png") repeat-x;
+}
+
+#menu .rightEl {
+	background: url("../images/openwis/menu-r.png") no-repeat;
+	width: 56px;
+	height: 30px;
+}
+
+#menu a {
+	color: #ffffff;
+	width: 13px;
+	font-weight: bold;
+	margin-left: 12px;
+	margin-right: 12px;
+	text-decoration: none;
+}
+
+#banner-logo {
+	height: 70px;
+	background-color: white;
+}
+
+#banner-logo img {
+	padding: 5px;
+}
+
+#menu .centerEl .menu-active {
+	color: #000000;
+	text-decoration: none;
+	font-weight: bold;
+	margin-left: 12px;
+	margin-right: 12px;
+}
+
+.headerCtCls {
+	background-color: transparent !important;
+}
+
+/** My Account **/
+.icon-dummy {
+	width: 16px;
+	height: 16px;
+	cursor: default !important;
+}
+
+.icon-view-adhoc, .icon-edit-subscription, .icon-view-subscription, .icon-view-processedrequest {
+	background-image: url("../images/openwis/icons/request_view.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-viewmd-adhoc {
+	background-image: url("../images/openwis/icons/request_viewmd.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-download-adhoc {
+	background-image: url("../images/openwis/icons/request_download.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-add {
+	background-image: url("../images/openwis/icons/add.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-right {
+	background-image: url("../images/openwis/icons/right.gif");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-remove {
+	background-image: url("../images/openwis/icons/remove.gif");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-removeAll {
+	background-image: url("../images/openwis/icons/removeAll.gif");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-discard-adhoc, .icon-discard-subscription, .icon-discard-processedrequest, .icon-discard-fileUpload {
+	background-image: url("../images/openwis/icons/request_discard.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-viewmd-subscription {
+	background-image: url("../images/openwis/icons/request_viewmd.png");
+	background-repeat: no-repeat;
+	background-position: 30px 0px;
+}
+
+.icon-suspend-subscription {
+	background-image: url("../images/openwis/icons/subscription_suspend.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-resume-subscription {
+	background-image: url("../images/openwis/icons/subscription_resume.png");
+	width: 16px;
+	height: 16px;
+}
+
+.icon-action-subscription .x-btn-tl, 
+.icon-action-subscription .x-btn-tr, 
+.icon-action-subscription .x-btn-tc, 
+.icon-action-subscription .x-btn-ml, 
+.icon-action-subscription .x-btn-mr, 
+.icon-action-subscription .x-btn-mc, 
+.icon-action-subscription .x-btn-bl, 
+.icon-action-subscription .x-btn-br, 
+.icon-action-subscription .x-btn-bc {
+	background-image: none !important;
+}
+
+.icon-action-subscription button {
+	width: 28px !important;
+	height: 29px !important;
+}
+
+/** Style of titles **/
+.administrationTitle1, .myAccountTitle1 {
+	color: black;
+	font-weight: bold;
+	text-align: left;
+	font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
+	text-transform: uppercase;
+	height: 19px;
+	border-bottom: 1px solid #2A628F;
+	margin-bottom: 20px;
+}
+
+
+
+/** Style of titles **/
+.administrationTitle2, .myAccountTitle2 {
+	color: red;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: 12px;
+}
+
+/* ExtJS CSS */
+.viewportCls {
+	background-color: transparent !important;
+	background-image: none !important;
+	overflow: hidden !important;
+}
+
+/* ExtJS CSS : Transform the background and the overflow as inherit. */
+.x-panel-bwrap, .x-panel-body {
+	background-color: transparent !important;  
+	overflow: visible !important;
+}
+
+.x-grouptabs-panel, .contentPanelCls {
+	background-color: transparent !important;
+	border: none !important;
+}
+
+.x-grouptabs-panel li.x-grouptabs-strip-active ul.x-grouptabs-sub li.x-grouptabs-strip-active {
+    background-color: #EDEEF0 !important;
+}
+
+.x-grouptabs-panel ul.x-grouptabs-strip li.x-grouptabs-strip-active {
+    background: none repeat scroll 0 0 transparent !important;
+    border: none !important;
+}
+.x-grouptabs-sub {
+	margin-left: 25px !important;
+}
+
+.x-tab-joint {
+    width: 0 !important;
+}
+
+.x-tab-panel-body {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+.x-form-item, .formItems {
+	padding: 3px 3px 3px 0;	
+	/* OWT-202 - BEGIN */
+	/* margin-bottom: 2px; */
+	margin-bottom: 0;
+	/* OWT-202 - END */
+font: 11px Arial,Helvetica,FreeSans,sans-serif;
+}
+
+.x-panel-collapsed div span.x-panel-header {
+    font-style: italic;
+}
+
+/************************************************************************************/
+/*	Search result pagination */
+/***********************************************************************************/
+
+#pagination-flickr {
+	border:0; margin:1em; padding:0;
+	text-align: center;
+}
+
+#pagination-flickr li{
+	border:0; margin:0; padding:0;
+	display: inline;
+	font-size:11px;
+	list-style:none;
+}
+#pagination-flickr a{
+	border:solid 1px #E7EDF5;
+	margin-right:2px;
+}
+#pagination-flickr .previous-off,
+#pagination-flickr .next-off {
+	color:#8CB2B6;
+	display:inline;
+	/*float:left; */
+	font-weight:bold;
+	padding:3px 4px;
+}
+#pagination-flickr .next a,
+#pagination-flickr .previous a {
+	font-weight:bold;
+	border:solid 1px #FFFFFF;
+} 
+#pagination-flickr .active{
+	color:#FFFFFF;
+	background-color: #26559D;
+	font-weight:bold;
+	display:inline;
+	/*float:left;*/
+	padding:4px 6px;
+}
+#pagination-flickr a:link,
+#pagination-flickr a:visited {
+	color:#26559D;
+	display:inline;
+	/*float:left;*/
+	padding:3px 6px;
+	text-decoration:none;
+}
+#pagination-flickr a:hover{
+	border:solid 1px #8CB2B6;
+}
+
+/************************************************************************************/
+/*	Dissemination */
+/***********************************************************************************/
+.dissemination-selected .x-panel-header-text {
+    font-weight:bold;
+}

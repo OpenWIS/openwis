@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openwis-dataservice-common</artifactId>
+		<groupId>org.openwis.dataservice.common</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.openwis.dataservice.common</groupId>
+	<artifactId>openwis-dataservice-common-domain</artifactId>
+	<name>openwis-dataservice-common-domain</name>
+	<packaging>jar</packaging>
+
+	<properties>
+		<dataservice-ds>openwis-ds.xml</dataservice-ds>
+		<postgresql-driver>postgresql-8.4-701.jdbc4.jar</postgresql-driver>
+	</properties>
+
+	<dependencies>
+
+         <dependency>
+            <groupId>eu.akka.jbosseap</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>5.1.0</version>
+            <scope>provided</scope>
+         </dependency>
+        
+		<dependency>
+			<groupId>com.sun.javaee</groupId>
+			<artifactId>javaee</artifactId>
+			<version>5.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.akka.jbosseap</groupId>
+			<artifactId>jboss-as-client</artifactId>
+			<version>5.1.0</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+
+      <dependency>
+         <groupId>commons-io</groupId>
+         <artifactId>commons-io</artifactId>
+         <version>1.3.2</version>
+         <type>jar</type>
+         <scope>compile</scope>
+      </dependency>
+       
+		<dependency>
+			<groupId>org.openwis.dataservice.common</groupId>
+			<artifactId>openwis-dataservice-common-utils</artifactId>
+			<version>${project.parent.version}</version>
+      		<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.akka.jbosseap-test</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.akka.jbosseap-test</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.4.0.GA_CP01</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mycila.testing.plugins</groupId>
+			<artifactId>mycila-testing-dbunit</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/AllServiceTests.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<persistenceunit>DataServicePUnit</persistenceunit>
+						<outputfilename>schema.ddl</outputfilename>
+						<drop>true</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>Hudson</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Permet de copier le fichier de config de la DS -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-persistance-hudson-files</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo message="==========  Copy Hudson file =============" />
+										<copy overwrite="true"
+											file="${basedir}/src/main/config/hudson/persistence.xml"
+											todir="${basedir}/target/classes/META-INF" />
+									</tasks>
+								</configuration>
+							</execution>
+							<execution>
+								<id>copy-config-files</id>
+								<phase>install</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo message="==========  Copy openwis datasource  =============" />
+										<copy overwrite="true"
+											file="${basedir}/src/main/config/${dataservice-ds}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
+										<echo message="==========  Copy postgresql driver  =============" />
+										<copy overwrite="true"
+											file="${basedir}/src/main/config/${postgresql-driver}" todir="${env.JBOSS_HOME}/common/lib" />
+									</tasks>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>clean-config-files</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<delete failonerror="false">
+											<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
+												includes="${dataservice-ds}" />
+										</delete>
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

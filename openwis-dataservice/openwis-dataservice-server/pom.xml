@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openwis-dataservice</artifactId>
+		<groupId>org.openwis.dataservice</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.openwis.dataservice.server</groupId>
+	<artifactId>openwis-dataservice-server</artifactId>
+	<packaging>pom</packaging>
+	<name>openwis-dataservice-server</name>
+
+	<modules>
+		<module>openwis-dataservice-server-ear</module>
+		<module>openwis-dataservice-server-ejb</module>
+		<module>openwis-dataservice-server-webapp</module>
+		 
+	</modules>
+
+	<profiles>
+		<profile>
+			<id>ciProfile</id>
+			<activation>
+				<property>
+					<name>enableCiProfile</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>openwis-dataservice-server-test</module>
+			</modules>
+		</profile>
+	</profiles>
+
+</project>

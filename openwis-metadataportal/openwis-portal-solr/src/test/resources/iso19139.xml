@@ -1,0 +1,103 @@
+<Document xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+  <Field name="title" string="Template for OpenWIS" store="true" index="true" token="true" />
+  <Field name="_title" string="Template for OpenWIS" store="true" index="true" token="false" />
+  <Field name="publicationDate" string="" store="true" index="true" token="false" />
+  <Field name="digital" string="true" store="true" index="true" token="false" />
+  <Field name="abstract" string="The ISO19139 metadata standard is the preferred metadata&#xA;                    standard to use. If unsure what templates to start with, use this&#xA;                    one." store="true" index="true" token="true" />
+  <Field name="tempExtentBegin" string="2011-02-04t22:59:59.000z" store="true" index="true" token="false" />
+  <Field name="tempExtentEnd" string="2011-02-04t22:59:59.000z" store="true" index="true" token="false" />
+  <Field name="keyword" string="" store="true" index="true" token="false" />
+  <Field name="subject" string="" store="true" index="true" token="false" />
+  <Field name="keywordType" string="theme" store="true" index="true" token="true" />
+  <Field name="keyword" string="World" store="true" index="true" token="false" />
+  <Field name="subject" string="World" store="true" index="true" token="false" />
+  <Field name="keywordType" string="place" store="true" index="true" token="true" />
+  <Field name="orgName" string="" store="true" index="true" token="true" />
+  <Field name="orgName" string="RTH Norrkoping" store="true" index="true" token="true" />
+  <Field name="secConstr" string="false" store="true" index="true" token="false" />
+  <Field name="subject" string="" store="true" index="true" token="false" />
+  <Field name="subject" string="World" store="true" index="true" token="false" />
+  <Field name="subject" string="boundaries" store="true" index="true" token="false" />
+  <Field name="topicCat" string="boundaries" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="copyright" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="otherRestrictions" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="otherConstr" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="copyright" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="otherRestrictions" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="otherConstr" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="copyright" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="otherRestrictions" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="otherConstr" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="copyright" store="true" index="true" token="false" />
+  <Field name="accessConstr" string="otherRestrictions" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="otherConstr" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="otherConstr" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="WMO Essential" store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="This product is only valid for less than 12 hours after being issued." store="true" index="true" token="false" />
+  <Field name="conditionApplyingToAccessAndUse" string="custom access control (description, plus recommended URL)" store="true" index="true" token="false" />
+  <Field name="lineage" string="" store="true" index="true" token="false" />
+  <Field name="type" string="dataset" store="true" index="true" token="false" />
+  <Field name="language" string="eng" store="true" index="true" token="false" />
+  <Field name="fileId" string="" store="true" index="true" token="false" />
+  <Field name="changeDate" string="2005-03-31T19:13:30" store="true" index="true" token="false" />
+  <Field name="metadataPOC" string="" store="true" index="true" token="false" />
+  <Field name="crs" string="::WGS 1984" store="true" index="true" token="false" />
+  <Field name="authority" string="" store="true" index="true" token="false" />
+  <Field name="crsCode" string="WGS 1984" store="true" index="true" token="false" />
+  <Field name="crsVersion" string="" store="true" index="true" token="false" />
+  <Field name="any" store="false" index="true" token="true" string="eng 2005-03-31T19:13:30 ISO 19115:2003/19139 1.0 WGS 1984 Template for OpenWIS The ISO19139 metadata standard is the preferred metadata standard to use. If unsure what templates to start with, use this one. RTH Norrkoping +46 11 4958507 +46 11 4958001 Swedish Meteorological and Hydrological Institute (SMHI) norrköping SE-601 76 sweden gunilla.mild@smhi.se resourceProvider continual PT3H dataset Instances of bulletin FCSN32 are available every 3 hours starting at 02 UTC thumbnail large_thumbnail World WMO Essential otherRestrictions WMO Essential This product is only valid for less than 12 hours after being issued. otherRestrictions This product is only valid for less than 12 hours after being issued. custom access control (description, plus recommended URL) otherRestrictions custom access control (description, plus recommended URL) boundaries DCPC Toulouse 1 15.52 18.35 57.66 60.43 You can customize the template to suit your needs. You can add and remove fields and fill out default information (e.g. contact details). Fields you can not change in the default view may be accessible in the more comprehensive (and more complex) advanced view. You can even use the XML editor to create custom structures, but they have to be validated by the system, so know what you do :-) WWW:LINK-1.0-http--link WWW:DOWNLOAD-1.0-http--download OGC:WMS-1.1.1-http-get-map INSERT HERE REGEXP ON THE DATA FILE NAMES INSERT DESCRIPTION HERE INSERT DESCRIPTION OF THE MIME FILE TYPE GRIB 2 Manual on Codes (WMO No. 306) [http://www.wmo.int/pages/prog/www/WMOCodes.html] utf8 pointOfContact publication mapDigital onGoing originator resourceProvider asNeeded continual dataset theme place copyright otherRestictions otherRestrictions otherRestrictions otherRestrictions vector eng utf8 dataset " />
+  <Field name="_id" string="1" store="true" index="true" token="false" />
+  <Field name="_hasxlinks" string="0" store="true" index="true" token="false" />
+  <Field name="_root" string="MD_Metadata" store="true" index="true" token="false" />
+  <Field name="_schema" string="iso19139" store="true" index="true" token="false" />
+  <Field name="_createDate" string="2011-02-01T12:33:29" store="true" index="true" token="false" />
+  <Field name="_changeDate" string="2011-02-01T12:33:29" store="true" index="true" token="false" />
+  <Field name="_source" string="2c998454-ecc2-4e98-806b-8657b606e2e3" store="true" index="true" token="false" />
+  <Field name="_isTemplate" string="y" store="true" index="true" token="false" />
+  <Field name="_title" string="" store="true" index="true" token="false" />
+  <Field name="_uuid" string="100629b2-b337-4632-be4d-dde325fee9d5" store="true" index="true" token="false" />
+  <Field name="_isHarvested" string="n" store="true" index="true" token="false" />
+  <Field name="_owner" string="" store="true" index="true" token="false" />
+  <Field name="_dummy" string="0" store="false" index="true" token="false" />
+  <Field name="_popularity" string="0" store="true" index="true" token="false" />
+  <Field name="_rating" string="0" store="true" index="true" token="false" />
+  <Field name="_datapolicy" string="1" store="true" index="true" token="false" />
+  <Field name="_op0" string="1" store="true" index="true" token="false" />
+  <Field name="_op0" string="2" store="true" index="true" token="false" />
+  <Field name="_op0" string="3" store="true" index="true" token="false" />
+  <Field name="_op0" string="4" store="true" index="true" token="false" />
+  <Field name="_op0" string="5" store="true" index="true" token="false" />
+  <Field name="_op0" string="6" store="true" index="true" token="false" />
+  <Field name="_op1" string="6" store="true" index="true" token="false" />
+  <Field name="_op1" string="1" store="true" index="true" token="false" />
+  <Field name="_op1" string="4" store="true" index="true" token="false" />
+  <Field name="_op1" string="5" store="true" index="true" token="false" />
+  <Field name="_op1" string="2" store="true" index="true" token="false" />
+  <Field name="_op1" string="3" store="true" index="true" token="false" />
+  <Field name="_op6" string="2" store="true" index="true" token="false" />
+  <Field name="_op6" string="3" store="true" index="true" token="false" />
+  <Field name="_op6" string="6" store="true" index="true" token="false" />
+  <Field name="_op6" string="4" store="true" index="true" token="false" />
+  <Field name="_op6" string="1" store="true" index="true" token="false" />
+  <Field name="_op6" string="5" store="true" index="true" token="false" />
+</Document>

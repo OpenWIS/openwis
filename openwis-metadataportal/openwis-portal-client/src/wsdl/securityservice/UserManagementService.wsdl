@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="UserManagementService" targetNamespace="http://securityservice.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://securityservice.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://securityservice.openwis.org/" schemaLocation="UserManagementService_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="addUserToGlobalGroupResponse">
+    <wsdl:part name="parameters" element="tns:addUserToGlobalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="importUser">
+    <wsdl:part name="parameters" element="tns:importUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserResponse">
+    <wsdl:part name="parameters" element="tns:removeUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToGlobalGroup">
+    <wsdl:part name="parameters" element="tns:addUserToGlobalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserToGroup">
+    <wsdl:part name="parameters" element="tns:removeUserToGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUserResponse">
+    <wsdl:part name="parameters" element="tns:createUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="userIsMemberOfGroup">
+    <wsdl:part name="parameters" element="tns:userIsMemberOfGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserByUserNameFilterResponse">
+    <wsdl:part name="parameters" element="tns:getAllUserByUserNameFilterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="initializeResponse">
+    <wsdl:part name="parameters" element="tns:initializeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserByUserNameFilter">
+    <wsdl:part name="parameters" element="tns:getAllUserByUserNameFilter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserProfileResponse">
+    <wsdl:part name="parameters" element="tns:updateUserProfileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="initialize">
+    <wsdl:part name="parameters" element="tns:initialize">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resetUsersResponse">
+    <wsdl:part name="parameters" element="tns:resetUsersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkUserNameExists">
+    <wsdl:part name="parameters" element="tns:checkUserNameExists">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getImportUserList">
+    <wsdl:part name="parameters" element="tns:getImportUserList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUser">
+    <wsdl:part name="parameters" element="tns:removeUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserInfoResponse">
+    <wsdl:part name="parameters" element="tns:getUserInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getImportUserListResponse">
+    <wsdl:part name="parameters" element="tns:getImportUserListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToLocalGroupResponse">
+    <wsdl:part name="parameters" element="tns:addUserToLocalGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserProfile">
+    <wsdl:part name="parameters" element="tns:updateUserProfile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserToGroupResponse">
+    <wsdl:part name="parameters" element="tns:removeUserToGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserInfo">
+    <wsdl:part name="parameters" element="tns:getUserInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resetUsers">
+    <wsdl:part name="parameters" element="tns:resetUsers">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getImportUserListFilter">
+    <wsdl:part name="parameters" element="tns:getImportUserListFilter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserToLocalGroup">
+    <wsdl:part name="parameters" element="tns:addUserToLocalGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUser">
+    <wsdl:part name="parameters" element="tns:createUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserGroups">
+    <wsdl:part name="parameters" element="tns:getUserGroups">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserResponse">
+    <wsdl:part name="parameters" element="tns:updateUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkUserNameExistsResponse">
+    <wsdl:part name="parameters" element="tns:checkUserNameExistsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserGroupsResponse">
+    <wsdl:part name="parameters" element="tns:getUserGroupsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUser">
+    <wsdl:part name="parameters" element="tns:updateUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UserManagementException">
+    <wsdl:part name="UserManagementException" element="tns:UserManagementException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changePassword">
+    <wsdl:part name="parameters" element="tns:changePassword">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserByUserNameAndGroupsFilter">
+    <wsdl:part name="parameters" element="tns:getAllUserByUserNameAndGroupsFilter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changePasswordResponse">
+    <wsdl:part name="parameters" element="tns:changePasswordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="importUserResponse">
+    <wsdl:part name="parameters" element="tns:importUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllUserByUserNameAndGroupsFilterResponse">
+    <wsdl:part name="parameters" element="tns:getAllUserByUserNameAndGroupsFilterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="userIsMemberOfGroupResponse">
+    <wsdl:part name="parameters" element="tns:userIsMemberOfGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getImportUserListFilterResponse">
+    <wsdl:part name="parameters" element="tns:getImportUserListFilterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="UserManagementService">
+    <wsdl:operation name="importUser">
+      <wsdl:input name="importUser" message="tns:importUser">
+    </wsdl:input>
+      <wsdl:output name="importUserResponse" message="tns:importUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="changePassword">
+      <wsdl:input name="changePassword" message="tns:changePassword">
+    </wsdl:input>
+      <wsdl:output name="changePasswordResponse" message="tns:changePasswordResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserProfile">
+      <wsdl:input name="updateUserProfile" message="tns:updateUserProfile">
+    </wsdl:input>
+      <wsdl:output name="updateUserProfileResponse" message="tns:updateUserProfileResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUser">
+      <wsdl:input name="createUser" message="tns:createUser">
+    </wsdl:input>
+      <wsdl:output name="createUserResponse" message="tns:createUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToLocalGroup">
+      <wsdl:input name="addUserToLocalGroup" message="tns:addUserToLocalGroup">
+    </wsdl:input>
+      <wsdl:output name="addUserToLocalGroupResponse" message="tns:addUserToLocalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="checkUserNameExists">
+      <wsdl:input name="checkUserNameExists" message="tns:checkUserNameExists">
+    </wsdl:input>
+      <wsdl:output name="checkUserNameExistsResponse" message="tns:checkUserNameExistsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="resetUsers">
+      <wsdl:input name="resetUsers" message="tns:resetUsers">
+    </wsdl:input>
+      <wsdl:output name="resetUsersResponse" message="tns:resetUsersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserByUserNameFilter">
+      <wsdl:input name="getAllUserByUserNameFilter" message="tns:getAllUserByUserNameFilter">
+    </wsdl:input>
+      <wsdl:output name="getAllUserByUserNameFilterResponse" message="tns:getAllUserByUserNameFilterResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserGroups">
+      <wsdl:input name="getUserGroups" message="tns:getUserGroups">
+    </wsdl:input>
+      <wsdl:output name="getUserGroupsResponse" message="tns:getUserGroupsResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToGlobalGroup">
+      <wsdl:input name="addUserToGlobalGroup" message="tns:addUserToGlobalGroup">
+    </wsdl:input>
+      <wsdl:output name="addUserToGlobalGroupResponse" message="tns:addUserToGlobalGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <wsdl:input name="removeUser" message="tns:removeUser">
+    </wsdl:input>
+      <wsdl:output name="removeUserResponse" message="tns:removeUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getImportUserListFilter">
+      <wsdl:input name="getImportUserListFilter" message="tns:getImportUserListFilter">
+    </wsdl:input>
+      <wsdl:output name="getImportUserListFilterResponse" message="tns:getImportUserListFilterResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <wsdl:input name="updateUser" message="tns:updateUser">
+    </wsdl:input>
+      <wsdl:output name="updateUserResponse" message="tns:updateUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="initialize">
+      <wsdl:input name="initialize" message="tns:initialize">
+    </wsdl:input>
+      <wsdl:output name="initializeResponse" message="tns:initializeResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeUserToGroup">
+      <wsdl:input name="removeUserToGroup" message="tns:removeUserToGroup">
+    </wsdl:input>
+      <wsdl:output name="removeUserToGroupResponse" message="tns:removeUserToGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getImportUserList">
+      <wsdl:input name="getImportUserList" message="tns:getImportUserList">
+    </wsdl:input>
+      <wsdl:output name="getImportUserListResponse" message="tns:getImportUserListResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="userIsMemberOfGroup">
+      <wsdl:input name="userIsMemberOfGroup" message="tns:userIsMemberOfGroup">
+    </wsdl:input>
+      <wsdl:output name="userIsMemberOfGroupResponse" message="tns:userIsMemberOfGroupResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserInfo">
+      <wsdl:input name="getUserInfo" message="tns:getUserInfo">
+    </wsdl:input>
+      <wsdl:output name="getUserInfoResponse" message="tns:getUserInfoResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserByUserNameAndGroupsFilter">
+      <wsdl:input name="getAllUserByUserNameAndGroupsFilter" message="tns:getAllUserByUserNameAndGroupsFilter">
+    </wsdl:input>
+      <wsdl:output name="getAllUserByUserNameAndGroupsFilterResponse" message="tns:getAllUserByUserNameAndGroupsFilterResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserManagementServiceSoapBinding" type="tns:UserManagementService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="importUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="importUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="importUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="changePassword">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="changePassword">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="changePasswordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserProfile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUserProfile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserProfileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToLocalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addUserToLocalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addUserToLocalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="checkUserNameExists">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="checkUserNameExists">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkUserNameExistsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="resetUsers">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="resetUsers">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="resetUsersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserByUserNameFilter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUserByUserNameFilter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUserByUserNameFilterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserGroups">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserGroups">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserGroupsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addUserToGlobalGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addUserToGlobalGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addUserToGlobalGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getImportUserListFilter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getImportUserListFilter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getImportUserListFilterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="initialize">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="initialize">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="initializeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeUserToGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeUserToGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeUserToGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getImportUserList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getImportUserList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getImportUserListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="userIsMemberOfGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="userIsMemberOfGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="userIsMemberOfGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllUserByUserNameAndGroupsFilter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllUserByUserNameAndGroupsFilter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllUserByUserNameAndGroupsFilterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserManagementService">
+    <wsdl:port name="UserManagementServicePort" binding="tns:UserManagementServiceSoapBinding">
+      <soap:address location="http://localhost:9090/UserManagementServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

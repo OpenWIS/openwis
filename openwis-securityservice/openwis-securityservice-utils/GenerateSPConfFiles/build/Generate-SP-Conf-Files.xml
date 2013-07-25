@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+    5 nov. 2010 15:31:05                                                        
+    
+    project    
+    description
+    
+    audevart                                                                
+    ====================================================================== -->
+<project name="Generate-SP-Conf-Files" default="default" basedir="..">
+    <description>
+        Copy configurations files for Service Provdier
+    </description>
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+    
+    <property name="conf.dir" value="conf" />
+    <property name="lib.dir" value="lib" />
+    
+    <property name="exportmetadata" value="/saml2/jsp/exportmetadata.jsp"/>
+    
+    <property name="copyWCToFile.jar" value="${lib.dir}/CopyWCToFile.jar" />
+    
+    <property file="idpNumber.properties" />
+    
+    <property file="${conf.dir}/configuration.properties" />
+    
+    <!-- ================================= 
+        target: default              
+        ================================= -->
+    <target name="default" depends="edit-fedlet.cot, copy-FederationConfig.properties, edit-sp.xml, edit-sp-extended.xml, generate-idps-files" description="description">
+        
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Edit sp.xml
+        Replace token to sp.xml
+        - - - - - - - - - - - - - - - - - -->
+    <target name="edit-sp.xml">
+        <copy file="${lib.dir}/sp.xml" tofile="${directory}/fedlet/sp.xml">
+            <filterset>
+                <filter token="SP_NAME" value="${sp-name}" />
+                <filter token="SP_URL" value="${sp-url}" />
+            </filterset>
+        </copy>
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Edit idp.xml
+        Copy exportmetadata of idp content to idp.xml
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="edit-idp.xml">
+        
+        <property name="idp-file-name" value="${directory}/fedlet/idp${idp-number}.xml"/>
+        <propertycopy property="url-idp" from="${idp-name}.url"/>
+        
+        <antcall target="run.web.content.to.File">
+            <!-- url copy from-->
+            <param name="url-copy-from" value="${url-idp}${exportmetadata}?entityid=${idp-name}" />
+            <!-- file copy to-->
+            <param name="file-copy-to" value="${idp-file-name}" />
+        </antcall>
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Edit idp-extended.xml
+        Edit entityID, cotlist, saeIDPUrl
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="edit-idp-extended.xml">
+        <propertycopy property="url-idp" from="${idp-name}.url"/>
+        <copy file="${lib.dir}/idp-extended.xml" tofile="${directory}/fedlet/idp${idp-number}-extended.xml">
+            <filterset>
+                <filter token="COT_NAME" value="${cot-name}" />
+                <filter token="IDP_NAME" value="${idp-name}" />
+                <filter token="IDP_URL" value="${url-idp}" />
+            </filterset>
+        </copy>
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Generate idp and idp-extended files for all idps.
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="generate-idps-files">
+        <propertyfile file="idpNumber.properties">
+            <entry key="idp-number" value="" />
+        </propertyfile>
+        
+        <foreach list="${idps-names}" param="idp" target="generate-idp-file.xml" />
+        <delete file="idpNumber.properties" />
+    </target>
+    
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Edit idp.xml
+        Copy exportmetadata of idp content to idp.xml
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="generate-idp-file.xml">
+        <antcall target="edit-idp.xml">
+            <param name="idp-name" value="${idp}" />
+        </antcall>
+        <antcall target="edit-idp-extended.xml">
+            <param name="idp-name" value="${idp}" />
+        </antcall>
+        <propertyfile file="idpNumber.properties">
+            <entry key="idp-number" type="int" operation="+" value="1" />
+        </propertyfile>
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Edit sp-extended.xml
+        Edit entityID, appLogoutUrl, cotlist     
+        - - - - - - - - - - - - - - - - - -->
+    <target name="edit-sp-extended.xml">
+        <copy file="${lib.dir}/sp-extended.xml" todir="${directory}/fedlet">
+            <filterset>
+                <filter token="COT_NAME" value="${cot-name}" />
+                <filter token="SP_NAME" value="${sp-name}" />
+                <filter token="SP_URL" value="${sp-url}" />
+            </filterset>
+        </copy>
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Copy FederationConfig.properties
+        Only copy the file FederationConfig.properties
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="copy-FederationConfig.properties">
+        <copy file="${lib.dir}/FederationConfig.properties" todir="${directory}/fedlet" />
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Edit fedlet.cot
+        Edit cot-name and sun-fm-trusted-providers
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="edit-fedlet.cot">
+        <copy file="${lib.dir}/fedlet.cot" todir="${directory}/fedlet">
+            <filterset>
+                <filter token="COT_NAME" value="${cot-name}" />
+                <filter token="TRUSTED_PROVIDERS" value="${trusted-providers}" />
+                <filter token="IDP_DISCOVERY" value="${idp-discovery}" />
+            </filterset>
+        </copy>
+    </target>
+    
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+        target: Copy Web Content To File
+        Run Copy Web Content To File
+        
+        - - - - - - - - - - - - - - - - - -->
+    <target name="run.web.content.to.File">
+        <java jar="${copyWCToFile.jar}" fork="true">
+            <!-- url copy from-->
+            <arg value="${url-copy-from}" />
+            <!-- file copy to-->
+            <arg value="${file-copy-to}" />
+        </java>
+    </target>
+    
+</project>

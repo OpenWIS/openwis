@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<geonet>
+	<services package="org.fao.geonet">
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Metadata services                                             -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.show">
+			<class name=".services.metadata.Show"/>
+
+			<output sheet="metadata-show.xsl">
+				<call name="services" class="jeeves.guiservices.services.Get"/>
+				<call name="currTab"  class=".guiservices.util.GetCurrentMDTab"/>
+				<call name="position" class=".guiservices.util.GetPositionMD"/>
+				<call name="relation" class =".guiservices.metadata.GetRelated"/>
+				<call name="sources"  class=".guiservices.util.Sources"/>
+				<call name="isoLang"  class=".guiservices.isolanguages.Get"/>
+			</output>
+
+			<error id="operation-not-allowed" sheet="error.xsl" statusCode="403">
+				<xml name="error" file="xml/metadata-show-error.xml" />
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.show.embedded">
+			<class name=".services.metadata.Show">
+                <param name="skipPopularity"    value="y"/>
+            </class>
+
+			<output sheet="metadata-show-embedded.xsl">
+				<call name="services" class="jeeves.guiservices.services.Get"/>
+				<call name="currTab"  class=".guiservices.util.GetCurrentMDTab"/>
+				<call name="position" class=".guiservices.util.GetPositionMD"/>
+				<call name="relation" class =".guiservices.metadata.GetRelated"/>
+				<call name="sources"  class=".guiservices.util.Sources"/>
+				<call name="isoLang"  class=".guiservices.isolanguages.Get"/>
+			</output>
+
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/metadata-show-error.xml" />
+			</error>
+            <error id="metadata-not-found" sheet="error-embedded.xsl" statusCode="404">
+                <xml name="error" file="xml/metadata-notfound-error.xml" />
+            </error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.edit">
+			<class name=".services.metadata.GetEditableData"/>
+
+			<output sheet="metadata-edit.xsl">
+				<call name="currTab"       class =".guiservices.util.GetCurrentMDTab"/>
+				<call name="position" 	   class =".guiservices.util.GetPositionMD"/>
+				<call name="groups"        class =".guiservices.groups.GetMine"/>
+				<call name="relation"  	   class =".guiservices.metadata.GetRelated"/>
+				<call name="regions"       class =".guiservices.regions.Get"/>
+				<call name="sources"       class =".guiservices.util.Sources"/>
+				<call name="isoLang"       class =".guiservices.isolanguages.Get"/>
+				<call name="subtemplates"  class ="jeeves.services.db.Select">
+					<param name="db"    value="main-db"/>
+					<param name="query" value="SELECT id, schemaId, root, title FROM Metadata WHERE isTemplate='s' ORDER BY root, title"/>
+				</call>
+			</output>
+		</service>
+		
+		<service name="metadata.edit.embedded">
+			<class name=".services.metadata.GetEditableData"/>
+
+			<output sheet="metadata-edit-full-embedded.xsl">
+					<call name="currTab"       class =".guiservices.util.GetCurrentMDTab"/>
+					<call name="position" 	   class =".guiservices.util.GetPositionMD"/>
+					<call name="groups"        class =".guiservices.groups.GetMine"/>
+					<call name="relation"  	   class =".guiservices.metadata.GetRelated"/>
+					<call name="regions"       class =".guiservices.regions.Get"/>
+					<call name="sources"       class =".guiservices.util.Sources"/>
+					<call name="isoLang"       class =".guiservices.isolanguages.Get"/>
+					<call name="subtemplates"  class ="jeeves.services.db.Select">
+							<param name="db"    value="main-db"/>
+							<param name="query" value="SELECT id, schemaId, root, title FROM Metadata WHERE isTemplate='s' ORDER BY root, title"/>
+						</call>
+				</output>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.elem.add">
+			<class name=".services.metadata.AddElement"/>
+
+			<output sheet="metadata-edit-embedded.xsl">
+				<call name="currTab"       class =".guiservices.util.GetCurrentMDTab"/>
+				<call name="position" 		 class =".guiservices.util.GetPositionMD"/>
+				<call name="groups"        class =".guiservices.groups.GetMine"/>
+				<call name="regions"       class =".guiservices.regions.Get"/>
+				<call name="sources"       class =".guiservices.util.Sources"/>
+				<call name="isoLang"       class =".guiservices.isolanguages.Get"/>
+				<call name="subtemplates"  class ="jeeves.services.db.Select">
+					<param name="db"    value="main-db"/>
+					<param name="query" value="SELECT id, schemaId, root, title FROM Metadata WHERE isTemplate='s' ORDER BY root, title"/>
+				</call>
+			</output>
+
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.elem.delete">
+			<class name=".services.metadata.DeleteElement"/>
+
+			<output sheet="metadata-edit-embedded.xsl">
+				<call name="currTab"       class =".guiservices.util.GetCurrentMDTab"/>
+				<call name="position" 		 class =".guiservices.util.GetPositionMD"/>
+				<call name="groups"        class =".guiservices.groups.GetMine"/>
+				<call name="regions"       class =".guiservices.regions.Get"/>
+				<call name="sources"       class =".guiservices.util.Sources"/>
+				<call name="isoLang"       class =".guiservices.isolanguages.Get"/>
+				<call name="subtemplates"  class ="jeeves.services.db.Select">
+					<param name="db"    value="main-db"/>
+					<param name="query" value="SELECT id, schemaId, root, title FROM Metadata WHERE isTemplate='s' ORDER BY root, title"/>
+				</call>
+			</output>
+
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- saves edits -->
+
+		<service name="metadata.update">
+            <class name=".services.metadata.Update"/>
+
+            <output forward="metadata.edit" />
+
+            <error id="client" sheet="metadata-error.xsl"/>
+		</service>
+		
+		<service name="metadata.update.embedded">
+			<class name=".services.metadata.Update"/>
+			
+			<output forward="metadata.edit.embedded" />
+			
+			<error id="client" sheet="metadata-error.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- saves edits and returns to viewer -->
+
+		<service name="metadata.update.finish">
+			<class name=".services.metadata.Update">
+				<param name="finished" value="yes" />
+			</class>
+
+			<error id="client" sheet="metadata-error.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- reset - forget edits and return to last saved version -->
+
+		<service name="metadata.update.forget">
+			<class name=".services.metadata.Update">
+				<param name="forget" value="yes" />
+			</class>
+
+			<output forward="metadata.edit" />
+
+			<error id="client" sheet="metadata-error.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- cancel - forget edits and returns to viewer -->
+
+		<service name="metadata.update.forgetandfinish">
+			<class name=".services.metadata.Update">
+				<param name="forget" value="yes" />
+				<param name="finished" value="yes" />
+			</class>
+
+			<error id="client" sheet="metadata-error.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- validates metadata in session -->
+
+		<service name="metadata.validate">
+			<class name=".services.metadata.Validate"/>
+
+			<output sheet="metadata-validate.xsl">
+				<xml name="validation" file="xml/metadata-validate.xml" />
+			</output>
+
+			<error sheet="res-error.xsl">
+				<xml name="error" file="xml/validation-error.xml" />
+				<xml name="validation" file="xml/metadata-validate.xml" />
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.elem.down">
+			<class name=".services.metadata.MoveElement">
+				<param name="dir" value="down" />
+			</class>
+
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.elem.up">
+			<class name=".services.metadata.MoveElement">
+				<param name="dir" value="up" />
+			</class>
+
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.attr.add">
+			<class name=".services.metadata.AddAttribute"/>
+
+			<output forward="metadata.edit" />
+
+			<error id="concurrent-update" sheet="metadata-error.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.attr.delete">
+			<class name=".services.metadata.DeleteAttribute"/>
+
+			<output forward="metadata.edit" />
+
+			<error id="concurrent-update" sheet="metadata-error.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.delete">
+			<class name=".services.metadata.Delete"/>
+
+			<output sheet="infomodal.xsl">
+				<xml name="info" file="xml/metadata-delete.xml" />
+			</output>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.recent.additions.embedded">
+			<output sheet="metadata-recentadditions.xsl">
+				<call name="latestUpdated" class=".guiservices.metadata.GetLatestUpdated">
+          <param name="maxItems" value="10" />
+          <param name="timeBetweenUpdates" value="10" />
+        </call>
+			</output>
+		</service>
+
+		
+
+
+		
+		<service name="metadata.processing">
+			<class name=".services.metadata.XslProcessing"/>
+			<output forward="metadata.edit" />
+		</service>
+		
+		<service name="xml.metadata.processing">
+			<class name=".services.metadata.XslProcessing"/>
+			<error sheet="xml-error.xsl" contentType="application/xml; charset=UTF-8"/> 
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.admin.form">
+			<class name=".services.metadata.GetAdminOper"/>
+
+			<output sheet="metadata-admin.xsl"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.admin">
+			<class name=".services.metadata.UpdateAdminOper"/>
+
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.searchunused.form">
+			<output sheet="metadata-searchunused.xsl">
+				<xml  name="unused" file="xml/metadata-searchunused.xml" />
+			</output>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.searchunused">
+			<class name=".services.metadata.SearchUnused"/>
+
+			<output forward="main.present"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Thumbnail services                                            -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.thumbnail.form">
+			<class name=".services.thumbnail.Get"/>
+
+			<output sheet="metadata-thumbnail.xsl">
+				<xml name="thumbnail" file="xml/metadata-thumbnail.xml" />
+			</output>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.thumbnail.set">
+			<class name=".services.thumbnail.Set"/>
+
+			<output forward="metadata.thumbnail.form"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="metadata.thumbnail.unset">
+			<class name=".services.thumbnail.Unset"/>
+
+			<output forward="metadata.thumbnail.form"/>
+		</service>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Metadata samples											   -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="metadata.samples.add">
+			<class name=".guiservices.sampledata.Add"/>
+		</service>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Metadata latest updated (ajax)        						   -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="metadata.latest.updated">
+            <output sheet="metadata-latest-updated.xsl">
+                <call name="latestUpdated"  class=".guiservices.metadata.GetLatestUpdated">
+                    <param name="maxItems"           value="5" />
+                    <param name="timeBetweenUpdates" value="10" />
+                </call>
+            </output>
+        </service>
+
+	</services>
+</geonet>
+

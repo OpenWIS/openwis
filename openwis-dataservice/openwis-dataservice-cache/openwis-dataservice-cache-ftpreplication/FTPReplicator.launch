@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/openwis-dataservice-cache-ftpreplication/src/main/java/org/openwis/dataservice/replication/ftp/FTPReplicator.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.openwis.dataservice.replication.ftp.FTPReplicator"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="openwis-dataservice-cache-ftpreplication"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.library.path=${project_loc:/openwis-dataservice-cache-ftpreplication/FTPReplicator.launch}/src/main/config/jnotify-0.94 -DftpReplicationConfigFile=local-ftp-replication-config.xml"/>
+</launchConfiguration>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+   <groups id="1" name="DEFAULT" />
+   <groups id="2" name="Institutional" isglobal="y" />
+   <groups id="3" name="local1" />
+
+   <usergroups userid="4" groupid="2" />
+   <usergroups userid="5" groupid="3" />
+
+   <datapolicy id="3" name="localdp" />
+
+   <operationallowed groupid="2" datapolicyid="1"
+      operationid="0" />
+   <operationallowed groupid="2" datapolicyid="1"
+      operationid="1" />
+   <operationallowed groupid="3" datapolicyid="1"
+      operationid="0" />
+   <operationallowed groupid="3" datapolicyid="1"
+      operationid="1" />
+
+   <operationallowed groupid="2" datapolicyid="2"
+      operationid="0" />
+   <operationallowed groupid="2" datapolicyid="2"
+      operationid="1" />
+
+   <operationallowed groupid="3" datapolicyid="3"
+      operationid="0" />
+   <operationallowed groupid="3" datapolicyid="3"
+      operationid="1" />
+
+</dataset>
