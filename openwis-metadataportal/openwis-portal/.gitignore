@@ -1,0 +1,3 @@
+#fichiers javascript minifiés générés par maven
+src/main/webapp/scripts/lib/*.js
+src/main/webapp/scripts/Openwis/*.js

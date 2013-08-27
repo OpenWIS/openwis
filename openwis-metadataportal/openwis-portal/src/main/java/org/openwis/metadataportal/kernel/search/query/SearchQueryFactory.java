@@ -2,6 +2,7 @@ package org.openwis.metadataportal.kernel.search.query;
 
 import org.fao.geonet.kernel.search.IndexField;
 import org.jdom.Element;
+import org.openwis.metadataportal.kernel.search.query.solr.SolrSearchQuery;
 
 /**
  * A factory for creating SearchQuery objects.
@@ -180,7 +181,13 @@ public interface SearchQueryFactory<T extends SearchQuery> {
     * @return the query
     */
    T addSpatialQuery(T query, Element xml, String filterVersion);
-
+   /**
+    * Boost.
+    * Nouvelle methode pour prendre en compte le boost
+    * @param boostFactor the boost factor
+    * @return the search query
+    */
+   T boost(T query, int boostFactor);
 
 
 }
