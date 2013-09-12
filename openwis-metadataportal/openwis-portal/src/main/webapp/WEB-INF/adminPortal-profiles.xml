@@ -432,6 +432,10 @@
         <!-- Availability -->
         <allow service="xml.availability.external.get"/>
         <allow service="xml.availability.getstatistics"/>
+        
+        <!-- Inspire -->
+        <allow service="xml.CheckAuthorization"/>
+         
 	</profile>
 
 	<!-- ====================================================================== -->
