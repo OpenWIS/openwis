@@ -153,3 +153,8 @@ function translate(word){
 	var key = 'Metadata.ViewerEditor.EditorTranslations.' + word;
 	return Openwis.i18n(key);
 }
+
+// Show related services
+function doShowRelatedServices(id, uuid) {
+	showRelatedServicesPanel(id, uuid);
+}
