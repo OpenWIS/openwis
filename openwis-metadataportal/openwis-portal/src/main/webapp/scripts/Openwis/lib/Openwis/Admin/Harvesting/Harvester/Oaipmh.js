@@ -108,6 +108,11 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 //			    if(minuts > 0) {
 //			        this.getFrequencyRecurrentMinuteTextField().setValue(minuts);
 //			    }
+			    
+			    
+			    this.getStartingDateField().setValue(Openwis.Utils.Date.ISODateToCalendar(this.config.runMode.startingDate));
+			    this.getStartingDateTimeField().setValue(Openwis.Utils.Date.ISODateToTime(this.config.runMode.startingDate));
+			 			   
 		        this.getFrequencyRunModeCompositeField().show();
 			} else {
 			    this.getRunModeRadioGroup().setValue('USER_TRIGERRED');

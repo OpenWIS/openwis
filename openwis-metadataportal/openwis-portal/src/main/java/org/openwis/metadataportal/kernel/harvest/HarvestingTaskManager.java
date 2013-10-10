@@ -295,13 +295,10 @@ public class HarvestingTaskManager extends AbstractManager {
       Integer recurrencePeriod = null;
       String backup = null;
       String lastRunDate = null;
-      String startingDate = null;
-
+     
       if (task.getRunMode().isRecurrent()) {
          recurrencePeriod = task.getRunMode().getRecurrencePeriod();
-         if (task.getRunMode().getStartingDate() != null) {
-            startingDate = getSdf().format(task.getRunMode().getStartingDate());
-         }
+        
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
@@ -311,7 +308,7 @@ public class HarvestingTaskManager extends AbstractManager {
       }
 
       getDbms().execute(sbHarvestingTask.toString(), task.getId(), UUID.randomUUID().toString(),
-            task.getName(), task.getType(),startingDate, task.getValidationMode().toString(),
+            task.getName(), task.getType(),task.getRunMode().getStartingDate(), task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             lastRunDate, backup, task.getStatus().toString(),
             BooleanUtils.toString(task.isSynchronizationTask(), "y", "n"),
@@ -346,20 +343,17 @@ public class HarvestingTaskManager extends AbstractManager {
 
       Integer recurrencePeriod = null;
       String backup = null;
-      String startingDate = null;
+      
 
       if (task.getRunMode().isRecurrent()) {
          recurrencePeriod = task.getRunMode().getRecurrencePeriod();
-         if (task.getRunMode().getStartingDate() != null) {
-            startingDate = getSdf().format(task.getRunMode().getStartingDate());
-         }
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
       }
 
       getDbms().execute(queryUpdateTask.toString(), task.getName(),
-            startingDate, 
+            task.getRunMode().getStartingDate(), 
             task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             backup, task.getStatus().toString(),
@@ -448,17 +442,40 @@ public class HarvestingTaskManager extends AbstractManager {
     * @throws Exception if an error occurs.
     */
    public boolean run(Integer harvestingTaskId, ServiceContext context) throws Exception {
+      return this.run(harvestingTaskId, context, false);
+   }
+   
+   /**
+    * Runs the specified task id.
+    * @param harvestingTaskId the id of the harvesting task to trigger.
+    * @param context the service context.
+    * @return <code>true</code> if the task has been scheduled, <code>false</code> if it was running.
+    * @throws Exception if an error occurs.
+    */
+   public boolean run(Integer harvestingTaskId, ServiceContext context, boolean runOnce) throws Exception {
       HarvesterExecutorService scheduler = HarvesterExecutorService.getInstance();
       if (!scheduler.isRunning(harvestingTaskId)) {
          HarvestingTask task = getHarvestingTaskById(harvestingTaskId, true);
-         scheduler.removeScheduledIfAny(harvestingTaskId);
-         scheduler.run(task, context);
+         if (!runOnce) {
+            scheduler.removeScheduledIfAny(harvestingTaskId);
+         }
+         scheduler.run(task, context, runOnce);
          return true;
       } else {
          return false;
       }
    }
    
+   /**
+    * Runs the specified task id.
+    * @param harvestingTaskId the id of the harvesting task to trigger.
+    * @param context the service context.
+    * @return <code>true</code> if the task has been scheduled, <code>false</code> if it was running.
+    * @throws Exception if an error occurs.
+    */
+   public boolean runOnce(Integer harvestingTaskId, ServiceContext context) throws Exception {
+      return this.run(harvestingTaskId, context, true);
+   }
    
    /**
     * Schedule all recurrent harvesting tasks (done at start-up).
@@ -605,7 +622,7 @@ public class HarvestingTaskManager extends AbstractManager {
          runMode.setRecurrencePeriod(recurrentPeriod);
          runMode.setRecurrentScale(e.getChildText("recurrentscale"));
          if (StringUtils.isNotBlank(e.getChildText("startingdate"))) {
-            runMode.setStartingDate(getSdf().parse(e.getChildText("startingdate")));
+            runMode.setStartingDate(e.getChildText("startingdate"));
          }
       }
       harvestingTask.setRunMode(runMode);

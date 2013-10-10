@@ -3,7 +3,6 @@
  */
 package org.openwis.metadataportal.model.harvest;
 
-import java.util.Date;
 
 /**
  * Short Description goes here. <P>
@@ -19,7 +18,7 @@ public class HarvestingTaskRunMode {
    //rajout d'attributs correspondants à la nouvelle IHM
    private String recurrentScale;
    private Integer recurrencePeriod;
-   private Date startingDate;
+   private String startingDate;
 
    public String getRecurrentScale() {
       return recurrentScale;
@@ -37,11 +36,11 @@ public class HarvestingTaskRunMode {
       this.recurrencePeriod = recurrencePeriod;
    }
 
-   public Date getStartingDate() {
+   public String getStartingDate() {
       return startingDate;
    }
 
-   public void setStartingDate(Date startingDate) {
+   public void setStartingDate(String startingDate) {
       this.startingDate = startingDate;
    }
 
