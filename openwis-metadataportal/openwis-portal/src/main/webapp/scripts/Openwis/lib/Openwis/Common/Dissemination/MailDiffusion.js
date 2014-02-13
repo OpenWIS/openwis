@@ -80,7 +80,7 @@ Openwis.Common.Dissemination.MailDiffusion = Ext.extend(Ext.form.FormPanel, {
 	getAdvancedFieldSet: function() {
 		if(!this.advancedFieldSet) {
 			this.advancedFieldSet = new Ext.form.FieldSet({
-				title: 'Advanced',
+				title: Openwis.i18n('Common.Dissemination.MailDiffusion.Advanced.label'),
 				autoHeight:true,
 				collapsed: true,
 				collapsible: true,

@@ -105,7 +105,7 @@ Openwis.Admin.DataService.RequestsStatistics = Ext.extend(Ext.Container, {
         if (!this.searchAction) {
             this.searchAction = new Ext.Action({
                 disabled: true,
-                text:'Search',
+                text:Openwis.i18n('Common.Btn.Search'),
                 scope: this,
                 handler: function() {
                     this.getDataDisseminatedStore().setBaseParam(
@@ -124,7 +124,7 @@ Openwis.Admin.DataService.RequestsStatistics = Ext.extend(Ext.Container, {
         if (!this.resetAction) {
             this.resetAction = new Ext.Action({
                 disabled: true,
-                text:'Reset',
+                text:Openwis.i18n('Common.Btn.Reset'),
                 scope: this,
                 handler: function() {
                     this.getSearchTextField().setValue('');
@@ -154,7 +154,7 @@ Openwis.Admin.DataService.RequestsStatistics = Ext.extend(Ext.Container, {
 				columns: [
 					{id:'date', header:Openwis.i18n('RequestsStatistics.DataDisseminated.Date'), dataIndex:'date', sortable: true, width: 140, renderer: Openwis.Utils.Date.formatDateUTCfromLong},
 					{id:'userId', header:Openwis.i18n('RequestsStatistics.DataDisseminated.UserId'), dataIndex:'userId', sortable: true, width: 140},
-					{id:'dissToolSize', header:Openwis.i18n('RequestsStatistics.DataDisseminated.Size'), dataIndex:'dissToolSize', sortable: true, width: 140},
+					{id:'dissToolSize', header:Openwis.i18n('RequestsStatistics.DataDisseminated.Size'), dataIndex:'dissToolSize', sortable: true, width: 140, renderer: Openwis.Common.Request.Utils.sizeRenderer},
 					{id:'dissToolNbFiles', header:Openwis.i18n('RequestsStatistics.DataDisseminated.NbFiles'), dataIndex:'dissToolNbFiles', sortable: true, width: 140}
 				],
 				listeners: { 
@@ -169,8 +169,15 @@ Openwis.Admin.DataService.RequestsStatistics = Ext.extend(Ext.Container, {
                     pageSize: Openwis.Conf.PAGE_SIZE,
                     store: this.getDataDisseminatedStore(),
                     displayInfo: true,
-                    displayMsg: 'Displaying data {0} - {1} of {2}',
-                    emptyMsg: "No data to display"
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('Common.Grid.Range'),
+                    emptyMsg: Openwis.i18n('Common.Grid.No.Data')
                 })
 			});
 			this.dataDisseminatedGrid.addButton(new Ext.Button(this.getExportDataDisseminatedAction()));
@@ -244,8 +251,8 @@ Openwis.Admin.DataService.RequestsStatistics = Ext.extend(Ext.Container, {
 				loadMask: true,
 				columns: [
 					{id:'date', header:Openwis.i18n('RequestsStatistics.DataExtracted.Date'), dataIndex:'date', sortable: true, width: 140, renderer: Openwis.Utils.Date.formatDateUTCfromLong},
-					{id:'size', header:Openwis.i18n('RequestsStatistics.DataExtracted.Extracted'), dataIndex:'size', sortable: true, width: 140},
-					{id:'dissToolSize', header:Openwis.i18n('RequestsStatistics.DataExtracted.Disseminated'), dataIndex:'dissToolSize', sortable: true, width: 140}
+					{id:'size', header:Openwis.i18n('RequestsStatistics.DataExtracted.Extracted'), dataIndex:'size', sortable: true, width: 140, renderer: Openwis.Common.Request.Utils.sizeRenderer},
+					{id:'dissToolSize', header:Openwis.i18n('RequestsStatistics.DataExtracted.Disseminated'), dataIndex:'dissToolSize', sortable: true, width: 140, renderer: Openwis.Common.Request.Utils.sizeRenderer}
 				],
 				listeners: { 
                     afterrender: function (grid) {
@@ -259,8 +266,15 @@ Openwis.Admin.DataService.RequestsStatistics = Ext.extend(Ext.Container, {
                     pageSize: Openwis.Conf.PAGE_SIZE,
                     store: this.getDataExtractedStore(),
                     displayInfo: true,
-                    displayMsg: 'Displaying data {0} - {1} of {2}',
-                    emptyMsg: "No data to display"
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('Common.Grid.Range'),
+                    emptyMsg: Openwis.i18n('Common.Grid.No.Data')
                 })
 			});
 			this.dataExtractedGrid.addButton(new Ext.Button(this.getExportDataExtractedAction()));

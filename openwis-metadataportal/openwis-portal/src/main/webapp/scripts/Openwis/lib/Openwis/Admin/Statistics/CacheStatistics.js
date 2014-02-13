@@ -19,13 +19,13 @@ Openwis.Admin.Statistics.CacheStatistics = Ext.extend(Ext.Container, {
 		
 		//Create Processed requests grid.
 		this.add(new Ext.Container({
-			html: 'Volume of data ingested per day:',
+			html: Openwis.i18n('CacheStatistics.DataIngested.Title'),
 			cls: 'administrationTitle2'
 		}));
 		this.add(this.getDataIngestedGrid());
 		
 		this.add(new Ext.Container({
-			html: 'Overall volume of data replicated per source and per day:',
+			html: Openwis.i18n('CacheStatistics.DataReplicated.Title'),
 			cls: 'administrationTitle2',
 			style: {
 			    marginTop: '30px'
@@ -37,7 +37,7 @@ Openwis.Admin.Statistics.CacheStatistics = Ext.extend(Ext.Container, {
 	getHeader: function() {
 		if(!this.header) {
 			this.header = new Ext.Container({
-				html: 'Cache Statistics',
+				html: Openwis.i18n('CacheStatistics.Administration.Title'),
 				cls: 'administrationTitle1'
 			});
 		}
@@ -55,8 +55,8 @@ Openwis.Admin.Statistics.CacheStatistics = Ext.extend(Ext.Container, {
                 store: this.getDataIngestedStore(),
                 loadMask: true,
                 columns: [
-                    {id: 'date', header: 'Date', dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
-                    {id: 'size', header: 'Size (Kbytes)', dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
+                    {id: 'date', header:Openwis.i18n('CacheStatistics.DataIngested.Date'), dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
+                    {id: 'size', header:Openwis.i18n('CacheStatistics.DataIngested.Size'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
                 ],
                 listeners: {
                     afterrender: function(grid) {
@@ -75,8 +75,15 @@ Openwis.Admin.Statistics.CacheStatistics = Ext.extend(Ext.Container, {
                     pageSize: Openwis.Conf.PAGE_SIZE,
                     store: this.getDataIngestedStore(),
                     displayInfo: true,
-                    displayMsg: 'Displaying data {0} - {1} of {2}',
-                    emptyMsg: "No data to display"
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('Common.Grid.Range'),
+                    emptyMsg: Openwis.i18n('Common.Grid.No.Data')
                 })
 			});
 			this.dataIngestedGrid.addButton(new Ext.Button(this.getExportDataIngestedAction()));
@@ -141,9 +148,9 @@ Openwis.Admin.Statistics.CacheStatistics = Ext.extend(Ext.Container, {
     			store: this.getDataReplicatedStore(),
     			loadMask: true,
     			columns: [
-                    {id: 'date', header: 'Date', dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
-                    {id: 'source', header: 'Source', dataIndex: 'source', width: 120, sortable: true},
-                    {id: 'size', header: 'Size (Kbytes)', dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
+                    {id: 'date', header: Openwis.i18n('CacheStatistics.DataReplicated.Date'), dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
+                    {id: 'source', header: Openwis.i18n('CacheStatistics.DataReplicated.Source'), dataIndex: 'source', width: 120, sortable: true},
+                    {id: 'size', header: Openwis.i18n('CacheStatistics.DataReplicated.Size'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
     			],
                 listeners: {
                     afterrender: function(grid) {
@@ -162,8 +169,15 @@ Openwis.Admin.Statistics.CacheStatistics = Ext.extend(Ext.Container, {
                     pageSize: Openwis.Conf.PAGE_SIZE,
                     store: this.getDataReplicatedStore(),
                     displayInfo: true,
-                    displayMsg: 'Displaying data {0} - {1} of {2}',
-                    emptyMsg: "No data to display"
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('Common.Grid.Range'),
+                    emptyMsg: Openwis.i18n('Common.Grid.No.Data')
                 })
 		    });
 			this.dataReplicatedGrid.addButton(new Ext.Button(this.getExportDataReplicatedAction()));

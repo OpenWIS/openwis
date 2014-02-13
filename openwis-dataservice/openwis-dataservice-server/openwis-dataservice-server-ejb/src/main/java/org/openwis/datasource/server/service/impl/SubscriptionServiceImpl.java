@@ -702,7 +702,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
       //Delete insert SSP
       deleteParameters(subscription);
-      subscription.getParameters().addAll(parameters);
+      if (parameters != null) {
+    	  subscription.getParameters().addAll(parameters);
+      }
 
       //Delete insert 1st diss / 2nd Diss
       deleteDisseminations(subscription);

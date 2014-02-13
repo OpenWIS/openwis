@@ -61,6 +61,9 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
     		    {
         		    xtype: 'fileuploadfield',
                     allowBlank : false,
+                    buttonCfg: {
+                        text: Openwis.i18n('Common.Btn.Browse')
+                    },
                     fieldLabel: Openwis.i18n('MetadataInsert.Metadata'),
                     width: 360
                 }

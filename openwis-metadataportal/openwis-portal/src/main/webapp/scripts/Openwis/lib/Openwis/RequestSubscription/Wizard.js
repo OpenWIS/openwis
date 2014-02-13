@@ -120,8 +120,14 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
     	this.getMainTabPanel().add(this.getSubSelectionParametersPanel());
     	this.getMainTabPanel().add(this.getPrimaryDisseminationPanel());
     	this.getMainTabPanel().add(this.getSecondaryDisseminationPanel());
-    	this.getSubSelectionParametersPanel().initializeAndShow();
-	    this.getPrimaryDisseminationPanel().initializeAndShow();
+    	
+    	// Avoid javascript init issues when initializing ssp panel on local product during edition
+    	// The panel will be initialized on tab selection
+    	if(this.operationMode == 'Create' || this.isGlobal) {
+    		this.getSubSelectionParametersPanel().initializeAndShow();
+    	}
+    	
+    	this.getPrimaryDisseminationPanel().initializeAndShow();
 	    this.getSecondaryDisseminationPanel().initializeAndShow();
 	    
     	var indexOfSummaryTab = 3;
@@ -140,7 +146,7 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
     	    this.getMainTabPanel().setActiveTab(0);
     	} else {
     		this.getSelectBackupPanel().enable();
-    	    this.getMainTabPanel().setActiveTab(indexOfSummaryTab);
+    		this.getMainTabPanel().setActiveTab(indexOfSummaryTab);
     	}
 	},
 	
@@ -274,13 +280,42 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
 		request.productMetadataURN = this.productMetadataUrn;
 		request.subscription = this.isSubscription;
 		request.extractMode = this.isGlobal ? 'GLOBAL' : 'NOT_IN_LOCAL_CACHE';
-		request.parameters = this.getSubSelectionParametersPanel().buildSSPs();
-		request.frequency = this.getSubSelectionParametersPanel().buildFrequency();
+		if (!this.getSubSelectionParametersPanel().isInitialized) {
+			request.parameters = this.createParametersForNotInitialized();
+			request.frequency = this.config.frequency;
+		} else {
+			request.parameters = this.getSubSelectionParametersPanel().buildSSPs();
+			request.frequency = this.getSubSelectionParametersPanel().buildFrequency();
+		}
 		request.primaryDissemination = this.getPrimaryDisseminationPanel().buildDissemination();
 		request.secondaryDissemination = this.secondaryDisseminationPanel ? this.getSecondaryDisseminationPanel().buildDissemination() : null;
 		request.backupRequestId = this.backupRequestId;
 		request.backupDeployment = this.backupDeployment;
 		return request;
+	},
+	
+	createParametersForNotInitialized: function() {
+		var ssps = [];
+		Ext.each(this.config.ssp, 
+		    function(item, index, allItems) {
+				var ssp = {};
+            	ssp.code = item.code;
+            	    
+            	var valueArray = [];
+        	    Ext.each(item.value.split(","), 
+        	    	function(item, index, allItems) {
+        	    		valueArray.push(item);
+                   	},
+                   	this
+        	    );
+        	    
+        	    ssp.values = valueArray;
+    			ssps.push(ssp);	
+		   	},
+		    this
+		);
+		
+		return ssps;
 	},
 	
 	//----------------------------------------------------------------- Managing the panels in the wizard.
@@ -403,7 +438,7 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
 	getNextAction: function() {
 		if(!this.nextAction) {
 			this.nextAction = new Ext.Action({
-				text: 'Next',
+				text: Openwis.i18n('Common.Btn.Next'),
 				scope: this,
 				handler: function() {
 				    var currentPanel = this.getCurrentPanel();	
@@ -424,7 +459,7 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
 	getPreviousAction: function() {
 		if(!this.previousAction) {
 			this.previousAction = new Ext.Action({
-				text: 'Previous',
+				text: Openwis.i18n('Common.Btn.Previous'),
 				scope: this,
 				handler: function() {
 				    var currentPanel = this.getCurrentPanel();	

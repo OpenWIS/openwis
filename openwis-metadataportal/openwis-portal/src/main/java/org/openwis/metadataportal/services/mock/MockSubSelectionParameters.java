@@ -205,52 +205,58 @@ public class MockSubSelectionParameters {
 	public static Parameters getSubSelectionParamters() {
 
 		Parameters params = new Parameters();
-
-		// Temperature
-		MultipleSelection[] temperatures = new MultipleSelection[20];
-
-		for (int i = 0; i < temperatures.length; i++) {
-			temperatures[i] = new MultipleSelection();
-			temperatures[i].setCode("temp_" + i);
-			temperatures[i].setType(MultipleSelectionType.LISTBOX);
-			temperatures[i].setLabel("Temperature " + i);
-
-			Value firstTemp = new Value();
-			firstTemp.setCode("temp_" + i + "_1");
-			firstTemp.setSelected(true);
-			firstTemp.setValue("Wednesday November 09 11:31:16 UTC 2012 15°C");
-			Value secTemp = new Value();
-			secTemp.setCode("temp_" + i + "_2");
-			secTemp.setSelected(false);
-			secTemp.setValue("Wednesday November 09 11:31:16 UTC 2012 35°C");
-			Value thirdTemp = new Value();
-			thirdTemp.setCode("temp_" + i + "_3");
-			thirdTemp.setSelected(false);
-			thirdTemp.setValue("Wednesday November 09 11:31:16 UTC 2012 45°C");
-			Value fourthTemp = new Value();
-			fourthTemp.setCode("temp_" + i + "_4");
-			fourthTemp.setSelected(false);
-			fourthTemp
-					.setValue("Wednesday November 09 11:31:16 UTC 2012 60°C");
-
-			temperatures[i].getValues().add(firstTemp);
-			temperatures[i].getValues().add(secTemp);
-			temperatures[i].getValues().add(thirdTemp);
-			temperatures[i].getValues().add(fourthTemp);
-
-			// Add parameter instances to the parameters
-			params.getParameters().add(temperatures[i]);
-
-		}
-
-		for (int i = 0; i < temperatures.length; i++) {
-			if (i < temperatures.length - 1) {
-				temperatures[i].setNextParameter(temperatures[i + 1]);
-			}
-		}
-
-		params.setStartParameter(temperatures[0]);
-
 		return params;
 	}
+	
+//	public static Parameters getSubSelectionParamters() {
+//
+//		Parameters params = new Parameters();
+//
+//		// Temperature
+//		MultipleSelection[] temperatures = new MultipleSelection[20];
+//
+//		for (int i = 0; i < temperatures.length; i++) {
+//			temperatures[i] = new MultipleSelection();
+//			temperatures[i].setCode("temp_" + i);
+//			temperatures[i].setType(MultipleSelectionType.LISTBOX);
+//			temperatures[i].setLabel("Temperature " + i);
+//
+//			Value firstTemp = new Value();
+//			firstTemp.setCode("temp_" + i + "_1");
+//			firstTemp.setSelected(true);
+//			firstTemp.setValue("Wednesday November 09 11:31:16 UTC 2012 15°C");
+//			Value secTemp = new Value();
+//			secTemp.setCode("temp_" + i + "_2");
+//			secTemp.setSelected(false);
+//			secTemp.setValue("Wednesday November 09 11:31:16 UTC 2012 35°C");
+//			Value thirdTemp = new Value();
+//			thirdTemp.setCode("temp_" + i + "_3");
+//			thirdTemp.setSelected(false);
+//			thirdTemp.setValue("Wednesday November 09 11:31:16 UTC 2012 45°C");
+//			Value fourthTemp = new Value();
+//			fourthTemp.setCode("temp_" + i + "_4");
+//			fourthTemp.setSelected(false);
+//			fourthTemp
+//					.setValue("Wednesday November 09 11:31:16 UTC 2012 60°C");
+//
+//			temperatures[i].getValues().add(firstTemp);
+//			temperatures[i].getValues().add(secTemp);
+//			temperatures[i].getValues().add(thirdTemp);
+//			temperatures[i].getValues().add(fourthTemp);
+//
+//			// Add parameter instances to the parameters
+//			params.getParameters().add(temperatures[i]);
+//
+//		}
+//
+//		for (int i = 0; i < temperatures.length; i++) {
+//			if (i < temperatures.length - 1) {
+//				temperatures[i].setNextParameter(temperatures[i + 1]);
+//			}
+//		}
+//
+//		params.setStartParameter(temperatures[0]);
+//
+//		return params;
+//	}
 }

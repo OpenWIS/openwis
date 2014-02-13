@@ -45,6 +45,7 @@ import org.fao.oaipmh.responses.Header;
 import org.fao.oaipmh.responses.Record;
 import org.fao.oaipmh.util.ISODate;
 import org.jdom.Element;
+import org.openwis.metadataportal.kernel.category.CategoryManager;
 import org.openwis.metadataportal.kernel.metadata.DeletedMetadataManager;
 import org.openwis.metadataportal.model.category.Category;
 import org.openwis.metadataportal.model.metadata.DeletedMetadata;
@@ -150,14 +151,18 @@ public class GetRecord implements OaiPmhService
       h.setIdentifier(urn);
       h.setDateStamp(new ISODate(changeDate));
 
-//      // Add the category (here called sets)
-      // TODO cleaning
-//      CategoryManager cm = new CategoryManager(dbms);
-//      Category category = cm.getCategoryByMetadataUrn(urn);
-//
-      if (category != null) {
-         h.addSet(category.getName());
+      String categoryName = null;
+      if (category == null || category.getId() == null) {
+         CategoryManager cm = new CategoryManager(dbms);
+         Category cat = cm.getCategoryByMetadataUrn(urn);
+         if (cat != null) {
+            categoryName = cat.getName();
+         }
+      } else {
+         // the category is given by the request itself
+         categoryName = category.getName();
       }
+      h.addSet(categoryName);
 
       // Build and return record
       Record r = new Record();

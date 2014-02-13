@@ -117,7 +117,7 @@ public class CacheStatisticsReplic extends FilterReports {
          
          // query...
          List<ReplicatedData> serviceResults =
-            service.getReplicatedDataStatistics(0, 100, sortColumn, sortDir);
+            service.getReplicatedDataStatistics(0, FilterReports.MAX_COUNT, sortColumn, sortDir);
                   
          if (hasFilterPeriod()) {
             for (ReplicatedData data: serviceResults) {               

@@ -9,7 +9,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	
 	initComponent: function() {
 		Ext.apply(this, {
-			title: 'Replication Filter',
+			title: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.Title'),
 			layout: 'fit',
 			width: 350,
 			height: 222,
@@ -42,7 +42,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 		this.getTypeTextField().setValue(this.selectedFilter.type);
 		this.getActiveCheckBox().setValue(this.selectedFilter.active);
 		
-		this.setTitle("Replication Filter [" + this.operationMode + "]");
+		this.setTitle(Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.Title'));
 		
 		this.isNewFilter = this.operationMode == "New";
 		this.saveRequestType = this.isNewFilter ? "ADD_FILTER" : "UPDATE_FILTER";
@@ -76,7 +76,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	getRegExTextField: function() {
 		if(!this.regExTextField) {
 			this.regExTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('RegEx'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.RegEx'),
 				name: 'regex',
 				width: 250
 			});
@@ -90,7 +90,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	getDescriptionTextField: function() {
 		if(!this.descriptionTextField) {
 			this.descriptionTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Description'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.Description'),
 				name: 'decription',
 				width: 250
 			});
@@ -104,7 +104,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	getSourceTextField: function() {
 		if(!this.sourceTextField) {
 			this.sourceTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('GISC'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.Gisc'),
 				name: 'source',
 				width: 250
 			});
@@ -118,7 +118,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	getTypeTextField: function() {
 		if(!this.sourceTypeField) {
 			this.sourceTypeField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Type'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.Type'),
 				name: 'type',
 				width: 250
 			});
@@ -132,7 +132,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	getActiveCheckBox: function() {
 		if(!this.activeCheckBox) {
 			this.activeCheckBox = new Ext.form.Checkbox({
-				fieldLabel: Openwis.i18n('Active'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.Active'),
 				name: 'active',
 				width: 250
 			});
@@ -170,7 +170,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 									}
 								},
 								failure: function() {
-									this.showError("Please check possible duplicates and retry!");
+									this.showError(Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.ErrorDuplicate'));
 								},
 								scope: this
 							}
@@ -221,7 +221,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 					msg = errorMsg;
 				}
 				else {
-					msg = "Please check possible duplicates on GISC and RegEx values and retry!"
+					msg = Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.ErrorDuplicate');
 				}
 			}
 		}
@@ -231,7 +231,7 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 				msg = errorMsg;
 			}
 			else {
-				msg = "Please check possible duplicates on GISC and RegEx values and retry!"
+				msg = Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.ErrorDuplicate');
 			}
 		}
 		if (msg != null) {
@@ -241,9 +241,9 @@ Openwis.Admin.DataService.ReplicationFilterDialog = Ext.extend(Ext.Window, {
 	},
 	
 	showError: function(msg) {
-		var msgText = "Could not save replication filter. " + msg;
+		var msgText = Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.ErrorMsg') + msg;
 		Ext.Msg.show({
-			title: 'Save filter',
+			title: Openwis.i18n('CacheConfiguration.ReplicationFilterDialog.ErrorTitle'),
 			msg:  msgText,
 			buttons: Ext.Msg.OK,
 			scope: this,

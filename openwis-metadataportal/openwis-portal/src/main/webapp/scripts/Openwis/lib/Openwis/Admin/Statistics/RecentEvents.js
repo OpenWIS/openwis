@@ -30,7 +30,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
     getHeader: function() {
         if (!this.header) {
             this.header = new Ext.Container({
-                html: 'Recent Events',
+                html: Openwis.i18n('Alarms.RecentEvents.Title'),
                 cls: 'administrationTitle1'
             });
         }
@@ -46,7 +46,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
             
             columns.push(new Ext.grid.Column({
             	id: 'date', 
-            	header: 'Date',             	 
+            	header: Openwis.i18n('Alarms.RecentEvents.Grid.Date'),             	 
             	dataIndex: 'date', 
             	renderer: Openwis.Utils.Date.formatDateTimeUTCfromLong, 
             	width: 120,
@@ -55,14 +55,14 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
             }));
             columns.push(new Ext.grid.Column({
             	id: 'component', 
-            	header: 'Component', 
+            	header: Openwis.i18n('Alarms.RecentEvents.Grid.Component'), 
             	dataIndex: 'module', 
             	width: 110, 
             	sortable: true
             }));
             columns.push(new Ext.grid.Column({
             	id: 'process', 
-            	header: 'Process', 
+            	header: Openwis.i18n('Alarms.RecentEvents.Grid.Process'), 
             	dataIndex: 'source', 
             	width: 130, 
             	sortable: true,
@@ -70,14 +70,14 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
             }));
             columns.push(new Ext.grid.Column({
             	id: 'severtity', 
-            	header: 'Severity', 
+            	header: Openwis.i18n('Alarms.RecentEvents.Grid.Severity'), 
             	dataIndex: 'severity', 
             	width: 70, 
             	sortable: true
             }));
             columns.push(new Ext.grid.Column({
             	id: 'description', 
-            	header: 'Description', 
+            	header: Openwis.i18n('Alarms.RecentEvents.Grid.Description'), 
             	dataIndex: 'message', 
             	width: 300, 
             	sortable: true, 
@@ -116,8 +116,15 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
     			pageSize: Openwis.Conf.PAGE_SIZE,
     			store: this.getEventStore(),
     			displayInfo: true,
-    			displayMsg: 'Displaying event {0} - {1} of {2}',
-    			emptyMsg: "No event to display"
+                beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+		        lastText: Openwis.i18n('Common.Grid.LastText'),
+		        nextText: Openwis.i18n('Common.Grid.NextText'),
+		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                displayMsg: Openwis.i18n('Alarms.RecentEvents.Grid.Range'),
+                emptyMsg: Openwis.i18n('Alarms.RecentEvents.Grid.No.Data')
     		});
     	}
     	return this.pagingToolbar;
@@ -157,7 +164,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
     getGridView: function() {
         if (!this.gridView) {
         	this.gridView = new Ext.grid.GridView({
-				emptyText: 'No results to display.',
+				emptyText: Openwis.i18n('Alarms.RecentEvents.Grid.No.Data'),
 				forceFit: true,
 				getRowClass: function(record, index, rowParams, store) {
 					if (Ext.util.Format.lowercase(record.data.severity) == 'error') {
@@ -247,7 +254,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 	getSearchFromDateField: function() {
 		if (!this.searchFromDateField) {
 			this.searchFromDateField = new Ext.form.DateField({
-				fieldLabel: Openwis.i18n('Date from'),
+				fieldLabel: Openwis.i18n('Alarms.RecentEvents.Filter.DateFrom'),
 				name: 'searchFromDate',
 				width: 150,
 				allowBlank: true,
@@ -260,7 +267,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 	getSearchToDateField: function() {
 		if (!this.searchToDateField) {
 			this.searchToDateField = new Ext.form.DateField({
-				fieldLabel: Openwis.i18n('Date to'),
+				fieldLabel: Openwis.i18n('Alarms.RecentEvents.Filter.DateTo'),
 				name: 'searchToDate',
 				width: 150,
 				allowBlank: true,
@@ -273,7 +280,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 	getSearchSeverityComboField: function() {
 		if(!this.searchSeverityComboField) {
 			this.searchSeverityComboField = new Ext.form.ComboBox({
-				fieldLabel: Openwis.i18n('Severity'),
+				fieldLabel: Openwis.i18n('Alarms.RecentEvents.Filter.Severity'),
 				name: 'searchSeverity',
 				width: 150,
 				allowBlank: true,
@@ -288,7 +295,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 	getSearchComponentTextField: function() {
 		if(!this.searchComponentTextField) {
 			this.searchComponentTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Component'),
+				fieldLabel: Openwis.i18n('Alarms.RecentEvents.Filter.Component'),
 				name: 'searchComponent',
 				width: 150
 			});
@@ -299,7 +306,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 	getSearchProcessTextField: function() {
 		if(!this.searchProcessTextField) {
 			this.searchProcessTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Process'),
+				fieldLabel: Openwis.i18n('Alarms.RecentEvents.Filter.Process'),
 				name: 'searchProcess',
 				width: 150
 			});
@@ -310,7 +317,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 	getSearchDescriptionTextField: function() {
 		if(!this.searchDescriptionTextField) {
 			this.searchDescriptionTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Description'),
+				fieldLabel: Openwis.i18n('Alarms.RecentEvents.Filter.Description'),
 				name: 'searchDecription',
 				width: 150
 			});
@@ -322,7 +329,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
         if (!this.searchAction) {
             this.searchAction = new Ext.Action({
                 disabled: false,
-                text: 'Search',
+                text: Openwis.i18n('Common.Btn.Search'),
                 scope: this,
                 handler: this.reload
             });
@@ -337,7 +344,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
         if (!this.resetAction) {
             this.resetAction = new Ext.Action({
                 disabled: false,
-                text: 'Reset',
+                text: Openwis.i18n('Common.Btn.Reset'),
                 scope: this,
                 handler: function() {
                 	this.reset();
@@ -355,11 +362,11 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
     reload: function() {
 		// gets values from filter fields and check validity of date input
 		if (!this.getSearchFromDateField().isValid()) {
-			Openwis.Utils.MessageBox.displayErrorMsg("Invalid date input - choose format '" + this.dateFormat + "'!");		
+			Openwis.Utils.MessageBox.displayErrorMsg(Openwis.i18n('Alarms.RecentEvents.Error.DateFormat') + this.dateFormat);		
 			return;
 		}
 		if (!this.getSearchToDateField().isValid()) {
-			Openwis.Utils.MessageBox.displayErrorMsg("Invalid date input - choose format '" + this.dateFormat + "'!");		
+			Openwis.Utils.MessageBox.displayErrorMsg(Openwis.i18n('Alarms.RecentEvents.Error.DateFormat') + this.dateFormat + "'!");		
 			return;
 		}
 		var date1 = this.getSearchFromDateField().getValue();
@@ -445,11 +452,11 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
 						this.updateFilterFields(filter);
 					}
 					else {
-						Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+						Openwis.Utils.MessageBox.displayInternalError();		
 					}					
 				},
 				failure: function(responseText) {
-					Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+					Openwis.Utils.MessageBox.displayErrorMsg();		
 				},
 				scope: this
 			}

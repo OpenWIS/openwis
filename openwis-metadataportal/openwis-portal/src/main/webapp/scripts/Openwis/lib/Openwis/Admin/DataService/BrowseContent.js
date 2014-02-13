@@ -30,7 +30,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
     getHeader: function() {
         if (!this.header) {
             this.header = new Ext.Container({
-                html: 'Browse Cache Content',
+                html: Openwis.i18n('BrowseContent.Administration.Title'),
                 cls: 'administrationTitle1'
             });
         }
@@ -47,11 +47,11 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
 
             /* Build columns table for file grid. */
             var columns = [];
-            columns.push(new Ext.grid.Column({id:'date', header:'Insertion Date', dataIndex:'insertionDate', renderer: Openwis.Utils.Date.formatDateTimeUTCfromLong, width: 120, sortable: true}));
-            columns.push(new Ext.grid.Column({id:'filename', header:'File', dataIndex:'filename', sortable: true, width: 200, hideable:false}));
-            columns.push(new Ext.grid.Column({id:'checksum', header:'Checksum', dataIndex:'checksum', sortable: true, width: 115}));
-            columns.push(new Ext.grid.Column({id:'origin', header:'Origin', dataIndex:'origin', sortable: true, width: 65}));
-            columns.push(new Ext.grid.Column({id:'metadata', header:'Metadata ID', dataIndex:'metadataUrn', sortable: true, width: 225}));
+            columns.push(new Ext.grid.Column({id:'date', header:Openwis.i18n('BrowseContent.Administration.Grid.date'), dataIndex:'insertionDate', renderer: Openwis.Utils.Date.formatDateTimeUTCfromLong, width: 120, sortable: true}));
+            columns.push(new Ext.grid.Column({id:'filename', header:Openwis.i18n('BrowseContent.Administration.Grid.filename'), dataIndex:'filename', sortable: true, width: 200, hideable:false}));
+            columns.push(new Ext.grid.Column({id:'checksum', header:Openwis.i18n('BrowseContent.Administration.Grid.checksum'), dataIndex:'checksum', sortable: true, width: 115}));
+            columns.push(new Ext.grid.Column({id:'origin', header:Openwis.i18n('BrowseContent.Administration.Grid.origin'), dataIndex:'origin', sortable: true, width: 65}));
+            columns.push(new Ext.grid.Column({id:'metadata', header:Openwis.i18n('BrowseContent.Administration.Grid.metadata'), dataIndex:'metadataUrn', sortable: true, width: 225}));
 
             this.fileGrid = new Ext.grid.GridPanel({
             	id: 'fileGrid',
@@ -87,8 +87,15 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
     			pageSize: Openwis.Conf.PAGE_SIZE,
     			store: this.getFileStore(),
     			displayInfo: true,
-    			displayMsg: 'Displaying file {0} - {1} of {2}',
-    			emptyMsg: "No file to display"
+                beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+		        lastText: Openwis.i18n('Common.Grid.LastText'),
+		        nextText: Openwis.i18n('Common.Grid.NextText'),
+		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                displayMsg: Openwis.i18n('Common.Grid.Range'),
+                emptyMsg: Openwis.i18n('Common.Grid.No.Data')
     		});
     	}
     	return this.pagingToolbar;
@@ -139,7 +146,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
     getSearchFileNameField: function() {
 		if(!this.searchFileNameTextField) {
 			this.searchFileNameTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('File'),
+				fieldLabel: Openwis.i18n('BrowseContent.Administration.Search.file'),
 				name: 'searchFile',
 				width: 150
 			});
@@ -150,7 +157,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
 	getSearchMetadataIdField: function() {
 		if(!this.searchMetadataIdTextField) {
 			this.searchMetadataIdTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Metadata ID'),
+				fieldLabel: Openwis.i18n('BrowseContent.Administration.Search.metadata'),
 				name: 'searchMetadata',
 				width: 150
 			});
@@ -190,7 +197,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
         if (!this.searchAction) {
             this.searchAction = new Ext.Action({
                 disabled: false,
-                text: 'Search',
+                text: Openwis.i18n('Common.Btn.Search'),
                 scope: this,
                 handler: this.reload
             });
@@ -205,7 +212,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
         if (!this.resetAction) {
             this.resetAction = new Ext.Action({
                 disabled: false,
-                text: 'Reset',
+                text: Openwis.i18n('Common.Btn.Reset'),
                 scope: this,
                 handler: function() {
                 	this.reset();
@@ -218,7 +225,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
    
     //-- Utilities
     renderFileOrigin: function(value) {
-        return value=='1'? 'Replication':'';
+        return value=='1'? Openwis.i18n('BrowseContent.Administration.renderFileOrigin.replication'):'';
     },
     
     /**
@@ -294,11 +301,11 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
 						}
 					}
 					else {
-						Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+						Openwis.Utils.MessageBox.displayInternalError();
 					}					
 				},
 				failure: function(responseText) {
-					Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+					Openwis.Utils.MessageBox.displayInternalError();	
 				},
 				scope: this
 			}

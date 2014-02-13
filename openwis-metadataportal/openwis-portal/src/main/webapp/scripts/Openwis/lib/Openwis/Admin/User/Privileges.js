@@ -178,12 +178,14 @@ Openwis.Admin.User.Privileges = Ext.extend(Ext.form.FormPanel, {
                             width: 150,
                             height: 150,
                             store: ds,
+                            legend: Openwis.i18n('Security.User.Privileges.Available'),
                             displayField: 'name',
                             valueField: 'name'
                         },{
                             width: 150,
                             height: 150,
                             store: ds2,
+                            legend: Openwis.i18n('Security.User.Privileges.Selected'),
                             displayField: 'name',
                             valueField: 'name'
                         }]
@@ -228,12 +230,14 @@ Openwis.Admin.User.Privileges = Ext.extend(Ext.form.FormPanel, {
                             width: 150,
                             height: 150,
                             store: ds,
+                            legend: Openwis.i18n('Security.User.Privileges.Available'),
                             displayField: 'name',
                             valueField: 'name'
                         },{
                             width: 150,
                             height: 150,
                             store: ds2,
+                            legend: Openwis.i18n('Security.User.Privileges.Selected'),
                             displayField: 'name',
                             valueField: 'name'
                         }]

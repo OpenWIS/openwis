@@ -25,9 +25,8 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 		// Create filter panel.
 		this.add(this.getFilterPanel());
 		
-		// Create Processed requests grid.
 		this.add(new Ext.Container({
-			html: 'Volume of data disseminated per day:',
+			html: Openwis.i18n('Alarms.GlobalReports.Disseminated.Title'),
 			cls: 'administrationTitle2',
 			style: {
 			    marginTop: '20px'
@@ -36,7 +35,7 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 		this.add(this.getDataDisseminatedGrid());
 		
 		this.add(new Ext.Container({
-			html: 'Overall volume of data disseminated and extracted per day:',
+			html: Openwis.i18n('Alarms.GlobalReports.Extracted.Title'),
 			cls: 'administrationTitle2',
 			style: {
 			    marginTop: '30px'
@@ -44,9 +43,8 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 		}));
 		this.add(this.getDataExtractedGrid());
 		
-		//Create Processed requests grid.
 		this.add(new Ext.Container({
-			html: 'Volume of data ingested per day:',
+			html: Openwis.i18n('Alarms.GlobalReports.Ingested.Title'),
 			cls: 'administrationTitle2',
 			style: {
 			    marginTop: '30px'
@@ -55,7 +53,7 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 		this.add(this.getDataIngestedGrid());
 		
 		this.add(new Ext.Container({
-			html: 'Overall volume of data replicated per source and per day:',
+			html: Openwis.i18n('Alarms.GlobalReports.Replicated.Title'),
 			cls: 'administrationTitle2',
 			style: {
 			    marginTop: '30px'}
@@ -66,7 +64,7 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 	getHeader: function() {
 		if(!this.header) {
 			this.header = new Ext.Container({
-				html: 'Request Statistics',
+				html: Openwis.i18n('Alarms.GlobalReports.Title'),
 				cls: 'administrationTitle1'
 			});
 		}
@@ -87,7 +85,7 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 	getFilterDayComboBox: function() {
 		if (!this.filterDayComboBox) {
 			this.filterDayComboBox = new Ext.form.ComboBox({
-				fieldLabel: Openwis.i18n('Period selection'),
+				fieldLabel: Openwis.i18n('Alarms.GlobalReports.Filter.Label'),
 				name: 'filterDayComboBox',
 				width: 150,
 				allowBlank: false,
@@ -100,16 +98,16 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 					    'displayText'
 					],
 					data: [
-					       [1, '1 day'], 
-					       [2, '2 days'],
-					       [3, '3 days'],
-					       [4, '4 days'],
-					       [5, '5 days'],
-					       [6, '6 days'],
-					       [7, '7 days'],
-					       [8, '8 days'],
-					       [9, '9 days'],
-					       [10, '10 days']
+					       [1, '1 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Day')], 
+					       [2, '2 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [3, '3 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [4, '4 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [5, '5 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [6, '6 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [7, '7 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [8, '8 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [9, '9 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')],
+					       [10, '10 ' + Openwis.i18n('Alarms.GlobalReports.Filter.Days')]
 					]
 				}),
 				valueField: 'day',
@@ -137,10 +135,10 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 				store: this.getDataDisseminatedStore(),
 				loadMask: true,
 				columns: [
-					{id: 'date', header: 'Date', dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
-					{id: 'user', header: 'User', dataIndex: 'userId', width: 150, sortable: true, hideable: false},
-					{id: 'size', header: 'Size (Kbytes)', dataIndex: 'dissToolSize', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true},
-					{id: 'threshold', header: 'User Threshold (Kbytes)', dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 200, sortable: true}
+					{id: 'date', header:  Openwis.i18n('Alarms.GlobalReports.Disseminated.Grid.Date'), dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
+					{id: 'user', header: Openwis.i18n('Alarms.GlobalReports.Disseminated.Grid.User'), dataIndex: 'userId', width: 150, sortable: true, hideable: false},
+					{id: 'size', header: Openwis.i18n('Alarms.GlobalReports.Disseminated.Grid.Size'), dataIndex: 'dissToolSize', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true},
+					{id: 'threshold', header: Openwis.i18n('Alarms.GlobalReports.Disseminated.Grid.Threshold'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 200, sortable: true}
 				],
 				listeners: {
 					afterrender: function(grid) {
@@ -213,9 +211,9 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 				store: this.getDataExtractedStore(),
 				loadMask: true,
 				columns: [
-					{id: 'date', header: 'Date', dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
-					{id: 'extracted', header: 'Extracted (Kbytes)', dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true},
-					{id: 'disseminated', header: 'Disseminated (Kbytes)', dataIndex: 'dissToolSize', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
+					{id: 'date', header: Openwis.i18n('Alarms.GlobalReports.Extracted.Grid.Date'), dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
+					{id: 'extracted', header: Openwis.i18n('Alarms.GlobalReports.Extracted.Grid.Extracted'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true},
+					{id: 'disseminated', header:Openwis.i18n('Alarms.GlobalReports.Extracted.Grid.Disseminated'), dataIndex: 'dissToolSize', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
 				],
 				listeners: {
 					afterrender: function(grid) {
@@ -287,8 +285,8 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 				store: this.getDataIngestedStore(),
 				loadMask: true,
 				columns: [
-					{id: 'date', header: 'Date', dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
-					{id: 'size', header: 'Size (Kbytes)', dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
+					{id: 'date', header: Openwis.i18n('Alarms.GlobalReports.Ingested.Grid.Date'), dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
+					{id: 'size', header: Openwis.i18n('Alarms.GlobalReports.Ingested.Grid.Size'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
 				],
 				listeners: {
 					afterrender: function(grid) {
@@ -360,9 +358,9 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 				store: this.getDataReplicatedStore(),
 				loadMask: true,
 				columns: [
-					{id: 'date', header: 'Date', dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
-					{id: 'source', header: 'Source', dataIndex: 'source', width: 120, sortable: true},
-					{id: 'size', header: 'Size (Kbytes)', dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
+					{id: 'date', header: Openwis.i18n('Alarms.GlobalReports.Replicated.Grid.Date'), dataIndex: 'date', renderer: Openwis.Utils.Date.formatDateUTCfromLong, width: 100, sortable: true, hideable: false},
+					{id: 'source', header: Openwis.i18n('Alarms.GlobalReports.Replicated.Grid.Source'), dataIndex: 'source', width: 120, sortable: true},
+					{id: 'size', header: Openwis.i18n('Alarms.GlobalReports.Replicated.Grid.Size'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 120, sortable: true}
 				],
 				listeners: {
 					afterrender: function(grid) {
@@ -445,12 +443,12 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 						value = Openwis.Utils.Xml.getAttributeValue(attributes, 'period');
 					}
 					else {
-						Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+						Openwis.Utils.MessageBox.displayInternalError();	
 					}					
 					this.setSelectionPeriod(value, true);
 				},
 				failure: function(responseText) {
-					Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+					Openwis.Utils.MessageBox.displayInternalError();	
 					this.setSelectionPeriod('1', true);
 				},
 				scope: this
@@ -509,8 +507,15 @@ Openwis.Admin.Statistics.GlobalReports = Ext.extend(Ext.Container, {
 			pageSize: Openwis.Conf.PAGE_SIZE,
 			store: store,
 			displayInfo: true,
-			displayMsg: 'Displaying data {0} - {1} of {2}',
-			emptyMsg: "No data to display"
+            beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+	        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+	        firstText: Openwis.i18n('Common.Grid.FirstText'),
+	        lastText: Openwis.i18n('Common.Grid.LastText'),
+	        nextText: Openwis.i18n('Common.Grid.NextText'),
+	        prevText: Openwis.i18n('Common.Grid.PrevText'),
+	        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+            displayMsg: Openwis.i18n('Common.Grid.Range'),
+            emptyMsg: Openwis.i18n('Common.Grid.No.Data')
 		});
 	},
 	

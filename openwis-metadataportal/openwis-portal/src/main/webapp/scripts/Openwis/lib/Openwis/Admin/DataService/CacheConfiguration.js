@@ -35,7 +35,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getHeader: function() {
 		if(!this.header) {
 			this.header = new Ext.Container({
-				html: 'Cache Configuration',
+				html: Openwis.i18n('CacheConfiguration.Administration.Title'),
 				cls: 'administrationTitle1'
 			});
 		}7
@@ -46,7 +46,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 		if(!this.configurationMssFssPanel) {
 			this.configurationMssFssPanel = new Ext.Panel({
 				id: 'configurationMssFssPanel',
-				title: 'MSS/FSS',
+				title: Openwis.i18n('CacheConfiguration.MSSFSS.Title'),
 				border: true
 			});
 			this.configurationMssFssPanel.add(this.getIngestionFilterPanel());
@@ -59,7 +59,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 		if(!this.configurationReplicationPanel) {
 			this.configurationReplicationPanel = new Ext.Panel({
 				id: 'configurationReplicationPanel',
-				title: 'Replication',
+				title: Openwis.i18n('CacheConfiguration.Replication.Title'),
 				border: true,
 				style: {
 					marginTop: '20px'
@@ -74,7 +74,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 		if(!this.configurationDisseminationPanel) {
 			this.configurationDisseminationPanel = new Ext.Panel({
 				id: 'configurationDisseminationPanel',
-				title: 'Dissemination',
+				title: Openwis.i18n('CacheConfiguration.Dissemination.Title'),
 				border: true,
 				style: {
 					marginTop: '20px'
@@ -97,13 +97,13 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 			});			
 			this.ingestionFilterPanel.add(new Ext.form.Checkbox({
 				id: this.ingestionServiceCheckBoxID,
-				fieldLabel: 'Enable ingestion',				
+				fieldLabel: Openwis.i18n('CacheConfiguration.MSSFSS.EnableIngestion'),				
 				handler: this.setServiceStatus,
 				service: this.ingestionService,
 				active: true
 			}));
 			this.ingestionFilterPanel.add(new Ext.Container({
-				html: Openwis.i18n('Originator filter (based on Metadata ID)'),
+				html: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Title'),
 				cls: 'administrationTitle2'
 			}));
 			this.ingestionFilterPanel.add(this.getIngestionFilterGrid());
@@ -127,13 +127,13 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 			});						
 			this.feedingFilterPanel.add(new Ext.form.Checkbox({
 				id: this.feedingServiceCheckBoxID,
-				fieldLabel: 'Enable feeding',
+				fieldLabel: Openwis.i18n('CacheConfiguration.MSSFSS.EnableFeeding'),
 				handler: this.setServiceStatus,
 				service:  this.feedingService,
 				active: true
 			}));
 			this.feedingFilterPanel.add(new Ext.Container({
-				html: Openwis.i18n('Originator filter (based on Metadata ID)'),
+				html: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Title'),
 				cls: 'administrationTitle2'
 			}));
 			this.feedingFilterPanel.add(this.getFeedingFilterGrid());
@@ -158,7 +158,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 			});			
 			this.replicationFilterPanel.add(new Ext.form.Checkbox({
 				id: this.replicationServiceCheckBoxID,
-				fieldLabel: 'Enable replication',
+				fieldLabel: Openwis.i18n('CacheConfiguration.Replication.EnableReplication'),
 				handler: this.setServiceStatus,
 				service:  this.replicationService,
 				active: true
@@ -185,7 +185,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 			});			
 			this.disseminationPanel.add(new Ext.form.Checkbox({
 				id: this.disseminationServiceCheckBoxID,
-				fieldLabel: 'Enable dissemination',
+				fieldLabel: Openwis.i18n('CacheConfiguration.Dissemination.EnableDissemination'),
 				handler: this.setServiceStatus,
 				service: this.disseminationService,
 				active: true
@@ -204,8 +204,8 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 				store: this.getIngestionFilterRequestsStore(),
 				loadMask: true,
 				columns: [
-					{id:'regex', header:'Regular Expression', dataIndex:'regex', width: 400, sortable: true, hideable:false},
-					{id:'description', header: 'Description', dataIndex:'description', width: 300, sortable: true, hideable:false}
+					{id:'regex', header:Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.RegExp'), dataIndex:'regex', width: 400, sortable: true, hideable:false},
+					{id:'description', header: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Description'), dataIndex:'description', width: 300, sortable: true, hideable:false}
 				],
 				listeners: {
 					afterrender: function (grid) {
@@ -226,8 +226,15 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 					pageSize: Openwis.Conf.PAGE_SIZE,
 					store: this.getIngestionFilterRequestsStore(),
 					displayInfo: true,
-					displayMsg: 'Load Filters',
-					emptyMsg: 'No Filters',
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Range'),
+                    emptyMsg: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.No.Data'),
 					listeners: { 
 						beforechange: function(toolbar, params) {
 							// clear grid selection
@@ -268,8 +275,8 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 				store: this.getFeedingFilterRequestsStore(),
 				loadMask: true,
 				columns: [
-					{id:'regex', header:'Regular Expression', dataIndex:'regex', width: 400, sortable: true, hideable:false},
-					{id:'description', header: 'Description', dataIndex:'description', width: 300, sortable: true, hideable:false}
+					{id:'regex', header:Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.RegExp'), dataIndex:'regex', width: 400, sortable: true, hideable:false},
+					{id:'description', header: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Description'), dataIndex:'description', width: 300, sortable: true, hideable:false}
 				],
 				listeners: {
 					afterrender: function (grid) {
@@ -290,8 +297,15 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 					pageSize: Openwis.Conf.PAGE_SIZE,
 					store: this.getFeedingFilterRequestsStore(),
 					displayInfo: true,
-					displayMsg: 'Load Filters',
-					emptyMsg: 'No Filters',
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Range'),
+                    emptyMsg: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.No.Data'),
 					listeners: { 
 						beforechange: function(toolbar, params) {
 							// clear grid selection
@@ -347,11 +361,11 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 				loadMask: true,
 				columns: [
 					selectionModel,	// renders and maintains the check box
-					{id: 'gisc', header: 'GISC', dataIndex: 'source', width: 100, sortable: true, hideable: false},
-					{id: 'regex', header: 'Regular Expression', dataIndex: 'regex', width: 140, sortable: true, hideable: false},
-					{id: 'description', header: 'Descrription', dataIndex: 'description', width: 200, sortable: true},
-					{id: 'lastrun', header: 'Last Run', dataIndex: 'uptime', renderer: Openwis.Utils.Date.formatDateTimeUTCfromLong, width: 120, sortable: true, hideable: false},
-					{id: 'status', header: 'Status', dataIndex: 'active', renderer: this.activeRenderer, width: 90, sortable: true, hideable: false}
+					{id: 'gisc', header: Openwis.i18n('CacheConfiguration.Replication.Gisc'), dataIndex: 'source', width: 100, sortable: true, hideable: false},
+					{id: 'regex', header: Openwis.i18n('CacheConfiguration.Replication.RegExp'), dataIndex: 'regex', width: 140, sortable: true, hideable: false},
+					{id: 'description', header: Openwis.i18n('CacheConfiguration.Replication.Description'), dataIndex: 'description', width: 200, sortable: true},
+					{id: 'lastrun', header: Openwis.i18n('CacheConfiguration.Replication.LastRun'), dataIndex: 'uptime', renderer: Openwis.Utils.Date.formatDateTimeUTCfromLong, width: 120, sortable: true, hideable: false},
+					{id: 'status', header: Openwis.i18n('CacheConfiguration.Replication.Status'), dataIndex: 'active', renderer: this.activeRenderer, width: 90, sortable: true, hideable: false}
 				],
 				listeners: {
 					afterrender: function (grid) {
@@ -374,8 +388,15 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 					pageSize: Openwis.Conf.PAGE_SIZE,
 					store: this.getReplicationRequestsStore(),
 					displayInfo: true,
-					displayMsg: 'Load Filter',
-					emptyMsg: 'No Filter',
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Range'),
+                    emptyMsg: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.No.Data'),
 					listeners: { 
 						beforechange: function(toolbar, params) {
 							// clear grid selection
@@ -466,7 +487,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getIngestionFilterNewAction: function() {
 		if (!this.ingestionFilterNewAction) {
 			this.ingestionFilterNewAction = new Ext.Action({
-				text: 'New',
+				text: Openwis.i18n('Common.Btn.New'),
 				disabled: false,
 				scope: this,
 				handler: function() {
@@ -481,7 +502,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getIngestionFilterRemoveAction: function() {
 		if (!this.ingestionFilterRemoveAction) {
 			this.ingestionFilterRemoveAction = new Ext.Action({
-				text: "Remove",
+				text: Openwis.i18n('Common.Btn.Remove'),
 				disabled: true,
 				scope: this,
 				handler: function() { 	
@@ -497,7 +518,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getFeedingFilterNewAction: function() {
 		if (!this.feedingFilterNewAction) {
 			this.feedingFilterNewAction = new Ext.Action({
-				text: 'New',
+				text: Openwis.i18n('Common.Btn.New'),
 				disabled: false,
 				scope: this,
 				handler: function() {
@@ -512,7 +533,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getFeedingFilterRemoveAction: function() {
 		if (!this.feedingFilterRemoveAction) {
 			this.feedingFilterRemoveAction = new Ext.Action({
-				text: "Remove",
+				text: Openwis.i18n('Common.Btn.Remove'),
 				disabled: true,
 				scope: this,
 				handler: function() { 	
@@ -528,7 +549,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getFeedingFilterResetAction: function() {
 		if (!this.feedingFilterResetAction) {
 			this.feedingFilterResetAction = new Ext.Action({
-				text: "Reset to Default",
+				text: Openwis.i18n('CacheConfiguration.Btn.ResetToDefault'),
 				disabled: false,
 				scope: this,
 				handler: function() {
@@ -548,15 +569,15 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getReplicationFilterNewAction: function() {
 		if (!this.replicationFilterNewAction) {
 			this.replicationFilterNewAction = new Ext.Action({
-				text: 'New',
+				text: Openwis.i18n('Common.Btn.New'),
 				disabled: false,
 				scope: this,
 				handler: function() { 	
 					var newFilter = {}
-					newFilter.source = "Source";
-					newFilter.type = "Type";
-					newFilter.regex = ".*RegEx*";
-					newFilter.description = "Description";
+					newFilter.source = Openwis.i18n('CacheConfiguration.Replication.New.Source');
+					newFilter.type = Openwis.i18n('CacheConfiguration.Replication.New.Type');
+					newFilter.regex = Openwis.i18n('CacheConfiguration.Replication.New.RegExp');
+					newFilter.description = Openwis.i18n('CacheConfiguration.Replication.New.Description');
 					newFilter.active = false;
 					var store = this.getReplicationRequestsStore();
 					this.editFilter(newFilter, store, 'New');
@@ -569,7 +590,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getReplicationFilterEditAction: function() {
 		if (!this.replicationFilterEditAction) {
 			this.replicationFilterEditAction = new Ext.Action({
-				text: "Edit",
+				text: Openwis.i18n('Common.Btn.Edit'),
 				disabled: true,
 				scope: this,
 				handler: function() { 	
@@ -587,7 +608,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getReplicationFilterRemoveAction: function() {
 		if (!this.replicationFilterRemoveAction) {
 			this.replicationFilterRemoveAction = new Ext.Action({
-				text: "Remove",
+				text: Openwis.i18n('Common.Btn.Remove'),
 				disabled: true,
 				scope: this,
 				handler: function() { 	
@@ -603,7 +624,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getReplicationFilterActivateAction: function() {
 		if (!this.replicationFilterActivateAction) {
 			this.replicationFilterActivateAction = new Ext.Action({
-				text: 'Activate',
+				text: Openwis.i18n('Common.Btn.Activate'),
 				disabled: true,
 				scope: this,
 				handler: function() { 	
@@ -627,7 +648,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getReplicationFilterDeactivateAction: function() {
 		if (!this.replicationFilterDeactivateAction) {
 			this.replicationFilterDeactivateAction = new Ext.Action({
-				text: "Deactivate",
+				text: Openwis.i18n('Common.Btn.Deactivate'),
 				disabled: true,
 				scope: this,
 				handler: function() { 	
@@ -651,7 +672,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	getDisseminationUpdateAction: function() {
 		if (!this.disseminationUpdateAction) {
 			this.disseminationUpdateAction = new Ext.Action({
-				text: "Update",
+				text: Openwis.i18n('Common.Btn.Save'),
 				disabled: false,
 				scope: this,
 				handler: function() { 	
@@ -695,8 +716,8 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	 */
 	addFilter: function(store, type) {
 		var newFilter = {};
-		newFilter.regex = '.*RegEx*';
-		newFilter.description = 'Description';
+		newFilter.regex = Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Edit.RegExp.Value');
+		newFilter.description = Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Edit.Description.Value');
 		
 		var filterDialog = new Openwis.Admin.DataService.FilterInputDialog({
 			operationMode: 'New',
@@ -708,7 +729,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 				filterSaved: function(msg, isError) {
 					if (isError)	{
 						Ext.Msg.show({
-							title: 'Add filter',
+							title: Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Edit.Title'),
 							msg: msg,
 							buttons: Ext.Msg.OK,
 							scope: this,
@@ -766,8 +787,8 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	 */
 	removeFilter: function(filter, store, isReplicFilter) {
 		if (filter) {
-			Ext.MessageBox.confirm('Confirm ?', 
-			   'Do you want to remove the selected filter?' , 
+			Ext.MessageBox.confirm(Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Remove.Title'), 
+					Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Remove.Msg') , 
 			   function(btnClicked) {
 					if (btnClicked == 'yes') {
 						this.proceedRemoveFilter(filter, store, isReplicFilter);
@@ -786,13 +807,9 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	 */
 	removeFilters: function(filters, store, isReplicFilter) {
 		if (filters) {
-			var msg = 'Do you want to remove the selected filter';
-			if (filters.length > 1) {
-				msg = msg + 's';
-			}
-			msg = msg + '?';
-			Ext.MessageBox.confirm('Confirm ?', 
-			   msg, 
+
+			Ext.MessageBox.confirm(Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Remove.Title'), 
+				Openwis.i18n('CacheConfiguration.MSSFSS.OriginatorFilter.Remove.Msg'), 
 			   function(btnClicked) {
 					if (btnClicked == 'yes') {
 						for (var i = 0; i < filters.length; i++) {
@@ -863,9 +880,9 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 						isError = true;
 					}
 					if (isError) {
-						var errorMsg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
-						var msg =  (errorMsg != null) ? errorMsg : "Invalid response";
-						Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + msg);		
+						//var errorMsg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
+						//var msg =  (errorMsg != null) ? errorMsg : "Invalid response";
+						Openwis.Utils.MessageBox.displayInternalError();		
 						// reset status
 						checkbox.active = false;
 						checkbox.setValue(!checked);
@@ -873,7 +890,7 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 					}
 				},
 				failure: function(responseText) {
-					Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+					Openwis.Utils.MessageBox.displayInternalError();		
 					checkbox.active = false;
 					checkbox.setValue(!checked);
 					checkbox.active = true;
@@ -920,13 +937,13 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 						var isError = true;
 					}
 					if (isError) {
-						var errorMsg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
-						var msg =  (errorMsg != null) ? errorMsg : "Invalid response";
-						Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + msg);		
+						//var errorMsg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
+						//var msg =  (errorMsg != null) ? errorMsg : "Invalid response";
+						Openwis.Utils.MessageBox.displayInternalError();
 					}					
 				},
 				failure: function(responseText) {
-					Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + responseText);		
+					Openwis.Utils.MessageBox.displayInternalError();		
 				},
 				scope: this
 			}
@@ -973,9 +990,9 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 						isError = true;
 					}					
 					if (isError) {
-						var errorMsg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
-						var msg =  (errorMsg != null) ? errorMsg : "Invalid response";
-						Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + msg);		
+						//var errorMsg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
+						//var msg =  (errorMsg != null) ? errorMsg : "Invalid response";
+						Openwis.Utils.MessageBox.displayInternalError();		
 					}					
 				},
 				failure: function(responseText) {
@@ -991,7 +1008,8 @@ Openwis.Admin.DataService.CacheConfiguration = Ext.extend(Ext.Container, {
 	 * @param value (boolean) store value
 	 */
 	activeRenderer: function(value) {
-		return value == true ? 'Active' : 'Suspended';
+		return value == true ? Openwis.i18n('CacheConfiguration.MSSFSS.Replication.activeRenderer.Active') 
+				: Openwis.i18n('CacheConfiguration.MSSFSS.Replication.activeRenderer.Suspended');
 	},
 	
 	/**

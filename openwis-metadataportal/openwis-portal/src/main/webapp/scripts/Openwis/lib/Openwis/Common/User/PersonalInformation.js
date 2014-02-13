@@ -59,9 +59,9 @@ Openwis.Common.User.PersonalInformation = Ext.extend(Ext.form.FormPanel, {
     
     createPasswordLabel: function() {
         if(this.isEdition) {
-            return this.createLabel('New Password');
+        	return this.createLabel(Openwis.i18n('Security.User.PersoInfo.NewPassword.Label'));
         } else {
-            return this.createLabel('Password');
+            return this.createLabel(Openwis.i18n('Security.User.PersoInfo.Password.Label'));
         }
     },
     

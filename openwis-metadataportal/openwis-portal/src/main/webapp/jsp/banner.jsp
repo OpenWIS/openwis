@@ -97,7 +97,7 @@ String serviceName = context.getService();
 
 								<form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
 									<%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %> (<%= entityID %>)
-									<input type="submit" value="Logout"/>
+									<button type="submit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout'))</script></button>
                                     <input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
 								</form>
 								
@@ -106,7 +106,7 @@ String serviceName = context.getService();
                             	<tr>
                             	<td  width="55%" align="right">
 								<form name="login" action="<%= context.getBaseUrl() %>/openWisInit" method="post">
-									<input type="submit" value="Login"/>
+									<button type="submit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></button>
 									<input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
 								</form>
 								<td>&nbsp;&nbsp;<td/>

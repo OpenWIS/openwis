@@ -11,6 +11,7 @@
 <%@ taglib prefix="openwis" tagdir="/WEB-INF/tags/openwis"%>
 <%
 	ServiceContext context = (ServiceContext) request.getAttribute("context");
+	
 	request.setAttribute("message",
          ResourceBundle.getBundle("msgSearchResult", new Locale(context.getLanguage())));
 	
@@ -43,7 +44,7 @@
 <%-- 		<a name="page_<%=currentPage%>"/> --%>
 		<div class="results_title" style="float: left;">
 			<openwis:i18n key="HomePage.Search.Result.ResultsMatching"/>
-			&nbsp;<%=from+1 %>-<%=to+1%>/<%=count%>&nbsp;(page
+			&nbsp;<%=from+1 %>-<%=to+1%>/<%=count%>&nbsp;(<openwis:i18n key="HomePage.Search.Result.Page"/>
 			<%=currentPage%>/<%=maxPage%>)&nbsp;
 		</div>
 	</div>

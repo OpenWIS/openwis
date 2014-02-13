@@ -206,7 +206,7 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 	getRegisterAction: function() {
 		if(!this.registerAction) {
 			this.registerAction = new Ext.Action({
-				text:'Register',
+				text:Openwis.i18n('RegistrationUser.Submit'),
 				scope: this,
 				handler: function() {
 				    var registerInfoValid = this.getForm().isValid();

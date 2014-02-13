@@ -505,30 +505,30 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
     getSearchFieldCombo: function() {
         if(!this.searchFieldCombo) {
         	var columns = [];
-        	columns.push(['', 'Any']);
-        	columns.push(['uuid', 'Metadata Identifier']);
-        	columns.push(['title', 'Title']);
-            columns.push(['_categoryName','Category']);
+        	columns.push(['', Openwis.i18n('Metadata.CatalogContent.SearchField.any')]);
+        	columns.push(['uuid', Openwis.i18n('Metadata.CatalogContent.SearchField.uuid')]);
+        	columns.push(['title', Openwis.i18n('Metadata.CatalogContent.SearchField.title')]);
+            columns.push(['_categoryName', Openwis.i18n('Metadata.CatalogContent.SearchField.category')]);
             
             if(this.isAdmin) {
-                columns.push('_originator','Originator');
-                columns.push('_process','Process');
+                columns.push(['_originator',Openwis.i18n('Metadata.CatalogContent.SearchField.originator')]);
+                columns.push(['_process',Openwis.i18n('Metadata.CatalogContent.SearchField.process')]);
             }
 
-            columns.push(['_gtsCategory','GTS Category']);
-            columns.push(['_overriddenGtsCategory','GTS Category Overriden']);
-            columns.push(['_fncPattern','FNC Pattern']);
-            columns.push(['_overriddenFncPattern','FNC Pattern Overriden']);
-            columns.push(['_priority', 'Priority']);
-            columns.push(['_overriddenPriority','Priority Overridden']);
-            columns.push(['_datapolicy','Data policy']);
-            columns.push(['_overriddenDatapolicy','Data policy Overridden']);
-            columns.push(['_localDataSource','Local Data Source']);
+            columns.push(['_gtsCategory',Openwis.i18n('Metadata.CatalogContent.SearchField.gtsCategory')]);
+            columns.push(['_overriddenGtsCategory',Openwis.i18n('Metadata.CatalogContent.SearchField.overriddenGtsCategory')]);
+            columns.push(['_fncPattern',Openwis.i18n('Metadata.CatalogContent.SearchField.fncPattern')]);
+            columns.push(['_overriddenFncPattern',Openwis.i18n('Metadata.CatalogContent.SearchField.overriddenFncPattern')]);
+            columns.push(['_priority', Openwis.i18n('Metadata.CatalogContent.SearchField.priority')]);
+            columns.push(['_overriddenPriority',Openwis.i18n('Metadata.CatalogContent.SearchField.overriddenPriority')]);
+            columns.push(['_datapolicy',Openwis.i18n('Metadata.CatalogContent.SearchField.datapolicy')]);
+            columns.push(['_overriddenDatapolicy',Openwis.i18n('Metadata.CatalogContent.SearchField.overriddenDatapolicy')]);
+            columns.push(['_localDataSource',Openwis.i18n('Metadata.CatalogContent.SearchField.localDataSource')]);
             
             if(this.isAdmin) {
-            	columns.push(['_isIngested','Ingested']);
-            	columns.push(['_isFed','Fed']);
-            	columns.push(['_fileExtension','File Extension']);
+            	columns.push(['_isIngested',Openwis.i18n('Metadata.CatalogContent.SearchField.isIngested')]);
+            	columns.push(['_isFed',Openwis.i18n('Metadata.CatalogContent.SearchField.isFed')]);
+            	columns.push(['_fileExtension',Openwis.i18n('Metadata.CatalogContent.SearchField.fileExtension')]);
             }
       
             this.searchFieldCombo = new Ext.form.ComboBox({
@@ -581,7 +581,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         if (!this.searchAction) {
             this.searchAction = new Ext.Action({
                 disabled: true,
-                text:'Search',
+                text:Openwis.i18n('Common.Btn.Search'),
                 scope: this,
                 handler: function() {
                     this.getMetadataStore().setBaseParam(
@@ -605,7 +605,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         if (!this.resetAction) {
             this.resetAction = new Ext.Action({
                 disabled: true,
-                text:'Reset',
+                text:Openwis.i18n('Common.Btn.Reset'),
                 scope: this,
                 handler: function() {
                     this.getSearchTextField().setValue('');

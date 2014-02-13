@@ -88,7 +88,7 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
 	getChangePasswordAction: function() {
 		if(!this.changePasswordAction) {
 			this.changePasswordAction = new Ext.Action({
-				text:'Change Password...',
+				text:Openwis.i18n('Security.User.ChangePswd.Btn'),
 				scope: this,
 				handler: function() {
 				    var isValid = this.getPswdForm().getForm().isValid();

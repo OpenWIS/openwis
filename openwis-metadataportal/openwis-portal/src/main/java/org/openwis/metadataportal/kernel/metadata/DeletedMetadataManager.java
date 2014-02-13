@@ -87,6 +87,8 @@ public class DeletedMetadataManager implements IDeletedMetadataManager {
     */
    @Override
    public void insertDeletedMetadata(DeletedMetadata dm) throws SQLException {
+      // Clean any old remaining deleted metadata before adding a new one
+      clean(dm.getUrn(), dm.getCategory());
       String insertQuery = "INSERT INTO DeletedMetadata (id, uuid, schemaId, category) VALUES (?,?,?,?)";
       // Generate a new deleted metadata id
       dm.setId(SerialFactory.getSerial(getDbms(), "DeletedMetadata"));

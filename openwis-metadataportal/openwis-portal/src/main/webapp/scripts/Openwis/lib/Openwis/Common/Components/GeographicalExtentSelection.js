@@ -262,7 +262,7 @@ Openwis.Common.Components.GeographicalExtentSelection = Ext.extend(Ext.form.Fiel
                     toggleGroup: "move",
                     allowDepress: false,
                     iconCls: "mapCtrlDrawRectangleExtent",
-                    tooltip: "Draw regular polygon",  // FIXME il8n
+                    tooltip: Openwis.i18n("HomePage.Search.Criteria.Where.Map.Ctrl.DrawExtent.Tooltip"),
                     group: "draw"
                 });
                 this.mapToolbar.push(action);

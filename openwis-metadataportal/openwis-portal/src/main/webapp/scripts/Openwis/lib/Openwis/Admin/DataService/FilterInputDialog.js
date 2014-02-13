@@ -7,7 +7,7 @@ Openwis.Admin.DataService.FilterInputDialog = Ext.extend(Ext.Window, {
 	
 	initComponent: function() {
 		Ext.apply(this, {
-			title: 'RegEx Filter',
+			title: Openwis.i18n('CacheConfiguration.FilterInputDialog.Title'),
 			layout: 'fit',
 			width: 350,
 			height: 135,
@@ -37,7 +37,7 @@ Openwis.Admin.DataService.FilterInputDialog = Ext.extend(Ext.Window, {
 		this.getRegExTextField().setValue(this.selectedFilter.regex);
 		this.getDescriptionTextField().setValue(this.selectedFilter.description);
 		
-		this.setTitle(this.filterType + " Filter [" + this.operationMode + "]");
+		this.setTitle(Openwis.i18n('CacheConfiguration.FilterInputDialog.Title'));
 		
 		// this.show();
 	},
@@ -65,7 +65,7 @@ Openwis.Admin.DataService.FilterInputDialog = Ext.extend(Ext.Window, {
 	getRegExTextField: function() {
 		if(!this.regExTextField) {
 			this.regExTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('RegEx'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.FilterInputDialog.RegEx'),
 				name: 'regex',
 				width: 250
 			});
@@ -79,7 +79,7 @@ Openwis.Admin.DataService.FilterInputDialog = Ext.extend(Ext.Window, {
 	getDescriptionTextField: function() {
 		if(!this.descriptionTextField) {
 			this.descriptionTextField = new Ext.form.TextField({
-				fieldLabel: Openwis.i18n('Description'),
+				fieldLabel: Openwis.i18n('CacheConfiguration.FilterInputDialog.Description'),
 				name: 'decription',
 				width: 250
 			});
@@ -115,13 +115,13 @@ Openwis.Admin.DataService.FilterInputDialog = Ext.extend(Ext.Window, {
 										if (!success.nodeValue == 'true') {
 											isError = true;
 											msg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
-											Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + msg);		
+											Openwis.Utils.MessageBox.displayInternalError();		
 										}
 									}
 									else {
 										isError = true;
 										msg = Openwis.Utils.Xml.getAttributeValue(attributes, 'error');
-										Openwis.Utils.MessageBox.displayErrorMsg("Internal server error: " + msg);		
+										Openwis.Utils.MessageBox.displayInternalError();		
 									}					
 									
 									this.fireEvent("filterSaved", msg, isError);

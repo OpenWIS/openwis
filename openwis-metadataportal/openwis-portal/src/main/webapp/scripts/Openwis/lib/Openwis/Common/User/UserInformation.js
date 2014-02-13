@@ -104,7 +104,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 	getSaveAction: function() {
 		if(!this.saveAction) {
 			this.saveAction = new Ext.Action({
-				text:'Save',
+				text:Openwis.i18n('Common.Btn.Save'),
 				scope: this,
 				handler: function() {
 				    var persoInfoValid = this.getPersonalInformationFormPanel().getForm().isValid();
@@ -140,7 +140,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 	getCancelAction: function() {
 		if(!this.cancelAction) {
 			this.cancelAction = new Ext.Action({
-				text:'Cancel',
+				text:Openwis.i18n('Common.Btn.Cancel'),
 				scope: this,
 				handler: function() {
 					this.close();

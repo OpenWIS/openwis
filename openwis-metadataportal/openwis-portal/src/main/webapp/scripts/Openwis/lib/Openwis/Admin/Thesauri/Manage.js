@@ -389,6 +389,9 @@ Openwis.Admin.Thesauri.Manage = Ext.extend(Ext.Container, {
     		    {
         		    xtype: 'fileuploadfield',
                     allowBlank : false,
+                    buttonCfg: {
+                        text: Openwis.i18n('Common.Btn.Browse')
+                    },
                     fieldLabel: Openwis.i18n('ThesauriManagement.File'),
                     width: 360
                 });

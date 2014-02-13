@@ -28,4 +28,4 @@ fi
 
 
 # Setup start options
-nohup "$JAVA" -Djava.library.path=$NATIVE_LIB $JAVA_OPTS -classpath "$CLASSPATH" $MAIN_CLASS
+nohup "$JAVA" -Djava.library.path=$NATIVE_LIB $JAVA_OPTS -classpath "$CLASSPATH" $MAIN_CLASS &

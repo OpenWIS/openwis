@@ -115,7 +115,7 @@ public class CacheStatisticsIngest extends FilterReports {
          
          // query...
          List<IngestedData> serviceResults = 
-            service.getIngestedDataStatistics(0, 100, sortColumn, sortDir);
+            service.getIngestedDataStatistics(0, FilterReports.MAX_COUNT, sortColumn, sortDir);
          
          if (hasFilterPeriod()) {
             for (IngestedData data: serviceResults) {

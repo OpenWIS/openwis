@@ -126,8 +126,10 @@ Openwis.Admin.DataPolicy.Manage = Ext.extend(Ext.Window, {
 			//Add operations columns.
 			for(var i = 0; i < this.config.operations.length; i++) {
 				var operation = (this.config.operations)[i];
-				
-				columns.push(new Ext.ux.grid.CheckColumn({id:operation.name, header:operation.name, dataIndex:operation.name, sortable: false, align: 'center'}));
+				// ignore FTPSecured
+				if (operation.name != 'FTPSecured') {
+					columns.push(new Ext.ux.grid.CheckColumn({id:operation.name, header:operation.name, dataIndex:operation.name, sortable: false, align: 'center'}));
+				}
 				fieldsStore.push(
 					new Ext.data.Field({
 						name: operation.name,

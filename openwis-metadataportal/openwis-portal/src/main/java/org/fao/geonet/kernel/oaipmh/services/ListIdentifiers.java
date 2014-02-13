@@ -42,6 +42,7 @@ import org.fao.oaipmh.util.SearchResult;
 import org.jdom.Element;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
+import org.openwis.metadataportal.kernel.category.CategoryManager;
 import org.openwis.metadataportal.kernel.metadata.DeletedMetadataManager;
 import org.openwis.metadataportal.model.category.Category;
 import org.openwis.metadataportal.model.metadata.DeletedMetadata;
@@ -145,14 +146,19 @@ public class ListIdentifiers extends AbstractTokenLister
 		h.setIdentifier(urn);
 		h.setDateStamp(new ISODate(changeDate));
 
-//		// Add the category (here called sets)
-		// TODO cleaning
-//		CategoryManager cm = new CategoryManager(dbms);
-//		Category category = cm.getCategoryByMetadataUrn(urn);
-
-		if (category != null) {
-		   h.addSet(category.getName());
+		// Add the category (here called sets)
+		String categoryName = null;
+		if (category == null || category.getId() == null) {
+         CategoryManager cm = new CategoryManager(dbms);
+         Category cat = cm.getCategoryByMetadataUrn(urn);
+         if (cat != null) {
+            categoryName = cat.getName();
+         }
+		} else {
+		   // the category is given by the request itself
+		   categoryName = category.getName();
 		}
+		h.addSet(categoryName);
 
 		return h;
 	}

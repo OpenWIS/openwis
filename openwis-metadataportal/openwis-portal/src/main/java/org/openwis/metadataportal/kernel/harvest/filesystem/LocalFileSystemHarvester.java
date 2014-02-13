@@ -187,7 +187,7 @@ public class LocalFileSystemHarvester extends AbstractHarvester {
 
 						@Override
 						public boolean apply(Metadata input) {
-							return processedUrns.contains(input.getUrn());
+							return !processedUrns.contains(input.getUrn());
 						}
 					});
 

@@ -89,7 +89,7 @@ Openwis.Admin.DataService.Blacklist = Ext.extend(Ext.Container, {
         if (!this.searchAction) {
             this.searchAction = new Ext.Action({
                 disabled: true,
-                text:'Search',
+                text:Openwis.i18n('Common.Btn.Search'),
                 scope: this,
                 handler: function() {
                     this.getBlacklistStore().setBaseParam(
@@ -108,7 +108,7 @@ Openwis.Admin.DataService.Blacklist = Ext.extend(Ext.Container, {
         if (!this.resetAction) {
             this.resetAction = new Ext.Action({
                 disabled: true,
-                text:'Reset',
+                text:Openwis.i18n('Common.Btn.Reset'),
                 scope: this,
                 handler: function() {
                     this.getSearchTextField().setValue('');
@@ -143,7 +143,7 @@ Openwis.Admin.DataService.Blacklist = Ext.extend(Ext.Container, {
 					{id:'volDisseminationBlacklistThreshold', header:Openwis.i18n('Blacklist.volBlacklist'), dataIndex:'volDisseminationBlacklistThreshold', sortable: true, width: 90},
 					{id:'userDisseminatedDataDTO.dissToolNbFiles', header:Openwis.i18n('Blacklist.nbCurrent'), dataIndex:'userDisseminatedDataDTO.dissToolNbFiles', width: 90},
 					{id:'userDisseminatedDataDTO.dissToolSize', header:Openwis.i18n('Blacklist.volCurrent'), dataIndex:'userDisseminatedDataDTO.dissToolSize', width: 90},
-					{id:'blacklisted', header:Openwis.i18n('Blacklist.blacklist'), dataIndex:'blacklisted', sortable: true, width: 50, xtype: 'booleancolumn'}
+					{id:'blacklisted', header:Openwis.i18n('Blacklist.blacklist'), dataIndex:'blacklisted', sortable: true, width: 50, renderer: this.renderBlacklistState}
 				],
 				//autoExpandColumn: 'user',
 				listeners: { 
@@ -168,8 +168,15 @@ Openwis.Admin.DataService.Blacklist = Ext.extend(Ext.Container, {
                     pageSize: Openwis.Conf.PAGE_SIZE,
                     store: this.getBlacklistStore(),
                     displayInfo: true,
-                    displayMsg: 'Displaying data {0} - {1} of {2}',
-                    emptyMsg: "No data to display"
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
+                    displayMsg: Openwis.i18n('Common.Grid.Range'),
+                    emptyMsg: Openwis.i18n('Common.Grid.No.Data')
                 })
 			});
 			this.blacklistGrid.addButton(new Ext.Button(this.getEditAction()));
@@ -218,6 +225,11 @@ Openwis.Admin.DataService.Blacklist = Ext.extend(Ext.Container, {
 		}
 		return this.blacklistStore;
 	},
+	
+	//-- Utilities
+    renderBlacklistState: function(value) {
+        return (value) ? Openwis.i18n('Blacklist.renderBlacklistState.True'): Openwis.i18n('Blacklist.renderBlacklistState.False');
+    },
 	
 	//-- Actions implemented on Data Policy Administration.
 	

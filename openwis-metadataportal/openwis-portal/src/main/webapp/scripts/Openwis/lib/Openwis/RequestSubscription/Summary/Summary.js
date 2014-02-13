@@ -88,6 +88,13 @@ Openwis.RequestSubscription.Summary = Ext.extend(Ext.Panel, {
                     pageSize: Openwis.Conf.PAGE_SIZE,
                     store: this.getProcessedRequestsStore(),
                     displayInfo: true,
+                    beforePageText: Openwis.i18n('Common.Grid.BeforePageText'),
+    		        afterPageText: Openwis.i18n('Common.Grid.AfterPageText'),
+    		        firstText: Openwis.i18n('Common.Grid.FirstText'),
+    		        lastText: Openwis.i18n('Common.Grid.LastText'),
+    		        nextText: Openwis.i18n('Common.Grid.NextText'),
+    		        prevText: Openwis.i18n('Common.Grid.PrevText'),
+    		        refreshText: Openwis.i18n('Common.Grid.RefreshText'),
                     displayMsg: Openwis.i18n('RequestSubscription.Summary.ProcessedRequest.Range'),
                     emptyMsg: Openwis.i18n('RequestSubscription.Summary.ProcessedRequest.No.Elements')
                 })
