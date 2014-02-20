@@ -23,34 +23,35 @@ import javax.persistence.TemporalType;
 @Table(name = "OPENWIS_USER_ALARM")
 @SequenceGenerator(name = "USER_ALARM_GEN", sequenceName = "USER_ALARM_SEQ", initialValue = 1, allocationSize = 1)
 @NamedQueries({
-   @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and referenceType = :referenceType")
+   @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and referenceType = :referenceType"),
+   @NamedQuery(name = "UserAlarm.alarmsForUser", query = "select u from UserAlarm u where u.userId = :userId")
 })
 public class UserAlarm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ALARM_GEN")
-    @Column(name = "ALARM_ID")
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ALARM_GEN")
+   @Column(name = "ALARM_ID")
 	private long id;
 
-    @Column(name = "DATE")
-    @Temporal(TemporalType.TIMESTAMP)
+   @Column(name = "DATE")
+   @Temporal(TemporalType.TIMESTAMP)
 	private Date dateRaised;
 
-    @Column(name = "USER_ID")
+   @Column(name = "USER_ID")
 	private String userId;
 
-    @Column(name = "CATEGORY")
-    @Enumerated(EnumType.STRING)
+   @Column(name = "CATEGORY")
+   @Enumerated(EnumType.STRING)
 	private UserAlarmCategory category;
 
-    @Column(name = "REF_TYPE", nullable = true)
-    @Enumerated(EnumType.STRING)
-    private UserAlarmReferenceType referenceType;
+   @Column(name = "REF_TYPE", nullable = true)
+   @Enumerated(EnumType.STRING)
+   private UserAlarmReferenceType referenceType;
 
-    @Column(name = "REF_KEY")
-    private long referenceKey;
+   @Column(name = "REF_KEY")
+   private long referenceKey;
 
-    @Column(name = "MESSAGE")
+   @Column(name = "MESSAGE")
 	private String message;
 
 	/**

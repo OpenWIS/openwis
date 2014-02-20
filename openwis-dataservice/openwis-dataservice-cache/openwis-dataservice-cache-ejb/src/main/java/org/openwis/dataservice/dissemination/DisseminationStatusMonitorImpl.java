@@ -461,7 +461,7 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 			requestId = processedRequest.getRequest().getId();
 		} else if (processedRequest.getRequest() instanceof Subscription) {
 			refType = UserAlarmReferenceType.SUBSCRIPTION;
-			requestId = processedRequest.getRequest().getId();
+			requestId = processedRequest.getId();
 		}
 
         String user = processedRequest.getRequest().getUser();

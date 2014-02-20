@@ -270,6 +270,12 @@
         <service name="xml.useralarms.getsubscriptions" type="xml">
 		<class name="org.openwis.metadataportal.services.useralarms.GetSubscriptions"/>
         </service>
+        <service name="xml.useralarms.acknowledge" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.Acknowledge"/>
+        </service>
+        <service name="xml.useralarms.acknowledgeall" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.AcknowledgeAll"/>
+        </service>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Availability                                    		       -->

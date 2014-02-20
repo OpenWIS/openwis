@@ -12,7 +12,6 @@ import org.openwis.dataservice.useralarms.UserAlarm;
 public class UserAlarmDTO {
    private long id;
    private String date;
-   private String requestId;
    private String alarmType;
    private String message;
 
@@ -22,7 +21,6 @@ public class UserAlarmDTO {
    public UserAlarmDTO(UserAlarm alarm) {
       this.id = alarm.getId();
       this.date = new ISODate(alarm.getDateRaised().toGregorianCalendar().getTimeInMillis()).toString();
-      this.requestId = String.format("%07d", alarm.getReferenceKey());
       this.alarmType = "Delivery error";
       this.message = alarm.getMessage();
    }
@@ -33,14 +31,6 @@ public class UserAlarmDTO {
 
    public void setDate(String date) {
       this.date = date;
-   }
-
-   public String getRequestId() {
-      return requestId;
-   }
-
-   public void setRequestId(String requestId) {
-      this.requestId = requestId;
    }
 
    public long getId() {

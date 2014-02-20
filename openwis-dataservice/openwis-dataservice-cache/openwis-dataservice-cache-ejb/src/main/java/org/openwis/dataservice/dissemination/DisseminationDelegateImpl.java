@@ -888,7 +888,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 			refKey = processedRequest.getRequest().getId();
 		} else if (processedRequest.getRequest() instanceof Subscription) {
 			refType = UserAlarmReferenceType.SUBSCRIPTION;
-			refKey = processedRequest.getRequest().getId();
+			refKey = processedRequest.getId();
 		}
 
 		String user = processedRequest.getRequest().getUser();

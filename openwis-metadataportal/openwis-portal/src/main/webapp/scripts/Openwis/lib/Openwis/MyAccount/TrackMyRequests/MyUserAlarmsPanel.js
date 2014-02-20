@@ -93,6 +93,12 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
                         name:'alarmType'
                     },{
                         name:'message'
+                    },{
+			name:'urn'
+                    },{
+			name:'extractMode'
+                    },{
+			name:'downloadUrl'
                     }
 			],
                 sortInfo: {
@@ -112,7 +118,8 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	            iconCls: 'icon-download-adhoc',
 				scope: this,
 				handler: function() {
-				    alert("Download data from staging post");
+				    var rec = this.getSelectionModel().getSelected();
+				    window.open(rec.get('downloadUrl'));
 				}
 	        });
 	    }
@@ -126,7 +133,22 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 				disabled: true,
 				scope: this,
 				handler: function() {
-					alert("Alarms acknowledged");
+				    var selection = this.getSelectionModel().getSelections();
+					var params = {alarmIds: []};
+					Ext.each(selection, function(item, index, allItems) {
+						params.alarmIds.push(item.get('id'));
+					}, this);
+
+					new Openwis.Handler.Remove({
+				url: configOptions.locService+ '/xml.useralarms.acknowledge',
+				params: params,
+				listeners: {
+					success: function() {
+						this.getStore().reload();
+					},
+					scope: this
+				}
+			}).proceed();
 				}
 			});
 		}
@@ -139,7 +161,15 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 				text: "Acknowledge All",
 				scope: this,
 				handler: function() {
-					alert("All alarms acknowledged");
+					new Openwis.Handler.Remove({
+				url: configOptions.locService+ '/xml.useralarms.acknowledgeall',
+				listeners: {
+					success: function() {
+						this.getStore().reload();
+					},
+					scope: this
+				}
+			}).proceed();
 				}
 			});
 		}
@@ -154,12 +184,9 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	            iconCls: 'icon-view-adhoc',
 	            scope: this,
 				handler: function() {
-					alert("View request");
-					/*
 				    var rec = this.getSelectionModel().getSelected();
 				    var wizard = new Openwis.RequestSubscription.Wizard();
-	                wizard.initialize(rec.get('urn'), 'ADHOC', rec.get('extractMode') == 'CACHE', 'View', rec.get('id'), false);
-	                */
+	                wizard.initialize(rec.get('urn'), 'ADHOC', rec.get('extractMode') == 'CACHE', 'View', rec.get('requestId'), false);
 				}
 	        });
 	    }

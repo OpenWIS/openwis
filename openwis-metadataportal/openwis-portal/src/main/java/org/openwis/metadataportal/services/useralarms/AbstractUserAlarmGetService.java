@@ -36,15 +36,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
          userAlarms = userAlarmManager.getUserAlarmsForUserAndReferenceType(userName, getReferenceType(), 0, 20);
       }
 
-      List<UserAlarmDTO> userAlarmsDto = Lists.transform(userAlarms, new Function<UserAlarm, UserAlarmDTO>() {
-         public UserAlarmDTO apply(UserAlarm alarm) {
-            return new UserAlarmDTO(alarm);
-         }
-
-         public boolean equals(Object obj) {
-            return (this == obj);
-         }
-      });
+      List<UserAlarmDTO> userAlarmsDto = convertToDtos(userAlarms);
 
       // Convert it into a search result
       SearchResultWrapper<UserAlarmDTO> searchResults = new SearchResultWrapper<UserAlarmDTO>(userAlarmsDto.size(), userAlarmsDto);
@@ -56,4 +48,14 @@ public abstract class AbstractUserAlarmGetService implements Service {
     * Returns the reference type this request service is responsible for getting.
     */
    protected abstract UserAlarmReferenceType getReferenceType();
+
+   /**
+    * Converts the list of user alarms to a list of UserAlarmDTOs.
+    *
+    * @param userAlarm
+    *       The user alarm
+    * @return
+    *       The user alarm DTO.
+    */
+   protected abstract List<UserAlarmDTO> convertToDtos(List<UserAlarm> userAlarms);
 }

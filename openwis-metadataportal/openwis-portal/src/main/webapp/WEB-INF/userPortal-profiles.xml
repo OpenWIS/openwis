@@ -141,6 +141,8 @@
 		<!-- Allow to view their user alarms -->
 		<allow service="xml.useralarms.getrequests"/>
 		<allow service="xml.useralarms.getsubscriptions"/>
+		<allow service="xml.useralarms.acknowledge"/>
+		<allow service="xml.useralarms.acknowledgeall"/>
 
 	</profile>
 

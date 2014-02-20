@@ -15,7 +15,7 @@ public enum UserAlarmReferenceType {
 	REQUEST,
 
 	/**
-	 * This alarm refers to a subscription.  The reference key will be the subscription id.
+	 * This alarm refers to a subscription.  The reference key will be the processed request id.
 	 */
 	SUBSCRIPTION
 }

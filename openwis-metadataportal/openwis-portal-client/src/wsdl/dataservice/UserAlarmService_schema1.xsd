@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://useralarms.dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://useralarms.dataservice.openwis.org/" version="1.0">
+<xs:element name="acknowledgeAlarmsForUser" type="tns:acknowledgeAlarmsForUser"/>
+<xs:element name="acknowledgeAlarmsForUserResponse" type="tns:acknowledgeAlarmsForUserResponse"/>
+<xs:element name="acknowledgeAllAlarmsForUser" type="tns:acknowledgeAllAlarmsForUser"/>
+<xs:element name="acknowledgeAllAlarmsForUserResponse" type="tns:acknowledgeAllAlarmsForUserResponse"/>
+<xs:element name="acknowledgeUserAlarm" type="tns:acknowledgeUserAlarm"/>
+<xs:element name="acknowledgeUserAlarmResponse" type="tns:acknowledgeUserAlarmResponse"/>
 <xs:element name="getUserAlarmsForUserAndReferenceType" type="tns:getUserAlarmsForUserAndReferenceType"/>
 <xs:element name="getUserAlarmsForUserAndReferenceTypeResponse" type="tns:getUserAlarmsForUserAndReferenceTypeResponse"/>
 <xs:element name="raiseUserAlarm" type="tns:raiseUserAlarm"/>
 <xs:element name="raiseUserAlarmResponse" type="tns:raiseUserAlarmResponse"/>
+<xs:complexType name="acknowledgeAllAlarmsForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAllAlarmsForUserResponse">
+    <xs:sequence/>
+  </xs:complexType>
 <xs:complexType name="raiseUserAlarm">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="tns:userAlarm"/>
@@ -21,6 +35,25 @@
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="raiseUserAlarmResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAlarmsForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAlarmsForUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeUserAlarm">
+    <xs:sequence>
+      <xs:element name="alarmId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeUserAlarmResponse">
     <xs:sequence/>
   </xs:complexType>
 <xs:complexType name="getUserAlarmsForUserAndReferenceType">

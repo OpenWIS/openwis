@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
@@ -32,13 +33,6 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
 		Validate.notNull(alarm);
 
 		entityManager.persist(alarm);
-
-		log.error("##### USER ALARM #####");
-		log.error("  Id:       " + alarm.getId());
-		log.error("  User:     " + alarm.getUserId());
-		log.error("  Category: " + alarm.getCategory());
-		log.error("  Message:  " + alarm.getMessage());
-		log.error("######################");
 	}
 
    @Override
@@ -59,5 +53,46 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
       List<UserAlarm> alarms = (List<UserAlarm>)query.getResultList();
 
       return alarms;
+   }
+
+   @Override
+   @WebMethod(operationName = "acknowledgeUserAlarm")
+   public void acknowledgeUserAlarm(@WebParam(name = "alarmId") long alarmId) {
+      UserAlarm userAlarm = (UserAlarm) entityManager.find(UserAlarm.class, new Long(alarmId));
+      if (userAlarm != null) {
+         entityManager.remove(userAlarm);
+      }
+   }
+
+   @Override
+   @WebMethod(operationName = "acknowledgeAlarmsForUser")
+   public int acknowledgeAlarmsForUser(@WebParam(name = "username") String username,
+                                       @WebParam(name = "alarmIds") List<Long> alarmIds) {
+      int deletedAlarms = 0;
+
+      for (Long alarmId : alarmIds) {
+         UserAlarm userAlarm = (UserAlarm) entityManager.find(UserAlarm.class, new Long(alarmId));
+         if (StringUtils.equals(userAlarm.getUserId(), username)) {
+            entityManager.remove(userAlarm);
+            deletedAlarms++;
+         }
+      }
+
+      return deletedAlarms;
+   }
+
+   @Override
+   @WebMethod(operationName = "acknowledgeAllAlarmsForUser")
+   public void acknowledgeAllAlarmsForUser(@WebParam(name = "username") String username) {
+      Validate.notNull(username);
+
+      Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUser");
+      query.setParameter("userId", username);
+
+      @SuppressWarnings("unchecked")
+      List<UserAlarm> alarms = (List<UserAlarm>)query.getResultList();
+      for (UserAlarm alarm : alarms) {
+         entityManager.remove(alarm);
+      }
    }
 }
