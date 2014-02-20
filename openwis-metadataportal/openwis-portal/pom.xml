@@ -391,6 +391,7 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/RecentEvents.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/GlobalReports.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/CacheStatistics.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/UserAlarms.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Browser.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Viewport.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Init.js</include>

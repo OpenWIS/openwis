@@ -130,6 +130,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 		if (!this.acknowledgeAction) {
 			this.acknowledgeAction = new Ext.Action({
 				text: "Acknowledge",
+				iconCls: 'icon-discard-adhoc',
 				disabled: true,
 				scope: this,
 				handler: function() {
@@ -159,6 +160,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 		if (!this.acknowledgeAllAction) {
 			this.acknowledgeAllAction = new Ext.Action({
 				text: "Acknowledge All",
+				iconCls: 'icon-discard-adhoc',
 				scope: this,
 				handler: function() {
 					var params = { subscription: this.isSubscription };

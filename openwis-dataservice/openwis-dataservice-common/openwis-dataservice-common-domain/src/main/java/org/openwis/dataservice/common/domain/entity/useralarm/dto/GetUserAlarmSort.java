@@ -9,6 +9,8 @@ package org.openwis.dataservice.common.domain.entity.useralarm.dto;
 public enum GetUserAlarmSort {
    DATE("date"),
    CATEGORY("category"),
+   USER_ID("user_id"),
+   ALARM_TYPE("ref_type"),
    REFERENCE_ID("ref_key"),
    MESSAGE("message");
 

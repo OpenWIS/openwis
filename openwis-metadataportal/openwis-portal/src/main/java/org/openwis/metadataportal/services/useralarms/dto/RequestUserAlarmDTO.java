@@ -25,7 +25,9 @@ public class RequestUserAlarmDTO extends UserAlarmDTO {
 
    public RequestUserAlarmDTO(UserAlarm alarm, ProcessedRequest processedRequest) {
       super(alarm);
-      initialiseFromProcessedRequest(processedRequest);
+      if (processedRequest != null) {
+         initialiseFromProcessedRequest(processedRequest);
+      }
    }
 
    /**

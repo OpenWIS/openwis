@@ -36,6 +36,8 @@ public abstract class AbstractUserAlarmGetService implements Service {
 
    static {
       COLUMN_ID_TO_SORT_MAP.put("date", GetUserAlarmSort.DATE);
+      COLUMN_ID_TO_SORT_MAP.put("userId", GetUserAlarmSort.USER_ID);
+      COLUMN_ID_TO_SORT_MAP.put("alarmType", GetUserAlarmSort.ALARM_TYPE);
       COLUMN_ID_TO_SORT_MAP.put("requestId", GetUserAlarmSort.REFERENCE_ID);
       COLUMN_ID_TO_SORT_MAP.put("message", GetUserAlarmSort.MESSAGE);
    }
@@ -46,7 +48,6 @@ public abstract class AbstractUserAlarmGetService implements Service {
 
    @Override
    public Element exec(Element params, ServiceContext ctx) throws Exception {
-      String userName = ctx.getUserSession().getUsername();
       List<UserAlarm> userAlarms = Collections.emptyList();
       int totalUserAlarms = 0;
 
@@ -54,7 +55,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
       UserAlarmManagerWebService userAlarmManager = DataServiceProvider.getUserAlarmManagerService();
 
       if (userAlarmManager != null) {
-         GetUserAlarmCriteriaDTO criteriaDto = buildCriteriaDTO(userName, params);
+         GetUserAlarmCriteriaDTO criteriaDto = buildCriteriaDTO(ctx, params);
          userAlarms = userAlarmManager.getUserAlarms(criteriaDto);
          totalUserAlarms = userAlarmManager.countUserAlarms(criteriaDto);
       }
@@ -67,14 +68,15 @@ public abstract class AbstractUserAlarmGetService implements Service {
       return JeevesJsonWrapper.send(searchResults);
    }
 
+
    /**
     * Converts the request parameters into a criteria DTO.
     */
-   private GetUserAlarmCriteriaDTO buildCriteriaDTO(String userName,
+   private GetUserAlarmCriteriaDTO buildCriteriaDTO(ServiceContext ctx,
          Element params) throws Exception {
       GetUserAlarmCriteriaDTO dto = new GetUserAlarmCriteriaDTO();
 
-      dto.setUsername(userName);
+      dto.setUsername(getUserName(ctx));
       dto.setReferenceType(getReferenceType());
 
       int start = Util.getParamAsInt(params, "start");
@@ -92,6 +94,11 @@ public abstract class AbstractUserAlarmGetService implements Service {
 
       return dto;
    }
+
+   /**
+    * Returns the user name this request service is responsible for getting.
+    */
+   protected abstract String getUserName(ServiceContext ctx);
 
    /**
     * Returns the reference type this request service is responsible for getting.

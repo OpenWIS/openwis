@@ -1,5 +1,6 @@
 package org.openwis.metadataportal.services.useralarms.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.util.ISODate;
 import org.openwis.dataservice.useralarms.UserAlarm;
 
@@ -12,6 +13,7 @@ import org.openwis.dataservice.useralarms.UserAlarm;
 public class UserAlarmDTO {
    private long id;
    private String date;
+   private String userId;
    private String alarmType;
    private String message;
 
@@ -21,7 +23,8 @@ public class UserAlarmDTO {
    public UserAlarmDTO(UserAlarm alarm) {
       this.id = alarm.getId();
       this.date = new ISODate(alarm.getDateRaised().toGregorianCalendar().getTimeInMillis()).toString();
-      this.alarmType = "Delivery error";
+      this.userId = alarm.getUserId();
+      this.alarmType = StringUtils.capitalize(alarm.getReferenceType().toString().toLowerCase());
       this.message = alarm.getMessage();
    }
 
@@ -55,5 +58,13 @@ public class UserAlarmDTO {
 
    public void setMessage(String message) {
       this.message = message;
+   }
+
+   public String getUserId() {
+      return userId;
+   }
+
+   public void setUserId(String userId) {
+      this.userId = userId;
    }
 }

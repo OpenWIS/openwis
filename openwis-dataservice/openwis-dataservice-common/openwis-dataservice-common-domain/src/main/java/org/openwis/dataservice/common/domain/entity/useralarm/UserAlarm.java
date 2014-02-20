@@ -24,7 +24,9 @@ import javax.persistence.TemporalType;
 @SequenceGenerator(name = "USER_ALARM_GEN", sequenceName = "USER_ALARM_SEQ", initialValue = 1, allocationSize = 1)
 @NamedQueries({
    @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and referenceType = :referenceType"),
-   @NamedQuery(name = "UserAlarm.alarmsForUser", query = "select u from UserAlarm u where u.userId = :userId")
+   @NamedQuery(name = "UserAlarm.alarmsForUser", query = "select u from UserAlarm u where u.userId = :userId"),
+   @NamedQuery(name = "UserAlarm.distinctUserCount", query = "select count(distinct u.userId) from UserAlarm u"),
+   @NamedQuery(name = "UserAlarm.deleteAllUserAlarms", query = "delete from UserAlarm u")
 })
 public class UserAlarm {
 

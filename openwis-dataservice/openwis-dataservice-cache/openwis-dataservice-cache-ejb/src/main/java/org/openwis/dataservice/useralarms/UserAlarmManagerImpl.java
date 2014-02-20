@@ -23,6 +23,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmCriteriaDTO;
+import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportCriteriaDTO;
+import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,12 +111,24 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
    }
 
    @Override
-   @WebMethod(operationName = "acknowledgeUserAlarm")
-   public void acknowledgeUserAlarm(@WebParam(name = "alarmId") long alarmId) {
-      UserAlarm userAlarm = (UserAlarm) entityManager.find(UserAlarm.class, new Long(alarmId));
-      if (userAlarm != null) {
+   @WebMethod(operationName = "deleteAlarms")
+   public int deleteAlarms(@WebParam(name = "alarmIds") List<Long> alarmIds) {
+      int deletedAlarms = 0;
+
+      for (Long alarmId : alarmIds) {
+         UserAlarm userAlarm = (UserAlarm) entityManager.find(UserAlarm.class, new Long(alarmId));
          entityManager.remove(userAlarm);
+         deletedAlarms++;
       }
+
+      return deletedAlarms;
+   }
+
+   @Override
+   @WebMethod(operationName = "deleteAllAlarms")
+   public int deleteAllAlarms() {
+      Query query = entityManager.createNamedQuery("UserAlarm.deleteAllUserAlarms");
+      return query.executeUpdate();
    }
 
    @Override
@@ -149,5 +163,65 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
       for (UserAlarm alarm : alarms) {
          entityManager.remove(alarm);
       }
+   }
+
+   @Override
+   @WebMethod(operationName = "reportOnUserAlarms")
+   public List<UserAlarmReportDTO> reportOnUserAlarms(@WebParam(name = "criteria") UserAlarmReportCriteriaDTO reportCriteria) {
+      Validate.notNull(reportCriteria);
+
+      // Get the query
+      String queryString = buildReportQueryforUserAlarmReport(reportCriteria);
+      Query query = entityManager.createQuery(queryString);
+      query.setFirstResult(reportCriteria.getOffset());
+      query.setMaxResults(reportCriteria.getLimit());
+
+      // Execute the query
+      @SuppressWarnings("unchecked")
+      List<Object[]> results = (List<Object[]>)query.getResultList();
+
+      // Convert the results into DTO objects
+      List<UserAlarmReportDTO> resultDtos = new ArrayList<UserAlarmReportDTO>(results.size());
+      for (Object[] result : results) {
+         if (result.length != 2) {
+            throw new RuntimeException("Expected an array of length 2 but received an array with length " + result.length);
+         }
+         if (! (result[1] instanceof Long)) {
+            throw new RuntimeException("Expected the type of index 1 of the result array to be a Long, but was " + result[1].getClass().toString());
+         }
+
+         String userId = result[0].toString();
+         int alarmCount = ((Long)result[1]).intValue();
+
+         resultDtos.add(UserAlarmReportDTO.createInstance(userId, alarmCount));
+      }
+
+      return resultDtos;
+   }
+
+   /**
+    * Builds a JPA query for reporting on the number of user alarms each user has.
+    *
+    * @param reportCriteria
+    *       The report criteria.
+    * @return
+    *       The query string.
+    */
+   private String buildReportQueryforUserAlarmReport(
+         UserAlarmReportCriteriaDTO reportCriteria) {
+      StringBuilder query = new StringBuilder("select a.userId as userId, count(a) as alarmCount from UserAlarm a group by a.userId");
+
+      query.append(" order by ").append(reportCriteria.getSortBy().getSortFieldName());
+      query.append(" ").append(BooleanUtils.toString(reportCriteria.isSortAsc(), "asc", "desc"));
+
+      return query.toString();
+   }
+
+   @Override
+   public int getDistinctNumberOfUsersWithUserAlarms() {
+      Query query = entityManager.createNamedQuery("UserAlarm.distinctUserCount");
+      Long count = (Long)query.getSingleResult();
+
+      return count.intValue();
    }
 }
