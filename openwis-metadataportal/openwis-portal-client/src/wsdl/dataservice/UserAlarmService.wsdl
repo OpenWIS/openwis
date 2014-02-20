@@ -13,16 +13,16 @@
     <wsdl:part name="parameters" element="tns:getDistinctNumberOfUsersWithUserAlarms">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
+    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndRequestTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="raiseUserAlarm">
     <wsdl:part name="parameters" element="tns:raiseUserAlarm">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="reportOnUserAlarmsResponse">
     <wsdl:part name="parameters" element="tns:reportOnUserAlarmsResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="acknowledgeAllAlarmsForUserAndReferenceType">
-    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndReferenceType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="acknowledgeAlarmsForUserResponse">
@@ -49,12 +49,12 @@
     <wsdl:part name="parameters" element="tns:deleteAlarmsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
-    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="acknowledgeAlarmsForUser">
     <wsdl:part name="parameters" element="tns:acknowledgeAlarmsForUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="acknowledgeAllAlarmsForUserAndRequestType">
+    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndRequestType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getDistinctNumberOfUsersWithUserAlarmsResponse">
@@ -126,10 +126,10 @@
       <wsdl:output name="reportOnUserAlarmsResponse" message="tns:reportOnUserAlarmsResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="acknowledgeAllAlarmsForUserAndReferenceType">
-      <wsdl:input name="acknowledgeAllAlarmsForUserAndReferenceType" message="tns:acknowledgeAllAlarmsForUserAndReferenceType">
+    <wsdl:operation name="acknowledgeAllAlarmsForUserAndRequestType">
+      <wsdl:input name="acknowledgeAllAlarmsForUserAndRequestType" message="tns:acknowledgeAllAlarmsForUserAndRequestType">
     </wsdl:input>
-      <wsdl:output name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse" message="tns:acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
+      <wsdl:output name="acknowledgeAllAlarmsForUserAndRequestTypeResponse" message="tns:acknowledgeAllAlarmsForUserAndRequestTypeResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -207,12 +207,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="acknowledgeAllAlarmsForUserAndReferenceType">
+    <wsdl:operation name="acknowledgeAllAlarmsForUserAndRequestType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="acknowledgeAllAlarmsForUserAndReferenceType">
+      <wsdl:input name="acknowledgeAllAlarmsForUserAndRequestType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
+      <wsdl:output name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

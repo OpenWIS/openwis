@@ -34,7 +34,7 @@ import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
-import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
@@ -453,21 +453,22 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 	private void raiseUserAlarm(DisseminationJob dJob, DisseminationStatus status) {
 		ProcessedRequest processedRequest = processedRequestService.getProcessedRequest(dJob.getRequestId());
 
-		UserAlarmReferenceType refType = null;
+		UserAlarmRequestType reqType = null;
+		long processedRequestId = 0;
 		long requestId = 0;
 
 		if (processedRequest.getRequest() instanceof AdHoc) {
-			refType = UserAlarmReferenceType.REQUEST;
-			requestId = processedRequest.getId();
+			reqType = UserAlarmRequestType.REQUEST;
 		} else if (processedRequest.getRequest() instanceof Subscription) {
-			refType = UserAlarmReferenceType.SUBSCRIPTION;
-			requestId = processedRequest.getId();
+			reqType = UserAlarmRequestType.SUBSCRIPTION;
 		}
+
+		processedRequestId = processedRequest.getId();
+		requestId = processedRequest.getRequest().getId();
 
         String user = processedRequest.getRequest().getUser();
         UserAlarm alarm = new UserAlarmBuilder(user)
-						.category(UserAlarmCategory.DISSEMINATION_FAILED)
-						.referenceTypeKey(refType, requestId)
+						.request(reqType, processedRequestId, requestId)
 						.message(status.getMessage())
 						.getUserAlarm();
 

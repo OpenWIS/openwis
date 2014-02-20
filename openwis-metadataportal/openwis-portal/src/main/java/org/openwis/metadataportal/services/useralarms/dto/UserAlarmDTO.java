@@ -24,7 +24,7 @@ public class UserAlarmDTO {
       this.id = alarm.getId();
       this.date = new ISODate(alarm.getDateRaised().toGregorianCalendar().getTimeInMillis()).toString();
       this.userId = alarm.getUserId();
-      this.alarmType = StringUtils.capitalize(alarm.getReferenceType().toString().toLowerCase());
+      this.alarmType = StringUtils.capitalize(alarm.getRequestType().toString().toLowerCase());
       this.message = alarm.getMessage();
    }
 

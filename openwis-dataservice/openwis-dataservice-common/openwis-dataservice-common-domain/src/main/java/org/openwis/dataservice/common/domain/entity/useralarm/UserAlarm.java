@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 @Table(name = "OPENWIS_USER_ALARM")
 @SequenceGenerator(name = "USER_ALARM_GEN", sequenceName = "USER_ALARM_SEQ", initialValue = 1, allocationSize = 1)
 @NamedQueries({
-   @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and referenceType = :referenceType"),
+   @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and u.requestType = :requestType"),
    @NamedQuery(name = "UserAlarm.alarmsForUser", query = "select u from UserAlarm u where u.userId = :userId"),
    @NamedQuery(name = "UserAlarm.distinctUserCount", query = "select count(distinct u.userId) from UserAlarm u"),
    @NamedQuery(name = "UserAlarm.deleteAllUserAlarms", query = "delete from UserAlarm u")
@@ -42,16 +42,15 @@ public class UserAlarm {
    @Column(name = "USER_ID")
 	private String userId;
 
-   @Column(name = "CATEGORY")
+   @Column(name = "REQ_TYPE", nullable = true)
    @Enumerated(EnumType.STRING)
-	private UserAlarmCategory category;
+   private UserAlarmRequestType requestType;
 
-   @Column(name = "REF_TYPE", nullable = true)
-   @Enumerated(EnumType.STRING)
-   private UserAlarmReferenceType referenceType;
+   @Column(name = "REQ_ID")
+   private long requestId;
 
-   @Column(name = "REF_KEY")
-   private long referenceKey;
+   @Column(name = "PROCESSED_REQ_ID")
+   private long processedRequestId;
 
    @Column(name = "MESSAGE")
 	private String message;
@@ -90,18 +89,6 @@ public class UserAlarm {
 	}
 
 	/**
-	 * The category associated with this user alarm.  This is a general identification on what
-	 * the user alarm is.
-	 */
-	public UserAlarmCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(UserAlarmCategory category) {
-		this.category = category;
-	}
-
-	/**
 	 * The message associated with the user alarm.
 	 */
 	public String getMessage() {
@@ -113,25 +100,35 @@ public class UserAlarm {
 	}
 
 	/**
-	 * The type of user-controllable entity this user alarm refers to.  Can be <code>null</code>,
-	 * in which case this alarm does not refer to any user-controllable entity.
+	 * The type of request.
 	 */
-	public UserAlarmReferenceType getReferenceType() {
-		return referenceType;
+	public UserAlarmRequestType getRequestType() {
+		return requestType;
 	}
 
-	public void setReferenceType(UserAlarmReferenceType referenceType) {
-		this.referenceType = referenceType;
+	public void setRequestType(UserAlarmRequestType referenceType) {
+		this.requestType = referenceType;
 	}
 
 	/**
-	 * The primary key of the user-controllable entity this user alarm refers to.  This is dependent on the UserAlarmReferenceType.
+	 * The ID of the request.
 	 */
-	public long getReferenceKey() {
-		return referenceKey;
+	public long getRequestId() {
+		return requestId;
 	}
 
-	public void setReferenceKey(long referenceKey) {
-		this.referenceKey = referenceKey;
+	public void setRequestId(long referenceKey) {
+		this.requestId = referenceKey;
 	}
+
+	/**
+	 * The processed ID of the request.
+	 */
+   public long getProcessedRequestId() {
+      return processedRequestId;
+   }
+
+   public void setProcessedRequestId(long processedRequestId) {
+      this.processedRequestId = processedRequestId;
+   }
 }

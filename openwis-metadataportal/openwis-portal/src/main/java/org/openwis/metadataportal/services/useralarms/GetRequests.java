@@ -2,13 +2,13 @@ package org.openwis.metadataportal.services.useralarms;
 
 import jeeves.server.context.ServiceContext;
 
-import org.openwis.dataservice.useralarms.UserAlarmReferenceType;
+import org.openwis.dataservice.useralarms.UserAlarmRequestType;
 
 public class GetRequests extends AbstractUserAlarmGetService {
 
    @Override
-   protected UserAlarmReferenceType getReferenceType() {
-      return UserAlarmReferenceType.REQUEST;
+   protected UserAlarmRequestType getRequestType() {
+      return UserAlarmRequestType.REQUEST;
    }
 
    @Override

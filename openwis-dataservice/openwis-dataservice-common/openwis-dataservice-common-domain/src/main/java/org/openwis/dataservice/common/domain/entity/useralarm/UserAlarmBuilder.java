@@ -15,17 +15,6 @@ public class UserAlarmBuilder {
 	}
 
 	/**
-	 * Sets the category of the user alarm
-	 *
-	 * @param category the category
-	 * @return this instance
-	 */
-	public UserAlarmBuilder category(UserAlarmCategory category) {
-		this.userAlarm.setCategory(category);
-		return this;
-	}
-
-	/**
 	 * Sets the message of the user alarm.
 	 *
 	 * @param message the message
@@ -39,13 +28,14 @@ public class UserAlarmBuilder {
 	/**
 	 * Sets the reference type and reference key of the user alarm.
 	 *
-	 * @param refType The reference type.
-	 * @param refKey The reference key.
+	 * @param reqType The reference type.
+	 * @param reqKey The reference key.
 	 * @return this instance
 	 */
-	public UserAlarmBuilder referenceTypeKey(UserAlarmReferenceType refType, long refKey) {
-		this.userAlarm.setReferenceType(refType);
-		this.userAlarm.setReferenceKey(refKey);
+	public UserAlarmBuilder request(UserAlarmRequestType reqType, long processedRequestId, long reqKey) {
+		this.userAlarm.setRequestType(reqType);
+		this.userAlarm.setProcessedRequestId(processedRequestId);
+		this.userAlarm.setRequestId(reqKey);
 		return this;
 	}
 

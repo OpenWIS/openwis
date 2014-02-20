@@ -3,7 +3,7 @@ package org.openwis.dataservice.useralarms;
 import java.util.List;
 
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
-import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmCriteriaDTO;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmSort;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportCriteriaDTO;
@@ -87,5 +87,5 @@ public interface UserAlarmManagerLocal {
     * @param username      The username
     * @param referenceType The reference type
     */
-   public void acknowledgeAllAlarmsForUserAndReferenceType(String username, UserAlarmReferenceType referenceTypes);
+   public void acknowledgeAllAlarmsForUserAndRequestType(String username, UserAlarmRequestType requestTypes);
 }

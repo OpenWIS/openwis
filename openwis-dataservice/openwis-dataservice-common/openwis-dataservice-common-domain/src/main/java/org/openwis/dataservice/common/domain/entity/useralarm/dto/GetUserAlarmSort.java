@@ -10,8 +10,8 @@ public enum GetUserAlarmSort {
    DATE("date"),
    CATEGORY("category"),
    USER_ID("user_id"),
-   ALARM_TYPE("ref_type"),
-   REFERENCE_ID("ref_key"),
+   ALARM_TYPE("req_type"),
+   REQUEST_ID("req_id"),
    MESSAGE("message");
 
    private final String sortFieldName;

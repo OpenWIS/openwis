@@ -17,7 +17,7 @@ import org.openwis.dataservice.useralarms.GetUserAlarmCriteriaDTO;
 import org.openwis.dataservice.useralarms.GetUserAlarmSort;
 import org.openwis.dataservice.useralarms.UserAlarm;
 import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
-import org.openwis.dataservice.useralarms.UserAlarmReferenceType;
+import org.openwis.dataservice.useralarms.UserAlarmRequestType;
 import org.openwis.metadataportal.common.search.SearchResultWrapper;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
@@ -38,7 +38,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
       COLUMN_ID_TO_SORT_MAP.put("date", GetUserAlarmSort.DATE);
       COLUMN_ID_TO_SORT_MAP.put("userId", GetUserAlarmSort.USER_ID);
       COLUMN_ID_TO_SORT_MAP.put("alarmType", GetUserAlarmSort.ALARM_TYPE);
-      COLUMN_ID_TO_SORT_MAP.put("requestId", GetUserAlarmSort.REFERENCE_ID);
+      COLUMN_ID_TO_SORT_MAP.put("requestId", GetUserAlarmSort.REQUEST_ID);
       COLUMN_ID_TO_SORT_MAP.put("message", GetUserAlarmSort.MESSAGE);
    }
 
@@ -77,7 +77,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
       GetUserAlarmCriteriaDTO dto = new GetUserAlarmCriteriaDTO();
 
       dto.setUsername(getUserName(ctx));
-      dto.setReferenceType(getReferenceType());
+      dto.setRequestType(getRequestType());
 
       int start = Util.getParamAsInt(params, "start");
       int limit = Util.getParamAsInt(params, "limit");
@@ -103,7 +103,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
    /**
     * Returns the reference type this request service is responsible for getting.
     */
-   protected abstract UserAlarmReferenceType getReferenceType();
+   protected abstract UserAlarmRequestType getRequestType();
 
    /**
     * Converts the list of user alarms to a list of UserAlarmDTOs.
@@ -122,7 +122,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
 
             // TODO: This is a RMI call, which is expensive.  Replace this with a call which accepts
             // a batch of process request IDs.
-            ProcessedRequest processedRequest = prs.getFullProcessedRequest(userAlarm.getReferenceKey());
+            ProcessedRequest processedRequest = prs.getFullProcessedRequest(userAlarm.getProcessedRequestId());
             return new RequestUserAlarmDTO(userAlarm, processedRequest);
          }
 

@@ -21,7 +21,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
-import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmCriteriaDTO;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportCriteriaDTO;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportDTO;
@@ -91,9 +91,9 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
          constraints.add("(u.userId = :userId)");
          params.put("userId", dto.getUsername());
       }
-      if (dto.getReferenceType() != null) {
-         constraints.add("(u.referenceType = :referenceType)");
-         params.put("referenceType", dto.getReferenceType());
+      if (dto.getRequestType() != null) {
+         constraints.add("(u.requestType  = :requestType)");
+         params.put("requestType", dto.getRequestType());
       }
 
       if (constraints.size() > 0) {
@@ -149,14 +149,14 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
    }
 
    @Override
-   @WebMethod(operationName = "acknowledgeAllAlarmsForUserAndReferenceType")
-   public void acknowledgeAllAlarmsForUserAndReferenceType(@WebParam(name = "username") final String username,
-                                                           @WebParam(name = "referenceType") final UserAlarmReferenceType referenceType) {
+   @WebMethod(operationName = "acknowledgeAllAlarmsForUserAndRequestType")
+   public void acknowledgeAllAlarmsForUserAndRequestType(@WebParam(name = "username") final String username,
+                                                         @WebParam(name = "requestType") final UserAlarmRequestType requestType) {
       Validate.notNull(username);
 
       Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUserAndReferenceType");
       query.setParameter("userId", username);
-      query.setParameter("referenceType", referenceType);
+      query.setParameter("requestType", requestType);
 
       @SuppressWarnings("unchecked")
       List<UserAlarm> alarms = (List<UserAlarm>)query.getResultList();

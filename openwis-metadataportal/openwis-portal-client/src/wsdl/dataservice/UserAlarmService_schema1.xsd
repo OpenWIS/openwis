@@ -2,8 +2,8 @@
 <xs:schema xmlns:tns="http://useralarms.dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://useralarms.dataservice.openwis.org/" version="1.0">
 <xs:element name="acknowledgeAlarmsForUser" type="tns:acknowledgeAlarmsForUser"/>
 <xs:element name="acknowledgeAlarmsForUserResponse" type="tns:acknowledgeAlarmsForUserResponse"/>
-<xs:element name="acknowledgeAllAlarmsForUserAndReferenceType" type="tns:acknowledgeAllAlarmsForUserAndReferenceType"/>
-<xs:element name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse" type="tns:acknowledgeAllAlarmsForUserAndReferenceTypeResponse"/>
+<xs:element name="acknowledgeAllAlarmsForUserAndRequestType" type="tns:acknowledgeAllAlarmsForUserAndRequestType"/>
+<xs:element name="acknowledgeAllAlarmsForUserAndRequestTypeResponse" type="tns:acknowledgeAllAlarmsForUserAndRequestTypeResponse"/>
 <xs:element name="countUserAlarms" type="tns:countUserAlarms"/>
 <xs:element name="countUserAlarmsResponse" type="tns:countUserAlarmsResponse"/>
 <xs:element name="deleteAlarms" type="tns:deleteAlarms"/>
@@ -33,12 +33,12 @@
   </xs:complexType>
 <xs:complexType name="userAlarm">
     <xs:sequence>
-      <xs:element minOccurs="0" name="category" type="tns:userAlarmCategory"/>
       <xs:element minOccurs="0" name="dateRaised" type="xs:dateTime"/>
       <xs:element name="id" type="xs:long"/>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
-      <xs:element name="referenceKey" type="xs:long"/>
-      <xs:element minOccurs="0" name="referenceType" type="tns:userAlarmReferenceType"/>
+      <xs:element name="processedRequestId" type="xs:long"/>
+      <xs:element name="requestId" type="xs:long"/>
+      <xs:element minOccurs="0" name="requestType" type="tns:userAlarmRequestType"/>
       <xs:element minOccurs="0" name="userId" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
@@ -83,7 +83,7 @@
     <xs:sequence>
       <xs:element name="limit" type="xs:int"/>
       <xs:element name="offset" type="xs:int"/>
-      <xs:element minOccurs="0" name="referenceType" type="tns:userAlarmReferenceType"/>
+      <xs:element minOccurs="0" name="requestType" type="tns:userAlarmRequestType"/>
       <xs:element name="sortAscending" type="xs:boolean"/>
       <xs:element minOccurs="0" name="sortColumn" type="tns:getUserAlarmSort"/>
       <xs:element minOccurs="0" name="username" type="xs:string"/>
@@ -128,21 +128,16 @@
       <xs:element minOccurs="0" name="userId" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="acknowledgeAllAlarmsForUserAndReferenceType">
+<xs:complexType name="acknowledgeAllAlarmsForUserAndRequestType">
     <xs:sequence>
       <xs:element minOccurs="0" name="username" type="xs:string"/>
-      <xs:element minOccurs="0" name="referenceType" type="tns:userAlarmReferenceType"/>
+      <xs:element minOccurs="0" name="requestType" type="tns:userAlarmRequestType"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
+<xs:complexType name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
     <xs:sequence/>
   </xs:complexType>
-<xs:simpleType name="userAlarmCategory">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="DISSEMINATION_FAILED"/>
-    </xs:restriction>
-  </xs:simpleType>
-<xs:simpleType name="userAlarmReferenceType">
+<xs:simpleType name="userAlarmRequestType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="REQUEST"/>
       <xs:enumeration value="SUBSCRIPTION"/>
@@ -154,7 +149,7 @@
       <xs:enumeration value="CATEGORY"/>
       <xs:enumeration value="USER_ID"/>
       <xs:enumeration value="ALARM_TYPE"/>
-      <xs:enumeration value="REFERENCE_ID"/>
+      <xs:enumeration value="REQUEST_ID"/>
       <xs:enumeration value="MESSAGE"/>
     </xs:restriction>
   </xs:simpleType>

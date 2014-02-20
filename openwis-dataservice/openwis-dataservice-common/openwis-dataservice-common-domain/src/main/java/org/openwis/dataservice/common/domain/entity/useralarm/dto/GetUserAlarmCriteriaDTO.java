@@ -1,6 +1,6 @@
 package org.openwis.dataservice.common.domain.entity.useralarm.dto;
 
-import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 
 /**
  * Criteria for the get user alarm request.
@@ -10,7 +10,7 @@ import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReference
  */
 public class GetUserAlarmCriteriaDTO {
    private String username;
-   private UserAlarmReferenceType referenceType;
+   private UserAlarmRequestType requestType;
    private GetUserAlarmSort sortColumn;
    private boolean sortAscending;
    private int offset;
@@ -24,12 +24,12 @@ public class GetUserAlarmCriteriaDTO {
       this.username = username;
    }
 
-   public UserAlarmReferenceType getReferenceType() {
-      return referenceType;
+   public UserAlarmRequestType getRequestType() {
+      return requestType;
    }
 
-   public void setReferenceType(UserAlarmReferenceType referenceType) {
-      this.referenceType = referenceType;
+   public void setRequestType(UserAlarmRequestType referenceType) {
+      this.requestType = referenceType;
    }
 
    public GetUserAlarmSort getSortColumn() {
