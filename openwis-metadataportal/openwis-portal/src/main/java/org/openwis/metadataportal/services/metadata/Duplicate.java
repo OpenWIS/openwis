@@ -10,6 +10,7 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.util.ISODate;
@@ -70,12 +71,14 @@ public class Duplicate implements Service {
       IMetadataAligner metadataAligner = new MetadataAligner(dbms, gc.getDataManager(),
             gc.getSearchmanager(), dataDir);
       
-      if (mm.getMetadataInfoByUrn(dto.getToURN()) != null) {
+      final String toUrn = StringUtils.trimToEmpty(dto.getToURN());
+
+      if (mm.getMetadataInfoByUrn(toUrn) != null) {
          // TODO I8n
          return JeevesJsonWrapper.send(new AcknowledgementDTO(false, "URN already exists. Choose an other one"));
       }
       //Create metadata object.
-      Metadata metadata = new Metadata(dto.getToURN());
+      Metadata metadata = new Metadata(toUrn);
 
       //--- query the data policy manager
       IDataPolicyManager dpm = new DataPolicyManager(dbms);

@@ -702,16 +702,21 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
       String styleSheet = dataManager.getSchemaDir(schema) + EXTRACT_IMPORT_INFO;
       Element elt = Xml.transform(md.getData(), styleSheet);
       String uuid = elt.getChildText("uuid");
+      String trimmedUuid = StringUtils.trimToEmpty(uuid);
       ISODate isoDate = null;
       String dateStamp = elt.getChildText("dateStamp");
-      if (StringUtils.isNotBlank(dateStamp) && StringUtils.isNotBlank(uuid)) {
+      if (StringUtils.isNotBlank(dateStamp) && StringUtils.isNotBlank(trimmedUuid)) {
+         // Check that the trimmed UUID is different that the UUID read from the metadata.  Raise a warning if it is.
+         if (! trimmedUuid.equals(uuid)) {
+            Log.warning(Geonet.METADATA_ALIGNER, "UUID [" + trimmedUuid + "] will be trimmed as it contains leading/trailing whitespace.");
+         }
          isoDate = new ISODate(dateStamp);
          md.setChangeDate(isoDate.toString());
-         md.setUrn(uuid);
+         md.setUrn(trimmedUuid);
          return md;
       } else {
          result.getErrors().add(
-               new MetadataAlignerError(uuid,
+               new MetadataAlignerError(trimmedUuid,
                      "Unable to extract an URN or a datestamp from the metadata record."));
          result.incUnexpected();
          return null;
