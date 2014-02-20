@@ -264,6 +264,8 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 
 					if (status.getRequestStatus() == RequestStatus.FAILED)
 					{
+						// XXX - Here the message should be recorded.
+
 						if (primaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = primaryMap.get(requestId);
@@ -279,6 +281,8 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 					}
 					else if (status.getRequestStatus() == RequestStatus.DISSEMINATED)
 					{
+						// XXX - Here, maybe a success message could be recorded.
+
 						if (primaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = primaryMap.get(requestId);
@@ -342,6 +346,8 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 
 					if (status.getRequestStatus() == RequestStatus.FAILED)
 					{
+						// XXX - Here the message should be recorded.
+
 						if (primaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = primaryMap.get(requestId);
@@ -357,6 +363,8 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 					}
 					else if (status.getRequestStatus() == RequestStatus.DISSEMINATED)
 					{
+						// XXX - Here the message should be recorded.
+
 						if (primaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = primaryMap.get(requestId);

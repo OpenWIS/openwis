@@ -832,6 +832,8 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
                      if (status.getRequestStatus() == RequestStatus.FAILED) {
                         logger.error("Start of dissemination via harness failed: " + actualURL);
+
+                        // XXX - Here the message should be reported.
                      } else {
                         if (logger.isInfoEnabled()) {
                            logger.info("Start of dissemination via harness succeeded: " + actualURL);
