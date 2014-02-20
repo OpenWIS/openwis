@@ -161,8 +161,10 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 				text: "Acknowledge All",
 				scope: this,
 				handler: function() {
+					var params = { subscription: this.isSubscription };
 					new Openwis.Handler.Remove({
 				url: configOptions.locService+ '/xml.useralarms.acknowledgeall',
+				params: params,
 				listeners: {
 					success: function() {
 						this.getStore().reload();
@@ -201,12 +203,9 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	            iconCls: 'icon-view-subscription',
 	            scope: this,
 				handler: function() {
-					alert("View subscription");
-					/*
 				    var rec = this.getSelectionModel().getSelected();
 				    var wizard = new Openwis.RequestSubscription.Wizard();
-	                wizard.initialize(rec.get('urn'), 'ADHOC', rec.get('extractMode') == 'CACHE', 'View', rec.get('id'), false);
-	                */
+	                wizard.initialize(rec.get('urn'), 'SUBSCRUPTION', rec.get('extractMode') == 'CACHE', 'Edit', rec.get('requestId'), false);
 				}
 	        });
 	    }

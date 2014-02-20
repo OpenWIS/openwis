@@ -8,13 +8,19 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 
 import org.jdom.Element;
+import org.openwis.dataservice.ProcessedRequest;
+import org.openwis.dataservice.ProcessedRequestService;
 import org.openwis.dataservice.useralarms.UserAlarm;
 import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
 import org.openwis.dataservice.useralarms.UserAlarmReferenceType;
 import org.openwis.metadataportal.common.search.SearchResultWrapper;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
+import org.openwis.metadataportal.services.useralarms.dto.RequestUserAlarmDTO;
 import org.openwis.metadataportal.services.useralarms.dto.UserAlarmDTO;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 public abstract class AbstractUserAlarmGetService implements Service {
 
@@ -54,5 +60,23 @@ public abstract class AbstractUserAlarmGetService implements Service {
     * @return
     *       The user alarm DTO.
     */
-   protected abstract List<UserAlarmDTO> convertToDtos(List<UserAlarm> userAlarms);
+   private List<UserAlarmDTO> convertToDtos(List<UserAlarm> userAlarms) {
+
+      final ProcessedRequestService prs = DataServiceProvider.getProcessedRequestService();
+
+      return Lists.transform(userAlarms, new Function<UserAlarm, UserAlarmDTO>() {
+         public UserAlarmDTO apply(UserAlarm userAlarm) {
+
+            // TODO: This is a RMI call, which is expensive.  Replace this with a call which accepts
+            // a batch of process request IDs.
+            ProcessedRequest processedRequest = prs.getFullProcessedRequest(userAlarm.getReferenceKey());
+            return new RequestUserAlarmDTO(userAlarm, processedRequest);
+         }
+
+         public boolean equals(Object obj) {
+            return (this == obj);
+         }
+      });
+   }
+
 }

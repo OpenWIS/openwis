@@ -6,12 +6,12 @@ import jeeves.server.context.ServiceContext;
 
 import org.jdom.Element;
 import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
+import org.openwis.dataservice.useralarms.UserAlarmReferenceType;
+import org.openwis.management.alert.AlarmEvent;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.useralarms.dto.AcknowledgeAlarmsDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openwis.metadataportal.services.useralarms.dto.AcknowledgeAllAlarmsDTO;
 
 public class AcknowledgeAll implements Service {
 
@@ -21,10 +21,18 @@ public class AcknowledgeAll implements Service {
 
    @Override
    public Element exec(Element params, ServiceContext context) throws Exception {
+      AcknowledgeAllAlarmsDTO acknowledgeAllAlarmsDTO = JeevesJsonWrapper.read(params, AcknowledgeAllAlarmsDTO.class);
       String userName = context.getUserSession().getUsername();
 
+      UserAlarmReferenceType referenceType;
+      if (acknowledgeAllAlarmsDTO.isSubscription()) {
+         referenceType = UserAlarmReferenceType.SUBSCRIPTION;
+      } else {
+         referenceType = UserAlarmReferenceType.REQUEST;
+      }
+
       UserAlarmManagerWebService userAlarmManager = DataServiceProvider.getUserAlarmManagerService();
-      userAlarmManager.acknowledgeAllAlarmsForUser(userName);
+      userAlarmManager.acknowledgeAllAlarmsForUserAndReferenceType(userName, referenceType);
 
       AcknowledgementDTO ackDTO = new AcknowledgementDTO(true);
 

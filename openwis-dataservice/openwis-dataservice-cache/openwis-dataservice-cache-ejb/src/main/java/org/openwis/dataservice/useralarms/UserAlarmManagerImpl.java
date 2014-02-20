@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.lang.model.type.ReferenceType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -82,12 +83,14 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
    }
 
    @Override
-   @WebMethod(operationName = "acknowledgeAllAlarmsForUser")
-   public void acknowledgeAllAlarmsForUser(@WebParam(name = "username") String username) {
+   @WebMethod(operationName = "acknowledgeAllAlarmsForUserAndReferenceType")
+   public void acknowledgeAllAlarmsForUserAndReferenceType(@WebParam(name = "username") final String username,
+                                                           @WebParam(name = "referenceType") final UserAlarmReferenceType referenceType) {
       Validate.notNull(username);
 
-      Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUser");
+      Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUserAndReferenceType");
       query.setParameter("userId", username);
+      query.setParameter("referenceType", referenceType);
 
       @SuppressWarnings("unchecked")
       List<UserAlarm> alarms = (List<UserAlarm>)query.getResultList();

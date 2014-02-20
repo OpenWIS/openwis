@@ -49,9 +49,10 @@ public interface UserAlarmManagerLocal {
    public int acknowledgeAlarmsForUser(String username, List<Long> alarmIds);
 
    /**
-    * Acknowledges all alarms for a particular user.
+    * Acknowledges all alarms for a particular user and reference type.
     *
-    * @param username   The username
+    * @param username      The username
+    * @param referenceType The reference type
     */
-   public void acknowledgeAllAlarmsForUser(String username);
+   public void acknowledgeAllAlarmsForUserAndReferenceType(String username, UserAlarmReferenceType referenceTypes);
 }

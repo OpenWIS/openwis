@@ -17,12 +17,16 @@
     <wsdl:part name="parameters" element="tns:raiseUserAlarm">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
+    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="acknowledgeAlarmsForUser">
     <wsdl:part name="parameters" element="tns:acknowledgeAlarmsForUser">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="acknowledgeAllAlarmsForUser">
-    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUser">
+  <wsdl:message name="acknowledgeAllAlarmsForUserAndReferenceType">
+    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndReferenceType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="acknowledgeUserAlarm">
@@ -41,17 +45,7 @@
     <wsdl:part name="parameters" element="tns:getUserAlarmsForUserAndReferenceType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="acknowledgeAllAlarmsForUserResponse">
-    <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:portType name="UserAlarmManagerWebService">
-    <wsdl:operation name="acknowledgeAllAlarmsForUser">
-      <wsdl:input name="acknowledgeAllAlarmsForUser" message="tns:acknowledgeAllAlarmsForUser">
-    </wsdl:input>
-      <wsdl:output name="acknowledgeAllAlarmsForUserResponse" message="tns:acknowledgeAllAlarmsForUserResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="raiseUserAlarm">
       <wsdl:input name="raiseUserAlarm" message="tns:raiseUserAlarm">
     </wsdl:input>
@@ -76,18 +70,15 @@
       <wsdl:output name="getUserAlarmsForUserAndReferenceTypeResponse" message="tns:getUserAlarmsForUserAndReferenceTypeResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="acknowledgeAllAlarmsForUserAndReferenceType">
+      <wsdl:input name="acknowledgeAllAlarmsForUserAndReferenceType" message="tns:acknowledgeAllAlarmsForUserAndReferenceType">
+    </wsdl:input>
+      <wsdl:output name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse" message="tns:acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
+    </wsdl:output>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserAlarmManagerImplServiceSoapBinding" type="tns:UserAlarmManagerWebService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="acknowledgeAllAlarmsForUser">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="acknowledgeAllAlarmsForUser">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="acknowledgeAllAlarmsForUserResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="raiseUserAlarm">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="raiseUserAlarm">
@@ -121,6 +112,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getUserAlarmsForUserAndReferenceTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="acknowledgeAllAlarmsForUserAndReferenceType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="acknowledgeAllAlarmsForUserAndReferenceType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
