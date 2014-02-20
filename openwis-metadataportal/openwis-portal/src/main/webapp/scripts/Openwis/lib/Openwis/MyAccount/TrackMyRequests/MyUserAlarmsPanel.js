@@ -23,10 +23,10 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 			store: this.getUserAlarmStore(),
 			loadMask: true,
 			columns: [
-				{id: 'date', header: "Raised on", renderer: Openwis.Utils.Date.formatDateTimeUTC, dataIndex: "date", width: 100},
-				{id: 'alarmType', header: "Type", dataIndex: "alarmType", width: 100},
-				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100},
-				{id: 'message', header: "Message", dataIndex: "message", width: 100}
+				{id: 'date', header: "Raised on", renderer: Openwis.Utils.Date.formatDateTimeUTC, dataIndex: "date", width: 100, sortable: true },
+				// {id: 'alarmType', header: "Type", dataIndex: "alarmType", width: 100},
+				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100, sortable: true },
+				{id: 'message', header: "Message", dataIndex: "message", width: 100, sortable: true }
 			],
 			autoExpandColumn: 'message',
             listeners: {

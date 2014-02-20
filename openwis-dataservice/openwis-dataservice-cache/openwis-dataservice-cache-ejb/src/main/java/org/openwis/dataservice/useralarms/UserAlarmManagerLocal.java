@@ -2,10 +2,10 @@ package org.openwis.dataservice.useralarms;
 
 import java.util.List;
 
-import javax.jws.WebParam;
-
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
+import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmCriteriaDTO;
+import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmSort;
 
 /**
  * Local interface to the UserAlarmManager.
@@ -27,7 +27,7 @@ public interface UserAlarmManagerLocal {
 	 * @param limit The limit
 	 * @return A list of user alarms.
 	 */
-   public List<UserAlarm> getUserAlarmsForUserAndReferenceType(String username, UserAlarmReferenceType referenceType, int offset, int limit);
+   public List<UserAlarm> getUserAlarmsForUserAndReferenceType(GetUserAlarmCriteriaDTO searchCriteria);
 
    /**
     * Acknowledges a user alarm.  This will remove the user alarm from the database.  If the user alarm could not be found, no operation

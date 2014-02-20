@@ -1,15 +1,20 @@
 package org.openwis.metadataportal.services.useralarms;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jeeves.interfaces.Service;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
+import jeeves.utils.Util;
 
 import org.jdom.Element;
 import org.openwis.dataservice.ProcessedRequest;
 import org.openwis.dataservice.ProcessedRequestService;
+import org.openwis.dataservice.useralarms.GetUserAlarmCriteriaDTO;
+import org.openwis.dataservice.useralarms.GetUserAlarmSort;
 import org.openwis.dataservice.useralarms.UserAlarm;
 import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
 import org.openwis.dataservice.useralarms.UserAlarmReferenceType;
@@ -24,6 +29,17 @@ import com.google.common.collect.Lists;
 
 public abstract class AbstractUserAlarmGetService implements Service {
 
+   /**
+    * A mapping from the column ID to the appropriate sort field.
+    */
+   private static final Map<String, GetUserAlarmSort> COLUMN_ID_TO_SORT_MAP = new HashMap<String, GetUserAlarmSort>();
+
+   static {
+      COLUMN_ID_TO_SORT_MAP.put("date", GetUserAlarmSort.DATE);
+      COLUMN_ID_TO_SORT_MAP.put("requestId", GetUserAlarmSort.REFERENCE_ID);
+      COLUMN_ID_TO_SORT_MAP.put("message", GetUserAlarmSort.MESSAGE);
+   }
+
    @Override
    public void init(String appPath, ServiceConfig params) throws Exception {
    }
@@ -36,7 +52,8 @@ public abstract class AbstractUserAlarmGetService implements Service {
       // Get the alarm service
       UserAlarmManagerWebService userAlarmManager = DataServiceProvider.getUserAlarmManagerService();
       if (userAlarmManager != null) {
-         userAlarms = userAlarmManager.getUserAlarmsForUserAndReferenceType(userName, getReferenceType(), 0, 20);
+         GetUserAlarmCriteriaDTO criteriaDto = buildCriteriaDTO(userName, params);
+         userAlarms = userAlarmManager.getUserAlarmsForUserAndReferenceType(criteriaDto);
       }
 
       List<UserAlarmDTO> userAlarmsDto = convertToDtos(userAlarms);
@@ -45,6 +62,32 @@ public abstract class AbstractUserAlarmGetService implements Service {
       SearchResultWrapper<UserAlarmDTO> searchResults = new SearchResultWrapper<UserAlarmDTO>(userAlarmsDto.size(), userAlarmsDto);
 
       return JeevesJsonWrapper.send(searchResults);
+   }
+
+   /**
+    * Converts the request parameters into a criteria DTO.
+    */
+   private GetUserAlarmCriteriaDTO buildCriteriaDTO(String userName,
+         Element params) throws Exception {
+      GetUserAlarmCriteriaDTO dto = new GetUserAlarmCriteriaDTO();
+
+      dto.setUsername(userName);
+      dto.setReferenceType(getReferenceType());
+
+      int start = Util.getParamAsInt(params, "start");
+      int limit = Util.getParamAsInt(params, "limit");
+      String sortColumn = Util.getParam(params, "sort", null);
+      String sortDirection = Util.getParam(params, "dir", null);
+
+      if (sortColumn != null)
+      {
+         dto.setSortColumn(COLUMN_ID_TO_SORT_MAP.get(sortColumn));
+         dto.setSortAscending(sortDirection.equals("ASC"));
+      }
+      dto.setOffset(start);
+      dto.setLimit(limit);
+
+      return dto;
    }
 
    /**
@@ -78,5 +121,4 @@ public abstract class AbstractUserAlarmGetService implements Service {
          }
       });
    }
-
 }
