@@ -7,10 +7,10 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 		var viewRequestAction;
 
 		if (this.isSubscription) {
-			requestTitle = "Subscription ID";
+			requestTitle = Openwis.i18n('TrackMySubscriptions.Subscription.ID');
 			viewRequestAction = this.getViewSubscriptionAction();
 		} else {
-			requestTitle = "Request ID";
+			requestTitle = Openwis.i18n('TrackMyRequests.Request.ID');
 			viewRequestAction = this.getViewRequestAction();
 		}
 
@@ -23,9 +23,9 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 			store: this.getUserAlarmStore(),
 			loadMask: true,
 			columns: [
-				{id: 'date', header: "Raised on", renderer: Openwis.Utils.Date.formatDateTimeUTC, dataIndex: "date", width: 100, sortable: true },
+				{id: 'date', header: Openwis.i18n('TrackMyRequests.UserAlarms.Date'), renderer: Openwis.Utils.Date.formatDateTimeUTC, dataIndex: "date", width: 100, sortable: true },
 				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100, sortable: true },
-				{id: 'message', header: "Message", dataIndex: "message", width: 100, sortable: true }
+				{id: 'message', header: Openwis.i18n('TrackMyRequests.UserAlarms.Message'), renderer: this.renderMessage.createDelegate(this), dataIndex: "message", width: 100, sortable: true }
 			],
 			autoExpandColumn: 'message',
             listeners: {
@@ -55,8 +55,8 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
                 pageSize: Openwis.Conf.PAGE_SIZE,
                 store: this.getUserAlarmStore(),
                 displayInfo: true,
-                displayMsg: 'Displaying alarm {0} - {1} of {2}',
-                emptyMsg: 'No alarms to display'
+                displayMsg: Openwis.i18n('TrackMyRequests.UserAlarms.Display.Range'),
+                emptyMsg: Openwis.i18n('TrackMyRequests.UserAlarms.No.Alarms'),
             })
 		});
 		Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel.superclass.initComponent.apply(this, arguments);
@@ -129,7 +129,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	getAcknowledgeAction: function() {
 		if (!this.acknowledgeAction) {
 			this.acknowledgeAction = new Ext.Action({
-				text: "Acknowledge",
+				text: Openwis.i18n('TrackMyRequests.UserAlarms.Action.Acknowledge'),
 				iconCls: 'icon-discard-adhoc',
 				disabled: true,
 				scope: this,
@@ -159,7 +159,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	getAcknowledgeAllAction: function() {
 		if (!this.acknowledgeAllAction) {
 			this.acknowledgeAllAction = new Ext.Action({
-				text: "Acknowledge All",
+				text: Openwis.i18n('TrackMyRequests.UserAlarms.Action.AcknowledgeAll'),
 				iconCls: 'icon-discard-adhoc',
 				scope: this,
 				handler: function() {
@@ -183,6 +183,22 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	reload: function() {
 		this.getStore().reload();
 	},
+
+    /**
+     * Tool tip rendering for message grid cell
+     * @param {Mixed} value value to render
+     * @param {Object} cell
+     * @param {Ext.data.Record} record
+     */
+    renderMessage: function(value, cell, record) {
+	// get data
+	var data = record.data;
+	var msg = data.message;
+
+	// create tool tip
+	return '<div qtip="' + msg +'">' + value + '</div>';
+    },
+
 
 	getViewRequestAction: function() {
 	    if(!this.viewRequestAction) {

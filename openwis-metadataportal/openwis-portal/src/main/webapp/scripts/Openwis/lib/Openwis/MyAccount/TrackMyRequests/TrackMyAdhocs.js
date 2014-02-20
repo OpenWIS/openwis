@@ -19,7 +19,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 		
 		//Create User Alarm Grid
 		this.add(new Ext.Container({
-			html: 'User Alarms',
+			html: Openwis.i18n('TrackMyRequests.UserAlarms.Title'),
 			cls: 'myAccountTitle2'
 		}));
 		this.add(this.getUserAlarmsGrid());

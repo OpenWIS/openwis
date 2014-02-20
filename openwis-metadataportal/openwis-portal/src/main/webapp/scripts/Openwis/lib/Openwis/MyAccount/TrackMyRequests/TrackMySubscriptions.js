@@ -22,7 +22,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMySubscriptions = Ext.extend(Ext.Containe
 		
 		//Create User Alarm Grid
 		this.add(new Ext.Container({
-			html: 'User Alarms',
+			html: Openwis.i18n('TrackMyRequests.UserAlarms.Title'),
 			cls: 'myAccountTitle2'
 		}));
 		this.add(this.getUserAlarmsGrid());

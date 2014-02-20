@@ -97,6 +97,7 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
 		width: 300,
 		sortable: true,
 		hideable: false,
+		renderer: this.renderMessage.createDelegate(this)
             }));
 
             this.userAlarmSelectionModel = new Ext.grid.RowSelectionModel({
@@ -122,7 +123,6 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
                 columns: columns,
                 listeners: {
                     afterrender: function(grid) {
-						this.reset();
 			this.reload();
                     },
                     scope:this
@@ -273,11 +273,20 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
 		});
 	},
 
-	/**
-	* Resets the configured filter.
-	*/
-	reset: function() {
-	},
+    /**
+     * Tool tip rendering for message grid cell
+     * @param {Mixed} value value to render
+     * @param {Object} cell
+     * @param {Ext.data.Record} record
+     */
+    renderMessage: function(value, cell, record) {
+	// get data
+	var data = record.data;
+	var msg = data.message;
+
+	// create tool tip
+	return '<div qtip="' + msg +'">' + value + '</div>';
+    },
 
 	getDeleteAction: function() {
 		if (!this.deleteAction) {
