@@ -8,6 +8,8 @@
   <xs:element name="deleteProductMetadataByURN" type="tns:deleteProductMetadataByURN"/>
   <xs:element name="deleteProductMetadataByURNResponse" type="tns:deleteProductMetadataByURNResponse"/>
   <xs:element name="deleteProductMetadataResponse" type="tns:deleteProductMetadataResponse"/>
+  <xs:element name="deleteProductMetadatasWithURN" type="tns:deleteProductMetadatasWithURN"/>
+  <xs:element name="deleteProductMetadatasWithURNResponse" type="tns:deleteProductMetadatasWithURNResponse"/>
   <xs:element name="getAllPatternMetadataMapping" type="tns:getAllPatternMetadataMapping"/>
   <xs:element name="getAllPatternMetadataMappingResponse" type="tns:getAllPatternMetadataMappingResponse"/>
   <xs:element name="getAllProductsMetadata" type="tns:getAllProductsMetadata"/>
@@ -138,6 +140,14 @@
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:productMetadata"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProductMetadatasWithURN">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProductMetadatasWithURNResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="createStopGapMetadata">
     <xs:sequence>

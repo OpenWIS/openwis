@@ -43,6 +43,7 @@ import org.openwis.metadataportal.model.metadata.MetadataAlignerError;
 import org.openwis.metadataportal.model.metadata.MetadataAlignerResult;
 import org.openwis.metadataportal.model.metadata.MetadataValidation;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -154,9 +155,20 @@ public class HarvestingTaskManager extends AbstractManager {
 
    public void resetHarvestingTask(Integer id) throws Exception {
       //Delete the associated metadata.
-      Collection<Metadata> mds = getAllMetadataByHarvestingTask(id);
-      for (Metadata md : mds) {
-         this.dataManager.deleteMetadata(getDbms(), md.getUrn(), false);
+      List<Metadata> mds = new ArrayList<Metadata>(getAllMetadataByHarvestingTask(id));
+//      for (Metadata md : mds) {
+//         this.dataManager.deleteMetadata(getDbms(), md.getUrn(), false);
+//      }
+
+      List<String> urns = Lists.transform(mds, new Function<Metadata, String>() {
+         public String apply(Metadata from) {
+            return from.getUrn();
+         }
+      });
+
+      List<List<String>> mdPartitions = Lists.partition(urns, 100);
+      for (List<String> partition : mdPartitions) {
+         this.dataManager.deleteMetadataCollection(getDbms(), partition, false);
       }
    }
 

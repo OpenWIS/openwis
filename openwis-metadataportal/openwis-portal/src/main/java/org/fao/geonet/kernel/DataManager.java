@@ -1868,6 +1868,61 @@ public class DataManager implements IndexListener {
    //--------------------------------------------------------------------------
 
    /**
+    * Deletes a set of metadata records based on the URN.
+    *
+    * @param dbms
+    * @param urns
+    * @param flagAsDeleted
+    * @throws Exception
+    */
+   public synchronized void deleteMetadataCollection(Dbms dbms, List<String> urns, boolean flagAsDeleted)
+        throws Exception {
+
+//      Log.info(Geonet.ADMIN, String.format("Deleting %d metadata records", urns.size()));
+
+      long startTime = System.currentTimeMillis();
+
+      // Delete Metadata Product
+      new ProductMetadataManager().delete(urns);
+      long split1 = System.currentTimeMillis();
+
+      List<IndexableElement> itemsToDeleteFromIndex = new ArrayList<IndexableElement>();
+
+      for (String urn : urns) {
+         // Create a deleted metadata manager
+         IDeletedMetadataManager dmm = new DeletedMetadataManager(dbms);
+         DeletedMetadata deletedMetadata = null;
+         if (flagAsDeleted) {
+            deletedMetadata = dmm.createDeletedMetadataFromMetadataUrn(urn);
+         }
+
+         // fill the deletedMetadata table if deleted metadata not null
+         if (flagAsDeleted && deletedMetadata != null) {
+            dmm.insertDeletedMetadata(deletedMetadata);
+         }
+
+         //-- Delete metadata relations.
+         Integer id = Integer.parseInt(getMetadataId(dbms, urn));
+         XmlSerializer.deleteMetadataRelations(dbms, id);
+
+         //--- remove metadata
+         XmlSerializer.delete(dbms, "Metadata", urn);
+
+         itemsToDeleteFromIndex.add(new DbmsIndexableElement(dbms, urn, null));
+      }
+      long split4 = System.currentTimeMillis();
+
+      //--- update search criteria / search index...
+      searchMan.delete(itemsToDeleteFromIndex);
+      long split5 = System.currentTimeMillis();
+
+      Log.info(Geonet.ADMIN, String.format("Deleted metadata collection: size = %d, (product, db, index) = %d, %d, %d",
+            urns.size(),
+            split1 - startTime,
+            split4 - split1,
+            split5 - split4));
+   }
+   /**
     * Removes a metadata.
     * @param dbms
     * @param id the metadata ID
@@ -1877,8 +1932,11 @@ public class DataManager implements IndexListener {
    public synchronized void deleteMetadata(Dbms dbms, String urn, boolean flagAsDeleted)
          throws Exception {
 
+      long startTime = System.currentTimeMillis();
+
       // Delete Metadata Product
       new ProductMetadataManager().delete(urn);
+      long split1 = System.currentTimeMillis();
 
       // Create a deleted metadata manager
       IDeletedMetadataManager dmm = new DeletedMetadataManager(dbms);
@@ -1891,16 +1949,27 @@ public class DataManager implements IndexListener {
       if (flagAsDeleted && deletedMetadata != null) {
          dmm.insertDeletedMetadata(deletedMetadata);
       }
+      long split2 = System.currentTimeMillis();
 
       //-- Delete metadata relations.
       Integer id = Integer.parseInt(getMetadataId(dbms, urn));
       XmlSerializer.deleteMetadataRelations(dbms, id);
+      long split3 = System.currentTimeMillis();
 
       //--- remove metadata
       XmlSerializer.delete(dbms, "Metadata", urn);
+      long split4 = System.currentTimeMillis();
 
       //--- update search criteria / search index...
       searchMan.delete(new DbmsIndexableElement(dbms, urn, null));
+      long split5 = System.currentTimeMillis();
+
+      Log.info(Geonet.ADMIN, String.format("Deleted metadata times: (product, deletedMetadata, relations, db, index) = %d, %d, %d, %d, %d",
+            split1 - startTime,
+            split2 - split1,
+            split3 - split2,
+            split4 - split3,
+            split5 - split4));
    }
 
    /**
