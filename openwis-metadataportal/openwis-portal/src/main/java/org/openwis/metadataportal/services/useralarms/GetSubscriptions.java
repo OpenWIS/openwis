@@ -7,7 +7,6 @@ import org.openwis.dataservice.ProcessedRequestService;
 import org.openwis.dataservice.useralarms.UserAlarm;
 import org.openwis.dataservice.useralarms.UserAlarmReferenceType;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
-import org.openwis.metadataportal.services.request.dto.follow.AdhocDTO;
 import org.openwis.metadataportal.services.useralarms.dto.RequestUserAlarmDTO;
 import org.openwis.metadataportal.services.useralarms.dto.UserAlarmDTO;
 
@@ -31,11 +30,8 @@ public class GetSubscriptions extends AbstractUserAlarmGetService {
 
             // TODO: This is a RMI call, which is expensive.  Replace this with a call which accepts
             // a batch of process request IDs.
-
             ProcessedRequest processedRequest = prs.getProcessedRequest(userAlarm.getId());
-            AdhocDTO dto = AdhocDTO.adhocProcessedRequestToDTO(processedRequest);
-
-            return new RequestUserAlarmDTO(userAlarm, dto);
+            return new RequestUserAlarmDTO(userAlarm, processedRequest);
          }
 
          public boolean equals(Object obj) {

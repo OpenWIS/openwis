@@ -1,7 +1,11 @@
 package org.openwis.metadataportal.services.useralarms.dto;
 
+import org.apache.commons.lang.StringUtils;
+import org.openwis.dataservice.ExtractMode;
+import org.openwis.dataservice.ProcessedRequest;
 import org.openwis.dataservice.useralarms.UserAlarm;
-import org.openwis.metadataportal.services.request.dto.follow.AdhocDTO;
+import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
+import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 
 /**
  * A user alarm DTO which contains all the information needed to refer to a request.
@@ -19,13 +23,32 @@ public class RequestUserAlarmDTO extends UserAlarmDTO {
    public RequestUserAlarmDTO() {
    }
 
-   public RequestUserAlarmDTO(UserAlarm alarm, AdhocDTO processedRequest) {
+   public RequestUserAlarmDTO(UserAlarm alarm, ProcessedRequest processedRequest) {
       super(alarm);
-      this.processedRequestId = processedRequest.getProcessedRequestDTO().getId();
-      this.requestId = processedRequest.getRequestID();
-      this.urn = processedRequest.getProductMetadataURN();
-      this.extractMode = processedRequest.getExtractMode();
-      this.downloadUrl = processedRequest.getProcessedRequestDTO().getUrl();
+      initialiseFromProcessedRequest(processedRequest);
+   }
+
+   /**
+    * Initialise the internal fields from the processed request.
+    */
+   private void initialiseFromProcessedRequest(ProcessedRequest processedRequest) {
+      String stagingPostUrl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.URL_STAGING_POST);
+
+      this.processedRequestId = processedRequest.getId();
+      this.requestId = processedRequest.getRequest().getId().toString();
+      this.urn = processedRequest.getRequest().getProductMetadata().getUrn();
+
+      if(processedRequest.getRequest().getExtractMode().equals(ExtractMode.GLOBAL)) {
+         this.extractMode = "CACHE";
+      } else {
+         this.extractMode = processedRequest.getRequest().getProductMetadata().getLocalDataSource();
+      }
+
+      if (StringUtils.isNotEmpty(processedRequest.getUri())) {
+         this.downloadUrl = stagingPostUrl + processedRequest.getUri();
+      } else {
+         this.downloadUrl = "";
+      }
    }
 
    public long getProcessedRequestId() {

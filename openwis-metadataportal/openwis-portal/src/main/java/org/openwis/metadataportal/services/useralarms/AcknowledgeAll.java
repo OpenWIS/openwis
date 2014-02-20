@@ -15,11 +15,8 @@ import org.slf4j.LoggerFactory;
 
 public class AcknowledgeAll implements Service {
 
-   private static Logger log = LoggerFactory.getLogger(AcknowledgeAll.class);
-
    @Override
    public void init(String appPath, ServiceConfig params) throws Exception {
-      // TODO Auto-generated method stub
    }
 
    @Override

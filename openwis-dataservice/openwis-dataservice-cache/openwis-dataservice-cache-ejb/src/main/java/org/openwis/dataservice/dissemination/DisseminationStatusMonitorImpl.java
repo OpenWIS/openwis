@@ -458,7 +458,7 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 
 		if (processedRequest.getRequest() instanceof AdHoc) {
 			refType = UserAlarmReferenceType.REQUEST;
-			requestId = processedRequest.getRequest().getId();
+			requestId = processedRequest.getId();
 		} else if (processedRequest.getRequest() instanceof Subscription) {
 			refType = UserAlarmReferenceType.SUBSCRIPTION;
 			requestId = processedRequest.getId();

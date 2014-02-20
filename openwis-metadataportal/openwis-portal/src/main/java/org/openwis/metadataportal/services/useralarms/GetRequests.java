@@ -31,11 +31,8 @@ public class GetRequests extends AbstractUserAlarmGetService {
 
             // TODO: This is a RMI call, which is expensive.  Replace this with a call which accepts
             // a batch of process request IDs.
-
-            ProcessedRequest processedRequest = prs.getFullProcessedRequestForAdhoc(userAlarm.getReferenceKey()); //prs.getProcessedRequest(userAlarm.getReferenceKey());
-            AdhocDTO dto = AdhocDTO.adhocProcessedRequestToDTO(processedRequest);
-
-            return new RequestUserAlarmDTO(userAlarm, dto);
+            ProcessedRequest processedRequest = prs.getFullProcessedRequest(userAlarm.getReferenceKey());
+            return new RequestUserAlarmDTO(userAlarm, processedRequest);
          }
 
          public boolean equals(Object obj) {

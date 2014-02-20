@@ -885,7 +885,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
 		if (processedRequest.getRequest() instanceof AdHoc) {
 			refType = UserAlarmReferenceType.REQUEST;
-			refKey = processedRequest.getRequest().getId();
+			refKey = processedRequest.getId();
 		} else if (processedRequest.getRequest() instanceof Subscription) {
 			refType = UserAlarmReferenceType.SUBSCRIPTION;
 			refKey = processedRequest.getId();

@@ -116,6 +116,15 @@ public interface ProcessedRequestService {
     ProcessedRequest getFullProcessedRequestForAdhoc(Long adhocId);
 
     /**
+     * A method to return a processed request with the corresponding request and metadata information.
+     * Similar to {@link #getFullProcessedRequestForAdhoc(Long)} but uses the processed request ID.
+     *
+     * @param processedRequestID the processed request id.
+     * @return the processed request
+     */
+    ProcessedRequest getFullProcessedRequest(Long processedRequestID);
+
+    /**
     * Deletes the processed requests associated to a request.<p>
     * Operates as a Cascade deletion when deleting a request.
     * @param requestID the request id.

@@ -16,9 +16,6 @@ import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.useralarms.dto.UserAlarmDTO;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-
 public abstract class AbstractUserAlarmGetService implements Service {
 
    @Override
