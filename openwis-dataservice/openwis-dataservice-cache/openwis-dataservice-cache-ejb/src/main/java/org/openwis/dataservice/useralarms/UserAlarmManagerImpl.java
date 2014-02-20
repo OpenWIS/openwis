@@ -1,5 +1,6 @@
 package org.openwis.dataservice.useralarms;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,7 +173,7 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
 
       // Get the query
       String queryString = buildReportQueryforUserAlarmReport(reportCriteria);
-      Query query = entityManager.createQuery(queryString);
+      Query query = entityManager.createNativeQuery(queryString);
       query.setFirstResult(reportCriteria.getOffset());
       query.setMaxResults(reportCriteria.getLimit());
 
@@ -183,17 +184,25 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
       // Convert the results into DTO objects
       List<UserAlarmReportDTO> resultDtos = new ArrayList<UserAlarmReportDTO>(results.size());
       for (Object[] result : results) {
-         if (result.length != 2) {
-            throw new RuntimeException("Expected an array of length 2 but received an array with length " + result.length);
+         if (result.length != 4) {
+            throw new RuntimeException("Expected an array of length 4 but received an array with length " + result.length);
          }
-         if (! (result[1] instanceof Long)) {
-            throw new RuntimeException("Expected the type of index 1 of the result array to be a Long, but was " + result[1].getClass().toString());
+         if (! (result[1] instanceof BigInteger)) {
+            throw new RuntimeException("Expected the type of index 1 of the result array to be a BigInteger, but was " + result[1].getClass().toString());
+         }
+         if (! (result[2] instanceof BigInteger)) {
+            throw new RuntimeException("Expected the type of index 2 of the result array to be a BigInteger, but was " + result[2].getClass().toString());
+         }
+         if (! (result[3] instanceof BigInteger)) {
+            throw new RuntimeException("Expected the type of index 3 of the result array to be a BigInteger, but was " + result[3].getClass().toString());
          }
 
          String userId = result[0].toString();
-         int alarmCount = ((Long)result[1]).intValue();
+         int requestCount = ((BigInteger)result[1]).intValue();
+         int subscriptionCount = ((BigInteger)result[2]).intValue();
+         int alarmCount = ((BigInteger)result[3]).intValue();
 
-         resultDtos.add(UserAlarmReportDTO.createInstance(userId, alarmCount));
+         resultDtos.add(UserAlarmReportDTO.createInstance(userId, requestCount, subscriptionCount, alarmCount));
       }
 
       return resultDtos;
@@ -209,7 +218,18 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
     */
    private String buildReportQueryforUserAlarmReport(
          UserAlarmReportCriteriaDTO reportCriteria) {
-      StringBuilder query = new StringBuilder("select a.userId as userId, count(a) as alarmCount from UserAlarm a group by a.userId");
+      StringBuilder query = new StringBuilder();
+
+      // Create a native query for this report
+      query.append("select user_id, ");
+      query.append("coalesce(request_cnt, 0) as request_cnt, ");
+      query.append("coalesce(subscription_cnt, 0) as subscription_cnt, ");
+      query.append("coalesce(request_cnt, 0) + coalesce(subscription_cnt, 0) as total_cnt ");
+      query.append("from ");
+      query.append("(select user_id, count(1) as request_cnt from openwis_user_alarm where req_type = 'REQUEST' group by user_id, req_type) r ");
+      query.append("full join ");
+      query.append("(select user_id, count(1) as subscription_cnt from openwis_user_alarm where req_type = 'SUBSCRIPTION' group by user_id, req_type) s ");
+      query.append("using (user_id) ");
 
       query.append(" order by ").append(reportCriteria.getSortBy().getSortFieldName());
       query.append(" ").append(BooleanUtils.toString(reportCriteria.isSortAsc(), "asc", "desc"));
@@ -223,5 +243,19 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
       Long count = (Long)query.getSingleResult();
 
       return count.intValue();
+   }
+
+   @Override
+   public int deleteAlarmsOfRequest(long id) {
+      Query query = entityManager.createNamedQuery("UserAlarm.deleteUserAlarmsOfRequest");
+      query.setParameter("requestId", id);
+      return query.executeUpdate();
+   }
+
+   @Override
+   public int deleteAlarmsOfUser(String userId) {
+      Query query = entityManager.createNamedQuery("UserAlarm.deleteUserAlarmsOfUser");
+      query.setParameter("userId", userId);
+      return query.executeUpdate();
    }
 }

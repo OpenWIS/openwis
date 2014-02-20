@@ -7,6 +7,10 @@
 <xs:element name="countUserAlarms" type="tns:countUserAlarms"/>
 <xs:element name="countUserAlarmsResponse" type="tns:countUserAlarmsResponse"/>
 <xs:element name="deleteAlarms" type="tns:deleteAlarms"/>
+<xs:element name="deleteAlarmsOfRequest" type="tns:deleteAlarmsOfRequest"/>
+<xs:element name="deleteAlarmsOfRequestResponse" type="tns:deleteAlarmsOfRequestResponse"/>
+<xs:element name="deleteAlarmsOfUser" type="tns:deleteAlarmsOfUser"/>
+<xs:element name="deleteAlarmsOfUserResponse" type="tns:deleteAlarmsOfUserResponse"/>
 <xs:element name="deleteAlarmsResponse" type="tns:deleteAlarmsResponse"/>
 <xs:element name="deleteAllAlarms" type="tns:deleteAllAlarms"/>
 <xs:element name="deleteAllAlarmsResponse" type="tns:deleteAllAlarmsResponse"/>
@@ -22,6 +26,16 @@
     <xs:sequence/>
   </xs:complexType>
 <xs:complexType name="deleteAllAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfRequest">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfRequestResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:int"/>
     </xs:sequence>
@@ -124,7 +138,9 @@
   </xs:complexType>
 <xs:complexType name="userAlarmReportDTO">
     <xs:sequence>
-      <xs:element name="alarms" type="xs:int"/>
+      <xs:element name="requestCount" type="xs:int"/>
+      <xs:element name="subscriptionCount" type="xs:int"/>
+      <xs:element name="totalCount" type="xs:int"/>
       <xs:element minOccurs="0" name="userId" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
@@ -136,6 +152,16 @@
   </xs:complexType>
 <xs:complexType name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
     <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
   </xs:complexType>
 <xs:simpleType name="userAlarmRequestType">
     <xs:restriction base="xs:string">
@@ -155,8 +181,10 @@
   </xs:simpleType>
 <xs:simpleType name="userAlarmReportSort">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="USER"/>
-      <xs:enumeration value="ALARMS"/>
+      <xs:enumeration value="USER_ID"/>
+      <xs:enumeration value="REQUEST_COUNT"/>
+      <xs:enumeration value="SUBSCRIPTION_COUNT"/>
+      <xs:enumeration value="TOTAL_COUNT"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

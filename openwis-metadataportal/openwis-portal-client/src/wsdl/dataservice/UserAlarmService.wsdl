@@ -25,16 +25,24 @@
     <wsdl:part name="parameters" element="tns:reportOnUserAlarmsResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteAlarmsOfUser">
+    <wsdl:part name="parameters" element="tns:deleteAlarmsOfUser">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="acknowledgeAlarmsForUserResponse">
     <wsdl:part name="parameters" element="tns:acknowledgeAlarmsForUserResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteAlarms">
-    <wsdl:part name="parameters" element="tns:deleteAlarms">
+  <wsdl:message name="deleteAlarmsOfRequest">
+    <wsdl:part name="parameters" element="tns:deleteAlarmsOfRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUserAlarms">
     <wsdl:part name="parameters" element="tns:getUserAlarms">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteAlarms">
+    <wsdl:part name="parameters" element="tns:deleteAlarms">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="reportOnUserAlarms">
@@ -49,6 +57,14 @@
     <wsdl:part name="parameters" element="tns:deleteAlarmsResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteAlarmsOfUserResponse">
+    <wsdl:part name="parameters" element="tns:deleteAlarmsOfUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteAlarmsOfRequestResponse">
+    <wsdl:part name="parameters" element="tns:deleteAlarmsOfRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="acknowledgeAlarmsForUser">
     <wsdl:part name="parameters" element="tns:acknowledgeAlarmsForUser">
     </wsdl:part>
@@ -57,12 +73,12 @@
     <wsdl:part name="parameters" element="tns:acknowledgeAllAlarmsForUserAndRequestType">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getDistinctNumberOfUsersWithUserAlarmsResponse">
-    <wsdl:part name="parameters" element="tns:getDistinctNumberOfUsersWithUserAlarmsResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="countUserAlarmsResponse">
     <wsdl:part name="parameters" element="tns:countUserAlarmsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDistinctNumberOfUsersWithUserAlarmsResponse">
+    <wsdl:part name="parameters" element="tns:getDistinctNumberOfUsersWithUserAlarmsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteAllAlarms">
@@ -82,6 +98,12 @@
       <wsdl:input name="deleteAllAlarms" message="tns:deleteAllAlarms">
     </wsdl:input>
       <wsdl:output name="deleteAllAlarmsResponse" message="tns:deleteAllAlarmsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmsOfRequest">
+      <wsdl:input name="deleteAlarmsOfRequest" message="tns:deleteAlarmsOfRequest">
+    </wsdl:input>
+      <wsdl:output name="deleteAlarmsOfRequestResponse" message="tns:deleteAlarmsOfRequestResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="raiseUserAlarm">
@@ -132,6 +154,12 @@
       <wsdl:output name="acknowledgeAllAlarmsForUserAndRequestTypeResponse" message="tns:acknowledgeAllAlarmsForUserAndRequestTypeResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="deleteAlarmsOfUser">
+      <wsdl:input name="deleteAlarmsOfUser" message="tns:deleteAlarmsOfUser">
+    </wsdl:input>
+      <wsdl:output name="deleteAlarmsOfUserResponse" message="tns:deleteAlarmsOfUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserAlarmManagerImplServiceSoapBinding" type="tns:UserAlarmManagerWebService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -141,6 +169,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="deleteAllAlarmsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmsOfRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteAlarmsOfRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteAlarmsOfRequestResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -213,6 +250,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAlarmsOfUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteAlarmsOfUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteAlarmsOfUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

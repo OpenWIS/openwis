@@ -12,6 +12,8 @@ import org.openwis.dataservice.useralarms.UserAlarm;
  */
 public class UserAlarmDTO {
    private long id;
+   private String requestId;
+   private long processedRequestId;
    private String date;
    private String userId;
    private String alarmType;
@@ -26,6 +28,8 @@ public class UserAlarmDTO {
       this.userId = alarm.getUserId();
       this.alarmType = StringUtils.capitalize(alarm.getRequestType().toString().toLowerCase());
       this.message = alarm.getMessage();
+      this.requestId = String.format("%07d", alarm.getRequestId());
+      this.processedRequestId = alarm.getProcessedRequestId();
    }
 
    public String getDate() {
@@ -66,5 +70,21 @@ public class UserAlarmDTO {
 
    public void setUserId(String userId) {
       this.userId = userId;
+   }
+
+   public String getRequestId() {
+      return requestId;
+   }
+
+   public void setRequestId(String requestId) {
+      this.requestId = requestId;
+   }
+
+   public long getProcessedRequestId() {
+      return processedRequestId;
+   }
+
+   public void setProcessedRequestId(long processedRequestId) {
+      this.processedRequestId = processedRequestId;
    }
 }

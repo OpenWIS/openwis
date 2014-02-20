@@ -24,7 +24,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 			loadMask: true,
 			columns: [
 				{id: 'date', header: "Raised on", renderer: Openwis.Utils.Date.formatDateTimeUTC, dataIndex: "date", width: 100, sortable: true },
-				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100, sortable: false },
+				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100, sortable: true },
 				{id: 'message', header: "Message", dataIndex: "message", width: 100, sortable: true }
 			],
 			autoExpandColumn: 'message',
@@ -178,6 +178,10 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 			});
 		}
 		return this.acknowledgeAllAction;
+	},
+
+	reload: function() {
+		this.getStore().reload();
 	},
 
 	getViewRequestAction: function() {

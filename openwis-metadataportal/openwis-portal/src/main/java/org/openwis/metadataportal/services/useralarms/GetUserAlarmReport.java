@@ -1,6 +1,8 @@
 package org.openwis.metadataportal.services.useralarms;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jeeves.exceptions.BadInputEx;
 import jeeves.interfaces.Service;
@@ -19,6 +21,16 @@ import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 
 public class GetUserAlarmReport implements Service {
+
+   private static final Map<String, UserAlarmReportSort> SORT_COLUMN_TO_USER_ALARM_MAP = new HashMap<String, UserAlarmReportSort>();
+
+   static
+   {
+      SORT_COLUMN_TO_USER_ALARM_MAP.put("userId", UserAlarmReportSort.USER_ID);
+      SORT_COLUMN_TO_USER_ALARM_MAP.put("requestCount", UserAlarmReportSort.REQUEST_COUNT);
+      SORT_COLUMN_TO_USER_ALARM_MAP.put("subscriptionCount", UserAlarmReportSort.SUBSCRIPTION_COUNT);
+      SORT_COLUMN_TO_USER_ALARM_MAP.put("totalCount", UserAlarmReportSort.TOTAL_COUNT);
+   }
 
    @Override
    public void init(String appPath, ServiceConfig params) throws Exception {
@@ -42,14 +54,7 @@ public class GetUserAlarmReport implements Service {
       String sortColumn = Util.getParam(params, "sort", null);
       String sortDirection = Util.getParam(params, "dir", null);
 
-      if (StringUtils.equals(sortColumn, "userId")) {
-         reportCriteriaDto.setSortBy(UserAlarmReportSort.USER);
-      } else if (StringUtils.equals(sortColumn, "alarms")) {
-         reportCriteriaDto.setSortBy(UserAlarmReportSort.ALARMS);
-      } else {
-         reportCriteriaDto.setSortBy(UserAlarmReportSort.USER);
-      }
-
+      reportCriteriaDto.setSortBy(SORT_COLUMN_TO_USER_ALARM_MAP.get(sortColumn));
       reportCriteriaDto.setSortAsc(sortDirection.equals("ASC"));
       reportCriteriaDto.setOffset(start);
       reportCriteriaDto.setLimit(limit);

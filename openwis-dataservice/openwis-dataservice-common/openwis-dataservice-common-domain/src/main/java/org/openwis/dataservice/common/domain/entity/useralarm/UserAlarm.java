@@ -26,7 +26,9 @@ import javax.persistence.TemporalType;
    @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and u.requestType = :requestType"),
    @NamedQuery(name = "UserAlarm.alarmsForUser", query = "select u from UserAlarm u where u.userId = :userId"),
    @NamedQuery(name = "UserAlarm.distinctUserCount", query = "select count(distinct u.userId) from UserAlarm u"),
-   @NamedQuery(name = "UserAlarm.deleteAllUserAlarms", query = "delete from UserAlarm u")
+   @NamedQuery(name = "UserAlarm.deleteAllUserAlarms", query = "delete from UserAlarm u"),
+   @NamedQuery(name = "UserAlarm.deleteUserAlarmsOfRequest", query = "delete from UserAlarm u where u.requestId = :requestId"),
+   @NamedQuery(name = "UserAlarm.deleteUserAlarmsOfUser", query = "delete from UserAlarm u where u.userId = :userId")
 })
 public class UserAlarm {
 

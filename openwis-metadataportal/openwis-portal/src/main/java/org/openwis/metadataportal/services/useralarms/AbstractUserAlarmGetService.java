@@ -21,7 +21,7 @@ import org.openwis.dataservice.useralarms.UserAlarmRequestType;
 import org.openwis.metadataportal.common.search.SearchResultWrapper;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.useralarms.dto.RequestUserAlarmDTO;
+import org.openwis.metadataportal.services.useralarms.dto.UserAlarmAndRequestDTO;
 import org.openwis.metadataportal.services.useralarms.dto.UserAlarmDTO;
 
 import com.google.common.base.Function;
@@ -123,7 +123,7 @@ public abstract class AbstractUserAlarmGetService implements Service {
             // TODO: This is a RMI call, which is expensive.  Replace this with a call which accepts
             // a batch of process request IDs.
             ProcessedRequest processedRequest = prs.getFullProcessedRequest(userAlarm.getProcessedRequestId());
-            return new RequestUserAlarmDTO(userAlarm, processedRequest);
+            return new UserAlarmAndRequestDTO(userAlarm, processedRequest);
          }
 
          public boolean equals(Object obj) {

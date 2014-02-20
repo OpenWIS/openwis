@@ -88,7 +88,7 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
 		header: 'Req/Sub ID',
 		dataIndex: 'requestId',
 		width: 100,
-		sortable: false
+		sortable: true
             }));
             columns.push(new Ext.grid.Column({
 		id: 'message',
@@ -138,61 +138,6 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
         return this.userAlarmGrid;
     },
 
-    getUserAlarmReportGrid: function() {
-        if (!this.userAlarmReportGrid) {
-            var columns = [
-                new Ext.grid.Column({
-			id: 'userId',
-			header: 'User ID',
-			dataIndex: 'userId',
-			width: 200,
-			sortable: true,
-			hideable: false
-                }),
-                new Ext.grid.Column({
-			id: 'alarms',
-			header: 'Alarms',
-			dataIndex: 'alarms',
-			width: 200,
-			sortable: true,
-			hideable: false
-                })
-            ];
-
-		var userReportGridView = new Ext.grid.GridView({
-				emptyText: 'No results to display.',
-				forceFit: true
-		});
-
-		var userReportPagingToolbar = new Ext.PagingToolbar({
-			pageSize: Openwis.Conf.PAGE_SIZE,
-			store: this.getUserAlarmReportStore(),
-			displayInfo: true,
-			displayMsg: 'Displaying users {0} - {1} of {2}',
-			emptyMsg: "No users to display"
-		});
-
-            this.userAlarmReportGrid = new Ext.grid.GridPanel({
-		id: 'userReportGrid',
-                height: 250,
-                border: true,
-                store: this.getUserAlarmReportStore(),
-                loadMask: true,
-                view: userReportGridView,
-                columns: columns,
-                listeners: {
-                    afterrender: function(grid) {
-			this.getUserAlarmReportStore().load({ params: { start: 0, limit: Openwis.Conf.PAGE_SIZE }});
-                    },
-                    scope:this
-                },
-                // paging bar on the bottom
-                bbar: userReportPagingToolbar
-            });
-        }
-        return this.userAlarmReportGrid;
-
-    },
 
     // PagingToolbar
     getPagingToolbar: function() {
@@ -245,6 +190,50 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
         return this.gridView;
     },
 
+    getUserAlarmReportGrid: function() {
+        if (!this.userAlarmReportGrid) {
+            var columns = [
+                new Ext.grid.Column({ id: 'userId', header: 'User ID', dataIndex: 'userId', width: 200, sortable: true, hideable: false }),
+                new Ext.grid.Column({ id: 'requestCount', header: 'Requests', dataIndex: 'requestCount', width: 200, sortable: true, hideable: false }),
+                new Ext.grid.Column({ id: 'subscriptionCount', header: 'Subscriptions', dataIndex: 'subscriptionCount', width: 200, sortable: true, hideable: false }),
+                new Ext.grid.Column({ id: 'totalCount', header: 'Total', dataIndex: 'totalCount', width: 200, sortable: true, hideable: false })
+            ];
+
+		var userReportGridView = new Ext.grid.GridView({
+				emptyText: 'No results to display.',
+				forceFit: true
+		});
+
+		var userReportPagingToolbar = new Ext.PagingToolbar({
+			pageSize: Openwis.Conf.PAGE_SIZE,
+			store: this.getUserAlarmReportStore(),
+			displayInfo: true,
+			displayMsg: 'Displaying users {0} - {1} of {2}',
+			emptyMsg: "No users to display"
+		});
+
+            this.userAlarmReportGrid = new Ext.grid.GridPanel({
+		id: 'userReportGrid',
+                height: 250,
+                border: true,
+                store: this.getUserAlarmReportStore(),
+                loadMask: true,
+                view: userReportGridView,
+                columns: columns,
+                listeners: {
+                    afterrender: function(grid) {
+			this.getUserAlarmReportStore().load({ params: { start: 0, limit: Openwis.Conf.PAGE_SIZE }});
+                    },
+                    scope:this
+                },
+                // paging bar on the bottom
+                bbar: userReportPagingToolbar
+            });
+        }
+        return this.userAlarmReportGrid;
+
+    },
+
     getUserAlarmReportStore: function() {
         if (!this.userAlarmReportStore) {
             this.userAlarmReportStore = new Openwis.Data.JeevesJsonStore({
@@ -255,11 +244,13 @@ Openwis.Admin.Statistics.UserAlarms = Ext.extend(Ext.Container, {
                 totalProperty: 'total',
                 idProperty: 'id',
                 fields: [
-                    {name: 'userId' },
-                    {name: 'alarms' },
+                    { name: 'userId' },
+                    { name: 'requestCount' },
+                    { name: 'subscriptionCount' },
+                    { name: 'totalCount' },
                 ],
                 sortInfo: {
-                    field: 'alarms',
+                    field: 'totalCount',
                     direction: 'DESC'
                 }
             });

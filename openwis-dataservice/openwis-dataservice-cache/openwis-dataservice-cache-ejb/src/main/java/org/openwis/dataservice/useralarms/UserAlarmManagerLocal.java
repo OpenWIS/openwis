@@ -65,6 +65,22 @@ public interface UserAlarmManagerLocal {
    public int deleteAlarms(List<Long> alarmIds);
 
    /**
+    * Removes all user alarms that are associated with a particular request.
+    *
+    * @param requestId  The request ID
+    * @return
+    */
+   public int deleteAlarmsOfRequest(long id);
+
+   /**
+    * Removes all user alarms associated with a particular user.
+    *
+    * @param userId
+    * @return
+    */
+   public int deleteAlarmsOfUser(String userId);
+
+   /**
     * Removes all user alarms.
     *
     * @return the number of alarms deleted

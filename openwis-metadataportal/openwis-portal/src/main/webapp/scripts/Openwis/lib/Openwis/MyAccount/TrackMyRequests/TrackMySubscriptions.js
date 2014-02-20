@@ -66,6 +66,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMySubscriptions = Ext.extend(Ext.Containe
 		if(!this.localSubscriptionsGrid) {
 			this.localSubscriptionsGrid = new Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel({
 			    isLocal: true,
+			    userAlarmGridPanel: this.getUserAlarmsGrid(),
 			    url: configOptions.locService + '/xml.follow.my.subscriptions'
 			});
 		}

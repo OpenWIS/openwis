@@ -1,8 +1,10 @@
 package org.openwis.dataservice.common.domain.entity.useralarm.dto;
 
 public enum UserAlarmReportSort {
-   USER("1"),
-   ALARMS("2");
+   USER_ID("user_id"),
+   REQUEST_COUNT("request_cnt"),
+   SUBSCRIPTION_COUNT("subscription_cnt"),
+   TOTAL_COUNT("total_cnt");
 
    private final String sortFieldName;
 

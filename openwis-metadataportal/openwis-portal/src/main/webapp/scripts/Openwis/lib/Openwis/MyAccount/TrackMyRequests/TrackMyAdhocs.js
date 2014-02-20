@@ -62,7 +62,8 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 	getLocalRequestsGrid: function() {
 		if(!this.localRequestsGrid) {
 			this.localRequestsGrid = new Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel({
-			    isLocal: true
+			    isLocal: true,
+			    userAlarmGridPanel: this.getUserAlarmsGrid()
 			});
 		}
 		return this.localRequestsGrid;

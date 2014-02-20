@@ -8,7 +8,9 @@ package org.openwis.dataservice.common.domain.entity.useralarm.dto;
  */
 public class UserAlarmReportDTO {
    private String userId;
-   private int alarms;
+   private int requestCount;
+   private int subscriptionCount;
+   private int totalCount;
 
    /**
     * The user ID this alarm report is for.
@@ -22,14 +24,36 @@ public class UserAlarmReportDTO {
    }
 
    /**
-    * The number of alarms this user has.
+    * The number of alarms this user has which relate to adhoc requests.
     */
-   public int getAlarms() {
-      return alarms;
+   public int getRequestCount() {
+      return requestCount;
    }
 
-   public void setAlarms(int alarms) {
-      this.alarms = alarms;
+   public void setRequestCount(int alarms) {
+      this.requestCount = alarms;
+   }
+
+   /**
+    * The number of alarms this user has which relate to subscriptions.
+    */
+   public int getSubscriptionCount() {
+      return subscriptionCount;
+   }
+
+   public void setSubscriptionCount(int subscriptionAlarms) {
+      this.subscriptionCount = subscriptionAlarms;
+   }
+
+   /**
+    * The total number of alarms the user has.
+    */
+   public int getTotalCount() {
+      return totalCount;
+   }
+
+   public void setTotalCount(int totalAlarms) {
+      this.totalCount = totalAlarms;
    }
 
    /**
@@ -38,10 +62,12 @@ public class UserAlarmReportDTO {
     * @param alarmCount
     * @return
     */
-   public static UserAlarmReportDTO createInstance(String userId, int alarmCount) {
+   public static UserAlarmReportDTO createInstance(String userId, int requestCount, int subscriptionCount, int totalCount) {
       UserAlarmReportDTO dto = new UserAlarmReportDTO();
       dto.setUserId(userId);
-      dto.setAlarms(alarmCount);
+      dto.setRequestCount(requestCount);
+      dto.setSubscriptionCount(subscriptionCount);
+      dto.setTotalCount(totalCount);
       return dto;
    }
 }
