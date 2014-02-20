@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.DataManager;
-import org.openwis.dataservice.CannotDeleteAllProductMetadataException;
+import org.openwis.dataservice.CannotDeleteAllProductMetadataException_Exception;
 import org.openwis.dataservice.CannotDeleteProductMetadataException_Exception;
 import org.openwis.dataservice.ProductMetadata;
 import org.openwis.dataservice.ProductMetadataService;
@@ -80,7 +80,7 @@ public class ProductMetadataManager implements IProductMetadataManager {
    }
 
    @Override
-   public void delete(List<String> urns) throws CannotDeleteAllProductMetadataException {
+   public void delete(List<String> urns) throws CannotDeleteAllProductMetadataException_Exception {
       ProductMetadataService pms = getProductMetadataService();
       pms.deleteProductMetadatasWithURN(urns);
    }

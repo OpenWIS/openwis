@@ -11,6 +11,7 @@ import jeeves.resources.dbms.Dbms;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.kernel.DataManager;
 import org.openwis.dataservice.CannotDeleteAllProductMetadataException;
+import org.openwis.dataservice.CannotDeleteAllProductMetadataException_Exception;
 import org.openwis.dataservice.CannotDeleteProductMetadataException_Exception;
 import org.openwis.dataservice.ProductMetadata;
 import org.openwis.metadataportal.model.metadata.Metadata;
@@ -43,7 +44,7 @@ public interface IProductMetadataManager {
     */
    void delete(String urn) throws CannotDeleteProductMetadataException_Exception;
 
-   void delete(List<String> urns) throws CannotDeleteAllProductMetadataException;
+   void delete(List<String> urns) throws CannotDeleteAllProductMetadataException_Exception;
 
 
    /**

@@ -54,7 +54,7 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="CannotDeleteAllProductMetadataException">
-    <wsdl:part name="CannotDeleteAllProductMetadataException" element="tns:CannotDeleteProductMetadataException">
+    <wsdl:part name="CannotDeleteAllProductMetadataException" element="tns:CannotDeleteAllProductMetadataException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="CannotDeleteProductMetadataException">

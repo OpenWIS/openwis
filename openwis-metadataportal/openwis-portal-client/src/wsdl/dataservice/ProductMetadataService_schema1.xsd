@@ -241,4 +241,10 @@
       <xs:element name="urn" nillable="true" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:element name="CannotDeleteAllProductMetadataException" type="tns:CannotDeleteAllProductMetadataException"/>
+  <xs:complexType name="CannotDeleteAllProductMetadataException">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="urns" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>

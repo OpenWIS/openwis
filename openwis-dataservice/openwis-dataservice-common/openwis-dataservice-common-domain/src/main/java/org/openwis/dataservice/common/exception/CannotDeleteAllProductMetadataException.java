@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * @author lmika
  *
  */
-@WebFault(name = "CannotDeleteProductMetadataException")
+@WebFault(name = "CannotDeleteAllProductMetadataException")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CannotDeleteAllProductMetadataException extends Exception {
    private static final long serialVersionUID = 1L;
@@ -19,6 +19,14 @@ public class CannotDeleteAllProductMetadataException extends Exception {
 
    public CannotDeleteAllProductMetadataException(String[] urns) {
       super();
+      this.urns = urns;
+   }
+
+   public String[] getUrns() {
+      return urns;
+   }
+
+   public void setUrns(String[] urns) {
       this.urns = urns;
    }
 }
