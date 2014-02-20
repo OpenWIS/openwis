@@ -104,6 +104,12 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
                 sortInfo: {
                    field: 'date',
                    direction: 'DESC'
+                },
+                listeners: {
+			load: function(store, records, successful, operation, eOpts) {
+				this.getAcknowledgeAllAction().setDisabled(store.getCount() == 0);
+			},
+			scope: this
                 }
 		});
 		}
@@ -162,6 +168,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 				text: Openwis.i18n('TrackMyRequests.UserAlarms.Action.AcknowledgeAll'),
 				iconCls: 'icon-discard-adhoc',
 				scope: this,
+				disabled: true,
 				handler: function() {
 					var params = { subscription: this.isSubscription };
 					new Openwis.Handler.Remove({
