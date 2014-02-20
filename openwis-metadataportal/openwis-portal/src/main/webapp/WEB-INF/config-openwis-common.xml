@@ -264,8 +264,11 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- User Alarms                                    		       -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <service name="xml.useralarms.get" type="xml">
-		<class name="org.openwis.metadataportal.services.useralarms.Get"/>
+        <service name="xml.useralarms.getrequests" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetRequests"/>
+        </service>
+        <service name="xml.useralarms.getsubscriptions" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetSubscriptions"/>
         </service>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

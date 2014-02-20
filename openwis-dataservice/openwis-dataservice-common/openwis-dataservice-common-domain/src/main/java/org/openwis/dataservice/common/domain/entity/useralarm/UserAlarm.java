@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 @Table(name = "OPENWIS_USER_ALARM")
 @SequenceGenerator(name = "USER_ALARM_GEN", sequenceName = "USER_ALARM_SEQ", initialValue = 1, allocationSize = 1)
 @NamedQueries({
-   @NamedQuery(name = "UserAlarm.alarmsForUser", query = "select u from UserAlarm u where u.userId = :userId")
+   @NamedQuery(name = "UserAlarm.alarmsForUserAndReferenceType", query = "select u from UserAlarm u where u.userId = :userId and referenceType = :referenceType")
 })
 public class UserAlarm {
 

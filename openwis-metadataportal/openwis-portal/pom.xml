@@ -499,6 +499,7 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/Wizard.js</include>
 
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/MyAdhocsGridPanel.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/MyUserAlarmsPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/TrackMyAdhocs.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/MySubscriptionsGridPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/TrackMySubscriptions.js</include>

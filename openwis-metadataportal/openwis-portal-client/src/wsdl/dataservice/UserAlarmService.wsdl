@@ -13,12 +13,12 @@
     <wsdl:part name="parameters" element="tns:raiseUserAlarm">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUserAlarmsForUser">
-    <wsdl:part name="parameters" element="tns:getUserAlarmsForUser">
+  <wsdl:message name="getUserAlarmsForUserAndReferenceTypeResponse">
+    <wsdl:part name="parameters" element="tns:getUserAlarmsForUserAndReferenceTypeResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUserAlarmsForUserResponse">
-    <wsdl:part name="parameters" element="tns:getUserAlarmsForUserResponse">
+  <wsdl:message name="getUserAlarmsForUserAndReferenceType">
+    <wsdl:part name="parameters" element="tns:getUserAlarmsForUserAndReferenceType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="UserAlarmManagerWebService">
@@ -28,10 +28,10 @@
       <wsdl:output name="raiseUserAlarmResponse" message="tns:raiseUserAlarmResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getUserAlarmsForUser">
-      <wsdl:input name="getUserAlarmsForUser" message="tns:getUserAlarmsForUser">
+    <wsdl:operation name="getUserAlarmsForUserAndReferenceType">
+      <wsdl:input name="getUserAlarmsForUserAndReferenceType" message="tns:getUserAlarmsForUserAndReferenceType">
     </wsdl:input>
-      <wsdl:output name="getUserAlarmsForUserResponse" message="tns:getUserAlarmsForUserResponse">
+      <wsdl:output name="getUserAlarmsForUserAndReferenceTypeResponse" message="tns:getUserAlarmsForUserAndReferenceTypeResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -46,12 +46,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getUserAlarmsForUser">
+    <wsdl:operation name="getUserAlarmsForUserAndReferenceType">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getUserAlarmsForUser">
+      <wsdl:input name="getUserAlarmsForUserAndReferenceType">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getUserAlarmsForUserResponse">
+      <wsdl:output name="getUserAlarmsForUserAndReferenceTypeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

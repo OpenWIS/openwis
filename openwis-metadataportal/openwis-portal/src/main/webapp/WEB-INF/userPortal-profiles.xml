@@ -137,9 +137,10 @@
 		<allow service="resources.upload"/>
 		<allow service="resources.prepare.upload"/>
 		<allow service="resources.del"/>
-		
+
 		<!-- Allow to view their user alarms -->
-		<allow service="xml.useralarms.get"/>
+		<allow service="xml.useralarms.getrequests"/>
+		<allow service="xml.useralarms.getsubscriptions"/>
 
 	</profile>
 

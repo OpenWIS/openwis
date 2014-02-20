@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.Validate;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,12 +42,18 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
 	}
 
    @Override
-	@WebMethod(operationName = "getUserAlarmsForUser")
-   public List<UserAlarm> getUserAlarmsForUser(@WebParam(name = "username") final String username) {
+	@WebMethod(operationName = "getUserAlarmsForUserAndReferenceType")
+   public List<UserAlarm> getUserAlarmsForUserAndReferenceType(@WebParam(name = "username") final String username,
+                                               @WebParam(name = "referenceType") final UserAlarmReferenceType referenceType,
+                                               @WebParam(name = "offset") final int offset,
+                                               @WebParam(name = "limit") final int limit) {
       Validate.notNull(username);
 
-      Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUser");
+      Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUserAndReferenceType");
       query.setParameter("userId", username);
+      query.setParameter("referenceType", referenceType);
+      query.setFirstResult(offset);
+      query.setMaxResults(limit);
 
       @SuppressWarnings("unchecked")
       List<UserAlarm> alarms = (List<UserAlarm>)query.getResultList();
