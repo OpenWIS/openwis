@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://useralarms.dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://useralarms.dataservice.openwis.org/" version="1.0">
+<xs:element name="getUserAlarmsForUser" type="tns:getUserAlarmsForUser"/>
+<xs:element name="getUserAlarmsForUserResponse" type="tns:getUserAlarmsForUserResponse"/>
+<xs:element name="raiseUserAlarm" type="tns:raiseUserAlarm"/>
+<xs:element name="raiseUserAlarmResponse" type="tns:raiseUserAlarmResponse"/>
+<xs:complexType name="raiseUserAlarm">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:userAlarm"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="userAlarm">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="category" type="tns:userAlarmCategory"/>
+      <xs:element minOccurs="0" name="dateRaised" type="xs:dateTime"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element name="referenceKey" type="xs:long"/>
+      <xs:element minOccurs="0" name="referenceType" type="tns:userAlarmReferenceType"/>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseUserAlarmResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getUserAlarmsForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserAlarmsForUserResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userAlarm"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:simpleType name="userAlarmCategory">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DISSEMINATION_FAILED"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="userAlarmReferenceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="REQUEST"/>
+      <xs:enumeration value="SUBSCRIPTION"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -111,6 +111,11 @@ public interface ConfigurationConstants {
    String HARNESS_SUBSELECTIONPARAMETERS_WSDL = "openwis.metadataportal.harness.subselectionparameters.wsdl";
 
    /**
+    * The URL of the WSDL of the user alarm manager.
+    */
+   String USER_ALARM_SERVICE_WSDL = "openwis.management.useralarmmanager.wsdl";
+
+   /**
     * The URL of the staging post.
     */
    String MSSFSS_SUPPORT = "openwis.metadataportal.mssfss.support";

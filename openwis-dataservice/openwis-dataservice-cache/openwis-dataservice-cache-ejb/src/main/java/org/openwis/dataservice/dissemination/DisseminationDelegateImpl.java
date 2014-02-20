@@ -43,6 +43,7 @@ import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultSta
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.domain.entity.request.Request;
+import org.openwis.dataservice.common.domain.entity.request.adhoc.AdHoc;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.DisseminationJob;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.FTPDiffusion;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.MSSFSSDissemination;
@@ -54,6 +55,7 @@ import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
@@ -842,13 +844,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
                         logger.error("Start of dissemination via harness failed: " + actualURL);
 
                         // XXX - lmika: Raise an alarm
-                        String user = processedRequest.getRequest().getUser();
-                        UserAlarm alarm = new UserAlarmBuilder(user)
-								.category(UserAlarmCategory.DISSEMINATION_FAILED)
-								.message("Dissemination failed: " + status.getMessage())
-								.getUserAlarm();
-
-                        userAlarmManager.raiseUserAlarm(alarm);
+	                    raiseUserAlarm(processedRequest, status);
                         // XXX - lmika: End modified code
                      } else {
                         if (logger.isInfoEnabled()) {
@@ -874,6 +870,35 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       }
 
       return dissStatus;
+   }
+
+   /**
+    * Raise a new user alarm.
+    *
+    * @param processedRequest
+    * @param status
+    */
+   private void raiseUserAlarm(ProcessedRequest processedRequest,
+			DisseminationStatus status) {
+		long refKey = 0;
+		UserAlarmReferenceType refType = null;
+
+		if (processedRequest.getRequest() instanceof AdHoc) {
+			refType = UserAlarmReferenceType.REQUEST;
+			refKey = processedRequest.getRequest().getId();
+		} else if (processedRequest.getRequest() instanceof Subscription) {
+			refType = UserAlarmReferenceType.SUBSCRIPTION;
+			refKey = processedRequest.getRequest().getId();
+		}
+
+		String user = processedRequest.getRequest().getUser();
+		UserAlarm alarm = new UserAlarmBuilder(user)
+							.category(UserAlarmCategory.DISSEMINATION_FAILED)
+							.referenceTypeKey(refType, refKey)
+							.message(status.getMessage())
+							.getUserAlarm();
+
+		userAlarmManager.raiseUserAlarm(alarm);
    }
 
    private void raiseThresholdExceededAlarm(Object threshold, Object value, Object user,

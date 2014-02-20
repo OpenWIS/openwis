@@ -28,10 +28,13 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.common.domain.entity.cache.CacheConfiguration;
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
+import org.openwis.dataservice.common.domain.entity.request.adhoc.AdHoc;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.DisseminationJob;
+import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmReferenceType;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
@@ -450,10 +453,22 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 	private void raiseUserAlarm(DisseminationJob dJob, DisseminationStatus status) {
 		ProcessedRequest processedRequest = processedRequestService.getProcessedRequest(dJob.getRequestId());
 
+		UserAlarmReferenceType refType = null;
+		long requestId = 0;
+
+		if (processedRequest.getRequest() instanceof AdHoc) {
+			refType = UserAlarmReferenceType.REQUEST;
+			requestId = processedRequest.getRequest().getId();
+		} else if (processedRequest.getRequest() instanceof Subscription) {
+			refType = UserAlarmReferenceType.SUBSCRIPTION;
+			requestId = processedRequest.getRequest().getId();
+		}
+
         String user = processedRequest.getRequest().getUser();
         UserAlarm alarm = new UserAlarmBuilder(user)
 						.category(UserAlarmCategory.DISSEMINATION_FAILED)
-						.message("Dissemination failed: " + status.getMessage())
+						.referenceTypeKey(refType, requestId)
+						.message(status.getMessage())
 						.getUserAlarm();
 
         userAlarmManager.raiseUserAlarm(alarm);

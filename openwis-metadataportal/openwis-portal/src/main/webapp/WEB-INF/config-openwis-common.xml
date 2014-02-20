@@ -262,6 +262,13 @@
 		</service>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- User Alarms                                    		       -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.useralarms.get" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.Get"/>
+        </service>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Availability                                    		       -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <service name="xml.availability.external.get" type="xml">

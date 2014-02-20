@@ -283,6 +283,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="processedRequest" type="tns:processedRequest"/>
       <xs:element minOccurs="0" name="productDate" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="extractResponse">
