@@ -29,8 +29,12 @@ import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.common.domain.entity.cache.CacheConfiguration;
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.DisseminationJob;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
 import org.openwis.harness.dissemination.Dissemination;
 import org.openwis.harness.dissemination.DisseminationImplService;
@@ -63,6 +67,9 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 	// The processed request service.
 	@EJB(name = "ProcessedRequestService")
 	private ProcessedRequestService processedRequestService;
+
+    @EJB
+    private UserAlarmManagerLocal userAlarmManager;
 
 	// Timer service
 	@Resource
@@ -264,24 +271,30 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 
 					if (status.getRequestStatus() == RequestStatus.FAILED)
 					{
-						// XXX - Here the message should be recorded.
-
 						if (primaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = primaryMap.get(requestId);
+
+							// XXX - lmika: Raise user alarm message
+							raiseUserAlarm(dJob, status);
+
 							mergeDissJobPrimaryState(dJob, FAILURE_DISS_STATE);
 							LOG.error("Primary public dissemination job failed: request id: " + dJob.getRequestId());
 						}
 						else if (secondaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = secondaryMap.get(requestId);
+
+							// XXX - lmika: Raise user alarm message
+							raiseUserAlarm(dJob, status);
+
 							mergeDissJobSecondaryState(dJob, FAILURE_DISS_STATE);
 							LOG.error("Secondary public dissemination job failed: request id: " + dJob.getRequestId());
 						}
 					}
 					else if (status.getRequestStatus() == RequestStatus.DISSEMINATED)
 					{
-						// XXX - Here, maybe a success message could be recorded.
+						// TODO - lmika: Maybe raise successfull delivery message here?
 
 						if (primaryMap.containsKey(requestId))
 						{
@@ -346,17 +359,23 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 
 					if (status.getRequestStatus() == RequestStatus.FAILED)
 					{
-						// XXX - Here the message should be recorded.
-
 						if (primaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = primaryMap.get(requestId);
+
+							// XXX - lmika: Raise user alarm message
+							raiseUserAlarm(dJob, status);
+
 							mergeDissJobPrimaryState(dJob, FAILURE_DISS_STATE);
 							LOG.error("Primary private dissemination job failed: request id: " + dJob.getRequestId());
 						}
 						else if (secondaryMap.containsKey(requestId))
 						{
 							DisseminationJob dJob = secondaryMap.get(requestId);
+
+							// XXX - lmika: Raise user alarm message
+							raiseUserAlarm(dJob, status);
+
 							mergeDissJobSecondaryState(dJob, FAILURE_DISS_STATE);
 							LOG.error("Secondary private dissemination job failed: request id: " + dJob.getRequestId());
 						}
@@ -417,6 +436,27 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 
 		// Look for finished dissemination jobs and delete them from the database
 		deleteDisseminationJobs();
+	}
+
+	/**
+	 * Raises a user alarm identifying an error.
+	 *
+	 * XXX - lmika
+	 *
+	 * @param requestId
+	 * @param dJob
+	 * @param status
+	 */
+	private void raiseUserAlarm(DisseminationJob dJob, DisseminationStatus status) {
+		ProcessedRequest processedRequest = processedRequestService.getProcessedRequest(dJob.getRequestId());
+
+        String user = processedRequest.getRequest().getUser();
+        UserAlarm alarm = new UserAlarmBuilder(user)
+						.category(UserAlarmCategory.DISSEMINATION_FAILED)
+						.message("Dissemination failed: " + status.getMessage())
+						.getUserAlarm();
+
+        userAlarmManager.raiseUserAlarm(alarm);
 	}
 
 	/**

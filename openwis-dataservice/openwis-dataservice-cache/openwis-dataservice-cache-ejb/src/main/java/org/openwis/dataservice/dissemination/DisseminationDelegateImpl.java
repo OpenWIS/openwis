@@ -19,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
@@ -50,9 +51,13 @@ import org.openwis.dataservice.common.domain.entity.request.dissemination.Public
 import org.openwis.dataservice.common.domain.entity.request.dissemination.RMDCNDissemination;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.ShoppingCartDissemination;
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
@@ -115,6 +120,9 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private static final String STAGING_POST_MAIL_SUBJECT_KEY = "dataservice.dissemination.stagingPostMessage.subject";
    private static final String STAGING_POST_MAIL_CONTENT_KEY = "dataservice.dissemination.stagingPostMessage.content";
    private static String stagingPostUrl = JndiUtils.getString(STAGING_POST_URL_KEY);
+
+   @EJB
+   private UserAlarmManagerLocal userAlarmManager;
 
    @PersistenceContext
    protected EntityManager entityManager;
@@ -833,7 +841,15 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
                      if (status.getRequestStatus() == RequestStatus.FAILED) {
                         logger.error("Start of dissemination via harness failed: " + actualURL);
 
-                        // XXX - Here the message should be reported.
+                        // XXX - lmika: Raise an alarm
+                        String user = processedRequest.getRequest().getUser();
+                        UserAlarm alarm = new UserAlarmBuilder(user)
+								.category(UserAlarmCategory.DISSEMINATION_FAILED)
+								.message("Dissemination failed: " + status.getMessage())
+								.getUserAlarm();
+
+                        userAlarmManager.raiseUserAlarm(alarm);
+                        // XXX - lmika: End modified code
                      } else {
                         if (logger.isInfoEnabled()) {
                            logger.info("Start of dissemination via harness succeeded: " + actualURL);
