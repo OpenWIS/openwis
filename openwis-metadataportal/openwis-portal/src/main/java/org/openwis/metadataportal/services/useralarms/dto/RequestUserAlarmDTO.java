@@ -35,7 +35,7 @@ public class RequestUserAlarmDTO extends UserAlarmDTO {
       String stagingPostUrl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.URL_STAGING_POST);
 
       this.processedRequestId = processedRequest.getId();
-      this.requestId = processedRequest.getRequest().getId().toString();
+      this.requestId = String.format("%07d", processedRequest.getRequest().getId().longValue());
       this.urn = processedRequest.getRequest().getProductMetadata().getUrn();
 
       if(processedRequest.getRequest().getExtractMode().equals(ExtractMode.GLOBAL)) {

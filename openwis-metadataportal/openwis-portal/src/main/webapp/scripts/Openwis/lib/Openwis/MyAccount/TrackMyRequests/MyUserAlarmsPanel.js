@@ -24,8 +24,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 			loadMask: true,
 			columns: [
 				{id: 'date', header: "Raised on", renderer: Openwis.Utils.Date.formatDateTimeUTC, dataIndex: "date", width: 100, sortable: true },
-				// {id: 'alarmType', header: "Type", dataIndex: "alarmType", width: 100},
-				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100, sortable: true },
+				{id: 'requestId', header: requestTitle, dataIndex: "requestId", width: 100, sortable: false },
 				{id: 'message', header: "Message", dataIndex: "message", width: 100, sortable: true }
 			],
 			autoExpandColumn: 'message',
@@ -92,7 +91,8 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
                     },{
                         name:'alarmType'
                     },{
-                        name:'message'
+                        name:'message',
+			sortType: Ext.data.SortTypes.asUCString
                     },{
 			name:'urn'
                     },{
@@ -102,8 +102,8 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
                     }
 			],
                 sortInfo: {
-                   field: 'id',
-                   direction: 'ASC'
+                   field: 'date',
+                   direction: 'DESC'
                 }
 		});
 		}
@@ -205,7 +205,8 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 				handler: function() {
 				    var rec = this.getSelectionModel().getSelected();
 				    var wizard = new Openwis.RequestSubscription.Wizard();
-	                wizard.initialize(rec.get('urn'), 'SUBSCRUPTION', rec.get('extractMode') == 'CACHE', 'Edit', rec.get('requestId'), false);
+	                wizard.initialize(rec.get('urn'), 'SUBSCRIPTION', rec.get('extractMode') == 'CACHE', 'Edit', rec.get('requestId'), false);
+
 				}
 	        });
 	    }

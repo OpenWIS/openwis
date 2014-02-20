@@ -48,18 +48,21 @@ public abstract class AbstractUserAlarmGetService implements Service {
    public Element exec(Element params, ServiceContext ctx) throws Exception {
       String userName = ctx.getUserSession().getUsername();
       List<UserAlarm> userAlarms = Collections.emptyList();
+      int totalUserAlarms = 0;
 
       // Get the alarm service
       UserAlarmManagerWebService userAlarmManager = DataServiceProvider.getUserAlarmManagerService();
+
       if (userAlarmManager != null) {
          GetUserAlarmCriteriaDTO criteriaDto = buildCriteriaDTO(userName, params);
-         userAlarms = userAlarmManager.getUserAlarmsForUserAndReferenceType(criteriaDto);
+         userAlarms = userAlarmManager.getUserAlarms(criteriaDto);
+         totalUserAlarms = userAlarmManager.countUserAlarms(criteriaDto);
       }
 
       List<UserAlarmDTO> userAlarmsDto = convertToDtos(userAlarms);
 
       // Convert it into a search result
-      SearchResultWrapper<UserAlarmDTO> searchResults = new SearchResultWrapper<UserAlarmDTO>(userAlarmsDto.size(), userAlarmsDto);
+      SearchResultWrapper<UserAlarmDTO> searchResults = new SearchResultWrapper<UserAlarmDTO>(totalUserAlarms, userAlarmsDto);
 
       return JeevesJsonWrapper.send(searchResults);
    }

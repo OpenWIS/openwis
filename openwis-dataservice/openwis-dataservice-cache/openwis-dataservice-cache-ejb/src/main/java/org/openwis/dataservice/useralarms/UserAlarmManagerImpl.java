@@ -44,11 +44,28 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
 	}
 
    @Override
-	@WebMethod(operationName = "getUserAlarmsForUserAndReferenceType")
-   public List<UserAlarm> getUserAlarmsForUserAndReferenceType(@WebParam(name = "criteria") final GetUserAlarmCriteriaDTO dto) {
+   @WebMethod(operationName = "countUserAlarms")
+   public int countUserAlarms(GetUserAlarmCriteriaDTO searchCriteria) {
+      Validate.notNull(searchCriteria);
+
+      Pair<String, Map<String, Object>> queryAndParams = buildAlarmsForUserQuery("select count(u) from UserAlarm u", searchCriteria, false);
+
+      Query query = entityManager.createQuery(queryAndParams.getLeft());
+      for (Entry<String, Object> param : queryAndParams.getRight().entrySet()) {
+         query.setParameter(param.getKey(), param.getValue());
+      }
+
+      Long cnt = (Long)query.getSingleResult();
+
+      return cnt.intValue();
+   }
+
+   @Override
+	@WebMethod(operationName = "getUserAlarms")
+   public List<UserAlarm> getUserAlarms(@WebParam(name = "criteria") final GetUserAlarmCriteriaDTO dto) {
       Validate.notNull(dto);
 
-      Pair<String, Map<String, Object>> queryAndParams = buildAlarmsForUserQuery(dto);
+      Pair<String, Map<String, Object>> queryAndParams = buildAlarmsForUserQuery("select u from UserAlarm u", dto, true);
 
       Query query = entityManager.createQuery(queryAndParams.getLeft());
       for (Entry<String, Object> param : queryAndParams.getRight().entrySet()) {
@@ -57,20 +74,14 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
       query.setFirstResult(dto.getOffset());
       query.setMaxResults(dto.getLimit());
 
-//      Query query = entityManager.createNamedQuery("UserAlarm.alarmsForUserAndReferenceType");
-//      query.setParameter("userId", username);
-//      query.setParameter("referenceType", referenceType);
-//      query.setFirstResult(offset);
-//      query.setMaxResults(limit);
-
       @SuppressWarnings("unchecked")
       List<UserAlarm> alarms = (List<UserAlarm>)query.getResultList();
 
       return alarms;
    }
 
-   private Pair<String, Map<String, Object>> buildAlarmsForUserQuery(GetUserAlarmCriteriaDTO dto) {
-      StringBuilder strBuilder = new StringBuilder("select u from UserAlarm u");
+   private Pair<String, Map<String, Object>> buildAlarmsForUserQuery(String prefix, GetUserAlarmCriteriaDTO dto, boolean addOrdering) {
+      StringBuilder strBuilder = new StringBuilder(prefix);
       Map<String, Object> params = new HashMap<String, Object>();
       List<String> constraints = new ArrayList<String>();
 
@@ -87,9 +98,11 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
          strBuilder.append(" where ").append(StringUtils.join(constraints.iterator(), " and "));
       }
 
-      if (dto.getSortColumn() != null) {
-         strBuilder.append(" order by ").append(dto.getSortColumn().sortFieldName());
-         strBuilder.append(" ").append(BooleanUtils.toString(dto.isSortAscending(), "asc", "desc"));
+      if (addOrdering) {
+         if (dto.getSortColumn() != null) {
+            strBuilder.append(" order by ").append(dto.getSortColumn().sortFieldName());
+            strBuilder.append(" ").append(BooleanUtils.toString(dto.isSortAscending(), "asc", "desc"));
+         }
       }
 
       return new ImmutablePair<String, Map<String,Object>>(strBuilder.toString(), params);

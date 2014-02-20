@@ -6,8 +6,10 @@
 <xs:element name="acknowledgeAllAlarmsForUserAndReferenceTypeResponse" type="tns:acknowledgeAllAlarmsForUserAndReferenceTypeResponse"/>
 <xs:element name="acknowledgeUserAlarm" type="tns:acknowledgeUserAlarm"/>
 <xs:element name="acknowledgeUserAlarmResponse" type="tns:acknowledgeUserAlarmResponse"/>
-<xs:element name="getUserAlarmsForUserAndReferenceType" type="tns:getUserAlarmsForUserAndReferenceType"/>
-<xs:element name="getUserAlarmsForUserAndReferenceTypeResponse" type="tns:getUserAlarmsForUserAndReferenceTypeResponse"/>
+<xs:element name="countUserAlarms" type="tns:countUserAlarms"/>
+<xs:element name="countUserAlarmsResponse" type="tns:countUserAlarmsResponse"/>
+<xs:element name="getUserAlarms" type="tns:getUserAlarms"/>
+<xs:element name="getUserAlarmsResponse" type="tns:getUserAlarmsResponse"/>
 <xs:element name="raiseUserAlarm" type="tns:raiseUserAlarm"/>
 <xs:element name="raiseUserAlarmResponse" type="tns:raiseUserAlarmResponse"/>
 <xs:complexType name="raiseUserAlarm">
@@ -48,9 +50,9 @@
 <xs:complexType name="acknowledgeUserAlarmResponse">
     <xs:sequence/>
   </xs:complexType>
-<xs:complexType name="getUserAlarmsForUserAndReferenceType">
+<xs:complexType name="countUserAlarms">
     <xs:sequence>
-      <xs:element minOccurs="0" name="criteria" type="tns:getUserAlarmCriteriaDTO"/>
+      <xs:element minOccurs="0" name="arg0" type="tns:getUserAlarmCriteriaDTO"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="getUserAlarmCriteriaDTO">
@@ -63,7 +65,17 @@
       <xs:element minOccurs="0" name="username" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="getUserAlarmsForUserAndReferenceTypeResponse">
+<xs:complexType name="countUserAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserAlarms">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="criteria" type="tns:getUserAlarmCriteriaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserAlarmsResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userAlarm"/>
     </xs:sequence>

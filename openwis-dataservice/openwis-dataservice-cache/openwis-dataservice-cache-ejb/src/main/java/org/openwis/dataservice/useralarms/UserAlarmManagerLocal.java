@@ -18,6 +18,14 @@ public interface UserAlarmManagerLocal {
 	public void raiseUserAlarm(UserAlarm alarm);
 
 	/**
+	 * Return the number of user alarms which match the criteria.
+	 *
+	 * @param searchCriteria
+	 * @return
+	 */
+	public int countUserAlarms(GetUserAlarmCriteriaDTO searchCriteria);
+
+	/**
 	 * Return a list containing all the user alarms for a particular user with a reference to a particular reference
 	 * type.
 	 *
@@ -27,7 +35,7 @@ public interface UserAlarmManagerLocal {
 	 * @param limit The limit
 	 * @return A list of user alarms.
 	 */
-   public List<UserAlarm> getUserAlarmsForUserAndReferenceType(GetUserAlarmCriteriaDTO searchCriteria);
+   public List<UserAlarm> getUserAlarms(GetUserAlarmCriteriaDTO searchCriteria);
 
    /**
     * Acknowledges a user alarm.  This will remove the user alarm from the database.  If the user alarm could not be found, no operation

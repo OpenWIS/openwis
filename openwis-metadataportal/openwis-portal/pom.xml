@@ -69,7 +69,8 @@
                <nosuffix>true</nosuffix>
                <gzip>false</gzip>
                <force>true</force>
-               <nomunge>false</nomunge>
+               <!-- <nomunge>false</nomunge> -->
+               <nomunge>true</nomunge>
                <jswarn>${minify.verbose}</jswarn>
                <excludes>
                   <exclude>scripts/ext/**/*.js</exclude>
