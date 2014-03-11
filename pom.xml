@@ -12,10 +12,13 @@
    <packaging>pom</packaging>
    <name>OpenWis</name>
 
+  <description>OpenWIS build</description>
+
+
    <scm>
-      <connection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</connection>
-      <developerConnection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</developerConnection>
-      <url>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</url>
+      <connection>scm:git:git@github.com:ShaunDAdams/openwis.git</connection>
+      <developerConnection>scm:git:git@github.com:ShaunDAdams/openwis.git</developerConnection>
+      <url>scm:git:https://github.com/ShaunDAdams/openwis</url>
    </scm>
 
    <build>
