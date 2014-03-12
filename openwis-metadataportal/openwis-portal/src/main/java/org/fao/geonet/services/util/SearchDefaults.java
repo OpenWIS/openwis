@@ -31,7 +31,10 @@ import java.util.Map.Entry;
 
 import jeeves.constants.Jeeves;
 import jeeves.server.UserSession;
+import jeeves.utils.Util;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
 
@@ -48,6 +51,13 @@ public class SearchDefaults {
     * Default params for search
     */
    private static final Element DEFAULT_PARAMS = new Element(Jeeves.Elem.REQUEST);
+
+   /**
+    * Parameter name used to determine if session default should be included with the result parameters.
+    * (see #BOM-13).
+    */
+   private static final String USE_SESSION_DEFAULTS = "useSessionDefaults";
+
 
    static {
       Map<String, String> map = new HashMap<String, String>();
@@ -87,9 +97,15 @@ public class SearchDefaults {
 
       // Add session
       if (session != null) {
-         Element sessionElement = (Element) session.getProperty(Geonet.Session.MAIN_SEARCH);
-         // Set params in session for future use
-         result = merge(result, sessionElement);
+
+         // If the session default parameters is missing or is set to 'true', 'on' or 'yes', merge the stored
+         // session parameters with the other parameters.
+
+         if (BooleanUtils.toBoolean(Util.getParam(request, USE_SESSION_DEFAULTS, Boolean.TRUE.toString()))) {
+            Element sessionElement = (Element) session.getProperty(Geonet.Session.MAIN_SEARCH);
+            // Set params in session for future use
+            result = merge(result, sessionElement);
+         }
       }
 
       // Add default params

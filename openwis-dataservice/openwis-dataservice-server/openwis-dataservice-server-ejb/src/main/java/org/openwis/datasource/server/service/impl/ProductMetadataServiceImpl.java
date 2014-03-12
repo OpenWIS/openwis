@@ -26,6 +26,7 @@ import org.openwis.dataservice.common.domain.entity.enumeration.ProductMetadataC
 import org.openwis.dataservice.common.domain.entity.enumeration.SortDirection;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.domain.entity.request.Request;
+import org.openwis.dataservice.common.exception.CannotDeleteAllProductMetadataException;
 import org.openwis.dataservice.common.exception.CannotDeleteProductMetadataException;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
@@ -469,6 +470,34 @@ public class ProductMetadataServiceImpl implements ProductMetadataService {
          } else {
             throw new CannotDeleteProductMetadataException(urn);
          }
+      }
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public void deleteProductMetadatasWithURN(List<String> urns)
+         throws CannotDeleteAllProductMetadataException {
+      List<String> metadataThatCouldNotBeDeleted = null;
+
+      for (String urn : urns) {
+         try {
+            deleteProductMetadataByURN(urn);
+         } catch (CannotDeleteProductMetadataException e) {
+            // Record metadata records that cannot be deleted
+            if (metadataThatCouldNotBeDeleted == null) {
+               metadataThatCouldNotBeDeleted = new ArrayList<String>();
+            }
+            metadataThatCouldNotBeDeleted.add(urn);
+         }
+      }
+
+      // The operation did not fully complete, so raise an exception providing the metadata URNs
+      // that could not be deleted.
+      if (metadataThatCouldNotBeDeleted != null)
+      {
+         throw new CannotDeleteAllProductMetadataException(metadataThatCouldNotBeDeleted.toArray(new String[metadataThatCouldNotBeDeleted.size()]));
       }
    }
 }

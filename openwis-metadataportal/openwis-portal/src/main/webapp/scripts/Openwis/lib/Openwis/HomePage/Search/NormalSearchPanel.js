@@ -127,6 +127,9 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
 		//params.inspireSourceType = '';
 		params.protocol = '';
 		
+		// Indicates that this search should reset the default parameters
+		params.useSessionDefaults = 'false';
+
 		return params;
     },
     

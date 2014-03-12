@@ -54,8 +54,12 @@ public class Remove implements Service {
 
       if (!scheduler.isRunning(id)) {
          scheduler.removeScheduledIfAny(id);
-         harvesterManager.deleteHarvestingTask(id);
-         return JeevesJsonWrapper.send(new AcknowledgementDTO(true));
+         if (harvesterManager.deleteHarvestingTask(id)) {
+            return JeevesJsonWrapper.send(new AcknowledgementDTO(true));
+         } else {
+            // TODO: I18N
+            return JeevesJsonWrapper.send(new AcknowledgementDTO(false, "Harvester cannot be remove - some metadata from this harvester has subscriptions"));
+         }
       } else {
          return JeevesJsonWrapper.send(new AcknowledgementDTO(false, bundle.getString("Harvesting.running")));
       }

@@ -43,6 +43,7 @@ import org.openwis.metadataportal.model.metadata.MetadataAlignerError;
 import org.openwis.metadataportal.model.metadata.MetadataAlignerResult;
 import org.openwis.metadataportal.model.metadata.MetadataValidation;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -136,8 +137,23 @@ public class HarvestingTaskManager extends AbstractManager {
       return wrapper;
    }
 
-   public void deleteHarvestingTask(Integer id) throws Exception {
-      resetHarvestingTask(id);
+   /**
+    * Attempts to delete a harvesting task.  First this method will attempt to reset the harvester, which includes removing
+    * the metadata that was harvested from this task.  If the reset is successful, the harvester is remove and the method
+    * returns <code>true</code>.  Otherwise, the method returns false.
+    *
+    * @param id
+    *       The harvesting task id.
+    * @returns
+    *       <code>true</code> if the harvesting task was removed, <code>false</code> otherwise.
+    * @throws Exception
+    */
+   public boolean deleteHarvestingTask(Integer id) throws Exception {
+      boolean cleanSuccessful = resetHarvestingTask(id);
+
+      if (! cleanSuccessful) {
+         return false;
+      }
 
       // Remove the operation allowed for this group.
       String queryTaskResult = "DELETE FROM HarvestingTaskResult WHERE harvestingTaskId=?";
@@ -150,14 +166,37 @@ public class HarvestingTaskManager extends AbstractManager {
       // Remove the group.
       String queryTask = "DELETE FROM HarvestingTask WHERE id=?";
       getDbms().execute(queryTask, id);
+
+      return true;
    }
 
-   public void resetHarvestingTask(Integer id) throws Exception {
+   /**
+    * Removes all metadata records associated with a harvesting or synchronisation task.
+    *
+    * @param id
+    *       The harvesting/synchronisation task ID.
+    * @return
+    *       <code>true</code> if the clean was successful, <code>false</code> if some metadata records could not be removed.
+    * @throws Exception
+    */
+   public boolean resetHarvestingTask(Integer id) throws Exception {
+      boolean allMetadataRecordsRemoved = true;
+
       //Delete the associated metadata.
-      Collection<Metadata> mds = getAllMetadataByHarvestingTask(id);
-      for (Metadata md : mds) {
-         this.dataManager.deleteMetadata(getDbms(), md.getUrn(), false);
+      List<Metadata> mds = new ArrayList<Metadata>(getAllMetadataByHarvestingTask(id));
+
+      List<String> urns = Lists.transform(mds, new Function<Metadata, String>() {
+         public String apply(Metadata from) {
+            return from.getUrn();
+         }
+      });
+
+      List<List<String>> mdPartitions = Lists.partition(urns, 100);
+      for (List<String> partition : mdPartitions) {
+         allMetadataRecordsRemoved = allMetadataRecordsRemoved && this.dataManager.deleteMetadataCollection(getDbms(), partition, false);
       }
+
+      return allMetadataRecordsRemoved;
    }
 
    /**

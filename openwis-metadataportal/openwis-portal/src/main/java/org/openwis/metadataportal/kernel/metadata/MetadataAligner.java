@@ -243,11 +243,11 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
 
    /**
     * Imports a metadata in the system.
-    * @param md the metadata to import.
+    * @param newMetadata the metadata to import.
     * @param validation the validation mode to apply.
     * @param predicatedStylesheets the XSL style sheets to apply.
     */
-   private void importMetadata(Metadata md, MetadataValidation validation,
+   private void importMetadata(Metadata newMetadata, MetadataValidation validation,
          List<PredicatedStylesheet> predicatedStylesheets, Function<Metadata, ISODate> dateCollect,
          ServiceContext context) {
       try {
@@ -255,7 +255,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
 
          //Schema management.
          before = System.currentTimeMillis();
-         String schema = getMetadataSchema(md, predicatedStylesheets);
+         String schema = getMetadataSchema(newMetadata, predicatedStylesheets);
          if (schema == null) {
             return;
          }
@@ -269,11 +269,11 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
          before = System.currentTimeMillis();
          IMetadataValidator validator = MetadataValidatorFactory.getValidator(validation);
          MetadataValidatorResult metadataValidatorResult = validator.validate(dataManager,
-               md.getData(), schema, context);
+               newMetadata.getData(), schema, context);
          if (!metadataValidatorResult.isValidate()) {
             Log.warning(Geonet.METADATA_ALIGNER, "Does not validate.");
             result.getErrors().add(
-                  new MetadataAlignerError(md.getUrn(), metadataValidatorResult.getMessage()));
+                  new MetadataAlignerError(newMetadata.getUrn(), metadataValidatorResult.getMessage()));
             result.incDoesNotValidate();
             // Raise an alarm
             AlertService alertService = ManagementServiceProvider.getAlertService();
@@ -287,9 +287,9 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
             String eventId = MetadataServiceAlerts.MDTA_VALIDATION_FAILED.getKey();
             List<Object> arguments = new ArrayList<Object>();
             String urn = "";
-            if (md.getUrn() != null)
+            if (newMetadata.getUrn() != null)
             {
-               urn = md.getUrn();
+               urn = newMetadata.getUrn();
             }
             arguments.add(urn);
             // Error message has to be truncated
@@ -313,10 +313,10 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
 
          //Extract UUID.
          before = System.currentTimeMillis();
-         if (StringUtils.isBlank(md.getUrn()) || md.getChangeDate() == null
-               || StringUtils.isBlank(md.getChangeDate().toString())) {
-            md = extractMetadataImportInfo(md, schema);
-            if (md == null) {
+         if (StringUtils.isBlank(newMetadata.getUrn()) || newMetadata.getChangeDate() == null
+               || StringUtils.isBlank(newMetadata.getChangeDate().toString())) {
+            newMetadata = extractMetadataImportInfo(newMetadata, schema);
+            if (newMetadata == null) {
                Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
                return;
             }
@@ -329,53 +329,53 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
 
          //Check if metadata exists.
          before = System.currentTimeMillis();
-         Metadata mdInfo = metadataManager.getMetadataInfoByUrn(md.getUrn());
+         Metadata existingMetadata = metadataManager.getMetadataInfoByUrn(newMetadata.getUrn());
          after = System.currentTimeMillis();
          if (Log.isStatEnabled()) {
             Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
                   "Get MD Info from DB", after - before);
          }
-         if (mdInfo != null) {
-            if (mdInfo.getCategory().getId() != md.getCategory().getId() && !mdInfo.isStopGap()) {
+         if (existingMetadata != null) {
+            if (existingMetadata.getCategory().getId() != newMetadata.getCategory().getId() && !existingMetadata.isStopGap()) {
                Log.warning(Geonet.METADATA_ALIGNER, "Unmatching category for an existing metadata "
-                     + md.getUrn() + ": " + mdInfo.getCategory().getName() + " (local) / "
-                     + md.getCategory().getName() + " (target)");
+                     + newMetadata.getUrn() + ": " + existingMetadata.getCategory().getName() + " (local) / "
+                     + newMetadata.getCategory().getName() + " (target)");
                // do not update the existing category
-               md.setCategory(mdInfo.getCategory());
+               newMetadata.setCategory(existingMetadata.getCategory());
                // FIXME Raise an alarm
             }
             //Metadata exists in OpenWIS. Get localDateStamp to test if it needs to be updated.
-            ISODate localDateStamp = dateCollect.apply(mdInfo);
+            ISODate localDateStamp = dateCollect.apply(existingMetadata);
 
             //Check localDateStamp against imported metadata local date stamped.
-            ISODate changeDate = new ISODate(md.getChangeDate());
-            if (mdInfo.isStopGap()) {
-               Log.info(Geonet.METADATA_ALIGNER, "Stop-Gap Metadata " + md.getUrn()
-                     + " will be updated, and moved to category " + md.getCategory().getName());
-               md.setSchema(schema);
-               md.setCreateDate(md.getChangeDate().toString());
-               md.setId(mdInfo.getId());
-               updateMetadata(md);
+            ISODate changeDate = new ISODate(newMetadata.getChangeDate());
+            if (existingMetadata.isStopGap()) {
+               Log.info(Geonet.METADATA_ALIGNER, "Stop-Gap Metadata " + newMetadata.getUrn()
+                     + " will be updated, and moved to category " + newMetadata.getCategory().getName());
+               newMetadata.setSchema(schema);
+               newMetadata.setCreateDate(newMetadata.getChangeDate().toString());
+               newMetadata.setId(existingMetadata.getId());
+               updateMetadata(newMetadata);
             } else if (changeDate.sub(localDateStamp) > 0) {
                //Metadata needs to be updated.
-               md.setId(mdInfo.getId());
-               md.setSchema(schema);
-               updateMetadata(md);
+               newMetadata.setId(existingMetadata.getId());
+               newMetadata.setSchema(schema);
+               updateMetadata(newMetadata);
             } else {
-               Log.info(Geonet.METADATA_ALIGNER, "Metadata XML not changed: " + md.getUrn());
+               Log.info(Geonet.METADATA_ALIGNER, "Metadata XML not changed: " + newMetadata.getUrn());
                result.incUnchanged();
             }
          } else {
             // Fill the metadata object to insert.
-            md.setSchema(schema);
-            md.setCreateDate(md.getChangeDate().toString());
-            createMetadata(md);
+            newMetadata.setSchema(schema);
+            newMetadata.setCreateDate(newMetadata.getChangeDate().toString());
+            createMetadata(newMetadata);
          }
       } catch (Exception e) {
          getDbms().abort();
-         Log.warning(Geonet.METADATA_ALIGNER, "Metadata skipped with URN : " + md.getUrn()
+         Log.warning(Geonet.METADATA_ALIGNER, "Metadata skipped with URN : " + newMetadata.getUrn()
                + " ### error is :" + e.getMessage(), e);
-         result.getErrors().add(new MetadataAlignerError(md.getUrn(), e.getMessage()));
+         result.getErrors().add(new MetadataAlignerError(newMetadata.getUrn(), e.getMessage()));
          result.incUnexpected();
       }
    }
@@ -702,16 +702,21 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
       String styleSheet = dataManager.getSchemaDir(schema) + EXTRACT_IMPORT_INFO;
       Element elt = Xml.transform(md.getData(), styleSheet);
       String uuid = elt.getChildText("uuid");
+      String trimmedUuid = StringUtils.trimToEmpty(uuid);
       ISODate isoDate = null;
       String dateStamp = elt.getChildText("dateStamp");
-      if (StringUtils.isNotBlank(dateStamp) && StringUtils.isNotBlank(uuid)) {
+      if (StringUtils.isNotBlank(dateStamp) && StringUtils.isNotBlank(trimmedUuid)) {
+         // Check that the trimmed UUID is different that the UUID read from the metadata.  Raise a warning if it is.
+         if (! trimmedUuid.equals(uuid)) {
+            Log.warning(Geonet.METADATA_ALIGNER, "UUID [" + trimmedUuid + "] will be trimmed as it contains leading/trailing whitespace.");
+         }
          isoDate = new ISODate(dateStamp);
          md.setChangeDate(isoDate.toString());
-         md.setUrn(uuid);
+         md.setUrn(trimmedUuid);
          return md;
       } else {
          result.getErrors().add(
-               new MetadataAlignerError(uuid,
+               new MetadataAlignerError(trimmedUuid,
                      "Unable to extract an URN or a datestamp from the metadata record."));
          result.incUnexpected();
          return null;
