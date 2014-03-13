@@ -902,7 +902,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
          query = queryFactory.and(query,
                queryFactory.buildQuery(IndexField.CATEGORY_ID, String.valueOf(category.getId())));
       }
-      query.setReturnFields(IndexField.UUID);
+      query.setReturnFields(IndexField.UUID_ORIGINAL);
 
       SearchResult searchResult = queryManager.search(query);
 
@@ -914,7 +914,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
 
       if (searchResult != null) {
          for (SearchResultDocument document : searchResult.getDocuments()) {
-            result.add(document.getField(IndexField.UUID).toString());
+            result.add(document.getField(IndexField.UUID_ORIGINAL).toString());
          }
       }
       return result;

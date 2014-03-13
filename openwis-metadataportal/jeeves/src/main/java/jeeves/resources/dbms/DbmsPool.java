@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import jeeves.constants.Jeeves;
@@ -72,12 +73,33 @@ public class DbmsPool implements ResourceProvider
 
 		user          = config.getChildText(Jeeves.Res.Pool.USER);
 		passwd        = config.getChildText(Jeeves.Res.Pool.PASSWORD);
-		url 				  = config.getChildText(Jeeves.Res.Pool.URL);
+		url 			  = config.getChildText(Jeeves.Res.Pool.URL);
 		String driver = config.getChildText(Jeeves.Res.Pool.DRIVER);
 		String size   = config.getChildText(Jeeves.Res.Pool.POOL_SIZE);
 		String maxt   = config.getChildText(Jeeves.Res.Pool.MAX_TRIES);
 		String maxw   = config.getChildText(Jeeves.Res.Pool.MAX_WAIT);
 		String rect   = config.getChildText(Jeeves.Res.Pool.RECONNECT_TIME);
+		
+		// Other properties
+		Map<String, String> otherProperties = new HashMap<String, String>();
+		Element propertiesElement = config.getChild(Jeeves.Res.Pool.PROPERTIES);
+		if (propertiesElement != null)
+		{
+		   for (Object propertyElementObject : propertiesElement.getChildren())
+		   {
+		      Element propertyElement = (Element)propertyElementObject;
+		      String propertyKey = propertyElement.getAttributeValue("key");
+		      String propertyValue = propertyElement.getTextTrim();
+		      
+		      if (propertyKey == null)
+		      {
+		         throw new Exception("Property for JDBC connection with URL '" + url + "' has no key");
+		      }
+		      
+		      otherProperties.put(propertyKey, propertyValue);
+		   }
+		}
+		
 
 		int poolSize  = (size == null) ? Jeeves.Res.Pool.DEF_POOL_SIZE : Integer.parseInt(size);
 		maxTries      = (maxt == null) ? Jeeves.Res.Pool.DEF_MAX_TRIES : Integer.parseInt(maxt);
@@ -87,7 +109,7 @@ public class DbmsPool implements ResourceProvider
 		for(int i=0; i<poolSize; i++)
 		{
 			Dbms dbms = new Dbms(driver, url);
-			dbms.connect(user,passwd);
+			dbms.connect(user,passwd,otherProperties);
 			htDbms.put(dbms, new Boolean(false));
 		}
 	}
@@ -119,8 +141,9 @@ public class DbmsPool implements ResourceProvider
 
 	//--------------------------------------------------------------------------
 	/** Gets an element from the pool
+	 * 
+	 * @deprecated Method does not support case insensitive columns.  Do not use.
 	  */
-
 	public synchronized Object open() throws Exception
 	{
 		String lastMessage = null;
@@ -156,7 +179,7 @@ public class DbmsPool implements ResourceProvider
 
 								// FIXME: what happens if it disconnects but is unable to connect again?
 								dbms.disconnect();
-								dbms.connect(user, passwd);
+								dbms.connect(user, passwd, Collections.<String, String>emptyMap());
 								reconnectTime = 0;
 							}
 						}
