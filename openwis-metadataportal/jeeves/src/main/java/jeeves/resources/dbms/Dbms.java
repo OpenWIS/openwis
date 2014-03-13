@@ -95,7 +95,6 @@ public class Dbms
       properties.setProperty("user", username);
       properties.setProperty("password", password);
       properties.putAll(otherProperties);
-//      properties.setProperty("stringtype", "unspecified");
      
       conn = DriverManager.getConnection(actualUrl, properties);
 

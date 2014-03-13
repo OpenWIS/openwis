@@ -85,7 +85,7 @@ public class DbmsPool implements ResourceProvider
 		Element propertiesElement = config.getChild(Jeeves.Res.Pool.PROPERTIES);
 		if (propertiesElement != null)
 		{
-		   for (Object propertyElementObject : propertiesElement.getChildren())
+		   for (Object propertyElementObject : propertiesElement.getChildren(Jeeves.Res.Pool.PROPERTY))
 		   {
 		      Element propertyElement = (Element)propertyElementObject;
 		      String propertyKey = propertyElement.getAttributeValue("key");
