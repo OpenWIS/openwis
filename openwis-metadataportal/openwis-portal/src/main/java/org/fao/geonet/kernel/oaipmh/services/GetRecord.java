@@ -106,7 +106,7 @@ public class GetRecord implements OaiPmhService
          }
       }
 
-      String query = "SELECT schemaId, changeDate, data FROM Metadata WHERE uuid=?";
+      String query = "SELECT schemaId, localimportdate, data FROM Metadata WHERE uuid=?";
       List<Element> list = dbms.select(query, urn).getChildren();
 
       // The metadata has been removed
@@ -119,7 +119,7 @@ public class GetRecord implements OaiPmhService
       Element rec = list.get(0);
 
       String schema = rec.getChildText("schemaid");
-      String changeDate = rec.getChildText("changedate");
+      String localImportDate = rec.getChildText("localimportdate");
       String data = rec.getChildText("data");
 
       Element md = Xml.loadString(data, false);
@@ -136,7 +136,7 @@ public class GetRecord implements OaiPmhService
          }
       } else {
          if (Lib.existsConverter(schema, context.getAppPath(), prefix)) {
-            md = Lib.transform(schema, md, urn, changeDate, context.getAppPath(), prefix);
+            md = Lib.transform(schema, md, urn, localImportDate, context.getAppPath(), prefix);
          } else {
             Log.warning(Geonet.OAI,
                   MessageFormat.format("Unknown prefix : {0} for metadata URN : {1}", prefix, urn));
@@ -149,7 +149,7 @@ public class GetRecord implements OaiPmhService
       Header h = new Header();
 
       h.setIdentifier(urn);
-      h.setDateStamp(new ISODate(changeDate));
+      h.setDateStamp(new ISODate(localImportDate));
 
       String categoryName = null;
       if (category == null || category.getId() == null) {
