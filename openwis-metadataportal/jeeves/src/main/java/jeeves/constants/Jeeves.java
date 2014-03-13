@@ -239,6 +239,7 @@ public final class Jeeves
 			public static final String PASSWORD       = "password";
 			public static final String DRIVER         = "driver";
 			public static final String URL            = "url";
+			public static final String PROPERTIES     = "properties";
 			public static final String POOL_SIZE      = "poolSize";
 			public static final String MAX_TRIES      = "maxTries";
 			public static final String MAX_WAIT       = "maxWait";

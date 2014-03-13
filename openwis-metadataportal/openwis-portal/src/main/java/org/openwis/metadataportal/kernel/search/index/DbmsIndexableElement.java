@@ -226,7 +226,8 @@ public class DbmsIndexableElement implements IndexableElement {
          elts.add(makeField(IndexField._LOCAL_IMPORT_DATE, localImportDate, true, true, false));
          elts.add(makeField(IndexField.SOURCE, source, true, true, false));
          elts.add(makeField(IndexField.IS_TEMPLATE, isTemplate, true, true, false));
-         elts.add(makeField(IndexField.UUID, uuid, true, true, false));
+         elts.add(makeField(IndexField.UUID, uuid.toLowerCase(), true, true, false));
+         elts.add(makeField(IndexField.UUID_ORIGINAL, uuid, true, true, false));
          elts.add(makeField(IndexField.ID, id, true, true, false));
          elts.add(makeField(IndexField.IS_HARVESTED, isHarvested, true, true, false));
          elts.add(makeField(IndexField.OWNER, owner, true, true, false));

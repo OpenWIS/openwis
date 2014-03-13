@@ -123,7 +123,7 @@ public class ListIdentifiers extends AbstractTokenLister
          return buildHeaderFromDeletedMetadata(dbms, dm, prefix, appPath);
       }
 	   
-		String query = "SELECT schemaId, changeDate FROM Metadata WHERE uuid=?";
+		String query = "SELECT schemaId, localimportdate FROM Metadata WHERE uuid=?";
 		List<Element> list = dbms.select(query, urn).getChildren();
 		if (list.isEmpty()) {
 		   return null;
@@ -132,7 +132,7 @@ public class ListIdentifiers extends AbstractTokenLister
 		// Build the header from metadata
 		Element rec = list.get(0);
 		String schema     = rec.getChildText("schemaid");
-		String changeDate = rec.getChildText("changedate");
+		String localImportDate = rec.getChildText("localimportdate");
 
 		// Try to disseminate format if not by schema then by conversion
 		if (!prefix.equals(schema)) {
@@ -144,7 +144,7 @@ public class ListIdentifiers extends AbstractTokenLister
 		// Build the header and set some infos
 		Header h = new Header();
 		h.setIdentifier(urn);
-		h.setDateStamp(new ISODate(changeDate));
+		h.setDateStamp(new ISODate(localImportDate));
 
 		// Add the category (here called sets)
 		String categoryName = null;
