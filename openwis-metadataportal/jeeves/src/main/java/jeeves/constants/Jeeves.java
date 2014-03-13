@@ -240,6 +240,7 @@ public final class Jeeves
 			public static final String DRIVER         = "driver";
 			public static final String URL            = "url";
 			public static final String PROPERTIES     = "properties";
+			public static final String PROPERTY       = "property";
 			public static final String POOL_SIZE      = "poolSize";
 			public static final String MAX_TRIES      = "maxTries";
 			public static final String MAX_WAIT       = "maxWait";
@@ -247,7 +248,7 @@ public final class Jeeves
 
 			public static final int DEF_POOL_SIZE      = 2;
 			public static final int DEF_MAX_TRIES      = 20;  // number of connection attempts
-			public static final int DEF_MAX_WAIT       = 200; // msecs between attempts
+			public static final int DEF_MAX_WAIT       = 200; // msecs between attempts         
 		}
 	}
 
