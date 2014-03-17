@@ -70,7 +70,7 @@
 	     source =  doc.getFieldAsString(IndexField.SOURCE);
 	     isGlobal = "true".equals(doc.getField(IndexField.IS_GLOBAL));
 	     uuid = doc.getFieldAsString(IndexField.UUID);
-	     ops = operationsAllowed.get(uuid);
+	     ops = operationsAllowed.get(uuid.toLowerCase());
 	     pageContext.setAttribute("ops",ops);
 	     boolean editable = "n".equals(doc.getField(IndexField.IS_HARVESTED)) 
 	       && (ops!=null && ops.contains(OperationEnum.EDITING))

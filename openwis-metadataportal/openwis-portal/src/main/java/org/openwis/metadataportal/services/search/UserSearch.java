@@ -110,7 +110,7 @@ public class UserSearch implements ServiceWithJsp, Service {
     * @param dbms the dbms
     * @param session the session
     * @param metadataId the metadata id
-    * @return the operations
+    * @return the operations.  The URNs are returned in lowercase.
     * @throws SQLException the SQL exception
     */
    public Map<String, Set<OperationEnum>> getOperations(Dbms dbms, UserSession session,
@@ -149,12 +149,12 @@ public class UserSearch implements ServiceWithJsp, Service {
       for (String id : metadataId) {
          ops = resultsWithLowercaseKeys.get(id.toLowerCase());
          if (ops == null) {
-            result.put(id, Collections.singleton(OperationEnum.VIEW));
+            resultsWithLowercaseKeys.put(id, Collections.singleton(OperationEnum.VIEW));
          } else {
             ops.add(OperationEnum.VIEW);
          }
       }
-      return result;
+      return resultsWithLowercaseKeys;
    }
 
    /**
