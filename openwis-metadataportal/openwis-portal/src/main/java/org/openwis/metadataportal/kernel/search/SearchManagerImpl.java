@@ -1010,7 +1010,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       sort.add(IndexField.UUID, SortDir.ASC);
       query.setSortFields(sort);
 
-      query.setReturnFields(IndexField.UUID, IndexField._TITLE, IndexField.ORIGINATOR,
+      query.setReturnFields(IndexField.UUID, IndexField.UUID_ORIGINAL, IndexField._TITLE, IndexField.ORIGINATOR,
             IndexField.PROCESS, IndexField.GTS_CATEGORY, IndexField.FNC_PATTERN,
             IndexField.PRIORITY, IndexField.DATAPOLICY, IndexField.LOCAL_DATA_SOURCE,
             IndexField.IS_FED, IndexField.IS_INGESTED, IndexField.FILE_EXTENSION,
