@@ -94,7 +94,7 @@ public class All implements Service {
 
       for (SearchResultDocument document : searchResult.getDocuments()) {
          // Fill the metadata with result document.
-         Metadata md = new Metadata((String) document.getField(IndexField.UUID));
+         Metadata md = new Metadata((String) document.getField(IndexField.UUID_ORIGINAL));
          md.setTitle((String) document.getField(IndexField._TITLE));
          md.setOriginator((String) document.getField(IndexField.ORIGINATOR));
          md.setProcess((String) document.getField(IndexField.PROCESS));
