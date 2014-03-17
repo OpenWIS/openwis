@@ -181,6 +181,12 @@ public interface SearchQueryFactory<T extends SearchQuery> {
     */
    T addSpatialQuery(T query, Element xml, String filterVersion);
 
-
+   /**
+    * Boost.
+    * @param query the query
+    * @param boostFactor the boost factor
+    * @return the search query
+    */
+   T boost(T query, int boostFactor);
 
 }
