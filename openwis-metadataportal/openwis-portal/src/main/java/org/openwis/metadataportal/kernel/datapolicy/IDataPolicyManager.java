@@ -145,7 +145,7 @@ public interface IDataPolicyManager {
    /**
     * Gets the all operation allowed by metadata id.
     *
-    * @param metadataId the metadata id
+    * @param metadataId the metadata id.
     * @param groups the groups
     * @return the all operation allowed by metadata id
     * @throws Exception the SQL exception
