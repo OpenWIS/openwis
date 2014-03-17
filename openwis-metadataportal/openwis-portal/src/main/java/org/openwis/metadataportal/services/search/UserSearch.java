@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import jeeves.interfaces.Service;
@@ -131,11 +132,22 @@ public class UserSearch implements ServiceWithJsp, Service {
       } else {
          result = new LinkedHashMap<String, Set<OperationEnum>>();
       }
+      
+      // convert the keys to lowercase to support case-insensitive lookups
+      Map<String, Set<OperationEnum>> resultsWithLowercaseKeys = new HashMap<String, Set<OperationEnum>>();
+      for (Entry<String, Set<OperationEnum>> resultEntry : result.entrySet()) {
+         final String lowercaseKey = resultEntry.getKey().toLowerCase();
+         // Sanity check: there must not be duplicate lowercase keys
+         if (resultsWithLowercaseKeys.containsKey(lowercaseKey)) {
+            throw new RuntimeException("URN '" + lowercaseKey + "' already exists in the results with lower case keys.  Is this a duplicate?!");
+         }
+         resultsWithLowercaseKeys.put(lowercaseKey, resultEntry.getValue());
+      }
 
       // Always grant VIEW privileges for non authenticated users.
       Set<OperationEnum> ops;
       for (String id : metadataId) {
-         ops = result.get(id);
+         ops = resultsWithLowercaseKeys.get(id.toLowerCase());
          if (ops == null) {
             result.put(id, Collections.singleton(OperationEnum.VIEW));
          } else {
