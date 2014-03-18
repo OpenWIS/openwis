@@ -171,6 +171,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
             dataManager.deleteMetadata(getDbms(), md.getUrn(), true);
             getDbms().commit();
             result.incLocallyRemoved();
+            result.getUrnRemoved().add(md.getUrn());
          } catch (Exception e) {
             result.getErrors().add(new MetadataAlignerError(md.getUrn(), e.getMessage()));
             result.incUnexpected();
@@ -427,7 +428,8 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
       indexableElements.add(new DbmsIndexableElement(getDbms(), md.getUrn(), pm));
 
       //Inc Updated.
-      result.incUpdated();
+      result.incUpdated();   
+      result.getUrnUpdated().add(md.getUrn());
 
       // Increment the volume of processed metadata
       result.incVolume(Xml.getString(md.getData()).length());
@@ -524,6 +526,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
 
       //Result added.
       result.incAdded();
+      result.getUrnAdded().add(md.getUrn());
 
       // Increment the volume of processed metadata
       result.incVolume(Xml.getString(md.getData()).length());
