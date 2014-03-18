@@ -167,7 +167,8 @@ Openwis.Admin.Synchro.All = Ext.extend(Ext.Container, {
                 handler: function() {
                     var rec = this.getSynchroTaskGrid().getSelectionModel().getSelected();
                     new Openwis.Common.Metadata.Report({
-                        lastResult: rec.get('lastResult')
+                    	lastResult: rec.get('lastResult'),
+                        harvestingTaskId: rec.get('id')
                     });
                 }
             });
