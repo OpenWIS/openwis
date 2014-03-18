@@ -342,6 +342,15 @@ public class DbmsIndexableElement implements IndexableElement {
       }
       return uuid;
    }
+   
+   /**
+    * Returns the unique key of this DbmsIndexableElement.
+    * 
+    * @return
+    */
+   public String getUniqueKey() {
+      return getUuid().toLowerCase();
+   }
 
    /**
     * Gets the categoryName.
