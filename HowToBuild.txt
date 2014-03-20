@@ -1,10 +1,12 @@
 How to build OpenWIS from sources
 =================================
 
+
 1/ Requirements
 ---------------
 Java JDK 1.6
 Maven 2.2.1
+
 
 Environment variables:
   The JAVA_HOME  should be set with the valid JDK path.
