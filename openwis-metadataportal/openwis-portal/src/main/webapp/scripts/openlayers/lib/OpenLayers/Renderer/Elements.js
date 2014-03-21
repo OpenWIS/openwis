@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -56,10 +57,8 @@ OpenLayers.ElementsIndexer = OpenLayers.Class({
         this.compare = yOrdering ? 
             OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER_Y_ORDER :
             OpenLayers.ElementsIndexer.IndexingMethods.Z_ORDER_DRAWING_ORDER;
-            
-        this.order = [];
-        this.indices = {};
-        this.maxZIndex = 0;
+
+        this.clear();
     },
     
     /**
@@ -109,7 +108,7 @@ OpenLayers.ElementsIndexer = OpenLayers.Class({
         // If the new node should be before another in the index
         // order, return the node before which we have to insert the new one;
         // else, return null to indicate that the new node can be appended.
-	return this.getNextElement(rightIndex);
+        return this.getNextElement(rightIndex);
     },
     
     /**
@@ -151,7 +150,7 @@ OpenLayers.ElementsIndexer = OpenLayers.Class({
      * APIMethod: exists
      *
      * Parameters:
-     * node- {DOMElement} The node to test for existence.
+     * node - {DOMElement} The node to test for existence.
      *
      * Returns:
      * {Boolean} Whether or not the node exists in the indexer?
@@ -198,7 +197,7 @@ OpenLayers.ElementsIndexer = OpenLayers.Class({
             this.maxZIndex = zIndex;
         }
     },
-	
+
     /**
      * APIMethod: getNextElement
      * Get the next element in the order stack.
@@ -211,17 +210,17 @@ OpenLayers.ElementsIndexer = OpenLayers.Class({
      *     null.
      */
     getNextElement: function(index) {
-		var nextIndex = index + 1;
-        if (nextIndex < this.order.length){
-			var nextElement = OpenLayers.Util.getElement(this.order[nextIndex]);
-			if (nextElement == undefined){
-			  nextElement = this.getNextElement(nextIndex);
-			}
-			return nextElement;
-		} else {
-			return null;
-		} 
-    },	
+        var nextIndex = index + 1;
+        if (nextIndex < this.order.length) {
+            var nextElement = OpenLayers.Util.getElement(this.order[nextIndex]);
+            if (nextElement == undefined) {
+                nextElement = this.getNextElement(nextIndex);
+            }
+            return nextElement;
+        } else {
+            return null;
+        } 
+    },
     
     CLASS_NAME: "OpenLayers.ElementsIndexer"
 });
@@ -318,12 +317,9 @@ OpenLayers.ElementsIndexer.IndexingMethods = {
             nextNode
         );
         
-        if (nextNode && returnVal == 0) {
-            var newLat = newNode._geometry.getBounds().bottom;
-            var nextLat = nextNode._geometry.getBounds().bottom;
-            
-            var result = nextLat - newLat;
-            returnVal = (result ==0) ? 1 : result;
+        if (nextNode && returnVal === 0) {            
+            var result = nextNode._boundsBottom - newNode._boundsBottom;
+            returnVal = (result === 0) ? 1 : result;
         }
         
         return returnVal;       
@@ -378,6 +374,28 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
     xmlns: null,
     
     /**
+     * Property: xOffset
+     * {Number} Offset to apply to the renderer viewport translation in x
+     * direction. If the renderer extent's center is on the right of the
+     * dateline (i.e. exceeds the world bounds), we shift the viewport to the
+     * left by one world width. This avoids that features disappear from the
+     * map viewport. Because our dateline handling logic in other places
+     * ensures that extents crossing the dateline always have a center
+     * exceeding the world bounds on the left, we need this offset to make sure
+     * that the same is true for the renderer extent in pixel space as well.
+     */
+    xOffset: 0,
+    
+    /**
+     * Property: rightOfDateLine
+     * {Boolean} Keeps track of the location of the map extent relative to the
+     * date line. The <setExtent> method compares this value (which is the one
+     * from the previous <setExtent> call) with the current position of the map
+     * extent relative to the date line and updates the xOffset when the extent
+     * has moved from one side of the date line to the other.
+     */
+    
+    /**
      * Property: Indexer
      * {<OpenLayers.ElementIndexer>} An instance of OpenLayers.ElementsIndexer 
      *     created upon initialization if the zIndexing or yOrdering options
@@ -392,31 +410,27 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
     BACKGROUND_ID_SUFFIX: "_background",
     
     /**
-     * Constant: BACKGROUND_ID_SUFFIX
+     * Constant: LABEL_ID_SUFFIX
      * {String}
      */
     LABEL_ID_SUFFIX: "_label",
     
     /**
-     * Property: minimumSymbolizer
-     * {Object}
+     * Constant: LABEL_OUTLINE_SUFFIX
+     * {String}
      */
-    minimumSymbolizer: {
-        strokeLinecap: "round",
-        strokeOpacity: 1,
-        strokeDashstyle: "solid",
-        fillOpacity: 1,
-        pointRadius: 0
-    },
-    
+    LABEL_OUTLINE_SUFFIX: "_outline",
+
     /**
      * Constructor: OpenLayers.Renderer.Elements
      * 
      * Parameters:
      * containerID - {String}
-     * options - {Object} options for this renderer. Supported options are:
-     *     * yOrdering - {Boolean} Whether to use y-ordering
-     *     * zIndexing - {Boolean} Whether to use z-indexing. Will be ignored
+     * options - {Object} options for this renderer. 
+     *
+     * Supported options are:
+     *     yOrdering - {Boolean} Whether to use y-ordering
+     *     zIndexing - {Boolean} Whether to use z-indexing. Will be ignored
      *         if yOrdering is set to true.
      */
     initialize: function(containerID, options) {
@@ -457,19 +471,58 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
      * Remove all the elements from the root
      */    
     clear: function() {
-        if (this.vectorRoot) {
-            while (this.vectorRoot.childNodes.length > 0) {
-                this.vectorRoot.removeChild(this.vectorRoot.firstChild);
+        var child;
+        var root = this.vectorRoot;
+        if (root) {
+            while (child = root.firstChild) {
+                root.removeChild(child);
             }
         }
-        if (this.textRoot) {
-            while (this.textRoot.childNodes.length > 0) {
-                this.textRoot.removeChild(this.textRoot.firstChild);
+        root = this.textRoot;
+        if (root) {
+            while (child = root.firstChild) {
+                root.removeChild(child);
             }
         }
         if (this.indexer) {
             this.indexer.clear();
         }
+    },
+    
+    /**
+     * Method: setExtent
+     * Set the visible part of the layer.
+     *
+     * Parameters:
+     * extent - {<OpenLayers.Bounds>}
+     * resolutionChanged - {Boolean}
+     *
+     * Returns:
+     * {Boolean} true to notify the layer that the new extent does not exceed
+     *     the coordinate range, and the features will not need to be redrawn.
+     *     False otherwise.
+     */
+    setExtent: function(extent, resolutionChanged) {
+        var coordSysUnchanged = OpenLayers.Renderer.prototype.setExtent.apply(this, arguments);
+        var resolution = this.getResolution();
+        if (this.map.baseLayer && this.map.baseLayer.wrapDateLine) {
+            var rightOfDateLine,
+                ratio = extent.getWidth() / this.map.getExtent().getWidth(),
+                extent = extent.scale(1 / ratio),
+                world = this.map.getMaxExtent();
+            if (world.right > extent.left && world.right < extent.right) {
+                rightOfDateLine = true;
+            } else if (world.left > extent.left && world.left < extent.right) {
+                rightOfDateLine = false;
+            }
+            if (rightOfDateLine !== this.rightOfDateLine || resolutionChanged) {
+                coordSysUnchanged = false;
+                this.xOffset = rightOfDateLine === true ?
+                    world.getWidth() / resolution : 0;
+            }
+            this.rightOfDateLine = rightOfDateLine;
+        }
+        return coordSysUnchanged;
     },
 
     /** 
@@ -517,13 +570,16 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
                     geometry.components[i], style, featureId) && rendered;
             }
             return rendered;
-        };
+        }
 
         rendered = false;
+        var removeBackground = false;
         if (style.display != "none") {
             if (style.backgroundGraphic) {
                 this.redrawBackgroundNode(geometry.id, geometry, style,
                     featureId);
+            } else {
+                removeBackground = true;
             }
             rendered = this.redrawNode(geometry.id, geometry, style,
                 featureId);
@@ -532,9 +588,15 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
             var node = document.getElementById(geometry.id);
             if (node) {
                 if (node._style.backgroundGraphic) {
-                    node.parentNode.removeChild(document.getElementById(
-                        geometry.id + this.BACKGROUND_ID_SUFFIX));
+                    removeBackground = true;
                 }
+                node.parentNode.removeChild(node);
+            }
+        }
+        if (removeBackground) {
+            var node = document.getElementById(
+                geometry.id + this.BACKGROUND_ID_SUFFIX);
+            if (node) {
                 node.parentNode.removeChild(node);
             }
         }
@@ -555,12 +617,13 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
      *     the geometry could not be drawn, false otherwise
      */
     redrawNode: function(id, geometry, style, featureId) {
+        style = this.applyDefaultSymbolizer(style);
         // Get the node if it's already on the map.
         var node = this.nodeFactory(id, this.getNodeType(geometry, style));
         
         // Set the data for the node, then draw it.
         node._featureId = featureId;
-        node._geometry = geometry;
+        node._boundsBottom = geometry.getBounds().bottom;
         node._geometryClass = geometry.CLASS_NAME;
         node._style = style;
 
@@ -658,7 +721,6 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
      */
     drawGeometryNode: function(node, geometry, style) {
         style = style || node._style;
-        OpenLayers.Util.applyDefaults(style, this.minimumSymbolizer);
 
         var options = {
             'isFilled': style.fill === undefined ?
@@ -687,9 +749,6 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
             case "OpenLayers.Geometry.Polygon":
                 drawn = this.drawPolygon(node, geometry);
                 break;
-            case "OpenLayers.Geometry.Surface":
-                drawn = this.drawSurface(node, geometry);
-                break;
             case "OpenLayers.Geometry.Rectangle":
                 drawn = this.drawRectangle(node, geometry);
                 break;
@@ -697,7 +756,6 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
                 break;
         }
 
-        node._style = style; 
         node._options = options; 
 
         //set style
@@ -816,21 +874,6 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
     drawCircle: function(node, geometry) {},
 
     /**
-     * Method: drawSurface
-     * Virtual function for drawing Surface Geometry. 
-     *     Should be implemented by subclasses.
-     *     This method is only called by the renderer itself.
-     * 
-     * Parameters: 
-     * node - {DOMElement}
-     * geometry - {<OpenLayers.Geometry>}
-     * 
-     * Returns:
-     * {DOMElement} or false if the renderer could not draw the surface
-     */ 
-    drawSurface: function(node, geometry) {},
-
-    /**
      * Method: removeText
      * Removes a label
      * 
@@ -842,6 +885,10 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
         if (label) {
             this.textRoot.removeChild(label);
         }
+        var outline = document.getElementById(featureId + this.LABEL_OUTLINE_SUFFIX);
+        if (outline) {
+            this.textRoot.removeChild(outline);
+        }
     },
 
     /**
@@ -851,15 +898,13 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
      * evt - {Object} An <OpenLayers.Event> object
      *
      * Returns:
-     * {<OpenLayers.Geometry>} A geometry from an event that 
-     *     happened on a layer.
+     * {String} A feature id or undefined.
      */
     getFeatureIdFromEvent: function(evt) {
         var target = evt.target;
         var useElement = target && target.correspondingUseElement;
         var node = useElement ? useElement : (target || evt.srcElement);
-        var featureId = node._featureId;
-        return featureId;
+        return node._featureId;
     },
 
     /** 
@@ -871,14 +916,15 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
      * 
      * Parameters:
      * geometry - {<OpenLayers.Geometry>}
+     * featureId - {String}
      */
-    eraseGeometry: function(geometry) {
+    eraseGeometry: function(geometry, featureId) {
         if ((geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPoint") ||
             (geometry.CLASS_NAME == "OpenLayers.Geometry.MultiLineString") ||
             (geometry.CLASS_NAME == "OpenLayers.Geometry.MultiPolygon") ||
             (geometry.CLASS_NAME == "OpenLayers.Geometry.Collection")) {
             for (var i=0, len=geometry.components.length; i<len; i++) {
-                this.eraseGeometry(geometry.components[i]);
+                this.eraseGeometry(geometry.components[i], featureId);
             }
         } else {    
             var element = OpenLayers.Util.getElement(geometry.id);
@@ -1005,17 +1051,3 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
     CLASS_NAME: "OpenLayers.Renderer.Elements"
 });
 
-
-/**
- * Constant: OpenLayers.Renderer.symbol
- * Coordinate arrays for well known (named) symbols.
- */
-OpenLayers.Renderer.symbol = {
-    "star": [350,75, 379,161, 469,161, 397,215, 423,301, 350,250, 277,301,
-            303,215, 231,161, 321,161, 350,75],
-    "cross": [4,0, 6,0, 6,4, 10,4, 10,6, 6,6, 6,10, 4,10, 4,6, 0,6, 0,4, 4,4,
-            4,0],
-    "x": [0,0, 25,0, 50,35, 75,0, 100,0, 65,50, 100,100, 75,100, 50,65, 25,100, 0,100, 35,50, 0,0],
-    "square": [0,0, 0,1, 1,1, 1,0, 0,0],
-    "triangle": [0,10, 10,10, 5,0, 0,10]
-};

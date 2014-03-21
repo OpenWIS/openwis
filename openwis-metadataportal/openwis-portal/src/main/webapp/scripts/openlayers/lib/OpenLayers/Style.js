@@ -1,9 +1,11 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
-  * full text of the license. */
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
 
 
 /**
+ * @requires OpenLayers/BaseTypes/Class.js
  * @requires OpenLayers/Util.js
  * @requires OpenLayers/Feature/Vector.js
  */
@@ -15,6 +17,12 @@
  */
 OpenLayers.Style = OpenLayers.Class({
 
+    /**
+     * Property: id
+     * {String} A unique id for this session.
+     */
+    id: null,
+    
     /**
      * APIProperty: name
      * {String}
@@ -53,7 +61,7 @@ OpenLayers.Style = OpenLayers.Class({
     rules: null,
     
     /**
-     * Property: context
+     * APIProperty: context
      * {Object} An optional object with properties that symbolizers' property
      * values should be evaluated against. If no context is specified,
      * feature.attributes will be used
@@ -103,7 +111,7 @@ OpenLayers.Style = OpenLayers.Class({
      * rules - {Array(<OpenLayers.Rule>)} List of rules to be added to the
      *     style.
      * 
-     * Return:
+     * Returns:
      * {<OpenLayers.Style>}
      */
     initialize: function(style, options) {
@@ -119,6 +127,7 @@ OpenLayers.Style = OpenLayers.Class({
         this.setDefaultStyle(style ||
                              OpenLayers.Feature.Vector.style["default"]);
 
+        this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
     },
 
     /** 
@@ -182,6 +191,10 @@ OpenLayers.Style = OpenLayers.Class({
             style.display = "none";
         }
         
+        if (style.label != null && typeof style.label !== "string") {
+            style.label = String(style.label);
+        }
+        
         return style;
     },
     
@@ -189,7 +202,7 @@ OpenLayers.Style = OpenLayers.Class({
      * Method: applySymbolizer
      *
      * Parameters:
-     * rule - {OpenLayers.Rule}
+     * rule - {<OpenLayers.Rule>}
      * style - {Object}
      * feature - {<OpenLayer.Feature.Vector>}
      *
@@ -256,10 +269,11 @@ OpenLayers.Style = OpenLayers.Class({
      * {Object} the modified style
      */
     createLiterals: function(style, feature) {
-        var context = this.context || feature.attributes || feature.data;
+        var context = OpenLayers.Util.extend({}, feature.attributes || feature.data);
+        OpenLayers.Util.extend(context, this.context);
         
         for (var i in this.propertyStyles) {
-            style[i] = OpenLayers.Style.createLiteral(style[i], context, feature);
+            style[i] = OpenLayers.Style.createLiteral(style[i], context, feature, i);
         }
         return style;
     },
@@ -332,7 +346,7 @@ OpenLayers.Style = OpenLayers.Class({
      * rules - {Array(<OpenLayers.Rule>)}
      */
     addRules: function(rules) {
-        this.rules = this.rules.concat(rules);
+        Array.prototype.push.apply(this.rules, rules);
         this.propertyStyles = this.findPropertyStyles();
     },
     
@@ -354,7 +368,7 @@ OpenLayers.Style = OpenLayers.Class({
      * geometry type of the passed geometry
      * 
      * Parameters:
-     * geometry {<OpenLayers.Geometry>}
+     * geometry - {<OpenLayers.Geometry>}
      * 
      * Returns:
      * {String} key of the according symbolizer
@@ -366,6 +380,29 @@ OpenLayers.Style = OpenLayers.Class({
                 return prefixes[i];
             }
         }
+    },
+    
+    /**
+     * APIMethod: clone
+     * Clones this style.
+     * 
+     * Returns:
+     * {<OpenLayers.Style>} Clone of this style.
+     */
+    clone: function() {
+        var options = OpenLayers.Util.extend({}, this);
+        // clone rules
+        if(this.rules) {
+            options.rules = [];
+            for(var i=0, len=this.rules.length; i<len; ++i) {
+                options.rules.push(this.rules[i].clone());
+            }
+        }
+        // clone context
+        options.context = this.context && OpenLayers.Util.extend({}, this.context);
+        //clone default style
+        var defaultStyle = OpenLayers.Util.extend({}, this.defaultStyle);
+        return new OpenLayers.Style(defaultStyle, options);
     },
     
     CLASS_NAME: "OpenLayers.Style"
@@ -383,17 +420,20 @@ OpenLayers.Style = OpenLayers.Class({
  *         will be replaced by the value of the "bar" attribute of the passed
  *         feature.
  * context - {Object} context to take attribute values from
- * feature - {OpenLayers.Feature.Vector} The feature that will be passed
- *     to <OpenLayers.String.format> for evaluating functions in the context.
+ * feature - {<OpenLayers.Feature.Vector>} optional feature to pass to
+ *           <OpenLayers.String.format> for evaluating functions in the
+ *           context.
+ * property - {String} optional, name of the property for which the literal is
+ *            being created for evaluating functions in the context.
  * 
  * Returns:
  * {String} the parsed value. In the example of the value parameter above, the
  * result would be "foo valueOfBar", assuming that the passed feature has an
  * attribute named "bar" with the value "valueOfBar".
  */
-OpenLayers.Style.createLiteral = function(value, context, feature) {
+OpenLayers.Style.createLiteral = function(value, context, feature, property) {
     if (typeof value == "string" && value.indexOf("${") != -1) {
-        value = OpenLayers.String.format(value, context, [feature]);
+        value = OpenLayers.String.format(value, context, [feature, property]);
         value = (isNaN(value) || !value) ? value : parseFloat(value);
     }
     return value;
@@ -404,4 +444,5 @@ OpenLayers.Style.createLiteral = function(value, context, feature) {
  * {Array} prefixes of the sld symbolizers. These are the
  * same as the main geometry types
  */
-OpenLayers.Style.SYMBOLIZER_PREFIXES = ['Point', 'Line', 'Polygon', 'Text'];
+OpenLayers.Style.SYMBOLIZER_PREFIXES = ['Point', 'Line', 'Polygon', 'Text',
+    'Raster'];

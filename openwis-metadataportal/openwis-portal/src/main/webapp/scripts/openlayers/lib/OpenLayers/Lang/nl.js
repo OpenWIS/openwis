@@ -1,68 +1,53 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
+/* Translators (2009 onwards):
+ *  - Siebrand
+ */
 
 /**
- * @requires OpenLayers/Lang/en.js
+ * @requires OpenLayers/Lang.js
  */
 
 /**
  * Namespace: OpenLayers.Lang["nl"]
- * Dictionary for Dutch.  Keys for entries are used in calls to
+ * Dictionary for Nederlands.  Keys for entries are used in calls to
  *     <OpenLayers.Lang.translate>.  Entry bodies are normal strings or
  *     strings formatted for use with <OpenLayers.String.format> calls.
  */
-OpenLayers.Lang.nl = OpenLayers.Util.applyDefaults({
+OpenLayers.Lang["nl"] = OpenLayers.Util.applyDefaults({
 
-    'unhandledRequest': "Niet afgehandeld request met als terugmelding ${statusText}",
+    'unhandledRequest': "Het verzoek is niet afgehandeld met de volgende melding: ${statusText}",
 
-    'permalink': "Permalink",
+    'Permalink': "Permanente verwijzing",
 
-    'overlays': "Overlays",
+    'Overlays': "Overlays",
 
-    'baseLayer': "Achtergrondkaart",
+    'Base Layer': "Achtergrondkaart",
 
-    'sameProjection':
-        "De overzichtskaart werkt alleen als de projectie gelijk is aan de projectie van de hoofdkaart",
+    'noFID': "Een optie die geen FID heeft kan niet bijgewerkt worden.",
 
-    'readNotImplemented': "Lezen niet geïmplementeerd.",
+    'browserNotSupported': "Uw browser ondersteunt het weergeven van vectoren niet.\nMomenteel ondersteunde weergavemogelijkheden:\n${renderers}",
 
-    'writeNotImplemented': "Schrijven niet geïmplementeerd.",
+    'minZoomLevelError': "De eigenschap minZoomLevel is alleen bedoeld voor gebruik lagen met die afstammen van FixedZoomLevels-lagen.\nDat deze WFS-laag minZoomLevel controleert, is een overblijfsel uit het verleden.\nWe kunnen deze controle echter niet verwijderen zonder op OL gebaseerde applicaties die hervan afhankelijk zijn stuk te maken.\nDaarom heeft deze functionaliteit de eigenschap \'deprecated\' gekregen - de minZoomLevel wordt verwijderd in versie 3.0.\nGebruik in plaats van deze functie de mogelijkheid om min/max voor resolutie in te stellen zoals op de volgende pagina wordt beschreven:\nhttp://trac.openlayers.org/wiki/SettingZoomLevels",
 
-    'noFID': "Een feature welke geen FID heeft kan niet bijgewerkt worden.",
+    'commitSuccess': "WFS-transactie: succesvol ${response}",
 
-    'errorLoadingGML': "Fout bij het laden van GML bestand ${url}",
+    'commitFailed': "WFS-transactie: mislukt ${response}",
 
-    'browserNotSupported':
-        "Uw browser ondersteunt het weergeven van vector niet. Momenteel ondersteunde weergave engines:\n${renderers}",
+    'googleWarning': "De Google-Layer kon niet correct geladen worden.\x3cbr /\x3e\x3cbr /\x3e\nOm deze melding niet meer te krijgen, moet u een andere achtergrondkaart kiezen in de laagwisselaar in de rechterbovenhoek.\x3cbr /\x3e\x3cbr /\x3e\nDit komt waarschijnlijk doordat de bibliotheek ${layerLib} niet correct ingevoegd is.\x3cbr /\x3e\x3cbr /\x3e\nOntwikkelaars: \x3ca href=\'http://trac.openlayers.org/wiki/${layerLib}\' target=\'_blank\'\x3eklik hier\x3c/a\x3e om dit werkend te krijgen.",
 
-    'componentShouldBe': "addFeatures : component zou van het type ${geomType} moeten zijn",
+    'getLayerWarning': "De laag ${layerType} kon niet goed geladen worden.\x3cbr /\x3e\x3cbr /\x3e\nOm deze melding niet meer te krijgen, moet u een andere achtergrondkaart kiezen in de laagwisselaar in de rechterbovenhoek.\x3cbr /\x3e\x3cbr /\x3e\nDit komt waarschijnlijk doordat de bibliotheek ${layerLib} niet correct is ingevoegd.\x3cbr /\x3e\x3cbr /\x3e\nOntwikkelaars: \x3ca href=\'http://trac.openlayers.org/wiki/${layerLib}\' target=\'_blank\'\x3eklik hier\x3c/a\x3e om dit werkend te krijgen.",
 
-    'commitSuccess': "WFS-transactie: SUCCESVOL ${response}",
+    'Scale = 1 : ${scaleDenom}': "Schaal = 1 : ${scaleDenom}",
 
-    'commitFailed': "WFS-transactie: MISLUKT ${response}",
+    'W': "W",
 
-    'googleWarning':
-        "De Google-Layer kon niet correct geladen worden.<br><br>" +
-        "Om deze melding niet meer te krijgen, moet u een andere " +
-        "achtergrondkaart kiezen in de LayerSwitcher in de rechterbovenhoek.<br><br>" +
-        "Dit is waarschijnlijk omdat de ${layerLib} bilbiotheek " +
-        "niet correct ingevoegd is.<br><br>" +
-        "Ontwikkelaars: om dit werkend te krijgen, " +
-        "<a href='http://trac.openlayers.org/wiki/${layerLib}' " +
-        "target='_blank'>klik hier</a>",
+    'E': "O",
 
-    'getLayerWarning':
-        "De ${layerType} Layer kon niet goed geladen worden.<br><br>" +
-        "Om deze melding niet meer te krijgen, moet u een andere " +
-        "achtergrondkaart kiezen in de LayerSwitcher in de rechterbovenhoek.<br><br>" +
-        "Dit is waarschijnlijk omdat de ${layerLib} bilbiotheek " +
-        "niet correct ingevoegd is.<br><br>" +
-        "Ontwikkelaars: om dit werkend te krijgen, " +
-        "<a href='http://trac.openlayers.org/wiki/${layerLib}' " +
-        "target='_blank'>klik hier</a>",
+    'N': "N",
 
-    'scale': "Schaal = 1 : ${scaleDenom}",
+    'S': "Z",
 
-    'end': ''
-}, OpenLayers.Lang["en"]);
+    'reprojectDeprecated': "U gebruikt de optie \'reproject\' op de laag ${layerName}.\nDeze optie is vervallen: deze optie was ontwikkeld om gegevens over commerciële basiskaarten weer te geven, maar deze functionaliteit wordt nu bereikt door ondersteuning van Spherical Mercator.\nMeer informatie is beschikbaar op http://trac.openlayers.org/wiki/SphericalMercator.",
+
+    'methodDeprecated': "Deze methode is verouderd en wordt verwijderd in versie 3.0.\nGebruik ${newMethod}."
+
+});

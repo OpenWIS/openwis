@@ -1,9 +1,11 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
  * @requires OpenLayers/Format/XML.js
+ * @requires OpenLayers/Format/Context.js
  */
 
 /**
@@ -11,201 +13,167 @@
  * Read and write Web Map Context documents.
  *
  * Inherits from:
- *  - <OpenLayers.Format.XML>
+ *  - <OpenLayers.Format.Context>
  */
-OpenLayers.Format.WMC = OpenLayers.Class({
+OpenLayers.Format.WMC = OpenLayers.Class(OpenLayers.Format.Context, {
     
     /**
      * APIProperty: defaultVersion
      * {String} Version number to assume if none found.  Default is "1.1.0".
      */
     defaultVersion: "1.1.0",
-    
-    /**
-     * APIProperty: version
-     * {String} Specify a version string if one is known.
-     */
-    version: null,
-
-    /**
-     * Property: layerOptions
-     * {Object} Default options for layers created by the parser. These
-     *     options are overridden by the options which are read from the 
-     *     capabilities document.
-     */
-    layerOptions: null, 
-
-    /**
-     * Property: layerParams
-     * {Object} Default parameters for layers created by the parser. This
-     *     can be used to override DEFAULT_PARAMS for OpenLayers.Layer.WMS.
-     */
-    layerParams: null,
-    
-    /**
-     * Property: parser
-     * {Object} Instance of the versioned parser.  Cached for multiple read and
-     *     write calls of the same version.
-     */
-    parser: null,
 
     /**
      * Constructor: OpenLayers.Format.WMC
-     * Create a new parser for WMC docs.
+     * Create a new parser for Web Map Context documents.
      *
      * Parameters:
      * options - {Object} An optional object whose properties will be set on
      *     this instance.
      */
-    initialize: function(options) {
-        OpenLayers.Util.extend(this, options);
-        this.options = options;
-    },
-
+    
     /**
-     * APIMethod: read
-     * Read WMC data from a string, and return an object with map properties
-     *     and a list of layers. 
-     * 
-     * Parameters: 
-     * data - {String} or {DOMElement} data to read/parse.
-     * options - {Object} The options object must contain a map property.  If
-     *     the map property is a string, it must be the id of a dom element
-     *     where the new map will be placed.  If the map property is an
-     *     <OpenLayers.Map>, the layers from the context document will be added
-     *     to the map.
+     * Method: layerToContext
+     * Create a layer context object given a wms layer object.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.WMS>} The layer.
      *
      * Returns:
-     * {<OpenLayers.Map>} A map based on the context.
+     * {Object} A layer context object.
      */
-    read: function(data, options) {
-        if(typeof data == "string") {
-            data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
+    layerToContext: function(layer) {
+        var parser = this.getParser();
+        var layerContext = {
+            queryable: layer.queryable,
+            visibility: layer.visibility,
+            name: layer.params["LAYERS"],
+            title: layer.name,
+            "abstract": layer.metadata["abstract"],
+            dataURL: layer.metadata.dataURL,
+            metadataURL: layer.metadataURL,
+            server: {
+            version: layer.params["VERSION"],
+                url: layer.url
+            },
+            maxExtent: layer.maxExtent,
+            transparent: layer.params["TRANSPARENT"],
+            numZoomLevels: layer.numZoomLevels,
+            units: layer.units,
+            isBaseLayer: layer.isBaseLayer,
+            opacity: layer.opacity == 1 ? undefined : layer.opacity,
+            displayInLayerSwitcher: layer.displayInLayerSwitcher,
+            singleTile: layer.singleTile,
+            tileSize: (layer.singleTile || !layer.tileSize) ? 
+                undefined : {width: layer.tileSize.w, height: layer.tileSize.h},
+            minScale : (layer.options.resolutions ||
+                        layer.options.scales || 
+                        layer.options.maxResolution || 
+                        layer.options.minScale) ? 
+                        layer.minScale : undefined,
+            maxScale : (layer.options.resolutions ||
+                        layer.options.scales || 
+                        layer.options.minResolution || 
+                        layer.options.maxScale) ? 
+                        layer.maxScale : undefined,
+            formats: [],
+            styles: [],
+            srs: layer.srs,
+            dimensions: layer.dimensions
+        };
+
+
+        if (layer.metadata.servertitle) {
+            layerContext.server.title = layer.metadata.servertitle;
         }
-        var root = data.documentElement;
-        var version = this.version;
-        if(!version) {
-            version = root.getAttribute("version");
-            if(!version) {
-                version = this.defaultVersion;
-            }
-        }
-        if(!this.parser || this.parser.VERSION != version) {
-            var format = OpenLayers.Format.WMC[
-                "v" + version.replace(/\./g, "_")
-            ];
-            if(!format) {
-                throw "Can't find a WMC parser for version " +
-                      version;
-            }
-            this.parser = new format(this.options);
-        }
-        var context = this.parser.read(data, options);
-        var map;
-        if(options.map) {
-            this.context = context;
-            if(options.map instanceof OpenLayers.Map) {
-                map = this.mergeContextToMap(context, options.map);
-            } else {
-                map = this.contextToMap(context, options.map);
+
+        if (layer.metadata.formats && layer.metadata.formats.length > 0) {
+            for (var i=0, len=layer.metadata.formats.length; i<len; i++) {
+                var format = layer.metadata.formats[i];
+                layerContext.formats.push({
+                    value: format.value,
+                    current: (format.value == layer.params["FORMAT"])
+                });
             }
         } else {
-            // not documented as part of the API, provided as a non-API option
-            map = context;
+            layerContext.formats.push({
+                value: layer.params["FORMAT"],
+                current: true
+            });
         }
-        return map;
-    },
-    
-    /**
-     * Method: contextToMap
-     * Create a map given a context object.
-     *
-     * Parameters:
-     * context - {Object} The context object.
-     * id - {String | Element} The dom element or element id that will contain
-     *     the map.
-     *
-     * Returns:
-     * {<OpenLayers.Map>} A map based on the context object.
-     */
-    contextToMap: function(context, id) {
-        var map = new OpenLayers.Map(id, {
-            maxExtent: context.maxExtent,
-            projection: context.projection
-        });
-        map.addLayers(context.layers);
-        map.setCenter(
-            context.bounds.getCenterLonLat(),
-            map.getZoomForExtent(context.bounds, true)
-        );
-        return map;
-    },
-    
-    /**
-     * Method: mergeContextToMap
-     * Add layers from a context object to a map.
-     *
-     * Parameters:
-     * context - {Object} The context object.
-     * map - {<OpenLayers.Map>} The map.
-     *
-     * Returns:
-     * {<OpenLayers.Map>} The same map with layers added.
-     */
-    mergeContextToMap: function(context, map) {
-        map.addLayers(context.layers);
-        return map;
-    },
 
-    /**
-     * APIMethod: write
-     * Write a WMC document given a map.
-     *
-     * Parameters:
-     * obj - {<OpenLayers.Map> | Object} A map or context object.
-     * options - {Object} Optional configuration object.
-     *
-     * Returns:
-     * {String} A WMC document string.
-     */
-    write: function(obj, options) {
-        if(obj.CLASS_NAME == "OpenLayers.Map") {
-            obj = this.mapToContext(obj);
-        }
-        var version = (options && options.version) ||
-                      this.version || this.defaultVersion;
-        if(!this.parser || this.parser.VERSION != version) {
-            var format = OpenLayers.Format.WMC[
-                "v" + version.replace(/\./g, "_")
-            ];
-            if(!format) {
-                throw "Can't find a WMS capabilities parser for version " +
-                      version;
+        if (layer.metadata.styles && layer.metadata.styles.length > 0) {
+            for (var i=0, len=layer.metadata.styles.length; i<len; i++) {
+                var style = layer.metadata.styles[i];
+                if ((style.href == layer.params["SLD"]) ||
+                    (style.body == layer.params["SLD_BODY"]) ||
+                    (style.name == layer.params["STYLES"])) {
+                    style.current = true;
+                } else {
+                    style.current = false;
+                }
+                layerContext.styles.push(style);
             }
-            this.parser = new format(this.options);
+        } else {
+            layerContext.styles.push({
+                href: layer.params["SLD"],
+                body: layer.params["SLD_BODY"],
+                name: layer.params["STYLES"] || parser.defaultStyleName,
+                title: parser.defaultStyleTitle,
+                current: true
+            });
         }
-        var wmc = this.parser.write(obj, options);
-        return wmc;
+
+        return layerContext;
     },
     
     /**
-     * Method: mapToContext
-     * Create a context object given a map.
+     * Method: toContext
+     * Create a context object free from layer given a map or a
+     * context object.
      *
      * Parameters:
-     * map - {<OpenLayers.Map>} The map.
+     * obj - {<OpenLayers.Map> | Object} The map or context.
      *
      * Returns:
      * {Object} A context object.
      */
-    mapToContext: function(map) {
-        var context = {
-            bounds: map.getExtent(),
-            maxExtent: map.maxExtent,
-            projection: map.projection,
-            layers: map.layers,
-            size: map.getSize()
-        };
+    toContext: function(obj) {
+        var context = {};
+        var layers = obj.layers;
+        if (obj.CLASS_NAME == "OpenLayers.Map") {
+            var metadata = obj.metadata || {};
+            context.size = obj.getSize();
+            context.bounds = obj.getExtent();
+            context.projection = obj.projection;
+            context.title = obj.title;
+            context.keywords = metadata.keywords;
+            context["abstract"] = metadata["abstract"];
+            context.logo = metadata.logo;
+            context.descriptionURL = metadata.descriptionURL;
+            context.contactInformation = metadata.contactInformation;
+            context.maxExtent = obj.maxExtent;
+        } else {
+            // copy all obj properties except the "layers" property
+            OpenLayers.Util.applyDefaults(context, obj);
+            if (context.layers != undefined) {
+                delete(context.layers);
+            }
+        }
+
+        if (context.layersContext == undefined) {
+            context.layersContext = [];
+        }
+
+        // let's convert layers into layersContext object (if any)
+        if (layers != undefined && OpenLayers.Util.isArray(layers)) {
+            for (var i=0, len=layers.length; i<len; i++) {
+                var layer = layers[i];
+                if (layer instanceof OpenLayers.Layer.WMS) {
+                    context.layersContext.push(this.layerToContext(layer));
+                }
+            }
+        }
         return context;
     },
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var pixel; 
     
@@ -40,11 +40,22 @@
         t.eq( pixel.x, 5, "changing oldPixel.x doesn't change pixel.x");
     }
 
+    function test_Pixel_distanceTo(t) {
+        t.plan( 2 );
+        var px = new OpenLayers.Pixel(0,-2);
+        pixel = new OpenLayers.Pixel(0,0);
+        t.eq( pixel.distanceTo(px), 2, "(0,0) distanceTo (0,-2) = 2");
+
+        px = new OpenLayers.Pixel(-4,6);
+        pixel = new OpenLayers.Pixel(4,6);
+        t.eq( pixel.distanceTo(px), 8, "(4,6) distanceTo (-4,6) = 8");
+    }
+
     function test_Pixel_equals(t) {
         t.plan( 5 );
         pixel = new OpenLayers.Pixel(5,6);
 
-        px = new OpenLayers.Pixel(5,6);
+        var px = new OpenLayers.Pixel(5,6);
         t.eq( pixel.equals(px), true, "(5,6) equals (5,6)");
 
         px = new OpenLayers.Pixel(1,6);
@@ -61,7 +72,7 @@
     }
 
     function test_Pixel_add(t) {
-        t.plan( 8 );
+        t.plan( 6 );
 
         var origPX = new OpenLayers.Pixel(5,6);
         var oldPixel = origPX.clone();
@@ -74,18 +85,19 @@
         t.ok( pixel.equals(px), "returned pixel is correct");
 
     //null values
-        var desiredMsg = "You must pass both x and y values to the add function.";
-        OpenLayers.Console.error = function(msg) {
-            t.eq(msg, desiredMsg, "error correctly reported");
+        try {
+            pixel = oldPixel.add(null, 50);
+        } catch(e) {
+            t.ok("exception thrown when passing null value to add()");
         }
-    
-        pixel = oldPixel.add(null, 50);
         t.ok( oldPixel.equals(origPX), "oldPixel is not modified by erroneous add operation (null x)");
-        t.ok(pixel == null, "returns null on erroneous add operation (null x)");
  
-        addpx = oldPixel.add(5, null);
+        try {
+            addpx = oldPixel.add(5, null);
+        } catch(e) {
+            t.ok("exception thrown when passing null value to add()");
+        }            
         t.ok( oldPixel.equals(origPX), "oldPixel is not modified by erroneous add operation (null y)");
-        t.ok(pixel == null, "returns null on erroneous add operation (null y)");
     }
 
     function test_Pixel_offset(t) {
