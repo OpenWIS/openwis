@@ -1,7 +1,3 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
-
 /**
  * @requires OpenLayers/Lang.js
  */
@@ -16,32 +12,16 @@ OpenLayers.Lang.en = {
 
     'unhandledRequest': "Unhandled request return ${statusText}",
 
-    'permalink': "Permalink",
+    'Permalink': "Permalink",
 
-    'overlays': "Overlays",
+    'Overlays': "Overlays",
 
-    'baseLayer': "Base Layer",
-
-    'sameProjection':
-        "The overview map only works when it is in the same projection as the main map",
-
-    'readNotImplemented': "Read not implemented.",
-
-    'writeNotImplemented': "Write not implemented.",
+    'Base Layer': "Base Layer",
 
     'noFID': "Can't update a feature for which there is no FID.",
 
-    'errorLoadingGML': "Error in loading GML file ${url}",
-
     'browserNotSupported':
         "Your browser does not support vector rendering. Currently supported renderers are:\n${renderers}",
-
-    'componentShouldBe': "addFeatures : component should be an ${geomType}",
-
-    // console message
-    'getFeatureError':
-        "getFeatureFromEvent called on layer with no renderer. This usually means you " +
-        "destroyed a layer, but not some handler which is associated with it.",
 
     // console message
     'minZoomLevelError':
@@ -80,11 +60,14 @@ OpenLayers.Lang.en = {
         "<a href='http://trac.openlayers.org/wiki/${layerLib}' " +
         "target='_blank'>click here</a>",
 
-    'scale': "Scale = 1 : ${scaleDenom}",
-
-    // console message
-    'layerAlreadyAdded':
-        "You tried to add the layer: ${layerName} to the map, but it has already been added",
+    'Scale = 1 : ${scaleDenom}': "Scale = 1 : ${scaleDenom}",
+    
+    //labels for the graticule control
+    'W': 'W',
+    'E': 'E',
+    'N': 'N',
+    'S': 'S',
+    'Graticule': 'Graticule',
 
     // console message
     'reprojectDeprecated':
@@ -100,24 +83,7 @@ OpenLayers.Lang.en = {
         "This method has been deprecated and will be removed in 3.0. " +
         "Please use ${newMethod} instead.",
 
-    // console message
-    'boundsAddError': "You must pass both x and y values to the add function.",
-
-    // console message
-    'lonlatAddError': "You must pass both lon and lat values to the add function.",
-
-    // console message
-    'pixelAddError': "You must pass both x and y values to the add function.",
-
-    // console message
-    'unsupportedGeometryType': "Unsupported geometry type: ${geomType}",
-
-    // console message
-    'pagePositionFailed':
-        "OpenLayers.Util.pagePosition failed: element with id ${elemId} may be misplaced.",
-                    
-    'end': '',
-
-    // console message
-    'filterEvaluateNotImplemented': "evaluate is not implemented for this filter type."
+    // **** end ****
+    'end': ''
+    
 };

@@ -1,23 +1,105 @@
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    #map {
+        position: absolute;
+        top:  1234px;
+        left: 123px;
+    }
+    .test_getRenderedDimensions p{
+        padding: 20px; 
+    }
+  </style>
   <script>
-    var custom$ = function() {};
-    window.$ = custom$;
+    var OpenLayers = [
+        "OpenLayers/BaseTypes/Class.js",
+        "OpenLayers/Util.js",
+        "OpenLayers/BaseTypes.js",
+        "OpenLayers/BaseTypes/Element.js",
+        "OpenLayers/BaseTypes/LonLat.js",
+        "OpenLayers/BaseTypes/Pixel.js",
+        "OpenLayers/BaseTypes/Size.js",
+        "OpenLayers/Lang.js",
+        "OpenLayers/Console.js"
+    ];
   </script>
-  <script src="../lib/OpenLayers.js"></script>
+  <script src="OLLoader.js"></script>
+  <script src="Util_common.js"></script>
   <script type="text/javascript">
     var isMozilla = (navigator.userAgent.indexOf("compatible") == -1);
     var map; 
+
+    function test_isElement(t) {
+        t.plan(3);
+
+        // set up
+        var o;
+
+        // tests
+        o = {};
+        t.eq(OpenLayers.Util.isElement(o), false,
+             "isElement reports that {} isn't an Element");
+        o = document.createElement("div");
+        t.eq(OpenLayers.Util.isElement(o), true,
+             "isElement reports that object returned by createElement is an Element");
+        o = OpenLayers.Util.getElement("map");
+        t.eq(OpenLayers.Util.isElement(o), true,
+             "isElement reports that object returned by getElement is an Element");
+    }
     
-    function test_$(t) {
-        t.plan(1);
-        t.ok($ === custom$, "OpenLayers doesn't clobber existing definition of $.");
+    function test_isArray(t) {
+        t.plan(5);
+        
+        var a;
+        
+        a = null;
+        t.eq(OpenLayers.Util.isArray(a), false, 
+             "isArray reports 'null' isn't an Array");
+        a = "Array";   
+        t.eq(OpenLayers.Util.isArray(a), false, 
+             "isArray reports \"Array\" isn't an Array");
+        a = {};
+        t.eq(OpenLayers.Util.isArray(a), false, 
+             "isArray reports {} isn't an Array");
+        a = [];
+        t.eq(OpenLayers.Util.isArray(a), true, 
+             "isArray reports [] is an Array");
+        a = new Array();
+        t.eq(OpenLayers.Util.isArray(a), true, 
+             "isArray reports new Array() is an Array");
+    }
+    
+    function test_iframe_isArray(t) {
+        t.plan(3);
+        // create an array in an iframe
+        var iframe = document.createElement("iframe");
+        document.body.appendChild(iframe);
+        frames[frames.length-1].document.write(
+            "<script>parent.testArray = [];<\/script>"
+        );
+        
+        t.ok(!!testArray, "testArray created");
+        t.ok(!(testArray instanceof Array), "instanceof check doesn't work");
+        t.eq(OpenLayers.Util.isArray(testArray), true, "isArray works");
     }
     
     function test_Util_getImagesLocation (t) {
         t.plan( 1 );
         t.ok( OpenLayers.Util.getImagesLocation(), "../img/",
                     "getImagesLocation()" );
+    }
+
+    function test_Util_IndexOf(t) {
+        t.plan( 3 );
+        var array = new Array(1, "bar");
+        t.eq(OpenLayers.Util.indexOf(array, 1), 0);
+        t.eq(OpenLayers.Util.indexOf(array, "bar"), 1);
+        t.eq(OpenLayers.Util.indexOf(array, "foo"), -1);
     }
 
     function test_Util_Array(t) {
@@ -32,10 +114,30 @@
     }
     
     function test_Util_pagePosition(t) {
-        t.plan( 1 );
+        t.plan( 2 );
+
+        // making sure that the test iframe is visible
+        var origDisplay;
+        var parents = window.parent.document.getElementsByTagName('iframe');
+        if (parents.length) {
+            origDisplay = parents[1].parentNode.style.display;
+            // span containing the test iframe is the invisible element
+            parents[1].parentNode.style.display = "";
+        }
+
         var pp = OpenLayers.Util.pagePosition(window);
-        t.eq( pp.toString(), "0,0", "Page position doesn't bail if passed 'window'")
+        t.eq( pp.toString(), "0,0", "Page position doesn't bail if passed 'window'");
         
+        var mapDiv = document.getElementById("map");
+        var beforeScrollPp = OpenLayers.Util.pagePosition(mapDiv);
+        window.scrollTo(100, 1200);
+        pp = OpenLayers.Util.pagePosition(mapDiv);
+        t.eq(pp, beforeScrollPp, "Page position should work after page has been scrolled");
+        
+        // reset test iframe visibility
+        if (parents.length) {
+            parents[1].parentNode.style.display = origDisplay;
+        }
     }
 
     function test_Util_createDiv(t) {
@@ -70,7 +172,7 @@
 
         t.eq( div.style.position, position, "div.style.positionset correctly");    
         //Safari 3 separates the border style into separate entities when reading it
-        if (OpenLayers.Util.getBrowserName() == 'safari') {
+        if (OpenLayers.BROWSER_NAME == 'safari') {
           var s = border.split(' ');
           t.ok(div.style.borderTopWidth == s[0] && div.style.borderTopStyle == s[1], "good default popup.border")
         } else {
@@ -78,11 +180,12 @@
         }
             
         //Safari 3 separates style overflow into overflow-x and overflow-y
-        var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+        var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
         t.eq( div.style[prop], overflow, "div.style.overflow set correctly");    
         t.eq( parseFloat(div.style.opacity), opacity, "element.style.opacity set correctly");    
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+        //Some non-IE browsers don't return the alpha string for this value, which is okay
+        var filterString = div.style.filter.match(/^alpha/) != null ? 
+                               'alpha(opacity=' + (opacity * 100) + ')' : div.style.filter;
         t.eq( div.style.filter, filterString, "element.style.filter set correctly");
 
         //test defaults
@@ -103,13 +206,13 @@
 
         t.eq( div.style.position, "absolute", "div.style.positionset correctly");    
         //Safari 3 separates the border style into separate entities when reading it
-        if (OpenLayers.Util.getBrowserName() == 'safari') {
+        if (OpenLayers.BROWSER_NAME == 'safari') {
           t.ok(div.style.borderTopWidth == '' && div.style.borderTopStyle == '', "good default popup.border")
         } else {
           t.eq( div.style.border, "", "div.style.border set correctly");    
         }
         //Safari 3 separates style overflow into overflow-x and overflow-y
-        var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+        var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
         t.eq(div.style[prop], "", "div.style.overflow set correctly");    
         t.ok( !div.style.opacity, "element.style.opacity set correctly");    
         t.ok( !div.style.filter, "element.style.filter set correctly");
@@ -141,7 +244,7 @@
         t.eq( image.style.height, sz.h + "px", "image.style.height set correctly");    
 
         //Safari 3 separates the border style into separate entities when reading it
-        if (OpenLayers.Util.getBrowserName() == 'safari') {
+        if (OpenLayers.BROWSER_NAME == 'safari') {
           var s = border.split(' ');
           t.ok(image.style.borderTopWidth == s[0] && image.style.borderTopStyle == s[1], "good default popup.border")
         } else {
@@ -150,8 +253,9 @@
         t.eq( image.src, img, "image.style.backgroundImage correctly");    
         t.eq( image.style.position, position, "image.style.position set correctly");    
         t.eq( parseFloat(image.style.opacity), opacity, "image.style.opacity set correctly");    
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+        //Some non-IE browsers don't return the alpha string for this value, which is okay
+        var filterString = image.style.filter.match(/^alpha/) != null ? 
+                               'alpha(opacity=' + (opacity * 100) + ')' : image.style.filter;
         t.eq( image.style.filter, filterString, "element.style.filter set correctly");
 
         //test defaults
@@ -225,7 +329,7 @@
     }
 
     function test_Util_getParameterString(t) {
-        t.plan( 4 );
+        t.plan(6);
 
         var params = { 
             'foo': "bar",
@@ -235,6 +339,8 @@
         t.eq( OpenLayers.Util.getParameterString(params), "foo=bar&chicken=1.5", "getParameterString returns correctly");    
         t.eq( OpenLayers.Util.getParameterString({'a:':'b='}), "a%3A=b%3D", "getParameterString returns correctly with non-ascii keys/values");    
         
+        t.eq(OpenLayers.Util.getParameterString({chars: "~!*()'"}), "chars=~!*()'", "~!*()' are unreserved or have no reserved purpose in a URI component");
+        
 
         // Parameters which are a list should end up being a comma-seperated
         // list of the URL encoded strings
@@ -242,7 +348,53 @@
         t.eq( OpenLayers.Util.getParameterString(params), "foo=bar%2Cbaz", "getParameterString encodes , correctly in arrays");    
         
         var params = { foo: ["bar","baz,"] };
-        t.eq( OpenLayers.Util.getParameterString(params), "foo=bar,baz%2C", "getParameterString returns with list of CSVs when given a list. ");    
+        t.eq( OpenLayers.Util.getParameterString(params), "foo=bar,baz%2C", "getParameterString returns with list of CSVs when given a list. ");
+        
+        var params = { foo: [null, undefined, 0, "", "bar"] }
+        t.eq( OpenLayers.Util.getParameterString(params), "foo=,,0,,bar", "getParameterString works fine with null values in array.");
+    }
+    
+    function test_Util_urlAppend(t) {
+
+        var params = "foo=bar";
+        
+        t.plan( 7 );
+
+  // without ?        
+        var url = "http://octo.metacarta.com/cgi-bin/mapserv";
+        var str = OpenLayers.Util.urlAppend(url, params);
+        t.eq(str, url + '?' + params, "urlAppend() works for url sans ?");
+
+
+  // with ?        
+        url = "http://octo.metacarta.com/cgi-bin/mapserv?";
+        str = OpenLayers.Util.urlAppend(url, params);
+        t.eq(str, url + params, "urlAppend() works for url with ?");
+
+  // with ?param1=5
+        url = "http://octo.metacarta.com/cgi-bin/mapserv?param1=5";
+        str = OpenLayers.Util.urlAppend(url, params);
+        t.eq(str, url + '&' + params, "urlAppend() works for url with ?param1=5");
+  
+  // with ?param1=5&
+        url = "http://octo.metacarta.com/cgi-bin/mapserv?param1=5&";
+        str = OpenLayers.Util.urlAppend(url, params);
+        t.eq(str, url + params, "urlAppend() works for url with ?param1=5&");
+ 
+  // with ?param1=5&param2=6
+        url = "http://octo.metacarta.com/cgi-bin/mapserv?param1=5&param2=6";
+        str = OpenLayers.Util.urlAppend(url, params);
+        t.eq(str, url + "&" + params, "urlAppend() works for url with ?param1=5&param2=6");
+        
+  // with empty paramStr
+        url = "http://octo.metacarta.com/cgi-bin/mapserv?param1=5"
+        str = OpenLayers.Util.urlAppend(url, "");
+        t.eq(str, url, "urlAppend() works with empty paramStr")
+
+  // with null paramStr
+        url = "http://octo.metacarta.com/cgi-bin/mapserv?param1=5"
+        str = OpenLayers.Util.urlAppend(url, null);
+        t.eq(str, url, "urlAppend() works with null paramStr")
     }
 
     function test_Util_createAlphaImageDiv(t) {
@@ -278,8 +430,9 @@
         if (OpenLayers.Util.alphaHack()) {
             filterString = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://www.openlayers.org/images/OpenLayers.trac.png', sizingMethod='crop') alpha(opacity=50)";
         } else {
-            //Safari 3 returns null for this value, which is okay
-            var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+            //Some non-IE browsers don't return the alpha string for this value, which is okay
+            var filterString = imageDiv.style.filter.match(/^alpha/) != null ? 
+                                   'alpha(opacity=' + (opacity * 100) + ')' : imageDiv.style.filter;
         }        
         t.eq( imageDiv.style.filter, filterString, "element.style.filter set correctly");
 
@@ -295,7 +448,7 @@
         t.eq( image.style.height, sz.h + "px", "image.style.height set correctly");    
 
         //Safari 3 separates the border style into separate entities when reading it
-        if (OpenLayers.Util.getBrowserName() == 'safari') {
+        if (OpenLayers.BROWSER_NAME == 'safari') {
           var s = border.split(' ');
           t.ok(image.style.borderTopWidth == s[0] && image.style.borderTopStyle == s[1], "good default popup.border")
         } else {
@@ -346,8 +499,9 @@
 
         t.eq(parseFloat(element.style.opacity), opacity, 
              "element.style.opacity set correctly when opacity = " + opacity);
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+        //Some non-IE browsers don't return the alpha string for this value, which is okay
+        var filterString = element.style.filter.match(/^alpha/) != null ? 
+                               'alpha(opacity=' + (opacity * 100) + ')' : element.style.filter;
         t.eq(element.style.filter, filterString, 
              "element.style.filter set correctly when opacity = " + opacity);
 
@@ -356,8 +510,9 @@
     
         t.eq(parseFloat(element.style.opacity), opacity, 
              "element.style.opacity not changed if the value is incorrect");
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+        //Some non-IE browsers don't return the alpha string for this value, which is okay
+        var filterString = element.style.filter.match(/^alpha/) != null ? 
+                               'alpha(opacity=' + (opacity * 100) + ')' : element.style.filter;
         t.eq(element.style.filter, filterString, 
              "element.style.filter not changed if the value is incorrect");
 
@@ -366,8 +521,9 @@
     
         t.eq(parseFloat(element.style.opacity), opacity, 
              "element.style.opacity not changed if the value is incorrect");
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+        //Some non-IE browsers don't return the alpha string for this value, which is okay
+        var filterString = element.style.filter.match(/^alpha/) != null ? 
+                               'alpha(opacity=' + (opacity * 100) + ')' : element.style.filter;
         t.eq(element.style.filter, filterString, 
              "element.style.filter not changed if the value is incorrect");
 
@@ -377,9 +533,8 @@
 
         t.eq(element.style.opacity, '', 
              "element.style.opacity is removed when opacity = " + opacity);
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : '';
-        t.eq(element.style.filter, filterString, 
+        // Some browser returns null instead of '', which is okay
+        t.ok(element.style.filter == '' || element.style.filter == null,
              "element.style.filter is removed when opacity = " + opacity);
     }
 
@@ -408,18 +563,19 @@
 
         t.eq( element.style.position, position, "element.style.position set correctly");    
         //Safari 3 separates the border style into separate entities when reading it
-        if (OpenLayers.Util.getBrowserName() == 'safari') {
+        if (OpenLayers.BROWSER_NAME == 'safari') {
           var s = border.split(' ');
           t.ok(element.style.borderTopWidth == s[0] && element.style.borderTopStyle == s[1], "good default popup.border")
         } else {
           t.ok( (element.style.border.indexOf(border) != -1), "element.style.border set correctly");
         }
         //Safari 3 separates style overflow into overflow-x and overflow-y
-        var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+        var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
         t.eq( element.style[prop], overflow, "element.style.overflow set correctly");    
         t.eq( parseFloat(element.style.opacity), opacity, "element.style.opacity set correctly");    
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+        //Some non-IE browsers don't return the alpha string for this value, which is okay
+        var filterString = element.style.filter.match(/^alpha/) != null ? 
+                               'alpha(opacity=' + (opacity * 100) + ')' : element.style.filter;
         t.eq( element.style.filter, filterString, "element.style.filter set correctly");
     }
 
@@ -462,8 +618,9 @@
             filterString = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://www.openlayers.org/images/OpenLayers.trac.png', sizingMethod='crop') alpha(opacity=50)";
             t.ok( true, "skipping element test outside of Mozilla");
         } else {
-            //Safari 3 returns null for this value, which is okay
-            var filterString = (OpenLayers.Util.getBrowserName() == 'safari') ? null : 'alpha(opacity=' + (opacity * 100) + ')';
+            //Some non-IE browsers don't return the alpha string for this value, which is okay
+            var filterString = imageDiv.style.filter.match(/^alpha/) != null ? 
+                                   'alpha(opacity=' + (opacity * 100) + ')' : imageDiv.style.filter;
             t.ok( image.nodeName == "IMG", "createImage creates a valid HTMLImageElement" );
         }
         t.eq( imageDiv.style.filter, filterString, "element.style.filter set correctly");
@@ -473,7 +630,7 @@
         t.eq( image.style.height, sz.h + "px", "image.style.height set correctly");    
 
         //Safari 3 separates the border style into separate entities when reading it
-        if (OpenLayers.Util.getBrowserName() == 'safari') {
+        if (OpenLayers.BROWSER_NAME == 'safari') {
           var s = border.split(' ');
           t.ok(image.style.borderTopWidth == s[0] && image.style.borderTopStyle == s[1], "good default popup.border")
         } else {
@@ -569,6 +726,12 @@
         t.ok(OpenLayers.String.startsWith(id, "chicken"),
              "OpenLayers.Util.createUniqueID starts id correctly");
     }
+    
+    function test_units(t) {
+        t.plan(2);
+        t.eq(OpenLayers.INCHES_PER_UNIT.m, OpenLayers.INCHES_PER_UNIT.Meter, 'Same inches per m and Meters');
+        t.eq(OpenLayers.INCHES_PER_UNIT.km, OpenLayers.INCHES_PER_UNIT.Kilometer, 'Same inches per km and Kilometers');
+    }
         
     function test_Util_normalizeScale(t) {
         t.plan(2); 
@@ -583,7 +746,7 @@
     }
     
     function test_Util_getScaleResolutionTranslation(t) {
-        t.plan(4); 
+        t.plan(5); 
         
         var scale = 1/150000000; 
         var resolution = OpenLayers.Util.getResolutionFromScale(scale);
@@ -591,7 +754,7 @@
 
         var scale = 1/150000000; 
         var resolution = OpenLayers.Util.getResolutionFromScale(scale, 'm');
-        t.eq(resolution.toFixed(6), "52916.638092", "Calculated correct resolution for " + scale);
+        t.eq(resolution.toFixed(6), "52916.772500", "Calculated correct resolution for " + scale);
 
         scale = 150000000; 
         resolution = OpenLayers.Util.getResolutionFromScale(scale);
@@ -600,6 +763,11 @@
         scale = 150000000; 
         resolution = OpenLayers.Util.getResolutionFromScale(scale);
         t.eq(OpenLayers.Util.getScaleFromResolution(resolution), scale, "scale->resolution->scale works");
+        
+        scale = null;
+        resolution = OpenLayers.Util.getResolutionFromScale(scale);
+        t.eq(resolution, undefined, "falsey scale results in undefined resolution");
+        
     }
     
     function test_Util_getImgLocation(t) {
@@ -615,7 +783,7 @@
     }
 
     function test_Util_isEquivalentUrl(t) {
-        t.plan(9);
+        t.plan(10);
         
         var url1, url2, options;
 
@@ -678,6 +846,11 @@
         url2 = new Array(window.location.pathname.split("/").length-1).join("../")+"foo/bar";
         
         t.ok(OpenLayers.Util.isEquivalentUrl(url1, url2), "absolute and relative path without host works for "+url2) 
+
+  //ARGS
+        url1 = "foo.html?bbox=1,2,3,4",
+        url2 = url1;
+        t.ok(OpenLayers.Util.isEquivalentUrl(url1, url2), "equal urls with comma delimited params are equal");
     }
     
     function test_createUrlObject(t) {
@@ -800,7 +973,16 @@
     }
 
     function test_Util_getParameters(t) {
-        t.plan(6);
+        t.plan(20);
+
+        t.eq(OpenLayers.Util.getParameters(''), {},
+                "getParameters works when the given argument is empty string");
+
+        t.eq(OpenLayers.Util.getParameters(), {},
+                "getParameters works with optional argument");
+
+        t.eq(OpenLayers.Util.getParameters(null), {},
+                "getParameters works with optional argument");
 
         t.eq(OpenLayers.Util.getParameters('http://www.example.com'), {},
              "getParameters works when args = ''");
@@ -815,36 +997,62 @@
         t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar#bugssucks'),
              {'foo': 'bar'},
              "getParameters works when using a fragment identifier");
-        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar,pub,disco'),
-             {'foo': ['bar', 'pub', 'disco']},
+        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar%3Aone'),
+             {'foo': 'bar:one'},
+             "getParameters works with percent encoded values");
+        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar:one,pub,disco'),
+             {'foo': ['bar:one', 'pub', 'disco']},
              "getParameters works with a comma-separated value (parses into array)");
-    }
+        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar%3Aone%2Cpub%2Cdisco'),
+             {'foo': ['bar:one', 'pub', 'disco']},
+             "getParameters works with a URL encoded comma-separated values (parses into array)");
+        
+        var value = "%20";  // say you wanted to have a query string parameter value be literal "%20"
+        var encoded = encodeURIComponent(value); // this is the proper URI component encoding
+        var url = "http://example.com/path?key=" + encoded; // this is a properly encoded URL
+        var params = OpenLayers.Util.getParameters(url);
+        t.eq(params.key, value, "a properly encoded value of '%20' is properly decoded");
 
-    function test_Util_getArgs(t) {
-        //DEPRECATED -- to be removed in 3.0
-        t.plan(3);
+        /**
+         * IETF RFC 2396 (http://www.ietf.org/rfc/rfc2396.txt) says spaces
+         * should be encoded as "%20".  However, the "+" is used widely to
+         * indicate a space in a URL.
+         */
+        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar+one'),
+             {'foo': 'bar one'},
+             "getParameters works with + instead of %20 in values");
+        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar%20one'),
+             {'foo': 'bar one'},
+             "getParameters works with properly encoded space character");
+        t.eq(OpenLayers.Util.getParameters('http://www.example.com?foo=bar%2Bone'),
+             {'foo': 'bar+one'},
+             "getParameters works with properly encoded + character");
+             
+        // Let's do some round tripping to make it harder to introduce regressions
+        var obj = {
+            "a key": "a value with spaces  (and +)",
+            "see%2B%2B": "C++",
+            "C++": "see%2B%2B",
+            "~%257E": "+%252B",
+            "who?": "me?",
+            "#yes": "#you",
+            "url": "http://example.com:80/?question=%3F&hash=%23&amp=&26#id"
+        };
+        var str = OpenLayers.Util.getParameterString(obj);
+        t.eq(OpenLayers.Util.getParameters("?" + str), obj, "round tripped parameters");
         
-        OpenLayers.Lang.setCode(OpenLayers.Lang.defaultCode);
+        // try some oddly encoded strings
+        var url = "http://example.com/?C%E9sar=C%E9sar+Ch%E1vez";
+        var obj = OpenLayers.Util.getParameters(url);
+        t.ok("César" in obj, "got proper key from C%E9sar");
+        t.eq(obj["César"], "César Chávez", "got proper value from C%E9sar+Ch%E1vez");
         
-        var temp = OpenLayers.Console.warn;
-        OpenLayers.Console.warn = function(err) {
-            t.ok(err != null, "warning is fired on use of getArgs()");
-        }
+        // try some properly encoded strings
+        var url = "http://example.com/?C%C3%A9sar=C%C3%A9sar+Ch%C3%A1vez";
+        var obj = OpenLayers.Util.getParameters(url);
+        t.ok("César" in obj, "got proper key from C%C3%A9sar");
+        t.eq(obj["César"], "César Chávez", "got proper value from C%E9sar+Ch%E1vez");
 
-        var temp2 = OpenLayers.Util.getParameters;
-        OpenLayers.Util.getParameters = function(url) {
-            t.eq(url, g_Url, "correct url passed to getParameters()");
-            return g_Params;
-        }
-        
-        g_Params = {};
-        g_Url = {};
-        
-        var ret = OpenLayers.Util.getArgs(g_Url);
-        t.ok( ret == g_Params, "correctly returns value from getParameters");
-
-        OpenLayers.Console.warn = temp;
-        OpenLayers.Util.getParameters = temp2;
     }
 
     function tests_Util_extend(t) {
@@ -917,17 +1125,8 @@
     }
     
     function test_getRenderedDimensions(t) {
-        t.plan(2);
-        var content = (new Array(100)).join("foo ");
-        
-        // test with fixed width
-        var fw = OpenLayers.Util.getRenderedDimensions(content, {w: 20});
-        t.eq(fw.w, 20, "got the fixed width");
-        
-        // test with fixed height
-        var fh = OpenLayers.Util.getRenderedDimensions(content, {h: 15});
-        t.eq(fh.h, 15, "got the fixed height");
-        
+        // from <script src="Util_common.js"> and shared by Util_w3c.html
+        com_test_getRenderedDimensions(t); 
     }
 
     function test_toFloat(t) {
@@ -940,6 +1139,39 @@
         t.eq(OpenLayers.Util.toFloat(b1), OpenLayers.Util.toFloat(b2),
             "toFloat rounds large floats correctly #2");
     }
+    function test_getFormattedLonLat(t) {
+        t.plan(3);
+        var z = 2 + (4/60) - 0.000002 ;
+        t.eq(OpenLayers.Util.getFormattedLonLat(z,"lon"), "02°04'00\"E",
+            "LonLat does not show 60 seconds.");
+        t.eq(OpenLayers.Util.getFormattedLonLat(-181, "lon"), "179°00'00\"E", "crossing dateline from the west results in correct east coordinate");
+        t.eq(OpenLayers.Util.getFormattedLonLat(181, "lon"), "179°00'00\"W", "crossing dateline from the east results in correct west coordinate");
+    }
+
+    /**
+     * To test that we can safely call OpenLayers.Util.extend with an Event
+     * instance, we need to capture a real event.
+     */
+    var loadEvent;
+    window.onload = function(evt) {
+        loadEvent = evt || window.event;
+    }
+    function test_extend_event(t) {
+        t.plan(2);
+        t.ok(loadEvent, "loadEvent recorded");
+        var extended, err;
+        try {
+            extended = OpenLayers.Util.extend({foo: "bar"}, loadEvent);
+        } catch (e) {
+            err = e;
+        }
+        if (err) {
+            t.fail("Failed to extend with an event: " + err.message);
+        } else {
+            t.eq(extended && extended.foo, "bar", "extended with event");
+        }
+    }
+
   </script>
 </head>
 <body>

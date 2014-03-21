@@ -1,6 +1,7 @@
-/* Copyright (c) 2006-2007 MetaCarta, Inc., published under a modified BSD license.
- * See http://svn.openlayers.org/trunk/openlayers/repository-license.txt 
- * for the full text of the license. */
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
 
 /**
  * @requires OpenLayers/Control.js

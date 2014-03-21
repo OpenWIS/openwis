@@ -1,13 +1,13 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var layer; 
 
     function test_Layer_Image_constructor (t) {
         t.plan( 13 );
         
-        var options = { chicken: 151, foo: "bar", projection: "none" };
+        var options = { chicken: 151, foo: "bar", projection: "EPSG:4326" };
         var layer = new OpenLayers.Layer.Image('Test Layer',
                                         'http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif',
                                                                         new OpenLayers.Bounds(-180, -88.759, 180, 88.759),
@@ -18,7 +18,7 @@
 
         t.eq( layer.name, "Test Layer", "layer.name is correct" );
         t.ok( layer.id != null, "Layer is given an id");
-        t.eq( layer.projection, "none", "default layer projection correctly set");
+        t.eq( layer.projection.getCode(), "EPSG:4326", "default layer projection correctly set");
         t.ok( ((layer.chicken == 151) && (layer.foo == "bar")), "layer.options correctly set to Layer Object" );
         t.ok( ((layer.options["chicken"] == 151) && (layer.options["foo"] == "bar")), "layer.options correctly backed up" );
 
@@ -77,11 +77,11 @@
 
         t.eq(layer.tile.position.x,-42, "Tile x positioned correctly at maxextent");
         t.eq(layer.tile.position.y,106, "Tile y positioned correctly at maxextent");
-        t.eq(layer.tile.imgDiv.src, "http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif", "URL is correct");
+        t.eq(layer.tile.url, "http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif", "URL is correct");
         map.zoomIn();
-        t.eq(layer.tile.imgDiv.src, "http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif", "URL is correct");
+        t.eq(layer.tile.url, "http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif", "URL is correct");
         layer.setUrl('http://labs.metacarta.com/wms/vmap0?LAYERS=basic&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&FORMAT=image%2Fjpeg&SRS=EPSG%3A4326&BBOX=-180,-90,0,90&WIDTH=256&HEIGHT=256');
-        t.eq(layer.tile.imgDiv.src, "http://labs.metacarta.com/wms/vmap0?LAYERS=basic&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&FORMAT=image%2Fjpeg&SRS=EPSG%3A4326&BBOX=-180,-90,0,90&WIDTH=256&HEIGHT=256", "URL is correct after setURL");
+        t.eq(layer.tile.url, "http://labs.metacarta.com/wms/vmap0?LAYERS=basic&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&FORMAT=image%2Fjpeg&SRS=EPSG%3A4326&BBOX=-180,-90,0,90&WIDTH=256&HEIGHT=256", "URL is correct after setURL");
     }
 /******
  * 
@@ -128,7 +128,7 @@
     function test_loadEvents(t) {
         t.plan(3);
 
-        var map = new OpenLayers.Map('map');    
+        var map = new OpenLayers.Map('map');
         var layer = new OpenLayers.Layer.Image(
             'Test', '../../img/blank.gif',
             new OpenLayers.Bounds(-180, -88.759, 180, 88.759),
@@ -146,7 +146,7 @@
             delay = true;
         });
 
-        t.delay_call(0.4,function() {
+        t.delay_call(5, function() {
             t.eq(delay, true, "registered for loadend");
             t.eq(layer.tile.isLoading, false, "loadend triggered after tile is loaded");
             map.destroy(); //tear down

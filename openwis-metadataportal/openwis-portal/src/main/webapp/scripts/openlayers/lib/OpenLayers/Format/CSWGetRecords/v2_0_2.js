@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -7,6 +8,7 @@
  * @requires OpenLayers/Format/CSWGetRecords.js
  * @requires OpenLayers/Format/Filter/v1_0_0.js
  * @requires OpenLayers/Format/Filter/v1_1_0.js
+ * @requires OpenLayers/Format/OWSCommon/v1_0_0.js
  */
 
 /**
@@ -25,12 +27,15 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
      * {Object} Mapping of namespace aliases to namespace URIs.
      */
     namespaces: {
-        xlink: "http://www.w3.org/1999/xlink",
-        xsi: "http://www.w3.org/2001/XMLSchema-instance",
         csw: "http://www.opengis.net/cat/csw/2.0.2",
         dc: "http://purl.org/dc/elements/1.1/",
         dct: "http://purl.org/dc/terms/",
-        ows: "http://www.opengis.net/ows"
+        gmd: "http://www.isotc211.org/2005/gmd",
+        geonet: "http://www.fao.org/geonetwork",
+        ogc: "http://www.opengis.net/ogc",
+        ows: "http://www.opengis.net/ows",
+        xlink: "http://www.w3.org/1999/xlink",
+        xsi: "http://www.w3.org/2001/XMLSchema-instance"
     },
     
     /**
@@ -117,6 +122,17 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
      *     document.
      */
     Query: null,
+
+    /**
+     * Property: regExes
+     * Compiled regular expressions for manipulating strings.
+     */
+    regExes: {
+        trimSpace: (/^\s*|\s*$/g),
+        removeSpace: (/\s*/g),
+        splitSpace: (/\s+/),
+        trimComma: (/\s*,\s*/g)
+    },
 
     /**
      * Constructor: OpenLayers.Format.CSWGetRecords.v2_0_2
@@ -219,6 +235,17 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
                 var record = {type: "Record"};
                 this.readChildNodes(node, record);
                 obj.records.push(record);
+            },
+            "*": function(node, obj) {
+                var name = node.localName || node.nodeName.split(":").pop();
+                obj[name] = this.getChildValue(node);
+            }
+        },
+        "geonet": {
+            "info": function(node, obj) {
+                var gninfo = {};
+                this.readChildNodes(node, gninfo);
+                obj.gninfo = gninfo;
             }
         },
         "dc": {
@@ -226,10 +253,9 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
             // identifier, language, provenance, publisher, relation, rights,
             // rightsHolder, source, subject, title, type, URI
             "*": function(node, obj) {
-        		var name = node.localName || node.nodeName.split(":").pop();
-
-                if (!(obj[name] instanceof Array)) {
-                    obj[name] = new Array();
+                var name = node.localName || node.nodeName.split(":").pop();
+                if (!(OpenLayers.Util.isArray(obj[name]))) {
+                    obj[name] = [];
                 }
                 var dc_element = {};
                 var attrs = node.attributes;
@@ -237,67 +263,39 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
                     dc_element[attrs[i].name] = attrs[i].nodeValue;
                 }
                 dc_element.value = this.getChildValue(node);
-                obj[name].push(dc_element);
+                if (dc_element.value != "") {
+                    obj[name].push(dc_element);
+                }
             }
         },
         "dct": {
             // abstract, modified, spatial
             "*": function(node, obj) {
-        		var name = node.localName || node.nodeName.split(":").pop();
-        		
-        		if (!(obj[name] instanceof Array)) {
-                    obj[name] = new Array();
+                var name = node.localName || node.nodeName.split(":").pop();
+                if (!(OpenLayers.Util.isArray(obj[name]))) {
+                    obj[name] = [];
                 }
                 obj[name].push(this.getChildValue(node));
             }
         },
-        "ows": {
-            "WGS84BoundingBox": function(node, obj) {
-                // LowerCorner = "min_x min_y"
-                // UpperCorner = "max_x max_y"
-                if (!(obj.BoundingBox instanceof Array)) {
-                    obj.BoundingBox = new Array();
-                }
-                //this.readChildNodes(node, bbox);
-                var lc = this.getChildValue(
-                    this.getElementsByTagNameNS(
-                        node,
-                        this.namespaces["ows"],
-                        "LowerCorner"
-                    )[0]
-                ).split(' ', 2);
-                var uc = this.getChildValue(
-                    this.getElementsByTagNameNS(
-                        node,
-                        this.namespaces["ows"],
-                        "UpperCorner"
-                    )[0]
-                ).split(' ', 2);
-
-                var boundingBox = {
-                    value: [
-                        parseFloat(lc[0]),
-                        parseFloat(lc[1]),
-                        parseFloat(uc[0]),
-                        parseFloat(uc[1])
-                    ]
-                };
-                // store boundingBox attributes
-                var attrs = node.attributes;
-                for(var i=0, len=attrs.length; i<len; ++i) {
-                    boundingBox[attrs[i].name] = attrs[i].nodeValue;
-                }
-                obj.BoundingBox.push(boundingBox);
-            },
-
+        "ows": OpenLayers.Util.applyDefaults({
             "BoundingBox": function(node, obj) {
-                // FIXME: We consider that BoundingBox is the same as WGS84BoundingBox
-                // LowerCorner = "min_x min_y"
-                // UpperCorner = "max_x max_y"
-                // It should normally depend on the projection
-                this.readers['ows']['WGS84BoundingBox'].apply(this, [node, obj]);
+                if (obj.bounds) {
+                    obj.BoundingBox = [{crs: obj.projection, value: 
+                        [
+                            obj.bounds.left, 
+                            obj.bounds.bottom, 
+                            obj.bounds.right, 
+                            obj.bounds.top
+                    ]
+                    }];
+                    delete obj.projection;
+                    delete obj.bounds;
+                }
+                OpenLayers.Format.OWSCommon.v1_0_0.prototype.readers["ows"]["BoundingBox"].apply(
+                    this, arguments);
             }
-        }
+        }, OpenLayers.Format.OWSCommon.v1_0_0.prototype.readers["ows"])
     },
     
     /**
@@ -312,6 +310,7 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
      */
     write: function(options) {
         var node = this.writeNode("csw:GetRecords", options);
+        node.setAttribute("xmlns:gmd", this.namespaces.gmd);
         return OpenLayers.Format.XML.prototype.write.apply(this, [node]);
     },
 
@@ -347,7 +346,7 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
                     );
                 }
                 var ResponseHandler = options.ResponseHandler || this.ResponseHandler;
-                if (ResponseHandler instanceof Array && ResponseHandler.length > 0) {
+                if (OpenLayers.Util.isArray(ResponseHandler) && ResponseHandler.length > 0) {
                     // ResponseHandler must be a non-empty array
                     for(var i=0, len=ResponseHandler.length; i<len; i++) {
                         this.writeNode(
@@ -384,7 +383,7 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
                     }
                 });
                 var ElementName = options.ElementName;
-                if (ElementName instanceof Array && ElementName.length > 0) {
+                if (OpenLayers.Util.isArray(ElementName) && ElementName.length > 0) {
                     // ElementName must be a non-empty array
                     for(var i=0, len=ElementName.length; i<len; i++) {
                         this.writeNode(
@@ -407,14 +406,13 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
                         node
                     );
                 }
-                //TODO: not implemented in ogc filters?
-                //if (options.SortBy) {
-                    //this.writeNode(
-                        //"ogc:SortBy",
-                        //options.SortBy,
-                        //node
-                    //);
-                //}
+                if (options.SortBy) {
+                    this.writeNode(
+                        "ogc:SortBy",
+                        options.SortBy,
+                        node
+                    );
+                }
                 return node;
             },
             "ElementName": function(options) {
@@ -451,7 +449,8 @@ OpenLayers.Format.CSWGetRecords.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML,
                 }
                 return node;
             }
-        }
+        },
+        "ogc": OpenLayers.Format.Filter.v1_1_0.prototype.writers["ogc"]
     },
    
     CLASS_NAME: "OpenLayers.Format.CSWGetRecords.v2_0_2" 

@@ -1,6 +1,6 @@
 <html> 
 <head> 
-    <script src="../../../lib/OpenLayers.js"></script>
+    <script src="../../OLLoader.js"></script>
     <script type="text/javascript">
     
     var test_xml =
@@ -15,7 +15,7 @@
                         '<ogc:Literal>1065512599</ogc:Literal>' +
                     '</ogc:UpperBoundary>' +
                 '</ogc:PropertyIsBetween>' +
-                '<ogc:PropertyIsLike wildCard="*" singleChar="." escape="!">' +
+                '<ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!">' +
                     '<ogc:PropertyName>cat</ogc:PropertyName>' +
                     '<ogc:Literal>*dog.food!*good</ogc:Literal>' +
                 '</ogc:PropertyIsLike>' +
@@ -167,6 +167,31 @@
         t.xml_eq(node, out, "bbox correctly written");
     }
     
+    function test_BBOX_noGeometryName(t) {
+        t.plan(1);
+        var filter = new OpenLayers.Filter.Spatial({
+            type: OpenLayers.Filter.Spatial.BBOX,
+            value: new OpenLayers.Bounds(-180, -90, 180, 90),
+            projection: "EPSG:4326"
+        });
+        
+        var out =
+            '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">' +
+                '<ogc:BBOX>' +
+                    '<gml:Envelope xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:4326">' +
+                        '<gml:lowerCorner>-180 -90</gml:lowerCorner>' +
+                        '<gml:upperCorner>180 90</gml:upperCorner>' +
+                    '</gml:Envelope>' +
+                '</ogc:BBOX>' +
+            '</ogc:Filter>';
+        
+        var parser = new OpenLayers.Format.Filter.v1_1_0();
+        var node = parser.write(filter);
+        
+        t.xml_eq(node, out, "bbox correctly written");
+    }
+
+
     function test_Intersects(t) {
         
         t.plan(4);
@@ -203,8 +228,175 @@
 
     }
 
+    function test_FilterFunctions(t) {
+        t.plan(2);
+
+        var parser = new OpenLayers.Format.Filter.v1_1_0();
+
+        //test spatial intersects with filter function
+        var filter = new OpenLayers.Filter.Spatial({
+            property: 'the_geom',
+            type: OpenLayers.Filter.Spatial.INTERSECTS,
+            value: new OpenLayers.Filter.Function({
+                name  : 'querySingle',
+                params: ['sf:restricted', 'the_geom', 'cat=3']
+            })
+        });
+
+        var out =
+            '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">' +
+                '<ogc:Intersects>' +
+                    '<ogc:PropertyName>the_geom</ogc:PropertyName>' +
+                    '<ogc:Function name="querySingle">' +
+                        '<ogc:Literal>sf:restricted</ogc:Literal>' +
+                        '<ogc:Literal>the_geom</ogc:Literal>' +
+                        '<ogc:Literal>cat=3</ogc:Literal>' +
+                    '</ogc:Function>' +
+                '</ogc:Intersects>' +
+            '</ogc:Filter>';
+
+
+        var node = parser.write(filter);
+
+        //test writer
+        t.xml_eq(node, out, "spatial intersect filter with functions correctly written");
+
+        //test logical filter with custom function
+        filter = new OpenLayers.Filter.Logical({
+            type: OpenLayers.Filter.Logical.AND,
+            filters: [
+                new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
+                    matchCase: false,
+                    property: "FOO",
+                    value: new OpenLayers.Filter.Function({
+                        name : 'customFunction',
+                        params : ['param1', 'param2']
+                    })
+                })
+            ]
+        });
+
+        out =
+            '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">' +
+                '<ogc:And>' +
+                    '<ogc:PropertyIsNotEqualTo matchCase="false">' +
+                        '<ogc:PropertyName>FOO</ogc:PropertyName>' +
+                        '<ogc:Function name="customFunction">' +
+                            '<ogc:Literal>param1</ogc:Literal>' +
+                            '<ogc:Literal>param2</ogc:Literal>' +
+                        '</ogc:Function>' +
+                    '</ogc:PropertyIsNotEqualTo>' +
+                '</ogc:And>' +
+            '</ogc:Filter>';
+
+        node = parser.write(filter);
+
+        //test writer
+        t.xml_eq(node, out, "comparison filter with filter functions correctly written");
+
+    }
+
+    function test_NestedFilterFunctions(t) {
+        t.plan(1);
+
+        //test spatial dwithin with nested filter function
+        var filter = new OpenLayers.Filter.Spatial({
+           property: 'the_geom',
+           type: OpenLayers.Filter.Spatial.DWITHIN,
+           value: new OpenLayers.Filter.Function({
+               name : 'collectGeometries',
+               params: [
+                    new OpenLayers.Filter.Function({
+                        name  : 'queryCollection',
+                        params: ['sf:roads', 'the_geom', 'INCLUDE']
+                    })
+               ]
+           }),
+           distanceUnits: "meters",
+           distance: 200
+        });
+
+        var out =
+            '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">' +
+                '<ogc:DWithin>' +
+                    '<ogc:PropertyName>the_geom</ogc:PropertyName>' +
+                    '<ogc:Function name="collectGeometries">' +
+                        '<ogc:Function name="queryCollection">' +
+                            '<ogc:Literal>sf:roads</ogc:Literal>' +
+                            '<ogc:Literal>the_geom</ogc:Literal>' +
+                            '<ogc:Literal>INCLUDE</ogc:Literal>' +
+                        '</ogc:Function>' +
+                    '</ogc:Function>' +
+                    '<ogc:Distance units="meters">200</ogc:Distance>' +
+                '</ogc:DWithin>' +
+            '</ogc:Filter>';
+
+        var parser = new OpenLayers.Format.Filter.v1_1_0();
+        var node = parser.write(filter);
+
+        //test writer
+        t.xml_eq(node, out, "spatial dwithin filter with nested functions correctly written");
+    }
+
+    function test_write_like_matchcase(t) {
+        t.plan(1);
+
+        var filter = new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE,
+            property: "person",
+            value: "*me*",
+            matchCase: false
+        });
+
+        var format = new OpenLayers.Format.Filter.v1_1_0();
+        
+        var got = format.write(filter);
+        var exp = readXML("LikeMatchCase");
+        t.xml_eq(got, exp, "wrote matchCase attribute on PropertyIsLike");
+    }
+
+    function readXML(id) {
+        var xml = document.getElementById(id).firstChild.nodeValue;
+        return new OpenLayers.Format.XML().read(xml).documentElement;
+    }
+
+    function test_SortBy(t) {
+        t.plan(1);
+    
+        var out =
+            '<ogc:SortBy xmlns:ogc="http://www.opengis.net/ogc">'+
+                '<ogc:SortProperty>'+
+                    '<ogc:PropertyName>Title</ogc:PropertyName>'+
+                    '<ogc:SortOrder>ASC</ogc:SortOrder>'+
+                '</ogc:SortProperty>'+
+                '<ogc:SortProperty>'+
+                    '<ogc:PropertyName>Relevance</ogc:PropertyName>'+
+                    '<ogc:SortOrder>DESC</ogc:SortOrder>'+
+                '</ogc:SortProperty>'+
+            '</ogc:SortBy>';
+        
+        var parser = new OpenLayers.Format.Filter.v1_1_0();
+        var node = parser.writers['ogc'].SortBy.call(parser, [{
+            "property": 'Title',
+            "order": "ASC"
+        },{
+            "property": 'Relevance',
+            "order": "DESC"
+        }]);
+        
+        t.xml_eq(node, out, "Check SortBy");
+    }
     </script> 
 </head> 
 <body>
+<div id="LikeMatchCase"><!--
+<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+    <ogc:PropertyIsLike wildCard="*" singleChar="." escapeChar="!" matchCase="false">
+        <ogc:PropertyName>person</ogc:PropertyName>
+        <ogc:Literal>*me*</ogc:Literal>
+    </ogc:PropertyIsLike>
+</ogc:Filter>
+--></div>
 </body> 
 </html> 
