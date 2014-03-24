@@ -27,6 +27,8 @@ import jeeves.utils.Log;
 import jeeves.utils.Xml;
 import jeeves.xlink.Processor;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
@@ -513,11 +515,12 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
     * @throws Exception the exception
     */
    private void synchronizeDocs(ServiceContext context, boolean force, Dbms dbms) throws Exception {
-      // get last change date of all metadata in index
+      // get last change date of all metadata in index.  The keys will be in lowercase.
       Map<String, Date> indexedDocs = getIndexedDocsChangeDate();
 
-      // get all metadata from DB.
+      // get all metadata from DB.  The keys are converted to lowercase.
       Map<String, Date> dbmsDocs = getDbmsDocsChangeDate(dbms);
+      
 
       // set up results HashMap for post processing of records to be indexed
       Set<IndexableElement> toUpdate = new HashSet<IndexableElement>();
@@ -534,6 +537,12 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
          ie = new DbmsIndexableElement(dbms, uuid);
          toDelete.add(ie);
       }
+      
+      Log.info(Geonet.INDEX_ENGINE, String.format("Running document synchronization: indexCount = %d, dbCount = %d - will update = %d, will delete = %d",
+            indexedDocs.size(),
+            dbmsDocs.size(),
+            toUpdate.size(),
+            toDelete.size()));
 
       // Find doc to update
       Date indexDate;
@@ -571,7 +580,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
    }
 
    /**
-    * Gets the dbms documents change date.
+    * Gets the dbms documents change date.  The URNS will be returned IN LOWERCASE.
     *
     * @param dbms the dbms
     * @return the dbms documents change date
@@ -593,7 +602,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       Date date;
       for (Element record : (List<Element>) elements.getChildren()) {
          // get metadata
-         uuid = record.getChildText("uuid");
+         uuid = record.getChildText("uuid").toLowerCase();
          lastChange = record.getChildText("changedate");
          date = index.parseDate(lastChange);
          result.put(uuid, date);
@@ -603,7 +612,8 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
    }
 
    /**
-    * Gets the indexed documents change date.
+    * Gets the indexed documents change date.  The returned field will be the "_uuid" unique field,
+    * which is the URN IN LOWERCASE.
     *
     * @return the documents change date
     * @throws SearchException the search exception
