@@ -21,6 +21,9 @@ public class MonitorCatalogSearchCriteria {
 	/** The search field. */
 	private String searchField;
 
+   /** The category value */
+   private String category;
+
 	/**
 	 * Default constructor. Builds a MonitorCatalogSearchCriteria.
 	 *
@@ -98,4 +101,23 @@ public class MonitorCatalogSearchCriteria {
 	public String getSearchField() {
 		return searchField;
 	}
+	
+    /**
+     * Gets the category.
+     *
+     * @return the category
+     */
+    public String getCategory() {
+    	return category;
+    }
+
+    /**
+     * Sets the category.
+     *
+     * @param category the new category
+     */
+    public void setCategory(String category) {
+    	this.category = category;
+    }
+
 }

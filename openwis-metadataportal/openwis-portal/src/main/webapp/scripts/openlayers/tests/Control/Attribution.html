@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var map; 
     function test_Control_Attribution_constructor (t) {
@@ -30,11 +30,28 @@
         map.addLayer(new OpenLayers.Layer("name", {'attribution':'My layer 2!'}));
         t.eq(control.div.innerHTML, 'My layer!, My layer 2!', "Attribution correct with two layers.");
         control.separator = '|';
+        control.template = "Map Copyright (c) 2012 by Foo Bar; ${layers}";
         map.addLayer(new OpenLayers.Layer("name",{'attribution':'My layer 3!'}));
-        t.eq(control.div.innerHTML, 'My layer!|My layer 2!|My layer 3!', "Attribution correct with three layers and diff seperator.");
+        t.eq(control.div.innerHTML, 'Map Copyright (c) 2012 by Foo Bar; My layer!|My layer 2!|My layer 3!', "Attribution correct with three layers and diff seperator.");
 
 
     }    
+    
+    function test_Control_Attribution_no_duplicates(t) {
+        t.plan(2);
+        
+        map = new OpenLayers.Map("map");
+        map.addLayer(new OpenLayers.Layer("Company A: 1",{'attribution':'company A'}));
+        map.addLayer(new OpenLayers.Layer("Company A: 2",{'attribution':'company A'}));
+
+        control = new OpenLayers.Control.Attribution();
+        map.addControl(control);
+        t.eq(control.div.innerHTML, 'company A', "Attribution not duplicated.");
+                
+        map.addLayer(new OpenLayers.Layer("Company B: 1",{'attribution':'company B'}));
+        map.addLayer(new OpenLayers.Layer("Company A: 3",{'attribution':'company A'}));
+        t.eq(control.div.innerHTML, 'company A, company B', "Attribution correct with four layers (3 with same attribution).");
+    }
   </script>
 </head>
 <body>

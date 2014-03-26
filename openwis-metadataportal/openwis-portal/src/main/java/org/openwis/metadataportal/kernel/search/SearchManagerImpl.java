@@ -1000,6 +1000,11 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
     		  query = queryFactory.and(query, queryFactory.buildAnyQuery(queryChars));
     	  }
       }
+      if (StringUtils.isNotBlank(criteria.getCategory())) {
+          query = queryFactory.and(query,
+                queryFactory.buildQuery(IndexField.CATEGORY_ID, criteria.getCategory()));
+       }
+
       if (StringUtils.isNotBlank(criteria.getOwner())) {
          query = queryFactory.and(query,
                queryFactory.buildQuery(IndexField.OWNER, criteria.getOwner()));

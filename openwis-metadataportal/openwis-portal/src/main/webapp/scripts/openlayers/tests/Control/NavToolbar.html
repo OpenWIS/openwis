@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var map; 
     function test_Control_NavToolbar_constructor (t) {
@@ -25,7 +25,18 @@
         // t.eq( control.div.style.top, "6px", "Control div top located correctly by default");
 
     }
+    
+    function test_Control_NavToolbar_defaultControl (t) {
+        t.plan( 1 );
+        var map = new OpenLayers.Map('map');
 
+        var nav = new OpenLayers.Control.NavToolbar();
+        map.addControl(nav);
+        
+        t.eq(nav.controls[0].active, true, "First control is active" );
+        
+        map.destroy();
+    }
   </script>
 </head>
 <body>

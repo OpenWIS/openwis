@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
 
     function test_initialize(t) {
@@ -166,6 +166,75 @@
             control.next.trigger();
         }
         
+    }
+
+    function test_clear(t) {
+        t.plan(7);
+        var map = new OpenLayers.Map("map", {zoomMethod: null});
+        var layer = new OpenLayers.Layer(
+            "test", {isBaseLayer: true}
+        );
+        map.addLayer(layer);
+        map.zoomToMaxExtent();
+
+        var control = new OpenLayers.Control.NavigationHistory();
+        map.addControl(control);
+        
+        t.ok(!control.previous.active, "previous control not active");
+        t.ok(!control.next.active, "next control not active");
+
+        map.zoomTo(4);
+        t.ok(control.previous.active, "previous control is active after a move");
+        t.ok(!control.next.active, "next control is not active after a move");
+
+        control.clear();
+        t.eq(control.previousStack.length + control.nextStack.length, 0, "stacks are empty after a clear");
+        t.ok(!control.previous.active, "previous control not active after a clear");
+        t.ok(!control.next.active, "next control not active after a clear");
+
+        control.destroy();
+    }
+
+    function test_reprojection(t) {
+        t.plan(2);
+        var map = new OpenLayers.Map("map");
+        var layer = new OpenLayers.Layer(
+            "test", {isBaseLayer: true}
+        );
+        map.addLayer(layer);
+        map.zoomToMaxExtent();
+
+        var control = new OpenLayers.Control.NavigationHistory();
+        map.addControl(control);
+
+        map.zoomTo(4);
+        var bounds = map.getExtent().clone();
+        var expected = bounds.transform(new OpenLayers.Projection('EPSG:4326'),
+            new OpenLayers.Projection('EPSG:900913'));
+        // change the projection to EPSG:900913
+        var projSettings = {
+            units: "m", 
+            maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508), 
+            maxResolution: 156543.0339
+        };
+        map.setOptions(projSettings);
+        map.projection = 'EPSG:900913';
+        delete projSettings.maxResolution;
+        projSettings.projection = new OpenLayers.Projection('EPSG:900913');
+        layer.addOptions(projSettings);
+        layer.initResolutions();
+
+        map.zoomTo(7);
+
+        // go back one in the history
+        control.previous.trigger();
+
+        t.eq(map.getExtent().left.toFixed(3), expected.left.toFixed(3), "The extent [left] is reprojected correctly");
+        t.eq(map.getExtent().right.toFixed(3), expected.right.toFixed(3), "The extent [right] is reprojected correctly");
+        // top and bottom cannot be checked here since in EPSG:900913 the extent is not a rectangle so they are adjusted.
+
+        control.destroy();
+
     }
 
   </script>

@@ -24,6 +24,10 @@
             height: 255px;
         }
 
+        /* avoid pink tiles */
+        .olImageLoadError {
+            background-color: transparent !important;
+        }
 
     </style>
 
@@ -33,8 +37,9 @@
     <script type="text/javascript">
  
         var evenmap, oddmap;
+
+        // increase reload attempts 
         OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
-        OpenLayers.Util.onImageLoadErrorColor = "transparent";
 
         function init(){
             evenmap = new OpenLayers.Map('evenmap');

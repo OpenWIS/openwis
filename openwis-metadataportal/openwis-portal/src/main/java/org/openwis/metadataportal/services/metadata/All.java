@@ -60,6 +60,7 @@ public class All implements Service {
       // Get filter param for search
       String searchParam = Util.getParam(params, "any", null);
       String searchField = Util.getParam(params, "searchField", null);
+      String category = Util.getParam(params, "categories", null);
       
       boolean myMetadataOnly = Util.getParam(params, "myMetadataOnly", false);
 
@@ -83,7 +84,10 @@ public class All implements Service {
       } else {
          crit = new MonitorCatalogSearchCriteria(searchParam);
       }
-      
+      if (StringUtils.isNotBlank(category)) {
+          crit.setCategory(category);
+       }
+
       if (StringUtils.isNotBlank(searchField)) {
     	  crit.setSearchField(searchField);
       }

@@ -18,6 +18,7 @@ import org.openwis.management.utils.MetadataServiceAlerts;
 import org.openwis.metadataportal.kernel.common.IMonitorable;
 import org.openwis.metadataportal.kernel.external.ManagementServiceProvider;
 import org.openwis.metadataportal.kernel.harvest.AbstractHarvester;
+import org.openwis.metadataportal.kernel.harvest.CatalogReportHelper;
 import org.openwis.metadataportal.kernel.harvest.HarvestingTaskManager;
 import org.openwis.metadataportal.model.harvest.HarvestingTask;
 import org.openwis.metadataportal.model.metadata.MetadataAlignerError;
@@ -87,6 +88,11 @@ public class HarvesterRunnable implements Runnable {
 
             CatalogStatUpdateHelper.updateStatOnHarvesting(harvestingTask, result.getTotal(),
                   result.getVolume());
+            
+         	// create a report that store harvesting tasks urn added, updated, and removed
+             String lastRunDate = harvestingTaskManager.getLastRunDate(harvestingTask.getId());
+             CatalogReportHelper.createReport(harvestingTask.getId(), harvestingTask.getName(), 
+             		lastRunDate, result.getUrnAdded(), result.getUrnUpdated(), result.getUrnRemoved());
          } else {
             result = new MetadataAlignerResult();
             result.setDate(new Date());

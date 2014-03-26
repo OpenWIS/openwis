@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The Openwis Lang dictionary for 'fr' locale.
  */
 Openwis.Lang.Dictionary = {
@@ -697,7 +697,7 @@ Openwis.Lang.Dictionary = {
     'Metadata.Report.Error.Info' : 'Rapport d\'Erreur',
     'Metadata.Report.Error.Urn' : 'Métadonnée',
     'Metadata.Report.Error.Name' : 'Erreur',
-
+    'Metadata.Report.Download.Last.Report' : 'Rapport d�taill�',
     //----------------------------------------------------------------- Harvesting.
     'Harvesting.Administration.Title' : 'Configurer la collecte',
     'Harvesting.Administration.All.No.Task' : 'Pas de collecte à afficher',
