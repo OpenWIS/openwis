@@ -582,6 +582,19 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       return result;
    }
 
+   /**
+    * Filtrer les mots de type stopwords configurés dans openwis-search.properties.
+    */
+   private String[] filterStopWords(String[] split) {
+      ArrayList<String> filteredWords = new ArrayList<String>();
+      for (String s : split) {
+         if (!OpenwisSearchConfig.isInStopWords(s)) {
+            filteredWords.add(s);
+         }
+      }
+      return (String[]) filteredWords.toArray(new String[filteredWords.size()]);
+   }
+
    //on rajoute une methode buildQuery avec le parametre de boost
    private T buildQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
          Element request, float similarity, boolean splitText, int boostFactor) {
@@ -589,7 +602,8 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       T fuzzy;
       String value = request.getChildText(xmlElement);
       if (StringUtils.isNotBlank(value)) {
-         String[] split = StringUtils.split(value);
+         // filtre stopWords
+         String[] split = filterStopWords(StringUtils.split(value));
          if (!splitText || (split.length == 0)) {
             // Assume that text analyze is provided by Solr
             query = queryFactory.buildQuery(field, queryFactory.escapeQueryChars(value));
