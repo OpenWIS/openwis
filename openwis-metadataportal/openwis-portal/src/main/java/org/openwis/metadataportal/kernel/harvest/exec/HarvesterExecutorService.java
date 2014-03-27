@@ -89,7 +89,7 @@ public class HarvesterExecutorService {
          }
          ScheduledFuture<?> scheduledFuture = scheduledPool.scheduleAtFixedRate(
                new HarvesterScheduledRunnable(pool, task, context), 0, task.getRunMode()
-                     .getRecurrentPeriod(), TimeUnit.SECONDS);
+                     .getRecurrencePeriod(), TimeUnit.SECONDS);
          scheduledFutures.put(task.getId(), scheduledFuture);
       }
    }

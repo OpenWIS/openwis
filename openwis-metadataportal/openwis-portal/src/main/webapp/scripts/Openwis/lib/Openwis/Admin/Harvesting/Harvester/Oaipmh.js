@@ -81,22 +81,33 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 			if(this.config.runMode.recurrent)  {
 			    this.getRunModeRadioGroup().setValue('RECURRENT');
 			    var recurrencePeriod = this.config.runMode.recurrentPeriod;
-			    var days = Math.floor(recurrencePeriod / (24 * 3600));
-			    if(days > 0) {
-			        recurrencePeriod %= (24 * 3600);
-			        this.getFrequencyRecurrentDayTextField().setValue(days);
+			    var recurrencePeriodHour = recurrencePeriod /3600;
+			    
+			    if ( recurrencePeriodHour % 24 == 0 ) {
+			    	this.getRecurrentProcessingFrequencyCombobox().setValue("DAY");
+			    	this.getRecurrentProcessingNumberField().setValue(recurrencePeriodHour/24);
+			    } else {
+			    	this.getRecurrentProcessingFrequencyCombobox().setValue("HOUR");
+			    	this.getRecurrentProcessingNumberField().setValue(recurrencePeriodHour);
+			    	
 			    }
 			    
-			    var hours = Math.floor(recurrencePeriod / 3600);
-			    if(hours > 0) {
-		            this.getFrequencyRecurrentHourTextField().setValue(hours);
-			        recurrencePeriod %= 3600;
-			    }
-			    
-			    var minuts = recurrencePeriod / 60;
-			    if(minuts > 0) {
-			        this.getFrequencyRecurrentMinuteTextField().setValue(minuts);
-			    }
+//			    var days = Math.floor(recurrencePeriod / (24 * 3600));
+//			    if(days > 0) {
+//			        recurrencePeriod %= (24 * 3600);
+//			        this.getFrequencyRecurrentDayTextField().setValue(days);
+//			    }
+//			    
+//			    var hours = Math.floor(recurrencePeriod / 3600);
+//			    if(hours > 0) {
+//		            this.getFrequencyRecurrentHourTextField().setValue(hours);
+//			        recurrencePeriod %= 3600;
+//			    }
+//			    
+//			    var minuts = recurrencePeriod / 60;
+//			    if(minuts > 0) {
+//			        this.getFrequencyRecurrentMinuteTextField().setValue(minuts);
+//			    }
 		        this.getFrequencyRunModeCompositeField().show();
 			} else {
 			    this.getRunModeRadioGroup().setValue('USER_TRIGERRED');
@@ -263,8 +274,8 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 				width: 150,
 				items:
 				[
-				    {boxLabel: Openwis.i18n('Harvesting.Options.RunMode.UserTriggerred'), name: 'runMode', inputValue: 'USER_TRIGERRED', checked: true, id: 'USER_TRIGERRED'},
-				    {boxLabel: Openwis.i18n('Harvesting.Options.RunMode.Recurrent'), name: 'runMode', inputValue: 'RECURRENT', id: 'RECURRENT'}
+				    {boxLabel: Openwis.i18n('Harvesting.Options.RunMode.UserTriggerred'), name: 'runMode', inputValue: 'USER_TRIGERRED', checked: false, id: 'USER_TRIGERRED'},
+				    {boxLabel: Openwis.i18n('Harvesting.Options.RunMode.Recurrent'), name: 'runMode', inputValue: 'RECURRENT', checked: true, id: 'RECURRENT'}
 				],
     			listeners : {
     				change: function(group, radioChecked) {
@@ -286,11 +297,13 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 	 */
 	getFrequencyRunModeCompositeField: function() {
 		if(!this.frequencyRunModeCompositeField) {
-			this.frequencyRunModeCompositeField = new Ext.form.CompositeField({
+			this.frequencyRunModeCompositeField = new Ext.form.FieldSet({
+			//this.frequencyRunModeCompositeField = new Ext.form.CompositeField({
 				name: 'recurrentRunMode',
-				hidden: true,
+				hidden: false,
+				//hidden: true,
 				allowBlank:false,
-				width: 350,
+				width: 400,
 				items:
 				[
 				    new Ext.Container({
@@ -298,14 +311,16 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
         				html: Openwis.i18n('Harvesting.Options.RunMode.Recurrent.Frequency') + ':',
         				cls: 'formItems'
         			}),
-				    this.getFrequencyRecurrentDayTextField(),
-				    this.getFrequencyRecurrentHourTextField(),
-				    this.getFrequencyRecurrentMinuteTextField(),
-				    new Ext.Container({
-        				border: false,
-        				html: Openwis.i18n('Harvesting.Options.RunMode.Recurrent.Frequency.Detail'),
-        				cls: 'formItems'
-        			})
+				    //this.getFrequencyRecurrentDayTextField(),
+				    //this.getFrequencyRecurrentHourTextField(),
+				    //this.getFrequencyRecurrentMinuteTextField(),
+				    this.getStartingDateCompositeField(),
+				    this.getRecurrentProcessingCompositeField()
+//				    new Ext.Container({
+//        				border: false,
+//        				html: Openwis.i18n('Harvesting.Options.RunMode.Recurrent.Frequency.Detail'),
+//        				cls: 'formItems'
+//        			})
 				]
 			});
 		}
@@ -644,6 +659,121 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 		return this.fetchRemoteInfoAction;
 	},
 	
+	//rajout de l'ihm pour la récurrence
+	getRecurrentProcessingCompositeField: function() {
+	    if(!this.recurrentProcessingCompositeField) {
+    	    this.recurrentProcessingCompositeField = new Ext.form.CompositeField({
+    			width:360,
+    			items: 
+    			[
+    			    {
+    			        xtype: 'container',
+    			        style: {
+    			            paddingLeft: '20px'
+    			        }
+    			    },
+    			    new Ext.form.Label({
+        	    		html : Openwis.i18n('RequestSubscription.SSP.Schedule.RecurrentPeriod.Label')
+        	    	}),
+    				this.getRecurrentProcessingNumberField(),
+    				this.getRecurrentProcessingFrequencyCombobox()
+    			]
+    		});
+		}
+		return this.recurrentProcessingCompositeField;
+	},
+	
+	getRecurrentProcessingNumberField: function() {
+	    if(!this.recurrentProcessingNumberField) {
+    	    this.recurrentProcessingNumberField = new Ext.form.NumberField({
+    	        name: 'frequencyNumber',
+    	        width: 40,
+    	        allowDecimals: false,
+    	        allowNegative: false,
+    	        minValue: 1,
+    	        value: ''
+    	    });
+    	}
+    	return this.recurrentProcessingNumberField;
+	},
+	
+	getRecurrentProcessingFrequencyCombobox: function() {
+        if(!this.recurrentProcessingFrequencyCombobox) {
+            this.recurrentProcessingFrequencyCombobox = new Ext.form.ComboBox({
+                store: new Ext.data.ArrayStore ({
+					id: 0,
+					fields: ['id', 'value'],
+					data: [
+					    ['DAY', Openwis.i18n('RequestSubscription.SSP.Schedule.RecurrentPeriod.Day')], 
+					    ['HOUR', Openwis.i18n('RequestSubscription.SSP.Schedule.RecurrentPeriod.Hour')]
+					]
+				}),
+				valueField: 'id',
+				displayField:'value',
+    	        value: 'HOUR',
+                name: 'frequencyComboBox',
+                typeAhead: true,
+				mode: 'local',
+				triggerAction: 'all',
+				editable: false,
+				selectOnFocus:true,
+				width: 80
+            });
+        }
+        return this.recurrentProcessingFrequencyCombobox;
+    },
+	
+	//rajout de l'ihm pour saisir date et heure de lancement de tache
+	getStartingDateCompositeField: function() {
+	    if(!this.startingDateCompositeField) {
+    	    this.startingDateCompositeField = new Ext.form.CompositeField({
+    	    	width: 470,
+    			items: 
+    			[
+    			    {
+    			        xtype: 'container',
+    			        style: {
+    			            paddingLeft: '20px'
+    			        }
+    			    },
+    			    new Ext.form.Label({
+        	    		html : Openwis.i18n('RequestSubscription.SSP.Schedule.RecurrentPeriod.StartingAt')
+        	    	}),
+    				this.getStartingDateField(),
+    				this.getStartingDateTimeField()
+    			]
+    		});
+		}
+		return this.startingDateCompositeField;
+	},
+
+    getStartingDateField: function() {
+	    if(!this.startingDateField) {
+    	   this.startingDateField = new Ext.form.DateField({
+                name: 'startingDate',
+                editable: false,
+                format: 'Y-m-d',
+                // Openwis.Utils.Date.ISODateToCalendar(this.frequency.startingDate)
+                value: new Date()
+            });
+        }
+        return this.startingDateField;
+	},
+
+	getStartingDateTimeField: function() {
+		if(!this.startingDateTimeField) {
+	    	this.startingDateTimeField = new Ext.form.TimeField({
+	    		name: 'startingDateTimeField',
+				increment: 15,
+				format: "H:i",
+				// Openwis.Utils.Date.ISODateToTime(this.frequency.startingDate)
+				value: '00:00',
+	    		width: 60
+	    	});
+		}
+        return this.startingDateTimeField;
+	},
+	
 	/**
 	 * The Save action.
 	 */
@@ -724,7 +854,8 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 		task.runMode = {};
 		task.runMode.recurrent = this.getRunModeRadioGroup().getValue().inputValue == 'RECURRENT';
 		if(task.runMode.recurrent) {
-		    var recurrentDay = Ext.num(this.getFrequencyRecurrentDayTextField().getValue(), 0);
+		    /*
+			var recurrentDay = Ext.num(this.getFrequencyRecurrentDayTextField().getValue(), 0);
 		    var recurrentHour = Ext.num(this.getFrequencyRecurrentHourTextField().getValue(), 0);
 		    var recurrentMinute = Ext.num(this.getFrequencyRecurrentMinuteTextField().getValue(), 0);
 		    
@@ -740,6 +871,20 @@ Openwis.Admin.Harvesting.Harvester.Oaipmh = Ext.extend(Ext.Window, {
 		    }
 		    
 		    task.runMode.recurrentPeriod = period;
+		    */
+			var recurrenceValue;
+			var frequencyUnit = this.getRecurrentProcessingFrequencyCombobox().getValue();
+			if (frequencyUnit == "HOUR") {
+				recurrenceValue = this.getRecurrentProcessingNumberField().getValue()*3600;
+			} else {
+				recurrenceValue = this.getRecurrentProcessingNumberField().getValue()*3600*24;
+			}
+				
+			
+		    task.runMode.recurrentScale = this.getRecurrentProcessingFrequencyCombobox().getValue(); 
+		    task.runMode.recurrencePeriod = recurrenceValue;
+		    task.runMode.startingDate = this.getStartingDateField().getValue().format('Y-m-d') + 'T' + this.getStartingDateTimeField().getValue() + ':00Z';
+		    
 		}
 		
 		//Task configuration.

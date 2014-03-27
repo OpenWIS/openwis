@@ -289,15 +289,19 @@ public class HarvestingTaskManager extends AbstractManager {
       //Insert the harvesting task.
       StringBuffer sbHarvestingTask = new StringBuffer();
       sbHarvestingTask
-            .append("INSERT INTO harvestingtask(id, uuid, name, harvestingtype, validationmode, isrecurrent, recurrentperiod, lastrun, backup, status, issynchronization, isincremental, categoryid) ");
-      sbHarvestingTask.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            .append("INSERT INTO harvestingtask(id, uuid, name, harvestingtype, startingdate, validationmode, isrecurrent, recurrentperiod, lastrun, backup, status, issynchronization, isincremental, categoryid) ");
+      sbHarvestingTask.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
       Integer recurrencePeriod = null;
       String backup = null;
       String lastRunDate = null;
+      String startingDate = null;
 
       if (task.getRunMode().isRecurrent()) {
-         recurrencePeriod = task.getRunMode().getRecurrentPeriod();
+         recurrencePeriod = task.getRunMode().getRecurrencePeriod();
+         if (task.getRunMode().getStartingDate() != null) {
+            startingDate = getSdf().format(task.getRunMode().getStartingDate());
+         }
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
@@ -307,7 +311,7 @@ public class HarvestingTaskManager extends AbstractManager {
       }
 
       getDbms().execute(sbHarvestingTask.toString(), task.getId(), UUID.randomUUID().toString(),
-            task.getName(), task.getType(), task.getValidationMode().toString(),
+            task.getName(), task.getType(),startingDate, task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             lastRunDate, backup, task.getStatus().toString(),
             BooleanUtils.toString(task.isSynchronizationTask(), "y", "n"),
@@ -336,21 +340,26 @@ public class HarvestingTaskManager extends AbstractManager {
       //-- Update Task.
       StringBuffer queryUpdateTask = new StringBuffer();
       queryUpdateTask.append("UPDATE harvestingtask SET ");
-      queryUpdateTask.append("name=?, validationmode=?, isrecurrent=?, recurrentperiod=?, ");
+      queryUpdateTask.append("name=?, startingdate=?, validationmode=?, isrecurrent=?, recurrentperiod=?, ");
       queryUpdateTask.append("backup=?, status=?, issynchronization=?, isincremental=?, categoryid=? ");
       queryUpdateTask.append("WHERE id = ?");
 
       Integer recurrencePeriod = null;
       String backup = null;
+      String startingDate = null;
 
       if (task.getRunMode().isRecurrent()) {
-         recurrencePeriod = task.getRunMode().getRecurrentPeriod();
+         recurrencePeriod = task.getRunMode().getRecurrencePeriod();
+         if (task.getRunMode().getStartingDate() != null) {
+            startingDate = getSdf().format(task.getRunMode().getStartingDate());
+         }
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
       }
 
       getDbms().execute(queryUpdateTask.toString(), task.getName(),
+            startingDate, 
             task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             backup, task.getStatus().toString(),
@@ -593,6 +602,11 @@ public class HarvestingTaskManager extends AbstractManager {
       if (runMode.isRecurrent()) {
          int recurrentPeriod = Integer.parseInt(e.getChildText("recurrentperiod"));
          runMode.setRecurrentPeriod(recurrentPeriod);
+         runMode.setRecurrencePeriod(recurrentPeriod);
+         runMode.setRecurrentScale(e.getChildText("recurrentscale"));
+         if (StringUtils.isNotBlank(e.getChildText("startingdate"))) {
+            runMode.setStartingDate(getSdf().parse(e.getChildText("startingdate")));
+         }
       }
       harvestingTask.setRunMode(runMode);
       if (StringUtils.isNotBlank(e.getChildText("lastrun"))) {
