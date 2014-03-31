@@ -519,7 +519,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       Map<String, Date> indexedDocs = getIndexedDocsChangeDate();
 
       // get all metadata from DB.  The keys are converted to lowercase.
-      Map<String, Date> dbmsDocs = getDbmsDocsChangeDate(dbms);
+      Map<String, DbmsDocChangeDateResult> dbmsDocs = getDbmsDocsChangeDate(dbms);
       
 
       // set up results HashMap for post processing of records to be indexed
@@ -530,7 +530,11 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
 
       IndexableElement ie;
       for (String uuid : Sets.difference(dbmsDocs.keySet(), intersection)) {
-         ie = new DbmsIndexableElement(dbms, uuid);
+         DbmsDocChangeDateResult changeDateInfo = dbmsDocs.get(uuid);
+         if (changeDateInfo == null) {
+            throw new RuntimeException("Could not extract changeDateInfo for metadata with URN: " + uuid);
+         }
+         ie = new DbmsIndexableElement(dbms, changeDateInfo.urnCasedPreserved);
          toUpdate.add(ie);
       }
       for (String uuid : Sets.difference(indexedDocs.keySet(), intersection)) {
@@ -549,7 +553,8 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       Date dbmsDate;
       for (String urn : intersection) {
          indexDate = indexedDocs.get(urn);
-         dbmsDate = dbmsDocs.get(urn);
+         DbmsDocChangeDateResult changeDateInfo = dbmsDocs.get(urn);
+         dbmsDate = changeDateInfo.changeDate;
          if (!indexDate.equals(dbmsDate)) {
             if (Log.isInfo(Geonet.INDEX_ENGINE)) {
                Log.info(
@@ -559,7 +564,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
                                  "The metadata {0} is not up to date; BD change date {1}, index change date {2}",
                                  urn, dbmsDate, indexDate));
             }
-            toUpdate.add(new DbmsIndexableElement(dbms, urn));
+            toUpdate.add(new DbmsIndexableElement(dbms, changeDateInfo.urnCasedPreserved));
          }
       }
 
@@ -587,8 +592,8 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
     * @throws Exception the exception
     */
    @SuppressWarnings("unchecked")
-   private Map<String, Date> getDbmsDocsChangeDate(Dbms dbms) throws Exception {
-      Map<String, Date> result = new LinkedHashMap<String, Date>();
+   private Map<String, DbmsDocChangeDateResult> getDbmsDocsChangeDate(Dbms dbms) throws Exception {
+      Map<String, DbmsDocChangeDateResult> result = new LinkedHashMap<String, DbmsDocChangeDateResult>();
 
       Element elements = dbms.select("SELECT uuid, changeDate FROM Metadata");
 
@@ -602,15 +607,20 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       Date date;
       for (Element record : (List<Element>) elements.getChildren()) {
          // get metadata
-         uuid = record.getChildText("uuid").toLowerCase();
+         uuid = record.getChildText("uuid");
          lastChange = record.getChildText("changedate");
          date = index.parseDate(lastChange);
-         result.put(uuid, date);
+         
+         DbmsDocChangeDateResult res = new DbmsDocChangeDateResult();
+         res.changeDate = date;
+         res.urnCasedPreserved = uuid;
+         
+         result.put(uuid.toLowerCase(), res);
       }
 
       return result;
    }
-
+   
    /**
     * Gets the indexed documents change date.  The returned field will be the "_uuid" unique field,
     * which is the URN IN LOWERCASE.
@@ -1139,4 +1149,19 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       return sr.getCount() > 0;
    }
 
+   /**
+    * Result object for {@link getDbmsDocsChangeDate}.
+    */
+   private static class DbmsDocChangeDateResult
+   {
+      /**
+       * The metadata change date.
+       */
+      public Date changeDate;
+      
+      /**
+       * The metadata URN with case preserved.
+       */
+      public String urnCasedPreserved;
+   }
 }
