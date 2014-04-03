@@ -265,6 +265,22 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
                   after - before);
          }
 
+         //Extract UUID.
+         before = System.currentTimeMillis();
+         if (StringUtils.isBlank(md.getUrn()) || md.getChangeDate() == null
+               || StringUtils.isBlank(md.getChangeDate().toString())) {
+            md = extractMetadataImportInfo(md, schema);
+            if (md == null) {
+               Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
+               return;
+            }
+         }
+         after = System.currentTimeMillis();
+         if (Log.isStatEnabled()) {
+            Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
+                  "Extract UUID and DateStamp", after - before);
+         }
+         
          //Validate metadata.
          before = System.currentTimeMillis();
          IMetadataValidator validator = MetadataValidatorFactory.getValidator(validation);
@@ -309,22 +325,6 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
          if (Log.isStatEnabled()) {
             Log.statTime("MetadataAligner", "MetadataAligner#importMetadata", "Validate MD", after
                   - before);
-         }
-
-         //Extract UUID.
-         before = System.currentTimeMillis();
-         if (StringUtils.isBlank(md.getUrn()) || md.getChangeDate() == null
-               || StringUtils.isBlank(md.getChangeDate().toString())) {
-            md = extractMetadataImportInfo(md, schema);
-            if (md == null) {
-               Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
-               return;
-            }
-         }
-         after = System.currentTimeMillis();
-         if (Log.isStatEnabled()) {
-            Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
-                  "Extract UUID and DateStamp", after - before);
          }
 
          //Check if metadata exists.
