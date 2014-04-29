@@ -25,6 +25,7 @@ import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.XmlSerializer;
 import org.fao.geonet.kernel.search.ISearchManager;
+import org.fao.geonet.kernel.search.Pair;
 import org.fao.geonet.lib.Lib;
 import org.fao.geonet.util.ISODate;
 import org.jdom.Element;
@@ -311,16 +312,22 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
                   - before);
          }
 
-         //Extract UUID.
+         //Extract UUID and date stamp from the metadata contents and set it to the metadata being aligned.
          before = System.currentTimeMillis();
+         Pair<String, ISODate> uuidAndDateStamp = extractMetadataImportInfo(newMetadata, schema);
+         if (uuidAndDateStamp == null) {
+            Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
+            return;
+         }
          if (StringUtils.isBlank(newMetadata.getUrn()) || newMetadata.getChangeDate() == null
                || StringUtils.isBlank(newMetadata.getChangeDate().toString())) {
-            newMetadata = extractMetadataImportInfo(newMetadata, schema);
-            if (newMetadata == null) {
-               Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
-               return;
-            }
+            newMetadata.setUrn(uuidAndDateStamp.one());            
          }
+         
+         // Always set the change date to the date stored in the metadata record
+         newMetadata.setChangeDate(uuidAndDateStamp.two().toString());
+         
+         
          after = System.currentTimeMillis();
          if (Log.isStatEnabled()) {
             Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
@@ -335,6 +342,9 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
             Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
                   "Get MD Info from DB", after - before);
          }
+         
+         // TODO: A better way to do this is to separate the decision process and the actual actions based on the 
+         // outcome.  This will make it easier to read the code.
          if (existingMetadata != null) {
             if (existingMetadata.getCategory().getId() != newMetadata.getCategory().getId() && !existingMetadata.isStopGap()) {
                Log.warning(Geonet.METADATA_ALIGNER, "Unmatching category for an existing metadata "
@@ -349,6 +359,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
 
             //Check localDateStamp against imported metadata local date stamped.
             ISODate changeDate = new ISODate(newMetadata.getChangeDate());
+            
             if (existingMetadata.isStopGap()) {
                Log.info(Geonet.METADATA_ALIGNER, "Stop-Gap Metadata " + newMetadata.getUrn()
                      + " will be updated, and moved to category " + newMetadata.getCategory().getName());
@@ -356,15 +367,22 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
                newMetadata.setCreateDate(newMetadata.getChangeDate().toString());
                newMetadata.setId(existingMetadata.getId());
                updateMetadata(newMetadata);
-            } else if (changeDate.sub(localDateStamp) > 0) {
-               //Metadata needs to be updated.
-               newMetadata.setId(existingMetadata.getId());
-               newMetadata.setSchema(schema);
-               updateMetadata(newMetadata);
             } else {
-               Log.info(Geonet.METADATA_ALIGNER, "Metadata XML not changed: " + newMetadata.getUrn());
-               result.incUnchanged();
+               // Previously, meta-data was only updated if the change date of the newer meta-data is later than the
+               // change-date of the older meta-data.  Now, meta-data is updated regardless.
+               newMetadata.setSchema(schema);
+               newMetadata.setId(existingMetadata.getId());               
+               updateMetadata(newMetadata);               
             }
+//            } else if (changeDate.sub(localDateStamp) > 0) {
+//               //Metadata needs to be updated.
+//               newMetadata.setId(existingMetadata.getId());
+//               newMetadata.setSchema(schema);
+//               updateMetadata(newMetadata);
+//            } else {
+//               Log.info(Geonet.METADATA_ALIGNER, "Metadata XML not changed: " + newMetadata.getUrn());
+//               result.incUnchanged();
+//            }
          } else {
             // Fill the metadata object to insert.
             newMetadata.setSchema(schema);
@@ -692,13 +710,20 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
    }
 
    /**
-    * Extracts the URN and the date stamp from the metadata data (XML).
+    * Extracts the URN and the date stamp from the metadata data (XML).  This runs the metadata through an XSLT stylesheet
+    * which is expected to return the following XML:
+    * 
+    *    <importInfo>
+    *       <uuid>{metadataUuid}</uuid>
+    *       <dateStamp>{metadata datestamp}</dateStamp>
+    *    </importInfo>
+    * 
     * @param md the metadata.
     * @param schema the schema of the metadata.
-    * @return the metadata with URN and changeDate filled, <code>null</code> if these attributes are unretrievable.
+    * @return a pair containing the trimmed UUID from the metadata data, and the change datestamp.
     * @throws Exception if an error occurs.
     */
-   private Metadata extractMetadataImportInfo(Metadata md, String schema) throws Exception {
+   private Pair<String, ISODate> extractMetadataImportInfo(Metadata md, String schema) throws Exception {
       String styleSheet = dataManager.getSchemaDir(schema) + EXTRACT_IMPORT_INFO;
       Element elt = Xml.transform(md.getData(), styleSheet);
       String uuid = elt.getChildText("uuid");
@@ -711,9 +736,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
             Log.warning(Geonet.METADATA_ALIGNER, "UUID [" + trimmedUuid + "] will be trimmed as it contains leading/trailing whitespace.");
          }
          isoDate = new ISODate(dateStamp);
-         md.setChangeDate(isoDate.toString());
-         md.setUrn(trimmedUuid);
-         return md;
+         return Pair.read(trimmedUuid, isoDate);
       } else {
          result.getErrors().add(
                new MetadataAlignerError(trimmedUuid,
