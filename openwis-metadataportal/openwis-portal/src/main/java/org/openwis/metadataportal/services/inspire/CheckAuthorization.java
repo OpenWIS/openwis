@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,8 +93,13 @@ public class CheckAuthorization implements Service {
 		   
 		}
 
-		List<String> isMemberOf = (List<String>) mapAttributes
-				.get(LoginConstants.IS_MEMBER_OF.toLowerCase());
+		List<String> isMemberOf;
+		Object isMemberValue=mapAttributes.get(LoginConstants.IS_MEMBER_OF.toLowerCase());
+      if (isMemberValue instanceof String) {
+         isMemberOf = Collections.singletonList((String) isMemberValue);
+      } else {
+         isMemberOf = (List<String>) isMemberValue;
+      }
 		boolean needLocalAccount = Boolean.valueOf(String.valueOf(mapAttributes
 				.get(LoginConstants.NEED_USER_ACCOUNT.toLowerCase())));
 
