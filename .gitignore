@@ -1,0 +1,7 @@
+# Ignore all maven build
+target/
+
+# Ignore eclipse files
+.project
+.classpath
+.settings/
