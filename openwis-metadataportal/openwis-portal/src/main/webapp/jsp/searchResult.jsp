@@ -225,19 +225,20 @@
 	                     linkOpenwisSubscribeUrl = subUrl;
 	                  }
 					}
+					pageContext.setAttribute("localDataSource", localDataSource);
 					pageContext.setAttribute("linkOpenwisRequestUrl", linkOpenwisRequestUrl);
 					pageContext.setAttribute("linkOpenwisSubscribeUrl", linkOpenwisSubscribeUrl);
 				%>
 				<%  if((isCacheEnable && isGlobal) || (isCacheEnable && !isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) 
 				      || (localDataSource != null && !localDataSource.equals(""))) { %>
 					<div style="cursor:pointer;" class="btnXXLFixedSize btnSearchResultsActions"
-						onClick='<openwis:requestAction doc="${doc}" ops="${ops}" url="${linkOpenwisRequestUrl}"/>'>
+						onClick='<openwis:requestAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisRequestUrl}"/>'>
 						<a style="padding-right:10px; padding-left:10px;">
 							<openwis:i18n key="HomePage.Search.Result.Btn.Request"/>
 						</a>
 					</div>
 					<div style="cursor:pointer;" class="btnXXLFixedSize btnSearchResultsActions"
-						onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" url="${linkOpenwisSubscribeUrl}"/>'>
+						onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisSubscribeUrl}"/>'>
 						<a style="padding-right:10px; padding-left:10px;">
 							<openwis:i18n key="HomePage.Search.Result.Btn.Subscribe"/>
 						</a>
@@ -254,13 +255,13 @@
 					<div id="oAcEle<%=id%>" class="oAcEle" style="display: none;" onClick="oActions('oAc',<%=id%>);">
 						<% if (isCacheEnable && isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) { %>
 						<div style="cursor:pointer;" class="otherActionTarget"
-							onClick='<openwis:requestAction doc="${doc}" ops="${ops}" url="${linkOpenwisRequestUrl}" forceUrl="true"/>'>
+							onClick='<openwis:requestAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisRequestUrl}" forceUrl="true"/>'>
 							<a style="font-size: 10px;">
 								<openwis:i18n key="HomePage.Search.Result.Btn.RequestProducer"/>
 							</a>
 						</div>
 						<div style="cursor:pointer;" class="otherActionTarget"
-							onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" url="${linkOpenwisSubscribeUrl}" forceUrl="true"/>'>
+							onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisSubscribeUrl}" forceUrl="true"/>'>
 							<a style="font-size: 10px;">
 								<openwis:i18n key="HomePage.Search.Result.Btn.SubscribeProducer"/>
 							</a>
