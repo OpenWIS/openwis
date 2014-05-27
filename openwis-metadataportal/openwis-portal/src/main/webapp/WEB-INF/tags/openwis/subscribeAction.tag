@@ -1,10 +1,12 @@
 <%@ tag import="java.util.Set"%>
 <%@ tag import="org.openwis.metadataportal.model.datapolicy.OperationEnum"%>
+<%@ tag import="org.apache.commons.lang.StringUtils"%>
 <%@ tag import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@ tag import="org.fao.geonet.kernel.search.IndexField"%>
 <%@ attribute name="doc" required="true" rtexprvalue="true" type="org.openwis.metadataportal.kernel.search.query.SearchResultDocument" %>
 <%@ attribute name="ops" required="true" rtexprvalue="true" type="java.util.Set" %>
 <%@ attribute name="url" required="false" type="java.lang.String" %>
+<%@ attribute name="localDataSource" required="false" type="java.lang.String" %>
 <%@ attribute name="forceUrl" required="false" type="java.lang.Boolean" %>
 <%
    boolean isCacheEnable = ((Boolean) request.getAttribute("isCacheEnable")).booleanValue();
@@ -24,15 +26,15 @@
       if (isBlacklisted) {%>
 	   	new Openwis.Utils.MessageBox.displayErrorMsg("Could not create AdHoc request, the user " + "<%=username%>" + " is blacklisted.");
 	   <%} else { %>
-	   	doSubscriptionFromCache("<%=StringEscapeUtils.escapeJavaScript(uuid)%>", "<%= gtsCategory%>", null);<%
+	   	doSubscriptionFromCache("<%=StringEscapeUtils.escapeJavaScript(uuid)%>", "<%= StringEscapeUtils.escapeJavaScript(gtsCategory) %>", null);<%
 	   }
-   } else if (isCacheEnable && (url != null) && (!url.equals(""))) {
+   } else if (isCacheEnable && StringUtils.isBlank(localDataSource)) {
       %>window.open("<%=url%>")<%
    } else {
       if (isBlacklisted) {%>
 	   	new Openwis.Utils.MessageBox.displayErrorMsg("Could not create AdHoc request, the user " + "<%=username%>" + " is blacklisted.");
 	   <%} else { %>
-	   	doSubscription("<%=StringEscapeUtils.escapeJavaScript(uuid)%>", "<%= gtsCategory%>");<%
+	   	doSubscription("<%=StringEscapeUtils.escapeJavaScript(uuid)%>", "<%= StringEscapeUtils.escapeJavaScript(gtsCategory) %>");<%
 	   }
    }
 %>
