@@ -45,7 +45,7 @@ public class Run implements Service {
       Integer id = JeevesJsonWrapper.read(params, Integer.class);
 
       HarvestingTaskManager harvestingTaskManager = new HarvestingTaskManager(dbms);
-      boolean isScheduled = harvestingTaskManager.run(id, context);
+      boolean isScheduled = harvestingTaskManager.runOnce(id, context);
       if (isScheduled) {
          return JeevesJsonWrapper.send(new AcknowledgementDTO(true));
       } else {
