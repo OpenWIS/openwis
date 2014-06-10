@@ -13,9 +13,9 @@
    <name>OpenWis</name>
 
    <scm>
-      <connection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</connection>
-      <developerConnection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</developerConnection>
-      <url>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</url>
+      <connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
+      <developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
+      <url>https://github.com/OpenWIS/openwis</url>
    </scm>
 
    <build>
