@@ -132,6 +132,10 @@
 		<!-- Register services                                       	   -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		
+        <service name="xml.useralarms.get" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.Get"/>
+        </service>
+
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- User self-registration services                               -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

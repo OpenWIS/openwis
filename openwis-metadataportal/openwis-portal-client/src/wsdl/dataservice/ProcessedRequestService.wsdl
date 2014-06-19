@@ -37,6 +37,10 @@
     <wsdl:part name="parameters" element="tns:getAllProcessedRequestsByUsersCountResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getFullProcessedRequest">
+    <wsdl:part name="parameters" element="tns:getFullProcessedRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteProcessedRequests">
     <wsdl:part name="parameters" element="tns:deleteProcessedRequests">
     </wsdl:part>
@@ -109,6 +113,10 @@
     <wsdl:part name="parameters" element="tns:getAllProcessedRequestsByUsersResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getFullProcessedRequestResponse">
+    <wsdl:part name="parameters" element="tns:getFullProcessedRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getProcessedRequestResponse">
     <wsdl:part name="parameters" element="tns:getProcessedRequestResponse">
     </wsdl:part>
@@ -134,6 +142,12 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ProcessedRequestService">
+    <wsdl:operation name="getFullProcessedRequest">
+      <wsdl:input name="getFullProcessedRequest" message="tns:getFullProcessedRequest">
+    </wsdl:input>
+      <wsdl:output name="getFullProcessedRequestResponse" message="tns:getFullProcessedRequestResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllProcessedRequestsByUsers">
       <wsdl:input name="getAllProcessedRequestsByUsers" message="tns:getAllProcessedRequestsByUsers">
     </wsdl:input>
@@ -239,6 +253,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getAllProcessedRequestsByUsersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFullProcessedRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFullProcessedRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFullProcessedRequestResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

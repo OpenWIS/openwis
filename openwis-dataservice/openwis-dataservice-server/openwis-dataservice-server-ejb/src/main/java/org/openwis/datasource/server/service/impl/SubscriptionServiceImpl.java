@@ -69,6 +69,7 @@ import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.FileNameParser;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
@@ -102,6 +103,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
    /** The processed request service. */
    @EJB(name = "ProcessedRequestService")
    private ProcessedRequestService processedRequestService;
+
+   /** The user alarm manager. */
+   @EJB(name = "UserAlarmManager")
+   private UserAlarmManagerLocal userAlarmManager;
 
    /** The connection factory. */
    @Resource(mappedName = "java:/JmsXA")
@@ -175,6 +180,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     */
    @Override
    public void deleteSubscription(@WebParam(name = "subscriptionId") Long id) {
+      // Deletes the user alarms associated with the request
+      userAlarmManager.deleteAlarmsOfRequest(id);
+
       Subscription subscription = this.entityManager.find(Subscription.class, id);
       if (subscription != null) {
          // delete process request

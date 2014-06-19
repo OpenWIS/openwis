@@ -19,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
@@ -42,6 +43,7 @@ import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultSta
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.domain.entity.request.Request;
+import org.openwis.dataservice.common.domain.entity.request.adhoc.AdHoc;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.DisseminationJob;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.FTPDiffusion;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.MSSFSSDissemination;
@@ -50,9 +52,14 @@ import org.openwis.dataservice.common.domain.entity.request.dissemination.Public
 import org.openwis.dataservice.common.domain.entity.request.dissemination.RMDCNDissemination;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.ShoppingCartDissemination;
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
@@ -115,6 +122,9 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private static final String STAGING_POST_MAIL_SUBJECT_KEY = "dataservice.dissemination.stagingPostMessage.subject";
    private static final String STAGING_POST_MAIL_CONTENT_KEY = "dataservice.dissemination.stagingPostMessage.content";
    private static String stagingPostUrl = JndiUtils.getString(STAGING_POST_URL_KEY);
+
+   @EJB
+   private UserAlarmManagerLocal userAlarmManager;
 
    @PersistenceContext
    protected EntityManager entityManager;
@@ -832,6 +842,10 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
                      if (status.getRequestStatus() == RequestStatus.FAILED) {
                         logger.error("Start of dissemination via harness failed: " + actualURL);
+
+                        // XXX - lmika: Raise an alarm
+	                    raiseUserAlarm(processedRequest, status);
+                        // XXX - lmika: End modified code
                      } else {
                         if (logger.isInfoEnabled()) {
                            logger.info("Start of dissemination via harness succeeded: " + actualURL);
@@ -856,6 +870,36 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       }
 
       return dissStatus;
+   }
+
+   /**
+    * Raise a new user alarm.
+    *
+    * @param processedRequest
+    * @param status
+    */
+   private void raiseUserAlarm(ProcessedRequest processedRequest,
+			DisseminationStatus status) {
+		long processedReqId = 0;
+		long requestId = 0;
+		UserAlarmRequestType reqType = null;
+
+		if (processedRequest.getRequest() instanceof AdHoc) {
+			reqType = UserAlarmRequestType.REQUEST;
+		} else if (processedRequest.getRequest() instanceof Subscription) {
+			reqType = UserAlarmRequestType.SUBSCRIPTION;
+		}
+
+		String user = processedRequest.getRequest().getUser();
+      processedReqId = processedRequest.getId();
+      requestId = processedRequest.getRequest().getId();
+
+		UserAlarm alarm = new UserAlarmBuilder(user)
+							.request(reqType, processedReqId, requestId)
+							.message(status.getMessage())
+							.getUserAlarm();
+
+		userAlarmManager.raiseUserAlarm(alarm);
    }
 
    private void raiseThresholdExceededAlarm(Object threshold, Object value, Object user,

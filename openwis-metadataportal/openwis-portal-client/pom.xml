@@ -173,6 +173,21 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>wsdl-to-java-user-alarm-service</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceRoot>${project.build.directory}/generated/dataservice/src/main/java</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${basedir}/src/wsdl/dataservice/UserAlarmService.wsdl</wsdl>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+					<execution>
 						<id>wsdl-to-java-blacklist-service</id>
 						<phase>generate-sources</phase>
 						<configuration>

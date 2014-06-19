@@ -41,6 +41,7 @@ import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.service.RequestService;
+import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
 import org.openwis.datasource.server.utils.QueueUtils;
 import org.openwis.datasource.server.utils.RequestUtils;
@@ -76,6 +77,10 @@ public class RequestServiceImpl implements RequestService {
    /** The product metadata service. */
    @EJB(name = "ProductMetadataService")
    private ProductMetadataService productMetadataService;
+
+   /** The user alarm manager. */
+   @EJB(name = "UserAlarmManager")
+   private UserAlarmManagerLocal userAlarmManager;
 
    /** injection ConnectionFactory. */
    @Resource(mappedName = "java:/JmsXA")
@@ -219,6 +224,9 @@ public class RequestServiceImpl implements RequestService {
     */
    @Override
    public void deleteRequest(@WebParam(name = "requestId") Long id) {
+      // Deletes the user alarms associated with the request
+      userAlarmManager.deleteAlarmsOfRequest(id);
+
       processedRequestService.deleteProcessedRequestsByRequest(id);
       AdHoc request = requestDao.findById(id);
       AdHoc mergeRequest = entityManager.merge(request);
@@ -341,6 +349,9 @@ public class RequestServiceImpl implements RequestService {
    public int deleteRequestByUser(@WebParam(name = "user") String user) {
       int result;
       logger.debug("Delete all request owned by '{}'", user);
+
+      // Delete all the user alarms
+      userAlarmManager.deleteAlarmsOfUser(user);
 
       Query query;
       // Retrieve request

@@ -544,6 +544,37 @@
                 <xml name="error" file="xml/privileges-error.xml" />
             </error>
         </service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Management - User Alarms                                      -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.useralarms.getalluseralarms" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetAllUserAlarms"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.useralarms.getuseralarmreport" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetUserAlarmReport"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.useralarms.delete" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.Delete"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.useralarms.deleteall" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.DeleteAll"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
          
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- Management - Cache                                            -->
