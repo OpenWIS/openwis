@@ -35,7 +35,6 @@
 				<module>openwis-harness-subselectionparameters</module>
 				<module>openwis-harness-localdatasource</module>
                 <module>openwis-harness-client</module>
-				<module>openwis-harness-samples</module>
 				<module>openwis-harness-mssfss</module>
                 <module>openwis-harness-dissemination</module>
 			</modules>
