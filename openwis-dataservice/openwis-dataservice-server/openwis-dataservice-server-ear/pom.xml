@@ -41,16 +41,18 @@
 				</configuration>
 			</plugin>
 			
-			<!-- 
-			Deploy the EAR in JBoss
-			-->
+            <!-- 
+            Deploy the EAR in JBoss
+            -->
+			<!--changed to the deploy goal so a JBOSS installation is not required for build -->
+			<!-- Shaun Adams - Met Office -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jboss-maven-plugin</artifactId>
 				<version>1.4.1</version>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>hard-deploy</goal>
 						</goals>
