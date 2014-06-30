@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
 		<groupId>org.openwis.management.service</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.management.service</groupId>
 	<artifactId>openwis-management-service-ear</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<packaging>ear</packaging>
 
 	<name>openwis-management-service-ear</name>

@@ -3,15 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>eu.akka.openwis</groupId>
 		<artifactId>openwis</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<groupId>eu.akka.openwis</groupId>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
 	<groupId>org.openwis.securityservice</groupId>
 	<artifactId>openwis-securityservice</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
 	<name>OpenWIS Security Service project</name>
 	
   <modules>

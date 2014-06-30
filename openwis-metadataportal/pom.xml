@@ -5,30 +5,57 @@
 	<parent>
 		<artifactId>openwis</artifactId>
 		<groupId>eu.akka.openwis</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.geonetwork-opensource</groupId>
   <artifactId>geonetwork</artifactId>
   <packaging>pom</packaging>
-  <version>2.7.0-SNAPSHOT</version>
+  <version>${geonetwork.version}</version>
+  
   <name>GeoNetwork opensource</name>
   <description>GeoNetwork opensource is a standards based, Free and 
     Open Source catalog application to manage spatially referenced 
     resources through the web.</description>
   <url>http://geonetwork-opensource.org</url>
+  
   <scm>
     <connection>
       scm:svn:https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk
     </connection>
     <url>https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk</url>
   </scm>
+  
+  <!-- =========================================================== -->
+  <!--     Modules for the build in approximate dependency order   -->
+  <!-- =========================================================== -->
+  <modules>
+    <module>cachingxslt</module>
+    <module>jeeves</module> 
+    <module>oaipmh</module>
+    <module>sde</module>
+	
+	<module>openwis-portal-client</module>
+	<!--<module>openwis-portal</module>-->
+   
+   <!--
+	<module>geoserver</module>
+	<module>gast</module>
+	-->
+	
+	<module>openwis-portal-solr</module>
+  </modules>
+  
+  
   <inceptionYear>2003</inceptionYear>
+  
   <issueManagement>
     <system>trac</system>
     <url>http://trac.osgeo.org/geonetwork/report</url>
   </issueManagement>
+  
   <mailingLists>
     <mailingList>
       <name>Users</name>
@@ -511,22 +538,6 @@
   <repositories/>
   <pluginRepositories/>
 
-  <!-- =========================================================== -->
-  <!--     Modules for the build in approximate dependency order   -->
-  <!-- =========================================================== -->
-  <modules>
-    <module>cachingxslt</module>
-    <module>jeeves</module> 
-    <module>oaipmh</module>
-    <module>sde</module>
-	<module>openwis-portal</module>
-    <!--
-	<module>geoserver</module>
-	<module>gast</module>
-	-->
-	<module>openwis-portal-client</module>
-    <module>openwis-portal-solr</module>
-  </modules>
 
   <distributionManagement/>
 

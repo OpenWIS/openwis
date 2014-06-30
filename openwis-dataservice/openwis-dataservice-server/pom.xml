@@ -5,7 +5,8 @@
 	<parent>
 		<artifactId>openwis-dataservice</artifactId>
 		<groupId>org.openwis.dataservice</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.dataservice.server</groupId>
@@ -14,10 +15,10 @@
 	<name>openwis-dataservice-server</name>
 
 	<modules>
-		<module>openwis-dataservice-server-ear</module>
 		<module>openwis-dataservice-server-ejb</module>
 		<module>openwis-dataservice-server-webapp</module>
-		 
+		<module>openwis-dataservice-server-ear</module>
+
 	</modules>
 
 	<profiles>

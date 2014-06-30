@@ -3,7 +3,8 @@
 	<parent>
 		<artifactId>openwis-securityservice</artifactId>
 		<groupId>org.openwis.securityservice</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
@@ -13,8 +14,9 @@
 
 	<modules>
 		<module>openwis-securityservice-usermanagement-server-ejb</module>
-		 <module>openwis-securityservice-usermanagement-server-ear</module>
 		 <module>openwis-securityservice-usermanagement-server-webapp</module>
+		 <module>openwis-securityservice-usermanagement-server-ear</module>
+
 	</modules>
 
 	<!--profiles>

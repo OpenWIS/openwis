@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>openwis-management</artifactId>
 		<groupId>org.openwis.management</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
   <groupId>org.openwis.management</groupId>
   <artifactId>openwis-management-client</artifactId>
-  <version>1.0-SNAPSHOT</version>
 
   <name>OpenWIS Management Client</name>
 

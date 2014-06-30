@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>eu.akka.openwis</groupId>
    <artifactId>openwis</artifactId>
-   <version>develop-SNAPSHOT</version>
+   <version>${openwis.version}</version>
    <packaging>pom</packaging>
    <name>OpenWis</name>
 
@@ -15,10 +15,26 @@
 
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	  <openwis.version>${project.version}</openwis.version>
+      <file.encoding>UTF-8</file.encoding>	  
+	  <openwis.version>1.0.15-SNAPSHOT</openwis.version>
 	  <geonetwork.version>2.7.0-SNAPSHOT</geonetwork.version>	  
    </properties>
-    
+
+   <profiles>
+      <profile>
+         <id>all</id>
+         <activation>
+            <activeByDefault>false</activeByDefault>
+         </activation>
+         <modules>
+            <module>openwis-harness</module>
+			<module>openwis-management</module>
+            <module>openwis-dataservice</module>
+            <module>openwis-metadataportal</module>
+            <module>openwis-securityservice</module>
+         </modules>
+      </profile>
+   </profiles>
    
    <build>
 		<plugins>
@@ -54,29 +70,15 @@
          </plugins>
       </pluginManagement>
    </build>
-
+   
    <organization>
       <name>AKKA informatique &amp; Systèmes</name>
       <url>http://www.akka.eu</url>
    </organization>
-   <profiles>
-      <profile>
-         <id>all</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-         <modules>
-            <module>openwis-harness</module>
-            <module>openwis-dataservice</module>
-            <module>openwis-metadataportal</module>
-            <module>openwis-securityservice</module>
-            <module>openwis-management</module>
-         </modules>
-      </profile>
-   </profiles>
-
+   
    <url>http://www.openwis.org</url>
    <inceptionYear>2010</inceptionYear>
+   
    <developers>
       <developer>
          <id>y.lizzi</id>
