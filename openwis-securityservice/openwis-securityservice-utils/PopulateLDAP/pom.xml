@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.openwis.metadataportal</groupId>
 			<artifactId>openwis-portal-client</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 	</dependencies>

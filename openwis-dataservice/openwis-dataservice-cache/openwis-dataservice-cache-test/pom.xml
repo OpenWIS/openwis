@@ -34,21 +34,21 @@
     <dependency>
       <groupId>org.openwis.dataservice.cache</groupId>
       <artifactId>openwis-dataservice-cache-core</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>            
 
     <dependency>
       <groupId>org.openwis.dataservice.cache</groupId>
       <artifactId>openwis-dataservice-cache-ejb</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>            
     
     <dependency>
 	    <groupId>org.openwis.management.service</groupId>
 	    <artifactId>openwis-management-service-ejb</artifactId>
-		<version>${project.parent.version}</version>	    
+		<version>${project.version}</version>	    
 	    <scope>provided</scope>
     </dependency>
   </dependencies>

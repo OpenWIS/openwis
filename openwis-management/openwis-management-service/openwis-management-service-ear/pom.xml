@@ -123,13 +123,13 @@
 		<dependency>
 			<groupId>org.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>org.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-ejb</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 	</dependencies>

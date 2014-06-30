@@ -34,7 +34,7 @@
    <dependency>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>jeeves</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
    </dependency>
   
     <dependency>

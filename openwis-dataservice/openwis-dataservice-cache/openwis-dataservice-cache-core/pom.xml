@@ -19,14 +19,14 @@
     <dependency>
       <groupId>org.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-domain</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     
     <dependency>
       <groupId>org.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-utils</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     

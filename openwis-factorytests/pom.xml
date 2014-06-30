@@ -132,12 +132,12 @@
       <dependency>
          <groupId>org.openwis.securityservice.usermanagement.server</groupId>
          <artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
-		 <version>${project.parent.version}</version>
+		 <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>org.openwis.securityservice.utils</groupId>
          <artifactId>openwis-securityservice-utils-populate-ldap</artifactId>
-		 <version>${project.parent.version}</version>
+		 <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>commons-httpclient</groupId>

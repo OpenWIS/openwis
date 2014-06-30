@@ -18,31 +18,31 @@
     <dependency>
       <groupId>org.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-domain</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-utils</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.dataservice.cache</groupId>
       <artifactId>openwis-dataservice-cache-core</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.management.service</groupId>
       <artifactId>openwis-management-service-common</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.management</groupId>
       <artifactId>openwis-management-client</artifactId>
-	 <version>${project.parent.version}</version>
+	 <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.javaee</groupId>
@@ -71,7 +71,7 @@
     <dependency>
       <groupId>eu.akka.openwis.harness</groupId>
       <artifactId>openwis-harness-dissemination</artifactId>
-	  <version>${project.parent.version}</version>
+	  <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <!-- -->

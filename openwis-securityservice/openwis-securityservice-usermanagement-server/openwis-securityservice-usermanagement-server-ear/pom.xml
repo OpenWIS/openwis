@@ -110,21 +110,21 @@
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
 			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
 			<artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
 			<artifactId>openwis-securityservice-usermanagement-server-webapp</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>

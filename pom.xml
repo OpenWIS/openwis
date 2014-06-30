@@ -16,8 +16,8 @@
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <file.encoding>UTF-8</file.encoding>	  
-	  <openwis.version>1.0.15-SNAPSHOT</openwis.version>
-	  <geonetwork.version>2.7.0-SNAPSHOT</geonetwork.version>	  
+	  <openwis.version>1.0.17-SNAPSHOT</openwis.version>
+	  <geonetwork.version>2.7.2-SNAPSHOT</geonetwork.version>	  
    </properties>
 
    <profiles>
