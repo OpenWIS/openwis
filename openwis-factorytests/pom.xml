@@ -204,25 +204,4 @@
          </plugin>
       </plugins>
    </reporting>
-
-   <profiles>
-      <profile>
-         <id>Hudson</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-
-
-
-         <build>
-            <plugins>
-               <!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>jboss-maven-plugin</artifactId> 
-                  <version>1.5.0</version> <executions> <execution> <phase>initialize</phase> 
-                  <goals> <goal>start-and-wait</goal> </goals> <configuration> <serverName>${env.JBOSS_CONF}</serverName> 
-                  <retry>10</retry> <retryWait>60000</retryWait> <startOptions>-Djboss.service.binding.set=ports-01 
-                  -b 0.0.0.0</startOptions> </configuration> </execution> </executions> </plugin> -->
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
 </project>

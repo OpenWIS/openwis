@@ -53,14 +53,4 @@
    </dependency>
 
   </dependencies>
-
-  <profiles>
-    <profile>
-        <id>ciProfile</id>
-        <activation>
-            <activeByDefault>false</activeByDefault>
-        </activation>
-    </profile>
-  </profiles>
-
 </project>

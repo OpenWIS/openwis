@@ -12,6 +12,15 @@
 	<packaging>pom</packaging>
 	<name>OpenWIS Harness Parent Project</name>
 
+	
+	<modules>
+		<module>openwis-harness-subselectionparameters</module>
+		<module>openwis-harness-localdatasource</module>
+		<module>openwis-harness-client</module>
+		<module>openwis-harness-mssfss</module>
+		<module>openwis-harness-dissemination</module>
+	</modules>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -27,18 +36,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
-	<profiles>
-		<profile>
-			<id>all</id>
-			<modules>
-				<module>openwis-harness-subselectionparameters</module>
-				<module>openwis-harness-localdatasource</module>
-                <module>openwis-harness-client</module>
-				<module>openwis-harness-mssfss</module>
-                <module>openwis-harness-dissemination</module>
-			</modules>
-		</profile>
-	</profiles>
-
 </project>

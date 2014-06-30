@@ -19,19 +19,4 @@
 
 	</modules>
 
-	<!--profiles>
-		<profile>
-			<id>ciProfile</id>
-			<activation>
-				<property>
-					<name>enableCiProfile</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<modules>
-				<module>openwis-securityservice-usermanagement-server-test</module>
-			</modules>
-		</profile>
-	</profiles>  -->
-
 </project>

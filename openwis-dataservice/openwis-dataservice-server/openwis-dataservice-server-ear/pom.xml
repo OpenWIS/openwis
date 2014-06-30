@@ -193,19 +193,5 @@
             <type>war</type>
         </dependency>               
 	</dependencies>
-	
-	<profiles>
-	   <profile>
-	       <id>ciProfile</id>
-	       <dependencies>
-                <dependency>
-                    <groupId>org.openwis.dataservice.cache</groupId>
-                    <artifactId>openwis-dataservice-cache-test</artifactId>
-					<version>${project.version}</version>
-                    <type>ejb</type>
-                </dependency>
-            </dependencies>
-	   </profile>
-	</profiles>
 
 </project>

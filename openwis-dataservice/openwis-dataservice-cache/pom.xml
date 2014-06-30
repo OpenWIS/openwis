@@ -21,21 +21,6 @@
         <module>openwis-dataservice-cache-webapp</module>
     </modules>
 
-    <profiles>
-        <profile>
-            <id>ciProfile</id>
-            <activation>
-                <property>
-                    <name>enableCiProfile</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <modules>
-                <module>openwis-dataservice-cache-test</module>
-            </modules>
-        </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>com.sun.javaee</groupId>
