@@ -38,7 +38,7 @@
     <module>sde</module>
 	
 	<module>openwis-portal-client</module>
-	<!--<module>openwis-portal</module>-->
+	<module>openwis-portal</module>
    
    <!--
 	<module>geoserver</module>

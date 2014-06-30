@@ -1002,22 +1002,22 @@
       <dependency>
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>jeeves</artifactId>
-         <version>${project.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
       <dependency>
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>cachingxslt</artifactId>
-         <version>${project.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
       <dependency>
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>oaipmh</artifactId>
-         <version>${project.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
       <dependency> <!-- dummy API for ARC SDE stuff -->
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>dummy-api</artifactId>
-         <version>${project.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
 
       <!-- Handled locally by a temporarly repository -->

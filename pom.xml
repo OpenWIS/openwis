@@ -32,6 +32,7 @@
             <module>openwis-dataservice</module>
             <module>openwis-metadataportal</module>
             <module>openwis-securityservice</module>
+			<!--<module>openwis-stagingpost</module>-->
          </modules>
       </profile>
    </profiles>
