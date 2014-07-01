@@ -2,18 +2,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>openwis</artifactId>
-		<groupId>eu.akka.openwis</groupId>
-		<version>${openwis.version}</version>
-		<relativePath>../../pom.xml</relativePath>
-	</parent>
+	   <parent>
+		  <groupId>org.geonetwork-opensource</groupId>
+		  <artifactId>geonetwork</artifactId>
+		  <version>${geonetwork.version}</version>
+		  <relativePath>../pom.xml</relativePath>
+	   </parent>
+
 
 	<!-- =========================================================== -->
 	<!-- Module Description -->
 	<!-- =========================================================== -->
 	<groupId>org.openwis.metadataportal</groupId>
 	<artifactId>openwis-portal-solr</artifactId>
+	<version>${openwis.version}</version>
 	
 	<name>Openwis Portal SolR</name>
 	<packaging>war</packaging>
