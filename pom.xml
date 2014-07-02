@@ -217,7 +217,34 @@
          <snapshots>
             <enabled>false</enabled>
          </snapshots>
+      </repository>  
+      <repository>
+         <id>openwis-release</id>
+         <name>OpenWIS Release</name>
+         <url>https://github.com/OpenWIS/openwis-repository/raw/master/releases</url>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
       </repository>
+      <repository>
+         <id>openwis-snapshot</id>
+         <name>OpenWIS Snapshot</name>
+         <url>https://github.com/OpenWIS/openwis-repository/raw/master/snapshots</url>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </repository>	  
+
+
+ 
+	  
+	  
    </repositories>
    
 </project>
