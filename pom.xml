@@ -68,6 +68,34 @@
 	                </archive>
 	            </configuration>
             </plugin>
+			
+			<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
+			<!-- 02/07/14 Shaun Adams UK Met Office-->
+			<plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>exec-maven-plugin</artifactId>
+               <version>1.2.1</version>
+			   <executions>
+					<execution>
+					<id>install-javaee-jar</id>
+					<phase>install</phase>
+					<goals>
+						<goal>exec</goal>
+					</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>mvn</executable>
+					<arguments>
+						<argument>install:install-file</argument>
+						<argument>-Dfile=${basedir}/resources/javaee-5.0.jar</argument>
+						<argument>-DgroupId=com.sun.javaee</argument>
+						<argument>-DartifactId=javaee</argument>
+						<argument>-Dversion=5.0</argument>
+						<argument>-Dpackaging=jar</argument>
+					</arguments>
+				</configuration>
+            </plugin>	
          </plugins>
       </pluginManagement>
    </build>
@@ -185,66 +213,18 @@
    </developers>
 
    <repositories>
-      <repository>
+	<repository>
          <id>openqa-releases</id>
-         <name>OpenQA Releases</name>
          <url>http://nexus.openqa.org/content/repositories/releases</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
       </repository>
       <repository>
          <id>openqa-snapshots</id>
-         <name>OpenQA Snapshots</name>
          <url>http://nexus.openqa.org/content/repositories/snapshots</url>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
       </repository>
       <repository>
          <id>openqa-thirdparty</id>
-         <name>OpenQA Third Party</name>
          <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>  
-      <repository>
-         <id>openwis-release</id>
-         <name>OpenWIS Release</name>
-         <url>https://github.com/OpenWIS/openwis-repository/raw/master/releases</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
       </repository>
-      <repository>
-         <id>openwis-snapshot</id>
-         <name>OpenWIS Snapshot</name>
-         <url>https://github.com/OpenWIS/openwis-repository/raw/master/snapshots</url>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </repository>	  
-
-
- 
-	  
-	  
    </repositories>
    
 </project>
