@@ -16,68 +16,79 @@ public class CatalogReportHelper {
 	 * Create a file report with the list of harvesting tasks urn added, updated
 	 * and removed
 	 * 
-	 * @param harvestingTask
-	 * @param urnAdded
-	 * @param urnUpdated
-	 * @param urnRemoved
-	 * 
-	 * @return the name of the file report created
+	 * @param taskId harvesting task identifier
+	 * @param taskName harvesting task name
+	 * @param lastRunDate last run date
+	 * @param urnAdded urns of metadata added into the catalogue   
+	 * @param urnUpdated urns of updated metadata 
+	 * @param urnRemoved  urns of metadata removed from the catalogue   
 	 */
 	public static void createReport(Integer taskId, String taskName,
-			String lastRunDate, List<String> urnAdded, List<String> urnUpdated,
-			List<String> urnRemoved) throws IOException {
-
+		String lastRunDate, List<String> urnAdded, List<String> urnUpdated,
+		List<String> urnRemoved) throws IOException {
+		FileWriter fileWriter = null;
+		PrintWriter printWriter = null;
 		// insert urn added, updated and removed into a file (name == (date +
 		// harvesting task name + task id))
-
-		File lastReportFile = getReportFile(taskId, taskName, lastRunDate);
-
-		FileWriter fileWriter = new FileWriter(lastReportFile);
-		PrintWriter printWriter = new PrintWriter(fileWriter);
-
-		// harvesting task name
-		printWriter.println(taskName);
-
-		// date
-		printWriter.println(new Date());
-
-		// added
-		printWriter.println("");
-		printWriter.println("urn added:");
-		printWriter.println("----------");
-		for (String added : urnAdded) {
-			printWriter.println(added);
-		}
-
-		// updated
-		printWriter.println("");
-		printWriter.println("urn updated:");
-		printWriter.println("------------");
-		for (String updated : urnUpdated) {
-			printWriter.println(updated);
-		}
-
-		// removed
-		printWriter.println("");
-		printWriter.println("urn removed:");
-		printWriter.println("------------");
-		for (String removed : urnRemoved) {
-			printWriter.println(removed);
-		}
-
-		// close writers
-		printWriter.flush();
-		fileWriter.flush();
-		printWriter.close();
-		fileWriter.close();
+		try {
+			File lastReportFile = getReportFile(taskId, taskName, lastRunDate);
+	
+			fileWriter = new FileWriter(lastReportFile);
+			printWriter = new PrintWriter(fileWriter);
+	
+			// harvesting task name
+			printWriter.println(taskName);
+	
+			// date
+			printWriter.println(new Date());
+	
+			// added
+			printWriter.println("");
+			printWriter.println("urn added:");
+			printWriter.println("----------");
+			for (String added : urnAdded) {
+				printWriter.println(added);
+			}
+	
+			// updated
+			printWriter.println("");
+			printWriter.println("urn updated:");
+			printWriter.println("------------");
+			for (String updated : urnUpdated) {
+				printWriter.println(updated);
+			}
+	
+			// removed
+			printWriter.println("");
+			printWriter.println("urn removed:");
+			printWriter.println("------------");
+			for (String removed : urnRemoved) {
+				printWriter.println(removed);
+			}
+	
+			
+			printWriter.flush();
+			fileWriter.flush();
+			
+		} finally {
+			// close writers
+			if (printWriter != null) {
+				printWriter.close();
+			}
+			if (fileWriter != null) {
+				fileWriter.close();
+			}
+	    }
 	}
 
+	
+	
 	/**
 	 * Build a report File object from a harvesting task then return it
 	 * 
-	 * @param harvestingTask
-	 *            the harvesting task from which the report file object has to
-	 *            be built
+	 * @param taskId harvesting task identifier
+	 * @param taskName harvesting task name
+	 * @param lastRunDate last run date
 	 * @return the report File object corresponding to the harvesting task
 	 */
 	public static File getReportFile(Integer taskId, String taskName,
