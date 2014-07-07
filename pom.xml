@@ -211,7 +211,14 @@
          <timezone>GMT+1</timezone>
       </developer>
    </developers>
-
+   
+	  <pluginRepositories>
+		<pluginRepository>
+		  <name>oss.sonatype.org</name>
+		  <id>oss.sonatype.org</id>
+		  <url>http://oss.sonatype.org/content/groups/public</url>
+		</pluginRepository>
+	  </pluginRepositories>
    <repositories>
 	<repository>
          <id>openqa-releases</id>
