@@ -216,7 +216,7 @@
 		<pluginRepository>
 		  <name>oss.sonatype.org</name>
 		  <id>oss.sonatype.org</id>
-		  <url>http://oss.sonatype.org/content/groups/public</url>
+		  <url>https://oss.sonatype.org/content/groups/public</url>
 		</pluginRepository>
 	  </pluginRepositories>
    <repositories>
