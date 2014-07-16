@@ -6,7 +6,8 @@
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
@@ -43,13 +44,15 @@
             <!-- 
             Deploy the EAR in JBoss
             -->
+			<!--changed to the deploy goal so a JBOSS installation is not required for build -->
+			<!-- Shaun Adams - Met Office -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jboss-maven-plugin</artifactId>
 				<version>1.4.1</version>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>hard-deploy</goal>
 						</goals>
@@ -107,21 +110,21 @@
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
 			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
 			<artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
 			<artifactId>openwis-securityservice-usermanagement-server-webapp</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>

@@ -6,7 +6,8 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-      <version>2.7.0-SNAPSHOT</version>
+      <version>${geonetwork.version}</version>
+	  <relativePath>../pom.xml</relativePath>
    </parent>
 
 
@@ -15,8 +16,10 @@
    <!-- =========================================================== -->
    <groupId>org.geonetwork-opensource</groupId>
    <artifactId>openwis-portal</artifactId>
+   <version>${openwis.version}</version>
    <packaging>war</packaging>
    <name>OpenWIS module</name>
+   
    <description>
     OpenWIS dedicated module.
   </description>
@@ -709,19 +712,19 @@
       <dependency>
          <groupId>eu.akka.openwis.harness</groupId>
          <artifactId>openwis-harness-subselectionparameters</artifactId>
-         <version>1.0-SNAPSHOT</version>
+		 <version>${openwis.version}</version>
       </dependency>
 
       <dependency>
          <groupId>eu.akka.openwis.harness</groupId>
          <artifactId>openwis-harness-mssfss</artifactId>
-         <version>1.0-SNAPSHOT</version>
+		 <version>${openwis.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.openwis.metadataportal</groupId>
          <artifactId>openwis-portal-client</artifactId>
-         <version>1.0-SNAPSHOT</version>
+		 <version>${openwis.version}</version>
          <exclusions>
             <exclusion>
                <groupId>org.apache.cxf</groupId>
@@ -733,7 +736,7 @@
       <dependency>
          <groupId>org.openwis.management</groupId>
          <artifactId>openwis-management-client</artifactId>
-         <version>1.0-SNAPSHOT</version>
+		 <version>${openwis.version}</version>
       </dependency>
 
       <!-- SolR search -->
@@ -999,22 +1002,22 @@
       <dependency>
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>jeeves</artifactId>
-         <version>${project.parent.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
       <dependency>
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>cachingxslt</artifactId>
-         <version>${project.parent.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
       <dependency>
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>oaipmh</artifactId>
-         <version>${project.parent.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
       <dependency> <!-- dummy API for ARC SDE stuff -->
          <groupId>org.geonetwork-opensource</groupId>
          <artifactId>dummy-api</artifactId>
-         <version>${project.parent.version}</version>
+         <version>${geonetwork.version}</version>
       </dependency>
 
       <!-- Handled locally by a temporarly repository -->

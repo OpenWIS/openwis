@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
 		<groupId>org.openwis.management.service</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.management.service</groupId>
 	<artifactId>openwis-management-service-ejb</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>openwis-management-service-ejb</name>
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>org.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 
@@ -150,7 +150,7 @@
 					<dependency>
 						<groupId>org.openwis.management.service</groupId>
 						<artifactId>openwis-management-service-common</artifactId>
-						<version>${project.parent.version}</version>
+						<version>${project.version}</version>
 						<type>jar</type>
 					</dependency>
 				</dependencies>

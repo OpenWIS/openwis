@@ -6,7 +6,8 @@
 	<parent>
 		<artifactId>openwis-dataservice-common</artifactId>
 		<groupId>org.openwis.dataservice.common</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.dataservice.common</groupId>
@@ -54,7 +55,7 @@
 		<dependency>
 			<groupId>org.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-utils</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
       		<type>jar</type>
 		</dependency>
 
@@ -125,70 +126,4 @@
 		</plugins>
 	</build>
 
-	<profiles>
-		<profile>
-			<id>Hudson</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<!-- Permet de copier le fichier de config de la DS -->
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-persistance-hudson-files</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<echo message="==========  Copy Hudson file =============" />
-										<copy overwrite="true"
-											file="${basedir}/src/main/config/hudson/persistence.xml"
-											todir="${basedir}/target/classes/META-INF" />
-									</tasks>
-								</configuration>
-							</execution>
-							<execution>
-								<id>copy-config-files</id>
-								<phase>install</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<echo message="==========  Copy openwis datasource  =============" />
-										<copy overwrite="true"
-											file="${basedir}/src/main/config/${dataservice-ds}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
-										<echo message="==========  Copy postgresql driver  =============" />
-										<copy overwrite="true"
-											file="${basedir}/src/main/config/${postgresql-driver}" todir="${env.JBOSS_HOME}/common/lib" />
-									</tasks>
-								</configuration>
-							</execution>
-
-							<execution>
-								<id>clean-config-files</id>
-								<phase>clean</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<delete failonerror="false">
-											<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
-												includes="${dataservice-ds}" />
-										</delete>
-									</tasks>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

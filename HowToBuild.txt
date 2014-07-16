@@ -18,7 +18,7 @@ To check these requirements the "mvn --version" command will show the Java versi
 
 Main content of the '<cdrom>/sources' directory:
   openwis-dataservice : contains the dataservice module (including the cache system)
-  openwis-factorytests : contains selenium fonctional tests
+  openwis-factorytests : contains selenium functional tests
   openwis-harness : contains harness WSDL (dissemination, localdatasource, …) and samples harness implementations
   openwis-management : contains management module (monitoring and control)
   openwis-metadataportal : contains portals module
@@ -32,14 +32,6 @@ Harness WSDL:
   The harness MSSFSS WSDL and WSD : openwis-harness/openwis-harness-mssfss/src/wsdl/
   The harness subselectionparameters WSDL and WSD : openwis-harness/openwis-harness-subselectionparameters/src/wsdl/
 
-Harness Samples:
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-common : contains some common classes used by others samples
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-database : a sample for a LocalDataSource using a DataBase
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-dissemination : a sample for harness dissemination
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-filesystem : a sample for a LocalDataSource using the file system
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-mssfss : a sample for MSSFSS
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-script : a sample for a LocalDataSource using a shell script
-  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-webservice : a sample for a LocalDataSource using a webservice
 
 3/ Building step by step
 ------------------------
@@ -51,7 +43,7 @@ Harness Samples:
  	 Merge the content of '<cdrom>/repository/repository.zip' with your maven repository: '<M2_HOME>/repository/'. Usually the <M2_HOME> is the '<user home>/.m2/"
 
 iii. Launch a the maven build
-	 In a terminal, go into the sources directory and launch the command: "mvn clean install -P all -DskipTests"
+	 In a terminal, go into the sources directory and launch the command: "mvn clean install -P all -DskipTests -Dfile.encoding=utf-8"
 	 After few minutes the build should finished successfully like this:
 
 [INFO] ------------------------------------------------------------------------

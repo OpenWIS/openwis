@@ -3,11 +3,12 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>eu.akka.openwis</groupId>
-      <artifactId>openwis</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
+	<parent>
+		<artifactId>openwis</artifactId>
+		<groupId>eu.akka.openwis</groupId>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
    <artifactId>openwis-factorytests</artifactId>
    <groupId>org.openwis.factorytests</groupId>
@@ -132,12 +133,12 @@
       <dependency>
          <groupId>org.openwis.securityservice.usermanagement.server</groupId>
          <artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
-         <version>1.0-SNAPSHOT</version>
+		 <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>org.openwis.securityservice.utils</groupId>
          <artifactId>openwis-securityservice-utils-populate-ldap</artifactId>
-         <version>1.0-SNAPSHOT</version>
+		 <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>commons-httpclient</groupId>
@@ -204,25 +205,4 @@
          </plugin>
       </plugins>
    </reporting>
-
-   <profiles>
-      <profile>
-         <id>Hudson</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-
-
-
-         <build>
-            <plugins>
-               <!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>jboss-maven-plugin</artifactId> 
-                  <version>1.5.0</version> <executions> <execution> <phase>initialize</phase> 
-                  <goals> <goal>start-and-wait</goal> </goals> <configuration> <serverName>${env.JBOSS_CONF}</serverName> 
-                  <retry>10</retry> <retryWait>60000</retryWait> <startOptions>-Djboss.service.binding.set=ports-01 
-                  -b 0.0.0.0</startOptions> </configuration> </execution> </executions> </plugin> -->
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
 </project>

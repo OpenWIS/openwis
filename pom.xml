@@ -1,24 +1,54 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <artifactId>AkkaToulouseSuperPom</artifactId>
-      <groupId>eu.akka</groupId>
-      <version>1.0</version>
-   </parent>
    <groupId>eu.akka.openwis</groupId>
    <artifactId>openwis</artifactId>
-   <version>1.0-SNAPSHOT</version>
+   <version>${openwis.version}</version>
    <packaging>pom</packaging>
    <name>OpenWis</name>
 
    <scm>
-      <connection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</connection>
-      <developerConnection>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</developerConnection>
-      <url>scm:svn:https://svn-06.akka.eu/svn/OPENWIS/trunk/</url>
+      <connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
+      <developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
+      <url>https://github.com/OpenWIS/openwis</url>
    </scm>
 
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <file.encoding>UTF-8</file.encoding>	  
+	  <openwis.version>develop-SNAPSHOT</openwis.version>
+	  <geonetwork.version>2.7.0-SNAPSHOT</geonetwork.version>	  
+   </properties>
+
+   <profiles>
+      <profile>
+         <id>all</id>
+         <activation>
+            <activeByDefault>false</activeByDefault>
+         </activation>
+         <modules>
+            <module>openwis-harness</module>
+			<module>openwis-management</module>
+            <module>openwis-dataservice</module>
+            <module>openwis-metadataportal</module>
+            <module>openwis-securityservice</module>
+			<!--<module>openwis-stagingpost</module>-->
+         </modules>
+      </profile>
+   </profiles>
+   
    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+
       <pluginManagement>
          <plugins>
             <plugin>
@@ -38,45 +68,46 @@
 	                </archive>
 	            </configuration>
             </plugin>
+			
+			<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
+			<!-- 02/07/14 Shaun Adams UK Met Office-->
+			<plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>exec-maven-plugin</artifactId>
+               <version>1.2.1</version>
+			   <executions>
+					<execution>
+					<id>install-javaee-jar</id>
+					<phase>install</phase>
+					<goals>
+						<goal>exec</goal>
+					</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>mvn</executable>
+					<arguments>
+						<argument>install:install-file</argument>
+						<argument>-Dfile=${basedir}/resources/javaee-5.0.jar</argument>
+						<argument>-DgroupId=com.sun.javaee</argument>
+						<argument>-DartifactId=javaee</argument>
+						<argument>-Dversion=5.0</argument>
+						<argument>-Dpackaging=jar</argument>
+					</arguments>
+				</configuration>
+            </plugin>	
          </plugins>
       </pluginManagement>
    </build>
-
+   
    <organization>
       <name>AKKA informatique &amp; Systèmes</name>
       <url>http://www.akka.eu</url>
    </organization>
-   <profiles>
-      <profile>
-         <id>all</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-         <modules>
-            <module>openwis-harness</module>
-            <module>openwis-dataservice</module>
-            <module>openwis-metadataportal</module>
-            <module>openwis-securityservice</module>
-            <module>openwis-management</module>
-         </modules>
-      </profile>
-      <profile>
-         <id>Hudson</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-         <modules>
-            <module>openwis-harness</module>
-            <module>openwis-dataservice</module>
-            <module>openwis-metadataportal</module>
-            <module>openwis-securityservice</module>
-            <module>openwis-management</module>
-         </modules>
-      </profile>
-   </profiles>
-
+   
    <url>http://www.openwis.org</url>
    <inceptionYear>2010</inceptionYear>
+   
    <developers>
       <developer>
          <id>y.lizzi</id>
@@ -180,7 +211,27 @@
          <timezone>GMT+1</timezone>
       </developer>
    </developers>
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+   
+	  <pluginRepositories>
+		<pluginRepository>
+		  <name>oss.sonatype.org</name>
+		  <id>oss.sonatype.org</id>
+		  <url>https://oss.sonatype.org/content/groups/public</url>
+		</pluginRepository>
+	  </pluginRepositories>
+   <repositories>
+	<repository>
+         <id>openqa-releases</id>
+         <url>http://nexus.openqa.org/content/repositories/releases</url>
+      </repository>
+      <repository>
+         <id>openqa-snapshots</id>
+         <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+      </repository>
+      <repository>
+         <id>openqa-thirdparty</id>
+         <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+      </repository>
+   </repositories>
+   
 </project>

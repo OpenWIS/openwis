@@ -6,7 +6,8 @@
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
@@ -19,7 +20,7 @@
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
 			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 
@@ -60,7 +61,7 @@
 		<dependency>
 			<groupId>org.openwis.management</groupId>
 			<artifactId>openwis-management-client</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -92,7 +93,7 @@
 							<dependency>
 								<groupId>org.openwis.securityservice.usermanagement.common</groupId>
 								<artifactId>openwis-securityservice-usermanagement-common</artifactId>
-								<version>${project.parent.version}</version>
+								<version>${project.version}</version>
 								<scope>compile</scope>
 							</dependency>
 							<dependency>

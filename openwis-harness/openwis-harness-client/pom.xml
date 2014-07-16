@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>eu.akka.openwis.harness</groupId>
 		<artifactId>openwis-harness</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${openwis.version}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
 	<groupId>eu.akka.openwis.harness</groupId>
 	<artifactId>openwis-harness-client</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<name>Openwis Harness client</name>
 
 	<build>
