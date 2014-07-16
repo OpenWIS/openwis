@@ -129,11 +129,12 @@ public class DataPolicyManager extends AbstractManager implements IDataPolicyMan
 
                   @Override
                   public String apply(DataPolicyAlias input) {
-                     return input.getAlias();
+                     return StringEscapeUtils.escapeSql(input.getAlias());
                   }
 
                });
-         String inPredicate = StringEscapeUtils.escapeSql(Joiner.on("','").join(dpAliases));
+         
+         String inPredicate = Joiner.on("','").join(dpAliases);
          
          String validateAlias = "SELECT dp.name AS dpName FROM DataPolicy dp "
                + "LEFT JOIN DataPolicyAlias dpa ON dpa.dpid = dp.id "
