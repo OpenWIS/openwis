@@ -533,62 +533,6 @@
    <!-- Profiles allows to build User and Admin portal -->
    <!-- =========================================================== -->
    <profiles>
-
-      <profile>
-         <id>Hudson</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-
-         <properties>
-            <metadataportal.properties>openwis-metadataportal.properties</metadataportal.properties>
-         </properties>
-
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-antrun-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <id>copy-config-hudson-files</id>
-                        <phase>compile</phase>
-                        <goals>
-                           <goal>run</goal>
-                        </goals>
-                        <configuration>
-                           <tasks>
-                              <echo
-                                 message="==========  Copy Hudson file =============" />
-                              <copy overwrite="true"
-                                 file="${basedir}/src/main/config-hudson/${metadataportal.properties}"
-                                 todir="${geonetwork.webapp.target.dir}/WEB-INF/classes" />
-                           </tasks>
-                        </configuration>
-                     </execution>
-                     <execution>
-                        <id>copy-war-file</id>
-                        <phase>install</phase>
-                        <goals>
-                           <goal>run</goal>
-                        </goals>
-                        <configuration>
-                           <tasks>
-                              <echo
-                                 message="==========  Copy WAR file to Tomcat =============" />
-                              <copy overwrite="true"
-                                 todir="${env.CATALINA_HOME}/webapps">
-                                 <fileset dir="${basedir}/target"
-                                    includes="*.war" />
-                              </copy>
-                           </tasks>
-                        </configuration>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-
       <profile>
          <id>user</id>
          <activation>
