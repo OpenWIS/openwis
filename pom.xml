@@ -19,20 +19,35 @@
 	  <openwis.version>develop-SNAPSHOT</openwis.version>
 	  <geonetwork.version>2.7.0-SNAPSHOT</geonetwork.version>	  
    </properties>
-
+   
+    <modules>
+		<module>openwis-harness</module>
+		<module>openwis-management</module>
+		<module>openwis-dataservice</module>
+		<module>openwis-metadataportal</module>
+        <module>openwis-securityservice</module>
+		<module>openwis-stagingpost</module>
+    </modules>
+	
    <profiles>
       <profile>
-         <id>all</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
+         <id>user</id>
+		  <properties>
+			 <admin.module>false</admin.module>	 
+			 <user.module>true</user.module>	 			 
+		  </properties>		 
+		 <modules>
+            <module>openwis-metadataportal/openwis-portal</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>admin</id>
+		 <properties>
+			 <admin.module>true</admin.module>
+			 <user.module>false</user.module>			 
+	     </properties>
          <modules>
-            <module>openwis-harness</module>
-			<module>openwis-management</module>
-            <module>openwis-dataservice</module>
-            <module>openwis-metadataportal</module>
-            <module>openwis-securityservice</module>
-			<!--<module>openwis-stagingpost</module>-->
+            <module>openwis-metadataportal/openwis-portal</module>
          </modules>
       </profile>
    </profiles>

@@ -96,7 +96,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the sources directory and launch the command: `mvn clean install -P all -DskipTests`
+ In a terminal, go into the sources directory and launch the command: `mvn clean install -P user -DskipTests`
 
 After few minutes the build should finished successfully like this:
 
@@ -135,7 +135,6 @@ After few minutes the build should finished successfully like this:
     [INFO] Oaipmh modules ........................................ SUCCESS [0.947s]
     [INFO] ArcSDE module (dummy-api) ............................. SUCCESS [0.559s]
     [INFO] Openwis Portal client ................................. SUCCESS [10.950s]
-    [INFO] OpenWIS module ........................................ SUCCESS [33.738s]
     [INFO] Openwis Portal SolR ................................... SUCCESS [4.508s]
     [INFO] OpenWIS Security Service project ...................... SUCCESS [0.049s]
     [INFO] openwis-securityservice-usermanagement-common ......... SUCCESS [0.536s]
@@ -146,10 +145,13 @@ After few minutes the build should finished successfully like this:
     [INFO] openwis-securityservice-utils ......................... SUCCESS [0.053s]
     [INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [3.217s]
     [INFO] ------------------------------------------------------------------------
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESSFUL
+    [INFO] ------------------------------------------------------------------------
+	
+**#3. Generate the admin portals*
 
-**#3. Generate the admin portal**
-
-By default the Maven command only builds the user portal WAR, to generate the admin portal WAR go into the <rootdir>/openwis-metadataportal/openwis-portal/ directory and run the command `mvn clean install -P admin -DskipTests`
+In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests`
 
 **#4  Getting built artifacts**
 
