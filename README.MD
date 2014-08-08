@@ -96,7 +96,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the sources directory and launch the command: `mvn clean install -P all -DskipTests`
+ In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests`
 
 After few minutes the build should finished successfully like this:
 
@@ -162,3 +162,7 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 * **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-admin-portal.war
 * **SolR search WAR:** <rootdir>//openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
+
+**#5 Changing Verison Number**
+
+ In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all` or whatever version you wish to change the project to
