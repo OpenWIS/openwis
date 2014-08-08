@@ -19,7 +19,7 @@
    </properties>
    
    <profiles>
-      <profile>
+       <profile>
          <id>all</id>
 		  <properties>
 			 <admin.module>false</admin.module>	 
@@ -31,7 +31,16 @@
 			<module>openwis-dataservice</module>
 			<module>openwis-metadataportal</module>
 			<module>openwis-securityservice</module>
-			<module>openwis-stagingpost</module>
+			<!--<module>openwis-stagingpost</module>-->
+         </modules>
+      </profile>
+      <profile>
+         <id>user</id>
+		  <properties>
+			 <admin.module>false</admin.module>	 
+			 <user.module>true</user.module>	 			 
+		  </properties>		 
+		 <modules>
             <module>openwis-metadataportal/openwis-portal</module>
          </modules>
       </profile>
