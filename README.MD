@@ -96,7 +96,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the sources directory and launch the command: `mvn clean install -P user -DskipTests`
+ In a terminal, go into the sources directory and launch the command: `mvn clean install -P all -DskipTests`
 
 After few minutes the build should finished successfully like this:
 
