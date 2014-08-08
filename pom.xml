@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>eu.akka.openwis</groupId>
    <artifactId>openwis</artifactId>
-   <version>${openwis.version}</version>
+   <version>develop-SNAPSHOT</version>
    <packaging>pom</packaging>
    <name>OpenWis</name>
 
@@ -16,23 +16,42 @@
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <file.encoding>UTF-8</file.encoding>	  
-	  <openwis.version>develop-SNAPSHOT</openwis.version>
-	  <geonetwork.version>2.7.0-SNAPSHOT</geonetwork.version>	  
    </properties>
-
+   
    <profiles>
-      <profile>
+       <profile>
          <id>all</id>
-         <activation>
-            <activeByDefault>false</activeByDefault>
-         </activation>
-         <modules>
-            <module>openwis-harness</module>
+		  <properties>
+			 <admin.module>false</admin.module>	 
+			 <user.module>true</user.module>	 			 
+		  </properties>		 
+		 <modules>
+			<module>openwis-harness</module>
 			<module>openwis-management</module>
-            <module>openwis-dataservice</module>
-            <module>openwis-metadataportal</module>
-            <module>openwis-securityservice</module>
+			<module>openwis-dataservice</module>
+			<module>openwis-metadataportal</module>
+			<module>openwis-securityservice</module>
 			<!--<module>openwis-stagingpost</module>-->
+         </modules>
+      </profile>
+      <profile>
+         <id>user</id>
+		  <properties>
+			 <admin.module>false</admin.module>	 
+			 <user.module>true</user.module>	 			 
+		  </properties>		 
+		 <modules>
+            <module>openwis-metadataportal/openwis-portal</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>admin</id>
+		 <properties>
+			 <admin.module>true</admin.module>
+			 <user.module>false</user.module>			 
+	     </properties>
+         <modules>
+            <module>openwis-metadataportal/openwis-portal</module>
          </modules>
       </profile>
    </profiles>
@@ -220,6 +239,14 @@
 		</pluginRepository>
 	  </pluginRepositories>
    <repositories>
+	  <repository>
+         <id>openwis-releases</id>
+         <url>https://repository-openwis-association.forge.cloudbees.com/release</url>
+      </repository>
+	  <repository>
+         <id>openwis-snapshot</id>
+         <url>https://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+      </repository>
 	<repository>
          <id>openqa-releases</id>
          <url>http://nexus.openqa.org/content/repositories/releases</url>

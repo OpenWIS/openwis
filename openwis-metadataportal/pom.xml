@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>openwis</artifactId>
 		<groupId>eu.akka.openwis</groupId>
-		<version>${openwis.version}</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
@@ -13,7 +13,6 @@
   <groupId>org.geonetwork-opensource</groupId>
   <artifactId>geonetwork</artifactId>
   <packaging>pom</packaging>
-  <version>${geonetwork.version}</version>
   
   <name>GeoNetwork opensource</name>
   <description>GeoNetwork opensource is a standards based, Free and 
@@ -38,7 +37,7 @@
     <module>sde</module>
 	
 	<module>openwis-portal-client</module>
-	<module>openwis-portal</module>
+	<!--<module>openwis-portal</module>-->
    
    <!--
 	<module>geoserver</module>
