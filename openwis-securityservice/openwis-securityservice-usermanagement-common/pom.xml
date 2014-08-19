@@ -6,7 +6,8 @@
 	<parent>
 		<artifactId>openwis-securityservice</artifactId>
 		<groupId>org.openwis.securityservice</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.securityservice.usermanagement.common</groupId>

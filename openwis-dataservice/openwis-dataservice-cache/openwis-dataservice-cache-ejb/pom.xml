@@ -4,7 +4,8 @@
   <parent>
     <artifactId>openwis-dataservice-cache</artifactId>
     <groupId>org.openwis.dataservice.cache</groupId>
-    <version>1.0-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>org.openwis.dataservice.cache</groupId>
   <artifactId>openwis-dataservice-cache-ejb</artifactId>
@@ -17,31 +18,31 @@
     <dependency>
       <groupId>org.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-domain</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-utils</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.dataservice.cache</groupId>
       <artifactId>openwis-dataservice-cache-core</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.management.service</groupId>
       <artifactId>openwis-management-service-common</artifactId>
-      <version>${project.parent.version}</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openwis.management</groupId>
       <artifactId>openwis-management-client</artifactId>
-      <version>1.0-SNAPSHOT</version>
+	 <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.javaee</groupId>
@@ -70,7 +71,7 @@
     <dependency>
       <groupId>eu.akka.openwis.harness</groupId>
       <artifactId>openwis-harness-dissemination</artifactId>
-      <version>1.0-SNAPSHOT</version>
+	  <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <!-- -->

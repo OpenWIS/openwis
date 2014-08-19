@@ -5,7 +5,8 @@
   <parent>
     <artifactId>openwis-dataservice</artifactId>
     <groupId>org.openwis.dataservice</groupId>
-    <version>1.0-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
   </parent>
   
 	<groupId>org.openwis.dataservice.common</groupId>
@@ -14,8 +15,8 @@
 	<name>openwis-dataservice-common</name>
 	
   <modules>
-    <module>openwis-dataservice-common-domain</module>
-    <module>openwis-dataservice-common-timer</module>
     <module>openwis-dataservice-common-utils</module>
+	<module>openwis-dataservice-common-domain</module>
+    <module>openwis-dataservice-common-timer</module>
   </modules>
 </project>

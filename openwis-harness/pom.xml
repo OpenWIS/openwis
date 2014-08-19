@@ -4,14 +4,23 @@
 	<parent>
 		<artifactId>openwis</artifactId>
 		<groupId>eu.akka.openwis</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>eu.akka.openwis.harness</groupId>
 	<artifactId>openwis-harness</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>OpenWIS Harness Parent Project</name>
 
+	
+	<modules>
+		<module>openwis-harness-subselectionparameters</module>
+		<module>openwis-harness-localdatasource</module>
+		<module>openwis-harness-client</module>
+		<module>openwis-harness-mssfss</module>
+		<module>openwis-harness-dissemination</module>
+	</modules>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -27,25 +36,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
-	<profiles>
-		<profile>
-			<id>all</id>
-			<modules>
-				<module>openwis-harness-subselectionparameters</module>
-				<module>openwis-harness-localdatasource</module>
-                <module>openwis-harness-client</module>
-				<module>openwis-harness-samples</module>
-				<module>openwis-harness-mssfss</module>
-                <module>openwis-harness-dissemination</module>
-			</modules>
-		</profile>
-	</profiles>
-	<modules>
-		<module>openwis-harness-subselectionparameters</module>
-		<module>openwis-harness-localdatasource</module>
-		<module>openwis-harness-client</module>
-		<module>openwis-harness-mssfss</module>
-		<module>openwis-harness-dissemination</module>
-	</modules>
 </project>

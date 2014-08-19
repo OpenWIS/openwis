@@ -6,14 +6,15 @@
   <parent>
     <artifactId>openwis-management</artifactId>
     <groupId>org.openwis.management</groupId>
-    <version>1.0-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.openwis.management.service</groupId>
   <artifactId>openwis-management-service</artifactId>
   <packaging>pom</packaging>
   <name>OpenWIS Management Service</name>
-  <version>1.0-SNAPSHOT</version>
+
 
   <modules>
     <module>openwis-management-service-common</module>
