@@ -21,6 +21,12 @@
 			<description>Datum waarop de dataset of dataset serie is gecontroleerd, verbeterd of gewijzigd.</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<entry>
+			<code>reference</code>
+			<label>Reference</label>
+			<description></description>
+		</entry>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
 	<!-- ==================================================== -->
 	<codelist name="gmd:CI_OnLineFunctionCode">
@@ -944,6 +950,12 @@
 			<code>theme</code>
 			<label>theme</label>
 			<description>keyword identifies a particular subject or topic</description>
+		</entry>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<entry>
+		    <code>dataCentre</code>
+		    <label>DataCentre</label>
+		    <description>keyword identifies a a repository or archive that manages and distributes data</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
