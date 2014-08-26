@@ -260,6 +260,7 @@ CREATE TABLE HarvestingTask
     isSynchronization   char(1)        default 'n' not null,
     isIncremental  char(1)        default 'n' not null,
     categoryid int not null,
+	startingdate varchar(24),
 	
 	primary key(id),
 	

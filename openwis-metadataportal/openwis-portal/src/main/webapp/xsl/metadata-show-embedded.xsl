@@ -49,13 +49,13 @@
 						<xsl:variable name="mdURL" select="normalize-space(concat($baseURL, '?uuid=', geonet:info/uuid))"/>
 						
 						<!-- Add social bookmark icons here -->
-						<xsl:call-template name="socialBookmarks">
-							<xsl:with-param name="baseURL" select="$baseURL" /> <!-- The base URL of the local GeoNetwork site -->
-							<xsl:with-param name="mdURL" select="$mdURL" /> <!-- The URL of the metadata using the UUID -->
+<!-- 						<xsl:call-template name="socialBookmarks">
+							<xsl:with-param name="baseURL" select="$baseURL" /> The base URL of the local GeoNetwork site
+							<xsl:with-param name="mdURL" select="$mdURL" /> The URL of the metadata using the UUID
 							<xsl:with-param name="title" select="$metadata/title" />
 							<xsl:with-param name="abstract" select="$metadata/abstract" />
 						</xsl:call-template>
-												
+ -->												
 						<table width="100%">
 							
 							<xsl:if test="/root/request/control">

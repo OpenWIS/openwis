@@ -19,6 +19,7 @@ import org.fao.geonet.kernel.search.SortingInfo;
 import org.fao.geonet.kernel.search.SortingInfoImpl;
 import org.fao.geonet.services.util.SearchDefaults;
 import org.jdom.Element;
+import org.openwis.metadataportal.common.configuration.OpenwisSearchConfig;
 import org.openwis.metadataportal.common.search.SortDir;
 import org.openwis.metadataportal.kernel.search.query.IQueryManager;
 import org.openwis.metadataportal.kernel.search.query.SearchException;
@@ -474,6 +475,15 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       // all
       query = queryFactory.and(query,
             this.buildQuery(queryFactory, IndexField.ANYTEXT, "all", request, similarity));
+
+      // pondération du title, de l'abstract et des mots-clefs en utilisant la methode or
+      query = queryFactory.or(query, this.buildQuery(queryFactory, IndexField.TITLE, "any",
+            request, similarity, true, OpenwisSearchConfig.getTitleWeight()));
+      query = queryFactory.or(query, this.buildQuery(queryFactory, IndexField.ABSTRACT, "any",
+            request, similarity, true, OpenwisSearchConfig.getAbstractWeight()));
+      query = queryFactory.or(query, this.buildQuery(queryFactory, IndexField.KEYWORD, "any",
+            request, similarity, true, OpenwisSearchConfig.getKeywordsWeight()));
+      
       // or
       query = queryFactory.or(query,
             this.buildOrQuery(queryFactory, IndexField.ANYTEXT, "or", request, similarity));
@@ -573,22 +583,27 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
    }
 
    /**
-    * Builds the query.
-    *
-    * @param queryFactory the query factory
-    * @param field the field
-    * @param xmlElement the xml element
-    * @param request the request
-    * @param similarity the similarity
-    * @return the built query
+    * Filtrer les mots de type stopwords configurés dans openwis-search.properties.
     */
+   private String[] filterStopWords(String[] split) {
+      ArrayList<String> filteredWords = new ArrayList<String>();
+      for (String s : split) {
+         if (!OpenwisSearchConfig.isInStopWords(s)) {
+            filteredWords.add(s);
+         }
+      }
+      return (String[]) filteredWords.toArray(new String[filteredWords.size()]);
+   }
+
+   //on rajoute une methode buildQuery avec le parametre de boost
    private T buildQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
-         Element request, float similarity, boolean splitText) {
+         Element request, float similarity, boolean splitText, int boostFactor) {
       T query = null;
       T fuzzy;
       String value = request.getChildText(xmlElement);
       if (StringUtils.isNotBlank(value)) {
-         String[] split = StringUtils.split(value);
+         // filtre stopWords
+         String[] split = filterStopWords(StringUtils.split(value));
          if (!splitText || (split.length == 0)) {
             // Assume that text analyze is provided by Solr
             query = queryFactory.buildQuery(field, queryFactory.escapeQueryChars(value));
@@ -608,8 +623,27 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
                query = queryFactory.and(query, query2);
             }
          }
+         
+         // gestion du parametre de boost et fabrication de la query
+         if (boostFactor > 0) {
+            query = queryFactory.boost(query, boostFactor);
+         }
       }
       return query;
+   }
+   /**
+    * Builds the query.
+    *
+    * @param queryFactory the query factory
+    * @param field the field
+    * @param xmlElement the xml element
+    * @param request the request
+    * @param similarity the similarity
+    * @return the built query
+    */
+   private T buildQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
+         Element request, float similarity, boolean splitText) {
+      return this.buildQuery(queryFactory, field, xmlElement, request, similarity, splitText, -1);
    }
 
    /**
@@ -624,6 +658,11 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     */
    private T buildOrQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
          Element request, float similarity) {
+      return this.buildOrQuery(queryFactory, field, xmlElement, request, similarity, -1);
+   }
+   // la methode qui suit prend desormais le boost en parametre mais n est pas appelee par buildAnyQueries lors qu'on rajoute les boost
+   private T buildOrQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
+         Element request, float similarity, int boostFactor) {
       T query = null;
       T fuzzy;
       String value = request.getChildText(xmlElement);
@@ -648,10 +687,15 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
                query = queryFactory.or(query, query2);
             }
          }
+         
+         // gestion du parametre de boost et fabrication de la query
+         if (boostFactor > 0) {
+            query = queryFactory.boost(query, boostFactor);
+         }
       }
       return query;
    }
-
+   
    /**
     * {@inheritDoc}
     * @see org.fao.geonet.kernel.search.MetaSearcher#present(jeeves.server.context.ServiceContext, org.jdom.Element, jeeves.server.ServiceConfig)

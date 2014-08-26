@@ -1,3 +1,4 @@
+<%@page import="org.openwis.metadataportal.services.search.dto.RelatedMetadataDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.io.File"%>
@@ -19,6 +20,7 @@
 	String locService = context.getBaseUrl() + "/srv/" + context.getLanguage();
 	SearchResult sr = (SearchResult) request.getAttribute("searchResult");
 	Map<String, Set<OperationEnum>> operationsAllowed = (Map<String, Set<OperationEnum>>) request.getAttribute("operationsAllowed");
+	Map<String, List<RelatedMetadataDTO>> relatedMetadata = (Map<String, List<RelatedMetadataDTO>>) request.getAttribute("relatedMetadata");
 	String username = (String) request.getAttribute("username");
 	boolean editorProfile = "Editor".equalsIgnoreCase(context.getUserSession().getProfile());
 	boolean isCacheEnable = Boolean.TRUE.equals((Boolean) request.getAttribute("isCacheEnable"));  
@@ -54,6 +56,7 @@
 	   String id;
 	   String uuid;
 	   Set<OperationEnum> ops;
+	   List<RelatedMetadataDTO> relatedMds;
 	   String title;
 	   String titleForJs;
 	   String abst;
@@ -71,6 +74,10 @@
 	     isGlobal = "true".equals(doc.getField(IndexField.IS_GLOBAL));
 	     uuid = doc.getFieldAsString(IndexField.UUID);
 	     ops = operationsAllowed.get(uuid);
+	     
+	     // Get the list of related metadata for the current hit
+	     relatedMds = relatedMetadata.get(uuid);
+
 	     pageContext.setAttribute("ops",ops);
 	     boolean editable = "n".equals(doc.getField(IndexField.IS_HARVESTED)) 
 	       && (ops!=null && ops.contains(OperationEnum.EDITING))
@@ -308,8 +315,32 @@
 						
 						
 					</div>
+					<% } %> 
+					
+					<!-- Buttons for related services -->
+					<% if (relatedMds != null && relatedMds.size() > 0) { %>
+					<div id="services<%=id%>" name="services" class="btnXXLFixedSize btnSearchResultsActions" onclick="doShowRelatedServices('<%=id%>', '<%= uuid %>');" style="cursor:pointer;">
+						<img src="<%= context.getBaseUrl() %>/images/plus.gif" style="padding-right:3px;"/>
+						<a style="padding-right:10px; padding-left:5px;">Services</a>
+					</div>
+					<div id="serviceElt<%=id%>" class="oAcEle" style="display: none;" onClick="">
+					
+					<% 
+						for (RelatedMetadataDTO md : relatedMds) {
+						   String relatedMdTitle = (md.getTitle().length()) > 50 ? md.getTitle().substring(0, 50) : md.getTitle();
+						   String relatedMdTitleForJS = StringEscapeUtils.escapeJavaScript(md.getTitle());
+					%>
+					
+						<div class="otherActionTarget" onclick="doShowMetadataById(<%=md.getId()%>, '<%=relatedMdTitleForJS%>', <%= editable %>);">
+							<a href="#"><%= relatedMdTitle %></a>
+						</div>
+					
 					<% } %>
-				</div>
+					
+					</div>
+					
+					<% } %>
+				</div> <!-- End of Action buttons -->
 			</div>
 
 			<!-- abstract -->
