@@ -1,5 +1,7 @@
 # Ignore all maven build
 target/
+pom.xml.versionsBackup
+openwis-*-portal-target
 
 # Ignore eclipse files
 .project
