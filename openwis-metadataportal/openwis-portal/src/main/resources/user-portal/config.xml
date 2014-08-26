@@ -617,6 +617,7 @@
 	<include>config-sru.xml</include>
 	<include>config-openwis-common.xml</include>
 	<include>config-openwis-user.xml</include>
+	<include>config-inspire.xml</include>
 
 	<!-- ====================================================================== -->
 

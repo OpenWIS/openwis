@@ -133,8 +133,8 @@ public class DataPolicyManager extends AbstractManager implements IDataPolicyMan
                   }
 
                });
-         String inPredicate = Joiner.on("','").join(dpAliases);
-
+         String inPredicate = StringEscapeUtils.escapeSql(Joiner.on("','").join(dpAliases));
+         
          String validateAlias = "SELECT dp.name AS dpName FROM DataPolicy dp "
                + "LEFT JOIN DataPolicyAlias dpa ON dpa.dpid = dp.id "
                + "WHERE dp.id <> ? AND (dp.name IN ('" + inPredicate + "') OR dpa.name IN ('"
