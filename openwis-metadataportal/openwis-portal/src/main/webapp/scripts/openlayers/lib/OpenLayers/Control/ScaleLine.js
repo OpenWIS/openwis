@@ -1,6 +1,7 @@
-/* Copyright (c) 2006-2007 MetaCarta, Inc., published under a modified BSD license.
- * See http://svn.openlayers.org/trunk/openlayers/repository-license.txt 
- * for the full text of the license. */
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
 
 /**
  * @requires OpenLayers/Control.js
@@ -61,6 +62,15 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
      * {DOMElement}
      */
     eBottom:null,
+    
+    /**
+     * APIProperty: geodesic
+     * {Boolean} Use geodesic measurement. Default is false. The recommended
+     * setting for maps in EPSG:4326 is false, and true EPSG:900913. If set to
+     * true, the scale will be calculated based on the horizontal size of the
+     * pixel in the center of the map viewport.
+     */
+    geodesic: false,
 
     /**
      * Constructor: OpenLayers.Control.ScaleLine
@@ -70,9 +80,6 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
      * options - {Object} An optional object whose properties will be used
      *     to extend the control.
      */
-    initialize: function(options) {
-        OpenLayers.Control.prototype.initialize.apply(this, [options]);     
-    },
 
     /**
      * Method: draw
@@ -83,9 +90,6 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
     draw: function() {
         OpenLayers.Control.prototype.draw.apply(this, arguments);
         if (!this.eTop) {
-            this.div.style.display = "block";
-            this.div.style.position = "absolute";
-            
             // stick in the top bar
             this.eTop = document.createElement("div");
             this.eTop.className = this.displayClass + "Top";
@@ -159,7 +163,15 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
         var inches = OpenLayers.INCHES_PER_UNIT;
 
         // convert maxWidth to map units
-        var maxSizeData = this.maxWidth * res * inches[curMapUnits];  
+        var maxSizeData = this.maxWidth * res * inches[curMapUnits];
+        var geodesicRatio = 1;
+        if(this.geodesic === true) {
+            var maxSizeGeodesic = (this.map.getGeodesicPixelSize().w ||
+                0.000001) * this.maxWidth;
+            var maxSizeKilometers = maxSizeData / inches["km"];
+            geodesicRatio = maxSizeGeodesic / maxSizeKilometers;
+            maxSizeData *= geodesicRatio;
+        }
 
         // decide whether to use large or small scale units     
         var topUnits;
@@ -185,8 +197,8 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
         bottomMax = bottomRounded / inches[curMapUnits] * inches[bottomUnits];
 
         // and to pixel units
-        var topPx = topMax / res;
-        var bottomPx = bottomMax / res;
+        var topPx = topMax / res / geodesicRatio;
+        var bottomPx = bottomMax / res / geodesicRatio;
         
         // now set the pixel widths
         // and the values inside them

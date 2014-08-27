@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 
@@ -20,15 +21,23 @@
  */
 OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
 
-    /**
-     * Constant: EVENT_TYPES
+    /** 
+     * APIProperty: events
+     * {<OpenLayers.Events>} Events instance for listeners and triggering
+     *     control specific events.
      *
-     * Supported event types:
-     *  - *beforefeaturehighlighted* Triggered before a feature is highlighted
-     *  - *featurehighlighted* Triggered when a feature is highlighted
-     *  - *featureunhighlighted* Triggered when a feature is unhighlighted
+     * Register a listener for a particular event with the following syntax:
+     * (code)
+     * control.events.register(type, obj, listener);
+     * (end)
+     *
+     * Supported event types (in addition to those from <OpenLayers.Control.events>):
+     * beforefeaturehighlighted - Triggered before a feature is highlighted
+     * featurehighlighted - Triggered when a feature is highlighted
+     * featureunhighlighted - Triggered when a feature is unhighlighted
+     * boxselectionstart - Triggered before box selection starts
+     * boxselectionend - Triggered after box selection ends
      */
-    EVENT_TYPES: ["beforefeaturehighlighted", "featurehighlighted", "featureunhighlighted"],
     
     /**
      * Property: multipleKey
@@ -73,9 +82,9 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: highlightOnly
-     * {Boolean} If true do not actually select features (i.e. place them in the
-     * layer's selected features array), just highlight them. This property has
-     * no effect if hover is false. Defaults to false.
+     * {Boolean} If true do not actually select features (that is place them in 
+     * the layer's selected features array), just highlight them. This property
+     * has no effect if hover is false. Defaults to false.
      */
     highlightOnly: false,
     
@@ -131,7 +140,7 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
     
     /**
      * Property: layers
-     * {Array(<OpenLayers.Layer.Vector>} The layers this control will work on,
+     * {Array(<OpenLayers.Layer.Vector>)} The layers this control will work on,
      * or null if the control was configured with a single layer
      */
     layers: null,
@@ -172,26 +181,12 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      * options - {Object} 
      */
     initialize: function(layers, options) {
-        // concatenate events specific to this control with those from the base
-        this.EVENT_TYPES =
-            OpenLayers.Control.SelectFeature.prototype.EVENT_TYPES.concat(
-            OpenLayers.Control.prototype.EVENT_TYPES
-        );
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
         
         if(this.scope === null) {
             this.scope = this;
         }
-        if(layers instanceof Array) {
-            this.layers = layers;
-            this.layer = new OpenLayers.Layer.Vector.RootContainer(
-                this.id + "_container", {
-                    layers: layers
-                }
-            );
-        } else {
-            this.layer = layers;
-        }
+        this.initLayer(layers);
         var callbacks = {
             click: this.clickFeature,
             clickout: this.clickoutFeature
@@ -216,11 +211,35 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
             ); 
         }
     },
+
+    /**
+     * Method: initLayer
+     * Assign the layer property. If layers is an array, we need to use
+     *     a RootContainer.
+     *
+     * Parameters:
+     * layers - {<OpenLayers.Layer.Vector>}, or an array of vector layers.
+     */
+    initLayer: function(layers) {
+        if(OpenLayers.Util.isArray(layers)) {
+            this.layers = layers;
+            this.layer = new OpenLayers.Layer.Vector.RootContainer(
+                this.id + "_container", {
+                    layers: layers
+                }
+            );
+        } else {
+            this.layer = layers;
+        }
+    },
     
     /**
      * Method: destroy
      */
     destroy: function() {
+        if(this.active && this.layers) {
+            this.map.removeLayer(this.layer);
+        }
         OpenLayers.Control.prototype.destroy.apply(this, arguments);
         if(this.layers) {
             this.layer.destroy();
@@ -281,14 +300,22 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     unselectAll: function(options) {
         // we'll want an option to supress notification here
-        var layers = this.layers || [this.layer];
-        var layer, feature;
-        for(var l=0; l<layers.length; ++l) {
+        var layers = this.layers || [this.layer],
+            layer, feature, l, numExcept;
+        for(l=0; l<layers.length; ++l) {
             layer = layers[l];
-            for(var i=layer.selectedFeatures.length-1; i>=0; --i) {
-                feature = layer.selectedFeatures[i];
-                if(!options || options.except != feature) {
-                    this.unselect(feature);
+            numExcept = 0;
+            //layer.selectedFeatures is null when layer is destroyed and 
+            //one of it's preremovelayer listener calls setLayer 
+            //with another layer on this control
+            if(layer.selectedFeatures != null) {
+                while(layer.selectedFeatures.length > numExcept) {
+                    feature = layer.selectedFeatures[numExcept];
+                    if(!options || options.except != feature) {
+                        this.unselect(feature);
+                    } else {
+                        ++numExcept;
+                    }
                 }
             }
         }
@@ -447,8 +474,23 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     unhighlight: function(feature) {
         var layer = feature.layer;
-        feature._lastHighlighter = feature._prevHighlighter;
-        delete feature._prevHighlighter;
+        // three cases:
+        // 1. there's no other highlighter, in that case _prev is undefined,
+        //    and we just need to undef _last
+        // 2. another control highlighted the feature after we did it, in
+        //    that case _last references this other control, and we just
+        //    need to undef _prev
+        // 3. another control highlighted the feature before we did it, in
+        //    that case _prev references this other control, and we need to
+        //    set _last to _prev and undef _prev
+        if(feature._prevHighlighter == undefined) {
+            delete feature._lastHighlighter;
+        } else if(feature._prevHighlighter == this.id) {
+            delete feature._prevHighlighter;
+        } else {
+            feature._lastHighlighter = feature._prevHighlighter;
+            delete feature._prevHighlighter;
+        }
         layer.drawFeature(feature, feature.style || feature.layer.style ||
             "default");
         this.events.triggerEvent("featureunhighlighted", {feature : feature});
@@ -472,6 +514,13 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
             if(cont !== false) {
                 layer.selectedFeatures.push(feature);
                 this.highlight(feature);
+                // if the feature handler isn't involved in the feature
+                // selection (because the box handler is used or the
+                // feature is selected programatically) we fake the
+                // feature handler to allow unselecting on click
+                if(!this.handlers.feature.lastFeature) {
+                    this.handlers.feature.lastFeature = layer.selectedFeatures[0];
+                }
                 layer.events.triggerEvent("featureselected", {feature: feature});
                 this.onSelect.call(this.scope, feature);
             }
@@ -505,12 +554,14 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     selectBox: function(position) {
         if (position instanceof OpenLayers.Bounds) {
-            var minXY = this.map.getLonLatFromPixel(
-                new OpenLayers.Pixel(position.left, position.bottom)
-            );
-            var maxXY = this.map.getLonLatFromPixel(
-                new OpenLayers.Pixel(position.right, position.top)
-            );
+            var minXY = this.map.getLonLatFromPixel({
+                x: position.left,
+                y: position.bottom
+            });
+            var maxXY = this.map.getLonLatFromPixel({
+                x: position.right,
+                y: position.top
+            });
             var bounds = new OpenLayers.Bounds(
                 minXY.lon, minXY.lat, maxXY.lon, maxXY.lat
             );
@@ -524,11 +575,17 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
             var prevMultiple = this.multiple;
             this.multiple = true;
             var layers = this.layers || [this.layer];
+            this.events.triggerEvent("boxselectionstart", {layers: layers}); 
             var layer;
             for(var l=0; l<layers.length; ++l) {
                 layer = layers[l];
                 for(var i=0, len = layer.features.length; i<len; ++i) {
                     var feature = layer.features[i];
+                    // check if the feature is displayed
+                    if (!feature.getVisibility()) {
+                        continue;
+                    }
+
                     if (this.geometryTypes == null || OpenLayers.Util.indexOf(
                             this.geometryTypes, feature.geometry.CLASS_NAME) > -1) {
                         if (bounds.toGeometry().intersects(feature.geometry)) {
@@ -540,6 +597,7 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
                 }
             }
             this.multiple = prevMultiple;
+            this.events.triggerEvent("boxselectionend", {layers: layers}); 
         }
     },
 
@@ -556,6 +614,29 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
             this.handlers.box.setMap(map);
         }
         OpenLayers.Control.prototype.setMap.apply(this, arguments);
+    },
+    
+    /**
+     * APIMethod: setLayer
+     * Attach a new layer to the control, overriding any existing layers.
+     *
+     * Parameters:
+     * layers - Array of {<OpenLayers.Layer.Vector>} or a single
+     *     {<OpenLayers.Layer.Vector>}
+     */
+    setLayer: function(layers) {
+        var isActive = this.active;
+        this.unselectAll();
+        this.deactivate();
+        if(this.layers) {
+            this.layer.destroy();
+            this.layers = null;
+        }
+        this.initLayer(layers);
+        this.handlers.feature.layer = this.layer;
+        if (isActive) {
+            this.activate();
+        }
     },
     
     CLASS_NAME: "OpenLayers.Control.SelectFeature"

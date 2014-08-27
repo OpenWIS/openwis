@@ -119,6 +119,10 @@ Openwis.Common.Metadata.Report = Ext.extend(Ext.Window, {
 				
 					]
 				},
+				
+				// add a button to download the last report details
+				this.addDownloadReportButton(),
+				
 				new Ext.Container({
 			        html: Openwis.i18n('Metadata.Report.Error.Info'),
 					border: false,
@@ -341,6 +345,35 @@ Openwis.Common.Metadata.Report = Ext.extend(Ext.Window, {
 			});
 		}
 		return this.cancelAction;
-	}
+	},
+
+	addDownloadReportButton: function() {
+		// Add download button only when showing report from harvesting/synchro
+		if (this.harvestingTaskId) {
+			return this.addButton(new Ext.Button(this.getReportAction()));
+		}
+		return new Ext.Container({
+        	border: false,
+        	width: 10,
+        	html: '',
+        	style : {
+           	padding: '2px'
+        	}
+   	 	});;
+	},
+	
+	getReportAction: function() {
+        if(!this.reportAction) {
+            this.reportAction = new Ext.Action({
+            	disabled: false,
+				text: Openwis.i18n('Metadata.Report.Download.Last.Report'),
+				scope: this,
+				handler: function() {
+					window.location.href = configOptions.locService +  "/xml.harvesting.last.report.file?id=" + this.harvestingTaskId;
+				}
+			});
+        }
+        return this.reportAction;
+    }
 
 });

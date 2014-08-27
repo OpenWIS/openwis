@@ -187,6 +187,8 @@
 		<allow service="util.empty"/>
 		<allow service="util.select"/>
 		
+		<allow service="xml.harvesting.last.report.file" />
+		
 		<!-- Index  -->
 		<allow service="metadata.admin.index.rebuild"/>
 		<allow service="metadata.admin.index.rebuildxlinks"/>

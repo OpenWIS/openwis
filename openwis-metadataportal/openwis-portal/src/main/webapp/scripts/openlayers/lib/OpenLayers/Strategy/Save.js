@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -17,6 +18,30 @@
  *  - <OpenLayers.Strategy>
  */
 OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
+    
+    /**
+     * APIProperty: events
+     * {<OpenLayers.Events>} An events object that handles all 
+     *     events on the strategy object.
+     *
+     * Register a listener for a particular event with the following syntax:
+     * (code)
+     * strategy.events.register(type, obj, listener);
+     * (end)
+     *
+     * Supported event types:
+     * start - Triggered before saving
+     * success - Triggered after a successful transaction
+     * fail - Triggered after a failed transaction
+     * 
+     */
+ 
+    /** 
+     * Property: events
+     * {<OpenLayers.Events>} Events instance for triggering this protocol
+     *    events.
+     */
+    events: null,
     
     /**
      * APIProperty: auto
@@ -43,6 +68,7 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
      */
     initialize: function(options) {
         OpenLayers.Strategy.prototype.initialize.apply(this, [options]);
+        this.events = new OpenLayers.Events(this);
     },
    
     /**
@@ -60,7 +86,7 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
                     this.timer = window.setInterval(
                         OpenLayers.Function.bind(this.save, this),
                         this.auto * 1000
-                    )
+                    );
                 } else {
                     this.layer.events.on({
                         "featureadded": this.triggerSave,
@@ -92,7 +118,7 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
                         "featureadded": this.triggerSave,
                         "afterfeaturemodified": this.triggerSave,
                         scope: this
-                    })
+                    });
                 }
             }
         }
@@ -131,6 +157,7 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
         if(!features) {
             features = this.layer.features;
         }
+        this.events.triggerEvent("start", {features:features});
         var remote = this.layer.projection;
         var local = this.layer.map.getProjectionObject();
         if(!local.equals(remote)) {
@@ -142,6 +169,9 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
                 clone = orig.clone();
                 clone.fid = orig.fid;
                 clone.state = orig.state;
+                if(orig.url) {
+                    clone.url = orig.url;
+                }
                 clone._original = orig;
                 clone.geometry.transform(local, remote);
                 clones[i] = clone;
@@ -162,6 +192,7 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
      * response - {<OpenLayers.Protocol.Response>} A response object.
      */
     onCommit: function(response) {
+        var evt = {"response": response};
         if(response.success()) {
             var features = response.reqFeatures;
             // deal with inserts, updates, and deletes
@@ -184,11 +215,17 @@ OpenLayers.Strategy.Save = OpenLayers.Class(OpenLayers.Strategy, {
                     feature.state = null;
                 }
             }
+
             if(destroys.length > 0) {
                 this.layer.destroyFeatures(destroys);
             }
+
+            this.events.triggerEvent("success", evt);
+
+        } else {
+            this.events.triggerEvent("fail", evt);
         }
-    },    
+    },
    
     CLASS_NAME: "OpenLayers.Strategy.Save" 
 });

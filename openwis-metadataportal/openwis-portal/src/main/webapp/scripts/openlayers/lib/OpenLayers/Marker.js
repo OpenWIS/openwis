@@ -1,9 +1,11 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 
 /**
+ * @requires OpenLayers/BaseTypes/Class.js
  * @requires OpenLayers/Events.js
  * @requires OpenLayers/Icon.js
  */
@@ -21,9 +23,9 @@
  * var markers = new OpenLayers.Layer.Markers( "Markers" );
  * map.addLayer(markers);
  *
- * var size = new OpenLayers.Size(10,17);
+ * var size = new OpenLayers.Size(21,25);
  * var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
- * var icon = new OpenLayers.Icon('http://boston.openguides.org/markers/AQUA.png',size,offset);
+ * var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
  * markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
  * markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon.clone()));
  *
@@ -62,6 +64,7 @@ OpenLayers.Marker = OpenLayers.Class({
     
     /** 
      * Constructor: OpenLayers.Marker
+     *
      * Parameters:
      * lonlat - {<OpenLayers.LonLat>} the position of this marker
      * icon - {<OpenLayers.Icon>}  the icon for this marker
@@ -78,7 +81,7 @@ OpenLayers.Marker = OpenLayers.Class({
             this.icon.offset = newIcon.offset;
             this.icon.calculateOffset = newIcon.calculateOffset;
         }
-        this.events = new OpenLayers.Events(this, this.icon.imageDiv, null);
+        this.events = new OpenLayers.Events(this, this.icon.imageDiv);
     },
     
     /**
@@ -133,7 +136,8 @@ OpenLayers.Marker = OpenLayers.Class({
     * Move the marker to the new location.
     *
     * Parameters:
-    * px - {<OpenLayers.Pixel>} the pixel position to move to
+    * px - {<OpenLayers.Pixel>|Object} the pixel position to move to.
+    * An OpenLayers.Pixel or an object with a 'x' and 'y' properties.
     */
     moveTo: function (px) {
         if ((px != null) && (this.icon != null)) {
@@ -179,9 +183,10 @@ OpenLayers.Marker = OpenLayers.Class({
      */
     inflate: function(inflate) {
         if (this.icon) {
-            var newSize = new OpenLayers.Size(this.icon.size.w * inflate,
-                                              this.icon.size.h * inflate);
-            this.icon.setSize(newSize);
+            this.icon.setSize({
+                w: this.icon.size.w * inflate,
+                h: this.icon.size.h * inflate
+            });
         }        
     },
     
@@ -229,13 +234,8 @@ OpenLayers.Marker = OpenLayers.Class({
  * {<OpenLayers.Icon>} A default OpenLayers.Icon to use for a marker
  */
 OpenLayers.Marker.defaultIcon = function() {
-    var url = OpenLayers.Util.getImagesLocation() + "marker.png";
-    var size = new OpenLayers.Size(21, 25);
-    var calculateOffset = function(size) {
-                    return new OpenLayers.Pixel(-(size.w/2), -size.h);
-                 };
-
-    return new OpenLayers.Icon(url, size, null, calculateOffset);        
+    return new OpenLayers.Icon(OpenLayers.Util.getImageLocation("marker.png"),
+                               {w: 21, h: 25}, {x: -10.5, y: -25});
 };
     
 

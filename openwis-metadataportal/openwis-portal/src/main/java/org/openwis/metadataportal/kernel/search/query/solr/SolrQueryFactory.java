@@ -366,7 +366,20 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
       result.setTermQuery(query.isTermQuery());
       return result;
    }
-
+   // Implementation of the boost method provided by ancestor
+   @Override
+   public SolrSearchQuery boost(SolrSearchQuery query, int boostFactor) {
+      SolrSearchQuery result = null;
+      if (query != null) {
+         String q = MessageFormat.format("{0}^{1}", query.getSolrQuery().getQuery(),
+               String.valueOf(boostFactor));
+         SolrQuery solrQuery = buildSolrQuery(q);
+         result = new SolrSearchQuery(solrQuery);
+      }
+      result.setSpatialQuery(query.isSpatial());
+      result.setTermQuery(query.isTermQuery());
+      return result;
+   }
    /**
     * {@inheritDoc}
     * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#addSpatialQuery(org.openwis.metadataportal.kernel.search.query.SearchQuery, org.jdom.Element)

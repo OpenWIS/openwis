@@ -1,6 +1,6 @@
 <html> 
 <head> 
-    <script src="../../lib/OpenLayers.js"></script> 
+    <script src="../OLLoader.js"></script> 
     <script type="text/javascript">
 
     var text =
@@ -147,7 +147,7 @@
         var uri = "http://foo.com";
         var prefix = "foo";
         var localName = "bar";
-        var qualifiedName = prefix + ":" + name;
+        var qualifiedName = prefix + ":" + localName;
         var node = format.createElementNS(uri, qualifiedName);
         t.eq(node.nodeType, 1,
              "node has correct type");
@@ -166,19 +166,68 @@
              "node can be appended to a doc root");
     }
 
-    function test_Format_XML_createTextNode(t) {
-        t.plan(4);
+    function test_createDocumentFragment(t) {
+        t.plan(3);
 
         var format = new OpenLayers.Format.XML();
-        var value = Math.random().toString();
-        var node = format.createTextNode(value);
+        var uri = "http://foo.com";
+        var prefix = "foo";
+        var localName = "bar";
+        var qualifiedName = prefix + ":" + localName;
+        var parent = format.createElementNS(uri, qualifiedName);
+
+        var fragment = format.createDocumentFragment();
+        t.eq(fragment.nodeType, 11, "fragment type");
+
+        try {
+            fragment.appendChild(format.createTextNode("one"));
+            fragment.appendChild(format.createTextNode("two"));
+            t.eq(fragment.childNodes.length, 2, "fragment has two child nodes");
+        } catch (err) {
+            t.fail("trouble appending text nodes to fragment: " + err.message);
+        }
+
+        try {
+            parent.appendChild(fragment);
+            t.eq(parent.childNodes.length, 2, "parent has two child nodes");
+        } catch (err) {
+            t.fail("trouble appending fragment to parent: " + err.message);
+        }
+    }
+
+    function test_Format_XML_createTextNode(t) {
+        t.plan(10);
+
+        var format = new OpenLayers.Format.XML();
+        var value, node;
+
+        value = "string";
+        node = format.createTextNode(value);
         t.eq(node.nodeType, 3,
-             "node has correct type");
+             "[string] node has correct type");
         t.eq(node.nodeName, "#text",
-             "node has correct name");
-        t.eq(node.nodeValue, value,
-             "node has correct value");
+             "[string] node has correct name");
+        t.eq(node.nodeValue, "string",
+             "[string] node has correct value");
         
+        value = 0.42;
+        node = format.createTextNode(value);
+        t.eq(node.nodeType, 3,
+             "[number] node has correct type");
+        t.eq(node.nodeName, "#text",
+             "[number] node has correct name");
+        t.eq(node.nodeValue, "0.42",
+             "[number] node has correct value");
+
+        value = false;
+        node = format.createTextNode(value);
+        t.eq(node.nodeType, 3,
+             "[boolean] node has correct type");
+        t.eq(node.nodeName, "#text",
+             "[boolean] node has correct name");
+        t.eq(node.nodeValue, "false",
+             "[boolean] node has correct value");
+
         var doc = format.read(text);
         if (doc.importNode) {
             node = doc.importNode(node, true);
@@ -596,6 +645,10 @@
                 node: format.createElementNSPlus("foo:bar", {value: 0}),
                 expect: "<foo:bar xmlns:foo='http://example.com/foo'>0</foo:bar>"
             }, {
+                description: "value of 0.42 gets appended as a text node",
+                node: format.createElementNSPlus("foo:bar", {value: 0.42}),
+                expect: "<foo:bar xmlns:foo='http://example.com/foo'>0.42</foo:bar>"
+            }, {
                 description: "value of true gets appended as a text node",
                 node: format.createElementNSPlus("foo:bar", {value: true}),
                 expect: "<foo:bar xmlns:foo='http://example.com/foo'>true</foo:bar>"
@@ -825,6 +878,19 @@
 
     }
     
+    function test_getXMLDoc(t) {
+        t.plan(2);
+        var format = new OpenLayers.Format.XML();
+        var doc = format.getXMLDoc();
+        t.ok(doc !== document, "document returned from getXMLDoc is not the page's html doc");
+        var root = format.createElementNS("http://test", "root");
+        // appending CDATA created from a different document
+        var cdata = doc.createCDATASection("<foo></foo>");
+        root.appendChild(cdata);
+        var result = format.write(root);
+        var expect = '<root xmlns="http://test"><![CDATA[<foo></foo>]]></root>';
+        t.eq(result, expect, "document with CDATA section serialized correctly");
+    }
 
     
     </script> 

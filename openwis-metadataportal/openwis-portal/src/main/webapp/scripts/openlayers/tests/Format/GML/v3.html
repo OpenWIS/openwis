@@ -1,6 +1,6 @@
 <html> 
 <head> 
-    <script src="../../../lib/OpenLayers.js"></script>
+    <script src="../../OLLoader.js"></script>
     <script src="cases.js"></script>
     <script type="text/javascript">
 
@@ -10,8 +10,8 @@
             "v2/linestring-coord.xml", "v2/linestring-coordinates.xml",
             "v2/multipoint-coord.xml", "v2/multipoint-coordinates.xml",
             "v2/multilinestring-coord.xml", "v2/multilinestring-coordinates.xml",
-            "v3/point.xml", "v3/linestring.xml", "v3/curve.xml",
-            "v3/polygon.xml", "v3/surface.xml",
+            "v3/point.xml", "v3/linestring.xml", "v3/linestring3d.xml",
+            "v3/curve.xml", "v3/polygon.xml", "v3/surface.xml",
             "v3/multipoint-singular.xml", "v3/multipoint-plural.xml",
             "v3/multilinestring-singular.xml", "v3/multilinestring-plural.xml",
             "v3/multicurve-singular.xml", "v3/multicurve-curve.xml",
@@ -48,6 +48,19 @@
             }
         }
         
+    }
+
+    function test_read_setGeometryName(t) {
+        t.plan(1);
+        var doc = readXML("v3/topp-states-gml.xml");
+        var format = new OpenLayers.Format.GML.v3({
+            featureType: "states",
+            featureNS: "http://www.openplans.org/topp",
+            geometryName: null
+        });
+        var features = format.read(doc.documentElement);
+
+        t.eq(format.geometryName, "the_geom", "geometryName set when parsing features");
     }
 
     function test_readNode_bounds(t) {
@@ -179,13 +192,13 @@
             xy: false
         });
         var features = format.read(doc.documentElement);
-        
-        var geom = features[0].geometry;
-        t.ok(geom.bounds instanceof OpenLayers.Bounds, "geometry given a bounds");
-        t.eq(geom.bounds.left.toFixed(2), "-91.52", "bounds left correct");
-        t.eq(geom.bounds.bottom.toFixed(2), "36.99", "bounds bottom correct");
-        t.eq(geom.bounds.right.toFixed(2), "-87.51", "bounds right correct");
-        t.eq(geom.bounds.top.toFixed(2), "42.51", "bounds top correct");
+        var bounds = features[0].bounds;
+
+        t.ok(bounds instanceof OpenLayers.Bounds, "feature given a bounds");
+        t.eq(bounds.left.toFixed(2), "-91.52", "bounds left correct");
+        t.eq(bounds.bottom.toFixed(2), "36.99", "bounds bottom correct");
+        t.eq(bounds.right.toFixed(2), "-87.51", "bounds right correct");
+        t.eq(bounds.top.toFixed(2), "42.51", "bounds top correct");
     }
 
     function test_read(t) {
@@ -210,6 +223,26 @@
         t.eq(attributes["SUB_REGION"], "E N Cen", "read SUB_REGION");
         t.eq(attributes["STATE_ABBR"], "IL", "read STATE_ABBR");
         t.eq(attributes["LAND_KM"], "143986.61", "read LAND_KM");
+    }
+    
+    function test_read_autoconfig(t) {
+        t.plan(7);
+        var doc = readXML("v3/topp-states-wfs.xml");
+        var format = new OpenLayers.Format.GML.v3();
+        var features = format.read(doc.documentElement);
+        
+        t.eq(features.length, 3, "read 3 features");
+        var feature = features[0];
+        t.eq(feature.fid, "states.1", "read fid");
+        t.eq(feature.geometry.CLASS_NAME, "OpenLayers.Geometry.MultiPolygon",
+             "read multipolygon geometry");
+        t.eq(format.featureType, "states", "featureType correctly auto-configured");
+        t.eq(format.featureNS, "http://www.openplans.org/topp", "featureNS correctly auto-configured");
+
+        t.eq(format.autoConfig, true, "autoConfig set to true");
+        format.autoConfig = false;
+        format.read(doc.documentElement);
+        t.eq(format.autoConfig, false, "now that featureNS is set, the format does not auto-configure again");
     }
     
     function test_emptyAttribute(t) {
@@ -243,6 +276,24 @@
         t.eq(attr.name, "Aflu", "correctly read attribute value");
         t.eq(attr.foo, undefined, "bogus attribute is undefined");
         t.eq(attr.empty, "", "empty attribute value is empty string");
+    }
+    
+    function test_repeatedName(t) {
+        // test that if an attribute name matches the featureType, all goes well
+        t.plan(2);
+        var doc = readXML("v3/repeated-name.xml");
+        var format = new OpenLayers.Format.GML.v3({
+            featureType: "zoning",
+            featureNS: "http://opengeo.org/#medford",
+            geometryName: "the_geom",
+            xy: false
+        });
+        var features = format.read(doc.documentElement);
+        
+        t.eq(features.length, 1, "read one feature");
+        var atts = features[0].attributes;
+        t.eq(atts.zoning, "I-L", "correct zoning attribute on zoning feature type");
+
     }
 
     function test_write(t) {
@@ -279,6 +330,11 @@
 <div id="v3/linestring.xml"><!--
 <gml:LineString xmlns:gml="http://www.opengis.net/gml" srsName="foo">
   <gml:posList>1 2 3 4</gml:posList>
+</gml:LineString>
+--></div>
+<div id="v3/linestring3d.xml"><!--
+<gml:LineString xmlns:gml="http://www.opengis.net/gml" srsName="foo" srsDimension="3">
+  <gml:posList>1 2 3 4 5 6</gml:posList>
 </gml:LineString>
 --></div>
 <div id="v3/curve.xml"><!--
@@ -724,5 +780,49 @@
     </gml:lineStringMember>
 </gml:MultiLineString>
 --></div>
+<div id="v3/repeated-name.xml"><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection numberOfFeatures="1" timeStamp="2010-01-29T15:10:38.921-07:00"
+        xsi:schemaLocation="http://medford.opengeo.org http://localhost:8080/geoserver/wfs?service=WFS&amp;version=1.1.0&amp;request=DescribeFeatureType&amp;typeName=medford%3Azoning http://www.opengis.net/wfs http://localhost:8080/geoserver/schemas/wfs/1.1.0/wfs.xsd"
+        xmlns:ogc="http://www.opengis.net/ogc"
+        xmlns:wfs="http://www.opengis.net/wfs"
+        xmlns:medford="http://opengeo.org/#medford"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ows="http://www.opengis.net/ows"
+        xmlns:gml="http://www.opengis.net/gml"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+    <gml:featureMembers>
+        <medford:zoning gml:id="zoning.1">
+            <medford:the_geom>
+                <gml:MultiSurface srsName="urn:x-ogc:def:crs:EPSG:4326">
+                    <gml:surfaceMember>
+                        <gml:Polygon>
+                            <gml:exterior>
+                                <gml:LinearRing>
+                                    <gml:posList>42.397027571297585 -122.88465674265922 42.39702893980587 -122.88509730796012 42.397029086785146 -122.88511582432085 42.39702379767053 -122.88528111596624 42.39748517484964 -122.88529300380065 42.39748473847452 -122.88509914138723 42.39748482219041 -122.8849959517568 42.397485082635576 -122.8846741899541 42.3974853307826 -122.88436529392652 42.39702663751206 -122.88435664014142 42.397027571297585 -122.88465674265922</gml:posList>
+                                </gml:LinearRing>
+                            </gml:exterior>
+                        </gml:Polygon>
+                    </gml:surfaceMember>
+                </gml:MultiSurface>
+            </medford:the_geom>
+            <medford:objectid>1</medford:objectid>
+            <medford:cityzone>YES</medford:cityzone>
+            <medford:zoning>I-L</medford:zoning>
+            <medford:revdate>2004-04-12T00:00:00-06:00</medford:revdate>
+            <medford:finord></medford:finord>
+            <medford:filenum></medford:filenum>
+            <medford:acres>0.95741118624</medford:acres>
+            <medford:misc></medford:misc>
+            <medford:shape_leng>835.705330224</medford:shape_leng>
+            <medford:perimeter>835.705330224</medford:perimeter>
+            <medford:area>41704.8312728</medford:area>
+            <medford:shape_le_1>835.705330224</medford:shape_le_1>
+            <medford:shape_area>41704.8312728</medford:shape_area>
+            <medford:hectares>0.38745056079</medford:hectares>
+        </medford:zoning>
+    </gml:featureMembers>
+</wfs:FeatureCollection>
+-->
 </body>
 </html>

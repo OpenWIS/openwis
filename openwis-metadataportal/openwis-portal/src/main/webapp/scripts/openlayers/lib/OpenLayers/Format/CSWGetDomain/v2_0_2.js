@@ -1,3 +1,8 @@
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
 /**
  * @requires OpenLayers/Format/XML.js
  * @requires OpenLayers/Format/CSWGetDomain.js
@@ -23,9 +28,10 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
         xsi: "http://www.w3.org/2001/XMLSchema-instance",
         csw: "http://www.opengis.net/cat/csw/2.0.2"
     },
-    
+
     /**
      * Property: defaultPrefix
+     * {String} The default prefix (used by Format.XML).
      */
     defaultPrefix: "csw",
     
@@ -41,6 +47,20 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
      *   http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd
      */
     schemaLocation: "http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd",
+
+    /**
+     * APIProperty: PropertyName
+     * {String} Value of the csw:PropertyName element, used when
+     *     writing a GetDomain document.
+     */
+    PropertyName: null,
+
+    /**
+     * APIProperty: ParameterName
+     * {String} Value of the csw:ParameterName element, used when
+     *     writing a GetDomain document.
+     */
+    ParameterName: null,
     
     /**
      * Constructor: OpenLayers.Format.CSWGetDomain.v2_0_2
@@ -51,16 +71,13 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
      *     instance.
      *
      * Valid options properties:
-     * PropertyName - {String} PropertyName for csw GetDomain request.
-     * ParameterName - {String} ParameterName for csw GetDomain request.
+     * - PropertyName
+     * - ParameterName
      */
-    initialize: function(options) {
-        OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
-    },
 
     /**
-     * Method: read
-     * Parse the response from a transaction.
+     * APIMethod: read
+     * Parse the response from a GetDomain request.
      */
     read: function(data) {
         if(typeof data == "string") { 
@@ -88,16 +105,16 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
                 this.readChildNodes(node, obj);
             },
             "DomainValues": function(node, obj) {
-                if (!(obj.DomainValues instanceof Array)) {
-                    obj.DomainValues = new Array();
+                if (!(OpenLayers.Util.isArray(obj.DomainValues))) {
+                    obj.DomainValues = [];
                 }
                 var attrs = node.attributes;
-                var domain_value = {};
+                var domainValue = {};
                 for(var i=0, len=attrs.length; i<len; ++i) {
-                    domain_value[attrs[i].name] = attrs[i].nodeValue;
+                    domainValue[attrs[i].name] = attrs[i].nodeValue;
                 }
-                this.readChildNodes(node, domain_value);
-                obj.DomainValues.push(domain_value);
+                this.readChildNodes(node, domainValue);
+                obj.DomainValues.push(domainValue);
             },
             "PropertyName": function(node, obj) {
                 obj.PropertyName = this.getChildValue(node);
@@ -106,14 +123,14 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
                 obj.ParameterName = this.getChildValue(node);
             },
             "ListOfValues": function(node, obj) {
-                if (!(obj.ListOfValues instanceof Array)) {
-                    obj.ListOfValues = new Array();
+                if (!(OpenLayers.Util.isArray(obj.ListOfValues))) {
+                    obj.ListOfValues = [];
                 }
                 this.readChildNodes(node, obj.ListOfValues);
             },
             "Value": function(node, obj) {
                 var attrs = node.attributes;
-                var value = {}
+                var value = {};
                 for(var i=0, len=attrs.length; i<len; ++i) {
                     value[attrs[i].name] = attrs[i].nodeValue;
                 }
@@ -139,7 +156,7 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
             },
             "MinValue": function(node, obj) {
                 var attrs = node.attributes;
-                var value = {}
+                var value = {};
                 for(var i=0, len=attrs.length; i<len; ++i) {
                     value[attrs[i].name] = attrs[i].nodeValue;
                 }
@@ -148,7 +165,7 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
             },
             "MaxValue": function(node, obj) {
                 var attrs = node.attributes;
-                var value = {}
+                var value = {};
                 for(var i=0, len=attrs.length; i<len; ++i) {
                     value[attrs[i].name] = attrs[i].nodeValue;
                 }
@@ -159,7 +176,7 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
     },
     
     /**
-     * Method: write
+     * APIMethod: write
      * Given an configuration js object, write a CSWGetDomain request. 
      *
      * Parameters:
@@ -194,8 +211,7 @@ OpenLayers.Format.CSWGetDomain.v2_0_2 = OpenLayers.Class(OpenLayers.Format.XML, 
                         options.PropertyName || this.PropertyName,
                         node
                     );
-                }
-                else if (options.ParameterName || this.ParameterName) {
+                } else if (options.ParameterName || this.ParameterName) {
                     this.writeNode(
                         "csw:ParameterName",
                         options.ParameterName || this.ParameterName,

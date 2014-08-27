@@ -1,6 +1,11 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
+
+/**
+ * @requires OpenLayers/BaseTypes/Class.js
+ */
 
 /**
  * Class: OpenLayers.Protocol
@@ -30,6 +35,12 @@ OpenLayers.Protocol = OpenLayers.Class({
     autoDestroy: true,
    
     /**
+     * Property: defaultFilter
+     * {<OpenLayers.Filter>} Optional default filter to read requests
+     */
+    defaultFilter: null,
+    
+    /**
      * Constructor: OpenLayers.Protocol
      * Abstract class for vector protocols.  Create instances of a subclass.
      *
@@ -41,6 +52,26 @@ OpenLayers.Protocol = OpenLayers.Class({
         options = options || {};
         OpenLayers.Util.extend(this, options);
         this.options = options;
+    },
+
+    /**
+     * Method: mergeWithDefaultFilter
+     * Merge filter passed to the read method with the default one
+     *
+     * Parameters:
+     * filter - {<OpenLayers.Filter>}
+     */
+    mergeWithDefaultFilter: function(filter) {
+        var merged;
+        if (filter && this.defaultFilter) {
+            merged = new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [this.defaultFilter, filter]
+            });
+        } else {
+            merged = filter || this.defaultFilter || undefined;
+        }
+        return merged;
     },
 
     /**
@@ -64,7 +95,9 @@ OpenLayers.Protocol = OpenLayers.Class({
      * object, the same object will be passed to the callback function passed
      * if one exists in the options object.
      */
-    read: function() {
+    read: function(options) {
+        options = options || {};
+        options.filter = this.mergeWithDefaultFilter(options.filter);
     },
     
     
@@ -150,6 +183,22 @@ OpenLayers.Protocol = OpenLayers.Class({
     abort: function(response) {
     },
    
+    /**
+     * Method: createCallback
+     * Returns a function that applies the given public method with resp and
+     *     options arguments.
+     *
+     * Parameters:
+     * method - {Function} The method to be applied by the callback.
+     * response - {<OpenLayers.Protocol.Response>} The protocol response object.
+     * options - {Object} Options sent to the protocol method
+     */
+    createCallback: function(method, response, options) {
+        return OpenLayers.Function.bind(function() {
+            method.apply(this, [response, options]);
+        }, this);
+    },
+   
     CLASS_NAME: "OpenLayers.Protocol" 
 });
 
@@ -182,9 +231,18 @@ OpenLayers.Protocol.Response = OpenLayers.Class({
     /**
      * Property: features
      * {Array({<OpenLayers.Feature.Vector>})} or {<OpenLayers.Feature.Vector>}
-     * The features returned in the response by the server.
+     * The features returned in the response by the server. Depending on the 
+     * protocol's read payload, either features or data will be populated.
      */
     features: null,
+
+    /**
+     * Property: data
+     * {Object}
+     * The data returned in the response by the server. Depending on the 
+     * protocol's read payload, either features or data will be populated.
+     */
+    data: null,
 
     /**
      * Property: reqFeatures
@@ -198,6 +256,12 @@ OpenLayers.Protocol.Response = OpenLayers.Class({
      * Property: priv
      */
     priv: null,
+
+    /**
+     * Property: error
+     * {Object} The error object in case a service exception was encountered.
+     */
+    error: null,
 
     /**
      * Constructor: OpenLayers.Protocol.Response

@@ -19,6 +19,7 @@ import org.fao.geonet.kernel.search.SortingInfo;
 import org.fao.geonet.kernel.search.SortingInfoImpl;
 import org.fao.geonet.services.util.SearchDefaults;
 import org.jdom.Element;
+import org.openwis.metadataportal.common.configuration.OpenwisSearchConfig;
 import org.openwis.metadataportal.common.search.SortDir;
 import org.openwis.metadataportal.kernel.search.query.IQueryManager;
 import org.openwis.metadataportal.kernel.search.query.SearchException;
@@ -474,6 +475,17 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       // all
       query = queryFactory.and(query,
             this.buildQuery(queryFactory, IndexField.ANYTEXT, "all", request, similarity));
+      
+
+      // Put some weight on both title and abstract fields
+      query = queryFactory.or(query, this.buildOrQuery(queryFactory, IndexField.TITLE, "any",
+            request, similarity, OpenwisSearchConfig.getTitleWeight()));
+      query = queryFactory.or(query, this.buildOrQuery(queryFactory, IndexField.ABSTRACT, "any",
+            request, similarity, OpenwisSearchConfig.getAbstractWeight()));
+      query = queryFactory.or(query, this.buildOrQuery(queryFactory, IndexField.KEYWORD, "any",
+            request, similarity, OpenwisSearchConfig.getKeywordsWeight()));
+
+      
       // or
       query = queryFactory.or(query,
             this.buildOrQuery(queryFactory, IndexField.ANYTEXT, "or", request, similarity));
@@ -624,6 +636,21 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     */
    private T buildOrQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
          Element request, float similarity) {
+      return this.buildOrQuery(queryFactory, field, xmlElement, request, similarity, -1);
+   }
+   /**
+    * Builds the or query includind boost factor.
+    *
+    * @param queryFactory the query factory
+    * @param field the field
+    * @param xmlElement the xml element
+    * @param request the request
+    * @param similarity the similarity
+    * @param boostFactor boost factor
+    * @return the t
+    */
+   private T buildOrQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
+         Element request, float similarity, int boostFactor) {
       T query = null;
       T fuzzy;
       String value = request.getChildText(xmlElement);
@@ -647,6 +674,11 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
                }
                query = queryFactory.or(query, query2);
             }
+         }
+         
+         // gestion du parametre de boost et fabrication de la query
+         if (boostFactor > 0) {
+            query = queryFactory.boost(query, boostFactor);
          }
       }
       return query;

@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -25,6 +26,13 @@
 OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
 
     /**
+     * APIProperty: ignoreExtraDims
+     * {Boolean} Ignore dimensions higher than 2 when reading geometry
+     * coordinates.
+     */ 
+    ignoreExtraDims: false,
+    
+    /**
      * Constructor: OpenLayers.Format.GeoJSON
      * Create a new parser for GeoJSON.
      *
@@ -32,9 +40,6 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
      * options - {Object} An optional object whose properties will be set on
      *     this instance.
      */
-    initialize: function(options) {
-        OpenLayers.Format.JSON.prototype.initialize.apply(this, [options]);
-    },
 
     /**
      * APIMethod: read
@@ -214,7 +219,7 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
         }
         var geometry, collection = false;
         if(obj.type == "GeometryCollection") {
-            if(!(obj.geometries instanceof Array)) {
+            if(!(OpenLayers.Util.isArray(obj.geometries))) {
                 throw "GeometryCollection must have geometries array: " + obj;
             }
             var numGeom = obj.geometries.length;
@@ -227,7 +232,7 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
             geometry = new OpenLayers.Geometry.Collection(components);
             collection = true;
         } else {
-            if(!(obj.coordinates instanceof Array)) {
+            if(!(OpenLayers.Util.isArray(obj.coordinates))) {
                 throw "Geometry must have coordinates array: " + obj;
             }
             if(!this.parseCoords[obj.type.toLowerCase()]) {
@@ -269,8 +274,9 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
          * {<OpenLayers.Geometry>} A geometry.
          */
         "point": function(array) {
-            if(array.length != 2) {
-                throw "Only 2D points are supported: " + array;
+            if (this.ignoreExtraDims == false && 
+                  array.length != 2) {
+                    throw "Only 2D points are supported: " + array;
             }
             return new OpenLayers.Geometry.Point(array[0], array[1]);
         },
@@ -281,7 +287,7 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
          *     <OpenLayers.Geometry>.
          *
          * Parameters:
-         * array {Object} The coordinates array from the GeoJSON fragment.
+         * array - {Object} The coordinates array from the GeoJSON fragment.
          *
          * Returns:
          * {<OpenLayers.Geometry>} A geometry.
@@ -444,7 +450,7 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
         var geojson = {
             "type": null
         };
-        if(obj instanceof Array) {
+        if(OpenLayers.Util.isArray(obj)) {
             geojson.type = "FeatureCollection";
             var numFeatures = obj.length;
             geojson.features = new Array(numFeatures);
@@ -489,16 +495,16 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
            var code = parseInt(proj.substring(proj.indexOf(":") + 1));
            if (code == 4326) {
                crs = {
-                   "type": "OGC",
+                   "type": "name",
                    "properties": {
-                       "urn": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                       "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
                    }
                };
            } else {    
                crs = {
-                   "type": "EPSG",
+                   "type": "name",
                    "properties": {
-                       "code": code 
+                       "name": "EPSG:" + code
                    }
                };
            }    
@@ -524,12 +530,15 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
          */
         'feature': function(feature) {
             var geom = this.extract.geometry.apply(this, [feature.geometry]);
-            return {
+            var json = {
                 "type": "Feature",
-                "id": feature.fid == null ? feature.id : feature.fid,
                 "properties": feature.attributes,
                 "geometry": geom
             };
+            if (feature.fid != null) {
+                json.id = feature.fid;
+            }
+            return json;
         },
         
         /**
@@ -626,7 +635,7 @@ OpenLayers.Format.GeoJSON = OpenLayers.Class(OpenLayers.Format.JSON, {
          * Return an array of linestring arrays from a linestring.
          * 
          * Parameters:
-         * linestring - {<OpenLayers.Geometry.MultiLineString>}
+         * multilinestring - {<OpenLayers.Geometry.MultiLineString>}
          * 
          * Returns:
          * {Array} An array of linestring arrays representing
