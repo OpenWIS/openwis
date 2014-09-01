@@ -106,6 +106,10 @@
             "Openwis/HomePage/Search/LastProductsPanel.js",
             "Openwis/HomePage/Search/SearchPanel.js",
             "Openwis/HomePage/Search/SearchResultsPanel.js",
+
+            // Include Javascript for related services
+            "Openwis/HomePage/Search/RelatedServicesPanel.js",
+            
             "Openwis/HomePage/Viewport.js",
             "Openwis/HomePage/Init.js"
         ); // etc.

@@ -293,6 +293,9 @@
         <allow service="xml.follow.my.external.adhocs"/>
         <allow service="xml.follow.my.external.subscriptions"/>
         <allow service="xml.follow.my.external.mssfss.subscriptions"/>
+        
+        <!-- Inspire -->
+        <allow service="xml.CheckAuthorization"/>
 
 	</profile>
 
