@@ -1,18 +1,12 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
- * @requires OpenLayers/BaseTypes/Class.js
- * @requires OpenLayers/BaseTypes/LonLat.js
- * @requires OpenLayers/BaseTypes/Size.js
- * @requires OpenLayers/BaseTypes/Pixel.js
- * @requires OpenLayers/BaseTypes/Bounds.js
- * @requires OpenLayers/BaseTypes/Element.js
- * @requires OpenLayers/Lang/en.js
- * @requires OpenLayers/Console.js
+ * @requires OpenLayers/SingleFile.js
  */
- 
+
 /** 
  * Header: OpenLayers Base Types
  * OpenLayers custom string, number and function functions are described here.
@@ -30,7 +24,7 @@ OpenLayers.String = {
      * 
      * Parameters:
      * str - {String} The string to test.
-     * sub - {Sring} The substring to look for.
+     * sub - {String} The substring to look for.
      *  
      * Returns:
      * {Boolean} The first string starts with the second.
@@ -133,7 +127,9 @@ OpenLayers.String = {
                 if (i == 0) {
                     replacement = context;
                 }
-
+                if (replacement === undefined) {
+                    break;
+                }
                 replacement = replacement[subs[i]];
             }
 
@@ -158,20 +154,20 @@ OpenLayers.String = {
     },
 
     /**
-     * Property: OpenLayers.String.tokenRegEx
+     * Property: tokenRegEx
      * Used to find tokens in a string.
      * Examples: ${a}, ${a.b.c}, ${a-b}, ${5}
      */
     tokenRegEx:  /\$\{([\w.]+?)\}/g,
     
     /**
-     * Property: OpenLayers.String.numberRegEx
+     * Property: numberRegEx
      * Used to test strings as numbers.
      */
     numberRegEx: /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/,
     
     /**
-     * APIFunction: OpenLayers.String.isNumeric
+     * APIFunction: isNumeric
      * Determine whether a string contains only a numeric value.
      *
      * Examples:
@@ -193,84 +189,23 @@ OpenLayers.String = {
      * APIFunction: numericIf
      * Converts a string that appears to be a numeric value into a number.
      * 
-     * Returns
+     * Parameters:
+     * value - {String}
+     * trimWhitespace - {Boolean}
+     *
+     * Returns:
      * {Number|String} a Number if the passed value is a number, a String
      *     otherwise. 
      */
-    numericIf: function(value) {
-        return OpenLayers.String.isNumeric(value) ? parseFloat(value) : value;
+    numericIf: function(value, trimWhitespace) {
+        var originalValue = value;
+        if (trimWhitespace === true && value != null && value.replace) {
+            value = value.replace(/^\s*|\s*$/g, "");
+        }
+        return OpenLayers.String.isNumeric(value) ? parseFloat(value) : originalValue;
     }
 
 };
-
-if (!String.prototype.startsWith) {
-    /**
-     * APIMethod: String.startsWith
-     * *Deprecated*. Whether or not a string starts with another string. 
-     * 
-     * Parameters:
-     * sStart - {Sring} The string we're testing for.
-     *  
-     * Returns:
-     * {Boolean} Whether or not this string starts with the string passed in.
-     */
-    String.prototype.startsWith = function(sStart) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                {'newMethod':'OpenLayers.String.startsWith'}));
-        return OpenLayers.String.startsWith(this, sStart);
-    };
-}
-
-if (!String.prototype.contains) {
-    /**
-     * APIMethod: String.contains
-     * *Deprecated*. Whether or not a string contains another string.
-     * 
-     * Parameters:
-     * str - {String} The string that we're testing for.
-     * 
-     * Returns:
-     * {Boolean} Whether or not this string contains with the string passed in.
-     */
-    String.prototype.contains = function(str) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                  {'newMethod':'OpenLayers.String.contains'}));
-        return OpenLayers.String.contains(this, str);
-    };
-}
-
-if (!String.prototype.trim) {
-    /**
-     * APIMethod: String.trim
-     * *Deprecated*. Removes leading and trailing whitespace characters from a string.
-     * 
-     * Returns:
-     * {String} A trimmed version of the string - all leading and 
-     *          trailing spaces removed
-     */
-    String.prototype.trim = function() {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                      {'newMethod':'OpenLayers.String.trim'}));
-        return OpenLayers.String.trim(this);
-    };
-}
-
-if (!String.prototype.camelize) {
-    /**
-     * APIMethod: String.camelize
-     * *Deprecated*. Camel-case a hyphenated string. 
-     *     Ex. "chicken-head" becomes "chickenHead", and
-     *     "-chicken-head" becomes "ChickenHead".
-     * 
-     * Returns:
-     * {String} The string, camelized
-     */
-    String.prototype.camelize = function() {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                  {'newMethod':'OpenLayers.String.camelize'}));
-        return OpenLayers.String.camelize(this);
-    };
-}
 
 /**
  * Namespace: OpenLayers.Number
@@ -362,28 +297,26 @@ OpenLayers.Number = {
             str = integer + dsep + rem;
         }
         return str;
-    }
-};
+    },
 
-if (!Number.prototype.limitSigDigs) {
     /**
-     * APIMethod: Number.limitSigDigs
-     * *Deprecated*. Limit the number of significant digits on an integer. Does *not*
-     *     work with floats!
-     * 
+     * Method: zeroPad
+     * Create a zero padded string optionally with a radix for casting numbers.
+     *
      * Parameters:
-     * sig - {Integer}
-     * 
-     * Returns:
-     * {Integer} The number, rounded to the specified number of significant digits.
-     *           If null, 0, or negative value passed in, returns 0
+     * num - {Number} The number to be zero padded.
+     * len - {Number} The length of the string to be returned.
+     * radix - {Number} An integer between 2 and 36 specifying the base to use
+     *     for representing numeric values.
      */
-    Number.prototype.limitSigDigs = function(sig) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                              {'newMethod':'OpenLayers.Number.limitSigDigs'}));
-        return OpenLayers.Number.limitSigDigs(this, sig);
-    };
-}
+    zeroPad: function(num, len, radix) {
+        var str = num.toString(radix || 10);
+        while (str.length < len) {
+            str = "0" + str;
+        }
+        return str;
+    }    
+};
 
 /**
  * Namespace: OpenLayers.Function
@@ -431,49 +364,50 @@ OpenLayers.Function = {
         return function(event) {
             return func.call(object, event || window.event);
         };
-    }
+    },
+    
+    /**
+     * APIFunction: False
+     * A simple function to that just does "return false". We use this to 
+     * avoid attaching anonymous functions to DOM event handlers, which 
+     * causes "issues" on IE<8.
+     * 
+     * Usage:
+     * document.onclick = OpenLayers.Function.False;
+     * 
+     * Returns:
+     * {Boolean}
+     */
+    False : function() {
+        return false;
+    },
+
+    /**
+     * APIFunction: True
+     * A simple function to that just does "return true". We use this to 
+     * avoid attaching anonymous functions to DOM event handlers, which 
+     * causes "issues" on IE<8.
+     * 
+     * Usage:
+     * document.onclick = OpenLayers.Function.True;
+     * 
+     * Returns:
+     * {Boolean}
+     */
+    True : function() {
+        return true;
+    },
+    
+    /**
+     * APIFunction: Void
+     * A reusable function that returns ``undefined``.
+     *
+     * Returns:
+     * {undefined}
+     */
+    Void: function() {}
+
 };
-
-if (!Function.prototype.bind) {
-    /**
-     * APIMethod: Function.bind
-     * *Deprecated*. Bind a function to an object. 
-     * Method to easily create closures with 'this' altered.
-     * 
-     * Parameters:
-     * object - {Object} the this parameter
-     * 
-     * Returns:
-     * {Function} A closure with 'this' altered to the first
-     *            argument.
-     */
-    Function.prototype.bind = function() {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                                {'newMethod':'OpenLayers.Function.bind'}));
-        // new function takes the same arguments with this function up front
-        Array.prototype.unshift.apply(arguments, [this]);
-        return OpenLayers.Function.bind.apply(null, arguments);
-    };
-}
-
-if (!Function.prototype.bindAsEventListener) {
-    /**
-     * APIMethod: Function.bindAsEventListener
-     * *Deprecated*. Bind a function to an object, and configure it to receive the
-     *     event object as first parameter when called. 
-     * 
-     * Parameters:
-     * object - {Object} A reference to this.
-     * 
-     * Returns:
-     * {Function}
-     */
-    Function.prototype.bindAsEventListener = function(object) {
-        OpenLayers.Console.warn(OpenLayers.i18n("methodDeprecated",
-                        {'newMethod':'OpenLayers.Function.bindAsEventListener'}));
-        return OpenLayers.Function.bindAsEventListener(this, object);
-    };
-}
 
 /**
  * Namespace: OpenLayers.Array
@@ -487,7 +421,7 @@ OpenLayers.Array = {
      *     Array.prototype.filter extension to the ECMA-262 standard.  Where
      *     available, Array.prototype.filter will be used.
      *
-     * Based on well known example from http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:filter
+     * Based on well known example from http://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/filter
      *
      * Parameters:
      * array - {Array} The array to be filtered.  This array is not mutated.

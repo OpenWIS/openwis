@@ -769,4 +769,41 @@ public class HarvestingTaskManager extends AbstractManager {
          activate(id, context);
       }
    }
+   
+   
+   @SuppressWarnings("unchecked")
+   public String getLastRunDate(Integer taskId) throws Exception {
+	   String lastRunDate = "";
+	   String query = "SELECT lastrun FROM HarvestingTask WHERE id = ?";
+	   List<Element> records = getDbms().select(query, taskId).getChildren();
+	   if (records.size() > 0) {
+		   lastRunDate = records.get(0).getChildText("lastrun");
+	   }
+	   return lastRunDate;
+   }
+   /*
+   @SuppressWarnings("unchecked")
+   public void updateLastReport(Integer taskId, String reportName) throws Exception {
+	   String queryTaskReport = "SELECT id FROM HarvestingTask WHERE id = ?";
+	   List<Element> recordsTaskReport = getDbms().select(queryTaskReport, taskId).getChildren();
+	   if (!recordsTaskReport.isEmpty()) {
+		   //Update last report name for the current harvesting task identifier
+		   String updateQuery = "UPDATE HarvestingTask SET report = ? WHERE id = ?";
+		   getDbms().execute(updateQuery, reportName, new Integer(recordsTaskReport.get(0).getChildText("id")));
+		   
+	   } 
+   }
+   
+   @SuppressWarnings("unchecked")
+   public String getLastReportName(Integer taskId) throws Exception {
+	   String lastReportFileName = "";
+	   String query = "SELECT report FROM HarvestingTask WHERE id = ?";
+	   List<Element> records = getDbms().select(query, taskId).getChildren();
+	   if (records.size() > 0) {
+		   lastReportFileName = records.get(0).getChildText("report");
+	   }
+	   return lastReportFileName;
+   }
+   */
 }
+

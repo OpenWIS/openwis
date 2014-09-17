@@ -212,5 +212,21 @@ public interface ConfigurationConstants {
     * Language list
     */
    String LANGUAGE_LIST = "openwis.metadataportal.lang.list";
+   
+   
+   /**
+    * Path for harvesting report folder
+    */
+   String REPORT_FILE_PATH = "openwis.metadataportal.report.file.path";
+   
+   /**
+    * Prefix of the name of the harvesting file report
+    */
+   String REPORT_FILE_PREFIX = "openwis.metadataportal.report.file.prefix";
+
+   /**
+    * Extension of the harvesting file report
+    */
+   String REPORT_FILE_EXT = "openwis.metadataportal.report.file.ext";
 
 }

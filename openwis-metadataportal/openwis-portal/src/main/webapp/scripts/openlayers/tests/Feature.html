@@ -1,13 +1,13 @@
 <html>
 <head>
-  <script src="../lib/OpenLayers.js"></script>
+  <script src="OLLoader.js"></script>
   <script type="text/javascript">
     var isMozilla = (navigator.userAgent.indexOf("compatible") == -1);
     var map; 
     var feature, layer; 
     
     function test_Feature_constructor (t) {
-        t.plan( 7 );
+        t.plan( 6 );
 
         var layer = {};
         var lonlat = new OpenLayers.LonLat(2,1);
@@ -21,16 +21,15 @@
 
         t.ok( feature instanceof OpenLayers.Feature, "new OpenLayers.Feature returns Feature object" );
         t.eq( feature.layer, layer, "feature.layer set correctly" );
-        t.ok(OpenLayers.String.startsWith(feature.id, "OpenLayers.Feature_"),
+        t.ok(OpenLayers.String.startsWith(feature.id, "OpenLayers_Feature_"),
              "feature.id set correctly");
         t.ok( feature.lonlat.equals(lonlat), "feature.lonlat set correctly" );
         t.eq( feature.data.iconURL, iconURL, "feature.data.iconURL set correctly" );
         t.ok( feature.data.iconSize.equals(iconSize), "feature.data.iconSize set correctly" );
-        t.ok( feature.popupClass == OpenLayers.Popup.AnchoredBubble, "default popupClass is AnchoredBubble");
     }
     
     function test_Feature_createPopup (t) {
-        t.plan(1);
+        t.plan(3);
         var layer = {};
         var lonlat = new OpenLayers.LonLat(2,1);
         var iconURL = 'http://boston.openguides.org/features/ORANGE.png';
@@ -43,8 +42,14 @@
         feature = new OpenLayers.Feature(layer, lonlat, data);
         popup = feature.createPopup(); 
         //Safari 3 separates style overflow into overflow-x and overflow-y
-        var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+        var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
         t.eq(popup.contentDiv.style[prop], "auto", 'overflow on popup is correct');
+        t.ok( popup instanceof OpenLayers.Popup.Anchored, "popup is a Popup.Anchored by default");
+        feature.destroyPopup();
+        
+        feature.popupClass = OpenLayers.Popup.FramedCloud;
+        popup = feature.createPopup(); 
+        t.ok( popup instanceof OpenLayers.Popup.FramedCloud, "setting feature.popupClass works");
     }    
     function test_Feature_createMarker (t) {
         t.plan(1);
@@ -122,7 +127,7 @@
         t.ok( !feature2.onScreen(), "feature knows it's offscreen" );
     }
 
-    function test_Feature_createPopup(t) {
+    function test_Feature_createPopup_2(t) {
         t.plan(11);
 
     //no lonlat        

@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 // TRASH THIS
@@ -42,8 +43,8 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
 
     /** 
      * APIProperty: attributes 
-     * {Object} This object holds arbitrary properties that describe the
-     *     feature.
+     * {Object} This object holds arbitrary, serializable properties that
+     *     describe the feature.
      */
     attributes: null,
 
@@ -67,12 +68,55 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
      * {Object} 
      */
     style: null,
+
+    /**
+     * APIProperty: url
+     * {String} If this property is set it will be taken into account by
+     *     {<OpenLayers.HTTP>} when upadting or deleting the feature.
+     */
+    url: null,
     
     /**
      * Property: renderIntent
      * {String} rendering intent currently being used
      */
     renderIntent: "default",
+    
+    /**
+     * APIProperty: modified
+     * {Object} An object with the originals of the geometry and attributes of
+     * the feature, if they were changed. Currently this property is only read
+     * by <OpenLayers.Format.WFST.v1>, and written by
+     * <OpenLayers.Control.ModifyFeature>, which sets the geometry property.
+     * Applications can set the originals of modified attributes in the
+     * attributes property. Note that applications have to check if this
+     * object and the attributes property is already created before using it.
+     * After a change made with ModifyFeature, this object could look like
+     *
+     * (code)
+     * {
+     *     geometry: >Object
+     * }
+     * (end)
+     *
+     * When an application has made changes to feature attributes, it could
+     * have set the attributes to something like this:
+     *
+     * (code)
+     * {
+     *     attributes: {
+     *         myAttribute: "original"
+     *     }
+     * }
+     * (end)
+     *
+     * Note that <OpenLayers.Format.WFST.v1> only checks for truthy values in
+     * *modified.geometry* and the attribute names in *modified.attributes*,
+     * but it is recommended to set the original values (and not just true) as
+     * attribute value, so applications could use this information to undo
+     * changes.
+     */
+    modified: null,
 
     /** 
      * Constructor: OpenLayers.Feature.Vector
@@ -110,6 +154,7 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
         }
             
         this.geometry = null;
+        this.modified = null;
         OpenLayers.Feature.prototype.destroy.apply(this, arguments);
     },
     
@@ -159,6 +204,27 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
         }    
         return onScreen;
     },
+
+    /**
+     * Method: getVisibility
+     * Determine whether the feature is displayed or not. It may not displayed
+     *     because:
+     *     - its style display property is set to 'none',
+     *     - it doesn't belong to any layer,
+     *     - the styleMap creates a symbolizer with display property set to 'none'
+     *          for it,
+     *     - the layer which it belongs to is not visible.
+     * 
+     * Returns:
+     * {Boolean} The feature is currently displayed.
+     */
+    getVisibility: function() {
+        return !(this.style && this.style.display == 'none' ||
+                 !this.layer ||
+                 this.layer && this.layer.styleMap &&
+                 this.layer.styleMap.createSymbolizer(this, this.renderIntent).display == 'none' ||
+                 this.layer && !this.layer.getVisibility());
+    },
     
     /**
      * Method: createMarker
@@ -201,7 +267,8 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
      * Determins whether the feature intersects with the specified location.
      * 
      * Parameters: 
-     * lonlat - {<OpenLayers.LonLat>} 
+     * lonlat - {<OpenLayers.LonLat>|Object} OpenLayers.LonLat or an
+     *     object with a 'lon' and 'lat' properties.
      * toleranceLon - {float} Optional tolerance in Geometric Coords
      * toleranceLat - {float} Optional tolerance in Geographic Coords
      * 
@@ -231,14 +298,14 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
      * Moves the feature and redraws it at its new location
      *
      * Parameters:
-     * state - {OpenLayers.LonLat or OpenLayers.Pixel} the
+     * location - {<OpenLayers.LonLat> or <OpenLayers.Pixel>} the
      *         location to which to move the feature.
      */
     move: function(location) {
 
         if(!this.layer || !this.geometry.move){
             //do nothing if no layer or immoveable geometry
-            return;
+            return undefined;
         }
 
         var pixel;
@@ -332,10 +399,12 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
  * graphicOpacity - {Number} Opacity (0-1) for an external graphic.
  * graphicXOffset - {Number} Pixel offset along the positive x axis for displacing an external graphic.
  * graphicYOffset - {Number} Pixel offset along the positive y axis for displacing an external graphic.
+ * rotation - {Number} For point symbolizers, this is the rotation of a graphic in the clockwise direction about its center point (or any point off center as specified by graphicXOffset and graphicYOffset).
  * graphicZIndex - {Number} The integer z-index value to use in rendering.
  * graphicName - {String} Named graphic to use when rendering points.  Supported values include "circle" (default),
  *     "square", "star", "x", "cross", "triangle".
- * graphicTitle - {String} Tooltip for an external graphic. Only supported in Firefox and Internet Explorer.
+ * graphicTitle - {String} Tooltip when hovering over a feature. *deprecated*, use title instead
+ * title - {String} Tooltip when hovering over a feature. Not supported by the canvas renderer.
  * backgroundGraphic - {String} Url to a graphic to be used as the background under an externalGraphic.
  * backgroundGraphicZIndex - {Number} The integer z-index value to use in rendering the background graphic.
  * backgroundXOffset - {Number} The x offset (in pixels) for the background graphic.
@@ -347,11 +416,19 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
  * labelAlign - {String} Label alignment. This specifies the insertion point relative to the text. It is a string
  *     composed of two characters. The first character is for the horizontal alignment, the second for the vertical
  *     alignment. Valid values for horizontal alignment: "l"=left, "c"=center, "r"=right. Valid values for vertical
- *     alignment: "t"=top, "m"=middle, "b"=bottom. Example values: "lt", "cm", "rb". The canvas renderer does not
- *     support vertical alignment, it will always use "b".
+ *     alignment: "t"=top, "m"=middle, "b"=bottom. Example values: "lt", "cm", "rb". Default is "cm".
+ * labelXOffset - {Number} Pixel offset along the positive x axis for displacing the label. Not supported by the canvas renderer.
+ * labelYOffset - {Number} Pixel offset along the positive y axis for displacing the label. Not supported by the canvas renderer.
+ * labelSelect - {Boolean} If set to true, labels will be selectable using SelectFeature or similar controls.
+ *     Default is false.
+ * labelOutlineColor - {String} The color of the label outline. Default is 'white'. Only supported by the canvas & SVG renderers.
+ * labelOutlineWidth - {Number} The width of the label outline. Default is 3, set to 0 or null to disable. Only supported by the  SVG renderers.
+ * labelOutlineOpacity - {Number} The opacity (0-1) of the label outline. Default is fontOpacity. Only supported by the canvas & SVG renderers.
  * fontColor - {String} The font color for the label, to be provided like CSS.
+ * fontOpacity - {Number} Opacity (0-1) for the label
  * fontFamily - {String} The font family for the label, to be provided like in CSS.
  * fontSize - {String} The font size for the label, to be provided like in CSS.
+ * fontStyle - {String} The font style for the label, to be provided like in CSS.
  * fontWeight - {String} The font weight for the label, to be provided like in CSS.
  * display - {String} Symbolizers will have no effect if display is set to "none".  All other values have no effect.
  */ 
@@ -373,7 +450,11 @@ OpenLayers.Feature.Vector.style = {
         hoverPointRadius: 1,
         hoverPointUnit: "%",
         pointerEvents: "visiblePainted",
-        cursor: "inherit"
+        cursor: "inherit",
+        fontColor: "#000000",
+        labelAlign: "cm",
+        labelOutlineColor: "white",
+        labelOutlineWidth: 3
     },
     'select': {
         fillColor: "blue",
@@ -392,7 +473,12 @@ OpenLayers.Feature.Vector.style = {
         hoverPointRadius: 1,
         hoverPointUnit: "%",
         pointerEvents: "visiblePainted",
-        cursor: "pointer"
+        cursor: "pointer",
+        fontColor: "#000000",
+        labelAlign: "cm",
+        labelOutlineColor: "white",
+        labelOutlineWidth: 3
+
     },
     'temporary': {
         fillColor: "#66cccc",
@@ -411,7 +497,12 @@ OpenLayers.Feature.Vector.style = {
         hoverPointRadius: 1,
         hoverPointUnit: "%",
         pointerEvents: "visiblePainted",
-        cursor: "inherit"
+        cursor: "inherit",
+        fontColor: "#000000",
+        labelAlign: "cm",
+        labelOutlineColor: "white",
+        labelOutlineWidth: 3
+
     },
     'delete': {
         display: "none"

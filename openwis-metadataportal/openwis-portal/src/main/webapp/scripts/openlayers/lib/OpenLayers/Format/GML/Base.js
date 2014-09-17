@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -61,7 +62,8 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * APIProperty: geometry
-     * {String} Name of geometry element.  Defaults to "geometry".
+     * {String} Name of geometry element.  Defaults to "geometry". If null, it
+     * will be set on <read> when the first geometry is parsed.
      */
     geometryName: "geometry",
 
@@ -100,6 +102,18 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
      *     of featuretypes.
      */
     singleFeatureType: null,
+    
+    /**
+     * Property: autoConfig
+     * {Boolean} Indicates if the format was configured without a <featureNS>,
+     * but auto-configured <featureNS> and <featureType> during read.
+     * Subclasses making use of <featureType> auto-configuration should make
+     * the first call to the <readNode> method (usually in the read method)
+     * with true as 3rd argument, so the auto-configured featureType can be
+     * reset and the format can be reused for subsequent reads with data from
+     * different featureTypes. Set to false after read if you want to keep the
+     * auto-configured values.
+     */
 
     /**
      * Property: regExes
@@ -109,7 +123,8 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
         trimSpace: (/^\s*|\s*$/g),
         removeSpace: (/\s*/g),
         splitSpace: (/\s+/),
-        trimComma: (/\s*,\s*/g)
+        trimComma: (/\s*,\s*/g),
+        featureMember: (/^(.*:)?featureMembers?$/)
     },
 
     /**
@@ -124,9 +139,9 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
      *
      * Valid options properties:
      * featureType - {Array(String) or String} Local (without prefix) feature 
-     *     typeName(s) (required).
-     * featureNS - {String} Feature namespace (required).
-     * geometryName - {String} Geometry element name.
+     *     typeName(s) (required for write).
+     * featureNS - {String} Feature namespace (required for write).
+     * geometryName - {String} Geometry element name (required for write).
      */
     initialize: function(options) {
         OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
@@ -155,7 +170,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             data = data.documentElement;
         }
         var features = [];
-        this.readNode(data, {features: features});
+        this.readNode(data, {features: features}, true);
         if(features.length == 0) {
             // look for gml:featureMember elements
             var elements = this.getElementsByTagNameNS(
@@ -163,7 +178,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             );
             if(elements.length) {
                 for(var i=0, len=elements.length; i<len; ++i) {
-                    this.readNode(elements[i], {features: features});
+                    this.readNode(elements[i], {features: features}, true);
                 }
             } else {
                 // look for gml:featureMembers elements (this is v3, but does no harm here)
@@ -172,11 +187,48 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
                 );
                 if(elements.length) {
                     // there can be only one
-                    this.readNode(elements[0], {features: features});
+                    this.readNode(elements[0], {features: features}, true);
                 }
             }
         }
         return features;
+    },
+    
+    /**
+     * Method: readNode
+     * Shorthand for applying one of the named readers given the node
+     *     namespace and local name.  Readers take two args (node, obj) and
+     *     generally extend or modify the second.
+     *
+     * Parameters:
+     * node - {DOMElement} The node to be read (required).
+     * obj - {Object} The object to be modified (optional).
+     * first - {Boolean} Should be set to true for the first node read. This
+     *     is usually the readNode call in the read method. Without this being
+     *     set, auto-configured properties will stick on subsequent reads.
+     *
+     * Returns:
+     * {Object} The input object, modified (or a new one if none was provided).
+     */
+    readNode: function(node, obj, first) {
+        // on subsequent calls of format.read(), we want to reset auto-
+        // configured properties and auto-configure again.
+        if (first === true && this.autoConfig === true) {
+            this.featureType = null;
+            delete this.namespaceAlias[this.featureNS];
+            delete this.namespaces["feature"];
+            this.featureNS = null;
+        }
+        // featureType auto-configuration
+        if (!this.featureNS && (!(node.prefix in this.namespaces) &&
+                node.parentNode.namespaceURI == this.namespaces["gml"] &&
+                this.regExes.featureMember.test(node.parentNode.nodeName))) {
+            this.featureType = node.nodeName.split(":").pop();
+            this.setNamespace("feature", node.namespaceURI);
+            this.featureNS = node.namespaceURI;
+            this.autoConfig = true;
+        }
+        return OpenLayers.Format.XML.prototype.readNode.apply(this, [node, obj]);
     },
     
     /**
@@ -189,6 +241,9 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
      */
     readers: {
         "gml": {
+            "_inherit": function(node, obj, container) {
+                // To be implemented by version specific parsers
+            },
             "featureMember": function(node, obj) {
                 this.readChildNodes(node, obj);
             },
@@ -257,6 +312,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "MultiPoint": function(node, container) {
                 var obj = {components: []};
+                this.readers.gml._inherit.apply(this, [node, obj, container]);
                 this.readChildNodes(node, obj);
                 container.components = [
                     new OpenLayers.Geometry.MultiPoint(obj.components)
@@ -267,6 +323,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "LineString": function(node, container) {
                 var obj = {};
+                this.readers.gml._inherit.apply(this, [node, obj, container]);
                 this.readChildNodes(node, obj);
                 if(!container.components) {
                     container.components = [];
@@ -277,6 +334,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "MultiLineString": function(node, container) {
                 var obj = {components: []};
+                this.readers.gml._inherit.apply(this, [node, obj, container]);
                 this.readChildNodes(node, obj);
                 container.components = [
                     new OpenLayers.Geometry.MultiLineString(obj.components)
@@ -287,6 +345,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "Polygon": function(node, container) {
                 var obj = {outer: null, inner: []};
+                this.readers.gml._inherit.apply(this, [node, obj, container]);
                 this.readChildNodes(node, obj);
                 obj.inner.unshift(obj.outer);
                 if(!container.components) {
@@ -298,6 +357,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "LinearRing": function(node, obj) {
                 var container = {};
+                this.readers.gml._inherit.apply(this, [node, container]);
                 this.readChildNodes(node, container);
                 obj.components = [new OpenLayers.Geometry.LinearRing(
                     container.points
@@ -305,6 +365,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "MultiPolygon": function(node, container) {
                 var obj = {components: []};
+                this.readers.gml._inherit.apply(this, [node, obj, container]);
                 this.readChildNodes(node, obj);
                 container.components = [
                     new OpenLayers.Geometry.MultiPolygon(obj.components)
@@ -315,6 +376,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "GeometryCollection": function(node, container) {
                 var obj = {components: []};
+                this.readers.gml._inherit.apply(this, [node, obj, container]);
                 this.readChildNodes(node, obj);
                 container.components = [
                     new OpenLayers.Geometry.Collection(obj.components)
@@ -331,12 +393,17 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
                 // geometry or attributes.
                 var name;
                 var local = node.localName || node.nodeName.split(":").pop();
-                if (!this.singleFeatureType && 
-                    (OpenLayers.Util.indexOf(this.featureType, local) != -1)) {
+                // Since an attribute can have the same name as the feature type
+                // we only want to read the node as a feature if the parent
+                // node can have feature nodes as children.  In this case, the
+                // obj.features property is set.
+                if (obj.features) {
+                    if (!this.singleFeatureType &&
+                        (OpenLayers.Util.indexOf(this.featureType, local) !== -1)) {
                         name = "_typeName";
-                }
-                else if(local == this.featureType) {
-                    name = "_typeName";
+                    } else if(local === this.featureType) {
+                        name = "_typeName";
+                    }
                 } else {
                     // Assume attribute elements have one child node and that the child
                     // is a text node.  Otherwise assume it is a geometry node.
@@ -379,11 +446,14 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
                     );
                 }
                 if(container.bounds) {
-                    feature.geometry.bounds = container.bounds;
+                    feature.bounds = container.bounds;
                 }
                 obj.features.push(feature);
             },
             "_geometry": function(node, obj) {
+                if (!this.geometryName) {
+                    this.geometryName = node.nodeName.split(":").pop();
+                }
                 this.readChildNodes(node, obj);
             },
             "_attribute": function(node, obj) {
@@ -413,7 +483,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
      */
     write: function(features) {
         var name;
-        if(features instanceof Array) {
+        if(OpenLayers.Util.isArray(features)) {
             name = "featureMembers";
         } else {
             name = "featureMember";
@@ -442,8 +512,9 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "MultiPoint": function(geometry) {
                 var node = this.createElementNSPlus("gml:MultiPoint");
-                for(var i=0; i<geometry.components.length; ++i) {
-                    this.writeNode("pointMember", geometry.components[i], node);
+                var components = geometry.components || [geometry];
+                for(var i=0, ii=components.length; i<ii; ++i) {
+                    this.writeNode("pointMember", components[i], node);
                 }
                 return node;
             },
@@ -454,8 +525,9 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "MultiLineString": function(geometry) {
                 var node = this.createElementNSPlus("gml:MultiLineString");
-                for(var i=0; i<geometry.components.length; ++i) {
-                    this.writeNode("lineStringMember", geometry.components[i], node);
+                var components = geometry.components || [geometry];
+                for(var i=0, ii=components.length; i<ii; ++i) {
+                    this.writeNode("lineStringMember", components[i], node);
                 }
                 return node;
             },
@@ -466,9 +538,10 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
             },
             "MultiPolygon": function(geometry) {
                 var node = this.createElementNSPlus("gml:MultiPolygon");
-                for(var i=0; i<geometry.components.length; ++i) {
+                var components = geometry.components || [geometry];
+                for(var i=0, ii=components.length; i<ii; ++i) {
                     this.writeNode(
-                        "polygonMember", geometry.components[i], node
+                        "polygonMember", components[i], node
                     );
                 }
                 return node;
@@ -552,7 +625,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
     },
     
     /**
-     * Function: setGeometryTypes
+     * Method: setGeometryTypes
      * Sets the <geometryTypes> mapping.
      */
     setGeometryTypes: function() {

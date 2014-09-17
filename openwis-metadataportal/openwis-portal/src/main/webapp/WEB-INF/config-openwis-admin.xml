@@ -466,6 +466,14 @@
 			</error>
 		</service>
 		
+		<service name="xml.harvesting.last.report.file">
+			<class name=".services.harvest.LastReportFile" />
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+			<output file="true" />
+		</service>
+		
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- Request / Subscription                                        -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
