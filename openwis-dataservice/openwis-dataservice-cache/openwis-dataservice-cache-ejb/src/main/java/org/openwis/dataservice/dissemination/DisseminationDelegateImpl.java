@@ -63,6 +63,7 @@ import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
+import org.openwis.dataservice.util.WMOFTP;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.harness.dissemination.Diffusion;
@@ -793,7 +794,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
             String zipMode = getZipMode(processedRequest, startPrimary);
             // TODO: decide what to do in case that zipping / packing fails
-            if (!prepareForDelivery(fileURI, zipMode, dissJob)) {
+            if (!prepareForDelivery(fileURI, zipMode, dissJob, processedRequest)) {
                logger.error("Zipping / packing of " + fileURI + " failed for request " + requestId);
             } else {
                isDisseminationThresholdExceeded(disseminationInfo, dissJob, processedRequest
@@ -948,7 +949,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
     * @param zipMode the option for the zipping / packing: NONE, ZIPPED, WMO_FTP
     * @return true if preparation was successful, false otherwise
     */
-   private boolean prepareForDelivery(String fileURI, String zipMode, DisseminationJob dissJob) {
+   private boolean prepareForDelivery(String fileURI, String zipMode, DisseminationJob dissJob, ProcessedRequest processedRequest) {
       boolean result = true;
 
       try {
@@ -985,6 +986,9 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
             result = zipFiles(zipFilename, srcFilePath);
          } else if (zipMode.equals("WMO_FTP")) {
             result = wmoFtpPackFiles(srcFilePath);
+            if (!result) {
+               processedRequest.setMessage("Warning: Extracted file is not a valid FNC, could not pack as WMO-FTP");
+            }
          }
       } catch (Exception exception) {
          logger.error("URI string <" + fileURI + "> could not be zipped / packed");
@@ -1080,6 +1084,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       boolean packSuccessful = true;
 
       try {
+         
          // Get a list of files from source directory
          File sourceFile = new File(srcFilePath);
          String files[] = sourceFile.list();
@@ -1091,20 +1096,26 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
          // Step through file list
          for (String filename : files) {
-            File f = new File(srcFilePath, filename);
-
-            // Regular file
-            if (f.isFile()) {
-               fileCnt++;
-
-               if (logger.isDebugEnabled()) {
-                  logger.debug("Adding " + filename + " to wmoftp file");
+            if ('A' != filename.charAt(0)) {
+               logger.warn("Not a valid FNC file, cannot pack file " + filename);
+               packSuccessful = false;
+               break;
+            } else {
+               File f = new File(srcFilePath, filename);
+   
+               // Regular file
+               if (f.isFile()) {
+                  fileCnt++;
+   
+                  if (logger.isDebugEnabled()) {
+                     logger.debug("Adding " + filename + " to wmoftp file");
+                  }
+   
+                  filePacker.appendBulletinToPackedFile(f, filename);
+   
+                  // Delete original file
+                  f.delete();
                }
-
-               filePacker.appendBulletinToPackedFile(f, filename);
-
-               // Delete original file
-               f.delete();
             }
          }
 
@@ -1165,7 +1176,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
       // For the moment just set the processed request to "ONGOING_DISSEMINATION" and return success
       ProcessedRequest processedRequest = getProcessedRequest(dissJob.getRequestId());
-      prepareForDelivery(dissJob.getFileURI(), getZipMode(processedRequest, startPrimary), dissJob);
+      prepareForDelivery(dissJob.getFileURI(), getZipMode(processedRequest, startPrimary), dissJob, processedRequest);
 
       String fromMailAddress = JndiUtils.getString(ConfigurationInfo.MAIL_FROM);
       String userMailAddress = processedRequest.getRequest().getEmail();

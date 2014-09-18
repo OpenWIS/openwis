@@ -347,100 +347,33 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	 *
 	 *  Opens a new transaction and uses its own EntityManager, since the latter is cleared during the housekeeping operation for performance reasons.
 	 */
-	@SuppressWarnings("unchecked")
    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	private void startHousekeeping(){
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-
 		long nowInMilliseconds = System.currentTimeMillis();
 		long expiryDateInMilliseconds = nowInMilliseconds - getHousekeepingExpirationWindow();
 		Date expiryDate = new Date(expiryDateInMilliseconds);
 		LOG.info("+++ Start housekeeping of cache since " + expiryDate);
+		
+		// Version <=3.12, suppression dans le File System, désormais, supprimer les fichiers avec un cron
+      // delete mapped metadata entries in the database
+      LOG.info("+++ expiration +++ deleting mapped metadata");
+      Query deleteExpiredMappedMetadataQuery = entityManager
+            .createNativeQuery("DELETE FROM openwis_mapped_metadata where cached_file_id in (SELECT cached_file_id FROM openwis_cached_file WHERE insertion_date < (:expiryDate))");
+      deleteExpiredMappedMetadataQuery.setParameter("expiryDate", expiryDate);
+      deleteExpiredMappedMetadataQuery.executeUpdate();
 
-		// find expired cached files
-		List<CachedFile> expiredCachedFiles;
-		final int MAX_RESULTS = 1000;
-		do{
-			Query expiredFilesNativeQuery = entityManager.createNativeQuery("SELECT DISTINCT * FROM openwis_cached_file WHERE insertion_date < (:expiryDate) ORDER BY insertion_date ASC LIMIT (:maxResults)", CachedFile.class);
-			expiredFilesNativeQuery.setParameter("expiryDate", expiryDate);
-			expiredFilesNativeQuery.setParameter("maxResults", MAX_RESULTS);
-
-			expiredCachedFiles = expiredFilesNativeQuery.getResultList();
-
-			// detach all managed entities currently used by the entityManager in scope of this method
-			entityManager.clear();
-
-			List<Long> idList = new ArrayList<Long>();
-
-			for (CachedFile expiredCachedFile : expiredCachedFiles){
-				// stop sharing and delete files (and torrents) from cache
-				String filename = expiredCachedFile.getFilename();
-				String path = expiredCachedFile.getPath();
-
-				boolean deletionSucessful = true;
-				boolean obsoleteFileDeleted = false;
-
-				LOG.info("+++ expiration +++ purge file : " + filename);
-
-            File obsoleteFile = new File(path, expiredCachedFile.getInternalFilename());
-
-            if (obsoleteFile != null && obsoleteFile.exists()) {
-               try {
-                  obsoleteFileDeleted = obsoleteFile.delete();
-               } catch (Exception e) {
-                  LOG.error("Error while deleting expired file " + obsoleteFile.getName()
-                        + " - Reason: " + e.getMessage());
-                  obsoleteFileDeleted = false;
-               }
-               if (!obsoleteFileDeleted) {
-                  deletionSucessful = false;
-                  LOG.error("Could not delete expired file " + obsoleteFile.getName());
-               }
-            } else {
-               LOG.warn("File " + obsoleteFile.getName()
-                     + " does not exist. Deleting DB entry anyway.");
-            }
-
-            if (path.startsWith(getCacheDirectory()) && obsoleteFileDeleted) { // just to make sure that nothing outside the cache is deleted (prevents misusing)
-               GlobalDataCollectionUtils.recursivelyDeleteEmptyParentDirectoriesUpToRoot(path,
-                     getCacheDirectory());
-            }
-
-				if (deletionSucessful){
-					Long id = expiredCachedFile.getId();
-					LOG.debug("CachedFile id to be removed from cache = " + id);
-
-					idList.add(id);
-				} else {
-					LOG.warn("Could not delete files related to CachedFile " + expiredCachedFile.getFilename() + ". Trying again during next housekeeping.");
-				}
-			}
-
-			if (!idList.isEmpty()){
-				// delete mapped metadata entries in the database
-				LOG.info("+++ expiration +++ deleting mapped metadata");
-				Query deleteExpiredMappedMetadataQuery = entityManager.createQuery("DELETE FROM MappedMetadata mm WHERE mm.id IN (:idList)");
-				deleteExpiredMappedMetadataQuery.setParameter("idList", idList);
-				deleteExpiredMappedMetadataQuery.executeUpdate();
-
-				// delete cached files entries in the database
-				LOG.info("+++ expiration +++ deleting cached files");
-				Query deleteExpiredFileFromCachedFilesQuery = entityManager.createQuery("DELETE FROM CachedFile cf WHERE cf.id IN (:idList)");
-				deleteExpiredFileFromCachedFilesQuery.setParameter("idList", idList);
-				deleteExpiredFileFromCachedFilesQuery.executeUpdate();
-			}
-			entityManager.flush();
-		} while(expiredCachedFiles.size() == MAX_RESULTS);
+      // delete cached files entries in the database
+      LOG.info("+++ expiration +++ deleting cached files");
+      Query deleteExpiredFileFromCachedFilesQuery = entityManager
+            .createNativeQuery("DELETE FROM openwis_cached_file WHERE insertion_date < (:expiryDate)");
+      deleteExpiredFileFromCachedFilesQuery.setParameter("expiryDate", expiryDate);
+      int deletedFiles = deleteExpiredFileFromCachedFilesQuery.executeUpdate();
+      LOG.info("+++ expiration +++ deleted : " + deletedFiles);
 
 		testForMaximumCacheSize();
 
 		LOG.info("+++ Finished housekeeping of cache since " + expiryDate);
 		
-		// clean up
-		expiredCachedFiles = null;
-		if (entityManager.isOpen()){
-			entityManager.close();
-		}
 	}
 
 	/**

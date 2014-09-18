@@ -1,7 +1,7 @@
 <html>
   <head>
   
-    <script src="../../lib/OpenLayers.js"></script>
+    <script src="../OLLoader.js"></script>
 
     <script type="text/javascript">
 
@@ -45,48 +45,6 @@
         t.eq(elem2.style.display, "none", "shown element toggled to hidden");
     }
     
-    function test_Element_hide(t) {
-        t.plan(2);
-
-        var elem1 = {
-            style: {
-                'display': "none"
-            }
-        };
-        
-        var elem2 = {
-            style: {
-                'display': ""
-            }
-        };
-
-        OpenLayers.Element.hide(elem1, elem2);
-        
-        t.eq(elem1.style.display, "none", "hidden element stays hidden");
-        t.eq(elem2.style.display, "none", "shown element hidden");
-    }
-    
-    function test_Element_show(t) {
-        t.plan(2);
-
-        var elem1 = {
-            style: {
-                'display': "none"
-            }
-        };
-        
-        var elem2 = {
-            style: {
-                'display': ""
-            }
-        };
-
-        OpenLayers.Element.show(elem1, elem2);
-        
-        t.eq(elem1.style.display, "", "hidden element shown");
-        t.eq(elem2.style.display, "", "shown element stays shown");
-    }
-    
     function test_Element_remove(t) {
         t.plan(1);
 
@@ -110,37 +68,6 @@
         t.ok(OpenLayers.Element.getHeight(elem) == elem.offsetHeight, "offsetHeight returned");
     }
     
-    function test_Element_getDimensions(t) {
-        if (!t.open_window) { 
-            t.plan(0);
-            return;
-        } else {    
-            t.plan(4);
-        }    
-        
-      //shown
-        t.open_window( "BaseTypes/Element.html", function( wnd ) {
-            t.delay_call(1, function() {
-                var elem = wnd.document.getElementById("elemID");
-
-                var dims = OpenLayers.Element.getDimensions(elem);
-                t.eq(dims.width, 50, "width correct when displayed");
-                t.eq(dims.height, 100, "height correct when displayed")
-      
-                elem.style.display = "none";
-                dims = OpenLayers.Element.getDimensions(elem);
-                t.eq(dims.width, 50, "width correct when hidden");
-                t.eq(dims.height, 100, "height correct when hidden")
-      
-
-            });
-        });      
-      
-      //hidden
-        
-
-    }    
-
     function test_hasClass(t) {        
         t.plan(14);
         var has = OpenLayers.Element.hasClass;
@@ -243,7 +170,7 @@
         style = "chickenHead";
         t.ok(OpenLayers.Element.getStyle(elem, style) == null, "get style on 'auto' style returns null");
 
-        if (OpenLayers.Util.getBrowserName() == "opera") {
+        if (OpenLayers.BROWSER_NAME == "opera") {
             elem.style.top = "15px";
             style = "top";
 

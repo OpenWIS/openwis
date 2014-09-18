@@ -204,7 +204,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
     * @param extractedFiles
     */
    protected void updateExtractedDataStatistics(final ProcessedRequest processedRequest, final String userId) {
-      File disseminatedFile = getDisseminatedFile(processedRequest.getUri());
+      File disseminatedFile = new File(STAGING_POST_URI,processedRequest.getUri());
       if (disseminatedFile != null) {
          // get statistics parameter
          long size = 0;
@@ -233,22 +233,6 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
             logger.warn("Could no update statistics", e);
          }
       }
-   }
-
-   /**
-    * Description goes here.
-    *
-    * @param uri the URI
-    * @return the disseminated file
-    */
-   private File getDisseminatedFile(String uri) {
-      File result = null;
-      File stagingPost = new File(STAGING_POST_URI, uri);
-      File[] disseminatedFiles = stagingPost.listFiles();
-      if ((disseminatedFiles != null) && (disseminatedFiles.length > 0)) {
-         result = disseminatedFiles[0];
-      }
-      return result;
    }
 
    /**

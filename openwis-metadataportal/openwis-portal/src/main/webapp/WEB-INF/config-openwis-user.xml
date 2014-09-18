@@ -154,6 +154,11 @@
 			<class name=".services.register.SelfRegister" />
 		</service>
 		
+		
+		<service name="xml.relatedservices.search" type="xml">
+			<class name=".services.search.RelatedServicesSearch"/>
+		</service>
+		
 	</services>
 </geonet>
 

@@ -1,6 +1,7 @@
 package org.openwis.metadataportal.services.search;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import jeeves.constants.Jeeves;
 import jeeves.interfaces.Service;
 import jeeves.interfaces.ServiceWithJsp;
 import jeeves.resources.dbms.Dbms;
@@ -35,6 +37,7 @@ import org.openwis.metadataportal.kernel.search.query.SearchResult;
 import org.openwis.metadataportal.kernel.search.query.SearchResultDocument;
 import org.openwis.metadataportal.model.datapolicy.OperationEnum;
 import org.openwis.metadataportal.model.group.Group;
+import org.openwis.metadataportal.services.search.dto.RelatedMetadataDTO;
 
 /**
  * The Class UserSearch. <P>
@@ -82,16 +85,22 @@ public class UserSearch implements ServiceWithJsp, Service {
 
       // Getting operation allowed
       Map<String, Set<OperationEnum>> operationsAllowed = null;
+      Map<String, List<RelatedMetadataDTO>> relatedMetadata = null;
       if (searchResult.getCount() > 0) {
          Set<String> ids = getMetadataIds(searchResult);
          Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
          operationsAllowed = getOperations(dbms, session, ids);
-      }
+         
+         // Build a map to get all the related services for each metadata
+         // Map key=UUID, value=List of RelatedMetadataDTO
+         relatedMetadata = getRelatedMetadata(context, searcher, ids);
+      } 
 
       // Build jsp args
       Map<String, Object> result = new HashMap<String, Object>();
       result.put("searchResult", searchResult);
       result.put("operationsAllowed", operationsAllowed);
+      result.put("relatedMetadata", relatedMetadata);
       result.put("username", session.getUsername());
       result.put("isCacheEnable",
             OpenwisMetadataPortalConfig.getBoolean(ConfigurationConstants.CACHE_ENABLE));
@@ -155,6 +164,31 @@ public class UserSearch implements ServiceWithJsp, Service {
          }
       }
       return resultsWithLowercaseKeys;
+   }
+   
+   @SuppressWarnings("rawtypes")
+   public Map<String, List<RelatedMetadataDTO>> getRelatedMetadata(ServiceContext context,
+         GenericMetaSearcher searcher, Set<String> metadataIds) throws Exception {
+      Map<String, List<RelatedMetadataDTO>> result = new LinkedHashMap<String, List<RelatedMetadataDTO>>();
+      
+      for (String mdId : metadataIds) {
+         Element requestParameters = new Element(Jeeves.Elem.REQUEST);
+         requestParameters.addContent(new Element("operatesOn").setText(mdId));
+         //requestParameters.addContent(new Element("fast").addContent("true"));
+         searcher.search(context, requestParameters, null);
+         
+         ArrayList<RelatedMetadataDTO> metadataList = new ArrayList<RelatedMetadataDTO>();
+         for (SearchResultDocument doc : searcher.getResult().getDocuments()) {
+            RelatedMetadataDTO md = new RelatedMetadataDTO();
+            md.setId(doc.getFieldAsString(IndexField.ID));
+            md.setUuid(doc.getFieldAsString(IndexField.UUID));
+            md.setTitle(doc.getFieldAsString(IndexField.TITLE));
+            metadataList.add(md);
+         }
+         result.put(mdId, metadataList);
+      }
+      
+      return result;
    }
 
    /**

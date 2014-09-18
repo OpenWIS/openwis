@@ -37,4 +37,14 @@
 	   	}
 	   	%>
 	    
+	  <%
+	  	String urnParam = request.getParameter("urn");
+	  	if (urnParam != null && urnParam.length() > 0) {
+	  %>
+		   	remoteSearch.url = "<%=request.getContextPath()%>" + "/srv/en/main.search.embedded";
+		   	remoteSearch.urn = "<%= urnParam %>";
+	  <%
+	  	}
+	  %>
+	   	
 	</script>

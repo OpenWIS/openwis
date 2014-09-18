@@ -3,6 +3,7 @@
  */
 package org.openwis.metadataportal.kernel.harvest.exec;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import jeeves.utils.Log;
 import org.fao.geonet.constants.Geonet;
 import org.openwis.metadataportal.kernel.common.IMonitorable;
 import org.openwis.metadataportal.model.harvest.HarvestingTask;
+import org.openwis.metadataportal.services.util.DateTimeUtils;
 
 /**
  * Short Description goes here. <P>
@@ -78,8 +80,8 @@ public class HarvesterExecutorService {
     * @param task the harvesting task.
     * @param harvestingTaskManager 
     */
-   public void run(HarvestingTask task, ServiceContext context) {
-      if (!task.getRunMode().isRecurrent()) {
+   public void run(HarvestingTask task, ServiceContext context, boolean runOnce) {
+      if (!task.getRunMode().isRecurrent() || runOnce) {
          pool.execute(new HarvesterRunnable(task, context));
       } else {
          if (scheduledFutures.get(task.getId()) != null) {
@@ -87,9 +89,33 @@ public class HarvesterExecutorService {
                   + " has already been scheduled, cancelling the current one");
             scheduledFutures.get(task.getId()).cancel(true);
          }
+         
+         long initialDelay = 0;
+         if (task.getRunMode().getStartingDate() != null){
+            long startingDate;
+            try {
+               startingDate = DateTimeUtils.parse(task.getRunMode().getStartingDate()).getTime();
+               long now = System.currentTimeMillis();
+               
+               if ( startingDate > now ){
+                  initialDelay=startingDate-now;
+               } else {
+                  long delta  = now - startingDate;
+                  long recurrenceMS = task.getRunMode().getRecurrencePeriod()*1000;
+                  initialDelay = recurrenceMS - (delta % recurrenceMS);
+               }
+            } catch (ParseException e) {
+               
+            }
+         }
+         // the scheduler takes seconds as unit
+         initialDelay = initialDelay / 1000; 
+         
+         Log.info(Geonet.HARVESTER_EXECUTOR, "The task " + task.getName() + " (" + task.getId()
+               + ")" + " will be scheduled in " + initialDelay + " seconds");
          ScheduledFuture<?> scheduledFuture = scheduledPool.scheduleAtFixedRate(
-               new HarvesterScheduledRunnable(pool, task, context), 0, task.getRunMode()
-                     .getRecurrentPeriod(), TimeUnit.SECONDS);
+               new HarvesterScheduledRunnable(pool, task, context), initialDelay, task.getRunMode()
+                     .getRecurrencePeriod(), TimeUnit.SECONDS);
          scheduledFutures.put(task.getId(), scheduledFuture);
       }
    }

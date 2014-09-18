@@ -1,4 +1,7 @@
-target
-.classpath
+# Ignore all maven build
+target/
+
+# Ignore eclipse files
 .project
-.settings
+.classpath
+.settings/

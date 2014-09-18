@@ -702,7 +702,7 @@ Openwis.Lang.Dictionary = {
     'Metadata.Report.Error.Info' : 'Error report (First 100 errors only)',
     'Metadata.Report.Error.Urn' : 'Metadata',
     'Metadata.Report.Error.Name' : 'Error',
-
+    'Metadata.Report.Download.Last.Report' : 'Download Detailed Report',
     //----------------------------------------------------------------- Harvesting.
     'Harvesting.Administration.Title' : 'Configure harvesting',
     'Harvesting.Administration.All.No.Task' : 'No harvesting task to display',

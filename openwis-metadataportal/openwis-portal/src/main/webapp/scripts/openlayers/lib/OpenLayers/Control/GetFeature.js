@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -14,7 +15,7 @@
  * Class: OpenLayers.Control.GetFeature
  * Gets vector features for locations underneath the mouse cursor. Can be
  *     configured to act on click, hover or dragged boxes. Uses an
- *     <OpenLayers.Protocol> that supports spatial filters (BBOX) to retrieve
+ *     <OpenLayers.Protocol> that supports spatial filters to retrieve
  *     features from a server and fires events that notify applications of the
  *     selected features. 
  *
@@ -59,10 +60,22 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: click
-     * {Boolean} Use a click handler for selecting/unselecting features.
-     *     Default is true.
+     * {Boolean} Use a click handler for selecting/unselecting features. If
+     *     both <click> and <box> are set to true, the click handler takes
+     *     precedence over the box handler if a box with zero extent was
+     *     selected.  Default is true.
      */
     click: true,
+
+    /**
+     * APIProperty: single
+     * {Boolean} Tells whether select by click should select a single
+     *     feature. If set to false, all matching features are selected.
+     *     If set to true, only the best matching feature is selected.
+     *     This option has an effect only of the <click> option is set
+     *     to true. Default is true.
+     */
+    single: true,
     
     /**
      * APIProperty: clickout
@@ -80,10 +93,11 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: clickTolerance
-     * {Integer} Tolerance for the BBOX query in pixels. This has the
+     * {Integer} Tolerance for the filter query in pixels. This has the
      *     same effect as the tolerance parameter on WMS GetFeatureInfo
      *     requests.  Will be ignored for box selections.  Applies only if
-     *     <click> is true.  Default is 5.
+     *     <click> or <hover> is true.  Default is 5.  Note that this not
+     *     only affects requests on click, but also on hover.
      */
     clickTolerance: 5,
     
@@ -95,14 +109,19 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: box
-     * {Boolean} Allow feature selection by drawing a box.
+     * {Boolean} Allow feature selection by drawing a box. If set to
+     *     true set <click> to false to disable the click handler and
+     *     rely on the box handler only, even for "zero extent" boxes.
+     *     See the description of the <click> option for additional
+     *     information.  Default is false.
      */
     box: false,
     
     /**
      * APIProperty: maxFeatures
-     * {Integer} Maximum number of features to return from a query, if
-     *     supported by the <protocol>.  Default is 10.
+     * {Integer} Maximum number of features to return from a query in single mode
+     *     if supported by the <protocol>. This set of features is then used to
+     *     determine the best match client-side. Default is 10.
      */
     maxFeatures: 10,
     
@@ -125,7 +144,6 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
      * {Object} Additional options for the handlers used by this control. This
      *     is a hash with the keys "click", "box" and "hover".
      */
-    handlerOptions: null,
     
     /**
      * Property: handlers
@@ -142,15 +160,39 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
     hoverResponse: null,
     
     /**
-     * Constant: EVENT_TYPES
+     * Property: filterType
+     * {<String>} The type of filter to use when sending off a request. 
+     *     Possible values: 
+     *     OpenLayers.Filter.Spatial.<BBOX|INTERSECTS|WITHIN|CONTAINS>
+     *     Defaults to: OpenLayers.Filter.Spatial.BBOX
+     */
+    filterType: OpenLayers.Filter.Spatial.BBOX,
+
+    /** 
+     * APIProperty: events
+     * {<OpenLayers.Events>} Events instance for listeners and triggering
+     *     control specific events.
      *
-     * Supported event types:
+     * Register a listener for a particular event with the following syntax:
+     * (code)
+     * control.events.register(type, obj, listener);
+     * (end)
+     *
+     * Supported event types (in addition to those from <OpenLayers.Control.events>):
      * beforefeatureselected - Triggered when <click> is true before a
      *      feature is selected. The event object has a feature property with
      *      the feature about to select
      * featureselected - Triggered when <click> is true and a feature is
      *      selected. The event object has a feature property with the
      *      selected feature
+     * beforefeaturesselected - Triggered when <click> is true before a
+     *      set of features is selected. The event object is an array of
+     *      feature properties with the features about to be selected.  
+     *      Return false after receiving this event to discontinue processing
+     *      of all featureselected events and the featuresselected event.
+     * featuresselected - Triggered when <click> is true and a set of
+     *      features is selected.  The event object is an array of feature
+     *      properties of the selected features
      * featureunselected - Triggered when <click> is true and a feature is
      *      unselected. The event object has a feature property with the
      *      unselected feature
@@ -161,8 +203,6 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
      * outfeature - Triggered when <hover> is true and the mouse moves
      *      moved away from a hover-selected feature
      */
-    EVENT_TYPES: ["featureselected", "featureunselected", "clickout",
-        "beforefeatureselected", "hoverfeature", "outfeature"],
 
     /**
      * Constructor: OpenLayers.Control.GetFeature
@@ -170,15 +210,10 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
      *
      * Parameters:
      * options - {Object} A configuration object which at least has to contain
-     *     a <protocol> property
+     *     a <protocol> property (if not, it has to be set before a request is
+     *     made)
      */
     initialize: function(options) {
-        // concatenate events specific to vector with those from the base
-        this.EVENT_TYPES =
-            OpenLayers.Control.GetFeature.prototype.EVENT_TYPES.concat(
-            OpenLayers.Control.prototype.EVENT_TYPES
-        );
-
         options.handlerOptions = options.handlerOptions || {};
 
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
@@ -189,8 +224,8 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
         
         if(this.click) {
             this.handlers.click = new OpenLayers.Handler.Click(this,
-                {click: this.selectSingle}, this.handlerOptions.click || {})
-        };
+                {click: this.selectClick}, this.handlerOptions.click || {});
+        }
 
         if(this.box) {
             this.handlers.box = new OpenLayers.Handler.Box(
@@ -205,7 +240,8 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
             this.handlers.hover = new OpenLayers.Handler.Hover(
                 this, {'move': this.cancelHover, 'pause': this.selectHover},
                 OpenLayers.Util.extend(this.handlerOptions.hover, {
-                    'delay': 250
+                    'delay': 250,
+                    'pixelTolerance': 2
                 })
             );
         }
@@ -248,39 +284,17 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
     },
     
     /**
-     * Method: unselectAll
-     * Unselect all selected features.  To unselect all except for a single
-     *     feature, set the options.except property to the feature.
-     *
-     * Parameters:
-     * options - {Object} Optional configuration object.
-     */
-    unselectAll: function(options) {
-        // we'll want an option to supress notification here
-        var feature;
-        for(var i=this.features.length-1; i>=0; --i) {
-            feature = this.features[i];
-            if(!options || options.except != feature) {
-                this.unselect(feature);
-            }
-        }
-    },
-
-    /**
-     * Method: selectSingle
+     * Method: selectClick
      * Called on click
      *
      * Parameters:
      * evt - {<OpenLayers.Event>} 
      */
-    selectSingle: function(evt) {
-        // Set the cursor to "wait" to tell the user we're working on their click.
-        OpenLayers.Element.addClass(this.map.viewPortDiv, "olCursorWait");
-        
+    selectClick: function(evt) {
         var bounds = this.pixelToBounds(evt.xy);
         
         this.setModifiers(evt);
-        this.request(bounds, {single: true});
+        this.request(bounds, {single: this.single});
     },
 
     /**
@@ -288,31 +302,41 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
      * Callback from the handlers.box set up when <box> selection is on
      *
      * Parameters:
-     * position - {<OpenLayers.Bounds>}  
+     * position - {<OpenLayers.Bounds>|Object} An OpenLayers.Bounds or
+     * an object with a 'left', 'bottom', 'right' and 'top' properties.
      */
     selectBox: function(position) {
+        var bounds;
         if (position instanceof OpenLayers.Bounds) {
-            var minXY = this.map.getLonLatFromPixel(
-                new OpenLayers.Pixel(position.left, position.bottom)
-            );
-            var maxXY = this.map.getLonLatFromPixel(
-                new OpenLayers.Pixel(position.right, position.top)
-            );
-            var bounds = new OpenLayers.Bounds(
+            var minXY = this.map.getLonLatFromPixel({
+                x: position.left,
+                y: position.bottom
+            });
+            var maxXY = this.map.getLonLatFromPixel({
+                x: position.right,
+                y: position.top
+            });
+            bounds = new OpenLayers.Bounds(
                 minXY.lon, minXY.lat, maxXY.lon, maxXY.lat
             );
             
-            this.setModifiers(this.handlers.box.dragHandler.evt);
-            this.request(bounds);
+        } else {
+            if(this.click) {
+                // box without extent - let the click handler take care of it
+                return;
+            }
+            bounds = this.pixelToBounds(position);
         }
+        this.setModifiers(this.handlers.box.dragHandler.evt);
+        this.request(bounds);
     },
     
     /**
-     * Method selectHover
+     * Method: selectHover
      * Callback from the handlers.hover set up when <hover> selection is on
      *
      * Parameters:
-     * evt {Object} - event object with an xy property
+     * evt - {Object} event object with an xy property
      */
     selectHover: function(evt) {
         var bounds = this.pixelToBounds(evt.xy);
@@ -327,6 +351,8 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
         if (this.hoverResponse) {
             this.protocol.abort(this.hoverResponse);
             this.hoverResponse = null;
+
+            OpenLayers.Element.removeClass(this.map.viewPortDiv, "olCursorWait");
         }
     },
 
@@ -347,15 +373,18 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
     request: function(bounds, options) {
         options = options || {};
         var filter = new OpenLayers.Filter.Spatial({
-            type: OpenLayers.Filter.Spatial.BBOX,
+            type: this.filterType, 
             value: bounds
         });
         
+        // Set the cursor to "wait" to tell the user we're working.
+        OpenLayers.Element.addClass(this.map.viewPortDiv, "olCursorWait");
+
         var response = this.protocol.read({
             maxFeatures: options.single == true ? this.maxFeatures : undefined,
             filter: filter,
             callback: function(result) {
-                if(result.code == 1) {
+                if(result.success()) {
                     if(result.features.length) {
                         if(options.single == true) {
                             this.selectBestFeature(result.features,
@@ -421,7 +450,7 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
             } else {
                 this.select(resultFeature || features);
             } 
-        };
+        }
     },
     
     /**
@@ -429,19 +458,19 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
      * Sets the multiple and toggle modifiers according to the current event
      * 
      * Parameters:
-     * evt {<OpenLayers.Event>}
+     * evt - {<OpenLayers.Event>}
      */
     setModifiers: function(evt) {
         this.modifiers = {
             multiple: this.multiple || (this.multipleKey && evt[this.multipleKey]),
             toggle: this.toggle || (this.toggleKey && evt[this.toggleKey])
-        }        
+        };        
     },
 
     /**
      * Method: select
      * Add feature to the hash of selected features and trigger the
-     * featureselected event.
+     * featureselected and featuresselected events.
      * 
      * Parameters:
      * features - {<OpenLayers.Feature.Vector>} or an array of features
@@ -450,28 +479,38 @@ OpenLayers.Control.GetFeature = OpenLayers.Class(OpenLayers.Control, {
         if(!this.modifiers.multiple && !this.modifiers.toggle) {
             this.unselectAll();
         }
-        if(!(features instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         
-        var feature;
-        for(var i=0, len=features.length; i<len; ++i) {
-            feature = features[i];
-            if(this.features[feature.fid || feature.id]) {
-                if(this.modifiers.toggle) {
-                    this.unselect(this.features[feature.fid || feature.id]);
-                }
-            } else {
-                cont = this.events.triggerEvent("beforefeatureselected", {
-                    feature: feature
-                });
-                if(cont !== false) {
-                    this.features[feature.fid || feature.id] = feature;
-            
-                    this.events.triggerEvent("featureselected",
-                        {feature: feature});
+        var cont = this.events.triggerEvent("beforefeaturesselected", {
+            features: features
+        });
+        if(cont !== false) {
+            var selectedFeatures = [];
+            var feature;
+            for(var i=0, len=features.length; i<len; ++i) {
+                feature = features[i];
+                if(this.features[feature.fid || feature.id]) {
+                    if(this.modifiers.toggle) {
+                        this.unselect(this.features[feature.fid || feature.id]);
+                    }
+                } else {
+                    cont = this.events.triggerEvent("beforefeatureselected", {
+                        feature: feature
+                    });
+                    if(cont !== false) {
+                        this.features[feature.fid || feature.id] = feature;
+                        selectedFeatures.push(feature);
+                
+                        this.events.triggerEvent("featureselected",
+                            {feature: feature});
+                    }
                 }
             }
+            this.events.triggerEvent("featuresselected", {
+                features: selectedFeatures
+            });
         }
     },
     

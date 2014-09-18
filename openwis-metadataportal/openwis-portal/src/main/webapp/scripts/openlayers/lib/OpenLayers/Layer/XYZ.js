@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2009 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -10,6 +11,9 @@
  * Class: OpenLayers.Layer.XYZ
  * The XYZ class is designed to make it easier for people who have tiles
  * arranged by a standard XYZ grid. 
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Layer.Grid>
  */
 OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
     
@@ -20,7 +24,7 @@ OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
     isBaseLayer: true,
     
     /**
-     * APIProperty: sphericalMecator
+     * APIProperty: sphericalMercator
      * Whether the tile extents should be set to the defaults for 
      *    spherical mercator. Useful for things like OpenStreetMap.
      *    Default is false, except for the OSM subclass.
@@ -28,7 +32,37 @@ OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
     sphericalMercator: false,
 
     /**
-     * Constructor: OpenLayers.Layer.OSM
+     * APIProperty: zoomOffset
+     * {Number} If your cache has more zoom levels than you want to provide
+     *     access to with this layer, supply a zoomOffset.  This zoom offset
+     *     is added to the current map zoom level to determine the level
+     *     for a requested tile.  For example, if you supply a zoomOffset
+     *     of 3, when the map is at the zoom 0, tiles will be requested from
+     *     level 3 of your cache.  Default is 0 (assumes cache level and map
+     *     zoom are equivalent).  Using <zoomOffset> is an alternative to
+     *     setting <serverResolutions> if you only want to expose a subset
+     *     of the server resolutions.
+     */
+    zoomOffset: 0,
+    
+    /**
+     * APIProperty: serverResolutions
+     * {Array} A list of all resolutions available on the server.  Only set this
+     *     property if the map resolutions differ from the server. This
+     *     property serves two purposes. (a) <serverResolutions> can include
+     *     resolutions that the server supports and that you don't want to
+     *     provide with this layer; you can also look at <zoomOffset>, which is
+     *     an alternative to <serverResolutions> for that specific purpose.
+     *     (b) The map can work with resolutions that aren't supported by
+     *     the server, i.e. that aren't in <serverResolutions>. When the
+     *     map is displayed in such a resolution data for the closest
+     *     server-supported resolution is loaded and the layer div is
+     *     stretched as necessary.
+     */
+    serverResolutions: null,
+
+    /**
+     * Constructor: OpenLayers.Layer.XYZ
      *
      * Parameters:
      * name - {String}
@@ -38,22 +72,13 @@ OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
     initialize: function(name, url, options) {
         if (options && options.sphericalMercator || this.sphericalMercator) {
             options = OpenLayers.Util.extend({
-                maxExtent: new OpenLayers.Bounds(
-                    -128 * 156543.0339,
-                    -128 * 156543.0339,
-                    128 * 156543.0339,
-                    128 * 156543.0339
-                ),
-                maxResolution: 156543.0339,
-                numZoomLevels: 19,
-                units: "m",
-                projection: "EPSG:900913"
+                projection: "EPSG:900913",
+                numZoomLevels: 19
             }, options);
         }
-        url = url || this.url;
-        name = name || this.name;
-        var newArguments = [name, url, {}, options];
-        OpenLayers.Layer.Grid.prototype.initialize.apply(this, newArguments);
+        OpenLayers.Layer.Grid.prototype.initialize.apply(this, [
+            name || this.name, url || this.url, {}, options
+        ]);
     },
     
     /**
@@ -64,32 +89,24 @@ OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
      * obj - {Object} Is this ever used?
      * 
      * Returns:
-     * {<OpenLayers.Layer.Grid>} An exact clone of this OpenLayers.Layer.Grid
+     * {<OpenLayers.Layer.XYZ>} An exact clone of this OpenLayers.Layer.XYZ
      */
     clone: function (obj) {
         
         if (obj == null) {
             obj = new OpenLayers.Layer.XYZ(this.name,
                                             this.url,
-                                            this.options);
+                                            this.getOptions());
         }
 
         //get all additions from superclasses
-        obj = OpenLayers.Layer.HTTPRequest.prototype.clone.apply(this, [obj]);
-
-        // copy/set any non-init, non-simple values here
-        if (this.tileSize != null) {
-            obj.tileSize = this.tileSize.clone();
-        }
-        
-        // we do not want to copy reference to grid, so we make a new array
-        obj.grid = [];
+        obj = OpenLayers.Layer.Grid.prototype.clone.apply(this, [obj]);
 
         return obj;
     },    
 
     /**
-     * Method: getUrl
+     * Method: getURL
      *
      * Parameters:
      * bounds - {<OpenLayers.Bounds>}
@@ -100,42 +117,42 @@ OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
      *          parameters
      */
     getURL: function (bounds) {
-        var res = this.map.getResolution();
-        var x = Math.round((bounds.left - this.maxExtent.left) 
-            / (res * this.tileSize.w));
-        var y = Math.round((this.maxExtent.top - bounds.top) 
-            / (res * this.tileSize.h));
-        var z = this.map.getZoom();
-        var limit = Math.pow(2, z);
-
+        var xyz = this.getXYZ(bounds);
         var url = this.url;
-        var s = '' + x + y + z;
-        if (url instanceof Array)
-        {
+        if (OpenLayers.Util.isArray(url)) {
+            var s = '' + xyz.x + xyz.y + xyz.z;
             url = this.selectUrl(s, url);
         }
         
-        var path = OpenLayers.String.format(url, {'x': x, 'y': y, 'z': z});
-
-        return path;
+        return OpenLayers.String.format(url, xyz);
     },
     
     /**
-     * Method: addTile
-     * addTile creates a tile, initializes it, and adds it to the layer div. 
-     * 
+     * Method: getXYZ
+     * Calculates x, y and z for the given bounds.
+     *
      * Parameters:
      * bounds - {<OpenLayers.Bounds>}
-     * position - {<OpenLayers.Pixel>}
-     * 
+     *
      * Returns:
-     * {<OpenLayers.Tile.Image>} The added OpenLayers.Tile.Image
+     * {Object} - an object with x, y and z properties.
      */
-    addTile:function(bounds,position) {
-        return new OpenLayers.Tile.Image(this, position, bounds, 
-                                         null, this.tileSize);
+    getXYZ: function(bounds) {
+        var res = this.getServerResolution();
+        var x = Math.round((bounds.left - this.maxExtent.left) /
+            (res * this.tileSize.w));
+        var y = Math.round((this.maxExtent.top - bounds.top) /
+            (res * this.tileSize.h));
+        var z = this.getServerZoom();
+
+        if (this.wrapDateLine) {
+            var limit = Math.pow(2, z);
+            x = ((x % limit) + limit) % limit;
+        }
+
+        return {'x': x, 'y': y, 'z': z};
     },
-     
+    
     /* APIMethod: setMap
      * When the layer is added to a map, then we can fetch our origin 
      *    (if we don't have one.) 
@@ -152,27 +169,4 @@ OpenLayers.Layer.XYZ = OpenLayers.Class(OpenLayers.Layer.Grid, {
     },
 
     CLASS_NAME: "OpenLayers.Layer.XYZ"
-});
-
-
-/**
- * Class: OpenLayers.Layer.OSM
- * A class to access OpenStreetMap tiles. By default, uses the OpenStreetMap
- *    hosted tile.openstreetmap.org 'Mapnik' tileset. If you wish to use
- *    tiles@home / osmarender layer instead, you can pass a layer like:
- * 
- * (code)
- *     new OpenLayers.Layer.OSM("t@h", 
- *       "http://tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png"); 
- * (end)
- *
- * This layer defaults to Spherical Mercator.
- */
-
-OpenLayers.Layer.OSM = OpenLayers.Class(OpenLayers.Layer.XYZ, {
-     name: "OpenStreetMap",
-     attribution: "Data CC-By-SA by <a href='http://openstreetmap.org/'>OpenStreetMap</a>",
-     sphericalMercator: true,
-     url: 'http://tile.openstreetmap.org/${z}/${x}/${y}.png',
-     CLASS_NAME: "OpenLayers.Layer.OSM"
 });

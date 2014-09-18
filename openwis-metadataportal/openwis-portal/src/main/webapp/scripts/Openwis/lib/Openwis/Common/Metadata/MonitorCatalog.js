@@ -461,6 +461,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             });
             this.searchFormPanel.add(this.getSearchTextField());
             this.searchFormPanel.add(this.getSearchFieldCombo());
+            this.searchFormPanel.add(this.getCategoriesComboBox());
             this.searchFormPanel.addButton(new Ext.Button(this.getSearchAction()));
             this.searchFormPanel.addButton(new Ext.Button(this.getResetAction()));
         }
@@ -478,6 +479,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                 listeners: {
                     keyup: function(){
                         var searchOn = Ext.isEmpty(this.getSearchTextField().getValue().trim()); 
+                        Ext.isEmpty(this.getCategoriesComboBox().getRawValue().trim()) ;
                         this.getSearchAction().setDisabled(searchOn);
                         this.getResetAction().setDisabled(searchOn);
                         if (searchOn) {
@@ -508,7 +510,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         	columns.push(['', Openwis.i18n('Metadata.CatalogContent.SearchField.any')]);
         	columns.push(['uuid', Openwis.i18n('Metadata.CatalogContent.SearchField.uuid')]);
         	columns.push(['title', Openwis.i18n('Metadata.CatalogContent.SearchField.title')]);
-            columns.push(['_categoryName', Openwis.i18n('Metadata.CatalogContent.SearchField.category')]);
+        	/*columns.push(['_categoryName', Openwis.i18n('Metadata.CatalogContent.SearchField.category')]);*/
             
             if(this.isAdmin) {
                 columns.push(['_originator',Openwis.i18n('Metadata.CatalogContent.SearchField.originator')]);
@@ -550,7 +552,10 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                 triggerAction: 'all',
                 listeners: {
                     'select': function(){
-                        var searchOn = Ext.isEmpty(this.getSearchFieldCombo().getRawValue().trim()); 
+                    	var searchOn = 
+                            Ext.isEmpty(this.getSearchFieldCombo().getRawValue().trim()) ||
+                            Ext.isEmpty(this.getCategoriesComboBox().getRawValue().trim()) ; 
+
                         this.getSearchAction().setDisabled(searchOn);
                         this.getResetAction().setDisabled(searchOn);
                         if (searchOn) {
@@ -574,7 +579,75 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         }
         return this.searchFieldCombo;
     },
+    /**
+     * The categories combo box.
+     */
+    getCategoriesComboBox: function() { 
+        if(!this.categoriesComboBox) {
+            var anyRecord = new Ext.data.Record({
+                id: '',
+                name: Openwis.i18n('Common.List.Any')
+            });
+            var categoryStore = new Openwis.Data.JeevesJsonStore({
+                url: configOptions.locService+ '/xml.category.all',
+                idProperty: 'id',
+                fields: [
+                    {
+                        name:'id'
+                    },{
+                        name:'name'
+                    }
+                ]
+            });
+        
+            this.categoriesComboBox = new Ext.form.ComboBox({
+                fieldLabel: Openwis.i18n('MetadataCreate.Category'),
+                name: 'categories',
+                store: categoryStore,
+                valueField: 'id',
+                displayField:'name',
+                typeAhead: true,
+                triggerAction: 'all',
+                editable: false,
+                selectOnFocus:true,
+                width: 200,
+                listeners: {
+                    'select': function(){
+                        var searchOn = 
+                            Ext.isEmpty(this.getSearchFieldCombo().getRawValue().trim()) ||
+                            Ext.isEmpty(this.getCategoriesComboBox().getRawValue().trim()) ;
+                        
+                        this.getSearchAction().setDisabled(searchOn);
+                        this.getResetAction().setDisabled(searchOn);
+                        
+                        if (searchOn) {
+                            this.getMetadataStore().setBaseParam(
+                                this.getCategoriesComboBox().getName(),
+                                this.getCategoriesComboBox().getValue()
+                            );
+                            this.getMetadataStore().setBaseParam("myMetadataOnly", !this.isAdmin);
+                            this.getMetadataStore().load({params:{start:0, limit:Openwis.Conf.PAGE_SIZE}});
+                        }
+                    },
+                    specialkey: function(f,e){
+                        if (e.getKey() == e.ENTER) {
+                          this.getSearchAction().execute();
+                        }
+                      },
+                    scope: this
+                }
+            });
+            var me = this.categoriesComboBox
 
+            categoryStore.on('load', function(store, records, options) {
+                    store.insert(0, [anyRecord]);
+                    me.setValue('');
+                });
+            categoryStore.load();
+        }
+        
+        return this.categoriesComboBox;
+    },
     
     // Performs search
     getSearchAction: function() {
@@ -591,6 +664,10 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                     this.getMetadataStore().setBaseParam(
                         this.getSearchFieldCombo().getName(),
                         this.getSearchFieldCombo().getValue()
+                    );
+                    this.getMetadataStore().setBaseParam(
+                            this.getCategoriesComboBox().getName(),
+                            this.getCategoriesComboBox().getValue()
                     );
                     this.getMetadataStore().setBaseParam("myMetadataOnly", !this.isAdmin);
                     this.getMetadataStore().load({params:{start:0, limit:Openwis.Conf.PAGE_SIZE}});
@@ -610,6 +687,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                 handler: function() {
                     this.getSearchTextField().setValue('');
                     this.getSearchFieldCombo().setValue('');
+                    this.getCategoriesComboBox().setValue('');
                     this.getMetadataStore().setBaseParam(
                         this.getSearchTextField().getName(),
                         this.getSearchTextField().getValue()
@@ -617,6 +695,10 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                     this.getMetadataStore().setBaseParam(
                             this.getSearchFieldCombo().getName(),
                             this.getSearchFieldCombo().getValue()
+                        );
+                    this.getMetadataStore().setBaseParam(
+                            this.getCategoriesComboBox().getName(),
+                            this.getCategoriesComboBox().getValue()
                         );
                     this.getMetadataStore().setBaseParam("myMetadataOnly", !this.isAdmin);
                     this.getMetadataStore().load({params:{start:0, limit:Openwis.Conf.PAGE_SIZE}});

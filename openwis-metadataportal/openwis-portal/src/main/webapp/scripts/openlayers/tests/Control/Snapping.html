@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
 
     function test_initialize(t) {
@@ -171,6 +171,120 @@
         t.eq(layer.events.listeners.vertexmodified.length, 0, "no vertexmodified listeners");
         
         control.destroy();
+    }
+    
+    function test_resolution_limits(t) {
+        t.plan(7);
+
+        var map = new OpenLayers.Map("map", {
+            resolutions: [1],
+            maxExtent: new OpenLayers.Bounds(0, 0, 100, 100)
+        });
+
+        var layer = new OpenLayers.Layer.Vector(null, {
+            isBaseLayer: true
+        });
+        layer.addFeatures([
+            new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(
+                "POINT(50 50)"
+            ))
+        ]);
+
+        map.addLayer(layer);
+        map.zoomToMaxExtent();        
+        
+        var control = new OpenLayers.Control.Snapping({layer: layer});
+        
+        var result;
+        var loc = new OpenLayers.Geometry.Point(49, 49);
+
+        // 1) test a target with no constraints
+        control.setTargets([{layer: layer}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result !== null, "1) target is eligible");
+        
+        // 2) test a target with minResolution < map.resolution
+        control.setTargets([{layer: layer, minResolution: 0.5}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result !== null, "2) target is eligible");
+
+        // 3) test a target with minResolution === map.resolution
+        control.setTargets([{layer: layer, minResolution: 1}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result !== null, "3) target is eligible");
+
+        // 4) test a target with minResolution > map.resolution
+        control.setTargets([{layer: layer, minResolution: 1.5}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result === null, "4) target is not eligible");
+
+        // 5) test a target with maxResolution < map.resolution
+        control.setTargets([{layer: layer, maxResolution: 0.5}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result === null, "5) target is not eligible");
+        
+        // 6) test a target with maxResolution === map.resolution
+        control.setTargets([{layer: layer, maxResolution: 1}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result === null, "6) target is not eligible");
+        
+        // 7) test a target with maxResolution > map.resolution
+        control.setTargets([{layer: layer, maxResolution: 1.5}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result !== null, "7) target is eligible");
+        
+        map.destroy();
+    
+    }
+
+    function test_filter(t) {
+        t.plan(3);
+        var map = new OpenLayers.Map("map", {
+            resolutions: [1],
+            maxExtent: new OpenLayers.Bounds(0, 0, 100, 100)
+        });
+
+        var layer1 = new OpenLayers.Layer.Vector(null, {
+            isBaseLayer: true
+        });
+        var f1 = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(
+            "LINESTRING(0 0, 10 10, 20 20, 30 30)"
+        ), {foo: 'bar'});
+        f1.fid = "FID1";
+        var f2 = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(
+            "LINESTRING(11 10, 20 10, 30 10)"
+        ), {foo: 'bar'});
+        f2.fid = "FID2";
+        layer1.addFeatures([f1, f2]);
+        map.addLayers([layer1]);
+        map.zoomToMaxExtent();
+
+        var control = new OpenLayers.Control.Snapping({
+            layer: layer1,
+            targets: [layer1],
+            defaults: {tolerance: 4}
+        });
+        control.activate();
+
+        var result;
+        var loc = new OpenLayers.Geometry.Point(1, 1);
+
+        control.setTargets([{layer: layer1}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result !== null, "target is eligible without a filter set");
+        var filter = new OpenLayers.Filter.Logical({
+            type: OpenLayers.Filter.Logical.NOT, 
+            filters: [
+                new OpenLayers.Filter.FeatureId({fids: ["FID1", "FID2"]})
+            ]
+        });
+        control.setTargets([{layer: layer1, filter: filter}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result === null, "target is not eligible with a filter set which excludes the target's features");
+        filter = new OpenLayers.Filter.Comparison({type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO, value: 'bar', property: 'foo'});
+        control.setTargets([{layer: layer1, filter: filter}]);
+        result = control.testTarget(control.targets[0], loc);
+        t.ok(result === null, "target is not eligible with a filter set which excludes the target's features using a comparison filter");
     }
     
     function test_snapping(t) {

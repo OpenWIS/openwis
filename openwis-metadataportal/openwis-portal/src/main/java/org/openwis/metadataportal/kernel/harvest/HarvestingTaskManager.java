@@ -328,15 +328,16 @@ public class HarvestingTaskManager extends AbstractManager {
       //Insert the harvesting task.
       StringBuffer sbHarvestingTask = new StringBuffer();
       sbHarvestingTask
-            .append("INSERT INTO harvestingtask(id, uuid, name, harvestingtype, validationmode, isrecurrent, recurrentperiod, lastrun, backup, status, issynchronization, isincremental, categoryid) ");
-      sbHarvestingTask.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            .append("INSERT INTO harvestingtask(id, uuid, name, harvestingtype, startingdate, validationmode, isrecurrent, recurrentperiod, lastrun, backup, status, issynchronization, isincremental, categoryid) ");
+      sbHarvestingTask.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
       Integer recurrencePeriod = null;
       String backup = null;
       String lastRunDate = null;
-
+     
       if (task.getRunMode().isRecurrent()) {
-         recurrencePeriod = task.getRunMode().getRecurrentPeriod();
+         recurrencePeriod = task.getRunMode().getRecurrencePeriod();
+        
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
@@ -346,7 +347,7 @@ public class HarvestingTaskManager extends AbstractManager {
       }
 
       getDbms().execute(sbHarvestingTask.toString(), task.getId(), UUID.randomUUID().toString(),
-            task.getName(), task.getType(), task.getValidationMode().toString(),
+            task.getName(), task.getType(),task.getRunMode().getStartingDate(), task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             lastRunDate, backup, task.getStatus().toString(),
             BooleanUtils.toString(task.isSynchronizationTask(), "y", "n"),
@@ -375,21 +376,23 @@ public class HarvestingTaskManager extends AbstractManager {
       //-- Update Task.
       StringBuffer queryUpdateTask = new StringBuffer();
       queryUpdateTask.append("UPDATE harvestingtask SET ");
-      queryUpdateTask.append("name=?, validationmode=?, isrecurrent=?, recurrentperiod=?, ");
+      queryUpdateTask.append("name=?, startingdate=?, validationmode=?, isrecurrent=?, recurrentperiod=?, ");
       queryUpdateTask.append("backup=?, status=?, issynchronization=?, isincremental=?, categoryid=? ");
       queryUpdateTask.append("WHERE id = ?");
 
       Integer recurrencePeriod = null;
       String backup = null;
+      
 
       if (task.getRunMode().isRecurrent()) {
-         recurrencePeriod = task.getRunMode().getRecurrentPeriod();
+         recurrencePeriod = task.getRunMode().getRecurrencePeriod();
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
       }
 
       getDbms().execute(queryUpdateTask.toString(), task.getName(),
+            task.getRunMode().getStartingDate(), 
             task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             backup, task.getStatus().toString(),
@@ -478,17 +481,40 @@ public class HarvestingTaskManager extends AbstractManager {
     * @throws Exception if an error occurs.
     */
    public boolean run(Integer harvestingTaskId, ServiceContext context) throws Exception {
+      return this.run(harvestingTaskId, context, false);
+   }
+   
+   /**
+    * Runs the specified task id.
+    * @param harvestingTaskId the id of the harvesting task to trigger.
+    * @param context the service context.
+    * @return <code>true</code> if the task has been scheduled, <code>false</code> if it was running.
+    * @throws Exception if an error occurs.
+    */
+   public boolean run(Integer harvestingTaskId, ServiceContext context, boolean runOnce) throws Exception {
       HarvesterExecutorService scheduler = HarvesterExecutorService.getInstance();
       if (!scheduler.isRunning(harvestingTaskId)) {
          HarvestingTask task = getHarvestingTaskById(harvestingTaskId, true);
-         scheduler.removeScheduledIfAny(harvestingTaskId);
-         scheduler.run(task, context);
+         if (!runOnce) {
+            scheduler.removeScheduledIfAny(harvestingTaskId);
+         }
+         scheduler.run(task, context, runOnce);
          return true;
       } else {
          return false;
       }
    }
    
+   /**
+    * Runs the specified task id.
+    * @param harvestingTaskId the id of the harvesting task to trigger.
+    * @param context the service context.
+    * @return <code>true</code> if the task has been scheduled, <code>false</code> if it was running.
+    * @throws Exception if an error occurs.
+    */
+   public boolean runOnce(Integer harvestingTaskId, ServiceContext context) throws Exception {
+      return this.run(harvestingTaskId, context, true);
+   }
    
    /**
     * Schedule all recurrent harvesting tasks (done at start-up).
@@ -632,6 +658,11 @@ public class HarvestingTaskManager extends AbstractManager {
       if (runMode.isRecurrent()) {
          int recurrentPeriod = Integer.parseInt(e.getChildText("recurrentperiod"));
          runMode.setRecurrentPeriod(recurrentPeriod);
+         runMode.setRecurrencePeriod(recurrentPeriod);
+         runMode.setRecurrentScale(e.getChildText("recurrentscale"));
+         if (StringUtils.isNotBlank(e.getChildText("startingdate"))) {
+            runMode.setStartingDate(e.getChildText("startingdate"));
+         }
       }
       harvestingTask.setRunMode(runMode);
       if (StringUtils.isNotBlank(e.getChildText("lastrun"))) {
@@ -777,4 +808,41 @@ public class HarvestingTaskManager extends AbstractManager {
          activate(id, context);
       }
    }
+   
+   
+   @SuppressWarnings("unchecked")
+   public String getLastRunDate(Integer taskId) throws Exception {
+	   String lastRunDate = "";
+	   String query = "SELECT lastrun FROM HarvestingTask WHERE id = ?";
+	   List<Element> records = getDbms().select(query, taskId).getChildren();
+	   if (records.size() > 0) {
+		   lastRunDate = records.get(0).getChildText("lastrun");
+	   }
+	   return lastRunDate;
+   }
+   /*
+   @SuppressWarnings("unchecked")
+   public void updateLastReport(Integer taskId, String reportName) throws Exception {
+	   String queryTaskReport = "SELECT id FROM HarvestingTask WHERE id = ?";
+	   List<Element> recordsTaskReport = getDbms().select(queryTaskReport, taskId).getChildren();
+	   if (!recordsTaskReport.isEmpty()) {
+		   //Update last report name for the current harvesting task identifier
+		   String updateQuery = "UPDATE HarvestingTask SET report = ? WHERE id = ?";
+		   getDbms().execute(updateQuery, reportName, new Integer(recordsTaskReport.get(0).getChildText("id")));
+		   
+	   } 
+   }
+   
+   @SuppressWarnings("unchecked")
+   public String getLastReportName(Integer taskId) throws Exception {
+	   String lastReportFileName = "";
+	   String query = "SELECT report FROM HarvestingTask WHERE id = ?";
+	   List<Element> records = getDbms().select(query, taskId).getChildren();
+	   if (records.size() > 0) {
+		   lastReportFileName = records.get(0).getChildText("report");
+	   }
+	   return lastReportFileName;
+   }
+   */
 }
+

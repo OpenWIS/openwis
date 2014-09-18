@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var layer; 
 
@@ -41,8 +41,8 @@
 
         layer = new OpenLayers.Layer.XYZ(name, url, options);
 
-        var bl = { bounds: new OpenLayers.Bounds(1,2,0,0)};
-        var tr = { bounds: new OpenLayers.Bounds(0,0,3,4)};
+        var bl = { bounds: new OpenLayers.Bounds(1,2,2,3)};
+        var tr = { bounds: new OpenLayers.Bounds(2,3,3,4)};
         layer.grid = [ [6, tr], 
                        [bl, 7]];
 
@@ -108,7 +108,7 @@
      */
     function test_Layer_XYZ_getURL(t) {
 
-        t.plan(2);
+        t.plan(6);
         
         var map = new OpenLayers.Map('map');
         layer = new OpenLayers.Layer.XYZ(name, url);
@@ -120,13 +120,24 @@
         layer.url = ["http://tilecache1/", "http://tilecache2/", "http://tilecache3/"];
         tileurl = layer.getURL(new OpenLayers.Bounds(3.515625,45,4.21875,45.703125));
         t.eq(tileurl, "http://tilecache1/", "Tile URL is deterministic");
+
+        layer.url = url;
+        tileurl = layer.getURL(new OpenLayers.Bounds(180.515625,45,181.21875,45.703125));
+        t.eq(tileurl, "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/9/513/63.png", "Tile URL is correct");
+        tileurl = layer.getURL(new OpenLayers.Bounds(-181.515625,45,-180.21875,45.703125));
+        t.eq(tileurl, "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/9/-2/63.png", "Tile URL is correct");
+        layer.wrapDateLine = true;
+        tileurl = layer.getURL(new OpenLayers.Bounds(180.515625,45,181.21875,45.703125));
+        t.eq(tileurl, "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/9/1/63.png", "Tile URL is correct");
+        tileurl = layer.getURL(new OpenLayers.Bounds(-181.515625,45,-180.21875,45.703125));
+        t.eq(tileurl, "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/9/510/63.png", "Tile URL is correct");
         map.destroy();
     }
     function test_Layer_XYZ_Rounding(t) {
         t.plan(1);
             m = new OpenLayers.Map("map", {'maxExtent':new OpenLayers.Bounds(-122.6579,37.4901,-122.0738,37.8795)});
             layer = new OpenLayers.Layer.XYZ( "XYZ", 
-                    url, {layername: 'basic', type:'png', resolutions:[0.000634956337608418]} );
+                    url, {layername: 'basic', type:'png', resolutions:[0.000634956337608418], buffer: 2} );
             m.addLayer(layer);
             m.zoomToMaxExtent()
             t.eq(layer.getURL(layer.grid[3][3].bounds), "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/0/1/0.png", "XYZ tiles around rounded properly.");
@@ -146,6 +157,72 @@
         t.eq(layer.tileOrigin.lat, -90, "lat is -90");
         t.eq(layer.tileOrigin.lon, -180, "lon is -180");
         map.destroy();
+    }
+
+    function test_Layer_XYZ_serverResolutions(t) {
+        t.plan(2);
+
+        var map = new OpenLayers.Map('map', {
+            resolutions: [13,11]
+        });
+
+        var layer = new OpenLayers.Layer.XYZ(name, url, options);
+        map.addLayer(layer);
+        map.setCenter(new OpenLayers.LonLat(0,0), 1);
+
+        var tileurl = layer.getURL(new OpenLayers.Bounds(0,0,0,0));
+        var level = parseInt(tileurl.split('/')[7]);
+        t.eq(map.getZoom(), level, "Tile zoom level is correct without serverResolutions");
+
+        layer.serverResolutions = [14,13,12,11,10];
+        tileurl = layer.getURL(new OpenLayers.Bounds(0,0,0,0));
+        level = parseInt(tileurl.split('/')[7]);
+        var res = map.getResolution();
+        var gotLevel = OpenLayers.Util.indexOf(layer.serverResolutions, res);
+        t.eq(gotLevel, level, "Tile zoom level is correct with serverResolutions");
+
+        map.destroy();
+    }
+
+    function test_zoomOffset(t) {
+
+        t.plan(2);
+        
+        var offset;
+        
+        // test offset of 2
+        offset = 2;
+        
+        var map = new OpenLayers.Map({
+            div: "map",
+            maxResolution: 1.40625 / Math.pow(2, offset)
+        });
+        var layer = new OpenLayers.Layer.XYZ(name, url, {zoomOffset: offset});
+        map.addLayer(layer);
+        map.setCenter(new OpenLayers.LonLat(0,0), 7);
+
+        var tileurl = layer.getURL(new OpenLayers.Bounds(3.515625,45,4.21875,45.703125));
+        t.eq(tileurl, "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/9/261/63.png", "correct URL for offset of 2");
+
+        map.destroy();
+
+        // test offset of -1
+        offset = -1;
+        
+        var map = new OpenLayers.Map({
+            div: "map",
+            maxResolution: 1.40625 / Math.pow(2, offset)
+        });
+        var layer = new OpenLayers.Layer.XYZ(name, url, {zoomOffset: offset});
+        map.addLayer(layer);
+        map.setCenter(new OpenLayers.LonLat(0,0), 10);
+
+        var tileurl = layer.getURL(new OpenLayers.Bounds(3.515625,45,4.21875,45.703125));
+        t.eq(tileurl, "http://labs.metacarta.com/wms-c/Basic.py/1.0.0/basic/9/261/63.png", "correct URL for offset of -1");
+
+        map.destroy();
+
+
     }
 
     function test_Layer_XYZ_destroy (t) {
@@ -173,6 +250,13 @@
         map.destroy();
     }
     
+    function test_clone(t) {
+        t.plan(1);
+        
+        layer = new OpenLayers.Layer.XYZ(name, url, options);
+        var clone = layer.clone();
+        t.ok(clone instanceof OpenLayers.Layer.XYZ, "clone is a Layer.XYZ instance");
+    }
 
   </script>
 </head>

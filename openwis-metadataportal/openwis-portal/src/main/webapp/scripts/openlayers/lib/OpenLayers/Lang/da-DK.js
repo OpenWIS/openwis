@@ -1,7 +1,3 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
-
 /**
  * @requires OpenLayers/Lang.js
  */
@@ -14,46 +10,30 @@
  */
 OpenLayers.Lang['da-DK'] = {
 
-    'unhandledRequest': "En ikke håndteret forespørgsel returnerede ${statusText}",
+    'unhandledRequest': "En ikke hÃ¥ndteret forespÃ¸rgsel returnerede ${statusText}",
 
-    'permalink': "Permalink",
+    'Permalink': "Permalink",
 
-    'overlays': "Kortlag",
+    'Overlays': "Kortlag",
 
-    'baseLayer': "Baggrundslag",
-
-    'sameProjection':
-        "Oversigtskortet fungerer kun når det har samme projektion som hovedkortet",
-
-    'readNotImplemented': "Læsning er ikke implementeret.",
-
-    'writeNotImplemented': "Skrivning er ikke implementeret.",
+    'Base Layer': "Baggrundslag",
 
     'noFID': "Kan ikke opdateret en feature (et objekt) der ikke har et FID.",
 
-    'errorLoadingGML': "Fejlede under indlæsning af GML fil ${url}",
-
     'browserNotSupported':
-        "Din browser understøtter ikke vektor visning. Følgende vektor visninger understøttes:\n${renderers}",
-
-    'componentShouldBe': "addFeatures : komponenten skal være en ${geomType}",
-
-    // console message
-    'getFeatureError':
-        "getFeatureFromEvent blev kaldt på et lag uden en visning. Dette betyder som regel at du " +
-        "har destrueret et lag, men ikke de håndteringer der var tilknyttet.",
+        "Din browser understÃ¸tter ikke vektor visning. FÃ¸lgende vektor visninger understÃ¸ttes:\n${renderers}",
 
     // console message
     'minZoomLevelError':
         "Egenskaben minZoomLevel er kun beregnet til brug " +
         "med FixedZoomLevels. At dette WFS lag kontrollerer " +
         "minZoomLevel egenskaben, er et levn fra en tidligere " +
-        "version. Vi kan desværre ikke fjerne dette uden at risikere " +
-        "at ødelægge eksisterende OL baserede programmer der " +
+        "version. Vi kan desvÃ¦rre ikke fjerne dette uden at risikere " +
+        "at Ã¸delÃ¦gge eksisterende OL baserede programmer der " +
         " benytter denne funktionalitet. " +
-        "Egenskaben bør derfor ikke anvendes, og minZoomLevel " +
+        "Egenskaben bÃ¸r derfor ikke anvendes, og minZoomLevel " +
         "kontrollen herunder vil blive fjernet i version 3.0. " +
-        "Benyt istedet min/max opløsnings indstillingerne, som " +
+        "Benyt istedet min/max oplÃ¸snings indstillingerne, som " +
         "er beskrevet her: " +
         "http://trac.openlayers.org/wiki/SettingZoomLevels",
 
@@ -62,62 +42,39 @@ OpenLayers.Lang['da-DK'] = {
     'commitFailed': "WFS transaktion: MISLYKKEDES ${response}",
 
     'googleWarning':
-        "Google laget kunne ikke indlæses.<br><br>" +
-        "For at fjerne denne besked, vælg et nyt bagrundskort i " +
-        "lagskifteren i øverste højre hjørne.<br><br>" +
+        "Google laget kunne ikke indlÃ¦ses.<br><br>" +
+        "For at fjerne denne besked, vÃ¦lg et nyt bagrundskort i " +
+        "lagskifteren i Ã¸verste hÃ¸jre hjÃ¸rne.<br><br>" +
         "Fejlen skyldes formentlig at Google Maps bibliotekts " +
         "scriptet ikke er inkluderet, eller ikke indeholder den " +
-        "korrkte API nøgle for dit site.<br><br>" +
-        "Udviklere: For hjælp til at få dette til at fungere, " +
+        "korrkte API nÃ¸gle for dit site.<br><br>" +
+        "Udviklere: For hjÃ¦lp til at fÃ¥ dette til at fungere, " +
         "<a href='http://trac.openlayers.org/wiki/Google' " +
         "target='_blank'>klik her</a>",
 
     'getLayerWarning':
-        "${layerType}-laget kunne ikke indlæses.<br><br>" +
-        "For at fjerne denne besked, vælg et nyt bagrundskort i " +
-        "lagskifteren i øverste højre hjørne.<br><br>" +
+        "${layerType}-laget kunne ikke indlÃ¦ses.<br><br>" +
+        "For at fjerne denne besked, vÃ¦lg et nyt bagrundskort i " +
+        "lagskifteren i Ã¸verste hÃ¸jre hjÃ¸rne.<br><br>" +
         "Fejlen skyldes formentlig at ${layerLib} bibliotekts " +
         "scriptet ikke er inkluderet.<br><br>" +
-        "Udviklere: For hjælp til at få dette til at fungere, " +
+        "Udviklere: For hjÃ¦lp til at fÃ¥ dette til at fungere, " +
         "<a href='http://trac.openlayers.org/wiki/${layerLib}' " +
         "target='_blank'>klik her</a>",
 
-    'scale': "Målforhold = 1 : ${scaleDenom}",
-
-    // console message
-    'layerAlreadyAdded':
-        "Du har forsøgt at tilføje laget: ${layerName} til kortet, men det er allerede tilføjet",
+    'Scale = 1 : ${scaleDenom}': "MÃ¥lforhold = 1 : ${scaleDenom}",
 
     // console message
     'reprojectDeprecated':
-        "Du anvender indstillingen 'reproject' på laget ${layerName}." + 
-        "Denne indstilling bør ikke længere anvendes. Den var beregnet " +
-        "til at vise data ovenpå kommercielle grundkort, men den funktionalitet " +
-        "bør nu opnås ved at anvende Spherical Mercator understøttelsen. " +
-        "Mere information er tilgængelig her: " +
+        "Du anvender indstillingen 'reproject' pÃ¥ laget ${layerName}." + 
+        "Denne indstilling bÃ¸r ikke lÃ¦ngere anvendes. Den var beregnet " +
+        "til at vise data ovenpÃ¥ kommercielle grundkort, men den funktionalitet " +
+        "bÃ¸r nu opnÃ¥s ved at anvende Spherical Mercator understÃ¸ttelsen. " +
+        "Mere information er tilgÃ¦ngelig her: " +
         "http://trac.openlayers.org/wiki/SphericalMercator.",
 
     // console message
     'methodDeprecated':
-        "Denne funktion bør ikke længere anvendes, og vil blive fjernet i version 3.0. " +
-        "Anvend venligst funktionen ${newMethod} istedet.",
-
-    // console message
-    'boundsAddError': "Du skal angive både x og y værdier i kaldet til add funktionen.",
-
-    // console message
-    'lonlatAddError': "Du skal angive både lon og lat værdier i kaldet til add funktionen.",
-
-    // console message
-    'pixelAddError': "Du skal angive både x og y værdier i kaldet til add funktionen.",
-
-    // console message
-    'unsupportedGeometryType': "Geometri typen: ${geomType} er ikke understøttet.",
-
-    // console message
-    'pagePositionFailed':
-        "OpenLayers.Util.pagePosition fejlede: elementet med id ${elemId} er måske placeret forkert.",
-
-    // console message
-    'filterEvaluateNotImplemented': "evaluering er ikke implementeret for denne filter type."
+        "Denne funktion bÃ¸r ikke lÃ¦ngere anvendes, og vil blive fjernet i version 3.0. " +
+        "Anvend venligst funktionen ${newMethod} istedet."
 };

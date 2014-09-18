@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 
@@ -15,7 +16,7 @@
  *     instance with the <OpenLayers.Handler.RegularPolygon> constructor.
  * 
  * Inherits from:
- *  - <OpenLayers.Handler>
+ *  - <OpenLayers.Handler.Drag>
  */
 OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
     
@@ -56,6 +57,12 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
     snapToggle: 'shiftKey',
     
     /**
+     * Property: layerOptions
+     * {Object} Any optional properties to be set on the sketch layer.
+     */
+    layerOptions: null,
+
+    /**
      * APIProperty: persist
      * {Boolean} Leave the feature rendered until clear is called.  Default
      *     is false.  If set to true, the feature remains rendered until
@@ -75,6 +82,13 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      *     be ignored.
      */
     irregular: false,
+
+    /**
+     * APIProperty: citeCompliant
+     * {Boolean} If set to true, coordinates of features drawn in a map extent
+     * crossing the date line won't exceed the world bounds. Default is false.
+     */
+    citeCompliant: false,
 
     /**
      * Property: angle
@@ -130,11 +144,13 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      *     cancel callback will receive a geometry.
      */
     initialize: function(control, callbacks, options) {
-        this.style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {});
+        if(!(options && options.layerOptions && options.layerOptions.styleMap)) {
+            this.style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {});
+        }
 
-        OpenLayers.Handler.prototype.initialize.apply(this,
+        OpenLayers.Handler.Drag.prototype.initialize.apply(this,
                                                 [control, callbacks, options]);
-        this.options = (options) ? options : new Object();
+        this.options = (options) ? options : {};
     },
     
     /**
@@ -152,21 +168,22 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      * APIMethod: activate
      * Turn on the handler.
      *
-     * Return:
+     * Returns:
      * {Boolean} The handler was successfully activated
      */
     activate: function() {
         var activated = false;
-        if(OpenLayers.Handler.prototype.activate.apply(this, arguments)) {
+        if(OpenLayers.Handler.Drag.prototype.activate.apply(this, arguments)) {
             // create temporary vector layer for rendering geometry sketch
-            var options = {
+            var options = OpenLayers.Util.extend({
                 displayInLayerSwitcher: false,
                 // indicate that the temp vector layer will never be out of range
                 // without this, resolution properties must be specified at the
                 // map-level for this temporary layer to init its resolutions
                 // correctly
-                calculateInRange: function() { return true; }
-            };
+                calculateInRange: OpenLayers.Function.True,
+                wrapDateLine: this.citeCompliant
+            }, this.layerOptions);
             this.layer = new OpenLayers.Layer.Vector(this.CLASS_NAME, options);
             this.map.addLayer(this.layer);
             activated = true;
@@ -178,7 +195,7 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      * APIMethod: deactivate
      * Turn off the handler.
      *
-     * Return:
+     * Returns:
      * {Boolean} The handler was successfully deactivated
      */
     deactivate: function() {
@@ -215,7 +232,7 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      */
     down: function(evt) {
         this.fixedRadius = !!(this.radius);
-        var maploc = this.map.getLonLatFromPixel(evt.xy);
+        var maploc = this.layer.getLonLatFromViewPortPx(evt.xy); 
         this.origin = new OpenLayers.Geometry.Point(maploc.lon, maploc.lat);
         // create the new polygon
         if(!this.fixedRadius || this.irregular) {
@@ -241,7 +258,7 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      * evt - {Evt} The move event
      */
     move: function(evt) {
-        var maploc = this.map.getLonLatFromPixel(evt.xy);
+        var maploc = this.layer.getLonLatFromViewPortPx(evt.xy); 
         var point = new OpenLayers.Geometry.Point(maploc.lon, maploc.lat);
         if(this.irregular) {
             var ry = Math.sqrt(2) * Math.abs(point.y - this.origin.y) / 2;
@@ -318,7 +335,7 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      * Modify the polygon geometry in place.
      */
     modifyGeometry: function() {
-        var angle, dx, dy, point;
+        var angle, point;
         var ring = this.feature.geometry.components[0];
         // if the number of sides ever changes, create a new geometry
         if(ring.components.length != (this.sides + 1)) {
@@ -379,8 +396,10 @@ OpenLayers.Handler.RegularPolygon = OpenLayers.Class(OpenLayers.Handler.Drag, {
      *     is true).
      */
     clear: function() {
-        this.layer.renderer.clear();
-        this.layer.destroyFeatures();
+        if (this.layer) {
+            this.layer.renderer.clear();
+            this.layer.destroyFeatures();
+        }
     },
     
     /**

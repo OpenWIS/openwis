@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 
@@ -37,7 +38,7 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
     
     /** 
      * APIProperty: reproject
-     * *Deprecated*. See http://trac.openlayers.org/wiki/SpatialMercator
+     * *Deprecated*. See http://docs.openlayers.org/library/spherical_mercator.html
      * for information on the replacement for this functionality. 
      * {Boolean} Whether layer should reproject itself based on base layer 
      *           locations. This allows reprojection onto commercial layers. 
@@ -57,11 +58,11 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
      * options - {Object} Hashtable of extra options to tag onto the layer
      */
     initialize: function(name, url, params, options) {
-        var newArguments = arguments;
-        newArguments = [name, options];
-        OpenLayers.Layer.prototype.initialize.apply(this, newArguments);
+        OpenLayers.Layer.prototype.initialize.apply(this, [name, options]);
         this.url = url;
-        this.params = OpenLayers.Util.extend( {}, params);
+        if (!this.params) {
+            this.params = OpenLayers.Util.extend({}, params);
+        }
     },
 
     /**
@@ -89,7 +90,7 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
             obj = new OpenLayers.Layer.HTTPRequest(this.name,
                                                    this.url,
                                                    this.params,
-                                                   this.options);
+                                                   this.getOptions());
         }
         
         //get all additions from superclasses
@@ -121,7 +122,14 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
      */
     mergeNewParams:function(newParams) {
         this.params = OpenLayers.Util.extend(this.params, newParams);
-        return this.redraw();
+        var ret = this.redraw();
+        if(this.map != null) {
+            this.map.events.triggerEvent("changelayer", {
+                layer: this,
+                property: "params"
+            });
+        }
+        return ret;
     },
 
     /**
@@ -201,7 +209,7 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
         // in which case we will deterministically select one of them in 
         // order to evenly distribute requests to different urls.
         //
-        if (url instanceof Array) {
+        if (OpenLayers.Util.isArray(url)) {
             url = this.selectUrl(paramsString, url);
         }   
  
@@ -215,25 +223,7 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
         }
         paramsString = OpenLayers.Util.getParameterString(allParams);
         
-        // requestString always starts with url
-        var requestString = url;        
-        
-        if (paramsString != "") {
-            var lastServerChar = url.charAt(url.length - 1);
-            if ((lastServerChar == "&") || (lastServerChar == "?")) {
-                requestString += paramsString;
-            } else {
-                if (url.indexOf('?') == -1) {
-                    //serverPath has no ? -- add one
-                    requestString += '?' + paramsString;
-                } else {
-                    //serverPath contains ?, so must already have 
-                    // paramsString at the end
-                    requestString += '&' + paramsString;
-                }
-            }
-        }
-        return requestString;
+        return OpenLayers.Util.urlAppend(url, paramsString);
     },
 
     CLASS_NAME: "OpenLayers.Layer.HTTPRequest"
