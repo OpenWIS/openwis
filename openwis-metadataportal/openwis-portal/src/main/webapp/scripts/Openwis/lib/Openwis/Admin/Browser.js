@@ -87,6 +87,8 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
     			if (alarmsGlobalReports) {
     			    this.alarmsMenu.add(this.getAlarmsGlobalReportsMenu());
     			}
+
+			this.alarmsMenu.add(this.getAlarmsUserAlarmMenu());
 		    }
 			
 		}
@@ -132,6 +134,24 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 		return this.alarmsGlobalReportsMenu;
 	},
 	
+	getAlarmsUserAlarmMenu: function() {
+		if (!this.alarmsUserAlarmsMenu) {
+			this.alarmsUserAlarmsMenu = new Ext.Panel({
+				title: "User Alarms",			// <<<<==== TODO: I18N
+				listeners : {
+					activate: function(ct) {
+						ct.add(new Openwis.Admin.Statistics.UserAlarms());
+						ct.doLayout();
+					},
+					deactivate: function(ct) {
+						ct.remove(ct.items.first(), true);
+					}
+				}
+			});
+		}
+		return this.alarmsUserAlarmsMenu;
+	},
+
 	/**
 	 *	'Metadata service' MENU.
 	 */

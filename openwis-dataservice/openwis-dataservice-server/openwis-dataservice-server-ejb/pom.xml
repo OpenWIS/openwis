@@ -351,6 +351,21 @@
 									<goal>java2ws</goal>
 								</goals>
 							</execution>
+
+							<execution>
+								<id>user-alarm-service-to-wsdl</id>
+								<phase>process-classes</phase>
+								<configuration>
+									<className>org.openwis.dataservice.useralarms.UserAlarmManagerImpl</className>
+									<genWsdl>true</genWsdl>
+									<argline>-createxsdimports</argline>
+									<verbose>true</verbose>
+									<outputFile>${basedir}/target/generated/wsdl/UserAlarmService.wsdl</outputFile>
+								</configuration>
+								<goals>
+									<goal>java2ws</goal>
+								</goals>
+							</execution>
 						</executions>
 					</plugin>
 				</plugins>

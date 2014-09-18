@@ -182,7 +182,8 @@
                <nosuffix>true</nosuffix>
                <gzip>false</gzip>
                <force>true</force>
-               <nomunge>false</nomunge>
+               <!-- <nomunge>false</nomunge> -->
+               <nomunge>true</nomunge>
                <jswarn>${minify.verbose}</jswarn>
                <excludes>
                   <exclude>scripts/ext/**/*.js</exclude>
@@ -389,6 +390,7 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/RecentEvents.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/GlobalReports.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/CacheStatistics.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Statistics/UserAlarms.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Browser.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Viewport.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Init.js</include>
@@ -499,6 +501,7 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/Wizard.js</include>
 
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/MyAdhocsGridPanel.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/MyUserAlarmsPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/TrackMyAdhocs.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/MySubscriptionsGridPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/MyAccount/TrackMyRequests/TrackMySubscriptions.js</include>

@@ -187,6 +187,9 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
             			params: params,
             			listeners: {
             				success: function() {
+						if (this.userAlarmGridPanel) {
+							this.userAlarmGridPanel.reload();
+						}
             					this.getStore().reload();
             				},
             				scope: this

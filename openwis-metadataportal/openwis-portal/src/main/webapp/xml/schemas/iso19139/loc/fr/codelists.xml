@@ -20,6 +20,12 @@
 			<label>Révision</label>
 			<description>Date à laquelle la ressource est révisée</description>
 		</entry>
+		<entry>
+			<code>reference</code>
+			<label>Reference</label>
+			<description>Date identifies when the resource was referenced or accessed</description>
+		</entry>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- ISO PROFIL FRA ONLY
 		<entry>
 			<code>validity</code>
@@ -918,6 +924,12 @@
 			<code>theme</code>
 			<label>Thème</label>
 			<description>Mot-clé identifiant un sujet particulier</description>
+		</entry>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<entry>
+		    <code>dataCentre</code>
+		    <label>DataCentre</label>
+		    <description>keyword identifies a a repository or archive that manages and distributes data</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>

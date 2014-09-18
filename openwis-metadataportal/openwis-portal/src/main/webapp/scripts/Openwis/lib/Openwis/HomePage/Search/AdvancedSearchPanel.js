@@ -939,6 +939,10 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 		params.paper = '';
 		params.intermap = '';
 		params.themekey = '';
+
+		// Indicates that this search should reset the default parameters
+		params.useSessionDefaults = 'false';
+
         
         
 		params.sortBy = this.getSortDirectionCombobox().getValue();

@@ -133,6 +133,7 @@
         	"Openwis/Admin/Statistics/RecentEvents.js",
         	"Openwis/Admin/Statistics/GlobalReports.js",
         	"Openwis/Admin/Statistics/CacheStatistics.js",
+		"Openwis/Admin/Statistics/UserAlarms.js",
         	"Openwis/Admin/DataService/MonitorCurrentRequests.js",
         	"Openwis/Admin/DataService/BrowseContent.js",
         	"Openwis/Admin/DataService/CacheConfiguration.js",

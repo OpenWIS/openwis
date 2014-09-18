@@ -41,6 +41,7 @@
 			<!-- urn:x-wmo:md:int.wmo.wis::ECEU82LFRO => int.wmo.wis ECEU82LFRO -->
 			<analyzer>
 				<tokenizer class="solr.StandardTokenizerFactory" /> <!-- remove ':' -->
+				<filter class="solr.LowerCaseFilterFactory" />
 				<filter enablePositionIncrements="true" words="stopwords-uuid.txt" ignoreCase="true" class="solr.StopFilterFactory" />
 				<!-- remove 'urn' 'x-wmo' -->
 			</analyzer>
@@ -179,9 +180,11 @@
 		<field name="title" type="text" indexed="true" stored="true" multiValued="true" />
 		<copyField source="_title" dest="title" />
 
-		<field name="_uuid" type="string" indexed="true" stored="true" multiValued="false" />
+		<!-- UUIDs are converted to lower-case before they are stored in the index. -->
+		<field name="_uuid" type="lowercase" indexed="true" stored="true" multiValued="false" />
 		<field name="uuid" type="uuid" indexed="true" stored="true" multiValued="true" />
-		<copyField source="_uuid" dest="uuid" />
+		<field name="uuid_original" type="string" indexed="false" stored="true" multiValued="false" />
+		<copyField source="_uuid" dest="uuid" />		
 
 		<field name="_root" type="string" indexed="true" stored="true" multiValued="false" />
 		<field name="_schema" type="string" indexed="true" stored="true" multiValued="false" />

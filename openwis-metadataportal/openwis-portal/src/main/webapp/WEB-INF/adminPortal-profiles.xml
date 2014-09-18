@@ -223,6 +223,11 @@
         <allow service="xml.management.alarms.events"/>
         <allow service="xml.management.alarms.reports.disseminated"/>
         <allow service="xml.management.alarms.reports.extracted"/>
+
+        <allow service="xml.useralarms.getalluseralarms"/>
+        <allow service="xml.useralarms.getuseralarmreport"/>
+        <allow service="xml.useralarms.delete"/>
+        <allow service="xml.useralarms.deleteall"/>
 		
         <!-- Management :: Cache -->
         <allow service="xml.management.cache.browse"/>

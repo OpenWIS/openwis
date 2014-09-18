@@ -729,6 +729,29 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
 
    /**
     * {@inheritDoc}
+    * @see org.openwis.dataservice.common.service.ProcessedRequestService#getProcessedRequestForAdhoc(java.lang.Long)
+    */
+   @Override
+   public ProcessedRequest getFullProcessedRequest(Long processedRequestID) {
+      Query query = entityManager.createQuery("SELECT pr FROM ProcessedRequest pr "
+            + "LEFT JOIN FETCH pr.request req " + "JOIN FETCH req.productMetadata pm "
+            + "LEFT JOIN FETCH req.parameters ssp " + "LEFT JOIN FETCH ssp.values "
+            + "LEFT JOIN FETCH req.primaryDissemination "
+            + "WHERE pr.id = :id");
+
+      query.setParameter("id", processedRequestID);
+
+      ProcessedRequest result = null;
+      try {
+         result = (ProcessedRequest) query.getSingleResult();
+      } catch (NoResultException e) {
+         result = null;
+      }
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
     * @see org.openwis.dataservice.common.service.ProcessedRequestService#deleteProcessedRequestsByRequest(java.lang.Long)
     */
    @Override

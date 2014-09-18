@@ -1210,13 +1210,23 @@
 					<xsl:apply-templates mode="simpleElement" select=".">
 						<xsl:with-param name="schema" select="$schema"/>
 						<xsl:with-param name="text">
-							<xsl:value-of select="text()"/>
+							<xsl:choose>
+								<xsl:when test="@indeterminatePosition">
+									<xsl:value-of select="@indeterminatePosition"/>									
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="text()"/>
+								</xsl:otherwise>
+							</xsl:choose>							
 						</xsl:with-param>
 					</xsl:apply-templates>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
 	</xsl:template>
+	
+	<!-- Hide the extra display of the indeterminatePosition -->
+	<xsl:template mode="simpleAttribute" match="@indeterminatePosition" priority="3"/>
 
 	<!-- =================================================================== -->
 	<!-- subtemplates -->

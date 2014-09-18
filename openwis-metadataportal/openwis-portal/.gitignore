@@ -3,3 +3,5 @@ src/main/webapp/scripts/lib/*.js
 src/main/webapp/scripts/Openwis/*.js
 #fichiers de conf local au poste de dev
 src/main/local/
+/bin
+/${war.name}-target

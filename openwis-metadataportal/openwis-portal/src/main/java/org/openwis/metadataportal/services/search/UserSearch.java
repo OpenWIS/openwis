@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import jeeves.constants.Jeeves;
@@ -118,7 +119,7 @@ public class UserSearch implements ServiceWithJsp, Service {
     * @param dbms the dbms
     * @param session the session
     * @param metadataId the metadata id
-    * @return the operations
+    * @return the operations.  The URNs are returned in lowercase.
     * @throws SQLException the SQL exception
     */
    public Map<String, Set<OperationEnum>> getOperations(Dbms dbms, UserSession session,
@@ -140,18 +141,29 @@ public class UserSearch implements ServiceWithJsp, Service {
       } else {
          result = new LinkedHashMap<String, Set<OperationEnum>>();
       }
+      
+      // convert the keys to lowercase to support case-insensitive lookups
+      Map<String, Set<OperationEnum>> resultsWithLowercaseKeys = new HashMap<String, Set<OperationEnum>>();
+      for (Entry<String, Set<OperationEnum>> resultEntry : result.entrySet()) {
+         final String lowercaseKey = resultEntry.getKey().toLowerCase();
+         // Sanity check: there must not be duplicate lowercase keys
+         if (resultsWithLowercaseKeys.containsKey(lowercaseKey)) {
+            throw new RuntimeException("URN '" + lowercaseKey + "' already exists in the results with lower case keys.  Is this a duplicate?!");
+         }
+         resultsWithLowercaseKeys.put(lowercaseKey, resultEntry.getValue());
+      }
 
       // Always grant VIEW privileges for non authenticated users.
       Set<OperationEnum> ops;
       for (String id : metadataId) {
-         ops = result.get(id);
+         ops = resultsWithLowercaseKeys.get(id.toLowerCase());
          if (ops == null) {
-            result.put(id, Collections.singleton(OperationEnum.VIEW));
+            resultsWithLowercaseKeys.put(id, Collections.singleton(OperationEnum.VIEW));
          } else {
             ops.add(OperationEnum.VIEW);
          }
       }
-      return result;
+      return resultsWithLowercaseKeys;
    }
    
    @SuppressWarnings("rawtypes")
