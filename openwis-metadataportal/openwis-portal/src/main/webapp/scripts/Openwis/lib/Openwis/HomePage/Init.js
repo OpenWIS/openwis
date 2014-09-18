@@ -13,6 +13,7 @@ Ext.onReady(function() {
 	        params.sortBy = 'relevance';
 	        params.hitsPerPage = 10;
 	        params.relation = 'overlaps';
+	        params.permanentLink = true;
     	}
        
         homePageViewport.getSearchResultsPanel().loadSearchResults(remoteSearch.url, params);
