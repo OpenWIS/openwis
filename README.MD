@@ -151,8 +151,8 @@ After few minutes the build should finished successfully like this:
 	
 **#3. Generate the admin and user portals*
 
-**Admin:** In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests`
 **User** In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests`
+**Admin:** In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests`
 
 **#4  Getting built artifacts**
 
