@@ -13,6 +13,7 @@
 	<name>Openwis Harness client</name>
 
 	<build>
+		<finalName>openwis-harness-client</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
