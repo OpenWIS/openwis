@@ -154,6 +154,16 @@
         </service>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Categories                                                    -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.category.all" type="xml">
+            <class name=".services.category.All"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+        </service>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Login                                                         -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <service name="user.login">

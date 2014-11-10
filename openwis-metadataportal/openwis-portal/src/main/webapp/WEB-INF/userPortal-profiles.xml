@@ -124,6 +124,9 @@
 		<allow service="crs.types"/>
 		<allow service="crs.get"/>
 		
+		<!-- Categories -->
+        <allow service="xml.category.all"/>
+
 		<!-- OpenWIS -->
 		<allow service="xml.get.user.backup.centres"/>
 
