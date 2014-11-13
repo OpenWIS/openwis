@@ -267,8 +267,29 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
                   after - before);
          }
 
+         
+         //Extract UUID and date stamp from the metadata contents and set it to the metadata being aligned.
+         before = System.currentTimeMillis();
+         Pair<String, ISODate> uuidAndDateStamp = extractMetadataImportInfo(newMetadata, schema);
+         if (uuidAndDateStamp == null) {
+            Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
+            return;
+         }
+         if (StringUtils.isBlank(newMetadata.getUrn()) || newMetadata.getChangeDate() == null
+               || StringUtils.isBlank(newMetadata.getChangeDate().toString())) {
+            newMetadata.setUrn(uuidAndDateStamp.one());      
+         }
+         
+         // Always set the change date to the date stored in the metadata record
+         newMetadata.setChangeDate(uuidAndDateStamp.two().toString());
+         
+         after = System.currentTimeMillis();
+         if (Log.isStatEnabled()) {
+            Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
+                  "Extract UUID and DateStamp", after - before);
+         }         
                  
-         //Validate metadata.
+         //Validate metadata.  This requires the extracted UUID to display the proper URNs
          before = System.currentTimeMillis();
          IMetadataValidator validator = MetadataValidatorFactory.getValidator(validation);
          MetadataValidatorResult metadataValidatorResult = validator.validate(dataManager,
@@ -312,27 +333,6 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
          if (Log.isStatEnabled()) {
             Log.statTime("MetadataAligner", "MetadataAligner#importMetadata", "Validate MD", after
                   - before);
-         }
-
-         //Extract UUID and date stamp from the metadata contents and set it to the metadata being aligned.
-         before = System.currentTimeMillis();
-         Pair<String, ISODate> uuidAndDateStamp = extractMetadataImportInfo(newMetadata, schema);
-         if (uuidAndDateStamp == null) {
-            Log.warning(Geonet.METADATA_ALIGNER, "Cannot extract URN or dateStamp.");
-            return;
-         }
-         if (StringUtils.isBlank(newMetadata.getUrn()) || newMetadata.getChangeDate() == null
-               || StringUtils.isBlank(newMetadata.getChangeDate().toString())) {
-            newMetadata.setUrn(uuidAndDateStamp.one());      
-         }
-         
-         // Always set the change date to the date stored in the metadata record
-         newMetadata.setChangeDate(uuidAndDateStamp.two().toString());
-         
-         after = System.currentTimeMillis();
-         if (Log.isStatEnabled()) {
-            Log.statTime("MetadataAligner", "MetadataAligner#importMetadata",
-                  "Extract UUID and DateStamp", after - before);
          }
 
          //Check if metadata exists.
