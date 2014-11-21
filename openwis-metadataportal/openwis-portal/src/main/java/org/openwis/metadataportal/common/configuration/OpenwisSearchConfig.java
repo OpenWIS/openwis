@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.collections.ListUtils;
+
 /**
  * Short Description goes here. <P>
  * Explanation goes here. <P>
@@ -87,6 +89,6 @@ public class OpenwisSearchConfig {
    }
    
    public static boolean isInStopWords(String word) {
-      return stopWords.contains(word);
+      return stopWords.contains(word.toLowerCase());
    }
 }
