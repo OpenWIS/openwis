@@ -216,6 +216,15 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       }
       query = queryFactory.and(query, queryFactory.buildQuery(IndexField.IS_TEMPLATE, isTemplate));
 
+      // permanent!!!
+      String permanentLink = request.getChildText("permanentLink");
+      String value = request.getChildText("any");
+      if ("true".equals(permanentLink) && value != null && value.startsWith("urn:")) {
+         value = queryFactory.escapeQueryChars(value);
+         query = queryFactory.and(query, queryFactory.buildQuery(IndexField.UUID, value));
+      }
+      // !!!
+      
       // Category
       query = queryFactory.and(query,
             this.buildQuery(queryFactory, IndexField.CATEGORY_ID, "category", request, 1.0F));
