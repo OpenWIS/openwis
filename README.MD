@@ -159,11 +159,19 @@ After few minutes the build should finished successfully like this:
 * **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
 * **harness client:** <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
 * **security service EAR:** <rootdir>/openwis-securityservice/openwis-securityservice-usermanagement-server/openwis-securityservice-usermanagement-server-ear/target/openwis-securityservice.ear
-* **user portal WAR**: <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-user-portal.war
+* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-user-portal.war
 * **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-admin-portal.war
-* **SolR search WAR:** <rootdir>//openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
+* **SolR search WAR:** <rootdir>/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
 
 **#5 Changing Verison Number**
 
- In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all` or whatever version you wish to change the project to
+In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all` or whatever version you wish to change the project to
+ 
+ **#6 Running SonarQube**
+ 
+In a terminal, go into the root directory and launch the command: `mvn -P all sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
+configured in you ~/.m2/settings.xml. 
+
+This does take a while given the number of modules that need to run.
+ 
