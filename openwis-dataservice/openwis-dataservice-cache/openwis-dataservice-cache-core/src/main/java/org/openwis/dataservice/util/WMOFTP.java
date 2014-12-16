@@ -177,7 +177,7 @@ public class WMOFTP {
       for (int i = 0; i < headerLength; i++) {
          headerArray[i] = buffer[bufferPosition + i];
       }
-      bufferPosition += headerLength + 3; // goto to start of text (skip header + CR CR LF [between header and text])
+      //bufferPosition += headerLength + 3; // goto to start of text (skip header + CR CR LF [between header and text])
 
       // extract AHL from header
       ahl = new String(headerArray);
