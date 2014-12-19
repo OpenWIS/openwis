@@ -219,7 +219,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       // permanent!!!
       String permanentLink = request.getChildText("permanentLink");
       String value = request.getChildText("any");
-      if ("true".equals(permanentLink) && value != null && value.startsWith("urn:")) {
+      if ("true".equals(permanentLink)) {
          value = queryFactory.escapeQueryChars(value);
          query = queryFactory.and(query, queryFactory.buildQuery(IndexField.UUID, value));
       }
