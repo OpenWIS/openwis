@@ -22,9 +22,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>eu.akka.jbosseap</groupId>
+            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>5.1.0</version>
+            <version>3.4.0.GA</version>
             <scope>provided</scope>
          </dependency>
     </dependencies>

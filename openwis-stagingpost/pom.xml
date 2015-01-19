@@ -5,8 +5,8 @@
 
 	<parent>
 		<artifactId>openwis</artifactId>
-		<groupId>eu.akka.openwis</groupId>
-		<version>develop-SNAPSHOT</version>
+		<groupId>org.openwis</groupId>
+		<version>3.13-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>eu.akka.openwis</groupId>
+    <groupId>org.openwis</groupId>
     <artifactId>openwis</artifactId>
 	<version>3.13-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>

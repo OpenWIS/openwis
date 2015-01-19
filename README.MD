@@ -96,7 +96,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests`
+ In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests -Dfile.encoding=UTF-8`
 
 After few minutes the build should finished successfully like this:
 
@@ -151,8 +151,8 @@ After few minutes the build should finished successfully like this:
 	
 **#3. Generate the admin and user portals*
 
-**User** In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests`
-**Admin:** In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests`
+**User** In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
+**Admin:** In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests -Dfile.encoding=UTF-8`
 
 **#4  Getting built artifacts**
 

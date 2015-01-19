@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>eu.akka.openwis</groupId>
+		<groupId>org.openwis</groupId>
 		<artifactId>openwis</artifactId>
 			<version>3.13-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
@@ -46,9 +46,9 @@
     
     <!-- Prevent compilation issue with maven2 -->
    <dependency>
-      <groupId>eu.akka.jbosseap</groupId>
+      <groupId>org.hibernate</groupId>
       <artifactId>hibernate-annotations</artifactId>
-      <version>5.1.0</version>
+      <version>3.4.0.GA</version>
       <scope>provided</scope>
    </dependency>
 

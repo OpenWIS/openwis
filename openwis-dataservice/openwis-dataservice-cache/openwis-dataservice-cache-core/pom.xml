@@ -44,9 +44,9 @@
     </dependency>        
     
     <dependency>
-      <groupId>eu.akka.jbosseap</groupId>
+      <groupId>org.jboss.ejb3</groupId>
       <artifactId>jboss-ejb3-ext-api</artifactId>
-      <version>5.1.0</version>
+      <version>1.0.0</version>
       <scope>provided</scope>
     </dependency>
     

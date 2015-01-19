@@ -29,7 +29,7 @@
             <scope>provided</scope>
          </dependency>
 		<dependency>
-			<groupId>eu.akka.openwis.harness</groupId>
+			<groupId>org.openwis.harness</groupId>
 			<artifactId>openwis-harness-localdatasource</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -41,17 +41,17 @@
 			<type>ejb</type>
 			<exclusions>
 				<exclusion>
-					<groupId>eu.akka.jbosseap</groupId>
+					<groupId>org.jboss.jbossas</groupId>
 					<artifactId>jboss-as-client</artifactId>
 <!-- 					<scope>test</scope> -->
 				</exclusion>
 				<exclusion>
-					<groupId>eu.akka.jbosseap-test</groupId>
+					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
 <!-- 					<scope>test</scope> -->
 				</exclusion>
 				<exclusion>
-					<groupId>eu.akka.jbosseap-test</groupId>
+					<groupId>org.jbosseap-test</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
 <!-- 					<scope>test</scope> -->
 				</exclusion>
