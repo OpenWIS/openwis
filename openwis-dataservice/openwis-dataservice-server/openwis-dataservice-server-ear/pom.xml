@@ -40,7 +40,6 @@
 						Copy all jar except for modules ones in lib
 					-->
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
-
 				</configuration>
 			</plugin>
 			
@@ -144,6 +143,12 @@
 			<artifactId>openwis-dataservice-server-ejb</artifactId>
 			<version>${project.version}</version>
 			<type>ejb</type>
+			 <exclusions>
+				<exclusion>
+				   <groupId>org.jboss.jbossas</groupId>
+				   <artifactId>jboss-as-j2se</artifactId>
+				</exclusion>
+			 </exclusions> 
 		</dependency>
 
 		<dependency>
@@ -151,6 +156,12 @@
 			<artifactId>openwis-dataservice-common-domain</artifactId>
 			<version>${project.version}</version>
 			<type>ejb</type>
+			 <exclusions>
+				<exclusion>
+				   <groupId>org.jboss.jbossas</groupId>
+				   <artifactId>jboss-as-j2se</artifactId>
+				</exclusion>
+			 </exclusions> 
 		</dependency>
 
 		<dependency>
@@ -158,6 +169,12 @@
 			<artifactId>openwis-dataservice-common-timer</artifactId>
 			<version>${project.version}</version>
 			<type>ejb</type>
+			 <exclusions>
+				<exclusion>
+				   <groupId>org.jboss.jbossas</groupId>
+				   <artifactId>jboss-as-j2se</artifactId>
+				</exclusion>
+			 </exclusions> 
 		</dependency>
 
 		<dependency>
@@ -179,6 +196,12 @@
             <artifactId>openwis-dataservice-cache-core</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
+			 <exclusions>
+				<exclusion>
+				   <groupId>org.jboss.jbossas</groupId>
+				   <artifactId>jboss-as-j2se</artifactId>
+				</exclusion>
+			 </exclusions> 
         </dependency>
                 
         <dependency>
@@ -186,6 +209,12 @@
             <artifactId>openwis-dataservice-cache-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
+			 <exclusions>
+				<exclusion>
+				   <groupId>org.jboss.jbossas</groupId>
+				   <artifactId>jboss-as-j2se</artifactId>
+				</exclusion>
+			 </exclusions> 
         </dependency>           
         
         <dependency>
