@@ -3,7 +3,7 @@
   <parent>
     <artifactId>openwis-harness</artifactId>
     <groupId>eu.akka.openwis.harness</groupId>
-	<version>3.13-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>eu.akka.openwis.harness</groupId>
