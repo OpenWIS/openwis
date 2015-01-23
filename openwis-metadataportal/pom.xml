@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<parent>
 		<artifactId>openwis</artifactId>
 		<groupId>eu.akka.openwis</groupId>
-		<version>3.13-SNAPSHOT</version>
+		<version>3.13</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
@@ -96,15 +94,15 @@
   <!-- TODO developer part-->
   <developers>
     <developer>
-      <name></name>
-      <id></id>
-      <organization></organization>
-      <organizationUrl></organizationUrl>
-      <email></email>
+      <name />
+      <id />
+      <organization />
+      <organizationUrl />
+      <email />
       <roles>
-        <role></role>
+        <role />
       </roles>
-      <timezone></timezone>
+      <timezone />
     </developer>
   </developers>
   
@@ -534,10 +532,10 @@
   <!--     Repositories. This is where Maven looks for dependencies. The  -->
   <!--     Maven repository is implicit and doesn't need to be specified. -->
   <!-- ================================================================== -->
-  <repositories/>
-  <pluginRepositories/>
+  <repositories />
+  <pluginRepositories />
 
 
-  <distributionManagement/>
+  <distributionManagement />
 
 </project>

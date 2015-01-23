@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
-		<version>3.13-SNAPSHOT</version>
+		<version>3.13</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -79,9 +77,8 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<echo message="==========      Copy security-jndi-service file =============" />
-								<copy overwrite="true"
-									file="${basedir}/src/main/config/${securityservice-jndi-service}"
+								<echo message="========== Copy security-jndi-service file =============" />
+								<copy overwrite="true" file="${basedir}/src/main/config/${securityservice-jndi-service}"
 									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
 							</tasks>
 						</configuration>
@@ -96,8 +93,7 @@
 						<configuration>
 							<tasks>
 								<delete failonerror="false">
-									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
-										includes="${securityservice-jndi-service}" />
+									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" includes="${securityservice-jndi-service}" />
 								</delete>
 							</tasks>
 						</configuration>

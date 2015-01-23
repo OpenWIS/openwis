@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
 		<groupId>org.openwis.dataservice.server</groupId>
-		<version>3.13-SNAPSHOT</version>
+		<version>3.13</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -83,8 +81,7 @@
                               </goals>
                               <configuration>
                                   <tasks>
-                                      <copy overwrite="true" file="${basedir}/src/main/resources/META-INF/jboss-dependency.xml"
-                                          todir="${basedir}/target/openwis-dataservice/META-INF" />
+                                      <copy overwrite="true" file="${basedir}/src/main/resources/META-INF/jboss-dependency.xml" todir="${basedir}/target/openwis-dataservice/META-INF" />
                                   </tasks>
                               </configuration>
                           </execution>
@@ -103,13 +100,11 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<echo message="==========      Copy destinations-service  =============" />
-								<copy overwrite="true" file="${basedir}/src/main/config/${dataservice-destination-service}"
-									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/messaging/" />
+								<echo message="========== Copy destinations-service  =============" />
+								<copy overwrite="true" file="${basedir}/src/main/config/${dataservice-destination-service}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/messaging/" />
 									
-								<echo message="==========      Copy JNDI file  =============" />
-								<copy overwrite="true" file="${basedir}/src/main/config/${dataservice-jndi-service}"
-									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
+								<echo message="========== Copy JNDI file  =============" />
+								<copy overwrite="true" file="${basedir}/src/main/config/${dataservice-jndi-service}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
 							</tasks>
 						</configuration>
 					</execution>
@@ -123,10 +118,8 @@
 						<configuration>
 							<tasks>
 								<delete failonerror="false">
-									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
-										includes="${dataservice-jndi-service}" />
-									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/messaging/"
-										includes="${dataservice-destination-service}" />
+									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" includes="${dataservice-jndi-service}" />
+									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/messaging/" includes="${dataservice-destination-service}" />
 								</delete>
 
 							</tasks>
