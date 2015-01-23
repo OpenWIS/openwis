@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
-		<version>3.13</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -78,8 +78,7 @@
 						<configuration>
 							<tasks>
 								<echo message="========== Copy security-jndi-service file =============" />
-								<copy overwrite="true" file="${basedir}/src/main/config/${securityservice-jndi-service}"
-									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
+								<copy overwrite="true" file="${basedir}/src/main/config/${securityservice-jndi-service}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
 							</tasks>
 						</configuration>
 					</execution>

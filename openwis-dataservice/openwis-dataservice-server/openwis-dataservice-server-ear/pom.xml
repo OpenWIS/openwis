@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
 		<groupId>org.openwis.dataservice.server</groupId>
-		<version>3.13</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -100,10 +100,10 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<echo message="========== Copy destinations-service  =============" />
+								<echo message="========== Copy destinations-service =============" />
 								<copy overwrite="true" file="${basedir}/src/main/config/${dataservice-destination-service}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/messaging/" />
 									
-								<echo message="========== Copy JNDI file  =============" />
+								<echo message="========== Copy JNDI file =============" />
 								<copy overwrite="true" file="${basedir}/src/main/config/${dataservice-jndi-service}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
 							</tasks>
 						</configuration>
