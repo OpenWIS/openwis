@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var isMozilla = (navigator.userAgent.indexOf("compatible") == -1);
     var isMSIE = (navigator.userAgent.indexOf("MSIE") > -1);
@@ -132,7 +132,7 @@
           layer.markers[1].events.triggerEvent('click', event);
           t.eq(map.popups.length, 1, "1st popup gone, 2nd Popup opened correctly");
           //Safari 3 separates style overflow into overflow-x and overflow-y
-          var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+          var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
           t.eq(map.popups[0].contentDiv.style[prop],"auto", "default Popup overflow correct");
         });
     }
@@ -151,12 +151,12 @@
           layer.markers[0].events.triggerEvent('click', event);
           t.eq(map.popups.length, 1, "Popup opened correctly");
           //Safari 3 separates style overflow into overflow-x and overflow-y
-          var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+          var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
           t.eq(map.popups[0].contentDiv.style[prop],"auto", "Popup overflow read from file");
           layer.markers[1].events.triggerEvent('click', event);
           t.eq(map.popups.length, 1, "1st popup gone, 2nd Popup opened correctly");
           //Safari 3 separates style overflow into overflow-x and overflow-y
-          var prop = (OpenLayers.Util.getBrowserName() == 'safari') ? 'overflowX' : 'overflow';
+          var prop = (OpenLayers.BROWSER_NAME == 'safari') ? 'overflowX' : 'overflow';
           t.eq(map.popups[0].contentDiv.style[prop],"hidden", "Popup overflow read from file");
         });
     }
@@ -173,7 +173,7 @@
         var event = {};
         t.delay_call( 1, function() {  
           t.ok(layer.markers[0].events, "First marker has an events object");
-          t.eq(layer.markers[0].events.listeners['click'].length, 0, "Marker events has one object");
+          t.eq(layer.markers[0].events.listeners['click'], undefined, "Marker events has no object");
           layer.markers[0].events.triggerEvent('click', event);
           t.eq(map.popups.length, 0, "no popup on first marker");
           layer.markers[1].events.triggerEvent('click', event);

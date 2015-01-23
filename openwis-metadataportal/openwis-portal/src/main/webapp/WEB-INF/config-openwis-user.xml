@@ -129,10 +129,6 @@
 
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<!-- Register services                                       	   -->
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- User self-registration services                               -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		
@@ -148,6 +144,11 @@
 		
 		<service name="user.register.submit">
 			<class name=".services.register.SelfRegister" />
+		</service>
+		
+		
+		<service name="xml.relatedservices.search" type="xml">
+			<class name=".services.search.RelatedServicesSearch"/>
 		</service>
 		
 	</services>

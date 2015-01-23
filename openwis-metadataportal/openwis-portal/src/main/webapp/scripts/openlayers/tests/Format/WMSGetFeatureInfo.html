@@ -1,10 +1,10 @@
 <html> 
 <head> 
-    <script src="../../lib/OpenLayers.js"></script>
+    <script src="../OLLoader.js"></script>
     <script type="text/javascript">
     
     function test_read_FeatureInfoResponse(t) {
-        t.plan(5);
+        t.plan(7);
         
         var parser = new OpenLayers.Format.WMSGetFeatureInfo();
 
@@ -49,10 +49,29 @@
         t.eq(features[1].attributes.STATE_NAME, 'Wyoming',
              "Attribute STATE_NAME contains the right value");
 
+        text = '<FeatureInfoResponse>' +
+            '<FIELDS>' +
+            '<FIELD name="ID" value="B31A0154"/>' +
+            '<FIELD name="FID" value="31AL0011"/>' +
+            '</FIELDS>' +
+            '<FIELDS>' +
+            '<FIELD name="ID" value="B31A0153"/>' +
+            '<FIELD name="FID" value="31AL0011"/>' +
+            '</FIELDS>' +
+            '</FeatureInfoResponse>';
+
+        features = parser.read(text);
+
+        t.eq(features.length, 2,
+             "Parsed 2 features in total");
+
+        t.eq(features[1].attributes.FID, '31AL0011',
+             "Attribute FID contains the right value");
+
     }
 
     function test_read_msGMLOutput(t) {
-        t.plan(7);
+        t.plan(13);
         
         var parser = new OpenLayers.Format.WMSGetFeatureInfo();
 
@@ -68,6 +87,28 @@
         var features = parser.read(text);
         t.eq(features.length, 0,
              "Parsing empty msGMLOutput response succesfull");
+
+        // read empty attribute
+        text =
+            '<?xml version="1.0" encoding="ISO-8859-1"?>' +
+            '<msGMLOutput ' +
+            '    xmlns:gml="http://www.opengis.net/gml"' +
+            '    xmlns:xlink="http://www.w3.org/1999/xlink"' +
+            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
+            '   <AAA64_layer>' +
+            '           <AAA64_feature>' +
+            '                   <gml:boundedBy>' +
+            '                           <gml:Box srsName="EPSG:28992">' +
+            '                                   <gml:coordinates>107397.266000,460681.063000 116568.188000,480609.250000</gml:coordinates>' +
+            '                           </gml:Box>' +
+            '                   </gml:boundedBy>' +
+            '                   <FOO>bar</FOO>' +
+            '                   <EMPTY></EMPTY>' +
+            '           </AAA64_feature>' +
+            '   </AAA64_layer>' +
+            '</msGMLOutput>';
+        features = parser.read(text);
+        t.eq((features[0].attributes.EMPTY === null), true, "Empty attribute is parsed as null");
 
         // read 1 feature from 1 layer
         text = 
@@ -96,6 +137,7 @@
             '</msGMLOutput>';
 
         features = parser.read(text);
+
         t.eq(features.length, 1,
              "Parsed 1 feature in total");
 
@@ -104,6 +146,13 @@
 
         t.eq(features[0].type, 'AAA64',
              "Parsed the layer name correctly");
+
+        var bounds = features[0].bounds;
+        t.ok(bounds instanceof OpenLayers.Bounds, "feature given a bounds");
+        t.eq(bounds.left.toFixed(3), "107397.266", "Bounds left parsed correctly");
+        t.eq(bounds.right.toFixed(3), "116568.188", "Bounds right parsed correctly");
+        t.eq(bounds.bottom.toFixed(3), "460681.063", "Bounds bottom parsed correctly");
+        t.eq(bounds.top.toFixed(3), "480609.250", "Bounds top parsed correctly");
 
         // read 2 features from 2 layers
         text = 
@@ -263,7 +312,6 @@
 
     }
     
-
     </script> 
 </head> 
 <body>

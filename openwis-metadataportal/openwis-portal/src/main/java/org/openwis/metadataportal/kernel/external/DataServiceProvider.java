@@ -17,6 +17,8 @@ import org.openwis.dataservice.SubscriptionService;
 import org.openwis.dataservice.SubscriptionService_Service;
 import org.openwis.dataservice.cache.CacheIndexImplService;
 import org.openwis.dataservice.cache.CacheIndexWebService;
+import org.openwis.dataservice.useralarms.UserAlarmManagerImplService;
+import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 
@@ -35,6 +37,8 @@ public final class DataServiceProvider {
    private static ProductMetadataService productMetadataService;
 
    private static CacheIndexWebService cacheIndexService;
+
+   private static UserAlarmManagerWebService userAlarmService;
 
    private static BlacklistService blacklistService;
 
@@ -159,6 +163,20 @@ public final class DataServiceProvider {
             ServiceProviderUtil.enforceServiceEndpoint((BindingProvider) blacklistService, wsdl);
          }
          return blacklistService;
+      } catch (MalformedURLException e) {
+         return null;
+      }
+   }
+
+   public static UserAlarmManagerWebService getUserAlarmManagerService() {
+      try {
+         if (userAlarmService == null) {
+            String wsdl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.USER_ALARM_SERVICE_WSDL);
+            UserAlarmManagerImplService service = new UserAlarmManagerImplService(new URL(wsdl));
+            userAlarmService = service.getUserAlarmManagerWebServicePort();
+            ServiceProviderUtil.enforceServiceEndpoint((BindingProvider) userAlarmService, wsdl);
+         }
+         return userAlarmService;
       } catch (MalformedURLException e) {
          return null;
       }

@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -146,10 +147,8 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     read_wmc_BoundingBox: function(context, node) {
         context.projection = node.getAttribute("SRS");
         context.bounds = new OpenLayers.Bounds(
-            parseFloat(node.getAttribute("minx")),
-            parseFloat(node.getAttribute("miny")),
-            parseFloat(node.getAttribute("maxx")),
-            parseFloat(node.getAttribute("maxy"))
+            node.getAttribute("minx"), node.getAttribute("miny"),
+            node.getAttribute("maxx"), node.getAttribute("maxy")
         );
     },
     
@@ -157,7 +156,8 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * Method: read_wmc_LayerList
      */
     read_wmc_LayerList: function(context, node) {
-        context.layers = [];
+        // layersContext is an array containing info for each layer
+        context.layersContext = [];
         this.runChildNodes(context, node);
     },
     
@@ -165,47 +165,17 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * Method: read_wmc_Layer
      */
     read_wmc_Layer: function(context, node) {
-        var layerInfo = {
-            params: this.layerParams || {},
-            options: {
-                visibility: (node.getAttribute("hidden") != "1"),
-                queryable: (node.getAttribute("queryable") == "1")
-                
-            },
+        var layerContext = {
+            visibility: (node.getAttribute("hidden") != "1"),
+            queryable: (node.getAttribute("queryable") == "1"),
             formats: [],
-            styles: []
+             styles: [],
+             metadata: {}
         };
-        this.runChildNodes(layerInfo, node);
+
+        this.runChildNodes(layerContext, node);
         // set properties common to multiple objects on layer options/params
-        layerInfo.params.layers = layerInfo.name;
-        layerInfo.options.maxExtent = layerInfo.maxExtent;
-        // create the layer
-        var layer = this.getLayerFromInfo(layerInfo);
-        context.layers.push(layer);
-    },
-    
-    /**
-     * Method: getLayerFromInfo
-     * Create a WMS layer from a layerInfo object.
-     *
-     * Parameters:
-     * layerInfo - {Object} An object representing a WMS layer.
-     *
-     * Returns:
-     * {<OpenLayers.Layer.WMS>} A WMS layer.
-     */
-    getLayerFromInfo: function(layerInfo) {
-        var options = layerInfo.options;
-        if (this.layerOptions) {
-            OpenLayers.Util.applyDefaults(options, this.layerOptions);
-        }
-        var layer = new OpenLayers.Layer.WMS(
-            layerInfo.title,
-            layerInfo.href,
-            layerInfo.params,
-            options
-        );
-        return layer;
+        context.layersContext.push(layerContext);
     },
     
     /**
@@ -218,8 +188,8 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     /**
      * Method: read_ol_units
      */
-    read_ol_units: function(layerInfo, node) {
-        layerInfo.options.units = this.getChildValue(node);
+    read_ol_units: function(layerContext, node) {
+        layerContext.units = this.getChildValue(node);
     },
     
     /**
@@ -236,100 +206,99 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     /**
      * Method: read_ol_transparent
      */
-    read_ol_transparent: function(layerInfo, node) {
-        layerInfo.params.transparent = this.getChildValue(node);
+    read_ol_transparent: function(layerContext, node) {
+        layerContext.transparent = this.getChildValue(node);
     },
 
     /**
      * Method: read_ol_numZoomLevels
      */
-    read_ol_numZoomLevels: function(layerInfo, node) {
-        layerInfo.options.numZoomLevels = parseInt(this.getChildValue(node));
+    read_ol_numZoomLevels: function(layerContext, node) {
+        layerContext.numZoomLevels = parseInt(this.getChildValue(node));
     },
 
     /**
      * Method: read_ol_opacity
      */
-    read_ol_opacity: function(layerInfo, node) {
-        layerInfo.options.opacity = parseFloat(this.getChildValue(node));
+    read_ol_opacity: function(layerContext, node) {
+        layerContext.opacity = parseFloat(this.getChildValue(node));
     },
 
     /**
      * Method: read_ol_singleTile
      */
-    read_ol_singleTile: function(layerInfo, node) {
-        layerInfo.options.singleTile = (this.getChildValue(node) == "true");
+    read_ol_singleTile: function(layerContext, node) {
+        layerContext.singleTile = (this.getChildValue(node) == "true");
     },
 
     /**
+     * Method: read_ol_tileSize
+     */
+    read_ol_tileSize: function(layerContext, node) {
+        var obj = {"width": node.getAttribute("width"), "height": node.getAttribute("height")};
+        layerContext.tileSize = obj;
+    },
+    
+    /**
      * Method: read_ol_isBaseLayer
      */
-    read_ol_isBaseLayer: function(layerInfo, node) {
-        layerInfo.options.isBaseLayer = (this.getChildValue(node) == "true");
+    read_ol_isBaseLayer: function(layerContext, node) {
+        layerContext.isBaseLayer = (this.getChildValue(node) == "true");
     },
 
     /**
      * Method: read_ol_displayInLayerSwitcher
      */
-    read_ol_displayInLayerSwitcher: function(layerInfo, node) {
-        layerInfo.options.displayInLayerSwitcher =
-            (this.getChildValue(node) == "true");
+    read_ol_displayInLayerSwitcher: function(layerContext, node) {
+        layerContext.displayInLayerSwitcher = (this.getChildValue(node) == "true");
     },
 
     /**
      * Method: read_wmc_Server
      */
-    read_wmc_Server: function(layerInfo, node) {
-        layerInfo.params.version = node.getAttribute("version");
-        this.runChildNodes(layerInfo, node);
+    read_wmc_Server: function(layerContext, node) {
+        layerContext.version = node.getAttribute("version");
+         layerContext.url = this.getOnlineResource_href(node);
+         layerContext.metadata.servertitle = node.getAttribute("title");
     },
 
     /**
      * Method: read_wmc_FormatList
      */
-    read_wmc_FormatList: function(layerInfo, node) {
-        this.runChildNodes(layerInfo, node);
+    read_wmc_FormatList: function(layerContext, node) {
+        this.runChildNodes(layerContext, node);
     },
 
     /**
      * Method: read_wmc_Format
      */
-    read_wmc_Format: function(layerInfo, node) {
-        var format = this.getChildValue(node);
-        layerInfo.formats.push(format);
+    read_wmc_Format: function(layerContext, node) {
+        var format = {
+            value: this.getChildValue(node)
+        };
         if(node.getAttribute("current") == "1") {
-            layerInfo.params.format = format;
+            format.current = true;
         }
+        layerContext.formats.push(format);
     },
     
     /**
      * Method: read_wmc_StyleList
      */
-    read_wmc_StyleList: function(layerInfo, node) {
-        this.runChildNodes(layerInfo, node);
+    read_wmc_StyleList: function(layerContext, node) {
+        this.runChildNodes(layerContext, node);
     },
 
     /**
      * Method: read_wmc_Style
      */
-    read_wmc_Style: function(layerInfo, node) {
+    read_wmc_Style: function(layerContext, node) {
         var style = {};
         this.runChildNodes(style, node);
         if(node.getAttribute("current") == "1") {
-            // three style types to consider
-            // 1) linked SLD
-            // 2) inline SLD
-            // 3) named style
-            // running child nodes always gets name, optionally gets href or body
-            if(style.href) {
-                layerInfo.params.sld = style.href;
-            } else if(style.body) {
-                layerInfo.params.sld_body = style.body;
-            } else {
-                layerInfo.params.styles = style.name;
-            }
+            style.current = true;
         }
-        layerInfo.styles.push(style);
+        layerContext.styles.push(style);
     },
     
     /**
@@ -349,6 +318,14 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     },
 
     /**
+      * Method: read_sld_FeatureTypeStyle
+      */
+     read_sld_FeatureTypeStyle: function(sld, node) {
+         var xml = OpenLayers.Format.XML.prototype.write.apply(this, [node]);
+         sld.body = xml;
+     },
+
+     /**
      * Method: read_wmc_OnlineResource
      */
     read_wmc_OnlineResource: function(obj, node) {
@@ -380,17 +357,26 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     /**
      * Method: read_wmc_MetadataURL
      */
-    read_wmc_MetadataURL: function(layerInfo, node) {
-        var metadataURL = {};
-        var links = node.getElementsByTagName("OnlineResource");
-        if(links.length > 0) {
-            this.read_wmc_OnlineResource(metadataURL, links[0]);
-        }
-        layerInfo.options.metadataURL = metadataURL.href;
+    read_wmc_MetadataURL: function(layerContext, node) {
+         layerContext.metadataURL = this.getOnlineResource_href(node);
+     },
 
+     /**
+      * Method: read_wmc_KeywordList
+      */
+     read_wmc_KeywordList: function(context, node) {
+         context.keywords = [];
+         this.runChildNodes(context.keywords, node);
     },
 
     /**
+      * Method: read_wmc_Keyword
+      */
+     read_wmc_Keyword: function(keywords, node) {
+         keywords.push(this.getChildValue(node));
+     },
+
+     /**
      * Method: read_wmc_Abstract
      */
     read_wmc_Abstract: function(obj, node) {
@@ -401,33 +387,221 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     },
     
     /**
-     * Method: read_wmc_LatLonBoundingBox
-     */
-    read_wmc_LatLonBoundingBox: function(layer, node) {
-        layer.llbbox = [
-            parseFloat(node.getAttribute("minx")),
-            parseFloat(node.getAttribute("miny")),
-            parseFloat(node.getAttribute("maxx")),
-            parseFloat(node.getAttribute("maxy"))
-        ];
-    },
+      * Method: read_wmc_LogoURL
+      */
+     read_wmc_LogoURL: function(context, node) {
+         context.logo = {
+             width:  node.getAttribute("width"),
+             height: node.getAttribute("height"),
+             format: node.getAttribute("format"),
+             href:   this.getOnlineResource_href(node)
+         };
+     },
 
-    /**
+     /**
+      * Method: read_wmc_DescriptionURL
+      */
+     read_wmc_DescriptionURL: function(context, node) {
+         context.descriptionURL = this.getOnlineResource_href(node);
+     },
+
+     /**
+      * Method: read_wmc_ContactInformation
+     */
+     read_wmc_ContactInformation: function(obj, node) {
+         var contact = {};
+         this.runChildNodes(contact, node);
+         obj.contactInformation = contact;
+     },
+
+     /**
+      * Method: read_wmc_ContactPersonPrimary
+      */
+     read_wmc_ContactPersonPrimary: function(contact, node) {
+         var personPrimary = {};
+         this.runChildNodes(personPrimary, node);
+         contact.personPrimary = personPrimary;
+     },
+
+     /**
+      * Method: read_wmc_ContactPerson
+      */
+     read_wmc_ContactPerson: function(primaryPerson, node) {
+         var person = this.getChildValue(node);
+         if (person) {
+             primaryPerson.person = person;
+         }
+     },
+
+     /**
+      * Method: read_wmc_ContactOrganization
+      */
+     read_wmc_ContactOrganization: function(primaryPerson, node) {
+         var organization = this.getChildValue(node);
+         if (organization) {
+             primaryPerson.organization = organization;
+         }
+     },
+
+     /**
+      * Method: read_wmc_ContactPosition
+      */
+     read_wmc_ContactPosition: function(contact, node) {
+         var position = this.getChildValue(node);
+         if (position) {
+             contact.position = position;
+         }
+     },
+
+     /**
+      * Method: read_wmc_ContactAddress
+      */
+     read_wmc_ContactAddress: function(contact, node) {
+         var contactAddress = {};
+         this.runChildNodes(contactAddress, node);
+         contact.contactAddress = contactAddress;
+     },
+
+     /**
+      * Method: read_wmc_AddressType
+      */
+     read_wmc_AddressType: function(contactAddress, node) {
+         var type = this.getChildValue(node);
+         if (type) {
+             contactAddress.type = type;
+         }
+     },
+
+     /**
+      * Method: read_wmc_Address
+      */
+     read_wmc_Address: function(contactAddress, node) {
+         var address = this.getChildValue(node);
+         if (address) {
+             contactAddress.address = address;
+         }
+     },
+
+     /**
+      * Method: read_wmc_City
+      */
+     read_wmc_City: function(contactAddress, node) {
+         var city = this.getChildValue(node);
+         if (city) {
+             contactAddress.city = city;
+         }
+     },
+
+     /**
+      * Method: read_wmc_StateOrProvince
+      */
+     read_wmc_StateOrProvince: function(contactAddress, node) {
+         var stateOrProvince = this.getChildValue(node);
+         if (stateOrProvince) {
+             contactAddress.stateOrProvince = stateOrProvince;
+         }
+     },
+
+     /**
+      * Method: read_wmc_PostCode
+      */
+     read_wmc_PostCode: function(contactAddress, node) {
+         var postcode = this.getChildValue(node);
+         if (postcode) {
+             contactAddress.postcode = postcode;
+         }
+     },
+
+     /**
+      * Method: read_wmc_Country
+      */
+     read_wmc_Country: function(contactAddress, node) {
+         var country = this.getChildValue(node);
+         if (country) {
+             contactAddress.country = country;
+         }
+     },
+
+     /**
+      * Method: read_wmc_ContactVoiceTelephone
+      */
+     read_wmc_ContactVoiceTelephone: function(contact, node) {
+         var phone = this.getChildValue(node);
+         if (phone) {
+             contact.phone = phone;
+         }
+     },
+
+     /**
+      * Method: read_wmc_ContactFacsimileTelephone
+      */
+     read_wmc_ContactFacsimileTelephone: function(contact, node) {
+         var fax = this.getChildValue(node);
+         if (fax) {
+             contact.fax = fax;
+         }
+     },
+
+     /**
+      * Method: read_wmc_ContactElectronicMailAddress
+      */
+     read_wmc_ContactElectronicMailAddress: function(contact, node) {
+         var email = this.getChildValue(node);
+         if (email) {
+             contact.email = email;
+         }
+     },
+
+     /**
+      * Method: read_wmc_DataURL
+      */
+     read_wmc_DataURL: function(layerContext, node) {
+         layerContext.dataURL = this.getOnlineResource_href(node);
+     },
+
+     /**
      * Method: read_wmc_LegendURL
      */
     read_wmc_LegendURL: function(style, node) {
         var legend = {
             width: node.getAttribute('width'),
-            height: node.getAttribute('height')
+             height: node.getAttribute('height'),
+             format: node.getAttribute('format'),
+             href:   this.getOnlineResource_href(node)
         };
-        var links = node.getElementsByTagName("OnlineResource");
-        if(links.length > 0) {
-            this.read_wmc_OnlineResource(legend, links[0]);
-        }
         style.legend = legend;
     },
     
     /**
+      * Method: read_wmc_DimensionList
+      */
+     read_wmc_DimensionList: function(layerContext, node) {
+         layerContext.dimensions = {};
+         this.runChildNodes(layerContext.dimensions, node);
+     },
+     /**
+      * Method: read_wmc_Dimension
+      */
+     read_wmc_Dimension: function(dimensions, node) {
+         var name = node.getAttribute("name").toLowerCase();
+
+         var dim = {
+             name:           name,
+             units:          node.getAttribute("units")          ||  "",
+             unitSymbol:     node.getAttribute("unitSymbol")     ||  "",
+             userValue:      node.getAttribute("userValue")      ||  "",
+             nearestValue:   node.getAttribute("nearestValue")   === "1",
+             multipleValues: node.getAttribute("multipleValues") === "1",
+             current:        node.getAttribute("current")        === "1",
+             "default":      node.getAttribute("default")        ||  ""
+         };
+         var values = this.getChildValue(node);
+         dim.values = values.split(",");
+
+         dimensions[dim.name] = dim;
+     },
+
+     /**
      * Method: write
      *
      * Parameters:
@@ -539,10 +713,10 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         node.appendChild(this.createElementDefaultNS(
             "BoundingBox", null,
             {
-                minx: bounds.left.toPrecision(10),
-                miny: bounds.bottom.toPrecision(10),
-                maxx: bounds.right.toPrecision(10),
-                maxy: bounds.top.toPrecision(10),
+                minx: bounds.left.toPrecision(18),
+                miny: bounds.bottom.toPrecision(18),
+                maxx: bounds.right.toPrecision(18),
+                maxy: bounds.top.toPrecision(18),
                 SRS: context.projection
             }
         ));
@@ -552,6 +726,33 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
             "Title", context.title
         ));
         
+         // optional KeywordList element
+         if (context.keywords) {
+             node.appendChild(this.write_wmc_KeywordList(context.keywords));
+         }
+
+         // optional Abstract element
+         if (context["abstract"]) {
+             node.appendChild(this.createElementDefaultNS(
+                 "Abstract", context["abstract"]
+             ));
+         }
+
+         // Optional LogoURL element
+         if (context.logo) {
+             node.appendChild(this.write_wmc_URLType("LogoURL", context.logo.href, context.logo));
+         }
+
+         // Optional DescriptionURL element
+         if (context.descriptionURL) {
+             node.appendChild(this.write_wmc_URLType("DescriptionURL", context.descriptionURL));
+         }
+
+         // Optional ContactInformation element
+         if (context.contactInformation) {
+             node.appendChild(this.write_wmc_ContactInformation(context.contactInformation));
+         }
+
         // OpenLayers specific map properties
         node.appendChild(this.write_ol_MapExtension(context));
         
@@ -559,6 +760,110 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     },
     
     /**
+      * Method: write_wmc_KeywordList
+      */
+     write_wmc_KeywordList: function(keywords) {
+         var node = this.createElementDefaultNS("KeywordList");
+
+         for (var i=0, len=keywords.length; i<len; i++) {
+             node.appendChild(this.createElementDefaultNS(
+                 "Keyword", keywords[i]
+             ));
+         }
+         return node;
+     },
+     /**
+      * Method: write_wmc_ContactInformation
+      */
+     write_wmc_ContactInformation: function(contact) {
+         var node = this.createElementDefaultNS("ContactInformation");
+
+         if (contact.personPrimary) {
+             node.appendChild(this.write_wmc_ContactPersonPrimary(contact.personPrimary));
+         }
+         if (contact.position) {
+             node.appendChild(this.createElementDefaultNS(
+                 "ContactPosition", contact.position
+             ));
+         }
+         if (contact.contactAddress) {
+             node.appendChild(this.write_wmc_ContactAddress(contact.contactAddress));
+         }
+         if (contact.phone) {
+             node.appendChild(this.createElementDefaultNS(
+                 "ContactVoiceTelephone", contact.phone
+             ));
+         }
+         if (contact.fax) {
+             node.appendChild(this.createElementDefaultNS(
+                 "ContactFacsimileTelephone", contact.fax
+             ));
+         }
+         if (contact.email) {
+             node.appendChild(this.createElementDefaultNS(
+                 "ContactElectronicMailAddress", contact.email
+             ));
+         }
+         return node;
+     },
+
+     /**
+      * Method: write_wmc_ContactPersonPrimary
+      */
+     write_wmc_ContactPersonPrimary: function(personPrimary) {
+         var node = this.createElementDefaultNS("ContactPersonPrimary");
+         if (personPrimary.person) {
+             node.appendChild(this.createElementDefaultNS(
+                 "ContactPerson", personPrimary.person
+             ));
+         }
+         if (personPrimary.organization) {
+             node.appendChild(this.createElementDefaultNS(
+                 "ContactOrganization", personPrimary.organization
+             ));
+         }
+         return node;
+     },
+
+     /**
+      * Method: write_wmc_ContactAddress
+      */
+     write_wmc_ContactAddress: function(contactAddress) {
+         var node = this.createElementDefaultNS("ContactAddress");
+         if (contactAddress.type) {
+             node.appendChild(this.createElementDefaultNS(
+                 "AddressType", contactAddress.type
+             ));
+         }
+         if (contactAddress.address) {
+             node.appendChild(this.createElementDefaultNS(
+                 "Address", contactAddress.address
+             ));
+         }
+         if (contactAddress.city) {
+             node.appendChild(this.createElementDefaultNS(
+                 "City", contactAddress.city
+             ));
+         }
+         if (contactAddress.stateOrProvince) {
+             node.appendChild(this.createElementDefaultNS(
+                 "StateOrProvince", contactAddress.stateOrProvince
+             ));
+         }
+         if (contactAddress.postcode) {
+             node.appendChild(this.createElementDefaultNS(
+                 "PostCode", contactAddress.postcode
+             ));
+         }
+         if (contactAddress.country) {
+             node.appendChild(this.createElementDefaultNS(
+                 "Country", contactAddress.country
+             ));
+         }
+         return node;
+     },
+
+     /**
      * Method: write_ol_MapExtension
      */
     write_ol_MapExtension: function(context) {
@@ -570,10 +875,10 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
                 this.namespaces.ol, "ol:maxExtent"
             );
             this.setAttributes(maxExtent, {
-                minx: bounds.left.toPrecision(10),
-                miny: bounds.bottom.toPrecision(10),
-                maxx: bounds.right.toPrecision(10),
-                maxy: bounds.top.toPrecision(10)
+                minx: bounds.left.toPrecision(18),
+                miny: bounds.bottom.toPrecision(18),
+                maxx: bounds.right.toPrecision(18),
+                maxy: bounds.top.toPrecision(18)
             });
             node.appendChild(maxExtent);
         }
@@ -594,12 +899,8 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     write_wmc_LayerList: function(context) {
         var list = this.createElementDefaultNS("LayerList");
         
-        var layer;
-        for(var i=0, len=context.layers.length; i<len; ++i) {
-            layer = context.layers[i];
-            if(layer instanceof OpenLayers.Layer.WMS) {
-                list.appendChild(this.write_wmc_Layer(layer));
-            }
+        for(var i=0, len=context.layersContext.length; i<len; ++i) {
+            list.appendChild(this.write_wmc_Layer(context.layersContext[i]));
         }
         
         return list;
@@ -607,49 +908,52 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: write_wmc_Layer
-     * Create a Layer node given a layer object.
+     * Create a Layer node given a layer context object.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer.WMS>} Layer object.
+     * context - {Object} A layer context object.}
      *
      * Returns:
      * {Element} A WMC Layer element node.
      */
-    write_wmc_Layer: function(layer) {
+    write_wmc_Layer: function(context) {
         var node = this.createElementDefaultNS(
             "Layer", null, {
-                queryable: layer.queryable ? "1" : "0",
-                hidden: layer.visibility ? "0" : "1"
+                queryable: context.queryable ? "1" : "0",
+                hidden: context.visibility ? "0" : "1"
             }
         );
         
         // required Server element
-        node.appendChild(this.write_wmc_Server(layer));
+        node.appendChild(this.write_wmc_Server(context));
 
         // required Name element
         node.appendChild(this.createElementDefaultNS(
-            "Name", layer.params["LAYERS"]
+            "Name", context.name
         ));
         
         // required Title element
         node.appendChild(this.createElementDefaultNS(
-            "Title", layer.name
+            "Title", context.title
         ));
 
+         // optional Abstract element
+         if (context["abstract"]) {
+             node.appendChild(this.createElementDefaultNS(
+                 "Abstract", context["abstract"]
+             ));
+         }
+
+         // optional DataURL element
+         if (context.dataURL) {
+             node.appendChild(this.write_wmc_URLType("DataURL", context.dataURL));
+         }
+
         // optional MetadataURL element
-        if (layer.metadataURL) {
-            node.appendChild(this.write_wmc_MetadataURL(layer));
+        if (context.metadataURL) {
+             node.appendChild(this.write_wmc_URLType("MetadataURL", context.metadataURL));
         }
         
-        // optional FormatList element
-        node.appendChild(this.write_wmc_FormatList(layer));
-
-        // optional StyleList element
-        node.appendChild(this.write_wmc_StyleList(layer));
-        
-        // OpenLayers specific properties go in an Extension element
-        node.appendChild(this.write_wmc_LayerExtension(layer));
-
         return node;
     },
     
@@ -658,42 +962,41 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * Add OpenLayers specific layer parameters to an Extension element.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer.WMS>} A WMS layer.
+     * context - {Object} A layer context object.
      *
      * Returns:
      * {Element} A WMC Extension element (for a layer).
      */
-    write_wmc_LayerExtension: function(layer) {
+    write_wmc_LayerExtension: function(context) {
         var node = this.createElementDefaultNS("Extension");
         
-        var bounds = layer.maxExtent;
+        var bounds = context.maxExtent;
         var maxExtent = this.createElementNS(
             this.namespaces.ol, "ol:maxExtent"
         );
         this.setAttributes(maxExtent, {
-            minx: bounds.left.toPrecision(10),
-            miny: bounds.bottom.toPrecision(10),
-            maxx: bounds.right.toPrecision(10),
-            maxy: bounds.top.toPrecision(10)
+            minx: bounds.left.toPrecision(18),
+            miny: bounds.bottom.toPrecision(18),
+            maxx: bounds.right.toPrecision(18),
+            maxy: bounds.top.toPrecision(18)
         });
         node.appendChild(maxExtent);
         
-        var param = layer.params["TRANSPARENT"];
-        if(param) {
-            var trans = this.createElementNS(
-                this.namespaces.ol, "ol:transparent"
+        if (context.tileSize && !context.singleTile) {
+            var size = this.createElementNS(
+                this.namespaces.ol, "ol:tileSize"
             );
-            trans.appendChild(this.createTextNode(param));
-            node.appendChild(trans);
+            this.setAttributes(size, context.tileSize);
+            node.appendChild(size);
         }
         
         var properties = [
-            "numZoomLevels", "units", "isBaseLayer",
+            "transparent", "numZoomLevels", "units", "isBaseLayer",
             "opacity", "displayInLayerSwitcher", "singleTile"
         ];
         var child;
         for(var i=0, len=properties.length; i<len; ++i) {
-            child = this.createOLPropertyNode(layer, properties[i]);
+            child = this.createOLPropertyNode(context, properties[i]);
             if(child) {
                 node.appendChild(child);
             }
@@ -708,7 +1011,7 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      *     null or undefined, null will be returned.
      *
      * Parameters:
-     * object - {Object} An object.
+     * obj - {Object} An object.
      * prop - {String} A property.
      *
      * Returns:
@@ -725,116 +1028,207 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: write_wmc_Server
-     * Create a Server node given a layer object.
+     * Create a Server node given a layer context object.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer.WMS>} Layer object.
+     * context - {Object} Layer context object.
      *
      * Returns:
      * {Element} A WMC Server element node.
      */
-    write_wmc_Server: function(layer) {
+    write_wmc_Server: function(context) {
+         var server = context.server;
         var node = this.createElementDefaultNS("Server");
-        this.setAttributes(node, {
+         var attributes = {
             service: "OGC:WMS",
-            version: layer.params["VERSION"]
-        });
+             version: server.version
+         };
+         if (server.title) {
+             attributes.title = server.title;
+         }
+         this.setAttributes(node, attributes);
         
         // required OnlineResource element
-        node.appendChild(this.write_wmc_OnlineResource(layer.url));
+         node.appendChild(this.write_wmc_OnlineResource(server.url));
         
         return node;
     },
 
     /**
-     * Method: write_wmc_MetadataURL
-     * Create a MetadataURL node given a layer object.
+     * Method: write_wmc_URLType
+     * Create a LogoURL/DescriptionURL/MetadataURL/DataURL/LegendURL node given a object and elementName.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer.WMS>} Layer object.
+     * elName - {String} Name of element (LogoURL/DescriptionURL/MetadataURL/LegendURL)
+     * url - {String} URL string value
+     * attr - {Object} Optional attributes (width, height, format)
      *
      * Returns:
-     * {Element} A WMC metadataURL element node.
+     * {Element} A WMC element node.
      */
-    write_wmc_MetadataURL: function(layer) {
-        var node = this.createElementDefaultNS("MetadataURL");
+     write_wmc_URLType: function(elName, url, attr) {
+         var node = this.createElementDefaultNS(elName);
+         node.appendChild(this.write_wmc_OnlineResource(url));
+         if (attr) {
+             var optionalAttributes = ["width", "height", "format"];
+             for (var i=0; i<optionalAttributes.length; i++) {
+                 if (optionalAttributes[i] in attr) {
+                     node.setAttribute(optionalAttributes[i], attr[optionalAttributes[i]]);
+                 }
+             }
+         }
+         return node;
+     },
 
-        // required OnlineResource element
-        node.appendChild(this.write_wmc_OnlineResource(layer.metadataURL));
+     /**
+      * Method: write_wmc_DimensionList
+      */
+     write_wmc_DimensionList: function(context) {
+         var node = this.createElementDefaultNS("DimensionList");
+         var required_attributes = {
+             name: true,
+             units: true,
+             unitSymbol: true,
+             userValue: true
+         };
+         for (var dim in context.dimensions) {
+             var attributes = {};
+             var dimension = context.dimensions[dim];
+             for (var name in dimension) {
+                 if (typeof dimension[name] == "boolean") {
+                     attributes[name] = Number(dimension[name]);
+                 } else {
+                     attributes[name] = dimension[name];
+                 }
+             }
+             var values = "";
+             if (attributes.values) {
+                 values = attributes.values.join(",");
+                 delete attributes.values;
+             }
 
+             node.appendChild(this.createElementDefaultNS(
+                 "Dimension", values, attributes
+             ));
+         }
         return node;
     },
 
     /**
      * Method: write_wmc_FormatList
-     * Create a FormatList node given a layer.
+     * Create a FormatList node given a layer context.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer.WMS>} Layer object.
+     * context - {Object} Layer context object.
      *
      * Returns:
      * {Element} A WMC FormatList element node.
      */
-    write_wmc_FormatList: function(layer) {
+    write_wmc_FormatList: function(context) {
         var node = this.createElementDefaultNS("FormatList");
-        node.appendChild(this.createElementDefaultNS(
-            "Format", layer.params["FORMAT"], {current: "1"}
-        ));
+        for (var i=0, len=context.formats.length; i<len; i++) {
+            var format = context.formats[i];
+            node.appendChild(this.createElementDefaultNS(
+                "Format",
+                format.value,
+                (format.current && format.current == true) ?
+                    {current: "1"} : null
+            ));
+        }
 
         return node;
     },
 
     /**
      * Method: write_wmc_StyleList
-     * Create a StyleList node given a layer.
+     * Create a StyleList node given a layer context.
      *
      * Parameters:
-     * layer - {<OpenLayers.Layer.WMS>} Layer object.
+     * layer - {Object} Layer context object.
      *
      * Returns:
      * {Element} A WMC StyleList element node.
      */
     write_wmc_StyleList: function(layer) {
         var node = this.createElementDefaultNS("StyleList");
-        var style = this.createElementDefaultNS(
-            "Style", null, {current: "1"}
-        );
-        
-        // Style can come from one of three places (prioritized as below):
-        // 1) an SLD parameter
-        // 2) and SLD_BODY parameter
-        // 3) the STYLES parameter
-        
-        if(layer.params["SLD"]) {
-            // create link from SLD parameter
-            var sld = this.createElementDefaultNS("SLD");
-            var link = this.write_wmc_OnlineResource(layer.params["SLD"]);
-            sld.appendChild(link);
-            style.appendChild(sld);
-        } else if(layer.params["SLD_BODY"]) {
-            // include sld fragment from SLD_BODY parameter
-            var sld = this.createElementDefaultNS("SLD");
-            var body = layer.params["SLD_BODY"];
-            // read in body as xml doc - assume proper namespace declarations
-            var doc = OpenLayers.Format.XML.prototype.read.apply(this, [body]);
-            // append to StyledLayerDescriptor node
-            var imported = doc.documentElement;
-            if(sld.ownerDocument && sld.ownerDocument.importNode) {
-                imported = sld.ownerDocument.importNode(imported, true);
+
+        var styles = layer.styles;
+        if (styles && OpenLayers.Util.isArray(styles)) {
+            var sld;
+            for (var i=0, len=styles.length; i<len; i++) {
+                var s = styles[i];
+                // three style types to consider
+                // [1] linked SLD
+                // [2] inline SLD
+                // [3] named style
+                // running child nodes always gets name, optionally gets href or body
+                var style = this.createElementDefaultNS(
+                    "Style",
+                    null,
+                    (s.current && s.current == true) ?
+                    {current: "1"} : null
+                );
+                if(s.href) { // [1]
+                    sld = this.createElementDefaultNS("SLD");
+                     // Name is optional.
+                     if (s.name) {
+                    sld.appendChild(this.createElementDefaultNS("Name", s.name));
+                     }
+                    // Title is optional.
+                    if (s.title) {
+                        sld.appendChild(this.createElementDefaultNS("Title", s.title));
+                    }
+                     // LegendURL is optional
+                     if (s.legend) {
+                         sld.appendChild(this.write_wmc_URLType("LegendURL", s.legend.href, s.legend));
+                     }
+
+                     var link = this.write_wmc_OnlineResource(s.href);
+                     sld.appendChild(link);
+                    style.appendChild(sld);
+                } else if(s.body) { // [2]
+                    sld = this.createElementDefaultNS("SLD");
+                     // Name is optional.
+                     if (s.name) {
+                         sld.appendChild(this.createElementDefaultNS("Name", s.name));
+                     }
+                     // Title is optional.
+                     if (s.title) {
+                         sld.appendChild(this.createElementDefaultNS("Title", s.title));
+                     }
+                     // LegendURL is optional
+                     if (s.legend) {
+                         sld.appendChild(this.write_wmc_URLType("LegendURL", s.legend.href, s.legend));
+                     }
+
+                    // read in body as xml doc - assume proper namespace declarations
+                    var doc = OpenLayers.Format.XML.prototype.read.apply(this, [s.body]);
+                    // append to StyledLayerDescriptor node
+                    var imported = doc.documentElement;
+                    if(sld.ownerDocument && sld.ownerDocument.importNode) {
+                        imported = sld.ownerDocument.importNode(imported, true);
+                    }
+                    sld.appendChild(imported);
+                    style.appendChild(sld);            
+                } else { // [3]
+                    // both Name and Title are required.
+                    style.appendChild(this.createElementDefaultNS("Name", s.name));
+                    style.appendChild(this.createElementDefaultNS("Title", s.title));
+                    // Abstract is optional
+                    if (s['abstract']) { // abstract is a js keyword
+                        style.appendChild(this.createElementDefaultNS(
+                            "Abstract", s['abstract']
+                        ));
+                    }
+                     // LegendURL is optional
+                     if (s.legend) {
+                         style.appendChild(this.write_wmc_URLType("LegendURL", s.legend.href, s.legend));
+                }
+                 }
+                node.appendChild(style);
             }
-            sld.appendChild(imported);
-            style.appendChild(sld);            
-        } else {
-            // use name(s) from STYLES parameter
-            var name = layer.params["STYLES"] ?
-                layer.params["STYLES"] : this.defaultStyleName;
-            
-            style.appendChild(this.createElementDefaultNS("Name", name));
-            style.appendChild(this.createElementDefaultNS(
-                "Title", this.defaultStyleTitle
-            ));
         }
-        node.appendChild(style);
+
         return node;
     },
 
@@ -854,6 +1248,19 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         this.setAttributeNS(node, this.namespaces.xlink, "xlink:href", href);
         return node;
     },
+
+     /**
+      * Method: getOnlineResource_href
+      */
+     getOnlineResource_href: function(node) {
+         var object = {};
+         var links = node.getElementsByTagName("OnlineResource");
+         if(links.length > 0) {
+             this.read_wmc_OnlineResource(object, links[0]);
+         }
+         return object.href;
+     },
+
 
     CLASS_NAME: "OpenLayers.Format.WMC.v1" 
 

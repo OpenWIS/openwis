@@ -227,6 +227,9 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
             			params: params,
             			listeners: {
             				success: function() {
+						if (this.userAlarmGridPanel) {
+							this.userAlarmGridPanel.reload();
+						}
             					this.getStore().reload();
             				},
             				scope: this

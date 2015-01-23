@@ -1,6 +1,6 @@
 <html>
 <head>
-<script src="../../lib/OpenLayers.js"></script>
+<script src="../OLLoader.js"></script>
   <script type="text/javascript">
 
     var geometry = null, node = null;
@@ -79,7 +79,9 @@
         // test extent changes
         var extent = new OpenLayers.Bounds(4,3,2,1);
         r.setExtent(extent);
-        t.eq(r.root.getAttributeNS(null, "transform").replace(/ /g, ""), "translate(-6,-6)", "rendererRoot viewBox is correct after a new setExtent");
+        var el = r.createNode("g");
+        el.setAttributeNS(null, "transform", "translate(-6,-6)");
+        t.eq(r.root.getAttributeNS(null, "transform"), el.getAttributeNS(null, "transform"), "rendererRoot viewBox is correct after a new setExtent");
 
         OpenLayers.Renderer.Elements.prototype.setExtent =
             OpenLayers.Renderer.Elements.prototype._setExtent;
@@ -153,7 +155,8 @@
             x: 10000000,
             y: 200000000,
             CLASS_NAME: "OpenLayers.Geometry.Point",
-            id: "foo"
+            id: "foo",
+            getBounds: function() {return {bottom: 0}}
         }
         node.id = geometry.id;
         r.root.appendChild(node);
@@ -296,40 +299,6 @@
         t.eq(node.getAttributeNS(null, "height"), "8", "height attribute is correctly set");
     }
     
-    function test_SVG_drawsurface(t) {
-        if (!OpenLayers.Renderer.SVG.prototype.supported()) {
-            t.plan(0);
-            return;
-        }
-        
-        t.plan(3);
-        
-        var r = new OpenLayers.Renderer.SVG(document.body);
-        
-        var node = document.createElement('div');
-        
-        var geometry = {
-            components: ['foo', 'bar', 'dude']
-        }
-        g_GetString = false;
-        r.getShortString = function(c) {
-            g_GetString = true;
-            return c;
-        }
-        
-        r.drawSurface(node, geometry);
-        
-        t.ok(g_GetString, "getShortString is called");
-        
-        t.eq(node.getAttributeNS(null, "d"), "M foo C bar dude Z", "d attribute is correctly set");
-        
-        r.getShortString = function(c) {
-            return false;
-        }
-
-        t.eq(r.drawSurface(node, geometry), false, "drawSurface returns false if one linearRing cannot be drawn");
-    }
-    
     function test_SVG_getcomponentsstring(t) {
         if (!OpenLayers.Renderer.SVG.prototype.supported()) {
             t.plan(0);
@@ -377,22 +346,6 @@
         var string = r.getShortString(point);
         t.eq(string, "2,-4", "returned string is correct");
     }
-    
-    function test_svg_getnodetype(t) {
-        if (!OpenLayers.Renderer.SVG.prototype.supported()) {
-            t.plan(0);
-            return;
-        }
-
-        t.plan(1);
-        
-        var r = new OpenLayers.Renderer.SVG(document.body);
-
-        var g = {CLASS_NAME: "OpenLayers.Geometry.Point"}
-        var s = {graphicName: "square"};
-        
-        t.eq(r.getNodeType(g, s), "use", "Correct node type for well known symbols");
-    }
         
     function test_svg_importsymbol(t) {
         if (!OpenLayers.Renderer.SVG.prototype.supported()) {
@@ -407,11 +360,18 @@
         r.importSymbol("square");
 
         var polygon = document.getElementById(r.container.id + "_defs").firstChild.firstChild;
-
-        var points = polygon.getAttribute("points");
- 
-        t.eq(points.replace(/ /g,''), "0,00,11,11,00,0", "Square symbol rendered correctly");
-        t.ok(r.symbolSize["-square"], "Symbol size cached correctly.");
+        
+        var pass = false;
+        for (var i = 0; i < polygon.points.numberOfItems; i++) {
+            var p = polygon.points.getItem(i);
+            pass = p.x === OpenLayers.Renderer.symbol.square[2*i] && 
+                   p.y === OpenLayers.Renderer.symbol.square[2*i+1];
+            if (!pass) {
+                break;
+            }
+        }
+        t.ok(pass, "Square symbol rendered correctly");
+        t.ok(r.symbolMetrics["-square"], "Symbol metrics cached correctly.");
     }
         
     function test_svg_dashstyle(t) {

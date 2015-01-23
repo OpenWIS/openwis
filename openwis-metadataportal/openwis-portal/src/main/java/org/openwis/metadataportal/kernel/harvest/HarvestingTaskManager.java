@@ -43,6 +43,7 @@ import org.openwis.metadataportal.model.metadata.MetadataAlignerError;
 import org.openwis.metadataportal.model.metadata.MetadataAlignerResult;
 import org.openwis.metadataportal.model.metadata.MetadataValidation;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -136,8 +137,23 @@ public class HarvestingTaskManager extends AbstractManager {
       return wrapper;
    }
 
-   public void deleteHarvestingTask(Integer id) throws Exception {
-      resetHarvestingTask(id);
+   /**
+    * Attempts to delete a harvesting task.  First this method will attempt to reset the harvester, which includes removing
+    * the metadata that was harvested from this task.  If the reset is successful, the harvester is remove and the method
+    * returns <code>true</code>.  Otherwise, the method returns false.
+    *
+    * @param id
+    *       The harvesting task id.
+    * @returns
+    *       <code>true</code> if the harvesting task was removed, <code>false</code> otherwise.
+    * @throws Exception
+    */
+   public boolean deleteHarvestingTask(Integer id) throws Exception {
+      boolean cleanSuccessful = resetHarvestingTask(id);
+
+      if (! cleanSuccessful) {
+         return false;
+      }
 
       // Remove the operation allowed for this group.
       String queryTaskResult = "DELETE FROM HarvestingTaskResult WHERE harvestingTaskId=?";
@@ -150,14 +166,37 @@ public class HarvestingTaskManager extends AbstractManager {
       // Remove the group.
       String queryTask = "DELETE FROM HarvestingTask WHERE id=?";
       getDbms().execute(queryTask, id);
+
+      return true;
    }
 
-   public void resetHarvestingTask(Integer id) throws Exception {
+   /**
+    * Removes all metadata records associated with a harvesting or synchronisation task.
+    *
+    * @param id
+    *       The harvesting/synchronisation task ID.
+    * @return
+    *       <code>true</code> if the clean was successful, <code>false</code> if some metadata records could not be removed.
+    * @throws Exception
+    */
+   public boolean resetHarvestingTask(Integer id) throws Exception {
+      boolean allMetadataRecordsRemoved = true;
+
       //Delete the associated metadata.
-      Collection<Metadata> mds = getAllMetadataByHarvestingTask(id);
-      for (Metadata md : mds) {
-         this.dataManager.deleteMetadata(getDbms(), md.getUrn(), false);
+      List<Metadata> mds = new ArrayList<Metadata>(getAllMetadataByHarvestingTask(id));
+
+      List<String> urns = Lists.transform(mds, new Function<Metadata, String>() {
+         public String apply(Metadata from) {
+            return from.getUrn();
+         }
+      });
+
+      List<List<String>> mdPartitions = Lists.partition(urns, 100);
+      for (List<String> partition : mdPartitions) {
+         allMetadataRecordsRemoved = allMetadataRecordsRemoved && this.dataManager.deleteMetadataCollection(getDbms(), partition, false);
       }
+
+      return allMetadataRecordsRemoved;
    }
 
    /**
@@ -289,15 +328,16 @@ public class HarvestingTaskManager extends AbstractManager {
       //Insert the harvesting task.
       StringBuffer sbHarvestingTask = new StringBuffer();
       sbHarvestingTask
-            .append("INSERT INTO harvestingtask(id, uuid, name, harvestingtype, validationmode, isrecurrent, recurrentperiod, lastrun, backup, status, issynchronization, isincremental, categoryid) ");
-      sbHarvestingTask.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            .append("INSERT INTO harvestingtask(id, uuid, name, harvestingtype, startingdate, validationmode, isrecurrent, recurrentperiod, lastrun, backup, status, issynchronization, isincremental, categoryid) ");
+      sbHarvestingTask.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
       Integer recurrencePeriod = null;
       String backup = null;
       String lastRunDate = null;
-
+     
       if (task.getRunMode().isRecurrent()) {
-         recurrencePeriod = task.getRunMode().getRecurrentPeriod();
+         recurrencePeriod = task.getRunMode().getRecurrencePeriod();
+        
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
@@ -307,7 +347,7 @@ public class HarvestingTaskManager extends AbstractManager {
       }
 
       getDbms().execute(sbHarvestingTask.toString(), task.getId(), UUID.randomUUID().toString(),
-            task.getName(), task.getType(), task.getValidationMode().toString(),
+            task.getName(), task.getType(),task.getRunMode().getStartingDate(), task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             lastRunDate, backup, task.getStatus().toString(),
             BooleanUtils.toString(task.isSynchronizationTask(), "y", "n"),
@@ -336,21 +376,23 @@ public class HarvestingTaskManager extends AbstractManager {
       //-- Update Task.
       StringBuffer queryUpdateTask = new StringBuffer();
       queryUpdateTask.append("UPDATE harvestingtask SET ");
-      queryUpdateTask.append("name=?, validationmode=?, isrecurrent=?, recurrentperiod=?, ");
+      queryUpdateTask.append("name=?, startingdate=?, validationmode=?, isrecurrent=?, recurrentperiod=?, ");
       queryUpdateTask.append("backup=?, status=?, issynchronization=?, isincremental=?, categoryid=? ");
       queryUpdateTask.append("WHERE id = ?");
 
       Integer recurrencePeriod = null;
       String backup = null;
+      
 
       if (task.getRunMode().isRecurrent()) {
-         recurrencePeriod = task.getRunMode().getRecurrentPeriod();
+         recurrencePeriod = task.getRunMode().getRecurrencePeriod();
       }
       if (task.getBackup() != null) {
          backup = task.getBackup().getName();
       }
 
       getDbms().execute(queryUpdateTask.toString(), task.getName(),
+            task.getRunMode().getStartingDate(), 
             task.getValidationMode().toString(),
             BooleanUtils.toString(task.getRunMode().isRecurrent(), "y", "n"), recurrencePeriod,
             backup, task.getStatus().toString(),
@@ -439,17 +481,40 @@ public class HarvestingTaskManager extends AbstractManager {
     * @throws Exception if an error occurs.
     */
    public boolean run(Integer harvestingTaskId, ServiceContext context) throws Exception {
+      return this.run(harvestingTaskId, context, false);
+   }
+   
+   /**
+    * Runs the specified task id.
+    * @param harvestingTaskId the id of the harvesting task to trigger.
+    * @param context the service context.
+    * @return <code>true</code> if the task has been scheduled, <code>false</code> if it was running.
+    * @throws Exception if an error occurs.
+    */
+   public boolean run(Integer harvestingTaskId, ServiceContext context, boolean runOnce) throws Exception {
       HarvesterExecutorService scheduler = HarvesterExecutorService.getInstance();
       if (!scheduler.isRunning(harvestingTaskId)) {
          HarvestingTask task = getHarvestingTaskById(harvestingTaskId, true);
-         scheduler.removeScheduledIfAny(harvestingTaskId);
-         scheduler.run(task, context);
+         if (!runOnce) {
+            scheduler.removeScheduledIfAny(harvestingTaskId);
+         }
+         scheduler.run(task, context, runOnce);
          return true;
       } else {
          return false;
       }
    }
    
+   /**
+    * Runs the specified task id.
+    * @param harvestingTaskId the id of the harvesting task to trigger.
+    * @param context the service context.
+    * @return <code>true</code> if the task has been scheduled, <code>false</code> if it was running.
+    * @throws Exception if an error occurs.
+    */
+   public boolean runOnce(Integer harvestingTaskId, ServiceContext context) throws Exception {
+      return this.run(harvestingTaskId, context, true);
+   }
    
    /**
     * Schedule all recurrent harvesting tasks (done at start-up).
@@ -593,6 +658,11 @@ public class HarvestingTaskManager extends AbstractManager {
       if (runMode.isRecurrent()) {
          int recurrentPeriod = Integer.parseInt(e.getChildText("recurrentperiod"));
          runMode.setRecurrentPeriod(recurrentPeriod);
+         runMode.setRecurrencePeriod(recurrentPeriod);
+         runMode.setRecurrentScale(e.getChildText("recurrentscale"));
+         if (StringUtils.isNotBlank(e.getChildText("startingdate"))) {
+            runMode.setStartingDate(e.getChildText("startingdate"));
+         }
       }
       harvestingTask.setRunMode(runMode);
       if (StringUtils.isNotBlank(e.getChildText("lastrun"))) {
@@ -738,4 +808,41 @@ public class HarvestingTaskManager extends AbstractManager {
          activate(id, context);
       }
    }
+   
+   
+   @SuppressWarnings("unchecked")
+   public String getLastRunDate(Integer taskId) throws Exception {
+	   String lastRunDate = "";
+	   String query = "SELECT lastrun FROM HarvestingTask WHERE id = ?";
+	   List<Element> records = getDbms().select(query, taskId).getChildren();
+	   if (records.size() > 0) {
+		   lastRunDate = records.get(0).getChildText("lastrun");
+	   }
+	   return lastRunDate;
+   }
+   /*
+   @SuppressWarnings("unchecked")
+   public void updateLastReport(Integer taskId, String reportName) throws Exception {
+	   String queryTaskReport = "SELECT id FROM HarvestingTask WHERE id = ?";
+	   List<Element> recordsTaskReport = getDbms().select(queryTaskReport, taskId).getChildren();
+	   if (!recordsTaskReport.isEmpty()) {
+		   //Update last report name for the current harvesting task identifier
+		   String updateQuery = "UPDATE HarvestingTask SET report = ? WHERE id = ?";
+		   getDbms().execute(updateQuery, reportName, new Integer(recordsTaskReport.get(0).getChildText("id")));
+		   
+	   } 
+   }
+   
+   @SuppressWarnings("unchecked")
+   public String getLastReportName(Integer taskId) throws Exception {
+	   String lastReportFileName = "";
+	   String query = "SELECT report FROM HarvestingTask WHERE id = ?";
+	   List<Element> records = getDbms().select(query, taskId).getChildren();
+	   if (records.size() > 0) {
+		   lastReportFileName = records.get(0).getChildText("report");
+	   }
+	   return lastReportFileName;
+   }
+   */
 }
+

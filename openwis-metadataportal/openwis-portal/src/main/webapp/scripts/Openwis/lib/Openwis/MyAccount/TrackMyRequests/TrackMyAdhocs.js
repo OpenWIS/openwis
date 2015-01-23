@@ -17,6 +17,13 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 		//Create Header.
 		this.add(this.getHeader());
 		
+		//Create User Alarm Grid
+		this.add(new Ext.Container({
+			html: Openwis.i18n('TrackMyRequests.UserAlarms.Title'),
+			cls: 'myAccountTitle2'
+		}));
+		this.add(this.getUserAlarmsGrid());
+
 		//Create Local Requests Grid.
 		this.add(new Ext.Container({
 			html: Openwis.i18n('TrackMyRequests.Local.Title'),
@@ -43,10 +50,20 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 		return this.header;
 	},
 	
+	getUserAlarmsGrid: function() {
+		if (!this.userAlarmsGrid) {
+			this.userAlarmsGrid = new Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel({
+				isSubscription: false
+			});
+		}
+		return this.userAlarmsGrid;
+	},
+
 	getLocalRequestsGrid: function() {
 		if(!this.localRequestsGrid) {
 			this.localRequestsGrid = new Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel({
-			    isLocal: true
+			    isLocal: true,
+			    userAlarmGridPanel: this.getUserAlarmsGrid()
 			});
 		}
 		return this.localRequestsGrid;

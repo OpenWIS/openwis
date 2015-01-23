@@ -6,6 +6,7 @@ import org.openwis.dataservice.common.domain.entity.cache.PatternMetadataMapping
 import org.openwis.dataservice.common.domain.entity.enumeration.ProductMetadataColumn;
 import org.openwis.dataservice.common.domain.entity.enumeration.SortDirection;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
+import org.openwis.dataservice.common.exception.CannotDeleteAllProductMetadataException;
 import org.openwis.dataservice.common.exception.CannotDeleteProductMetadataException;
 
 /**
@@ -117,6 +118,16 @@ public interface ProductMetadataService {
     * @throws CannotDeleteProductMetadataException if cannot delete product metadata
     */
    void deleteProductMetadataByURN(String urn) throws CannotDeleteProductMetadataException;
+
+   /**
+    * Delete all product metadata identified by the given urn.
+    *
+    * @param urn
+    *       The list of URNs.
+    * @throws CannotDeleteAllProductMetadataException
+    *       Thrown if one or more metadata records could not be deleted.
+    */
+   void deleteProductMetadatasWithURN(List<String> urn) throws CannotDeleteAllProductMetadataException;
 
    /**
     * Gets the all pattern metadata mapping.

@@ -24,6 +24,7 @@
 package jeeves.resources.dbms;
 
 import java.io.StringReader;
+import java.security.KeyStore.Entry;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -37,6 +38,8 @@ import java.sql.Types;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Vector;
 
 import jeeves.constants.Jeeves;
@@ -83,11 +86,17 @@ public class Dbms
 
 	/** connects to a DBMS */
 
-	public void connect(String username, String password) throws SQLException
+	public void connect(String username, String password, Map<String, String> otherProperties) throws SQLException
 	{
 		String actualUrl = url;
 		if (actualUrl.contains("postgis")) actualUrl = actualUrl.replaceFirst("postgis","postgresql");
-		conn = DriverManager.getConnection(actualUrl, username, password);
+				
+      Properties properties = new Properties();
+      properties.setProperty("user", username);
+      properties.setProperty("password", password);
+      properties.putAll(otherProperties);
+     
+      conn = DriverManager.getConnection(actualUrl, properties);
 
 		conn.setAutoCommit(false);
 		if (actualUrl.toUpperCase().contains("ORACLE")) {

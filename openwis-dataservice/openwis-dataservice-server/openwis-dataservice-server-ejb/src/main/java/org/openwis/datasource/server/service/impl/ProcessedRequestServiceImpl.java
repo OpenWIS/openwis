@@ -204,7 +204,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
     * @param extractedFiles
     */
    protected void updateExtractedDataStatistics(final ProcessedRequest processedRequest, final String userId) {
-      File disseminatedFile = getDisseminatedFile(processedRequest.getUri());
+      File disseminatedFile = new File(STAGING_POST_URI,processedRequest.getUri());
       if (disseminatedFile != null) {
          // get statistics parameter
          long size = 0;
@@ -233,22 +233,6 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
             logger.warn("Could no update statistics", e);
          }
       }
-   }
-
-   /**
-    * Description goes here.
-    *
-    * @param uri the URI
-    * @return the disseminated file
-    */
-   private File getDisseminatedFile(String uri) {
-      File result = null;
-      File stagingPost = new File(STAGING_POST_URI, uri);
-      File[] disseminatedFiles = stagingPost.listFiles();
-      if ((disseminatedFiles != null) && (disseminatedFiles.length > 0)) {
-         result = disseminatedFiles[0];
-      }
-      return result;
    }
 
    /**
@@ -733,6 +717,29 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
 
       query.setParameter("adhocId", adhocId);
       query.setParameter("requestType", "ADHOC");
+
+      ProcessedRequest result = null;
+      try {
+         result = (ProcessedRequest) query.getSingleResult();
+      } catch (NoResultException e) {
+         result = null;
+      }
+      return result;
+   }
+
+   /**
+    * {@inheritDoc}
+    * @see org.openwis.dataservice.common.service.ProcessedRequestService#getProcessedRequestForAdhoc(java.lang.Long)
+    */
+   @Override
+   public ProcessedRequest getFullProcessedRequest(Long processedRequestID) {
+      Query query = entityManager.createQuery("SELECT pr FROM ProcessedRequest pr "
+            + "LEFT JOIN FETCH pr.request req " + "JOIN FETCH req.productMetadata pm "
+            + "LEFT JOIN FETCH req.parameters ssp " + "LEFT JOIN FETCH ssp.values "
+            + "LEFT JOIN FETCH req.primaryDissemination "
+            + "WHERE pr.id = :id");
+
+      query.setParameter("id", processedRequestID);
 
       ProcessedRequest result = null;
       try {

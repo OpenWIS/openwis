@@ -57,6 +57,7 @@ import jeeves.xlink.Processor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Edit;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -76,6 +77,7 @@ import org.jdom.Namespace;
 import org.jdom.Text;
 import org.jdom.filter.ElementFilter;
 import org.jdom.filter.Filter;
+import org.openwis.dataservice.CannotDeleteAllProductMetadataException_Exception;
 import org.openwis.dataservice.ProductMetadata;
 import org.openwis.metadataportal.kernel.category.CategoryManager;
 import org.openwis.metadataportal.kernel.datapolicy.DataPolicyManager;
@@ -1868,6 +1870,82 @@ public class DataManager implements IndexListener {
    //--------------------------------------------------------------------------
 
    /**
+    * Deletes a set of metadata records based on the URN.
+    *
+    * @param dbms
+    * @param urns
+    * @param flagAsDeleted
+    * @return
+    *       <code>true</code> if ALL metadata records from the collection were deleted, <code>false</code> is some or all metadata
+    *       records could not be deleted.
+    * @throws Exception
+    */
+   public synchronized boolean deleteMetadataCollection(Dbms dbms, List<String> urns, boolean flagAsDeleted)
+        throws Exception {
+
+//      Log.info(Geonet.ADMIN, String.format("Deleting %d metadata records", urns.size()));
+
+      boolean allMetadataRecordsDeleted = true;
+      long startTime = System.currentTimeMillis();
+
+      // Delete Metadata Product
+      try
+      {
+         new ProductMetadataManager().delete(urns);
+      }
+      catch (CannotDeleteAllProductMetadataException_Exception e)
+      {
+         // If any metadata cannot be deleted, remove them from the list of metadata records to delete below.
+         Log.error(Geonet.ADMIN, "The following metadata records could not be deleted from the data services.  They will not be deleted from the DB or index");
+         Log.error(Geonet.ADMIN, "The URNs are: " + StringUtils.join(e.getFaultInfo().getUrns().iterator(), "; "));
+
+         urns = new ArrayList<String>(urns);
+         urns.removeAll(e.getFaultInfo().getUrns());
+         allMetadataRecordsDeleted = false;
+      }
+
+
+      long split1 = System.currentTimeMillis();
+
+      List<IndexableElement> itemsToDeleteFromIndex = new ArrayList<IndexableElement>();
+
+      for (String urn : urns) {
+         // Create a deleted metadata manager
+         IDeletedMetadataManager dmm = new DeletedMetadataManager(dbms);
+         DeletedMetadata deletedMetadata = null;
+         if (flagAsDeleted) {
+            deletedMetadata = dmm.createDeletedMetadataFromMetadataUrn(urn);
+         }
+
+         // fill the deletedMetadata table if deleted metadata not null
+         if (flagAsDeleted && deletedMetadata != null) {
+            dmm.insertDeletedMetadata(deletedMetadata);
+         }
+
+         //-- Delete metadata relations.
+         Integer id = Integer.parseInt(getMetadataId(dbms, urn));
+         XmlSerializer.deleteMetadataRelations(dbms, id);
+
+         //--- remove metadata
+         XmlSerializer.delete(dbms, "Metadata", urn);
+
+         itemsToDeleteFromIndex.add(new DbmsIndexableElement(dbms, urn, null));
+      }
+      long split4 = System.currentTimeMillis();
+
+      //--- update search criteria / search index...
+      searchMan.delete(itemsToDeleteFromIndex);
+      long split5 = System.currentTimeMillis();
+
+      Log.info(Geonet.ADMIN, String.format("Deleted metadata collection: size = %d, (product, db, index) = %d, %d, %d",
+            urns.size(),
+            split1 - startTime,
+            split4 - split1,
+            split5 - split4));
+
+      return allMetadataRecordsDeleted;
+   }
+   /**
     * Removes a metadata.
     * @param dbms
     * @param id the metadata ID
@@ -1877,8 +1955,11 @@ public class DataManager implements IndexListener {
    public synchronized void deleteMetadata(Dbms dbms, String urn, boolean flagAsDeleted)
          throws Exception {
 
+      long startTime = System.currentTimeMillis();
+
       // Delete Metadata Product
       new ProductMetadataManager().delete(urn);
+      long split1 = System.currentTimeMillis();
 
       // Create a deleted metadata manager
       IDeletedMetadataManager dmm = new DeletedMetadataManager(dbms);
@@ -1891,16 +1972,27 @@ public class DataManager implements IndexListener {
       if (flagAsDeleted && deletedMetadata != null) {
          dmm.insertDeletedMetadata(deletedMetadata);
       }
+      long split2 = System.currentTimeMillis();
 
       //-- Delete metadata relations.
       Integer id = Integer.parseInt(getMetadataId(dbms, urn));
       XmlSerializer.deleteMetadataRelations(dbms, id);
+      long split3 = System.currentTimeMillis();
 
       //--- remove metadata
       XmlSerializer.delete(dbms, "Metadata", urn);
+      long split4 = System.currentTimeMillis();
 
       //--- update search criteria / search index...
       searchMan.delete(new DbmsIndexableElement(dbms, urn, null));
+      long split5 = System.currentTimeMillis();
+
+      Log.info(Geonet.ADMIN, String.format("Deleted metadata times: (product, deletedMetadata, relations, db, index) = %d, %d, %d, %d, %d",
+            split1 - startTime,
+            split2 - split1,
+            split3 - split2,
+            split4 - split3,
+            split5 - split4));
    }
 
    /**

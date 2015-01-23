@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
@@ -24,8 +23,10 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-ear-plugin</artifactId>
-				<version>2.4.2</version>
+				<version>2.9.1</version>
 				<configuration>
+                    <fileNameMapping>no-version-for-ejb</fileNameMapping>
+
                     <!-- Generate the conf file jboss-app.xml -->
 					<jboss>
 						<version>5</version>
@@ -43,13 +44,15 @@
             <!-- 
             Deploy the EAR in JBoss
             -->
+			<!--changed to the deploy goal so a JBOSS installation is not required for build -->
+			<!-- Shaun Adams - Met Office -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jboss-maven-plugin</artifactId>
 				<version>1.4.1</version>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>hard-deploy</goal>
 						</goals>
@@ -74,10 +77,8 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<echo message="==========      Copy security-jndi-service file =============" />
-								<copy overwrite="true"
-									file="${basedir}/src/main/config/${securityservice-jndi-service}"
-									todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
+								<echo message="========== Copy security-jndi-service file =============" />
+								<copy overwrite="true" file="${basedir}/src/main/config/${securityservice-jndi-service}" todir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" />
 							</tasks>
 						</configuration>
 					</execution>
@@ -91,8 +92,7 @@
 						<configuration>
 							<tasks>
 								<delete failonerror="false">
-									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/"
-										includes="${securityservice-jndi-service}" />
+									<fileset dir="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}/deploy/" includes="${securityservice-jndi-service}" />
 								</delete>
 							</tasks>
 						</configuration>
@@ -107,21 +107,21 @@
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
 			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
 			<artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.openwis.securityservice.usermanagement.server</groupId>
 			<artifactId>openwis-securityservice-usermanagement-server-webapp</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>

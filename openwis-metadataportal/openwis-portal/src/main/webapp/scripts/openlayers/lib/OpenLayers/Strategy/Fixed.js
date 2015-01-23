@@ -1,5 +1,6 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -19,7 +20,7 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
      * APIProperty: preload
      * {Boolean} Load data before layer made visible. Enabling this may result
      *   in considerable overhead if your application loads many data layers
-     *   that are not visible by default. Default is true.
+     *   that are not visible by default. Default is false.
      */
     preload: false,
 
@@ -31,17 +32,6 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
      * options - {Object} Optional object whose properties will be set on the
      *     instance.
      */
-    initialize: function(options) {
-        OpenLayers.Strategy.prototype.initialize.apply(this, [options]);
-    },
-
-    /**
-     * APIMethod: destroy
-     * Clean up the strategy.
-     */
-    destroy: function() {
-        OpenLayers.Strategy.prototype.destroy.apply(this, arguments);
-    },
 
     /**
      * Method: activate
@@ -52,7 +42,8 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
      *      the strategy was already active.
      */
     activate: function() {
-        if(OpenLayers.Strategy.prototype.activate.apply(this, arguments)) {
+        var activated = OpenLayers.Strategy.prototype.activate.apply(this, arguments);
+        if(activated) {
             this.layer.events.on({
                 "refresh": this.load,
                 scope: this
@@ -65,9 +56,8 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
                     scope: this
                 });
             }
-            return true;
         }
-        return false;
+        return activated;
     },
     
     /**
@@ -97,12 +87,14 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
      * options - {Object} options to pass to protocol read.
      */
     load: function(options) {
-        this.layer.events.triggerEvent("loadstart");
-        this.layer.protocol.read(OpenLayers.Util.applyDefaults({
+        var layer = this.layer;
+        layer.events.triggerEvent("loadstart", {filter: layer.filter});
+        layer.protocol.read(OpenLayers.Util.applyDefaults({
             callback: this.merge,
+            filter: layer.filter,
             scope: this
         }, options));
-        this.layer.events.un({
+        layer.events.un({
             "visibilitychanged": this.load,
             scope: this
         });
@@ -111,13 +103,20 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
     /**
      * Method: merge
      * Add all features to the layer.
+     *     If the layer projection differs from the map projection, features
+     *     will be transformed from the layer projection to the map projection.
+     *
+     * Parameters:
+     * resp - {<OpenLayers.Protocol.Response>} The response object passed
+     *      by the protocol.
      */
     merge: function(resp) {
-        this.layer.destroyFeatures();
+        var layer = this.layer;
+        layer.destroyFeatures();
         var features = resp.features;
         if (features && features.length > 0) {
-            var remote = this.layer.projection;
-            var local = this.layer.map.getProjectionObject();
+            var remote = layer.projection;
+            var local = layer.map.getProjectionObject();
             if(!local.equals(remote)) {
                 var geom;
                 for(var i=0, len=features.length; i<len; ++i) {
@@ -127,9 +126,9 @@ OpenLayers.Strategy.Fixed = OpenLayers.Class(OpenLayers.Strategy, {
                     }
                 }
             }
-            this.layer.addFeatures(features);
+            layer.addFeatures(features);
         }
-        this.layer.events.triggerEvent("loadend");
+        layer.events.triggerEvent("loadend", {response: resp});
     },
 
     CLASS_NAME: "OpenLayers.Strategy.Fixed"

@@ -1,6 +1,6 @@
 <html> 
 <head> 
-    <script src="../lib/OpenLayers.js"></script> 
+    <script src="OLLoader.js"></script> 
     <script type="text/javascript">
 
     function test_initialize(t) { 
@@ -12,6 +12,16 @@
              "new OpenLayers.Filter returns object" ); 
         t.eq(filter.foo, "bar", "constructor sets options correctly"); 
         t.eq(typeof filter.evaluate, "function", "filter has an evaluate function"); 
+    }
+    
+    function test_toString(t) {
+        t.plan(1);
+        var filter = new OpenLayers.Filter.Comparison({
+            property: "PERSONS",
+            value: 2000000,
+            type: OpenLayers.Filter.Comparison.LESS_THAN
+        });
+        t.eq(filter.toString(), "PERSONS < 2000000", "toString returns CQL representation");
     }
 
     </script> 

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
 
     function test_constructor(t) {
@@ -199,11 +199,7 @@
     }
 
     function test_read_bbox(t) {
-        t.plan(1);
-        var protocol = new OpenLayers.Protocol.HTTP();
-
-        // fake XHR request object
-        var request = {'status': 200};
+        t.plan(6);
 
         var _get = OpenLayers.Request.GET;
 
@@ -211,16 +207,34 @@
         var filter = new OpenLayers.Filter.Spatial({
             type: OpenLayers.Filter.Spatial.BBOX,
             value: bounds,
-            projection: "foo"
+            projection: new OpenLayers.Projection("foo")
         });
         
+        // log requests
+        var log, exp;
         OpenLayers.Request.GET = function(options) {
-            t.eq(options.params['bbox'].toString(), bounds.toArray().toString(),
-                'GET called with bbox filter in params');
-            return request;
+            log.push(options.params.bbox);
+            return {status: 200};
         };
 
-        var resp = protocol.read({filter: filter});
+        // 1) issue request with default protocol
+        log = [];
+        new OpenLayers.Protocol.HTTP().read({filter: filter});
+
+        t.eq(log.length, 1, "1) GET called once");
+        t.ok(log[0] instanceof Array, "1) bbox param is array");
+        exp = bounds.toArray();
+        t.eq(log[0], exp, "1) bbox param doesn't include SRS id by default");
+        
+        // 2) issue request with default protocol
+        log = [];
+        new OpenLayers.Protocol.HTTP({srsInBBOX: true}).read({filter: filter});
+
+        t.eq(log.length, 1, "2) GET called once");
+        t.ok(log[0] instanceof Array, "2) bbox param is array");
+        exp = bounds.toArray();
+        exp.push("foo");
+        t.eq(log[0], exp, "2) bbox param includes SRS id if srsInBBOX is true");
 
         OpenLayers.Request.GET = _get;        
     }
@@ -411,6 +425,34 @@
         OpenLayers.Request.PUT = _put;
     }
 
+    function test_update_featureurl(t) {
+
+        // test that OpenLayers.Request.PUT receives the URL
+        // set in the feature
+        // http://trac.openlayers.org/ticket/2393#comment:11
+
+        t.plan(1);
+
+        var protocol = new OpenLayers.Protocol.HTTP({
+            'url': 'foo_url',
+            'format': {'write': function() {}}
+        });
+
+        // feature to pass to update
+        var feature = {'feature':'feature', 'url': 'bar_url'};
+
+        var _put = OpenLayers.Request.PUT;
+
+        OpenLayers.Request.PUT = function(options) {
+            t.eq(options.url, feature.url,
+                'PUT called with correct url in options');
+        };
+
+        protocol.update(feature);
+
+        OpenLayers.Request.PUT = _put;
+    }
+
     function test_handleResponse(t) {
         t.plan(6);
 
@@ -528,6 +570,34 @@
         };
 
         var resp = protocol['delete'](feature, deleteOptions);
+
+        OpenLayers.Request.DELETE = _delete;
+    }
+
+    function test_delete_featureurl(t) {
+
+        // test that OpenLayers.Request.DELETE receives the URL
+        // set in the feature
+        // http://trac.openlayers.org/ticket/2393#comment:11
+
+        t.plan(1);
+
+        var protocol = new OpenLayers.Protocol.HTTP({
+            'url': 'foo_url',
+            'format': {'write': function() {}}
+        });
+
+        // feature to pass to update
+        var feature = {'feature':'feature', 'url': 'bar_url'};
+
+        var _delete = OpenLayers.Request.DELETE;
+
+        OpenLayers.Request.DELETE = function(options) {
+            t.eq(options.url, feature.url,
+                'DELETE called with correct url in options');
+        };
+
+        protocol['delete'](feature);
 
         OpenLayers.Request.DELETE = _delete;
     }
@@ -709,7 +779,7 @@
         });        
         protocol.read();
         
-        t.delay_call(0.5, function() {
+        t.delay_call(2, function() {
             t.eq(log1.callbackCalled, true, "[read] callback called");
             t.eq(log1.callbackScope, scope, "[read] correct scope");
             t.ok(log1.request instanceof OpenLayers.Request.XMLHttpRequest, "[read] correct priv type");
@@ -731,11 +801,37 @@
             {state: OpenLayers.State.DELETE, url: "./3"},
             {state: OpenLayers.State.DELETE, url: "./4"}
         ]);
-        t.delay_call(0.5, function() {
+        t.delay_call(2, function() {
             t.eq(log2.called, 1, "[commit] Callback called once.");
             t.eq(log2.scope, scope, "[commit] Correct scope.");
         });
+    }
 
+    function test_read_global_options(t) {
+
+        // test that calling read doesn't write params into the protocol's
+        // options object, see ticket #3237
+
+        t.plan(2);
+
+        var protocol = new OpenLayers.Protocol.HTTP({
+            url: '.',
+            callback: function() {},
+            params: {'a': 'a'}
+        });
+
+        // check initial state first
+        t.eq(protocol.options.params, {'a': 'a'},
+             'protocol params are ok at initial state');
+
+        var filter = new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+            property: 'b',
+            value: 'b'
+        });
+        protocol.read({filter: filter});
+        t.eq(protocol.options.params, {'a': 'a'},
+             "protocol params are ok after read");
     }
 
 

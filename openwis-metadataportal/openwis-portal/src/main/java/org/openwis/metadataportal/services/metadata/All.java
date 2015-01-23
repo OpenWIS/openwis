@@ -60,6 +60,7 @@ public class All implements Service {
       // Get filter param for search
       String searchParam = Util.getParam(params, "any", null);
       String searchField = Util.getParam(params, "searchField", null);
+      String category = Util.getParam(params, "categories", null);
       
       boolean myMetadataOnly = Util.getParam(params, "myMetadataOnly", false);
 
@@ -83,7 +84,10 @@ public class All implements Service {
       } else {
          crit = new MonitorCatalogSearchCriteria(searchParam);
       }
-      
+      if (StringUtils.isNotBlank(category)) {
+          crit.setCategory(category);
+       }
+
       if (StringUtils.isNotBlank(searchField)) {
     	  crit.setSearchField(searchField);
       }
@@ -94,7 +98,7 @@ public class All implements Service {
 
       for (SearchResultDocument document : searchResult.getDocuments()) {
          // Fill the metadata with result document.
-         Metadata md = new Metadata((String) document.getField(IndexField.UUID));
+         Metadata md = new Metadata((String) document.getField(IndexField.UUID_ORIGINAL));
          md.setTitle((String) document.getField(IndexField._TITLE));
          md.setOriginator((String) document.getField(IndexField.ORIGINATOR));
          md.setProcess((String) document.getField(IndexField.PROCESS));

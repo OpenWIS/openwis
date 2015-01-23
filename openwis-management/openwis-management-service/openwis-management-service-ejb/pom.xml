@@ -1,15 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
 		<groupId>org.openwis.management.service</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.management.service</groupId>
 	<artifactId>openwis-management-service-ejb</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>openwis-management-service-ejb</name>
@@ -26,7 +25,7 @@
 		<dependency>
 			<groupId>org.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 
@@ -150,7 +149,7 @@
 					<dependency>
 						<groupId>org.openwis.management.service</groupId>
 						<artifactId>openwis-management-service-common</artifactId>
-						<version>${project.parent.version}</version>
+						<version>${project.version}</version>
 						<type>jar</type>
 					</dependency>
 				</dependencies>

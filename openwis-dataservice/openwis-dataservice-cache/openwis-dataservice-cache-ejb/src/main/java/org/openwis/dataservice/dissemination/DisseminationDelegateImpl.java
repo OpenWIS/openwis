@@ -19,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
@@ -42,6 +43,7 @@ import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultSta
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.domain.entity.request.Request;
+import org.openwis.dataservice.common.domain.entity.request.adhoc.AdHoc;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.DisseminationJob;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.FTPDiffusion;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.MSSFSSDissemination;
@@ -50,12 +52,18 @@ import org.openwis.dataservice.common.domain.entity.request.dissemination.Public
 import org.openwis.dataservice.common.domain.entity.request.dissemination.RMDCNDissemination;
 import org.openwis.dataservice.common.domain.entity.request.dissemination.ShoppingCartDissemination;
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
+import org.openwis.dataservice.util.WMOFTP;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.harness.dissemination.Diffusion;
@@ -115,6 +123,9 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private static final String STAGING_POST_MAIL_SUBJECT_KEY = "dataservice.dissemination.stagingPostMessage.subject";
    private static final String STAGING_POST_MAIL_CONTENT_KEY = "dataservice.dissemination.stagingPostMessage.content";
    private static String stagingPostUrl = JndiUtils.getString(STAGING_POST_URL_KEY);
+
+   @EJB
+   private UserAlarmManagerLocal userAlarmManager;
 
    @PersistenceContext
    protected EntityManager entityManager;
@@ -783,7 +794,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
             String zipMode = getZipMode(processedRequest, startPrimary);
             // TODO: decide what to do in case that zipping / packing fails
-            if (!prepareForDelivery(fileURI, zipMode, dissJob)) {
+            if (!prepareForDelivery(fileURI, zipMode, dissJob, processedRequest)) {
                logger.error("Zipping / packing of " + fileURI + " failed for request " + requestId);
             } else {
                isDisseminationThresholdExceeded(disseminationInfo, dissJob, processedRequest
@@ -832,6 +843,10 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
                      if (status.getRequestStatus() == RequestStatus.FAILED) {
                         logger.error("Start of dissemination via harness failed: " + actualURL);
+
+                        // XXX - lmika: Raise an alarm
+	                    raiseUserAlarm(processedRequest, status);
+                        // XXX - lmika: End modified code
                      } else {
                         if (logger.isInfoEnabled()) {
                            logger.info("Start of dissemination via harness succeeded: " + actualURL);
@@ -856,6 +871,36 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       }
 
       return dissStatus;
+   }
+
+   /**
+    * Raise a new user alarm.
+    *
+    * @param processedRequest
+    * @param status
+    */
+   private void raiseUserAlarm(ProcessedRequest processedRequest,
+			DisseminationStatus status) {
+		long processedReqId = 0;
+		long requestId = 0;
+		UserAlarmRequestType reqType = null;
+
+		if (processedRequest.getRequest() instanceof AdHoc) {
+			reqType = UserAlarmRequestType.REQUEST;
+		} else if (processedRequest.getRequest() instanceof Subscription) {
+			reqType = UserAlarmRequestType.SUBSCRIPTION;
+		}
+
+		String user = processedRequest.getRequest().getUser();
+      processedReqId = processedRequest.getId();
+      requestId = processedRequest.getRequest().getId();
+
+		UserAlarm alarm = new UserAlarmBuilder(user)
+							.request(reqType, processedReqId, requestId)
+							.message(status.getMessage())
+							.getUserAlarm();
+
+		userAlarmManager.raiseUserAlarm(alarm);
    }
 
    private void raiseThresholdExceededAlarm(Object threshold, Object value, Object user,
@@ -904,7 +949,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
     * @param zipMode the option for the zipping / packing: NONE, ZIPPED, WMO_FTP
     * @return true if preparation was successful, false otherwise
     */
-   private boolean prepareForDelivery(String fileURI, String zipMode, DisseminationJob dissJob) {
+   private boolean prepareForDelivery(String fileURI, String zipMode, DisseminationJob dissJob, ProcessedRequest processedRequest) {
       boolean result = true;
 
       try {
@@ -941,6 +986,9 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
             result = zipFiles(zipFilename, srcFilePath);
          } else if (zipMode.equals("WMO_FTP")) {
             result = wmoFtpPackFiles(srcFilePath);
+            if (!result) {
+               processedRequest.setMessage("Warning: Extracted file is not a valid FNC, could not pack as WMO-FTP");
+            }
          }
       } catch (Exception exception) {
          logger.error("URI string <" + fileURI + "> could not be zipped / packed");
@@ -1036,6 +1084,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       boolean packSuccessful = true;
 
       try {
+         
          // Get a list of files from source directory
          File sourceFile = new File(srcFilePath);
          String files[] = sourceFile.list();
@@ -1047,20 +1096,26 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
          // Step through file list
          for (String filename : files) {
-            File f = new File(srcFilePath, filename);
-
-            // Regular file
-            if (f.isFile()) {
-               fileCnt++;
-
-               if (logger.isDebugEnabled()) {
-                  logger.debug("Adding " + filename + " to wmoftp file");
+            if ('A' != filename.charAt(0)) {
+               logger.warn("Not a valid FNC file, cannot pack file " + filename);
+               packSuccessful = false;
+               break;
+            } else {
+               File f = new File(srcFilePath, filename);
+   
+               // Regular file
+               if (f.isFile()) {
+                  fileCnt++;
+   
+                  if (logger.isDebugEnabled()) {
+                     logger.debug("Adding " + filename + " to wmoftp file");
+                  }
+   
+                  filePacker.appendBulletinToPackedFile(f, filename);
+   
+                  // Delete original file
+                  f.delete();
                }
-
-               filePacker.appendBulletinToPackedFile(f, filename);
-
-               // Delete original file
-               f.delete();
             }
          }
 
@@ -1121,7 +1176,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
       // For the moment just set the processed request to "ONGOING_DISSEMINATION" and return success
       ProcessedRequest processedRequest = getProcessedRequest(dissJob.getRequestId());
-      prepareForDelivery(dissJob.getFileURI(), getZipMode(processedRequest, startPrimary), dissJob);
+      prepareForDelivery(dissJob.getFileURI(), getZipMode(processedRequest, startPrimary), dissJob, processedRequest);
 
       String fromMailAddress = JndiUtils.getString(ConfigurationInfo.MAIL_FROM);
       String userMailAddress = processedRequest.getRequest().getEmail();

@@ -111,6 +111,11 @@ public interface ConfigurationConstants {
    String HARNESS_SUBSELECTIONPARAMETERS_WSDL = "openwis.metadataportal.harness.subselectionparameters.wsdl";
 
    /**
+    * The URL of the WSDL of the user alarm manager.
+    */
+   String USER_ALARM_SERVICE_WSDL = "openwis.management.useralarmmanager.wsdl";
+
+   /**
     * The URL of the staging post.
     */
    String MSSFSS_SUPPORT = "openwis.metadataportal.mssfss.support";
@@ -212,5 +217,21 @@ public interface ConfigurationConstants {
     * Language list
     */
    String LANGUAGE_LIST = "openwis.metadataportal.lang.list";
+   
+   
+   /**
+    * Path for harvesting report folder
+    */
+   String REPORT_FILE_PATH = "openwis.metadataportal.report.file.path";
+   
+   /**
+    * Prefix of the name of the harvesting file report
+    */
+   String REPORT_FILE_PREFIX = "openwis.metadataportal.report.file.prefix";
+
+   /**
+    * Extension of the harvesting file report
+    */
+   String REPORT_FILE_EXT = "openwis.metadataportal.report.file.ext";
 
 }

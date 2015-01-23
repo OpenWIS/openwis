@@ -341,7 +341,7 @@ public class SolrIndexManager implements IIndexManager {
 
                   Element indexBuiltDocument = buildIndexDocument(element);
                   SolrInputDocument doc = buildSolrInput(indexBuiltDocument);
-                  ids.add(element.getUuid());
+                  ids.add(element.getUniqueKey());
                   documents.add(doc);
                   after = System.currentTimeMillis();
                   if (Log.isStatEnabled()) {
@@ -501,7 +501,7 @@ public class SolrIndexManager implements IIndexManager {
          for (IndexableElement elt : elements) {
             if (elt instanceof DbmsIndexableElement) {
                elt2 = (DbmsIndexableElement) elt;
-               ids.add(elt2.getUuid());
+               ids.add(elt2.getUniqueKey());
             }
          }
          try {
@@ -537,7 +537,7 @@ public class SolrIndexManager implements IIndexManager {
     */
    private Element buildIndexDocument(DbmsIndexableElement elt) throws IndexException {
       long before, after;
-      String id = elt.getUuid();
+      String id = elt.getUniqueKey();
       Element metadata = elt.getMetadata();
       if (Log.isDebug(Geonet.INDEX_ENGINE)) {
          Log.debug(Geonet.INDEX_ENGINE, MessageFormat.format("Deleting {0} from index", id));

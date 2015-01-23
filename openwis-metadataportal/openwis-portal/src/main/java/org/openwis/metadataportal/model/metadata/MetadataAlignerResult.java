@@ -41,6 +41,12 @@ public class MetadataAlignerResult {
    private int volume;
 
    private List<MetadataAlignerError> errors;
+     
+   private List<String> urnAdded = new ArrayList<String>();
+   
+   private List<String> urnUpdated = new ArrayList<String>();
+   
+   private List<String> urnRemoved = new ArrayList<String>();
 
    /**
     * Gets the date.
@@ -350,6 +356,49 @@ public class MetadataAlignerResult {
       this.volume += volume;
    }
 
+   /**
+    * Get list of urn for added metadata
+    * @return
+    */
+   public List<String> getUrnAdded() {
+	   return urnAdded;
+   }
+   /**
+	* Set list of urn for added metadata
+	* @param urnAdded list of urn
+	*/
+	public void setUrnAdded(List<String> urnAdded) {
+		this.urnAdded = urnAdded;
+	}
+	/**
+	 * Get list of urn for updated metadata
+	 * @return
+	 */
+	public List<String> getUrnUpdated() {
+		return urnUpdated;
+	}
+	/**
+	 * Set list of urn for updated metadata
+	 * @param urnUpdated list of urn
+	 */
+	public void setUrnUpdated(List<String> urnUpdated) {
+		this.urnUpdated = urnUpdated;
+	}
+	/**
+	 * Get list of urn for removed metadata
+	 * @return
+	 */
+	public List<String> getUrnRemoved() {
+		return urnRemoved;
+	}
+	/**
+	 * Set list of urn for removed metadata
+	 * @param urnRemoved list of urn
+	 */
+	public void setUrnRemoved(List<String> urnRemoved) {
+		this.urnRemoved = urnRemoved;
+	}
+	
    /**
     * {@inheritDoc}
     * @see java.lang.Object#toString()

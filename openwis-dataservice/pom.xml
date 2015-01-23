@@ -5,19 +5,20 @@
 	<parent>
 		<groupId>eu.akka.openwis</groupId>
 		<artifactId>openwis</artifactId>
-		<version>1.0-SNAPSHOT</version>
+			<version>develop-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.openwis.dataservice</groupId>
 	<artifactId>openwis-dataservice</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
 	<name>OpenWIS DataService project</name>
 
   <modules>
     <module>openwis-dataservice-common</module>
+	<module>openwis-dataservice-cache</module>
 	<module>openwis-dataservice-server</module>
-    <module>openwis-dataservice-cache</module>
+
   </modules>
 
   <build>
@@ -52,14 +53,4 @@
    </dependency>
 
   </dependencies>
-
-  <profiles>
-    <profile>
-        <id>ciProfile</id>
-        <activation>
-            <activeByDefault>false</activeByDefault>
-        </activation>
-    </profile>
-  </profiles>
-
 </project>

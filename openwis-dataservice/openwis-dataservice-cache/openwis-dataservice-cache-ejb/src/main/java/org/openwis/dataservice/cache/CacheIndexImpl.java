@@ -115,7 +115,7 @@ public class CacheIndexImpl implements CacheIndex, ConfigurationInfo {
       filteredBrowseCacheQuery.append("lcf.filename, ");
       filteredBrowseCacheQuery.append("lcf.checksum, ");
       filteredBrowseCacheQuery.append("lcf.received_from_gts, ");
-      filteredBrowseCacheQuery.append("pm.urn, ");
+      filteredBrowseCacheQuery.append("cast(pm.urn as text), ");
       filteredBrowseCacheQuery.append("lcf.insertion_date ");
       filteredBrowseCacheQuery.append("FROM ");
       filteredBrowseCacheQuery.append("(SELECT ");

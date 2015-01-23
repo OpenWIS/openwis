@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<geonet>
+	<services package="org.openwis.metadataportal">
+
+		<!-- Portal SRU search -->
+
+		<service name="xml.CheckAuthorization" type="xml">
+			<class name=".services.inspire.CheckAuthorization"/>
+		</service>
+       
+	</services>
+</geonet>
+

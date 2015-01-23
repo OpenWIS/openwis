@@ -101,10 +101,15 @@ public enum IndexField {
    /** The Constant TYPE. */
    TYPE("type"),
 
-   /** The Constant UUID. */
+   /** The Constant UUID. Since UUIDs are case insensitive and because Solr does not process values stored for primary keys,
+    *  the value of this field is converted to lowercase before being stored in the index.
+    */
    UUID("_uuid"),
    
    UUID_TRUNCATED("uuid"),
+   
+   /** The original, unprocessed UUID.  This value is used in OAI-PMH results. */
+   UUID_ORIGINAL("uuid_original"),
 
    /** The Constant WEST. */
    WEST("westBL"),

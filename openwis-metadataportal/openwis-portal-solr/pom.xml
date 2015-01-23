@@ -1,19 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>geonetwork</artifactId>
-		<groupId>org.geonetwork-opensource</groupId>
-		<version>2.7.0-SNAPSHOT</version>
-	</parent>
+	   <parent>
+		  <groupId>org.geonetwork-opensource</groupId>
+		  <artifactId>geonetwork</artifactId>
+		  <version>develop-SNAPSHOT</version>
+		  <relativePath>../pom.xml</relativePath>
+	   </parent>
+
 
 	<!-- =========================================================== -->
 	<!-- Module Description -->
 	<!-- =========================================================== -->
 	<groupId>org.openwis.metadataportal</groupId>
 	<artifactId>openwis-portal-solr</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	
 	<name>Openwis Portal SolR</name>
 	<packaging>war</packaging>
 	<description>
@@ -37,57 +38,6 @@
 		</plugins>
 
 	</build>
-
-	<profiles>
-		<profile>
-			<id>Hudson</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-
-			<properties>
-				<openwis.properties>openwis.properties</openwis.properties>
-			</properties>
-
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-config-hudson-files</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<echo message="==========  Copy Hudson file =============" />
-										<copy overwrite="true" file="${basedir}/src/main/resources-hudson/${openwis.properties}" todir="${project.build.directory}/classes" />
-									</tasks>
-								</configuration>
-							</execution>
-							<execution>
-								<id>copy-war-file</id>
-								<phase>install</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<echo message="==========  Copy WAR file to Tomcat =============" />
-										<copy overwrite="true" todir="${env.CATALINA_HOME}/webapps">
-											<fileset dir="${basedir}/target" includes="*.war" />
-										</copy>
-									</tasks>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<!-- log -->

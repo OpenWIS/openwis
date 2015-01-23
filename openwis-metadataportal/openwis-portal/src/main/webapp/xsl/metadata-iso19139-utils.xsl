@@ -4,6 +4,7 @@
     xmlns:gmx="http://www.isotc211.org/2005/gmx" 
     xmlns:gmd="http://www.isotc211.org/2005/gmd"
     xmlns:srv="http://www.isotc211.org/2005/srv"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:geonet="http://www.fao.org/geonetwork"
     xmlns:java="java:org.fao.geonet.util.XslUtil"
     version="2.0">
@@ -314,6 +315,28 @@
 								</a>
 								</li>
 							</xsl:for-each>
+							
+							<xsl:for-each select="$metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn[@xlink:href!='']">
+								<li>
+                                                                <xsl:if test="$edit">
+                                 <!-- Allow deletion of coupledResource and operatesOn element -->
+                                 <xsl:text> </xsl:text>
+                                 <a href="javascript:removeLinkedServiceMetadata('{$metadata/geonet:info/uuid}', '{substring-after(@xlink:href,'uuid=')}');">
+                                        <img alt="{/root/gui/strings/delete}" title="{/root/gui/strings/delete}"
+                                            src="{/root/gui/url}/images/del.gif"
+                                            align="absmiddle"
+                                        />
+                                </a>
+                                </xsl:if>
+                                
+                                <a class="arrow" href="javascript:doShowMetadataByUrn('{substring-after(@xlink:href,'uuid=')}', '{substring-after(@xlink:href,'uuid=')}');">
+									<xsl:call-template name="getMetadataTitle">
+										<xsl:with-param name="uuid" select="substring-after(@xlink:href,'uuid=')"/>
+									</xsl:call-template>
+								</a>
+								</li>
+							</xsl:for-each>
+							
 						</ul>
 						
 						<xsl:if test="$edit">

@@ -22,8 +22,10 @@
 <xs:element name="getAllProcessedRequestsByUsersCount" type="tns:getAllProcessedRequestsByUsersCount"/>
 <xs:element name="getAllProcessedRequestsByUsersCountResponse" type="tns:getAllProcessedRequestsByUsersCountResponse"/>
 <xs:element name="getAllProcessedRequestsByUsersResponse" type="tns:getAllProcessedRequestsByUsersResponse"/>
+<xs:element name="getFullProcessedRequest" type="tns:getFullProcessedRequest"/>
 <xs:element name="getFullProcessedRequestForAdhoc" type="tns:getFullProcessedRequestForAdhoc"/>
 <xs:element name="getFullProcessedRequestForAdhocResponse" type="tns:getFullProcessedRequestForAdhocResponse"/>
+<xs:element name="getFullProcessedRequestResponse" type="tns:getFullProcessedRequestResponse"/>
 <xs:element name="getProcessedRequest" type="tns:getProcessedRequest"/>
 <xs:element name="getProcessedRequestForAdhoc" type="tns:getProcessedRequestForAdhoc"/>
 <xs:element name="getProcessedRequestForAdhocResponse" type="tns:getProcessedRequestForAdhocResponse"/>
@@ -32,25 +34,14 @@
 <xs:element name="monitorExtractionResponse" type="tns:monitorExtractionResponse"/>
 <xs:element name="updateProcessedRequest" type="tns:updateProcessedRequest"/>
 <xs:element name="updateProcessedRequestResponse" type="tns:updateProcessedRequestResponse"/>
-<xs:complexType name="getAllProcessedRequestsByUsers">
+<xs:complexType name="getFullProcessedRequest">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="userNames" type="xs:string"/>
-      <xs:element minOccurs="0" name="prfilter" type="tns:ProcessedRequestFilter"/>
-      <xs:element minOccurs="0" name="firstResult" type="xs:int"/>
-      <xs:element minOccurs="0" name="maxResults" type="xs:int"/>
-      <xs:element minOccurs="0" name="column" type="tns:RequestColumn"/>
-      <xs:element minOccurs="0" name="dir" type="tns:SortDirection"/>
+      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="getAllProcessedRequestsByUsersResponse">
+<xs:complexType name="getFullProcessedRequestResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:processedRequestListResult"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="processedRequestListResult">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="list" nillable="true" type="tns:processedRequest"/>
-      <xs:element name="count" type="xs:int"/>
+      <xs:element minOccurs="0" name="return" type="tns:processedRequest"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="processedRequest">
@@ -279,10 +270,32 @@
       <xs:element minOccurs="0" name="deployment" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
+<xs:complexType name="getAllProcessedRequestsByUsers">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="userNames" type="xs:string"/>
+      <xs:element minOccurs="0" name="prfilter" type="tns:ProcessedRequestFilter"/>
+      <xs:element minOccurs="0" name="firstResult" type="xs:int"/>
+      <xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+      <xs:element minOccurs="0" name="column" type="tns:RequestColumn"/>
+      <xs:element minOccurs="0" name="dir" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getAllProcessedRequestsByUsersResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:processedRequestListResult"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="processedRequestListResult">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="list" nillable="true" type="tns:processedRequest"/>
+      <xs:element name="count" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
 <xs:complexType name="extract">
     <xs:sequence>
       <xs:element minOccurs="0" name="processedRequest" type="tns:processedRequest"/>
       <xs:element minOccurs="0" name="productDate" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="extractResponse">
@@ -433,32 +446,6 @@
       <xs:element minOccurs="0" name="uri" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-<xs:simpleType name="ProcessedRequestFilter">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="ADHOC"/>
-      <xs:enumeration value="SUBSCRIPTION"/>
-      <xs:enumeration value="BOTH"/>
-    </xs:restriction>
-  </xs:simpleType>
-<xs:simpleType name="RequestColumn">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="URN"/>
-      <xs:enumeration value="TITLE"/>
-      <xs:enumeration value="LOCAL_DATASOURCE"/>
-      <xs:enumeration value="USER"/>
-      <xs:enumeration value="ID"/>
-      <xs:enumeration value="CREATION_DATE"/>
-      <xs:enumeration value="STATUS"/>
-      <xs:enumeration value="VOLUME"/>
-      <xs:enumeration value="DEPLOYMENT"/>
-    </xs:restriction>
-  </xs:simpleType>
-<xs:simpleType name="SortDirection">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="ASC"/>
-      <xs:enumeration value="DESC"/>
-    </xs:restriction>
-  </xs:simpleType>
 <xs:simpleType name="requestResultStatus">
     <xs:restriction base="xs:string">
       <xs:enumeration value="INITIAL"/>
@@ -515,6 +502,32 @@
       <xs:enumeration value="ACTIVE"/>
       <xs:enumeration value="SUSPENDED_BACKUP"/>
       <xs:enumeration value="SUSPENDED"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="ProcessedRequestFilter">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ADHOC"/>
+      <xs:enumeration value="SUBSCRIPTION"/>
+      <xs:enumeration value="BOTH"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="RequestColumn">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="URN"/>
+      <xs:enumeration value="TITLE"/>
+      <xs:enumeration value="LOCAL_DATASOURCE"/>
+      <xs:enumeration value="USER"/>
+      <xs:enumeration value="ID"/>
+      <xs:enumeration value="CREATION_DATE"/>
+      <xs:enumeration value="STATUS"/>
+      <xs:enumeration value="VOLUME"/>
+      <xs:enumeration value="DEPLOYMENT"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="SortDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC"/>
+      <xs:enumeration value="DESC"/>
     </xs:restriction>
   </xs:simpleType>
 <xs:simpleType name="msgStatus">

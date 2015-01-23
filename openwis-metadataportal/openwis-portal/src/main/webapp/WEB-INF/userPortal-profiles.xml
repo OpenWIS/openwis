@@ -124,6 +124,9 @@
 		<allow service="crs.types"/>
 		<allow service="crs.get"/>
 		
+		<!-- Categories -->
+        <allow service="xml.category.all"/>
+
 		<!-- OpenWIS -->
 		<allow service="xml.get.user.backup.centres"/>
 
@@ -137,7 +140,13 @@
 		<allow service="resources.upload"/>
 		<allow service="resources.prepare.upload"/>
 		<allow service="resources.del"/>
-		
+
+		<!-- Allow to view their user alarms -->
+		<allow service="xml.useralarms.getrequests"/>
+		<allow service="xml.useralarms.getsubscriptions"/>
+		<allow service="xml.useralarms.acknowledge"/>
+		<allow service="xml.useralarms.acknowledgeall"/>
+
 	</profile>
 
 	<!-- ====================================================================== -->
@@ -293,6 +302,9 @@
         <allow service="xml.follow.my.external.adhocs"/>
         <allow service="xml.follow.my.external.subscriptions"/>
         <allow service="xml.follow.my.external.mssfss.subscriptions"/>
+        
+        <!-- Inspire -->
+        <allow service="xml.CheckAuthorization"/>
 
 	</profile>
 

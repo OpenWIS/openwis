@@ -22,6 +22,12 @@
 			<description>A data identifica quando o recurso foi examinado ou re-examinado e melhorado ou retificado</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<entry>
+			<code>reference</code>
+			<label>Reference</label>
+			<description>Date identifies when the resource was referenced or accessed</description>
+		</entry>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
 	<!-- ==================================================== -->
 	<codelist name="gmd:CI_OnLineFunctionCode">
@@ -919,6 +925,12 @@
 			<code>theme</code>
 			<label>Tema</label>
 			<description>Palavra-chave identifica um sujeito ou assunto particular</description>
+		</entry>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<entry>
+		    <code>dataCentre</code>
+		    <label>DataCentre</label>
+		    <description>keyword identifies a a repository or archive that manages and distributes data</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>

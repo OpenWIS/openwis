@@ -5,13 +5,13 @@
   <parent>
     <groupId>eu.akka.openwis</groupId>
     <artifactId>openwis</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.openwis.management</groupId>
   <artifactId>openwis-management</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
   <name>OpenWIS Monitoring And Control</name>
 
   <modules>

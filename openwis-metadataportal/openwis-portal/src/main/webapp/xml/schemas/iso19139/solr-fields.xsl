@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco"
-	xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx" version="2.0">
+	xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" version="2.0">
 
 	
 	<xsl:include href="../iso19139/convert/functions.xsl" />
@@ -345,7 +346,11 @@
 					<xsl:value-of select="string(.)" />
 				</field>
 			</xsl:for-each>
-
+			<xsl:for-each select="srv:operatesOn/@xlink:href">
+				<field name="operatesOn">
+					<xsl:value-of select="substring-after(string(.),'uuid=')" />
+				</field>
+			</xsl:for-each>
 			<xsl:for-each select="srv:coupledResource">
 				<xsl:for-each select="srv:SV_CoupledResource/srv:identifier/gco:CharacterString">
 					<field name="operatesOnIdentifier">

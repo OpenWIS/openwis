@@ -154,6 +154,16 @@
         </service>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Categories                                                    -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.category.all" type="xml">
+            <class name=".services.category.All"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+        </service>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Login                                                         -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <service name="user.login">
@@ -260,6 +270,22 @@
 		<service name="xml.thesaurus.getKeywordsXml" type="xml">
 			<class name=".services.thesaurus.GetKeywordsXml"/>
 		</service>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- User Alarms                                    		       -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.useralarms.getrequests" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetRequests"/>
+        </service>
+        <service name="xml.useralarms.getsubscriptions" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetSubscriptions"/>
+        </service>
+        <service name="xml.useralarms.acknowledge" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.Acknowledge"/>
+        </service>
+        <service name="xml.useralarms.acknowledgeall" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.AcknowledgeAll"/>
+        </service>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Availability                                    		       -->

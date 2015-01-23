@@ -27,6 +27,8 @@ import jeeves.utils.Log;
 import jeeves.utils.Xml;
 import jeeves.xlink.Processor;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
@@ -513,11 +515,12 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
     * @throws Exception the exception
     */
    private void synchronizeDocs(ServiceContext context, boolean force, Dbms dbms) throws Exception {
-      // get last change date of all metadata in index
+      // get last change date of all metadata in index.  The keys will be in lowercase.
       Map<String, Date> indexedDocs = getIndexedDocsChangeDate();
 
-      // get all metadata from DB.
-      Map<String, Date> dbmsDocs = getDbmsDocsChangeDate(dbms);
+      // get all metadata from DB.  The keys are converted to lowercase.
+      Map<String, DbmsDocChangeDateResult> dbmsDocs = getDbmsDocsChangeDate(dbms);
+      
 
       // set up results HashMap for post processing of records to be indexed
       Set<IndexableElement> toUpdate = new HashSet<IndexableElement>();
@@ -527,20 +530,31 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
 
       IndexableElement ie;
       for (String uuid : Sets.difference(dbmsDocs.keySet(), intersection)) {
-         ie = new DbmsIndexableElement(dbms, uuid);
+         DbmsDocChangeDateResult changeDateInfo = dbmsDocs.get(uuid);
+         if (changeDateInfo == null) {
+            throw new RuntimeException("Could not extract changeDateInfo for metadata with URN: " + uuid);
+         }
+         ie = new DbmsIndexableElement(dbms, changeDateInfo.urnCasedPreserved);
          toUpdate.add(ie);
       }
       for (String uuid : Sets.difference(indexedDocs.keySet(), intersection)) {
          ie = new DbmsIndexableElement(dbms, uuid);
          toDelete.add(ie);
       }
+      
+      Log.info(Geonet.INDEX_ENGINE, String.format("Running document synchronization: indexCount = %d, dbCount = %d - will update = %d, will delete = %d",
+            indexedDocs.size(),
+            dbmsDocs.size(),
+            toUpdate.size(),
+            toDelete.size()));
 
       // Find doc to update
       Date indexDate;
       Date dbmsDate;
       for (String urn : intersection) {
          indexDate = indexedDocs.get(urn);
-         dbmsDate = dbmsDocs.get(urn);
+         DbmsDocChangeDateResult changeDateInfo = dbmsDocs.get(urn);
+         dbmsDate = changeDateInfo.changeDate;
          if (!indexDate.equals(dbmsDate)) {
             if (Log.isInfo(Geonet.INDEX_ENGINE)) {
                Log.info(
@@ -550,7 +564,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
                                  "The metadata {0} is not up to date; BD change date {1}, index change date {2}",
                                  urn, dbmsDate, indexDate));
             }
-            toUpdate.add(new DbmsIndexableElement(dbms, urn));
+            toUpdate.add(new DbmsIndexableElement(dbms, changeDateInfo.urnCasedPreserved));
          }
       }
 
@@ -571,15 +585,15 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
    }
 
    /**
-    * Gets the dbms documents change date.
+    * Gets the dbms documents change date.  The URNS will be returned IN LOWERCASE.
     *
     * @param dbms the dbms
     * @return the dbms documents change date
     * @throws Exception the exception
     */
    @SuppressWarnings("unchecked")
-   private Map<String, Date> getDbmsDocsChangeDate(Dbms dbms) throws Exception {
-      Map<String, Date> result = new LinkedHashMap<String, Date>();
+   private Map<String, DbmsDocChangeDateResult> getDbmsDocsChangeDate(Dbms dbms) throws Exception {
+      Map<String, DbmsDocChangeDateResult> result = new LinkedHashMap<String, DbmsDocChangeDateResult>();
 
       Element elements = dbms.select("SELECT uuid, changeDate FROM Metadata");
 
@@ -596,14 +610,20 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
          uuid = record.getChildText("uuid");
          lastChange = record.getChildText("changedate");
          date = index.parseDate(lastChange);
-         result.put(uuid, date);
+         
+         DbmsDocChangeDateResult res = new DbmsDocChangeDateResult();
+         res.changeDate = date;
+         res.urnCasedPreserved = uuid;
+         
+         result.put(uuid.toLowerCase(), res);
       }
 
       return result;
    }
-
+   
    /**
-    * Gets the indexed documents change date.
+    * Gets the indexed documents change date.  The returned field will be the "_uuid" unique field,
+    * which is the URN IN LOWERCASE.
     *
     * @return the documents change date
     * @throws SearchException the search exception
@@ -902,7 +922,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
          query = queryFactory.and(query,
                queryFactory.buildQuery(IndexField.CATEGORY_ID, String.valueOf(category.getId())));
       }
-      query.setReturnFields(IndexField.UUID);
+      query.setReturnFields(IndexField.UUID_ORIGINAL);
 
       SearchResult searchResult = queryManager.search(query);
 
@@ -914,7 +934,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
 
       if (searchResult != null) {
          for (SearchResultDocument document : searchResult.getDocuments()) {
-            result.add(document.getField(IndexField.UUID).toString());
+            result.add(document.getField(IndexField.UUID_ORIGINAL).toString());
          }
       }
       return result;
@@ -1000,6 +1020,11 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
     		  query = queryFactory.and(query, queryFactory.buildAnyQuery(queryChars));
     	  }
       }
+      if (StringUtils.isNotBlank(criteria.getCategory())) {
+          query = queryFactory.and(query,
+                queryFactory.buildQuery(IndexField.CATEGORY_ID, criteria.getCategory()));
+       }
+
       if (StringUtils.isNotBlank(criteria.getOwner())) {
          query = queryFactory.and(query,
                queryFactory.buildQuery(IndexField.OWNER, criteria.getOwner()));
@@ -1010,7 +1035,7 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       sort.add(IndexField.UUID, SortDir.ASC);
       query.setSortFields(sort);
 
-      query.setReturnFields(IndexField.UUID, IndexField._TITLE, IndexField.ORIGINATOR,
+      query.setReturnFields(IndexField.UUID, IndexField.UUID_ORIGINAL, IndexField._TITLE, IndexField.ORIGINATOR,
             IndexField.PROCESS, IndexField.GTS_CATEGORY, IndexField.FNC_PATTERN,
             IndexField.PRIORITY, IndexField.DATAPOLICY, IndexField.LOCAL_DATA_SOURCE,
             IndexField.IS_FED, IndexField.IS_INGESTED, IndexField.FILE_EXTENSION,
@@ -1129,4 +1154,19 @@ public class SearchManagerImpl extends AbstractManager implements ISearchManager
       return sr.getCount() > 0;
    }
 
+   /**
+    * Result object for {@link getDbmsDocsChangeDate}.
+    */
+   private static class DbmsDocChangeDateResult
+   {
+      /**
+       * The metadata change date.
+       */
+      public Date changeDate;
+      
+      /**
+       * The metadata URN with case preserved.
+       */
+      public String urnCasedPreserved;
+   }
 }

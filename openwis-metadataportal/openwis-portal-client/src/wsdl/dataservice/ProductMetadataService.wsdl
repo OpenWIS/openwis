@@ -49,6 +49,14 @@
     <wsdl:part name="parameters" element="tns:getAllPatternMetadataMapping">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteProductMetadatasWithURN">
+    <wsdl:part name="parameters" element="tns:deleteProductMetadatasWithURN">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CannotDeleteAllProductMetadataException">
+    <wsdl:part name="CannotDeleteAllProductMetadataException" element="tns:CannotDeleteAllProductMetadataException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="CannotDeleteProductMetadataException">
     <wsdl:part name="CannotDeleteProductMetadataException" element="tns:CannotDeleteProductMetadataException">
     </wsdl:part>
@@ -101,6 +109,10 @@
     <wsdl:part name="parameters" element="tns:deleteProductMetadataResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteProductMetadatasWithURNResponse">
+    <wsdl:part name="parameters" element="tns:deleteProductMetadatasWithURNResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getProductMetadataByIdResponse">
     <wsdl:part name="parameters" element="tns:getProductMetadataByIdResponse">
     </wsdl:part>
@@ -143,6 +155,14 @@
     </wsdl:input>
       <wsdl:output name="getProductsMetadataByUrnsResponse" message="tns:getProductsMetadataByUrnsResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProductMetadatasWithURN">
+      <wsdl:input name="deleteProductMetadatasWithURN" message="tns:deleteProductMetadatasWithURN">
+    </wsdl:input>
+      <wsdl:output name="deleteProductMetadatasWithURNResponse" message="tns:deleteProductMetadatasWithURNResponse">
+    </wsdl:output>
+      <wsdl:fault name="CannotDeleteAllProductMetadataException" message="tns:CannotDeleteAllProductMetadataException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createStopGapMetadata">
       <wsdl:input name="createStopGapMetadata" message="tns:createStopGapMetadata">
@@ -239,6 +259,18 @@
       <wsdl:output name="getProductsMetadataByUrnsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProductMetadatasWithURN">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProductMetadatasWithURN">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProductMetadatasWithURNResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CannotDeleteAllProductMetadataException">
+        <soap:fault name="CannotDeleteAllProductMetadataException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createStopGapMetadata">
       <soap:operation soapAction="" style="document"/>

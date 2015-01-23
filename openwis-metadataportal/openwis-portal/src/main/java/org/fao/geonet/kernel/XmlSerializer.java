@@ -537,9 +537,10 @@ public class XmlSerializer {
       fixCR(metadata.getData());
 
       List<String> fields = new ArrayList<String>();
-      fields.addAll(Arrays.asList("changeDate=?", "data=?", "root=?", "localImportDate=?"));
+      fields.addAll(Arrays.asList("uuid=?", "changeDate=?", "data=?", "root=?", "localImportDate=?"));
 
       List<Serializable> args = new ArrayList<Serializable>();
+      args.add(metadata.getUrn());
       args.add(metadata.getChangeDate());
       args.add(Xml.getString(metadata.getData()));
       args.add(metadata.getData().getQualifiedName());

@@ -702,7 +702,7 @@ Openwis.Lang.Dictionary = {
     'Metadata.Report.Error.Info' : 'Error report (First 100 errors only)',
     'Metadata.Report.Error.Urn' : 'Metadata',
     'Metadata.Report.Error.Name' : 'Error',
-
+    'Metadata.Report.Download.Last.Report' : 'Download Detailed Report',
     //----------------------------------------------------------------- Harvesting.
     'Harvesting.Administration.Title' : 'Configure harvesting',
     'Harvesting.Administration.All.No.Task' : 'No harvesting task to display',
@@ -928,6 +928,13 @@ Openwis.Lang.Dictionary = {
     'TrackMyRequests.Request.ID': 'Request ID',
     'TrackMyRequests.Request.Status': 'Status',
     'TrackMyRequests.Request.Volume': 'Volume',
+    'TrackMyRequests.UserAlarms.Title': 'User alarms',
+    'TrackMyRequests.UserAlarms.Display.Range': 'Displaying alarm {0} - {1} of {2}',
+    'TrackMyRequests.UserAlarms.No.Alarms': 'No alarms to display',
+    'TrackMyRequests.UserAlarms.Action.Acknowledge': 'Acknowledge',
+    'TrackMyRequests.UserAlarms.Action.AcknowledgeAll': 'Acknowledge All',
+    'TrackMyRequests.UserAlarms.Date': 'Raised on',
+    'TrackMyRequests.UserAlarms.Message': 'Message',
     
     'TrackMyRequests.ViewRequest.SubSelParam': 'Sub-selection parameters',
     'TrackMyRequests.ViewRequest.Temperature': 'Temperature',

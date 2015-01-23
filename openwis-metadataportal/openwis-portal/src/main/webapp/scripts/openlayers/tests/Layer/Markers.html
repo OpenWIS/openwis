@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     var layer; 
 
@@ -59,7 +59,7 @@
         
         t.plan(6);
         
-        var map = new OpenLayers.Map("map");
+        var map = new OpenLayers.Map("map", {zoomMethod: null});
         var layer = new OpenLayers.Layer.Markers("Base", {isBaseLayer: true});
         map.addLayer(layer);
         map.setCenter(new OpenLayers.LonLat(0, 0), 1);

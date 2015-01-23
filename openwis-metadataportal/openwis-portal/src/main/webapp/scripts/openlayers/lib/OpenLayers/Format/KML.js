@@ -1,8 +1,10 @@
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
+ * @requires OpenLayers/BaseTypes/Date.js
  * @requires OpenLayers/Format/XML.js
  * @requires OpenLayers/Feature/Vector.js
  * @requires OpenLayers/Geometry/Point.js
@@ -10,12 +12,12 @@
  * @requires OpenLayers/Geometry/Polygon.js
  * @requires OpenLayers/Geometry/Collection.js
  * @requires OpenLayers/Request/XMLHttpRequest.js
- * @requires OpenLayers/Console.js
+ * @requires OpenLayers/Projection.js
  */
 
 /**
  * Class: OpenLayers.Format.KML
- * Read/Wite KML. Create a new instance with the <OpenLayers.Format.KML>
+ * Read/Write KML. Create a new instance with the <OpenLayers.Format.KML>
  *     constructor. 
  * 
  * Inherits from:
@@ -24,6 +26,15 @@
 OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
+     * Property: namespaces
+     * {Object} Mapping of namespace aliases to namespace URIs.
+     */
+    namespaces: {
+        kml: "http://www.opengis.net/kml/2.2",
+        gx: "http://www.google.com/kml/ext/2.2"
+    },
+
+    /**
      * APIProperty: kmlns
      * {String} KML Namespace to use. Defaults to 2.0 namespace.
      */
@@ -31,19 +42,21 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /** 
      * APIProperty: placemarksDesc
-     * {String} Name of the placemarks.  Default is "No description available."
+     * {String} Name of the placemarks.  Default is "No description available".
      */
     placemarksDesc: "No description available",
     
     /** 
      * APIProperty: foldersName
-     * {String} Name of the folders.  Default is "OpenLayers export."
+     * {String} Name of the folders.  Default is "OpenLayers export".
+     *          If set to null, no name element will be created.
      */
     foldersName: "OpenLayers export",
     
     /** 
      * APIProperty: foldersDesc
      * {String} Description of the folders. Default is "Exported on [date]."
+     *          If set to null, no description element will be created.
      */
     foldersDesc: "Exported on " + new Date(),
     
@@ -51,8 +64,24 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * APIProperty: extractAttributes
      * {Boolean} Extract attributes from KML.  Default is true.
      *           Extracting styleUrls requires this to be set to true
+     *           Note that currently only Data and SimpleData 
+     *           elements are handled.
      */
     extractAttributes: true,
+    
+    /**
+     * APIProperty: kvpAttributes
+     * {Boolean} Only used if extractAttributes is true.
+     *           If set to true, attributes will be simple
+     *           key-value pairs, compatible with other formats,
+     *           Any displayName elements will be ignored.
+     *           If set to false, attributes will be objects,
+     *           retaining any displayName elements, but not
+     *           compatible with other formats. Any CDATA in
+     *           displayName will be read in as a string value.
+     *           Default is false.
+     */
+    kvpAttributes: false,
     
     /**
      * Property: extractStyles
@@ -61,6 +90,26 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      *           set to true
      */
     extractStyles: false,
+    
+    /**
+     * APIProperty: extractTracks
+     * {Boolean} Extract gx:Track elements from Placemark elements.  Default
+     *     is false.  If true, features will be generated for all points in
+     *     all gx:Track elements.  Features will have a when (Date) attribute
+     *     based on when elements in the track.  If tracks include angle
+     *     elements, features will have heading, tilt, and roll attributes.
+     *     If track point coordinates have three values, features will have
+     *     an altitude attribute with the third coordinate value.
+     */
+    extractTracks: false,
+    
+    /**
+     * APIProperty: trackAttributes
+     * {Array} If <extractTracks> is true, points within gx:Track elements will 
+     *     be parsed as features with when, heading, tilt, and roll attributes.
+     *     Any additional attribute names can be provided in <trackAttributes>.
+     */
+    trackAttributes: null,
     
     /**
      * Property: internalns
@@ -122,6 +171,9 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
             kmlIconPalette: (/root:\/\/icons\/palette-(\d+)(\.\w+)/),
             straightBracket: (/\$\[(.*?)\]/g)
         };
+        // KML coordinates are always in longlat WGS84
+        this.externalProjection = new OpenLayers.Projection("EPSG:4326");
+
         OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
     },
 
@@ -259,8 +311,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: parseStyles
-     * Looks for <Style> nodes in the data and parses them
-     * Also parses <StyleMap> nodes, but only uses the 'normal' key
+     * Parses <Style> nodes
      * 
      * Parameters: 
      * nodes    - {Array} of {DOMElement} data to read/parse.
@@ -271,11 +322,36 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         for(var i=0, len=nodes.length; i<len; i++) {
             var style = this.parseStyle(nodes[i]);
             if(style) {
-                styleName = (options.styleBaseUrl || "") + "#" + style.id;
+                var styleName = (options.styleBaseUrl || "") + "#" + style.id;
                 
                 this.styles[styleName] = style;
             }
         }
+    },
+
+    /**
+     * Method: parseKmlColor
+     * Parses a kml color (in 'aabbggrr' format) and returns the corresponding 
+     * color and opacity or null if the color is invalid.
+     *
+     * Parameters: 
+     * kmlColor - {String} a kml formated color
+     *
+     * Returns:
+     * {Object}
+     */
+    parseKmlColor: function(kmlColor) {
+        var color = null;
+        if (kmlColor) {
+            var matches = kmlColor.match(this.regExes.kmlColor);
+            if (matches) {
+                color = {
+                    color: '#' + matches[4] + matches[3] + matches[2],
+                    opacity: parseInt(matches[1], 16) / 255
+                };
+            }
+        }
+        return color;
     },
 
     /**
@@ -290,12 +366,12 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     parseStyle: function(node) {
         var style = {};
         
-        var types = ["LineStyle", "PolyStyle", "IconStyle", "BalloonStyle"];
-        var type, nodeList, geometry, parser;
+        var types = ["LineStyle", "PolyStyle", "IconStyle", "BalloonStyle", 
+                     "LabelStyle"];
+        var type, styleTypeNode, nodeList, geometry, parser;
         for(var i=0, len=types.length; i<len; ++i) {
             type = types[i];
-            styleTypeNode = this.getElementsByTagNameNS(node, 
-                                                   "*", type)[0];
+            styleTypeNode = this.getElementsByTagNameNS(node, "*", type)[0];
             if(!styleTypeNode) { 
                 continue;
             }
@@ -303,50 +379,39 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
             // only deal with first geometry of this type
             switch (type.toLowerCase()) {
                 case "linestyle":
-                    var color = this.parseProperty(styleTypeNode, "*", "color");
+                    var kmlColor = this.parseProperty(styleTypeNode, "*", "color");
+                    var color = this.parseKmlColor(kmlColor);
                     if (color) {
-                        var matches = (color.toString()).match(
-                                                         this.regExes.kmlColor);
-
-                        // transparency
-                        var alpha = matches[1];
-                        style["strokeOpacity"] = parseInt(alpha, 16) / 255;
-
-                        // rgb colors (google uses bgr)
-                        var b = matches[2]; 
-                        var g = matches[3]; 
-                        var r = matches[4]; 
-                        style["strokeColor"] = "#" + r + g + b;
+                        style["strokeColor"] = color.color;
+                        style["strokeOpacity"] = color.opacity;
                     }
                     
                     var width = this.parseProperty(styleTypeNode, "*", "width");
                     if (width) {
                         style["strokeWidth"] = width;
                     }
+                    break;
 
                 case "polystyle":
-                    var color = this.parseProperty(styleTypeNode, "*", "color");
+                    var kmlColor = this.parseProperty(styleTypeNode, "*", "color");
+                    var color = this.parseKmlColor(kmlColor);
                     if (color) {
-                        var matches = (color.toString()).match(
-                                                         this.regExes.kmlColor);
-
-                        // transparency
-                        var alpha = matches[1];
-                        style["fillOpacity"] = parseInt(alpha, 16) / 255;
-
-                        // rgb colors (google uses bgr)
-                        var b = matches[2]; 
-                        var g = matches[3]; 
-                        var r = matches[4]; 
-                        style["fillColor"] = "#" + r + g + b;
+                        style["fillOpacity"] = color.opacity;
+                        style["fillColor"] = color.color;
                     }
-                     // Check is fill is disabled
+                    // Check if fill is disabled
                     var fill = this.parseProperty(styleTypeNode, "*", "fill");
                     if (fill == "0") {
                         style["fillColor"] = "none";
                     }
+                    // Check if outline is disabled
+                    var outline = this.parseProperty(styleTypeNode, "*", "outline");
+                    if (outline == "0") {
+                        style["strokeWidth"] = "0";
+                    }
                    
                     break;
+
                 case "iconstyle":
                     // set scale
                     var scale = parseFloat(this.parseProperty(styleTypeNode, 
@@ -464,6 +529,15 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                                        this.regExes.straightBracket, "${$1}");
                     }
                     break;
+                case "labelstyle":
+                    var kmlColor = this.parseProperty(styleTypeNode, "*", "color");
+                    var color = this.parseKmlColor(kmlColor);
+                    if (color) {
+                        style["fontColor"] = color.color;
+                        style["fontOpacity"] = color.opacity;
+                    }
+                    break;
+
                 default:
             }
         }
@@ -483,8 +557,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: parseStyleMaps
-     * Looks for <Style> nodes in the data and parses them
-     * Also parses <StyleMap> nodes, but only uses the 'normal' key
+     * Parses <StyleMap> nodes, but only uses the 'normal' key
      * 
      * Parameters: 
      * nodes    - {Array} of {DOMElement} data to read/parse.
@@ -514,9 +587,9 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                         this.styles[(options.styleBaseUrl || "") + styleUrl];
                 }
 
-                if (styleUrl && key == "highlight") {
-                    // TODO: implement the "select" part
-                }
+                // TODO: implement the "select" part
+                //if (styleUrl && key == "highlight") {
+                //}
 
             }
         }
@@ -535,7 +608,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * 
      */
     parseFeatures: function(nodes, options) {
-        var features = new Array(nodes.length);
+        var features = [];
         for(var i=0, len=nodes.length; i<len; i++) {
             var featureNode = nodes[i];
             var feature = this.parseFeature.apply(this,[featureNode]) ;
@@ -563,8 +636,26 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                     }
                 }
 
-                // add feature to list of features
-                features[i] = feature;
+                // check if gx:Track elements should be parsed
+                if (this.extractTracks) {
+                    var tracks = this.getElementsByTagNameNS(
+                        featureNode, this.namespaces.gx, "Track"
+                    );
+                    if (tracks && tracks.length > 0) {
+                        var track = tracks[0];
+                        var container = {
+                            features: [],
+                            feature: feature
+                        };
+                        this.readNode(track, container);
+                        if (container.features.length > 0) {
+                            features.push.apply(features, container.features);
+                        }
+                    }
+                } else {
+                    // add feature to list of features
+                    features.push(feature);                    
+                }
             } else {
                 throw "Bad Placemark: " + i;
             }
@@ -573,7 +664,105 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         // add new features to existing feature list
         this.features = this.features.concat(features);
     },
-
+    
+    /**
+     * Property: readers
+     * Contains public functions, grouped by namespace prefix, that will
+     *     be applied when a namespaced node is found matching the function
+     *     name.  The function will be applied in the scope of this parser
+     *     with two arguments: the node being read and a context object passed
+     *     from the parent.
+     */
+    readers: {
+        "kml": {
+            "when": function(node, container) {
+                container.whens.push(OpenLayers.Date.parse(
+                    this.getChildValue(node)
+                ));
+            },
+            "_trackPointAttribute": function(node, container) {
+                var name = node.nodeName.split(":").pop();
+                container.attributes[name].push(this.getChildValue(node));
+            }
+        },
+        "gx": {
+            "Track": function(node, container) {
+                var obj = {
+                    whens: [],
+                    points: [],
+                    angles: []
+                };
+                if (this.trackAttributes) {
+                    var name;
+                    obj.attributes = {};
+                    for (var i=0, ii=this.trackAttributes.length; i<ii; ++i) {
+                        name = this.trackAttributes[i];
+                        obj.attributes[name] = [];
+                        if (!(name in this.readers.kml)) {
+                            this.readers.kml[name] = this.readers.kml._trackPointAttribute;
+                        }
+                    }
+                }
+                this.readChildNodes(node, obj);
+                if (obj.whens.length !== obj.points.length) {
+                    throw new Error("gx:Track with unequal number of when (" +
+                                    obj.whens.length + ") and gx:coord (" +
+                                    obj.points.length + ") elements.");
+                }
+                var hasAngles = obj.angles.length > 0;
+                if (hasAngles && obj.whens.length !== obj.angles.length) {
+                    throw new Error("gx:Track with unequal number of when (" +
+                                    obj.whens.length + ") and gx:angles (" +
+                                    obj.angles.length + ") elements.");
+                }
+                var feature, point, angles;
+                for (var i=0, ii=obj.whens.length; i<ii; ++i) {
+                    feature = container.feature.clone();
+                    feature.fid = container.feature.fid || container.feature.id;
+                    point = obj.points[i];
+                    feature.geometry = point;
+                    if ("z" in point) {
+                        feature.attributes.altitude = point.z;
+                    }
+                    if (this.internalProjection && this.externalProjection) {
+                        feature.geometry.transform(
+                            this.externalProjection, this.internalProjection
+                        ); 
+                    }
+                    if (this.trackAttributes) {
+                        for (var j=0, jj=this.trackAttributes.length; j<jj; ++j) {
+                            var name = this.trackAttributes[j];
+                            feature.attributes[name] = obj.attributes[name][i];
+                        }
+                    }
+                    feature.attributes.when = obj.whens[i];
+                    feature.attributes.trackId = container.feature.id;
+                    if (hasAngles) {
+                        angles = obj.angles[i];
+                        feature.attributes.heading = parseFloat(angles[0]);
+                        feature.attributes.tilt = parseFloat(angles[1]);
+                        feature.attributes.roll = parseFloat(angles[2]);
+                    }
+                    container.features.push(feature);
+                }
+            },
+            "coord": function(node, container) {
+                var str = this.getChildValue(node);
+                var coords = str.replace(this.regExes.trimSpace, "").split(/\s+/);
+                var point = new OpenLayers.Geometry.Point(coords[0], coords[1]);
+                if (coords.length > 2) {
+                    point.z = parseFloat(coords[2]);
+                }
+                container.points.push(point);
+            },
+            "angles": function(node, container) {
+                var str = this.getChildValue(node);
+                var parts = str.replace(this.regExes.trimSpace, "").split(/\s+/);
+                container.angles.push(parts);
+            }
+        }
+    },
+    
     /**
      * Method: parseFeature
      * This function is the core of the KML parsing code in OpenLayers.
@@ -606,8 +795,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                                            this.internalProjection); 
                     }                       
                 } else {
-                    OpenLayers.Console.error(OpenLayers.i18n(
-                                "unsupportedGeometryType", {'geomType':type}));
+                    throw new TypeError("Unsupported geometry type: " + type);
                 }
                 // stop looking for different geometry types
                 break;
@@ -855,11 +1043,17 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
             child = children[i];
             if(child.nodeType == 1) {
                 grandchildren = child.childNodes;
-                if(grandchildren.length == 1 || grandchildren.length == 3) {
+                if(grandchildren.length >= 1 && grandchildren.length <= 3) {
                     var grandchild;
                     switch (grandchildren.length) {
                         case 1:
                             grandchild = grandchildren[0];
+                            break;
+                        case 2:
+                            var c1 = grandchildren[0];
+                            var c2 = grandchildren[1];
+                            grandchild = (c1.nodeType == 3 || c1.nodeType == 4) ?
+                                c1 : c2;
                             break;
                         case 3:
                         default:
@@ -884,27 +1078,46 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: parseExtendedData
-     * Parse ExtendedData from KML. No support for schemas/datatypes.
+     * Parse ExtendedData from KML. Limited support for schemas/datatypes.
      *     See http://code.google.com/apis/kml/documentation/kmlreference.html#extendeddata
      *     for more information on extendeddata.
      */
     parseExtendedData: function(node) {
         var attributes = {};
+        var i, len, data, key;
         var dataNodes = node.getElementsByTagName("Data");
-        for (var i = 0, len = dataNodes.length; i < len; i++) {
-            var data = dataNodes[i];
-            var key = data.getAttribute("name");
+        for (i = 0, len = dataNodes.length; i < len; i++) {
+            data = dataNodes[i];
+            key = data.getAttribute("name");
             var ed = {};
             var valueNode = data.getElementsByTagName("value");
             if (valueNode.length) {
                 ed['value'] = this.getChildValue(valueNode[0]);
-            }    
-            var nameNode = data.getElementsByTagName("displayName");
-            if (nameNode.length) {
-                ed['displayName'] = this.getChildValue(nameNode[0]);
             }
-            attributes[key] = ed;
+            if (this.kvpAttributes) {
+                attributes[key] = ed['value'];
+            } else {
+                var nameNode = data.getElementsByTagName("displayName");
+                if (nameNode.length) {
+                    ed['displayName'] = this.getChildValue(nameNode[0]);
+                }
+                attributes[key] = ed;
+            } 
         }
+        var simpleDataNodes = node.getElementsByTagName("SimpleData");
+        for (i = 0, len = simpleDataNodes.length; i < len; i++) {
+            var ed = {};
+            data = simpleDataNodes[i];
+            key = data.getAttribute("name");
+            ed['value'] = this.getChildValue(data);
+            if (this.kvpAttributes) {
+                attributes[key] = ed['value'];
+            } else {
+                ed['displayName'] = key;
+                attributes[key] = ed;
+            }
+        }
+        
         return attributes;    
     },
     
@@ -937,13 +1150,13 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * Accept Feature Collection, and return a string. 
      * 
      * Parameters:
-     * features - {Array(<OpenLayers.Feature.Vector>} An array of features.
+     * features - {Array(<OpenLayers.Feature.Vector>)} An array of features.
      *
      * Returns:
      * {String} A KML string.
      */
     write: function(features) {
-        if(!(features instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         var kml = this.createElementNS(this.kmlns, "kml");
@@ -963,21 +1176,25 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * {DOMElement}
      */
     createFolderXML: function() {
-        // Folder name
-        var folderName = this.createElementNS(this.kmlns, "name");
-        var folderNameText = this.createTextNode(this.foldersName); 
-        folderName.appendChild(folderNameText);
-
-        // Folder description
-        var folderDesc = this.createElementNS(this.kmlns, "description");        
-        var folderDescText = this.createTextNode(this.foldersDesc); 
-        folderDesc.appendChild(folderDescText);
-
         // Folder
         var folder = this.createElementNS(this.kmlns, "Folder");
-        folder.appendChild(folderName);
-        folder.appendChild(folderDesc);
-        
+
+        // Folder name
+        if (this.foldersName) {
+            var folderName = this.createElementNS(this.kmlns, "name");
+            var folderNameText = this.createTextNode(this.foldersName); 
+            folderName.appendChild(folderNameText);
+            folder.appendChild(folderName);
+        }
+
+        // Folder description
+        if (this.foldersDesc) {
+            var folderDesc = this.createElementNS(this.kmlns, "description");        
+            var folderDescText = this.createTextNode(this.foldersDesc); 
+            folderDesc.appendChild(folderDescText);
+            folder.appendChild(folderDesc);
+        }
+
         return folder;
     },
 
@@ -994,14 +1211,13 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     createPlacemarkXML: function(feature) {        
         // Placemark name
         var placemarkName = this.createElementNS(this.kmlns, "name");
-        var name = (feature.attributes.name) ?
-                    feature.attributes.name : feature.id;
+        var label = (feature.style && feature.style.label) ? feature.style.label : feature.id;
+        var name = feature.attributes.name || label;
         placemarkName.appendChild(this.createTextNode(name));
 
         // Placemark description
         var placemarkDesc = this.createElementNS(this.kmlns, "description");
-        var desc = (feature.attributes.description) ?
-                    feature.attributes.description : this.placemarksDesc;
+        var desc = feature.attributes.description || this.placemarksDesc;
         placemarkDesc.appendChild(this.createTextNode(desc));
         
         // Placemark
@@ -1016,7 +1232,14 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         var geometryNode = this.buildGeometryNode(feature.geometry);
         placemarkNode.appendChild(geometryNode);        
         
-        // TBD - deal with remaining (non name/description) attributes.
+        // output attributes as extendedData
+        if (feature.attributes) {
+            var edNode = this.buildExtendedData(feature.attributes);
+            if (edNode) {
+                placemarkNode.appendChild(edNode);
+            }
+        }
+        
         return placemarkNode;
     },    
 
@@ -1031,11 +1254,6 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * {DOMElement}
      */
     buildGeometryNode: function(geometry) {
-        if (this.internalProjection && this.externalProjection) {
-            geometry = geometry.clone();
-            geometry.transform(this.internalProjection, 
-                               this.externalProjection);
-        }                       
         var className = geometry.CLASS_NAME;
         var type = className.substring(className.lastIndexOf(".") + 1);
         var builder = this.buildGeometry[type.toLowerCase()];
@@ -1205,7 +1423,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * Parameters:
      * geometry - {<OpenLayers.Geometry>}
      * 
-     * Return:
+     * Returns:
      * {DOMElement}
      */     
     buildCoordinatesNode: function(geometry) {
@@ -1220,12 +1438,12 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
             var parts = new Array(numPoints);
             for(var i=0; i<numPoints; ++i) {
                 point = points[i];
-                parts[i] = point.x + "," + point.y;
+                parts[i] = this.buildCoordinates(point);
             }
             path = parts.join(" ");
         } else {
             // Point
-            path = geometry.x + "," + geometry.y;
+            path = this.buildCoordinates(geometry);
         }
         
         var txtNode = this.createTextNode(path);
@@ -1233,6 +1451,67 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         
         return coordinatesNode;
     },    
+    
+    /**
+     * Method: buildCoordinates
+     *
+     * Parameters:
+     * point - {<OpenLayers.Geometry.Point>}
+     *
+     * Returns
+     * {String} a coordinate pair
+     */
+    buildCoordinates: function(point) {
+        if (this.internalProjection && this.externalProjection) {
+            point = point.clone();
+            point.transform(this.internalProjection, 
+                               this.externalProjection);
+        }
+        return point.x + "," + point.y;                     
+    },
 
+    /**
+     * Method: buildExtendedData
+     *
+     * Parameters:
+     * attributes - {Object}
+     *
+     * Returns
+     * {DOMElement} A KML ExtendedData node or {null} if no attributes.
+     */
+    buildExtendedData: function(attributes) {
+        var extendedData = this.createElementNS(this.kmlns, "ExtendedData");
+        for (var attributeName in attributes) {
+            // empty, name, description, styleUrl attributes ignored
+            if (attributes[attributeName] && attributeName != "name" && attributeName != "description" && attributeName != "styleUrl") {
+                var data = this.createElementNS(this.kmlns, "Data");
+                data.setAttribute("name", attributeName);
+                var value = this.createElementNS(this.kmlns, "value");
+                if (typeof attributes[attributeName] == "object") {
+                    // cater for object attributes with 'value' properties
+                    // other object properties will output an empty node
+                    if (attributes[attributeName].value) {
+                        value.appendChild(this.createTextNode(attributes[attributeName].value));
+                    }
+                    if (attributes[attributeName].displayName) {
+                        var displayName = this.createElementNS(this.kmlns, "displayName");
+                        // displayName always written as CDATA
+                        displayName.appendChild(this.getXMLDoc().createCDATASection(attributes[attributeName].displayName));
+                        data.appendChild(displayName);
+                    }
+                } else {
+                    value.appendChild(this.createTextNode(attributes[attributeName]));
+                }
+                data.appendChild(value);
+                extendedData.appendChild(data);
+            }
+        }
+        if (this.isSimpleContent(extendedData)) {
+            return null;
+        } else {
+            return extendedData;
+        }
+    },
+    
     CLASS_NAME: "OpenLayers.Format.KML" 
 });

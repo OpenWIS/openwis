@@ -81,7 +81,7 @@ Openwis.RequestSubscription.SubSelectionParameters.Cache.Period = Ext.extend(Ext
     			var timeIntervalId = "";
     			timeIntervalId += String.leftPad(i, 2, "0") + ":00Z/";
     			timeIntervalId += String.leftPad(i, 2, "0") + ":59Z";
-    			timeIntervalCheckboxes.push({boxLabel: "["+i+","+(i+1)+"[", name: "timeInterval", id: timeIntervalId, checked: (this.editConfig.intervals.indexOf(timeIntervalId) != -1)});
+    			timeIntervalCheckboxes.push({boxLabel: "["+i+","+(i+1)+"]", name: "timeInterval", id: timeIntervalId, checked: (this.editConfig.intervals.indexOf(timeIntervalId) != -1)});
     		}
         
 	        this.timeIntervalCheckboxGroup = new Ext.form.CheckboxGroup({

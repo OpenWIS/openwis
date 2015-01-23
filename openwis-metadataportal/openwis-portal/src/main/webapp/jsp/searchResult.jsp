@@ -1,3 +1,4 @@
+<%@page import="org.openwis.metadataportal.services.search.dto.RelatedMetadataDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.io.File"%>
@@ -19,6 +20,7 @@
 	String locService = context.getBaseUrl() + "/srv/" + context.getLanguage();
 	SearchResult sr = (SearchResult) request.getAttribute("searchResult");
 	Map<String, Set<OperationEnum>> operationsAllowed = (Map<String, Set<OperationEnum>>) request.getAttribute("operationsAllowed");
+	Map<String, List<RelatedMetadataDTO>> relatedMetadata = (Map<String, List<RelatedMetadataDTO>>) request.getAttribute("relatedMetadata");
 	String username = (String) request.getAttribute("username");
 	boolean editorProfile = "Editor".equalsIgnoreCase(context.getUserSession().getProfile());
 	boolean isCacheEnable = Boolean.TRUE.equals((Boolean) request.getAttribute("isCacheEnable"));  
@@ -54,6 +56,7 @@
 	   String id;
 	   String uuid;
 	   Set<OperationEnum> ops;
+	   List<RelatedMetadataDTO> relatedMds;
 	   String title;
 	   String titleForJs;
 	   String abst;
@@ -70,7 +73,11 @@
 	     source =  doc.getFieldAsString(IndexField.SOURCE);
 	     isGlobal = "true".equals(doc.getField(IndexField.IS_GLOBAL));
 	     uuid = doc.getFieldAsString(IndexField.UUID);
-	     ops = operationsAllowed.get(uuid);
+	     ops = operationsAllowed.get(uuid.toLowerCase());
+	     
+	     // Get the list of related metadata for the current hit
+	     relatedMds = relatedMetadata.get(uuid);
+
 	     pageContext.setAttribute("ops",ops);
 	     boolean editable = "n".equals(doc.getField(IndexField.IS_HARVESTED)) 
 	       && (ops!=null && ops.contains(OperationEnum.EDITING))
@@ -225,19 +232,20 @@
 	                     linkOpenwisSubscribeUrl = subUrl;
 	                  }
 					}
+					pageContext.setAttribute("localDataSource", localDataSource);
 					pageContext.setAttribute("linkOpenwisRequestUrl", linkOpenwisRequestUrl);
 					pageContext.setAttribute("linkOpenwisSubscribeUrl", linkOpenwisSubscribeUrl);
 				%>
 				<%  if((isCacheEnable && isGlobal) || (isCacheEnable && !isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) 
 				      || (localDataSource != null && !localDataSource.equals(""))) { %>
 					<div style="cursor:pointer;" class="btnXXLFixedSize btnSearchResultsActions"
-						onClick='<openwis:requestAction doc="${doc}" ops="${ops}" url="${linkOpenwisRequestUrl}"/>'>
+						onClick='<openwis:requestAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisRequestUrl}"/>'>
 						<a style="padding-right:10px; padding-left:10px;">
 							<openwis:i18n key="HomePage.Search.Result.Btn.Request"/>
 						</a>
 					</div>
 					<div style="cursor:pointer;" class="btnXXLFixedSize btnSearchResultsActions"
-						onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" url="${linkOpenwisSubscribeUrl}"/>'>
+						onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisSubscribeUrl}"/>'>
 						<a style="padding-right:10px; padding-left:10px;">
 							<openwis:i18n key="HomePage.Search.Result.Btn.Subscribe"/>
 						</a>
@@ -254,13 +262,13 @@
 					<div id="oAcEle<%=id%>" class="oAcEle" style="display: none;" onClick="oActions('oAc',<%=id%>);">
 						<% if (isCacheEnable && isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) { %>
 						<div style="cursor:pointer;" class="otherActionTarget"
-							onClick='<openwis:requestAction doc="${doc}" ops="${ops}" url="${linkOpenwisRequestUrl}" forceUrl="true"/>'>
+							onClick='<openwis:requestAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisRequestUrl}" forceUrl="true"/>'>
 							<a style="font-size: 10px;">
 								<openwis:i18n key="HomePage.Search.Result.Btn.RequestProducer"/>
 							</a>
 						</div>
 						<div style="cursor:pointer;" class="otherActionTarget"
-							onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" url="${linkOpenwisSubscribeUrl}" forceUrl="true"/>'>
+							onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisSubscribeUrl}" forceUrl="true"/>'>
 							<a style="font-size: 10px;">
 								<openwis:i18n key="HomePage.Search.Result.Btn.SubscribeProducer"/>
 							</a>
@@ -308,8 +316,32 @@
 						
 						
 					</div>
+					<% } %> 
+					
+					<!-- Buttons for related services -->
+					<% if (relatedMds != null && relatedMds.size() > 0) { %>
+					<div id="services<%=id%>" name="services" class="btnXXLFixedSize btnSearchResultsActions" onclick="doShowRelatedServices('<%=id%>', '<%= uuid %>');" style="cursor:pointer;">
+						<img src="<%= context.getBaseUrl() %>/images/plus.gif" style="padding-right:3px;"/>
+						<a style="padding-right:10px; padding-left:5px;">Services</a>
+					</div>
+					<div id="serviceElt<%=id%>" class="oAcEle" style="display: none;" onClick="">
+					
+					<% 
+						for (RelatedMetadataDTO md : relatedMds) {
+						   String relatedMdTitle = (md.getTitle().length()) > 50 ? md.getTitle().substring(0, 50) : md.getTitle();
+						   String relatedMdTitleForJS = StringEscapeUtils.escapeJavaScript(md.getTitle());
+					%>
+					
+						<div class="otherActionTarget" onclick="doShowMetadataById(<%=md.getId()%>, '<%=relatedMdTitleForJS%>', <%= editable %>);">
+							<a href="#"><%= relatedMdTitle %></a>
+						</div>
+					
 					<% } %>
-				</div>
+					
+					</div>
+					
+					<% } %>
+				</div> <!-- End of Action buttons -->
 			</div>
 
 			<!-- abstract -->

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../../lib/OpenLayers.js"></script>
+  <script src="../OLLoader.js"></script>
   <script type="text/javascript">
     function test_Handler_MouseWheel_constructor(t) {
         t.plan(3);
@@ -56,18 +56,24 @@
         handler.setMap(map);
         handler.activate();
         var delta = 120;
-        if (window.opera && window.opera.version() < 9.2)  delta = -delta;
         handler.onWheelEvent({'target':map.layers[0].div, wheelDelta: delta});
         t.ok(pass, "evt.xy was set even without a mouse move");
     }    
     
     function test_Handler_MouseWheel_events(t) {
-        t.plan(5);
+        t.plan(6);
         
         var map = new OpenLayers.Map('map');
+        map.addLayer(new OpenLayers.Layer.WMS("","",{}));
+        map.zoomToMaxExtent();
         var control = new OpenLayers.Control();
         map.addControl(control);
-        var handler = new OpenLayers.Handler.MouseWheel(control);
+        var deltaZ;
+        var handler = new OpenLayers.Handler.MouseWheel(control, {
+            'up': function(evt, delta){
+                deltaZ = delta;
+            }
+        }, {interval: 200});
 
         // list below events that should be handled (events) and those
         // that should not be handled (nonevents) by the handler
@@ -99,7 +105,47 @@
         }
 
         var activated = handler.activate();
+        
+        var delta = 120;
+        handler.onWheelEvent({'target':map.layers[0].div, wheelDelta: delta});
+        handler.onWheelEvent({'target':map.layers[0].div, wheelDelta: delta});
+        t.delay_call(1, function() {
+            t.eq(deltaZ, 2, "Multiple scroll actions triggered one event when interval is set");
+        });
+    }
 
+    function test_Handler_MouseWheel_cumulative(t) {
+        t.plan(2);
+
+        var deltaUp = 0, ticks = 0;
+        var callbacks = {
+            up: function(evt, delta) {
+                deltaUp += delta;
+                ticks++;
+            }
+        };
+
+        var map = new OpenLayers.Map('map');
+        map.addLayer(new OpenLayers.Layer.WMS("","",{}));
+        map.zoomToMaxExtent();
+        var control = new OpenLayers.Control({});
+        map.addControl(control);
+        var handler = new OpenLayers.Handler.MouseWheel(control, callbacks, {
+            interval: 150,
+            cumulative: false,
+            maxDelta: 6
+        });
+
+        var delta = 120;
+        // generate 20 scroll up in non cumulative mode
+        for (var i=0; i < 20; i++) {
+            handler.onWheelEvent({'target':map.layers[0].div, wheelDelta: delta});
+        }
+        
+        t.delay_call(2, function() {
+            t.eq(deltaUp / ticks, 1, "Cumulative mode works");
+            t.eq(ticks, 4, "up called 4x with maxDelta of 6");
+        });
     }
 
     function test_Handler_MouseWheel_deactivate(t) {
