@@ -153,6 +153,9 @@
                 <driver>org.postgresql.Driver</driver>
                 <url>@database.url@</url>
                 <poolSize>10</poolSize>
+                <properties>
+                 <property key="stringtype">unspecified</property>
+                </properties>
 			</config>
 		</resource>
 	    

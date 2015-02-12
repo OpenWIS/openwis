@@ -7,7 +7,7 @@
       <!-- Datasources are not available outside the virtual machine -->
       <jndi-name>OpenwisDS</jndi-name>
 
-      <connection-url>@database.url@</connection-url>
+      <connection-url>@database.url@?stringtype=unspecified</connection-url>
       <driver-class>org.postgresql.Driver</driver-class>
       <user-name>@database.user@</user-name>
       <password>@database.password@</password>
