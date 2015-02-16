@@ -1,0 +1,132 @@
+How to build OpenWIS from sources
+=================================
+
+
+1/ Requirements
+---------------
+Java JDK 1.6
+Maven 2.2.1
+
+
+Environment variables:
+  The JAVA_HOME  should be set with the valid JDK path.
+  The MAVEN_OPTS should be set with "-Xms256m -Xmx512m -XX:MaxPermSize=256m" to avoid OutOfMemory issue during the build.
+  The "mvn" command should be available in the terminal, maybe you should add the <maven home>/bin directory to the PATH. 
+
+To check these requirements the "mvn --version" command will show the Java version used by maven, the maven version, and the JAVA_HOME value.
+
+2/ Sources Contents
+-------------------
+
+Main content of the '<cdrom>/sources' directory:
+  openwis-dataservice : contains the dataservice module (including the cache system)
+  openwis-factorytests : contains selenium fonctional tests
+  openwis-harness : contains harness WSDL (dissemination, localdatasource, …) and samples harness implementations
+  openwis-management : contains management module (monitoring and control)
+  openwis-metadataportal : contains portals module
+  openwis-release : contains some binary (JBoss, PostgreSQL, ...)
+  openwis-securityservice : contains the security module
+  openwis-stagingpost : contains the staging post web application
+
+Harness WSDL:
+  The harness dissemination WSDL and WSD : openwis-harness/openwis-harness-dissemination/src/wsdl/
+  The harness localdatasource WSDL and WSD : openwis-harness/openwis-harness-localdatasource/src/wsdl/
+  The harness MSSFSS WSDL and WSD : openwis-harness/openwis-harness-mssfss/src/wsdl/
+  The harness subselectionparameters WSDL and WSD : openwis-harness/openwis-harness-subselectionparameters/src/wsdl/
+
+Harness Samples:
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-common : contains some common classes used by others samples
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-database : a sample for a LocalDataSource using a DataBase
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-dissemination : a sample for harness dissemination
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-filesystem : a sample for a LocalDataSource using the file system
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-mssfss : a sample for MSSFSS
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-script : a sample for a LocalDataSource using a shell script
+  openwis-harness/openwis-harness-dissemination/openwis-harness-samples-webservice : a sample for a LocalDataSource using a webservice
+
+3/ Building step by step
+------------------------
+
+  i. Getting sources
+	 In the installation CDROM all sources are located to the '<cdrom>/sources' directory, just copy this folder in you local hard drive.
+
+ ii. Update the maven repository
+ 	 Merge the content of '<cdrom>/repository/repository.zip' with your maven repository: '<M2_HOME>/repository/'. Usually the <M2_HOME> is the '<user home>/.m2/"
+
+iii. Launch a the maven build
+	 In a terminal, go into the sources directory and launch the command: "mvn clean install -P all -DskipTests"
+	 After few minutes the build should finished successfully like this:
+
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] ------------------------------------------------------------------------
+[INFO] OpenWis ............................................... SUCCESS [5.081s]
+[INFO] OpenWIS Harness Parent Project ........................ SUCCESS [0.022s]
+[INFO] Harness for Sub Selection Parameters .................. SUCCESS [19.775s]
+[INFO] openwis-harness-localdatasource ....................... SUCCESS [2.993s]
+[INFO] Openwis Harness client ................................ SUCCESS [1.196s]
+[INFO] openwis-harness-mssfss ................................ SUCCESS [4.178s]
+[INFO] openwis-harness-dissemination ......................... SUCCESS [1.268s]
+[INFO] OpenWIS Harness Samples Parent Project ................ SUCCESS [0.055s]
+[INFO] openwis-harness-samples-common ........................ SUCCESS [1.087s]
+[INFO] openwis-harness-samples-filesystem .................... SUCCESS [2.042s]
+[INFO] openwis-harness-sample-database ....................... SUCCESS [2.238s]
+[INFO] openwis-harness-samples-mssfss ........................ SUCCESS [2.141s]
+[INFO] openwis-harness-sample-webservice ..................... SUCCESS [0.423s]
+[INFO] openwis-harness-sample-script ......................... SUCCESS [0.467s]
+[INFO] OpenWIS DataService project ........................... SUCCESS [0.092s]
+[INFO] openwis-dataservice-common ............................ SUCCESS [0.049s]
+[INFO] openwis-dataservice-common-domain ..................... SUCCESS [7.284s]
+[INFO] openwis-dataservice-common-timer ...................... SUCCESS [0.194s]
+[INFO] openwis-dataservice-common-utils ...................... SUCCESS [0.415s]
+[INFO] openwis-dataservice-cache ............................. SUCCESS [0.049s]
+[INFO] openwis-dataservice-cache-core ........................ SUCCESS [1.213s]
+[INFO] openwis-dataservice-cache-ejb ......................... SUCCESS [2.524s]
+[INFO] openwis-dataservice-server ............................ SUCCESS [0.065s]
+[INFO] openwis-dataservice-server-ejb ........................ SUCCESS [9.618s]
+[INFO] openwis-dataservice-server-webapp ..................... SUCCESS [1.099s]
+[INFO] openwis-dataservice-cache-replication ................. SUCCESS [8.681s]
+[INFO] openwis-dataservice-cache-webapp ...................... SUCCESS [0.850s]
+[INFO] openwis-dataservice-server-ear ........................ SUCCESS [5.247s]
+[INFO] GeoNetwork opensource ................................. SUCCESS [0.115s]
+[INFO] Caching xslt module ................................... SUCCESS [1.399s]
+[INFO] Jeeves modules ........................................ SUCCESS [3.044s]
+[INFO] Oaipmh modules ........................................ SUCCESS [0.473s]
+[INFO] ArcSDE module (dummy-api) ............................. SUCCESS [1.172s]
+[INFO] Openwis Portal client ................................. SUCCESS [30.623s]
+[INFO] OpenWIS module ........................................ SUCCESS [2:15.899s]
+[INFO] Openwis Portal SolR ................................... SUCCESS [14.958s]
+[INFO] OpenWIS Security Service project ...................... SUCCESS [0.202s]
+[INFO] openwis-securityservice-usermanagement-common ......... SUCCESS [1.258s]
+[INFO] openwis-securityservice-usermanagement-server ......... SUCCESS [0.045s]
+[INFO] openwis-securityservice-usermanagement-server-ejb ..... SUCCESS [1.352s]
+[INFO] openwis-securityservice-usermanagement-server-ear ..... SUCCESS [2.276s]
+[INFO] openwis-securityservice-utils ......................... SUCCESS [0.131s]
+[INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [7.609s]
+[INFO] ------------------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 4 minutes 42 seconds
+[INFO] Finished at: Wed Jun 29 11:12:40 CEST 2011
+[INFO] Final Memory: 106M/268M
+[INFO] ------------------------------------------------------------------------
+$
+
+ iv. Generate the admin portal
+ 	 By default the maven command only build the user portal WAR, to generate the admin portal WAR go into the <sources>/openwis-metadataportal/openwis-portal/ directory and run the command "mvn clean install -P admin -DskipTests"
+
+  v. Getting built artifacts
+ 	 The dataservice EAR : <sources>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear 
+	 The harness client (used to push new products notification) : <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
+	 The security service EAR: <sources>/openwis-securityservice/openwis-securityservice-usermanagement-server/openwis-securityservice-usermanagement-server-ear/target/openwis-securityservice.ear
+ 	 The user portal WAR (when using the default maven profile) : <sources>/openwis-metadataportal/openwis-portal/target/openwis-user-portal.war
+	 The admin portal WAR (when using the admin maven profile) : <sources>/openwis-metadataportal/openwis-portal/target/openwis-admin-portal.war
+	 The SolR search WAR : <sources>//openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
+	 The staging post WAR: <sources>/openwis-stagingpost/target/stagingPost.war 
+
+4/ Tips
+-------
+
+To launch JUnit test remove the "-DskipTests" for maven commands
+To create eclipse projects files just launch "mvn eclipse:eclipse -P all -Dwtpversion=2.0" (The maven repository should be configured into eclipse once with this command: "mvn eclipse:configure-workspace -Dworkspace=<Your Eclipse Workspace Location>")
+

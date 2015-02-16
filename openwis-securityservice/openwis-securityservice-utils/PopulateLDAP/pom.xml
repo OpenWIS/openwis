@@ -57,11 +57,11 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<echo message="========== Copy configuration files  =============" />
+								<echo message="========== Copy configuration files =============" />
 								<copy overwrite="true" todir="${basedir}/target/">
                                     <fileset dir="${basedir}/src/main/config" />
                                 </copy>
-                                <echo message="========== Preparing PopulateLDAP archive  =============" />
+                                <echo message="========== Preparing PopulateLDAP archive =============" />
                                 <zip destfile="${basedir}/target/PopulateLDAP.zip" basedir="${basedir}/target" excludes="maven-archiver/**, generated-sources/**, classes/**" />
 							</tasks>
 						</configuration>
