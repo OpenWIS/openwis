@@ -274,7 +274,7 @@ CREATE TABLE HarvestingTask
 CREATE TABLE Metadata
   (
     id           int,
-    uuid         varchar(250)   not null,
+    uuid         citext   not null,
     schemaId     varchar(32)    not null,
     isTemplate   char(1)        default 'n' not null,
     isHarvested  char(1)        default 'n' not null,
@@ -326,7 +326,7 @@ CREATE TABLE OperationAllowed
 CREATE TABLE DeletedMetadata
   (
     id           int,
-    uuid         varchar(250)   not null,
+    uuid         citext   not null,
     schemaId     varchar(32)    not null,
     category     int            not null,
     deletionDate timestamp without time zone DEFAULT timezone('UTC'::text, now()),
