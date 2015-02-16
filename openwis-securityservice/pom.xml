@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.openwis</groupId>
+		<groupId>io.openwis</groupId>
 		<artifactId>openwis</artifactId>
 		<version>3.13-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
-	<groupId>org.openwis.securityservice</groupId>
+	<groupId>io.openwis.securityservice</groupId>
 	<artifactId>openwis-securityservice</artifactId>
 	<packaging>pom</packaging>
 	<name>OpenWIS Security Service project</name>

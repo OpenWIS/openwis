@@ -4,12 +4,12 @@
 
   <parent>
     <artifactId>openwis-dataservice</artifactId>
-    <groupId>org.openwis.dataservice</groupId>
+    <groupId>io.openwis.dataservice</groupId>
 	<version>3.13-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   
-	<groupId>org.openwis.dataservice.common</groupId>
+	<groupId>io.openwis.dataservice.common</groupId>
 	<artifactId>openwis-dataservice-common</artifactId>
 	<packaging>pom</packaging>
 	<name>openwis-dataservice-common</name>

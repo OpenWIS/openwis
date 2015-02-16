@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>openwis-dataservice-cache</artifactId>
-    <groupId>org.openwis.dataservice.cache</groupId>
+    <groupId>io.openwis.dataservice.cache</groupId>
 	<version>3.13-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>org.openwis.dataservice.cache</groupId>
+  <groupId>io.openwis.dataservice.cache</groupId>
   <artifactId>openwis-dataservice-cache-ejb</artifactId>
   <name>openwis-dataservice-cache-ejb</name>
   <packaging>jar</packaging>
@@ -16,31 +16,31 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.openwis.dataservice.common</groupId>
+      <groupId>io.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-domain</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.openwis.dataservice.common</groupId>
+      <groupId>io.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-utils</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.openwis.dataservice.cache</groupId>
+      <groupId>io.openwis.dataservice.cache</groupId>
       <artifactId>openwis-dataservice-cache-core</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.openwis.management.service</groupId>
+      <groupId>io.openwis.management.service</groupId>
       <artifactId>openwis-management-service-common</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.openwis.management</groupId>
+      <groupId>io.openwis.management</groupId>
       <artifactId>openwis-management-client</artifactId>
 	 <version>${project.version}</version>
     </dependency>
@@ -69,7 +69,7 @@
       <version>1.7.1</version>
     </dependency>
     <dependency>
-      <groupId>org.openwis.harness</groupId>
+      <groupId>io.openwis.harness</groupId>
       <artifactId>openwis-harness-dissemination</artifactId>
 	  <version>${project.version}</version>
       <scope>compile</scope>

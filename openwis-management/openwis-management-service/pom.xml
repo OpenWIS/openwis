@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>openwis-management</artifactId>
-    <groupId>org.openwis.management</groupId>
+    <groupId>io.openwis.management</groupId>
 	<version>3.13-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>org.openwis.management.service</groupId>
+  <groupId>io.openwis.management.service</groupId>
   <artifactId>openwis-management-service</artifactId>
   <packaging>pom</packaging>
   <name>OpenWIS Management Service</name>

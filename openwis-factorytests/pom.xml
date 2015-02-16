@@ -5,13 +5,13 @@
    <modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis</artifactId>
-		<groupId>org.openwis</groupId>
+		<groupId>io.openwis</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
    <artifactId>openwis-factorytests</artifactId>
-   <groupId>org.openwis.factorytests</groupId>
+   <groupId>io.openwis.factorytests</groupId>
    <name>openwis-factorytests</name>
    <packaging>jar</packaging>
 
@@ -131,12 +131,12 @@
       </dependency>
 
       <dependency>
-         <groupId>org.openwis.securityservice.usermanagement.server</groupId>
+         <groupId>io.openwis.securityservice.usermanagement.server</groupId>
          <artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
 		 <version>${project.version}</version>
       </dependency>
       <dependency>
-         <groupId>org.openwis.securityservice.utils</groupId>
+         <groupId>io.openwis.securityservice.utils</groupId>
          <artifactId>openwis-securityservice-utils-populate-ldap</artifactId>
 		 <version>${project.version}</version>
       </dependency>

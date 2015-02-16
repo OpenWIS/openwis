@@ -2,11 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>openwis-harness</artifactId>
-    <groupId>org.openwis.harness</groupId>
+    <groupId>io.openwis.harness</groupId>
 	<version>3.13-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>org.openwis.harness</groupId>
+  <groupId>io.openwis.harness</groupId>
   <artifactId>openwis-harness-dissemination</artifactId>
 
   <name>openwis-harness-dissemination</name>

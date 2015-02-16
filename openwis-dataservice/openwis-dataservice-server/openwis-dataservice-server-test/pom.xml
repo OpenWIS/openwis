@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
-		<groupId>org.openwis.dataservice.server</groupId>
+		<groupId>io.openwis.dataservice.server</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.dataservice.server</groupId>
+	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-test</artifactId>
 	<name>openwis-dataservice-server-test</name>
 	<packaging>jar</packaging>
@@ -30,20 +30,20 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-domain</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-utils</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-timer</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>

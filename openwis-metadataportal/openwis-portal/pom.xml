@@ -535,19 +535,19 @@
       </dependency>
 
       <dependency>
-         <groupId>org.openwis.harness</groupId>
+         <groupId>io.openwis.harness</groupId>
          <artifactId>openwis-harness-subselectionparameters</artifactId>
 		 <version>${project.version}</version>
       </dependency>
 
       <dependency>
-         <groupId>org.openwis.harness</groupId>
+         <groupId>io.openwis.harness</groupId>
          <artifactId>openwis-harness-mssfss</artifactId>
 		 <version>${project.version}</version>
       </dependency>
 
       <dependency>
-         <groupId>org.openwis.metadataportal</groupId>
+         <groupId>io.openwis.metadataportal</groupId>
          <artifactId>openwis-portal-client</artifactId>
 		 <version>${project.version}</version>
          <exclusions>
@@ -559,7 +559,7 @@
       </dependency>
 
       <dependency>
-         <groupId>org.openwis.management</groupId>
+         <groupId>io.openwis.management</groupId>
          <artifactId>openwis-management-client</artifactId>
 		 <version>${project.version}</version>
       </dependency>
