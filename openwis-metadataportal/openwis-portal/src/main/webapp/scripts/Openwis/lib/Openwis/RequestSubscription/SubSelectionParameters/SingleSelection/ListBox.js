@@ -84,7 +84,7 @@ Openwis.RequestSubscription.SubSelectionParameters.SingleSelection.ListBox = Ext
 	     if(this.config.editValue || this.config.currentElementSelection) {
 	         var elementsToKeepSelected = [];
     	     if(this.config.editValue) {
-    	         elementsToKeepSelected.push(this.config.editValue);
+    	         elementsToKeepSelected.push(this.config.editValue[0]);
     	     } else if(this.config.currentElementSelection) {
                 Ext.each(matchingValues, 
                     function(item, index, allItems) {
