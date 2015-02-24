@@ -38,7 +38,7 @@
 						</java:property>
 						<java:property>
 							<java:key>openwis.management.alertservice.wsdl</java:key>
-							<java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/AlertService?wsdl</java:value>
+							<java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/AlertService?wsdl</java:value>
 						</java:property>
 						<java:property>
                             <java:key>log.timer.url</java:key>
