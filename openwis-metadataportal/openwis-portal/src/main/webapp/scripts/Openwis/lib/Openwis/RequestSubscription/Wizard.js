@@ -302,7 +302,7 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
             	ssp.code = item.code;
             	    
             	var valueArray = [];
-        	    Ext.each(item.value.split(","), 
+        	    Ext.each(item.value, 
         	    	function(item, index, allItems) {
         	    		valueArray.push(item);
                    	},
