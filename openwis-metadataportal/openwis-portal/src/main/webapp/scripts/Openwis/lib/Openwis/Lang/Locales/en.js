@@ -917,6 +917,7 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.PRFilter.ADHOC' : 'Adhoc Requests only',
     'MonitorCurrentRequests.PRFilter.SUBSCRIPTION': 'Events of Subscriptions only',
     'MonitorCurrentRequests.PRFilter.BOTH': 'All kind of Requests',
+    'MonitorCurrentRequests.Import.Label': 'Import Subscription',
     
     'TrackMyRequests.Title' : 'Track my requests',
     'TrackMyRequests.Local.Title' : 'Track my local requests',

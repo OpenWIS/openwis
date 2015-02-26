@@ -110,6 +110,8 @@
 		<allow service="xml.deployment.cot.all"/>
 		<allow service="xml.get.all.backup.centres"/>
 		<allow service="xml.processed.requests.delete"/>
+		<allow service="xml.monitor.current.subscriptions.export"/>
+		<allow service="xml.monitor.current.subscriptions.import"/>
 		
 		<!-- Download a file -->
 		<allow service="file.download"/>

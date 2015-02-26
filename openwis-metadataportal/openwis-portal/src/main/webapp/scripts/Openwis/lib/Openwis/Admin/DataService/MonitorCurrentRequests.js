@@ -36,6 +36,12 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 			}
 		}));
 		this.add(this.getMonitorCurrentSubscriptionsGrid());
+		this.add(new Ext.Panel({
+			items: [ this.getImportSubscriptionFormPanel() ],
+			style: {
+			    marginTop: '15px'
+			}
+		}));
 	},
 	
 	getHeader: function() {
@@ -339,12 +345,14 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
                             sm.grid.ownerCt.getSuspendSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') || !(record.get('state')=='ACTIVE') );
                             sm.grid.ownerCt.getResumeSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') ||  !(record.get('state')=='SUSPENDED'));
                             sm.grid.ownerCt.getDiscardSubscriptionAction().setDisabled(sm.getCount() == 0);
+                            sm.grid.ownerCt.getExportSubscriptionAction().setDisabled(sm.getCount() == 0);
                         },
                         rowdeselect: function (sm, rowIndex, record) {
                             sm.grid.ownerCt.getViewSubscriptionAction().setDisabled(sm.getCount() != 1);
                             sm.grid.ownerCt.getSuspendSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') || !(record.get('state')=='ACTIVE'));
                             sm.grid.ownerCt.getResumeSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') || !(record.get('state')=='SUSPENDED'));
                             sm.grid.ownerCt.getDiscardSubscriptionAction().setDisabled(sm.getCount() == 0);
+                            sm.grid.ownerCt.getExportSubscriptionAction().setDisabled(sm.getCount() == 0);
                         }
                     }
                 }),
@@ -361,6 +369,7 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getSuspendSubscriptionAction()));
 			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getResumeSubscriptionAction()));
 			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getDiscardSubscriptionAction()));
+			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getExportSubscriptionAction()));
         }
         return this.monitorCurrentSubscriptionsGrid;
 	},
@@ -506,6 +515,101 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 	        });
 	    }
 	    return this.discardSubscriptionAction;
+	},
+	
+	getExportSubscriptionAction: function() {
+	    if(!this.exportSubscriptionAction) {
+	        this.exportSubscriptionAction = new Ext.Action({
+	            text: Openwis.i18n('Common.Btn.Export'),
+	            disabled: true,
+				scope: this,
+				handler: function() {
+					var selection = this.getMonitorCurrentSubscriptionsGrid().getSelectionModel().getSelections();
+					var params = {exportRequests: []};
+					Ext.each(selection, function(item, index, allItems) {
+						params.exportRequests.push({requestID: item.get('id'), typeRequest: 'SUBSCRIPTION'});
+					}, this);
+                	if (params.exportRequests.length > 0 ) {   		
+                        window.open(configOptions.locService + 
+                        		"/xml.monitor.current.subscriptions.export?subscriptionId=" + params.exportRequests[0].requestID,'_blank', '');
+                    }
+                	else
+            		{
+                		Ext.Msg.show({
+    					    title: Openwis.i18n('RequestsStatistics.NoDataToExport.WarnDlg.Title'),
+	    				    msg: Openwis.i18n('RequestsStatistics.NoDataToExport.WarnDlg.Msg'),
+		                    buttons: Ext.MessageBox.OK,
+		                    icon: Ext.MessageBox.WARNING
+		               });
+            		}
+                }
+	        });
+	    }
+	    return this.exportSubscriptionAction;
+	},
+	
+	getImportSubscriptionFormPanel: function() {
+	    if(!this.importSubscriptionFormPanel) {
+	        this.importSubscriptionFormPanel = new Ext.form.FormPanel({
+	            border: false,
+	            fileUpload : true,
+	        	bodyStyle : ' margin: 10px 10px 0px 10px; ',
+	        	errorReader: new Ext.data.XmlReader({
+                    record : 'field',
+                    success: '@success'
+                }, [
+                    'id', 'msg'
+                ])
+	        });
+	        
+	        var newFile = new Ext.ux.form.FileUploadField(
+	    		    {
+	        		    xtype: 'fileuploadfield',
+	                    allowBlank : false,
+	                    buttonCfg: {
+	                        text: Openwis.i18n('Common.Btn.Browse')
+	                    },
+	                    fieldLabel: Openwis.i18n('MonitorCurrentRequests.Import.Label'),
+	                    width: 360
+	                }
+			    );
+	        
+	        this.importSubscriptionFormPanel.add(newFile);
+	        this.importSubscriptionFormPanel.addButton(new Ext.Button(this.getImportSubscriptionAction()));
+	    }
+	    return this.importSubscriptionFormPanel;
+	},
+	
+	getImportSubscriptionAction: function() {
+	    if(!this.importSubscriptionAction) {
+	        this.importSubscriptionAction = new Ext.Action({
+	            text: Openwis.i18n('Common.Btn.Insert'),
+	            scope: this,
+				handler: function() {
+					if (this.importSubscriptionFormPanel.getForm().isValid()) {
+						this.importSubscriptionFormPanel.getForm().submit({
+ 	                        url : configOptions.locService+ '/xml.monitor.current.subscriptions.import',
+ 	                        scope : this,
+ 	                        params: {},
+ 	                        success : function(fp, action) {
+ 	                            var jsonData = fp.errorReader.xmlData.getElementsByTagName("message")[0].childNodes[0].nodeValue;
+ 	                            var result = Ext.decode(jsonData);
+ 	                            if (result.result){
+ 	 	                            Openwis.Utils.MessageBox.displaySaveSuccessful();
+ 	                            }else{
+ 	 	                            Openwis.Utils.MessageBox.displayErrorMsg(result.message);
+ 	                            }
+            					this.getMonitorCurrentSubscriptionsStore().reload();
+ 	                        },
+ 	                        failure : function(response) {
+ 	                            Openwis.Utils.MessageBox.displayInternalError();
+ 	                        }
+ 	                    });
+					}
+                }
+	        });
+	    }
+	    return this.importSubscriptionAction;
 	}
 	
 });

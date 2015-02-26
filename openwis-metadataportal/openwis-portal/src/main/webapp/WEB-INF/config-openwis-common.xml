@@ -237,6 +237,12 @@
         <service name="xml.mssfss.processed.requests.all" type="xml">
             <class name=".services.request.GetAllMSSFSSProcessedRequests"/>            
         </service>
+        <service name="xml.monitor.current.subscriptions.export" type="xml">
+            <class name=".services.request.ExportSubscription"/>
+        </service>
+        <service name="xml.monitor.current.subscriptions.import" type="xml">
+            <class name=".services.request.ImportSubscription"/>
+        </service>
         
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Deployments in COT.                                           -->
