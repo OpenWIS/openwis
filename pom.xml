@@ -1,22 +1,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>io.openwis</groupId>
-   <artifactId>openwis</artifactId>
-   <version>3.13-SNAPSHOT</version>
-   <packaging>pom</packaging>
-   <name>OpenWis</name>
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>io.openwis</groupId>
+	<artifactId>openwis</artifactId>
+	<version>3.13-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>OpenWis</name>
+   
+    <description>OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions 
+	required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on 
+	behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)</description>
+   
+	<organization>
+		<name>OpenWIS Association</name>
+		<url>http://www.openis.io</url>
+	</organization>
 
-   <scm>
+	<url>http://www.openwis.io</url>
+	<inceptionYear>2013</inceptionYear>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url> https://github.com/OpenWIS/openwis/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<system>Jenkins CloudBees</system>
+		<url> https://openwis-association.ci.cloudbees.com</url>
+	</ciManagement>
+
+	<mailingLists>
+		<mailingList>
+		   <name>User List</name>
+		   <subscribe>openwis-tmc@meteo.fr</subscribe>
+		</mailingList>
+	</mailingLists>
+   
+    <scm>
       <connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
       <developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
       <url>https://github.com/OpenWIS/openwis</url>
-   </scm>
+    </scm>
 
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <file.encoding>UTF-8</file.encoding>	  
-   </properties>
+    </properties>
    
    <profiles>
        <profile>
@@ -118,43 +148,22 @@
          </plugins>
       </pluginManagement>
    </build>
-   
-	<organization>
-		<name>OpenWIS Association</name>
-		<url>http://www.openis.com</url>
-	</organization>
-
-	<url>http://www.openwis.com</url>
-	<inceptionYear>2013</inceptionYear>
-
-	<issueManagement>
-		<system>GitHub</system>
-		<url> https://github.com/OpenWIS/openwis/issues</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>Jenkins CloudBees</system>
-		<url> https://openwis-association.ci.cloudbees.com</url>
-	</ciManagement>
-
-	<mailingLists>
-		<mailingList>
-		   <name>User List</name>
-		   <subscribe>openwis-tmc@meteo.fr</subscribe>
-		</mailingList>
-	</mailingLists>
 
 	<developers>
 		<developer>
-			<name>Shaun Adams</name>
-			<organization>Met Office (UK)</organization>
+			<name>Leon Mika</name>
+			<organization>Bureau of Meteorology</organization>
+		</developer>
+		<developer>
+			<name>Weiging Qu</name>
+			<organization>Bureau of Meteorology</organization>
+		</developer>	
+		<developer>
+			<name>Y Wang</name>
+			<organization>Bureau of Meteorology</organization>
 		</developer>
 		<developer>
 			<name>Francois Faugeron</name>
-			<organization>Météo France</organization>
-		</developer>
-		<developer>
-			<name>Yves Goupil</name>
 			<organization>Météo France</organization>
 		</developer>
 		<developer>
@@ -162,13 +171,21 @@
 			<organization>Météo France</organization>
 		</developer>
 		<developer>
-			<name>Leon Mika</name>
-			<organization>Bureau of Meteorology</organization>
-		</developer>	
+			<name>Yves Goupil</name>
+			<organization>Météo France</organization>
+		</developer>
 		<developer>
-			<name>Y Wang</name>
-			<organization>Bureau of Meteorology</organization>
-		</developer>		
+			<name>Shaun Adams</name>
+			<organization>Met Office (UK)</organization>
+		</developer>
+			<developer>
+			<name>Kirsty Burgess</name>
+			<organization>Met Office (UK)</organization>
+		</developer>
+		<developer>
+			<name>Alan Morbey</name>
+			<organization>Met Office (UK)</organization>
+		</developer>
 		<developer>
 			<name>Yannick Lizzi</name>
 			<organization>AKKA Technologies</organization>
@@ -207,43 +224,43 @@
 		</developer>
 	</developers>
 	  
-	  <pluginRepositories>
-		<pluginRepository>
-		  <name>oss.sonatype.org</name>
-		  <id>oss.sonatype.org</id>
-		  <url>https://oss.sonatype.org/content/groups/public</url>
-		</pluginRepository>
-	  </pluginRepositories>
-   <repositories>
+	<pluginRepositories>
+	 <pluginRepository>
+	  <name>oss.sonatype.org</name>
+	  <id>oss.sonatype.org</id>
+	  <url>https://oss.sonatype.org/content/groups/public</url>
+	 </pluginRepository>
+	</pluginRepositories>
+	   
+    <repositories>
 	  <repository>
-         <id>openwis-releases</id>
-         <url>https://repository-openwis-association.forge.cloudbees.com/release</url>
-      </repository>
+		 <id>openwis-releases</id>
+		 <url>https://repository-openwis-association.forge.cloudbees.com/release</url>
+	  </repository>
 	  <repository>
-         <id>openwis-snapshot</id>
-         <url>https://repository-openwis-association.forge.cloudbees.com/snapshot</url>
-      </repository>
-	<repository>
-         <id>openqa-releases</id>
-         <url>http://nexus.openqa.org/content/repositories/releases</url>
-      </repository>
-      <repository>
-         <id>openqa-snapshots</id>
-         <url>http://nexus.openqa.org/content/repositories/snapshots</url>
-      </repository>
-      <repository>
-         <id>openqa-thirdparty</id>
-         <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
-      </repository>
+		 <id>openwis-snapshot</id>
+		 <url>https://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+	  </repository>
 	  <repository>
-        <id>jboss-maven2</id>
-        <url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
-    </repository>
+		 <id>openqa-releases</id>
+		 <url>http://nexus.openqa.org/content/repositories/releases</url>
+	  </repository>
 	  <repository>
-        <id>jboss-maven2</id>
-        <url>http://repo1.maven.org/maven2</url>
-    </repository>
-	
-   </repositories>
+		 <id>openqa-snapshots</id>
+		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-thirdparty</id>
+		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+	  </repository>
+	  <repository>
+		<id>jboss-maven2</id>
+		<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
+	  </repository>
+	  <repository>
+		<id>jboss-maven2</id>
+		<url>http://repo1.maven.org/maven2</url>
+	  </repository>
+	</repositories>
    
 </project>
