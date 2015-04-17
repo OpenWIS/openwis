@@ -28,7 +28,7 @@
 	   <%} else { %>
 	   	doSubscriptionFromCache("<%=StringEscapeUtils.escapeJavaScript(uuid)%>", "<%= StringEscapeUtils.escapeJavaScript(gtsCategory) %>", null);<%
 	   }
-   } else if (isCacheEnable && StringUtils.isBlank(localDataSource)) {
+   } else if (isCacheEnable && StringUtils.isNotBlank(url)) {
       %>window.open("<%=url%>")<%
    } else {
       if (isBlacklisted) {%>
