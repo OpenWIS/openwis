@@ -4,7 +4,7 @@
 	
 	<groupId>io.openwis</groupId>
 	<artifactId>openwis</artifactId>
-	<version>3.13-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>OpenWis</name>
    

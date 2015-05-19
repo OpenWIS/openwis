@@ -39,7 +39,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
              |+-- openwis-dataservice-server-ejb
              |+-- openwis-dataservice-server-test (not used)
              |+-- openwis-dataservice-server-webapp
-      |+--openwis-factorytests (not used)
+      |+--openwis-factorytests
       |+--openwis-harness 
           |+--openwis-harness-client
           |+--openwis-harness-dissemination
@@ -66,7 +66,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
              |+-- openwis-securityservice-usermanagement-server-ejb
              |+-- openwis-securityservice-usermanagement-server-webapp
           |+--openwis-securityservice-usermanagement-utils
-      |+--openwis-stagingpost (not used)
+      |+--openwis-stagingpost
       |+--openwis-resources
 
 * **openwis-dataservice:** contains the dataservice module (including the cache system)
@@ -166,7 +166,7 @@ After few minutes the build should finished successfully like this:
 
 **#5 Changing Verison Number**
 
-In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all` or whatever version you wish to change the project to
+In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all.user,admin` or whatever version you wish to change the project to
  
  **#6 Running SonarQube**
  

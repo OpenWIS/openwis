@@ -5,3 +5,7 @@ target/
 .project
 .classpath
 .settings/
+
+# Ignore Maven files
+ 
+ *.versionsBackup
