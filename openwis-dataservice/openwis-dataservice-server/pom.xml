@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-dataservice</artifactId>
-		<groupId>org.openwis.dataservice</groupId>
+		<groupId>io.openwis.dataservice</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.dataservice.server</groupId>
+	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server</artifactId>
 	<packaging>pom</packaging>
 	<name>openwis-dataservice-server</name>

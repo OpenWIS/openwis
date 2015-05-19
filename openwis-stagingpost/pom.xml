@@ -5,7 +5,7 @@
 
 	<parent>
 		<artifactId>openwis</artifactId>
-		<groupId>eu.akka.openwis</groupId>
+		<groupId>io.openwis</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -14,7 +14,7 @@
 	<!-- =========================================================== -->
 	<!-- Module Description -->
 	<!-- =========================================================== -->
-	<groupId>org.openwis.stagingpost</groupId>
+	<groupId>io.openwis.stagingpost</groupId>
 	<artifactId>openwis-stagingpost</artifactId>
 	<packaging>war</packaging>
 	<name>OpenWIS Staging Post</name>

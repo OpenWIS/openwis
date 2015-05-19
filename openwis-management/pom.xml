@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>eu.akka.openwis</groupId>
+    <groupId>io.openwis</groupId>
     <artifactId>openwis</artifactId>
 	<version>develop-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>org.openwis.management</groupId>
+  <groupId>io.openwis.management</groupId>
   <artifactId>openwis-management</artifactId>
   <packaging>pom</packaging>
   <name>OpenWIS Monitoring And Control</name>

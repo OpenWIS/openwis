@@ -12,7 +12,7 @@
 	<!-- =========================================================== -->
 	<!-- Module Description -->
 	<!-- =========================================================== -->
-	<groupId>org.openwis.metadataportal</groupId>
+	<groupId>io.openwis.metadataportal</groupId>
 	<artifactId>openwis-portal-solr</artifactId>
 	
 	<name>Openwis Portal SolR</name>
