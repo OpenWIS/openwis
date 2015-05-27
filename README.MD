@@ -167,7 +167,7 @@ After few minutes the build should finished successfully like this:
 
 **#5 Changing Verison Number**
 
-In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all.user,admin` or whatever version you wish to change the project to
+In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all,user,admin` or whatever version you wish to change the project to
  
  **#6 Running SonarQube**
  
