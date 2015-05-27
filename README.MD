@@ -56,7 +56,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
           |+--oaipmh
           |+--openwis-portal
           |+--openwis-portal-client
-          |+--openwis-portal-solr (not used)
+          |+--openwis-portal-solr
           |+--schematrons (not used)
           |+--sde
       |+--openwis-securityservice
@@ -144,6 +144,7 @@ After few minutes the build should finished successfully like this:
     [INFO] openwis-securityservice-usermanagement-server-ear ..... SUCCESS [0.474s]
     [INFO] openwis-securityservice-utils ......................... SUCCESS [0.053s]
     [INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [3.217s]
+	[INFO] OpenWIS Staging Post .................................. SUCCESS [0.318s]
     [INFO] ------------------------------------------------------------------------
     [INFO] ------------------------------------------------------------------------
     [INFO] BUILD SUCCESSFUL
