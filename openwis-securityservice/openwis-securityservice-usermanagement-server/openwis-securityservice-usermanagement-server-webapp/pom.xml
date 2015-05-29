@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 		<groupId>io.openwis.securityservice.usermanagement.server</groupId>
-		<version>3.13.2</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
