@@ -23,7 +23,7 @@ Openwis.RequestSubscription.SubSelectionParameters.PeriodSelection.Day = Ext.ext
 	
 	initialize: function() {
 		if(this.config.editValue) {
-		    this.setValue(this.config.editValue);
+		    this.setValue(this.config.editValue.toString());
 		} else if(this.config.parameter.date) {
 			this.setValue(this.config.parameter.date);
 		}

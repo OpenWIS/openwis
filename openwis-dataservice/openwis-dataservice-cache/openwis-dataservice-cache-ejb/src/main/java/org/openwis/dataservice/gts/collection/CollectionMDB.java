@@ -401,11 +401,18 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
       if (fileInfo.getMetadataURNList().isEmpty()){
          // handle invalid files without associated (stopgap-)metadata
          LOG.info("+++ File " + fileNamePath + " was invalid (due to lack of associated metadata URNs) for ingestion and will be moved to the temporary directory.");
-         invalidFile.delete();
+         String path = getTempDirectory() + "/noMetadata";
+         File targetFile = new File(path,filename);
+         try {
+            getFileUtils().rename(invalidFile, targetFile);
+         }
+         catch (IOException e) {
+            LOG.error("Could not rename " + invalidFile.getAbsolutePath() + " to " + targetFile.getAbsolutePath());
+         }
       } else {
          // handle LOCAL Data or data filtered out due to ingestion filters
-         LOG.info("+++ File " + filename + " was invalid for ingestion and will therefore be deleted. A ProductAdvertisement will be kept though.");
-         String path = getTempDirectory() + "/invalid/" + filename + "_" + checksum;
+         LOG.info("+++ File " + filename + " was invalid for ingestion and and will be moved to the temporary directory.");
+         String path = getTempDirectory() + "/invalid";
          File targetFile = new File(path,filename);
          try {
             getFileUtils().rename(invalidFile, targetFile);

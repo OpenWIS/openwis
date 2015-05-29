@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>eu.akka.openwis</groupId>
+		<groupId>io.openwis</groupId>
 		<artifactId>openwis</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>3.13.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.dataservice</groupId>
+	<groupId>io.openwis.dataservice</groupId>
 	<artifactId>openwis-dataservice</artifactId>
 	<packaging>pom</packaging>
 	<name>OpenWIS DataService project</name>
@@ -46,9 +46,9 @@
     
     <!-- Prevent compilation issue with maven2 -->
    <dependency>
-      <groupId>eu.akka.jbosseap</groupId>
+      <groupId>org.hibernate</groupId>
       <artifactId>hibernate-annotations</artifactId>
-      <version>5.1.0</version>
+      <version>3.4.0.GA</version>
       <scope>provided</scope>
    </dependency>
 

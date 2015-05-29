@@ -2,12 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
-		<groupId>org.openwis.management.service</groupId>
-		<version>develop-SNAPSHOT</version>
+		<groupId>io.openwis.management.service</groupId>
+		<version>3.13.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.management.service</groupId>
+	<groupId>io.openwis.management.service</groupId>
 	<artifactId>openwis-management-service-ejb</artifactId>
 	<packaging>jar</packaging>
 
@@ -23,7 +23,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openwis.management.service</groupId>
+			<groupId>io.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-common</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
@@ -147,7 +147,7 @@
 						<version>${cxf.version}</version>
 					</dependency>
 					<dependency>
-						<groupId>org.openwis.management.service</groupId>
+						<groupId>io.openwis.management.service</groupId>
 						<artifactId>openwis-management-service-common</artifactId>
 						<version>${project.version}</version>
 						<type>jar</type>

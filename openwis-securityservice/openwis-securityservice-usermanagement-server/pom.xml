@@ -2,12 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-securityservice</artifactId>
-		<groupId>org.openwis.securityservice</groupId>
-		<version>develop-SNAPSHOT</version>
+		<groupId>io.openwis.securityservice</groupId>
+		<version>3.13.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+	<groupId>io.openwis.securityservice.usermanagement.server</groupId>
 	<artifactId>openwis-securityservice-usermanagement-server</artifactId>
 	<packaging>pom</packaging>
 	<name>openwis-securityservice-usermanagement-server</name>

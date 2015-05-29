@@ -2,11 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>openwis-harness</artifactId>
-    <groupId>eu.akka.openwis.harness</groupId>
-	<version>develop-SNAPSHOT</version>
+    <groupId>io.openwis.harness</groupId>
+	<version>3.13.2</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>eu.akka.openwis.harness</groupId>
+  <groupId>io.openwis.harness</groupId>
   <artifactId>openwis-harness-mssfss</artifactId>
   <name>openwis-harness-mssfss</name>
   <packaging>jar</packaging>

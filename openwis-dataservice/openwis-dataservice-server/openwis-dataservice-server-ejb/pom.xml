@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
-		<groupId>org.openwis.dataservice.server</groupId>
-		<version>develop-SNAPSHOT</version>
+		<groupId>io.openwis.dataservice.server</groupId>
+		<version>3.13.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.dataservice.server</groupId>
+	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-ejb</artifactId>
 	<name>openwis-dataservice-server-ejb</name>
 	<packaging>jar</packaging>
@@ -27,29 +27,29 @@
             <scope>provided</scope>
          </dependency>
 		<dependency>
-			<groupId>eu.akka.openwis.harness</groupId>
+			<groupId>io.openwis.harness</groupId>
 			<artifactId>openwis-harness-localdatasource</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-domain</artifactId>
 			<version>${project.version}</version>
 			<type>ejb</type>
 			<exclusions>
 				<exclusion>
-					<groupId>eu.akka.jbosseap</groupId>
+					<groupId>org.jboss.jbossas</groupId>
 					<artifactId>jboss-as-client</artifactId>
 <!-- 					<scope>test</scope> -->
 				</exclusion>
 				<exclusion>
-					<groupId>eu.akka.jbosseap-test</groupId>
+					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
 <!-- 					<scope>test</scope> -->
 				</exclusion>
 				<exclusion>
-					<groupId>eu.akka.jbosseap-test</groupId>
+					<groupId>org.jbosseap-test</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
 <!-- 					<scope>test</scope> -->
 				</exclusion>
@@ -57,27 +57,27 @@
 		</dependency>
 
        <dependency>
-         <groupId>org.openwis.management.service</groupId>
+         <groupId>io.openwis.management.service</groupId>
          <artifactId>openwis-management-service-common</artifactId>
          <version>${project.version}</version>
          <type>jar</type>
        </dependency>
 		<dependency>
-			<groupId>org.openwis.management</groupId>
+			<groupId>io.openwis.management</groupId>
 			<artifactId>openwis-management-client</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-timer</artifactId>
 			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-utils</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
@@ -112,7 +112,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.dataservice.cache</groupId>
+			<groupId>io.openwis.dataservice.cache</groupId>
 			<artifactId>openwis-dataservice-cache-ejb</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -125,7 +125,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.management.service</groupId>
+			<groupId>io.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-ejb</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
@@ -245,7 +245,7 @@
 								<scope>compile</scope>
 							</dependency>
 							<dependency>
-								<groupId>org.openwis.dataservice.common</groupId>
+								<groupId>io.openwis.dataservice.common</groupId>
 								<artifactId>openwis-dataservice-common-domain</artifactId>
 								<version>${project.version}</version>
 								<scope>compile</scope>
@@ -263,7 +263,7 @@
 								<id>request-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.datasource.server.service.impl.RequestServiceImpl</className>
+									<className>io.openwis.datasource.server.service.impl.RequestServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -278,7 +278,7 @@
 								<id>subscription-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.datasource.server.service.impl.SubscriptionServiceImpl</className>
+									<className>io.openwis.datasource.server.service.impl.SubscriptionServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -293,7 +293,7 @@
 								<id>productmetadata-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.datasource.server.service.impl.ProductMetadataServiceImpl</className>
+									<className>io.openwis.datasource.server.service.impl.ProductMetadataServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -308,7 +308,7 @@
 								<id>processedrequest-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.datasource.server.service.impl.ProcessedRequestServiceImpl</className>
+									<className>io.openwis.datasource.server.service.impl.ProcessedRequestServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -324,7 +324,7 @@
 								<id>blacklist-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.datasource.server.service.impl.BlacklistServiceImpl</className>
+									<className>io.openwis.datasource.server.service.impl.BlacklistServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -339,7 +339,7 @@
 								<id>product-arrival-listener</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.datasource.server.service.impl.ProductArrivalListenerImpl</className>
+									<className>io.openwis.datasource.server.service.impl.ProductArrivalListenerImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -354,7 +354,7 @@
 								<id>user-alarm-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.dataservice.useralarms.UserAlarmManagerImpl</className>
+									<className>io.openwis.dataservice.useralarms.UserAlarmManagerImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>

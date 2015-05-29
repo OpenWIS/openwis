@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
+		<groupId>io.openwis</groupId>
 		<artifactId>openwis</artifactId>
-		<groupId>eu.akka.openwis</groupId>
-		<version>develop-SNAPSHOT</version>
+		<version>3.13.2</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	
-	<groupId>org.openwis.metadataportal</groupId>
+	<groupId>io.openwis.metadataportal</groupId>
 	<artifactId>openwis-portal-client</artifactId>
 	<name>Openwis Portal client</name>
    
