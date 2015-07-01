@@ -64,7 +64,7 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 	private final Logger LOG = LoggerFactory.getLogger(DisseminationStatusMonitorImpl.class);
 
 	// Entity manager.
-	@PersistenceContext
+	@PersistenceContext(unitName="openwis-dataservice-common-domain")
 	protected EntityManager entityManager;
 
 	// The processed request service.

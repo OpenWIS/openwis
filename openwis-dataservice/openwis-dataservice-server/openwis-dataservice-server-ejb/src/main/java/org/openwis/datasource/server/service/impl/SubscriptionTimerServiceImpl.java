@@ -52,7 +52,7 @@ public class SubscriptionTimerServiceImpl implements SubscriptionTimerService {
    private SubscriptionService subscriptionService;
 
    /** The entity manager. */
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    protected EntityManager entityManager;
 
    /** The ctrl service. */

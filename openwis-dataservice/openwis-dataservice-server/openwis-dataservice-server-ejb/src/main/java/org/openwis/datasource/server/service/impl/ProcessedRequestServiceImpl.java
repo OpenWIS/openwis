@@ -87,7 +87,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
    /**
     * The entity manager.
     */
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    protected EntityManager entityManager;
 
    /** The local data source service. */

@@ -55,7 +55,7 @@ public class ExtractionTimerServiceImpl implements ExtractionTimerService {
    /**
     * The entity manager.
     */
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    protected EntityManager entityManager;
 
    /** The processed request service. */

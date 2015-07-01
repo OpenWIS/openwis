@@ -41,7 +41,7 @@ public class ReplicatedDataStatisticsImpl implements ReplicatedDataStatistics {
    /**
     * The entity manager.
     */
-   @PersistenceContext
+   @PersistenceContext(unitName="ManagementPUnit")
    private EntityManager entityManager;
 
    /**

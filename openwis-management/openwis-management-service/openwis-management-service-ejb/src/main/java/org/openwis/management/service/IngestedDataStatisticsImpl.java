@@ -42,7 +42,7 @@ public class IngestedDataStatisticsImpl implements IngestedDataStatistics {
    /**
     * The entity manager.
     */
-   @PersistenceContext
+   @PersistenceContext(unitName="ManagementPUnit")
    private EntityManager entityManager;
 
    /**

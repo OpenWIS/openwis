@@ -51,7 +51,7 @@ public class SubscriptionDelegateImpl implements SubscriptionDelegate {
    /**
     * The entity manager.
     */
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    protected EntityManager entityManager;
 
    /** The ctrl service. */

@@ -75,7 +75,7 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
 
    private String[] excludePatterns;
 
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    private EntityManager entityManager;
 
    @EJB

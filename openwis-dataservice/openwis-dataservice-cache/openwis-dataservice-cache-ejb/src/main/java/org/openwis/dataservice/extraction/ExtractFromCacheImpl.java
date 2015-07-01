@@ -71,7 +71,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    // Logging tool
    private static final Logger LOG = LoggerFactory.getLogger(ExtractFromCacheImpl.class);
 
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    private EntityManager entityManager;
 
    /** The blacklist service. */

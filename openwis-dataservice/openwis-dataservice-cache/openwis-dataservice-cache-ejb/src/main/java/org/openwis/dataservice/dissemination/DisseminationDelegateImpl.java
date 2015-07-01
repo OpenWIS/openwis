@@ -127,7 +127,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    @EJB
    private UserAlarmManagerLocal userAlarmManager;
 
-   @PersistenceContext
+   @PersistenceContext(unitName="openwis-dataservice-common-domain")
    protected EntityManager entityManager;
 
    /**
