@@ -33,7 +33,7 @@
 						<version>5</version>
 						<loader-repository>openwis-dataservice:archive=openwis-dataservice.ear</loader-repository>
 					</jboss>
-
+          
 					<!--
 						Copy all jar except for modules ones in lib
 					-->
