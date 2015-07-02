@@ -24,8 +24,24 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-ear-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>2.10.1</version>
+                <!-- 
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-application-xml</goal>
+                        </goals>
+                        <configuration>
+                            <version>6</version>
+                            <initializeInOrder>true</initializeInOrder>
+                        </configuration>
+                    </execution>
+                </executions>
+                -->
 				<configuration>
+                    <version>6</version>
+                    <initializeInOrder>true</initializeInOrder>
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
 
 					<!-- Generate the conf file jboss-app.xml -->
@@ -159,15 +175,8 @@
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
-
-		<dependency>
-			<groupId>org.openwis.dataservice.server</groupId>
-			<artifactId>openwis-dataservice-server-webapp</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-		
-		<dependency>
+    
+        <dependency>
             <groupId>org.openwis.dataservice.cache</groupId>
             <artifactId>openwis-dataservice-cache-core</artifactId>
             <version>${project.version}</version>
@@ -179,7 +188,15 @@
             <artifactId>openwis-dataservice-cache-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
-        </dependency>           
+        </dependency>       
+
+		<dependency>
+			<groupId>org.openwis.dataservice.server</groupId>
+			<artifactId>openwis-dataservice-server-webapp</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		
         
         <dependency>
             <groupId>org.openwis.dataservice.cache</groupId>
