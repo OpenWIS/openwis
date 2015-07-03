@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;

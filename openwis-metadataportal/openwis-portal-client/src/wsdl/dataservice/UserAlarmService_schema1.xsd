@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://useralarms.dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://useralarms.dataservice.openwis.org/" version="1.0">
+<xs:schema xmlns:tns="http://impl.service.server.datasource.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://impl.service.server.datasource.openwis.org/" version="1.0">
 <xs:element name="acknowledgeAlarmsForUser" type="tns:acknowledgeAlarmsForUser"/>
 <xs:element name="acknowledgeAlarmsForUserResponse" type="tns:acknowledgeAlarmsForUserResponse"/>
 <xs:element name="acknowledgeAllAlarmsForUserAndRequestType" type="tns:acknowledgeAllAlarmsForUserAndRequestType"/>
@@ -22,24 +22,6 @@
 <xs:element name="raiseUserAlarmResponse" type="tns:raiseUserAlarmResponse"/>
 <xs:element name="reportOnUserAlarms" type="tns:reportOnUserAlarms"/>
 <xs:element name="reportOnUserAlarmsResponse" type="tns:reportOnUserAlarmsResponse"/>
-<xs:complexType name="deleteAllAlarms">
-    <xs:sequence/>
-  </xs:complexType>
-<xs:complexType name="deleteAllAlarmsResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="deleteAlarmsOfRequest">
-    <xs:sequence>
-      <xs:element name="arg0" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="deleteAlarmsOfRequestResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
 <xs:complexType name="raiseUserAlarm">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="tns:userAlarm"/>
@@ -67,30 +49,9 @@
       <xs:element name="return" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="deleteAlarms">
+<xs:complexType name="getUserAlarms">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="deleteAlarmsResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="acknowledgeAlarmsForUser">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="username" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="acknowledgeAlarmsForUserResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="countUserAlarms">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="tns:getUserAlarmCriteriaDTO"/>
+      <xs:element minOccurs="0" name="criteria" type="tns:getUserAlarmCriteriaDTO"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="getUserAlarmCriteriaDTO">
@@ -103,19 +64,17 @@
       <xs:element minOccurs="0" name="username" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="countUserAlarmsResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="getUserAlarms">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="criteria" type="tns:getUserAlarmCriteriaDTO"/>
-    </xs:sequence>
-  </xs:complexType>
 <xs:complexType name="getUserAlarmsResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userAlarm"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAllAlarms">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="deleteAllAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="reportOnUserAlarms">
@@ -144,6 +103,26 @@
       <xs:element minOccurs="0" name="userId" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
+<xs:complexType name="deleteAlarmsOfRequest">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfRequestResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="countUserAlarms">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:getUserAlarmCriteriaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="countUserAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
 <xs:complexType name="acknowledgeAllAlarmsForUserAndRequestType">
     <xs:sequence>
       <xs:element minOccurs="0" name="username" type="xs:string"/>
@@ -152,6 +131,27 @@
   </xs:complexType>
 <xs:complexType name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
     <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="deleteAlarms">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAlarmsForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAlarmsForUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
   </xs:complexType>
 <xs:complexType name="deleteAlarmsOfUser">
     <xs:sequence>

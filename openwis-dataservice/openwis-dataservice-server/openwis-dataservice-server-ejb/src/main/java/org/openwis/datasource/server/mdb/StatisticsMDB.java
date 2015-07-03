@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/StatisticsQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/StatisticsQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class StatisticsMDB implements MessageListener {
 

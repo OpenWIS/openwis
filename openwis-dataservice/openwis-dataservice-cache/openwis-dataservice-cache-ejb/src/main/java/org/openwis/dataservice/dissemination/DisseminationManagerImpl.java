@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(messageListenerInterface = MessageListener.class, name = "DisseminationManager", activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/DisseminationQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/DisseminationQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class DisseminationManagerImpl implements DisseminationManager, MessageListener,
       ConfigurationInfo {

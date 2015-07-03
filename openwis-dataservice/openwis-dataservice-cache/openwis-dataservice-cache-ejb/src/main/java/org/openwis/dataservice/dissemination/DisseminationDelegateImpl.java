@@ -57,9 +57,9 @@ import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
+import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
-import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
@@ -139,7 +139,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    /**
     * injection queue
     */
-   @Resource(mappedName = "queue/StatisticsQueue")
+   @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue queue;
 
    private ControlService controlService;

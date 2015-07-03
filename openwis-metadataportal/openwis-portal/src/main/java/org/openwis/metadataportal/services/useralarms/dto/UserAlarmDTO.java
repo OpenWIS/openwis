@@ -2,7 +2,7 @@ package org.openwis.metadataportal.services.useralarms.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.util.ISODate;
-import org.openwis.dataservice.useralarms.UserAlarm;
+import org.openwis.datasource.server.service.impl.UserAlarm;
 
 /**
  * DTO for user alarms.

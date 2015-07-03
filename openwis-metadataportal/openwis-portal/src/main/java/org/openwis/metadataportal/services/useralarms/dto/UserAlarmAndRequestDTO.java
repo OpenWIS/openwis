@@ -3,7 +3,7 @@ package org.openwis.metadataportal.services.useralarms.dto;
 import org.apache.commons.lang.StringUtils;
 import org.openwis.dataservice.ExtractMode;
 import org.openwis.dataservice.ProcessedRequest;
-import org.openwis.dataservice.useralarms.UserAlarm;
+import org.openwis.datasource.server.service.impl.UserAlarm;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 

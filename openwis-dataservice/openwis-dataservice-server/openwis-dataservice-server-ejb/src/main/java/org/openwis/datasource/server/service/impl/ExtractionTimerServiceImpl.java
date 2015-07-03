@@ -67,7 +67,7 @@ public class ExtractionTimerServiceImpl implements ExtractionTimerService {
    private ConnectionFactory connectionFactory;
 
    /** injection queue. */
-   @Resource(mappedName = "queue/DisseminationQueue")
+   @Resource(mappedName = "java:/queue/DisseminationQueue")
    private Queue queue;
 
    /**

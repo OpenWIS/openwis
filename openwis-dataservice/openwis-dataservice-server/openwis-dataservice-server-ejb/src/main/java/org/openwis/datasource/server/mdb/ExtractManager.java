@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/RequestQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/RequestQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class ExtractManager implements MessageListener {
 
@@ -71,7 +71,7 @@ public class ExtractManager implements MessageListener {
    /**
     * injection queue
     */
-   @Resource(mappedName = "queue/DisseminationQueue")
+   @Resource(mappedName = "java:/queue/DisseminationQueue")
    private Queue queue;
 
    /**

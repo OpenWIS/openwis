@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(messageListenerInterface = MessageListener.class, activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/CollectionQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/CollectionQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class CollectionMDB implements MessageListener, ConfigurationInfo {
 

@@ -1,4 +1,4 @@
-package org.openwis.dataservice.useralarms;
+package org.openwis.dataservice.common.service;
 
 import java.util.List;
 

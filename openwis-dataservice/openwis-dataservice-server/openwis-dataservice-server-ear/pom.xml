@@ -148,62 +148,62 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.openwis.dataservice.server</groupId>
-			<artifactId>openwis-dataservice-server-ejb</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
+        <dependency>
+            <groupId>org.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-timer</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-domain</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
 
-		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-domain</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
+        <dependency>
+            <groupId>org.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-utils</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
 
-		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-timer</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
-
-		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-utils</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
-    
         <dependency>
             <groupId>org.openwis.dataservice.cache</groupId>
             <artifactId>openwis-dataservice-cache-core</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
-                
+
+        <dependency>
+            <groupId>org.openwis.dataservice.server</groupId>
+            <artifactId>openwis-dataservice-server-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+
         <dependency>
             <groupId>org.openwis.dataservice.cache</groupId>
             <artifactId>openwis-dataservice-cache-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
-        </dependency>       
+        </dependency>
 
-		<dependency>
-			<groupId>org.openwis.dataservice.server</groupId>
-			<artifactId>openwis-dataservice-server-webapp</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-		
-        
         <dependency>
             <groupId>org.openwis.dataservice.cache</groupId>
             <artifactId>openwis-dataservice-cache-webapp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
-        </dependency>               
+        </dependency>
+         
+        <dependency>
+            <groupId>org.openwis.dataservice.server</groupId>
+            <artifactId>openwis-dataservice-server-webapp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>        
+                        
 	</dependencies>
 
 </project>

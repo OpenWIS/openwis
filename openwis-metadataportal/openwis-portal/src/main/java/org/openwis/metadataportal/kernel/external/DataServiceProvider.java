@@ -17,8 +17,8 @@ import org.openwis.dataservice.SubscriptionService;
 import org.openwis.dataservice.SubscriptionService_Service;
 import org.openwis.dataservice.cache.CacheIndexImplService;
 import org.openwis.dataservice.cache.CacheIndexWebService;
-import org.openwis.dataservice.useralarms.UserAlarmManagerImplService;
-import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
+import org.openwis.datasource.server.service.impl.UserAlarmManagerImplService;
+import org.openwis.datasource.server.service.impl.UserAlarmManagerWebService;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 

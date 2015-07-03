@@ -375,7 +375,7 @@
 								<id>user-alarm-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.dataservice.useralarms.UserAlarmManagerImpl</className>
+									<className>org.openwis.datasource.server.service.impl.UserAlarmManagerImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>

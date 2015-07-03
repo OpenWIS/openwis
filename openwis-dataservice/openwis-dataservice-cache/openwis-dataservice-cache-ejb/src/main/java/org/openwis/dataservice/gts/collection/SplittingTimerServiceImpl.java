@@ -96,7 +96,7 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
    /**
     * injection queue
     */
-   @Resource(mappedName = "queue/CollectionQueue")
+   @Resource(mappedName = "java:/queue/CollectionQueue")
    private Queue queue;
 
    private ControlService controlService;

@@ -73,7 +73,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    /**
     * injection queue
     */
-   @Resource(mappedName = "queue/StatisticsQueue")
+   @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue queue;
 
    /** The data statistics. */

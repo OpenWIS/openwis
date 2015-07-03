@@ -115,7 +115,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	/**
     * injection queue
     */
-   @Resource(mappedName = "queue/StatisticsQueue")
+   @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue statisticsQueue;
    
    /**

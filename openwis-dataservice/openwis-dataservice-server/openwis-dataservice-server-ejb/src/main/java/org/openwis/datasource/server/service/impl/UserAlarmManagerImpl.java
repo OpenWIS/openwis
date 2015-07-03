@@ -1,4 +1,4 @@
-package org.openwis.dataservice.useralarms;
+package org.openwis.datasource.server.service.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestTy
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.GetUserAlarmCriteriaDTO;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportCriteriaDTO;
 import org.openwis.dataservice.common.domain.entity.useralarm.dto.UserAlarmReportDTO;
+import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
