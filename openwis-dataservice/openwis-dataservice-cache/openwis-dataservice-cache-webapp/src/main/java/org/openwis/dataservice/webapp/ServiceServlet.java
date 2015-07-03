@@ -65,7 +65,9 @@ public class ServiceServlet extends HttpServlet {
 
 		try {
 			context = new InitialContext();
-			DisseminationStatusMonitor disseminationStatusMonitor = (DisseminationStatusMonitor) context.lookup("openwis-dataservice/DisseminationStatusMonitor/local");
+			// XXX: Unify
+			// DisseminationStatusMonitor disseminationStatusMonitor = (DisseminationStatusMonitor) context.lookup("openwis-dataservice/DisseminationStatusMonitor/local");
+			DisseminationStatusMonitor disseminationStatusMonitor = (DisseminationStatusMonitor) context.lookup("ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationStatusMonitor!org.openwis.dataservice.dissemination.DisseminationStatusMonitor");
 			disseminationStatusMonitor.stop();
 			if (disseminationStatusMonitor.isPurgeStagingPostAlreadyRunning()) disseminationStatusMonitor.setPurgeStagingPostRunning(false);
 		} catch (NamingException e) {

@@ -74,6 +74,7 @@ public class ExtractionTimerAgent implements ServerAgent {
 
          InitialContext initialContext;
          try {
+        	// XXX: Unify
             initialContext = new InitialContext();
             ExtractionTimerService customTimer = (ExtractionTimerService) initialContext
                   .lookup(SERVICE_URL);

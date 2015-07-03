@@ -50,9 +50,11 @@ public class PackedFeedingTimerServiceImpl implements ConfigurationInfo, PackedF
    private ControlService getControlService() {
       if (controlService == null) {
          try {
+        	 // XXX: Unify
             InitialContext context = new InitialContext();
             controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/ControlService!org.openwis.management.service.ControlService");
+                  //.lookup("openwis-management-service/ControlService/remote");
          } catch (NamingException e) {
             controlService = null;
          }

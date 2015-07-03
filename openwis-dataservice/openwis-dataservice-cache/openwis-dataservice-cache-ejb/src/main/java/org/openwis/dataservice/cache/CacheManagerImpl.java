@@ -130,8 +130,10 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
       if (controlService == null) {
          try {
             InitialContext context = new InitialContext();
+         // TODO: Fix this!!
             controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/ControlService!org.openwis.management.service.ControlService");
+                  // .lookup("openwis-management-service/ControlService/remote");
          } catch (NamingException e) {
             controlService = null;
          }
@@ -145,8 +147,10 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
       if (replicatedStatistics == null) {
          try {
             InitialContext context = new InitialContext();
+            // TODO: Fix this!!
             replicatedStatistics = (ReplicatedDataStatistics) context
-                  .lookup("openwis-management-service/ReplicatedDataStatistics/remote");
+            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/ReplicatedDataStatistics!org.openwis.management.service.ReplicatedDataStatistics");
+                  //.lookup("openwis-management-service/ReplicatedDataStatistics/remote");
          } catch (NamingException e) {
             replicatedStatistics = null;
          }
@@ -159,8 +163,10 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
       if (ingestionStatistics == null) {
          try {
             InitialContext context = new InitialContext();
+            // TODO: Fix this!!
             ingestionStatistics = (IngestedDataStatistics) context
-                  .lookup("openwis-management-service/IngestedDataStatistics/remote");
+            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/IngestedDataStatistics!org.openwis.management.service.IngestedDataStatistics");
+                  // .lookup("openwis-management-service/IngestedDataStatistics/remote");
          } catch (NamingException e) {
             ingestionStatistics = null;
          }

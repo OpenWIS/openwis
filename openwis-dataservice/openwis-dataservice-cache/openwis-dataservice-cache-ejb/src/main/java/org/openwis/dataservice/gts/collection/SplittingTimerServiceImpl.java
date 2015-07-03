@@ -106,7 +106,8 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
          try {
             InitialContext context = new InitialContext();
             controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/ControlService!org.openwis.management.service.ControlService");
+                  //.lookup("openwis-management-service/ControlService/remote");
          } catch (NamingException e) {
             controlService = null;
          }

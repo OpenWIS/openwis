@@ -21,8 +21,11 @@ public class DisseminationServiceWrapper {
 		InitialContext initCtx;
 		try {
 			initCtx = new InitialContext();
-			disseminationManagerTimerService = (DisseminationManagerTimerService) initCtx.lookup("openwis-dataservice/DisseminationManagerTimerService/local");			
-			disseminationStatusMonitor = (DisseminationStatusMonitor) initCtx.lookup("openwis-dataservice/DisseminationStatusMonitor/local");			
+			// TODO: Unify
+//			disseminationManagerTimerService = (DisseminationManagerTimerService) initCtx.lookup("openwis-dataservice/DisseminationManagerTimerService/local");			
+//			disseminationStatusMonitor = (DisseminationStatusMonitor) initCtx.lookup("openwis-dataservice/DisseminationStatusMonitor/local");
+			disseminationManagerTimerService = (DisseminationManagerTimerService) initCtx.lookup("ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationManagerTimerService!org.openwis.dataservice.dissemination.DisseminationManagerTimerService");
+			disseminationStatusMonitor = (DisseminationStatusMonitor) initCtx.lookup("ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationStatusMonitor!org.openwis.dataservice.dissemination.DisseminationStatusMonitor");
 		} catch (NamingException e) {
          LOG.error(e.getMessage(), e);
 		}					
