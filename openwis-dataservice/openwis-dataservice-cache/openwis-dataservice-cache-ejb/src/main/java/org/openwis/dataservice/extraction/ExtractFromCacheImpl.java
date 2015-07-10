@@ -15,7 +15,6 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -57,6 +56,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    private String stagingPostDirectory;
 
    /** The CacheIndex service. */
+   @EJB
    private CacheIndex cacheIndexService;
 
    /** The StatisticsService service. */
@@ -130,6 +130,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
             }
          }
       } catch (Exception e) {
+         LOG.error("Exception from extraction", e);      // TEMP
          // report failure
          status.setMessage(e.getMessage());
          status.setStatus(Status.ERROR);
@@ -185,10 +186,10 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
       checkExtractionParameters(metadataURN, parameters, processedRequestId, stagingPostURI);
 
       // check: CacheIndex service
-      CacheIndex cacheIndex = getCacheIndexService();
-      if (cacheIndex == null) {
-         throw new IllegalArgumentException("Unresolved CacheIndex service insatnce.");
-      }
+      //CacheIndex cacheIndex = getCacheIndexService();
+//      if (cacheIndex == null) {
+//         throw new IllegalArgumentException("Unresolved CacheIndex service insatnce.");
+//      }
 
       // return values
       Map<String, CachedFile> cachedFiles = new LinkedHashMap<String, CachedFile>();
@@ -223,7 +224,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
 
             // do the real work
             String parameterValue = value.getValue().trim();
-            listFiles(cacheIndex, cachedFiles, metadataURN, parameterCode, parameterValue, lowerBoundInsertionDate);
+            listFiles(cacheIndexService, cachedFiles, metadataURN, parameterCode, parameterValue, lowerBoundInsertionDate);
          }
       }
 
@@ -279,28 +280,29 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    /**
     * @return the local CacheIndex service instance.
     */
-   protected final CacheIndex getCacheIndexService() {
-      // check instance
-      if (cacheIndexService != null) {
-         // validate service instance
-         try {
-            cacheIndexService.ping();
-            return cacheIndexService;
-         } catch (Exception e) {
-            LOG.warn("CacheIndex service instance seems to be unavailable !", e);
-         }
-      }
-
-      // lookup...
-      try {
-         InitialContext context = new InitialContext();
-         cacheIndexService = (CacheIndex) context.lookup(JndiUtils
-               .getString(ConfigurationInfo.CACHE_INDEX_URL_KEY));
-      } catch (NamingException e) {
-         LOG.error("Unable to retrieve CacheIndex service from context.", e);
-      }
-      return cacheIndexService;
-   }
+//   protected final CacheIndex getCacheIndexService() {
+//      // check instance
+//      if (cacheIndexService != null) {
+//         // validate service instance
+//         try {
+//            cacheIndexService.ping();
+//            return cacheIndexService;
+//         } catch (Exception e) {
+//            LOG.warn("CacheIndex service instance seems to be unavailable !", e);
+//         }
+//      }
+//
+//      // lookup...
+//      try {
+////         InitialContext context = new InitialContext();
+////         cacheIndexService = (CacheIndex) context.lookup(JndiUtils
+////               .getString(ConfigurationInfo.CACHE_INDEX_URL_KEY));
+//         cacheIndexService = ServiceProvider.getCacheIndex();
+//      } catch (NamingException e) {
+//         LOG.error("Unable to retrieve CacheIndex service from context.", e);
+//      }
+//      return cacheIndexService;
+//   }
 
    /**
     * Sets the local CacheIndex service instance to use.

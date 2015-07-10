@@ -88,7 +88,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
     * The entity manager.
     */
    @PersistenceContext(unitName="openwis-dataservice-common-domain")
-   protected EntityManager entityManager;
+   private EntityManager entityManager;
 
    /** The local data source service. */
    @EJB(name = "LocalDataSourceExtractService")
@@ -248,8 +248,10 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
          throw new OpenWisException("The processed request shouldn't being null !");
       }
       // Load request
-      ProcessedRequest pr = entityManager.getReference(ProcessedRequest.class,
-            processedRequest.getId());
+//      ProcessedRequest pr = entityManager.getReference(ProcessedRequest.class,
+//            processedRequest.getId());
+      // Changed from getReference() to find() is it is being used immediately
+      ProcessedRequest pr = entityManager.find(ProcessedRequest.class, processedRequest.getId());
 
       logger.info("Check the processed request {}", pr.getId());
 
@@ -416,9 +418,12 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
          return cacheSrv.extract(request.getUser(), request.getProductMetadata().getUrn(), params,
                pr.getId(), pr.getUri(), lowerBoundInsertionDate);
       } catch (Throwable t) {
-         String msg = MessageFormat.format(
-               JndiUtils.getString(org.openwis.management.utils.DataServiceAlerts.EXTRACTION_FAILS
-                     .getKey()), t);
+         logger.error("Error extracting from cache", t);
+//         String msg = MessageFormat.format(
+//               JndiUtils.getString(org.openwis.management.utils.DataServiceAlerts.EXTRACTION_FAILS
+//                     .getKey()), t);
+         // TODO: Read the message from a bundle (??)
+         String msg = MessageFormat.format("Extraction failed: product={1}, error={2}", productId, t);
          MessageStatus result = new MessageStatus();
          result.setStatus(Status.ERROR);
          result.setMessage(msg);

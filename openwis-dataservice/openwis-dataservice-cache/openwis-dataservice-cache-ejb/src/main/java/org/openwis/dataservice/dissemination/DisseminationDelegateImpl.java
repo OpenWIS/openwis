@@ -38,6 +38,7 @@ import javax.persistence.Query;
 import javax.xml.ws.BindingProvider;
 
 import org.openwis.dataservice.ConfigurationInfo;
+import org.openwis.dataservice.cache.ManagementServiceBeans;
 import org.openwis.dataservice.common.domain.entity.enumeration.ClassOfService;
 import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultStatus;
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
@@ -147,9 +148,10 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
+//            InitialContext context = new InitialContext();
+//            controlService = (ControlService) context
+//                  .lookup("openwis-management-service/ControlService/remote");
          } catch (NamingException e) {
             controlService = null;
          }

@@ -30,6 +30,7 @@ import javax.persistence.Query;
 import org.apache.tools.ant.util.FileUtils;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.cache.CacheManager;
+import org.openwis.dataservice.cache.ManagementServiceBeans;
 import org.openwis.dataservice.common.domain.entity.cache.CachedFile;
 import org.openwis.dataservice.common.domain.entity.cache.PatternMetadataMapping;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
@@ -238,9 +239,11 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+//            InitialContext context = new InitialContext();
+            // XXX: To Fix (really: these should be placed somewhere central)
+//            controlService = (ControlService) context
+//                  .lookup("openwis-management-service/ControlService/remote");
+        	 controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }
@@ -723,6 +726,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseHighPriorityProductAlert(FileInfo fileInfo){
+	  // XXX - Should we be using a JNDI bean for this?
       AlertService alertService = ManagementServiceProvider.getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");

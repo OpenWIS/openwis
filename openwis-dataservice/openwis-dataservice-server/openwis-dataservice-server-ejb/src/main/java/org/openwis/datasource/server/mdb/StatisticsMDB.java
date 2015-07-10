@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.xml.bind.JAXBException;
 
+import org.openwis.dataservice.cache.ManagementServiceBeans;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.management.service.DisseminatedDataStatistics;
@@ -131,9 +132,11 @@ public class StatisticsMDB implements MessageListener {
    private IngestedDataStatistics getIngestedStatistics() {
       if (ingestedStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            ingestedStatistics = (IngestedDataStatistics) context
-            .lookup("openwis-management-service/IngestedDataStatistics/remote");
+        	 
+//            InitialContext context = new InitialContext();
+//            ingestedStatistics = (IngestedDataStatistics) context
+//            .lookup("openwis-management-service/IngestedDataStatistics/remote");
+        	 ingestedStatistics = ManagementServiceBeans.getInstance().getIngestedDataStatistics();
          } catch (NamingException e) {
             ingestedStatistics = null;
          }

@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openwis.datasource.server.utils;
+package org.openwis.dataservice.util;
 
 /**
  * Pattern ServiceLocator<P>
