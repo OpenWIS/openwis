@@ -38,7 +38,6 @@ import javax.persistence.Query;
 import javax.xml.ws.BindingProvider;
 
 import org.openwis.dataservice.ConfigurationInfo;
-import org.openwis.dataservice.cache.ManagementServiceBeans;
 import org.openwis.dataservice.common.domain.entity.enumeration.ClassOfService;
 import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultStatus;
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
@@ -73,6 +72,7 @@ import org.openwis.harness.dissemination.DisseminationImplService;
 import org.openwis.harness.dissemination.DisseminationInfo;
 import org.openwis.harness.dissemination.DisseminationStatus;
 import org.openwis.harness.dissemination.RequestStatus;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;

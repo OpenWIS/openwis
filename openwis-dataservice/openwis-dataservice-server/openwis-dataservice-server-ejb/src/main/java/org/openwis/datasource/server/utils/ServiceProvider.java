@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import org.openwis.dataservice.cache.CacheIndex;
 import org.openwis.dataservice.common.service.CacheExtraService;
 import org.openwis.dataservice.extraction.ExtractFromCache;
+import org.openwis.management.service.DisseminatedDataStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class ServiceProvider {
 	
-   private static final String CACHE_SERVICE_JNDI_PREFIX = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb/";
+   private static final String CACHE_SERVICE_JNDI_PREFIX = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb";
 	
 
    /** The logger. */
@@ -35,7 +36,7 @@ public final class ServiceProvider {
 
    /** The cache index. */
    private static CacheIndex cacheIndex;
-
+   
    /**
     * Default constructor.
     * Builds a ServiceProvider.
@@ -83,7 +84,7 @@ public final class ServiceProvider {
       }
       return cacheIndex;
    }
-
+   
    /**
     * Load cache service.
     *
@@ -135,6 +136,8 @@ public final class ServiceProvider {
       InitialContext initialContext = new InitialContext();
       String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
             remoteInterfaceClass.getName());
+      
+      logger.info("*** Getting remote bean: " + jndiName);
       return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
    }
 }

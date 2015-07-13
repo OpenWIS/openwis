@@ -17,6 +17,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
@@ -63,6 +64,11 @@ public class MailSenderImpl implements MailSender {
          if ("".equals(JndiUtils.getString(DataServiceConfiguration.MAIL_SMTP_HOST))) {
             return;
          }
+         
+         if (StringUtils.isBlank(to)) {
+            return;
+         }
+         
          final Session mailSession = getSession();
          final Message msg = new MimeMessage(mailSession);
          msg.setFrom(new InternetAddress(from));

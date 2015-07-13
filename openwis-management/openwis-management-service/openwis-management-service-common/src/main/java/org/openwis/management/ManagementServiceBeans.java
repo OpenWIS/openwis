@@ -1,10 +1,11 @@
-package org.openwis.dataservice.cache;
+package org.openwis.management;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
+import org.openwis.management.service.DisseminatedDataStatistics;
 import org.openwis.management.service.IngestedDataStatistics;
 
 /**
@@ -44,6 +45,10 @@ public class ManagementServiceBeans {
     */
    public AlertService getAlertService() throws NamingException {
       return getRemoteBean("AlertService", AlertService.class);
+   }
+   
+   public DisseminatedDataStatistics getDisseminatedDataStatistics() throws NamingException {
+      return getRemoteBean("DisseminatedDataStatistics", DisseminatedDataStatistics.class);
    }
 
    /**

@@ -39,6 +39,7 @@ import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.entity.UserDisseminatedData;
 import org.openwis.management.service.DisseminatedDataStatistics;
 import org.slf4j.Logger;
@@ -94,9 +95,10 @@ public class BlacklistServiceImpl implements BlacklistService {
    private DisseminatedDataStatistics getDataStatistics() {
       if (dataStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            dataStatistics = (DisseminatedDataStatistics) context
-            .lookup("openwis-management-service/DisseminatedDataStatistics/remote");
+//            InitialContext context = new InitialContext();
+//            dataStatistics = (DisseminatedDataStatistics) context
+//            .lookup("openwis-management-service/DisseminatedDataStatistics/remote");
+            dataStatistics = ManagementServiceBeans.getInstance().getDisseminatedDataStatistics();
          } catch (NamingException e) {
             dataStatistics = null;
          }
