@@ -25,6 +25,7 @@ import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.IncomingDSMessage;
 import org.openwis.datasource.server.mdb.delegate.SubscriptionDelegate;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.slf4j.Logger;
@@ -121,9 +122,7 @@ public class SubscriptionDelegateImpl implements SubscriptionDelegate {
    private ControlService getControlService() {
       if (ctrlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            ctrlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            ctrlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             ctrlService = null;
          }
