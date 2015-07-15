@@ -1,0 +1,63 @@
+# CLI script to setup OpenWIS on JBoss AS 7.1
+#
+
+connect
+batch
+
+# Set the HTTP port to 8180
+/socket-binding-group="standard-sockets"/socket-binding="http":write-attribute(name="port",value=8180)
+
+
+# Deploy the postgres drivers
+#deploy @postgresql.path@
+
+
+# Setup the OpenDS data source 
+data-source add
+    --name=OpenwisDS 
+    --jndi-name="java:/OpenwisDS" \
+    --connection-url="jdbc:postgresql://@openwis.db.host@:@openwis.db.port@/@openwis.db.name@?stringtype=unspecified" \
+    --user-name="@openwis.db.username@" \
+    --password="@openwis.db.password@" \
+    --driver-name="@postgresql.driver.name@" \
+    --driver-class="org.postgresql.Driver" \
+    --min-pool-size=10 \
+    --max-pool-size=40 \
+    --idle-timeout-minutes=15 \
+    --blocking-timeout-wait-millis=15000 \
+    --background-validation-millis=50000 \
+    --check-valid-connection-sql="select count(*) from openwis_cache_configuration"
+data-source enable --name=OpenwisDS
+
+
+# Setup the JMS queues
+jms-queue add --queue-address=CollectionQueue --entries=[queue/CollectionQueue]
+jms-queue add --queue-address=IncomingDataQueue --entries=[queue/IncomingDataQueue]
+jms-queue add --queue-address=RequestQueue --entries=[queue/RequestQueue]
+jms-queue add --queue-address=DisseminationQueue --entries=[queue/DisseminationQueue]
+jms-queue add --queue-address=PackedFeedingQueue --entries=[queue/PackedFeedingQueue]
+jms-queue add --queue-address=UnpackedFeedingQueue --entries=[queue/UnpackedFeedingQueue]
+jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
+
+
+# Install the configuration files
+/system-property=conf\/openwis-dataservice:add(\
+    value="@openwis.config.dir@/openwis-dataservice.properties"\
+)
+/system-property=ws\/localdatasourceservice:add(\
+    value="@openwis.config.dir@/localdatasourceservice.properties"\
+)
+/subsystem=naming/binding=conf\/openwis-dataservice:add(\
+    binding-type=object-factory,\
+    module="org.openwis.dataservice.config",\
+    class="org.openwis.dataservice.config.PropertiesFactory"\
+)
+/subsystem=naming/binding=ws\/localdatasourceservice:add(\
+    binding-type=object-factory,\
+    module="org.openwis.dataservice.config",\
+    class="org.openwis.dataservice.config.PropertiesFactory"\
+)
+
+
+run-batch
+:reload
