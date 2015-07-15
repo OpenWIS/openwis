@@ -21,7 +21,6 @@ import javax.jms.TextMessage;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -95,9 +94,6 @@ public class BlacklistServiceImpl implements BlacklistService {
    private DisseminatedDataStatistics getDataStatistics() {
       if (dataStatistics == null) {
          try {
-//            InitialContext context = new InitialContext();
-//            dataStatistics = (DisseminatedDataStatistics) context
-//            .lookup("openwis-management-service/DisseminatedDataStatistics/remote");
             dataStatistics = ManagementServiceBeans.getInstance().getDisseminatedDataStatistics();
          } catch (NamingException e) {
             dataStatistics = null;

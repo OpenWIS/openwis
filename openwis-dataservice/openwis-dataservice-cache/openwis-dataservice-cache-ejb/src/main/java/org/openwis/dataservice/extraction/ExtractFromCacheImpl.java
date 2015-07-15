@@ -15,7 +15,6 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -278,66 +277,11 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    // -------------------------------------------------------------------------
 
    /**
-    * @return the local CacheIndex service instance.
-    */
-//   protected final CacheIndex getCacheIndexService() {
-//      // check instance
-//      if (cacheIndexService != null) {
-//         // validate service instance
-//         try {
-//            cacheIndexService.ping();
-//            return cacheIndexService;
-//         } catch (Exception e) {
-//            LOG.warn("CacheIndex service instance seems to be unavailable !", e);
-//         }
-//      }
-//
-//      // lookup...
-//      try {
-////         InitialContext context = new InitialContext();
-////         cacheIndexService = (CacheIndex) context.lookup(JndiUtils
-////               .getString(ConfigurationInfo.CACHE_INDEX_URL_KEY));
-//         cacheIndexService = ServiceProvider.getCacheIndex();
-//      } catch (NamingException e) {
-//         LOG.error("Unable to retrieve CacheIndex service from context.", e);
-//      }
-//      return cacheIndexService;
-//   }
-
-   /**
     * Sets the local CacheIndex service instance to use.
     */
    protected final void setCacheIndexService(final CacheIndex cacheIndex) {
       cacheIndexService = cacheIndex;
    }
-
-   /**
-    * @return the local StatisticsService service instance.
-    */
-   //   protected final StatisticsService getStatisticsService() {
-   //      // check instance
-   //      if (statisticsService != null) {
-   //         return statisticsService;
-   //      }
-   //
-   //      // lookup...
-   //      try {
-   //         InitialContext context = new InitialContext();
-   //         statisticsService = (StatisticsService) context.lookup(JndiUtils
-   //               .getString(ConfigurationInfo.STATISTICS_SERVICE_URL_KEY));
-   //      } catch (NamingException e) {
-   //         LOG.error("Unable to retrieve StatisticsService from context.", e);
-   //      }
-   //
-   //      return statisticsService;
-   //   }
-   //
-   //   /**
-   //    * Sets the local StatisticsService service instance to use.
-   //    */
-   //   protected final void setStatisticsService(final StatisticsService statistics) {
-   //      statisticsService = statistics;
-   //   }
 
    /**
     * Returns an array containing the directory settings for the directory scanner. <br>

@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.slf4j.Logger;
@@ -58,11 +58,7 @@ public class DisseminationManagerTimerServiceImpl implements DisseminationManage
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-        	 // XXX: Unify
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/ControlService!org.openwis.management.service.ControlService");
-                  //.lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }

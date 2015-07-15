@@ -22,13 +22,13 @@ import org.slf4j.LoggerFactory;
  * The Class ServiceProvider. <P>
  * Explanation goes here. <P>
  */
-public final class ServiceProvider {
+public final class CacheServiceProvider {
 	
    private static final String CACHE_SERVICE_JNDI_PREFIX = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb/";
 	
 
    /** The logger. */
-   private static Logger logger = LoggerFactory.getLogger(ServiceProvider.class);
+   private static Logger logger = LoggerFactory.getLogger(CacheServiceProvider.class);
 
    /** The cache extract service. */
    private static CacheExtraService cacheExtractService;
@@ -40,7 +40,7 @@ public final class ServiceProvider {
     * Default constructor.
     * Builds a ServiceProvider.
     */
-   private ServiceProvider() {
+   private CacheServiceProvider() {
       super();
    }
 
@@ -92,9 +92,6 @@ public final class ServiceProvider {
    private static CacheExtraService loadCacheService() {
       CacheExtraService result = null;
       try {
-//         InitialContext context = new InitialContext();
-//         String cacheUrl = JndiUtils.getString(DataServiceConfiguration.CACHE_URL_KEY);
-//         result = (CacheExtraService) context.lookup(cacheUrl);
          return getRemoteBean("ExtractFromCache", ExtractFromCache.class);
       } catch (NamingException e) {
          logger.error("Unable to locate the CacheExtraService", e);
@@ -110,9 +107,6 @@ public final class ServiceProvider {
    private static CacheIndex loadCacheIndex() {
       CacheIndex result = null;
       try {
-//         InitialContext context = new InitialContext();
-//         String cacheUrl = JndiUtils.getString(DataServiceConfiguration.CACHE_INDEX_URL_KEY);
-//         result = (CacheIndex) context.lookup(cacheUrl);
          return getRemoteBean("CacheIndex", CacheIndex.class);
       } catch (NamingException e) {
          logger.error("Unable to locate the CacheIndex", e);

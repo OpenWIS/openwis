@@ -1,6 +1,5 @@
 package org.openwis.dataservice.webapp.wrapper;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.openwis.dataservice.dissemination.DisseminationManagerTimerService;
@@ -18,14 +17,9 @@ public class DisseminationServiceWrapper {
    private final Logger LOG = LoggerFactory.getLogger(DisseminationServiceWrapper.class);
 
 	public void start(){
-		InitialContext initCtx;
 		try {
-			initCtx = new InitialContext();
-			// TODO: Unify
-//			disseminationManagerTimerService = (DisseminationManagerTimerService) initCtx.lookup("openwis-dataservice/DisseminationManagerTimerService/local");			
-//			disseminationStatusMonitor = (DisseminationStatusMonitor) initCtx.lookup("openwis-dataservice/DisseminationStatusMonitor/local");
-			disseminationManagerTimerService = (DisseminationManagerTimerService) initCtx.lookup("ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationManagerTimerService!org.openwis.dataservice.dissemination.DisseminationManagerTimerService");
-			disseminationStatusMonitor = (DisseminationStatusMonitor) initCtx.lookup("ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationStatusMonitor!org.openwis.dataservice.dissemination.DisseminationStatusMonitor");
+         disseminationManagerTimerService = DataServiceCacheBeans.getInstance().getDisseminationManagerTimerService();
+         disseminationStatusMonitor = DataServiceCacheBeans.getInstance().getDisseminationStatusMonitor();
 		} catch (NamingException e) {
          LOG.error(e.getMessage(), e);
 		}					

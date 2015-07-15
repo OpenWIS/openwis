@@ -54,7 +54,6 @@ import org.openwis.dataservice.common.domain.entity.request.dissemination.Shoppi
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
-import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
@@ -63,7 +62,6 @@ import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
-import org.openwis.dataservice.util.WMOFTP;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.harness.dissemination.Diffusion;
@@ -149,9 +147,6 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       if (controlService == null) {
          try {
             controlService = ManagementServiceBeans.getInstance().getControlService();
-//            InitialContext context = new InitialContext();
-//            controlService = (ControlService) context
-//                  .lookup("openwis-management-service/ControlService/remote");
          } catch (NamingException e) {
             controlService = null;
          }

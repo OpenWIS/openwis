@@ -41,7 +41,7 @@ public interface ConfigurationInfo {
    // -------------------------------------------------------------------------
 
    String COLLECTION_TIMER_PERIOD_KEY = "cache.gts.collection.collectionTimer.period";
-   String COLLECTION_TIMER_SERVICE_URL_KEY = "cache.gts.collection.collectionTimerService.url";
+//   String COLLECTION_TIMER_SERVICE_URL_KEY = "cache.gts.collection.collectionTimerService.url";     XXX - To delete
    String COLLECTION_TIMER_INITIAL_DELAY_KEY = "cache.gts.collection.collectionTimer.initialDelay";
 
    String SPLITTING_TIMER_PERIOD_KEY = "cache.gts.collection.splittingTimer.period";

@@ -10,7 +10,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.xml.bind.JAXBException;
 
@@ -127,9 +126,6 @@ public class StatisticsMDB implements MessageListener {
 //      if (ingestedStatistics == null) {
          try {
         	 
-//            InitialContext context = new InitialContext();
-//            ingestedStatistics = (IngestedDataStatistics) context
-//            .lookup("openwis-management-service/IngestedDataStatistics/remote");
         	 return ManagementServiceBeans.getInstance().getIngestedDataStatistics();
          } catch (NamingException e) {
 //            ingestedStatistics = null;
@@ -148,9 +144,7 @@ public class StatisticsMDB implements MessageListener {
    private ReplicatedDataStatistics getReplicatedStatistics() {
       if (replicatedStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            replicatedStatistics = (ReplicatedDataStatistics) context
-            .lookup("openwis-management-service/ReplicatedDataStatistics/remote");
+            replicatedStatistics = ManagementServiceBeans.getInstance().getReplicatedDataStatistics();
          } catch (NamingException e) {
             replicatedStatistics = null;
          }

@@ -10,7 +10,6 @@ import javax.ejb.MessageDrivenContext;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
@@ -52,9 +51,6 @@ public class DisseminationManagerImpl implements DisseminationManager, MessageLi
 
    @EJB
    private DisseminationDelegate disseminationDelegate;
-
-   // Initial context
-   InitialContext context;
 
    // -------------------------------------------------------------------------
    // Message listener implementation

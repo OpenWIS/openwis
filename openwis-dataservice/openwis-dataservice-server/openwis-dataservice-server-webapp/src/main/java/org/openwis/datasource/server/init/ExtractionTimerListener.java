@@ -15,6 +15,8 @@ import javax.servlet.ServletContextListener;
  * The listener interface for receiving extractionTimer events.
  *
  * @see ExtractionTimerEvent
+ * 
+ * XXX - To delete
  */
 public class ExtractionTimerListener implements ServletContextListener {
 
@@ -24,15 +26,6 @@ public class ExtractionTimerListener implements ServletContextListener {
     */
    @Override
    public void contextDestroyed(ServletContextEvent event) {
-      //      InitialContext initialContext;
-      //      try {
-      //         initialContext = new InitialContext();
-      //         InitTimerService customTimer = (InitTimerService) initialContext
-      //               .lookup("dataservice/ExtractTimerService/remote");
-      //         customTimer.destroy();
-      //      } catch (NamingException e) {
-      //         e.printStackTrace();
-      //      }
    }
 
    /**
@@ -41,15 +34,5 @@ public class ExtractionTimerListener implements ServletContextListener {
     */
    @Override
    public void contextInitialized(ServletContextEvent event) {
-      //      InitialContext initialContext;
-      //      try {
-      //         initialContext = new InitialContext();
-      //         InitTimerService customTimer = (InitTimerService) initialContext
-      //               .lookup("dataservice/ExtractTimerService/remote");
-      //         customTimer.start(3000);
-      //      } catch (NamingException e) {
-      //         e.printStackTrace();
-      //      }
-
    }
 }

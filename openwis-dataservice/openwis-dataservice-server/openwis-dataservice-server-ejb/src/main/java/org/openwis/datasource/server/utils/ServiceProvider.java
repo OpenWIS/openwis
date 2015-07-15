@@ -93,9 +93,6 @@ public final class ServiceProvider {
    private static CacheExtraService loadCacheService() {
       CacheExtraService result = null;
       try {
-//         InitialContext context = new InitialContext();
-//         String cacheUrl = JndiUtils.getString(DataServiceConfiguration.CACHE_URL_KEY);
-//         result = (CacheExtraService) context.lookup(cacheUrl);
          return getRemoteBean("ExtractFromCache", ExtractFromCache.class);
       } catch (NamingException e) {
          logger.error("Unable to locate the CacheExtraService", e);
@@ -111,9 +108,6 @@ public final class ServiceProvider {
    private static CacheIndex loadCacheIndex() {
       CacheIndex result = null;
       try {
-//         InitialContext context = new InitialContext();
-//         String cacheUrl = JndiUtils.getString(DataServiceConfiguration.CACHE_INDEX_URL_KEY);
-//         result = (CacheIndex) context.lookup(cacheUrl);
          return getRemoteBean("CacheIndex", CacheIndex.class);
       } catch (NamingException e) {
          logger.error("Unable to locate the CacheIndex", e);

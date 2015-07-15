@@ -7,6 +7,7 @@ import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.DisseminatedDataStatistics;
 import org.openwis.management.service.IngestedDataStatistics;
+import org.openwis.management.service.ReplicatedDataStatistics;
 
 /**
  * Facade to the remote management service beans.
@@ -47,10 +48,14 @@ public class ManagementServiceBeans {
       return getRemoteBean("AlertService", AlertService.class);
    }
    
+   public ReplicatedDataStatistics getReplicatedDataStatistics() throws NamingException {
+      return getRemoteBean("ReplicatedDataStatistics", ReplicatedDataStatistics.class);
+   }
+   
    public DisseminatedDataStatistics getDisseminatedDataStatistics() throws NamingException {
       return getRemoteBean("DisseminatedDataStatistics", DisseminatedDataStatistics.class);
    }
-
+   
    /**
     * Returns the ingested data statistics bean.
     * 

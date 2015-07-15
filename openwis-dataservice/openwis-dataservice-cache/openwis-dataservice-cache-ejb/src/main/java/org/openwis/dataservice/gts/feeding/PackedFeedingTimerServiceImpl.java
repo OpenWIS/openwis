@@ -14,7 +14,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.ejb3.annotation.Depends;
@@ -24,6 +23,7 @@ import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.FilePacker;
 import org.openwis.dataservice.util.Priority;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.FeedingMessage;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.slf4j.Logger;
@@ -50,11 +50,7 @@ public class PackedFeedingTimerServiceImpl implements ConfigurationInfo, PackedF
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-        	 // XXX: Unify
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-            		.lookup("ejb:openwis-management-service/openwis-management-service-ejb/ControlService!org.openwis.management.service.ControlService");
-                  //.lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }

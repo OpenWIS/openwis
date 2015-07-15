@@ -19,7 +19,6 @@ import javax.ejb.MessageDrivenContext;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -69,9 +68,6 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    @EJB
    private CacheManager cacheManager;
-
-   // Initial context
-   InitialContext context;
 
    private String sourceDirectory;
 
@@ -239,10 +235,6 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-//            InitialContext context = new InitialContext();
-            // XXX: To Fix (really: these should be placed somewhere central)
-//            controlService = (ControlService) context
-//                  .lookup("openwis-management-service/ControlService/remote");
         	 controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
