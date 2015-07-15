@@ -18,7 +18,7 @@
     <module>openwis-dataservice-common</module>
 	<module>openwis-dataservice-cache</module>
 	<module>openwis-dataservice-server</module>
-
+	<module>openwis-dataservice-config</module>
   </modules>
 
   <build>
