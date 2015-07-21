@@ -30,7 +30,7 @@ import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebService(name = "UserAlarmManagerWebService")
+@WebService(name = "UserAlarmManagerWebService", targetNamespace = "http://dataservice.openwis.org/", portName = "UserAlarmManagerWebServicePort", serviceName = "UserAlarmManagerWebService")
 @Stateless(name="UserAlarmManager")
 @Local(UserAlarmManagerLocal.class)
 public class UserAlarmManagerImpl implements UserAlarmManagerLocal {

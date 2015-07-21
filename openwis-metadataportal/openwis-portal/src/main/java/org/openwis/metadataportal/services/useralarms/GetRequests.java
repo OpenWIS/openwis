@@ -2,7 +2,7 @@ package org.openwis.metadataportal.services.useralarms;
 
 import jeeves.server.context.ServiceContext;
 
-import org.openwis.datasource.server.service.impl.UserAlarmRequestType;
+import org.openwis.dataservice.UserAlarmRequestType;
 
 public class GetRequests extends AbstractUserAlarmGetService {
 

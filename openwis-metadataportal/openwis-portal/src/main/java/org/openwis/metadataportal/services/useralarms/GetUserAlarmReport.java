@@ -11,10 +11,10 @@ import jeeves.server.context.ServiceContext;
 import jeeves.utils.Util;
 
 import org.jdom.Element;
-import org.openwis.datasource.server.service.impl.UserAlarmManagerWebService;
-import org.openwis.datasource.server.service.impl.UserAlarmReportCriteriaDTO;
-import org.openwis.datasource.server.service.impl.UserAlarmReportDTO;
-import org.openwis.datasource.server.service.impl.UserAlarmReportSort;
+import org.openwis.dataservice.UserAlarmManagerWebService;
+import org.openwis.dataservice.UserAlarmReportCriteriaDTO;
+import org.openwis.dataservice.UserAlarmReportDTO;
+import org.openwis.dataservice.UserAlarmReportSort;
 import org.openwis.metadataportal.common.search.SearchResultWrapper;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
