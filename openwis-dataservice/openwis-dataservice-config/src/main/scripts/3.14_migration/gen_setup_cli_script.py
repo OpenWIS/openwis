@@ -25,7 +25,7 @@ import os.path
 
 scriptDir = os.path.dirname(__file__)
 
-cliFile = open(os.path.join(scriptDir, "config/setup-openwis.cli"), "r")
+cliFile = open(os.path.join(scriptDir, "../config/setup-openwis.cli"), "r")
 try:
     fileContent = cliFile.read()
     for k, v in PROPERTIES.iteritems():

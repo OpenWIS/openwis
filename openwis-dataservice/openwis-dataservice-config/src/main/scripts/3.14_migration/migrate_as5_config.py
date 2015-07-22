@@ -13,7 +13,7 @@
 
 import sys
 import os.path
-import xml.etree.ElementTree as et
+import elementtree_local.ElementTree as et
 import re
 
 # Blacklisted propertyes from openwis-dataservice.properties.  These won't be replaced when
@@ -118,9 +118,18 @@ class DataConfigMigrator(object):
         for prop in self.xmlRoot.findall(propElems, DataConfigMigrator.XML_NS):
             key = prop.find("java:key", DataConfigMigrator.XML_NS).text
             value = prop.find("java:value", DataConfigMigrator.XML_NS).text
-            props[key] = value
+            if (value != None):
+                props[key] = value
             
         return props
+
+#    def _expand_ns(self, xpath):
+#        """Expands prefixes within the XPath expression with the actual namespace in curly brackets.
+#        This is to support versions of ElementTree which do not support namespace mappings in the find() and
+#        findall() methods."""
+#        for prefix, namespace in DataConfigMigrator.XML_NS.items():
+#            xpath = xpath.replace(prefix + ":", "{" + namespace + "}")
+#        return xpath
 
 
 # ----------------------------------------------------------------------------------
@@ -139,7 +148,7 @@ dcm = DataConfigMigrator(jndiSource)
 
 dcm.generate_properties_using_template("conf/openwis-dataservice",
     "openwis-dataservice.properties",
-    os.path.join(scriptDir, "config/openwis-dataservice.properties"),
+    os.path.join(scriptDir, "../config/openwis-dataservice.properties"),
     OPENWIS_DATASERVICE_BLACKLIST)
 
 dcm.generate_properties("ws/localdatasourceservice", 
