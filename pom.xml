@@ -255,11 +255,11 @@
     <repositories>
 	  <repository>
 		 <id>openwis-releases</id>
-		 <url>https://repository-openwis-association.forge.cloudbees.com/release</url>
+		 <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
 	  </repository>
 	  <repository>
 		 <id>openwis-snapshot</id>
-		 <url>https://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
 	  </repository>
 	  <repository>
 		 <id>openqa-releases</id>
