@@ -8,6 +8,7 @@ import junit.framework.Assert;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openwis.dataservice.cache.CacheIndex;
@@ -21,6 +22,7 @@ import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
 
 @RunWith(Arquillian.class)
+@Ignore
 public class BlacklistServiceImplTestCase extends ArquillianDBTestCase {
 
 	/** The Constant USER_TEST. */

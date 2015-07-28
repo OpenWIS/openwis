@@ -257,7 +257,7 @@
 		<profile>
 			<id>arq-openejb-embedded-hibernate</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>
