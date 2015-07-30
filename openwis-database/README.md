@@ -2,11 +2,12 @@
 This project builds the openwis database code 
 (That is all of the tables with an openwis_prefix which make up part of the overall schema used within the openwis Application)
 
-OpenWis Install
+OpenWis Schema Install
 
 * **schema.ddl** is the script used ton install the openwis schema 
 
-## PostGis Install
+
+## PostGis Schema Install
 postgis is installed using three scripts in the contrib folder of the postgres install
 
 * /freeware/pgsql/share/contrib/postgis-<version>/postgis.sql
@@ -14,8 +15,9 @@ postgis is installed using three scripts in the contrib folder of the postgres i
 * /freeware/pgsql/share/contrib/postgis-<version>/spatial_ref_sys.sql
 
 
+## Meta Data Portal Schema Install 
 
-## Meta Data Portal (Geonet and Openwis-Solr) Schemas
+### (Geonet and Openwis-Solr) Schemas
 
 The remaining portion of the scehma is created in the metadataportal project which includes the geonetwork elements to the openwis schema (These additional tables can be identified as they are not prefixed with openwis_)
 
