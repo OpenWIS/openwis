@@ -15,7 +15,7 @@ postgis is installed using three scripts in the contrib folder of the postgres i
 
 
 
-## Meta Data Portal (Geonet and Spatial Index for Openwis-Solr) Schema
+## Meta Data Portal (Geonet and Openwis-Solr) Schemas
 
 The remaining portion of the scehma is created in the metadataportal project which includes the geonetwork elements to the openwis schema (These additional tables can be identified as they are not prefixed with openwis_)
 
