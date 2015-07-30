@@ -1,12 +1,13 @@
 #OpenWis Database 
 This project builds the openwis database code 
-(That is all of the tables with an openwis_prefix which make up part of the overall schema used within the openwis Application)
+(That is all of the tables with an **openwis_** prefix which make up part of the overall schema used within the openwis Application)
 
-OpenWis Schema Install
+##OpenWis Schema Install
 
 * **schema.ddl** is the script used to install the openwis schema 
 * **purge.sql** is the script used to install the openwis blaclkist function and trigger 
 
+# Additional Schema Creation 
 
 ## PostGis Schema Install
 postgis is installed using three scripts in the contrib folder of the postgres install
