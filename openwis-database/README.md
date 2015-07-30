@@ -15,6 +15,12 @@ postgis is installed using three scripts in the contrib folder of the postgres i
 * /freeware/pgsql/share/contrib/postgis-<version>/postgis_comments.sql
 * /freeware/pgsql/share/contrib/postgis-<version>/spatial_ref_sys.sql
 
+## Citext
+
+Additionally Citext extension is installed fro a script in the contrib folder of the postgres install
+
+* /freeware/pgsql/share/contrib/citext.sql
+
 
 ## Meta Data Portal Schema Install 
 
