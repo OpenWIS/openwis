@@ -4,7 +4,8 @@ This project builds the openwis database code
 
 OpenWis Schema Install
 
-* **schema.ddl** is the script used ton install the openwis schema 
+* **schema.ddl** is the script used to install the openwis schema 
+* **purge.sql** is the script used to install the openwis baclkisting procedure and trigger 
 
 
 ## PostGis Schema Install
