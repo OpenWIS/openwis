@@ -1,0 +1,39 @@
+#! /bin/sh
+# postgresql    This is the init script for starting up the PostgreSQL
+#               server
+
+# chkconfig: 345 85 15
+# description: Starts and stops the PostgreSQL backend daemon that handles \
+#              all database requests.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Get config.
+. /etc/sysconfig/network
+
+# See how we were called.
+case "$1" in
+start)
+su -l postgres -c '/freeware/pgsql/bin/pg_ctl -D /freeware/pgsql/data -l /freeware/pgsql/logs/logfile start'
+;;
+stop)
+su -l postgres -c '/freeware/pgsql/bin/pg_ctl -D /freeware/pgsql/data -l /freeware/pgsql/logs/logfile stop'
+;;
+status)
+su -l postgres -c '/freeware/pgsql/bin/pg_ctl -D /freeware/pgsql/data -l /freeware/pgsql/logs/logfile status'
+;;
+reload)
+su -l postgres -c '/freeware/pgsql/bin/pg_ctl -D /freeware/pgsql/data -l /freeware/pgsql/logs/logfile reload'
+;;
+restart)
+su -l postgres -c '/freeware/pgsql/bin/pg_ctl -D /freeware/pgsql/data -l /freeware/pgsql/logs/logfile restart'
+;;
+*)
+echo "Usage: postgresql {start|stop|status|reload|restart}"
+exit 1
+esac
+
+exit 0
+
+
