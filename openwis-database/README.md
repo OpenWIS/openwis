@@ -34,5 +34,5 @@ For the Postgres install ....
 * openwis/openwis-metadataportal/openwis-portal-solr/src/main/resources/sql/create-postgis-spatialindex.sql
 * openwis/openwis-metadataportal/openwis-portal/src/main/webapp/WEB-INF/classes/setup/sql/create/create-db-postgres.sql
 
-For Postgress the data is loaded for this scehma with 
+For Postgress the data is loaded for this schema with 
 * openwis/openwis-metadataportal/openwis-portal/src/main/webapp/WEB-INF/classes/setup/sql/data/data-db-postgres.sql
