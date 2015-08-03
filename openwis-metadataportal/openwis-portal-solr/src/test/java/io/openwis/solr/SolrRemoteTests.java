@@ -17,7 +17,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Solr Tests to Test the opwenwis solr schema Uses Solr Embedded Server for
+ * Solr Tests to Test the opwenwis solr. Uses Solr Remote Server for
  * Testing
  * 
  * @author gollogly_m
