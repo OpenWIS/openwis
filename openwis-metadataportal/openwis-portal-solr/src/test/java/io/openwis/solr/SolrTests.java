@@ -1,7 +1,9 @@
 package io.openwis.solr;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -10,6 +12,8 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.SolrParams;
 import org.apache.solr.util.AbstractSolrTestCase;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -25,6 +29,8 @@ import org.testng.annotations.Test;
 public class SolrTests extends AbstractSolrTestCase {
 
 	private SolrServer server;
+	private final String indexLocation = System.getProperty("user.dir")
+			+ "\\src\\main\\resources\\";
 
 	@Override
 	public String getSchemaFile() {
@@ -39,10 +45,9 @@ public class SolrTests extends AbstractSolrTestCase {
 	@BeforeTest
 	@Override
 	public void setUp() throws Exception {
-		System.setProperty("solr.solr.home", System.getProperty("user.dir")
-				+ "\\src\\main\\resources\\");
+		System.setProperty("solr.solr.home", indexLocation);
 		super.setUp();
-		
+
 		server = new EmbeddedSolrServer(h.getCoreContainer(), h.getCore()
 				.getName());
 
@@ -50,8 +55,9 @@ public class SolrTests extends AbstractSolrTestCase {
 
 	@Test
 	public void testThatNoResultsAreReturned() throws SolrServerException {
-		SolrParams params = new SolrQuery("Some text that won't be found");
+		SolrParams params = new SolrQuery("A few words that doesn't exist");
 		QueryResponse response = server.query(params);
+
 		assertEquals(0L, response.getResults().getNumFound());
 	}
 
@@ -72,8 +78,14 @@ public class SolrTests extends AbstractSolrTestCase {
 		assertEquals("abc", response.getResults().get(0).get("_uuid"));
 	}
 
-	@AfterTest
-	public void destroy() {
+	private void removeIndexDirectory() throws IOException {
+		File indexDir = new File(indexLocation, "data/index");
+		FileUtils.deleteDirectory(indexDir);
+	}
+
+	@AfterClass
+	public void testDestroy() throws IOException {
 		h.getCoreContainer().shutdown();
+		removeIndexDirectory();
 	}
 }
