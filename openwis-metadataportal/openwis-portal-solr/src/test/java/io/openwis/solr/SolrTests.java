@@ -50,7 +50,7 @@ public class SolrTests extends AbstractSolrTestCase {
 
 	@Test
 	public void testThatNoResultsAreReturned() throws SolrServerException {
-		SolrParams params = new SolrQuery("Some tesaxt that won't be found");
+		SolrParams params = new SolrQuery("Some text that won't be found");
 		QueryResponse response = server.query(params);
 		assertEquals(0L, response.getResults().getNumFound());
 	}
