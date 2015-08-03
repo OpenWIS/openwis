@@ -17,26 +17,24 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Solr Tests to Test the opwenwis solr. Uses Solr Remote Server for
- * Testing
+ * Solr Tests to Test the opwenwis solr. Uses Solr Remote Server for Testing
  * 
  * @author gollogly_m
  *
  */
 
-public class SolrRemoteTests extends TestCase{
+public class SolrRemoteTests extends TestCase {
 
 	private SolrServer server;
 	private SolrQuery query;
-	
+
 	@BeforeTest
 	public void setUp() throws Exception {
-      server=new CommonsHttpSolrServer(new URL("http://localhost:8983/solr"));
-      query=new SolrQuery();
-      query.setFields("word");
-      query.setRows(50);
-     
-	  System.out.println("NOTE: The Solr Server must be running on port 8983!!!!!!!!");
+		server = new CommonsHttpSolrServer(
+				new URL("http://localhost:8983/solr"));
+		query = new SolrQuery();
+		query.setFields("word");
+		query.setRows(50);
 	}
 
 	@Test
@@ -46,7 +44,7 @@ public class SolrRemoteTests extends TestCase{
 
 		assertEquals(0L, response.getResults().getNumFound());
 	}
-	
+
 	@AfterClass
 	public void testDestroy() throws IOException {
 		// TODO
