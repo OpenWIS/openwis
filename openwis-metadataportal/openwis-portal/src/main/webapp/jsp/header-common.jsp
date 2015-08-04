@@ -20,6 +20,7 @@ boolean selfRegistrationEnabled = sm.getValueAsBool("system/userSelfRegistration
 boolean devMode = context.isDebug();
 %>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title><%= title %></title>
 
 	<link href="<%= context.getBaseUrl() %>/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -150,3 +151,4 @@ if (devMode) {
 	</script>
 
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/core/kernel/kernel.js"></script>
+    <%-- <script type="text/javascript" src="<%= context.getBaseUrl() %>/gis/scripts/gis_load.js"></script> --%>

@@ -124,6 +124,7 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
 	        this.viewRequestAction = new Ext.Action({
 	            text: Openwis.i18n('TrackMyRequests.Action.ViewRequest'),
 	            disabled: true,
+	            cls: 'btn_wbox11',
 	            iconCls: 'icon-view-adhoc',
 	            scope: this,
 				handler: function() {
@@ -141,6 +142,7 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
 	        this.viewMetadataAction = new Ext.Action({
 	            text: Openwis.i18n('TrackMyRequests.Action.ViewMetadata'),
 	            disabled: true,
+	            cls: 'btn_wbox11',
 	            iconCls: 'icon-viewmd-adhoc',
 				scope: this,
 				handler: function() {
@@ -157,6 +159,7 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
 	        this.downloadAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.Download'),
 	            disabled: true,
+	            cls: 'btn_wbox10',
 	            iconCls: 'icon-download-adhoc',
 				scope: this,
 				handler: function() {
@@ -173,6 +176,7 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
 	        this.discardAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.Discard'),
 	            disabled: true,
+	            cls: 'btn_wbox8',
 	            iconCls: 'icon-discard-adhoc',
 				scope: this,
 				handler: function() {
@@ -206,6 +210,7 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
 	        this.goToDeploymentAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.GoToDeployment'),
 	            disabled: true,
+	            cls: 'btn_wbox12',
 				scope: this,
 				handler: function() {
 				    var rec = this.getSelectionModel().getSelected();

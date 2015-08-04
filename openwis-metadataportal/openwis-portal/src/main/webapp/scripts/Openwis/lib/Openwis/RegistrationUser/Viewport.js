@@ -95,7 +95,7 @@ Openwis.RegistrationUser.Viewport = Ext.extend(Ext.Viewport, {
 				cls: 'body-center-panel',
 				region: 'center',
 				border: false,
-				width: 993,
+				width: 992,
 				layout: 'border'
 			});
 		}
@@ -131,7 +131,8 @@ Openwis.RegistrationUser.Viewport = Ext.extend(Ext.Viewport, {
 		if(!this.registerCenterPanel) {
 			this.registerCenterPanel = new Ext.Panel({
 				border: false,
-				layout: 'border'
+				layout: 'border',
+				html:Openwis.i18n("RegistrationUser.image.top")
 			});
 		}
 		return this.registerCenterPanel;
@@ -143,7 +144,9 @@ Openwis.RegistrationUser.Viewport = Ext.extend(Ext.Viewport, {
 				region: 'west',
 				border: true,
 				html: '&nbsp;',
-				width: 250
+				width: 300,
+				height:422,
+				cls:'register_bg'
 			});
 		}
 		return this.registerWestPanel;
@@ -154,7 +157,7 @@ Openwis.RegistrationUser.Viewport = Ext.extend(Ext.Viewport, {
 			this.registerEastPanel = new Ext.Container({
 				region: 'east',
 				border: true,
-				width: 250,
+				width: 305,
 				html: '&nbsp;'
 			});
 		}
@@ -169,7 +172,7 @@ Openwis.RegistrationUser.Viewport = Ext.extend(Ext.Viewport, {
 		var height = browserPanelHeight + 150;
 		
 	    if(relayoutWidth) {
-            var contentWidth = 993;
+            var contentWidth = 992;
         	
         	var size = this.getEl().getViewSize(), w = size.width;
         	

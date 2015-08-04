@@ -144,10 +144,9 @@ Openwis.RequestSubscription.SubSelectionParameters.Cache.Period = Ext.extend(Ext
         this.editConfig.intervals = [];
         
         if(this.ssp) {
-            var intervals = this.ssp.value;
-            
+            var intervals = this.ssp.value.split(",");
             if(intervals.length == 1) { //This is a simple period.
-                var period = intervals[0].split("/");
+                var period = this.ssp.value.split("/");
                 period[0] = period[0].replace(/Z/gi, "");
                 period[1] = period[1].replace(/Z/gi, "");
                 this.editConfig.type = "PERIOD";

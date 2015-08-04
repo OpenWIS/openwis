@@ -25,7 +25,7 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
 		if(!this.header) {
 			this.header = new Ext.Container({
 				html: Openwis.i18n('Security.User.ChangePswd.title'),
-				cls: 'administrationTitle1'
+				cls: 'administrationTitle1 top_hdp_txt'
 			});
 		}
 		return this.header;
@@ -35,6 +35,7 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
 		if(!this.pswdForm) {
             this.pswdForm = new Ext.form.FormPanel ({
                 layout:'table',
+                cls: 'mya_info_pass',
                 border : true,
                 layoutConfig: {
                     // The total column count must be specified here
@@ -65,7 +66,8 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
                 inputType: 'password',
                 name: 'password',
                 allowBlank:false,
-                width: 150
+                width: 180,
+                cls: 'mg8'
             });
         }
         return this.passwordTextField;
@@ -77,7 +79,8 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
                 inputType: 'password',
                 name: 'password',
                 allowBlank:false,
-                width: 150
+                width: 180,
+                cls: 'mg8'
             });
         }
         return this.confirmPasswordTextField;
@@ -89,6 +92,7 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
 		if(!this.changePasswordAction) {
 			this.changePasswordAction = new Ext.Action({
 				text:Openwis.i18n('Security.User.ChangePswd.Btn'),
+				cls: 'btn_wbox12',
 				scope: this,
 				handler: function() {
 				    var isValid = this.getPswdForm().getForm().isValid();

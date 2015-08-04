@@ -45,9 +45,9 @@
 	<div class="results_header">
 <%-- 		<a name="page_<%=currentPage%>"/> --%>
 		<div class="results_title" style="float: left;">
-			<openwis:i18n key="HomePage.Search.Result.ResultsMatching"/>
+			<span class="strong_font" style="color: #3366FF;"><openwis:i18n key="HomePage.Search.Result.ResultsMatching"/>
 			&nbsp;<%=from+1 %>-<%=to+1%>/<%=count%>&nbsp;(<openwis:i18n key="HomePage.Search.Result.Page"/>
-			<%=currentPage%>/<%=maxPage%>)&nbsp;
+			<%=currentPage%>/<%=maxPage%>)&nbsp;</span>
 		</div>
 	</div>
 
@@ -61,6 +61,7 @@
 	   String titleForJs;
 	   String abst;
 	   String source;
+	   String category;
 	   List<String> keywords;
 	   boolean isGlobal;
 	   for (SearchResultDocument doc : sr) {
@@ -68,6 +69,7 @@
 	     id = doc.getId();
 	     title = doc.getFieldAsString(IndexField._TITLE);
 	     titleForJs = StringEscapeUtils.escapeJavaScript(title);
+	     category = doc.getFieldAsString(IndexField.CATEGORY_NAME);
 	     keywords = doc.getFieldAsListOfString(IndexField.KEYWORD);
 	     abst = doc.getFieldAsString(IndexField.ABSTRACT);
 	     source =  doc.getFieldAsString(IndexField.SOURCE);
@@ -95,7 +97,7 @@
 							title='<openwis:i18n key="HomePage.Search.Result.Show"/>'
 							onclick="doShowMetadataById(<%=id%>, '<%=titleForJs%>', <%= editable %>)" >
 							<img
-								src="<%= context.getBaseUrl() %>/images/openwis/icone_voir_detail.png"
+								src="<%= context.getBaseUrl() %>/images/openwis/icone_voir_detail.jpg"
 								alt='<openwis:i18n key="HomePage.Search.Result.ShowMetadata"/>' />
 						</button>
 						<button id="gn_loadmd_<%=id%>" class="content"
@@ -137,35 +139,35 @@
 						<% if ("dublin-core".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/dc.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.DublinCore"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
+							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.jpg" 
 							alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.DublinCore.Alt"/>' 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.DublinCore.Title"/>' border="0"/>
 						</a>
 						<% } else if ("fgdc-std".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/fgdc.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.FgdcStd"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
+							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.jpg" 
 								alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.FgdcStd.Alt"/>' 
 								title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.FgdcStd.Title"/>' border="0"/>
 						</a>
 						<% } else if ("iso19115".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/iso19115to19139.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19115"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
+							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.jpg" 
 								alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19115.Alt"/>' 
 								title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19115.Title"/>' border="0"/>
 						</a>
 						<% } else if ("iso19139".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/iso19139.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19139"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
+							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.jpg" 
 								alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19139.Alt"/>' 
 									title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19139.Title"/>' border="0"/>
 						</a>
 						<% } else if ("iso19110".equals(doc.getField(IndexField.SCHEMA))) { %>
                         <a href="<%=locService%>/iso19110.xml?id=<%=id%>" target="_blank" 
                             title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19110"/>'>
-                            <img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
+                            <img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.jpg" 
                                 alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19110.Alt"/>' 
                                     title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19110.Title"/>' border="0"/>
                         </a>
@@ -255,8 +257,8 @@
 					
 					if ((isCacheEnable && isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) || (otherActions != null && !otherActions.isEmpty())) { %>
 					<div id="oAc<%=id%>" name="oAc<%=id%>" class="btnXXLFixedSize btnSearchResultsActions" onclick="oActions('oAc',<%=id%>);" style="cursor:pointer;">
-						<img id="oAcImg<%=id%>" name="oAcImg<%=id%>" src="<%= context.getBaseUrl() %>/images/plus.gif" style="padding-right:3px;"/>
-						<a style="padding-right:10px; padding-left:5px;"><openwis:i18n key="HomePage.Search.Result.Btn.OtherAction"/></a>
+						<a><openwis:i18n key="HomePage.Search.Result.Btn.OtherAction"/></a>
+						<img id="oAcImg<%=id%>" name="oAcImg<%=id%>" src="<%= context.getBaseUrl() %>/images/plus.jpg" class="wgray_box_icon"/>
 					</div>
 					
 					<div id="oAcEle<%=id%>" class="oAcEle" style="display: none;" onClick="oActions('oAc',<%=id%>);">
@@ -367,7 +369,7 @@
 				</div>
 				<div class="keywords">
 					<% for (String kw : keywords) { %>
-					<%=kw%>
+					<%=kw%> |
 					<% } %>
 				</div>
 			</div>
@@ -375,16 +377,16 @@
 		</div>
 		<div class="ownership">
 			<% if (doc.getField(IndexField.OWNER)!=null ) { %>
-			<span class="owner"><%=doc.getFieldAsString(IndexField.OWNER) %></span>
+			<span class="owner">(<%=category %>) <%=doc.getFieldAsString(IndexField.OWNER) %></span>
 			<% } else { %>
-			<span class="owner" style="font-style: italic;"><openwis:i18n key="HomePage.Search.Result.NoOwner"/></span>
+			<span class="owner" style="font-style: italic;">(<%=category %>) <openwis:i18n key="HomePage.Search.Result.NoOwner"/></span>
 			<% } %>
 			&nbsp;
 			<% if (username!=null && username.equals(doc.getField(IndexField.OWNER))) { %>
 			<img src="<%= context.getBaseUrl() %>/images/owner.png"
 				title="<openwis:i18n key="HomePage.Search.Result.OwnerRights"/>" />
 			<% } else { %>
-			<img src="<%= context.getBaseUrl() %>/images/notowner.png"
+			<img src="<%= context.getBaseUrl() %>/images/notowner.jpg"
 				title="<openwis:i18n key="HomePage.Search.Result.NotOwnerRights"/>" />
 			<% } %>
 		</div>

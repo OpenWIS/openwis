@@ -31,7 +31,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
         if(!this.ftpFavoritesGrid) {
             this.ftpFavoritesGrid = new Ext.grid.GridPanel({
                 height: 150,
-                width: 400,
+                width: 600,
                 border: true,
                 store: this.getFtpStore(),
                 loadMask: true,
@@ -91,6 +91,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
         if(!this.newFtpRMDCNAction) {
             this.newFtpRMDCNAction = new Ext.Action({
                 text:Openwis.i18n('Common.Dissemination.Favorites.FTP.NewRMDCNFTP.button'),
+                cls: 'btn_wbox12',
                 scope: this,
                 handler: function() {
                     new Openwis.Common.Dissemination.FavoriteFTPWindow({
@@ -113,6 +114,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
         if(!this.newFtpPublicAction) {
             this.newFtpPublicAction = new Ext.Action({
                 text: Openwis.i18n('Common.Dissemination.Favorites.FTP.NewPublicFTP.button'),
+                cls: 'btn_wbox10',
                 scope: this,
                 handler: function() {
                     new Openwis.Common.Dissemination.FavoriteFTPWindow({
@@ -136,6 +138,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
             this.editAction = new Ext.Action({
                 disabled: true,
                 text:Openwis.i18n('Common.Dissemination.Favorites.FTP.Edit.button'),
+                cls: 'btn_wbox5',
                 scope: this,
                 handler: function() {
                     var selectedRec = this.getFtpFavoritesGrid().getSelectionModel().getSelected();
@@ -170,6 +173,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
             this.removeAction = new Ext.Action({
                 disabled: true,
                 text:Openwis.i18n('Common.Dissemination.Favorites.FTP.Remove.button'),
+                cls: 'btn_wbox8',
                 scope: this,
                 handler: function() {
                     //Get the username to delete.
@@ -187,7 +191,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
         if(!this.emailFavoritesGrid) {
             this.emailFavoritesGrid = new Ext.grid.GridPanel({
                 height: 150,
-                width: 400,
+                width: 600,
                 border: true,
                 store: this.getEmailStore(),
                 loadMask: true,
@@ -242,6 +246,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
         if(!this.newEmailRMDCNAction) {
             this.newEmailRMDCNAction = new Ext.Action({
                 text:Openwis.i18n('Common.Dissemination.Favorites.Email.NewRMDCN.button'),
+                cls: 'btn_wbox12',
                 scope: this,
                 handler: function() {
                     new Openwis.Common.Dissemination.FavoriteEmailWindow({
@@ -264,6 +269,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
         if(!this.newEmailPublicAction) {
             this.newEmailPublicAction = new Ext.Action({
                 text:Openwis.i18n('Common.Dissemination.Favorites.Email.NewPublic.button'),
+                cls: 'btn_wbox12',
                 scope: this,
                 handler: function() {
                     new Openwis.Common.Dissemination.FavoriteEmailWindow({
@@ -287,6 +293,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
             this.editEmailAction = new Ext.Action({
                 disabled: true,
                 text:Openwis.i18n('Common.Dissemination.Favorites.Email.Edit.button'),
+                cls: 'btn_wbox8',
                 scope: this,
                 handler: function() {
                     var selectedRec = this.getEmailFavoritesGrid().getSelectionModel().getSelected();
@@ -321,6 +328,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
             this.removeEmailAction = new Ext.Action({
                 disabled: true,
                 text: Openwis.i18n('Common.Dissemination.Favorites.Email.Remove.button'),
+                cls: 'btn_wbox10',
                 scope: this,
                 handler: function() {
                     //Get the username to delete.

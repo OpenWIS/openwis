@@ -1,4 +1,85 @@
-<h3>Help</h3>
+<script type="text/javascript" language="javascript" defer="defer">
+
+var modal;
+
+function openPop(method){
+
+//	var retVal;
+	var url;
+
+	if(method == 'notice'){
+		url = 'http://gischelp.kma.go.kr/oper/web/notice/noticeList.do?lang=en';
+//		$('#popup').load('/ows/web/notice/noticeList.do', '');
+//		$('#popup').show();
+	}else if(method == 'reference'){
+		url = 'http://gischelp.kma.go.kr/oper/web/reference/referenceList.do?lang=en';
+	}else if(method == 'qainfo'){
+		url = 'http://gischelp.kma.go.kr/oper/web/qainfo/qaInfoRegister.do?lang=en';
+	}
+	var openParam = "dialogWidth:800px;dialogHeight:800px;scroll:no;status:no;center:yes;resizable:yes;";
+//	window.showModalDialog(url, self, openParam);
+	window.open(url,"", "top=100px, left=100px, width=800px, height=800px, scrollbars=yes");
+}
+
+</script>
+
+
+<div class="help">
+	<div class="contentHeader" >
+		<p class="contentHeader_title">
+			<img src="/openwis-user-portal/images/openwis/help_title.png" alt="HELP DESK" />
+		</p>
+		<p class="contentHeader_text">
+			GISC Seoul associated with the page<br />provides helpful information.
+		</p>
+	</div>
+
+	<ul>
+		<a href="javascript:openPop('notice');">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_notice_img.jpg" alt="NOTICE" /></p>
+				<p class="tit">NOTICE</p>
+				<p class="stit">GISC Seoul will tell you the fast, accurate news.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="javascript:openPop('qainfo')">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_questions_img.jpg" alt="QUESTIONS" /></p>
+				<p class="tit">QUESTIONS</p>
+				<p class="stit">We will respond quickly with all sincerity.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="javascript:openPop('reference')">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_manuals_img.jpg" alt="MANUALS DOWNLOAD" /></p>
+				<p class="tit">DOWNLOAD</p>
+				<p class="stit">You can download the manual document.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="http://gischelp.kma.go.kr/oper/web/wimms/wimmsDown.do">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_wimms_img.jpg" alt="WINNS DOWNLOAD" /></p>
+				<p class="tit">WIMMS DOWNLOAD</p>
+				<p class="stit">You can download a WIMMS Guide document.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="http://gisc.kma.go.kr/openwis-user-portal/excel/Application_for_Data_Retrieval.xlsx">
+			<li>
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_application_img.jpg" alt="APPLICATION FOR DATA RETRIEVAL" /></p>
+				<p class="tit">Members Additional Information form</p>
+				<p class="stit">For more information on the form can be downloaded.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+	</ul>
+
+</div>
+
+<!-- <h3>Help</h3>
 <p>For Frequently Asked Questions (FAQ's), Tutorials, Reference Manuals and other information on the use of GeoNetwork opensource, 
 	please refer to the <strong>Documentation</strong> center on <strong><a href="http://geonetwork-opensource.org" target="_blank">The GeoNetwork opensource Community website</a></strong></p>
 <h3>Content of this page</h3>
@@ -47,4 +128,4 @@
 	Spatial data is often available for download. Data is provided in data formats that are compatible with most professional GIS applications and a variety of freeware GIS tools.<br/>
 	Downloadable data has a link to proceed for download. You will have to aggree with the download conditions and a disclaimer. You are asked to provide your personal details, and are kindly invited to provide us with feedback on your intended use of the data.<br/>
 	A number of datasets will allow you to only download an area of interest.
-</p>
+</p>-->

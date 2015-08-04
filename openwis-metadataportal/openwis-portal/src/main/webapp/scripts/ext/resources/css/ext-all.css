@@ -516,6 +516,15 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
     zoom:1;
 }
 
+.x-grouptabs-panel-header .x-tab-strip-wrap {
+width:5000px;
+    overflow:hidden;
+    position:relative;
+    zoom:1;
+padding-bottom:10px;
+}
+
+
 ul.x-tab-strip {
 	display:block;
     width:5000px;
@@ -552,6 +561,7 @@ ul.x-tab-strip-bottom{
     height:2px;
     font-size:1px;
     line-height:1px;
+    margin-left:2px;
 }
 
 .x-tab-panel-header-plain .x-tab-strip-spacer {
@@ -901,10 +911,11 @@ textarea.x-form-field {
 }
 
 .ext-ie6 .x-form-text, .ext-ie7 .x-form-text {
-    margin:-1px 0; /* ie bogus margin bug */
+    margin:0; /* ie bogus margin bug */
     height:22px; /* ie quirks */
     line-height:18px;
 }
+
 
 .ext-ie6 .x-form-field-wrap .x-form-file-btn, .ext-ie7 .x-form-field-wrap .x-form-file-btn {
     top: -1px; /* because of all these margin hacks, these buttons are off by one pixel in IE6,7 */
@@ -985,7 +996,7 @@ textarea {
 
 /* wrapped fields and triggers */
 .x-form-field-wrap .x-form-trigger{
-    width:17px;
+    width:22px;
     height:21px;
     border:0;
     background:transparent no-repeat 0 0;
@@ -1018,23 +1029,23 @@ textarea {
 }
 
 .x-form-field-wrap .x-form-trigger-over{
-    background-position:-17px 0;
+    background-position:-22px 0;
 }
 
 .x-form-field-wrap .x-form-trigger-click{
-    background-position:-34px 0;
+    background-position:-44px 0;
 }
 
 .x-trigger-wrap-focus .x-form-trigger{
-    background-position:-51px 0;
+    background-position:-66px 0;
 }
 
 .x-trigger-wrap-focus .x-form-trigger-over{
-    background-position:-68px 0;
+    background-position:-88px 0;
 }
 
 .x-trigger-wrap-focus .x-form-trigger-click{
-    background-position:-85px 0;
+    background-position:-110px 0;
 }
 
 .x-trigger-wrap-focus .x-form-trigger{
@@ -1117,7 +1128,6 @@ textarea {
 }
 
 .x-form-element {
-    padding-left:105px;
     position:relative;
 }
 
@@ -1347,7 +1357,6 @@ textarea {
 }
 
 .x-fieldset legend .x-tool-toggle {
-    margin-right:3px;
     margin-left:0;
     float:left !important;
 }
@@ -1490,7 +1499,7 @@ fieldset.x-panel-collapsed .x-fieldset-bwrap {
 
 /* Only text */
 .x-btn-noicon .x-btn-small .x-btn-text{
-	height: 16px;
+	height: 22px;
 }
 
 .x-btn-noicon .x-btn-medium .x-btn-text{
@@ -1654,6 +1663,7 @@ fieldset.x-panel-collapsed .x-fieldset-bwrap {
 /* Fixes an issue with the button height */
 .ext-strict .ext-ie6 .x-btn-mc, .ext-strict .ext-ie7 .x-btn-mc {
     height: 100%;
+    vertical-align: top;
 }
 
 .x-btn-bl{
@@ -2016,10 +2026,10 @@ fieldset.x-panel-collapsed .x-fieldset-bwrap {
 	display: block;
 	font-size: 1px;
 	height: 16px;
-	width:4px;
+/* rjy ch	width:4px; 	*/
 	overflow: hidden;
 	cursor:default;
-	margin: 0 2px 0;
+/* rjy ch	margin: 0 2px 0;	*/
 	border:0;
 }
 
@@ -4224,12 +4234,12 @@ a.x-menu-item {
 
 /* Buttons */
 .x-panel-btns {
-    padding:5px;
+    /*padding:5px;*/
     overflow:hidden;
 }
 
 .x-panel-btns td.x-toolbar-cell{
-	padding:3px;
+	/*padding:3px;*/
 }
 
 .x-panel-btns .x-btn-focus .x-btn-left{
@@ -5200,10 +5210,10 @@ body.ext-ie6.x-body-masked .x-window select {
 
 .x-slider-horz .x-slider-thumb {
     width:14px;
-    height:15px;
+    height:14px;
     position:absolute;
     left:0;
-    top:3px;
+    top:4px;
     background:transparent no-repeat 0 0;
 }
 
@@ -5320,8 +5330,8 @@ body.ext-ie6.x-body-masked .x-window select {
     background-image:url(../images/default/grid/loading.gif);
 }
 
-.x-item-disabled {
-    color: gray;
+.x-item-disabled * {
+    color: #ffffff !important;
 }
 
 .x-item-disabled * {
@@ -5501,9 +5511,16 @@ ul.x-tab-strip-bottom{
 
 .x-form-text, textarea.x-form-field {
     background-color:#fff;
-    background-image:url(../images/default/form/text-bg.gif);
-    border-color:#b5b8c8;
+    background-image:url(../images/default/form/main_input_bg.jpg);
+    border-color:#cdcdcd;
+	height:28px;
+	margin-bottom:16px;
 }
+
+.x-grid-panel .x-form-num-field{
+	margin-bottom:0 !important;
+}
+
 
 .x-form-select-one {
     background-color:#fff;
@@ -5520,12 +5537,13 @@ ul.x-tab-strip-bottom{
 }
 
 .x-form-field-wrap .x-form-trigger {
-    background-image:url(../images/default/form/trigger.gif);
+    background-image:url(../images/default/form/trigger.jpg);
     border-bottom-color:#b5b8c8;
 }
 
 .x-form-field-wrap .x-form-date-trigger {
-    background-image: url(../images/default/form/date-trigger.gif);
+    background-image: url(../images/default/form/date-trigger.jpg);
+    width:22px;
 }
 
 .x-form-field-wrap .x-form-clear-trigger {
@@ -5536,9 +5554,10 @@ ul.x-tab-strip-bottom{
     background-image: url(../images/default/form/search-trigger.gif);
 }
 
-.x-trigger-wrap-focus .x-form-trigger {
+/*.x-trigger-wrap-focus .x-form-trigger {
     border-bottom-color:#7eadd9;
-}
+}*/
+
 
 .x-item-disabled .x-form-trigger-over {
     border-bottom-color:#b5b8c8;
@@ -5548,9 +5567,9 @@ ul.x-tab-strip-bottom{
     border-bottom-color:#b5b8c8;
 }
 
-.x-form-focus, textarea.x-form-focus {
+/*.x-form-focus, textarea.x-form-focus {
 	border-color:#7eadd9;
-}
+}*/
 
 .x-form-invalid, textarea.x-form-invalid {
     background-color:#fff;
@@ -5605,20 +5624,20 @@ ul.x-tab-strip-bottom{
 }
 
 .x-fieldset {
-    border-color:#b5b8c8;
+    border-color:#b3b5b8;
 }
 
 .x-fieldset legend {
     font:bold 11px tahoma, arial, helvetica, sans-serif;
-    color:#15428b;
+    color:#3280B5;
 }
 .x-btn{
 	font:normal 11px tahoma, verdana, helvetica;
 }
 
 .x-btn button{
-    font:normal 11px arial,tahoma,verdana,helvetica;
-    color:#333;
+    font:normal 12px arial,tahoma,verdana,helvetica;
+    color:#ffffff;
 }
 
 .x-btn em {
@@ -5627,7 +5646,7 @@ ul.x-tab-strip-bottom{
 }
 
 .x-btn-tl, .x-btn-tr, .x-btn-tc, .x-btn-ml, .x-btn-mr, .x-btn-mc, .x-btn-bl, .x-btn-br, .x-btn-bc{
-	background-image:url(../images/default/button/btn.gif);
+	/*background-image:url(../images/default/button/btn.gif);*/
 }
 
 .x-btn-click .x-btn-text, .x-btn-menu-active .x-btn-text, .x-btn-pressed .x-btn-text{
@@ -6667,7 +6686,10 @@ a.x-menu-item {
 }
 
 .x-panel-body-noheader, .x-panel-mc .x-panel-body {
-    border-top-color:#99bbe8;
+	border-left:1px solid #b3b5b8;
+    border-right:1px solid #b3b5b8;
+    border-bottom:1px solid #b3b5b8;
+	border-top:1px solid #2e3438;
 }
 
 .x-panel-tl .x-panel-header {
@@ -6967,3 +6989,12 @@ body.x-body-masked .x-window-plain .x-window-mc {
 .x-window-dlg .ext-mb-error {
     background-image:url(../images/default/window/icon-error.gif);
 }
+
+.home_tops .x-tab-strip-wrap {width:243px; overflow:hidden; position:relative; zoom:1; padding-bottom:10px;}
+.home_tops .x-grouptabs-panel-header .x-tab-strip-wrap {width:250px;overflow:hidden;position:relative;zoom:1;padding-bottom:10px;}
+.home_tops .x-tab-panel-footer-plain {background:transparent !important;border-width:0 !important;padding-top:0 !important;margin-left:0 !important;}
+.home_tops .x-tab-strip-top .x-tab-right {background: transparent no-repeat 0 -51px;padding-left:0 !important;}
+.home_tops .x-tab-strip-top .x-tab-left {background: transparent no-repeat right -351px;padding-right:0 !important;}
+.home_tops ul.x-tab-strip li {float:left;margin-left:0 !important;}
+.home_tops ul.x-tab-strip {display:block;width:250px;zoom:1;}
+.home_tops ul.x-tab-strip-top {margin-top:-1px !important; background: repeat-x bottom; border-bottom: 1px solid;}

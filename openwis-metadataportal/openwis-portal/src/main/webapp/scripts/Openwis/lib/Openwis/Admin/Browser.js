@@ -33,7 +33,7 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 		}
 
         Ext.apply(this, {
-			tabWidth : 200,
+			tabWidth : 300,
 			activeGroup : 0,
 			items : items,
 			listeners: {
@@ -137,7 +137,8 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 	getAlarmsUserAlarmMenu: function() {
 		if (!this.alarmsUserAlarmsMenu) {
 			this.alarmsUserAlarmsMenu = new Ext.Panel({
-				title: "User Alarms",			// <<<<==== TODO: I18N
+				title: Openwis.i18n('Admin.Browser.Alarms.UserAlarms'),
+				//title: "User Alarms",			// <<<<==== TODO: I18N
 				listeners : {
 					activate: function(ct) {
 						ct.add(new Openwis.Admin.Statistics.UserAlarms());

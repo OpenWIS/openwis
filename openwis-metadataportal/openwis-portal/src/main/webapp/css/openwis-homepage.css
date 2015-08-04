@@ -1,6 +1,6 @@
 /** Home page main content */
 .homePageMainContent {
-    padding-left: 5px;
+    /*padding-left: 5px;*/
 }
 
 .homePageMainContent p {
@@ -8,42 +8,44 @@
 }
 
 .homePageMainContent h1 {
-    font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
-    text-transform: uppercase;
+    font:20px Arial, dotum;
+	color: #3280b5;
     margin-bottom: 6px;
     margin-top: 8px;
 }
 
 .homePageMainContent ul {
-    list-style: disc outside none;
+    list-style: none
 }
 
 .homePageMainContent .homePageMainContentHeader {
-    border-bottom: 1px solid #2A628F;
+    /*border-bottom: 1px solid #2A628F;*/
     margin-bottom: 20px;
 }
 
 /** Search results **/
 .hit{
-	border: 1px solid #8CB2B6;
-	margin: 2px;
-	padding: 10px;
-	background-color: #f8fbfb;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
+	border-top: 1px solid #636b6e;
+	border-left: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	padding: 17px 20px 7px 20px;
+	background:#ffffff;
+	margin-bottom:10px;
 }
 
 div.hittext_top {
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
 }
 
 
 div.hittitle {
-    margin-left: 0;
     padding-left: 0;
     font-weight: bold;
     text-align: left;
     text-transform: uppercase;
+    font-size:12px;
+	color:#30698a
 }
 
 div.hittitle span {
@@ -59,28 +61,32 @@ div.attributionlogo {
 }
 
 div.action_buttons {
-    margin-left: 65px;
-    margin-top: 5px;
+    margin: 15px 0 10px 0;
+}
+
+div.hittext_wrap {
+	clear: left;
+    background-color: #f2f4f5;
+	border:1px solid #c5d2d8;
+}
+
+div.hittext_middle, div.hittext_keywords {	
+    padding: 12px 14px 12px 14px;
 }
 
 div.hittext_middle {
-    clear: left;
-    -webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
+    padding-bottom: 6px
 }
 
-div.hittext_middle, div.hittext_keywords {
-    background-color: #E6EDF5;
-    margin: 0;
-    padding: 5px;
+div.hittext_keywords {
+	padding-top: 6px
 }
 
 div.caption {
     text-align: left;
     width: 100px;
-    color: #26559D;
-    font-size: 11px;
+    color: #3280b5;
+    font-size: 12px
 }
 
 div.abstract1 {
@@ -92,37 +98,52 @@ div.abstract1 {
 }
 
 #search-results-content {
-    margin-left: 5px;
-    margin-right: 5px;
-    padding-top: 10px;
+    width:664px;
 }
 
 .results_header {
-	margin-top: 5px; 
-	margin-bottom: 5px; 
-    overflow-x: hidden;	
+	margin-bottom: 4px; 
+	overflow-x: hidden;	
 	overflow-y: auto;	
 	width: 100%;
+	background:url("../images/openwis/result_bl.jpg") no-repeat left 6px;
+	padding-left:9px;
+	color:#434343;
 }
 
 div.ownership{
 	 text-align:right;
 	 clear:both;
+	 margin-top:9px;
 }
 
+div.ownership span{
+	color:#657d8d;
+	padding-top:4px;
+	padding-right:3px;
+	vertical-align:top;
+}
+
+div.ownership img{
+	vertical-align:middle;
+	margin-top:-9px;
+}
+
+
 div.thumbnail_results {
-    margin-right: 10px;
     text-align: right;
     float: right;
     height: auto !important;
-    vertical-align: middle;
+    vertical-align: top;
     width: 100px !important;
 }
 
 div.metadatabuttons {
     display: inline;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
 }
-
 
 a.content, button.content {
     background-color: #E7E7E7;
@@ -152,9 +173,9 @@ div.hitexport {
 }
 
 div.icones {
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;
     margin-right: -10px;
-    margin-top: -10px;
+    margin-top: -10px;*/
 }
 
 div.btnSearchResultsActions {
@@ -163,23 +184,49 @@ div.btnSearchResultsActions {
 }
 
 div.btnXXLFixedSize {
-    background: url("../images/openwis/btn_gd.png") no-repeat scroll 0 0 transparent;
-    cursor: pointer;
-    height: 24px;
-    padding-top: 8px;
-    text-align: center;
-    width: 100px;
+	background: url("../images/openwis/com_btn_wg.jpg") no-repeat scroll 0 0 transparent;
+	cursor: pointer;
+	height: 20px;
+	padding-left:10px;
+	padding-top:7px;
+	text-align: left;
+	vertical-align:top;
+	width: 120px;
+	padding-bottom:9px;
+}
+
+div.btnXXLFixedSize img {
+	position:relative;
+	left:23px;
+	top:-2px;
+}
+
+div.btnXXLFixedSize a {
+	color:#666666;
+	font-size:11px;
+	font-family:verdana;
+}
+
+div.wgray_box_icon {
+	text-align:right;
+	vertical-align:top;
+	padding-top:8px;
 }
 
 div.otherActionTarget {
-	background: url("../images/openwis/puce.gif") no-repeat scroll left top transparent;
+	background: url("../images/openwis/puce.jpg") no-repeat scroll left 7px transparent;
     cursor: pointer;
     height: 18px;
     text-align: left;
-    width: 280px;
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 1px 0 3px 7px;
+    width: 320px;
+    padding-left: 9px;
+	padding-bottom:2px;
+}
+
+div.otherActionTarget a {
+	color:#434343;
+	font-size:11px !important;
+	font-family:verdana;
 }
 
 div.pageList {
@@ -209,15 +256,14 @@ div.pageList {
 
 /** Search Panel **/
 .tabSearchType {
-    background: url("../images/openwis/fond-panel-gauche.png") no-repeat scroll left top transparent;
-    padding-left: 10px;
-    padding-top: 10px;
+    border:1px solid #d1d3d9;
+	background:#f3f3f3;
 }
 
 .tabSearchType .mainLabelCls, .tabSearchType .mainLabelCls legend {
     font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
     text-transform: uppercase;
-    color: black;
+    color: #434343;
 }
 
 .tabSearchType .critLabelCls {
@@ -233,21 +279,29 @@ div.pageList {
 
 /** Skinning the tabs. **/
 .tabSearchType .x-tab-strip-active span.x-tab-strip-text {
+	background:#3ca0ca;
     font-weight: bold;
-    color: #E22A20 !important;
+    color: #ffffff !important;
     font-size: 12px;
+	border-bottom:0px !important;
 }
 
 .tabSearchType .x-tab-strip span.x-tab-strip-text {
-    color: #F3ABA7;
+	border-left:1px solid #d1d3d9;
+	border-right:1px solid #d1d3d9;
+	border-bottom:1px solid #d1d3d9;
+    color: #666666;
     font-weight: bold;
     font-size: 12px;
     text-align: center;
     font-family: Arial,Helvetica,FreeSans,sans-serif;
+	margin-left:-1px;
+	width:81px;
+	height:30px;
 }
 
 .tabSearchType ul.x-tab-strip-top li {
-    border-left: solid 1px #95B3BB; 
+    /*border-left: solid 1px #95B3BB; */
 }
 
 .tabSearchType .x-tab-panel-body, .tabSearchType .x-tab-panel-header, 
@@ -268,30 +322,47 @@ div.pageList {
 
 /* For the Menu under the search : What's New and Last Products  */
 .homePageMenuPanelCls .top {
-    background: url("../images/openwis/fond_carte.png") no-repeat scroll left top transparent;
+    /*background: url("../images/openwis/fond_carte.png") no-repeat scroll left top transparent;*/
+	font:14px;
+	color:#3280B5;
+	text-align:left !important;
+	vertical-align:top;
+	padding-left:2px;
+	border-bottom:2px solid #636b6e;
+	height:21px !important;
 }
 
 .homePageMenuPanelCls .title {
     font-size: 12px;
     font-weight: bold;
     text-align: center;
-    padding-top: 5px;
+	padding-top:30px;
+    /*padding-top: 5px;*/
 }
 
 .homePageMenuPanelCls .content {
-    background: url("../images/openwis/fin_fond_titre.png") no-repeat scroll center 5px transparent;
-    padding-top: 10px;
+    /*background: url("../images/openwis/fin_fond_titre.png") no-repeat scroll center 5px transparent;*/
+	border-left:1px solid #e0e0e0;
+	border-right:1px solid #e0e0e0;
 }
 
 .homePageMenuPanelCls .content .line {
-    margin-left: 5px;
-    margin-right: 5px;
-    background: url("../images/openwis/puce.gif") no-repeat scroll left top transparent;
-    padding: 0 0 3px 7px;
+    padding: 10px;
+    background: url("../images/openwis/home_dash.jpg") no-repeat scroll left top; transparent;
+}
+
+.homePageMenuPanelCls .content .line a {
+    background: url("../images/openwis/puce2.jpg") no-repeat scroll left 5px; transparent;
+	padding-left:7px;
+    color:#434343;
+	display:block;
 }
 
 .homePageMenuPanelCls .bottom {
-    background: url("../images/openwis/fond_carte_bas.png") no-repeat scroll left bottom transparent;
+    /*background: url("../images/openwis/fond_carte_bas.png") no-repeat scroll left bottom transparent;*/
+	border-left:1px solid #e0e0e0;
+	border-right:1px solid #e0e0e0;
+	border-bottom:1px solid #e0e0e0;
 }
 
 /** Other Actions. */
@@ -300,14 +371,14 @@ Other action buttons
 *******************************************************************************/
 
 .oAcEle {
-    background-color: #D7E2E3;
-    border: 1px solid #A4BBC4;
+    margin-top:-4px;
+    background: #ffffff;
+    border: 1px solid #cacbcd;
     position: absolute;
     z-index:1;
-    -moz-border-radius: 10px;
-	border-radius: 10px;
-	width: 280px !important;
+	width: 320px !important;
 	display: none;
+	padding:11px 12px 7px 12px;
 }
 
 .oAcEle button {
@@ -321,4 +392,54 @@ Other action buttons
 }
 .oAcEle button:hover {
 	text-decoration: underline;
+}
+
+
+
+/* text */
+.main_gtxt {font:13px Arial, dotum; color:#666666; width:664px; text-align:justify; line-height:16px; margin-bottom:30px;}
+.main_btxt {font:bold 16px Arial, dotum; color:#434343; margin-bottom:18px;}
+.main_btxt2 {font:12px verdana, dotum; color:#666666; padding-left:6px !important;}
+.main_btxt3 {font:13px Arial, dotum; color:#434343; padding-bottom:8px !important;}
+.reg_btxt {font:12px verdana, dotum; color:#434343; margin-bottom:18px;}
+.bl_txt {background:url('../images/openwis/sbullet_gray.jpg') no-repeat 2px 6px; font:13px Arial, dotum; color:#666666; width:654px; text-align:justify; padding:0 0 15px 10px;}
+.tc_black {color:#434343;}
+.tc_red {color:#bc6060;}
+.top_hdp_txt {height:29px; border-bottom:1px solid #d1d3d9; padding:10px 0 0 2px; font-size:14px; color:#434343; vertical-align:top; margin-bottom:17px !important;}
+.pd_t5 {margin-top:10px !Important;}
+.mg_bi5 {margin-bottom:5px !important;}
+.mg_bi10 {margin-bottom:10px !important;}
+.mg_bi0 {margin-bottom:0 !important;}
+.mg_i0 {margin:0 !important;}
+.mg_l9 {margin-left:9px !important;}
+.mg_rl10 {margin:0 10px !important;}
+.mg_b4 {margin-bottom:4px !important;}
+.pd_t10 {padding-top:10px !Important;}
+.mg_t10 {margin-top:10px !Important;}
+.pd_b10 {padding-bottom:10px !Important;}
+.mg_t20 {margin-top:20px !Important;}
+.mg_b20 {margin-bottom:20px !Important;}
+.mg_b26 {margin-bottom:26px !Important;}
+.mg_b2 {margin-bottom:2px !Important;}
+.mg_b3 {margin-bottom:3px !Important;}
+.mappanel_bg {background:url('../images/openwis/mappanel_bg.jpg') no-repeat left top; height:30px; width:224px;}
+.mg_r4 {margin-right:4px;}
+.mg_l4 {margin-left:4px !important;}
+.where_sinput {width:42px;}
+.when_calinput {margin:0 0 5px 10px !important;}
+.when_calinput2 {margin:0 0 5px 0 !important;}
+.pd_only {padding-bottom:0px !important; padding-top:2px !important;}
+.pd_tb10 {margin:8px 24px 8px 0 !important;}
+.tc_igray {color:#434343 !important;}
+
+.register_top {background:url('../images/openwis/register_top.jpg') no-repeat 300px 40px; padding-top:127px;}
+.register_top_kr {background:url('../images/openwis/register_top_kr.jpg') no-repeat 300px 40px; padding-top:127px;}
+.register_bg {background:url('../images/openwis/register_bg.jpg') no-repeat 38px top; height:422px;}
+.reg_tb td {border-bottom:1px solid #d1d3d9;}
+.reg_tb {padding-top:127px;}
+
+.strong_font {
+	font-family: Arial, dotum, Helvetica, FreeSans, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
 }

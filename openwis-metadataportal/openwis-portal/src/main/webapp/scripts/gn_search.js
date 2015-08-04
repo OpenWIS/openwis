@@ -635,11 +635,27 @@ function gn_present(frompage, topage)
 	);
 }
 
+function gnPresentByCategoryGroup(topage, group_param)
+{
+	//preparePresent();
+	var params = 'from=0&to=' + topage + '&' + group_param + '=true';
+	var url = configOptions.locService + '/main.search.embedded';
+	var myAjax = new Ajax.Request(
+		url,
+		{
+			method: 'get',
+			parameters: params,
+			onSuccess: gn_search_complete,
+			onFailure: gn_search_error
+		}
+	);
+}
+
 function gn_search_complete(req) {
     var rlist = $('search-results-content');
 
     rlist.innerHTML = req.responseText;
-
+    homePageViewport.relayoutViewport(false, true);
     //$('loadingMD').hide();
 }
 

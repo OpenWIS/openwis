@@ -45,7 +45,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
         if(!this.header) {
             this.header = new Ext.Container({
                 html: Openwis.i18n('MetadataInsert.Administration.Title'),
-                cls: 'administrationTitle1'
+                cls: 'administrationTitle1 top_hdp_txt'
             });
         }
         return this.header;
@@ -65,14 +65,16 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
                         text: Openwis.i18n('Common.Btn.Browse')
                     },
                     fieldLabel: Openwis.i18n('MetadataInsert.Metadata'),
-                    width: 360
+                    width: 360,
+                    cls:"myac_insinp"
                 }
 		    );
     		this.getFileUploadArray().push(
     		    newFile
     		);
     		this.getUploadTablePanel().add(new Ext.form.Label({
-				text: Openwis.i18n('MetadataInsert.Metadata') + ':'
+				text: Openwis.i18n('MetadataInsert.Metadata')+':',
+				cls:'ma_instxt'
 			}));
     		this.getUploadTablePanel().add(
     	        newFile
@@ -104,6 +106,8 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
      	        buttons : [ 
      	            {
          	            text : Openwis.i18n('Common.Btn.Insert'),
+         	            cls:'mainbtn_blue mg_t10',
+         	            width:110,
          	            scope : the,
          	            handler : function() {
          	                if (this.uploadForm.getForm().isValid()) {
@@ -140,11 +144,8 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
                     columns: 3
                 },
                 // defaults are applied to items, not the container
-                defaults: {
-                   style: {
-                            width: '100%'
-                   }
-                },
+                //cls:"myac_ins_new",
+                cls:"myac_ins_metad",
                 border: false
 			});
         }
@@ -156,6 +157,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 		if(!this.newAction) {
 			this.newAction = new Ext.Action({
 				text: Openwis.i18n('Common.Btn.New'),
+				cls:'myac_ins_new',
 				scope: this,
 				handler: function() {
 				    if(this.getFileUploadArray().size() < Openwis.Conf.UPLOAD_SIZE)
@@ -165,11 +167,13 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
     					    xtype: 'fileuploadfield',
                             allowBlank : false,
                             fieldLabel: Openwis.i18n('MetadataInsert.Metadata'),
-                            width: 360
+                            width: 360,
+                            cls:'myac_insinp'
                         }
 					);
 					var metadataLabel = new Ext.form.Label({
-				        text: Openwis.i18n('MetadataInsert.Metadata') + ':'
+				        text: Openwis.i18n('MetadataInsert.Metadata') + ':',
+				        cls:"ma_instxt"
 			        });
 					this.getFileUploadArray().push(
             		    newFile
@@ -183,6 +187,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 					var newRemoveBtn = new Ext.Button(
 					    new Ext.Action({
                             iconCls: 'icon-discard-fileUpload',
+                            cls:"btn_iconx",
             				scope: this,
             				handler: function() {
             					this.getUploadTablePanel().remove(newFile);
@@ -218,6 +223,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 		if(!this.fileTypeRadioGroup) {
 			this.fileTypeRadioGroup = new Ext.form.RadioGroup({
 				fieldLabel: Openwis.i18n('MetadataInsert.FileType'),
+				width:500,
 				items:
 				[
 					this.getSingleFileRadio(),
@@ -277,6 +283,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 				editable: false,
 				allowBlank: false,
 				width: 330,
+				cls:"mac_input",
 				value: 'NONE',
 				displayField: 'name',
 				valueField: 'id'
@@ -318,6 +325,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 				editable: false,
 				selectOnFocus:true,
 				width: 200,
+				cls:"mac_input",
 				fieldLabel: Openwis.i18n('MetadataInsert.Validate')
             });
         }
@@ -350,6 +358,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 				editable: false,
 				allowBlank: false,
 				width: 330,
+				cls: 'mac_input',
 				displayField: 'name',
 				valueField: 'id'
 			});

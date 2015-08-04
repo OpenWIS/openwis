@@ -45,7 +45,7 @@ public final class SolRUtils {
       SolrServer result;
       if (solrServer == null) {
          CommonsHttpSolrServer server = new CommonsHttpSolrServer(solrUrl);
-         server.setSoTimeout(20000); // socket read timeout
+         server.setSoTimeout(6000000); // socket read timeout
          server.setConnectionTimeout(10000);
          server.setDefaultMaxConnectionsPerHost(100);
          server.setMaxTotalConnections(100);

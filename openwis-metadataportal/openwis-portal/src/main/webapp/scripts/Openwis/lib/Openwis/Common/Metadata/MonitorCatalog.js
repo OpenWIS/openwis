@@ -5,7 +5,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
     initComponent: function() {
         Ext.apply(this, {
             style: {
-                margin: '10px 30px 10px 30px'
+            	margin: '10px 30px 10px 30px'
             }
         });
         Openwis.Common.Metadata.MonitorCatalog.superclass.initComponent.apply(this, arguments);
@@ -28,7 +28,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         if(!this.header) {
             this.header = new Ext.Container({
                 html: Openwis.i18n('Metadata.CatalogContent.Title'),
-                cls: 'administrationTitle1'
+                cls: 'administrationTitle1 top_hdp_txt'
             });
         }
         return this.header;
@@ -204,6 +204,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             this.duplicateAction = new Ext.Action({
                 disabled: true,
                 text: Openwis.i18n('Metadata.MetaInfo.Btn.Duplicate'),
+                cls:'btn_wbox8',
                 tooltip: 'Create a new metadata from the selected one.',
                 scope: this,
                 handler: function() {
@@ -221,6 +222,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             this.viewAction = new Ext.Action({
                 disabled: true,
                 text: Openwis.i18n('Common.Btn.View'),
+                cls:'btn_wbox5',
                 scope: this,
                 handler: function() {
                     var selectedRec = this.getMetadataGrid().getSelectionModel().getSelected();
@@ -238,6 +240,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             this.editMetadataAction = new Ext.Action({
                 disabled: true,
                 text: Openwis.i18n('Common.Btn.Edit'),
+                cls:'btn_wbox5',
                 scope: this,
                 handler: function() {
                     var selectedRec = this.getMetadataGrid().getSelectionModel().getSelected();
@@ -321,6 +324,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             this.removeAction = new Ext.Action({
                 disabled: true,
                 text: Openwis.i18n('Common.Btn.Remove'),
+                cls:'btn_wbox7',
                 scope: this,
                 handler: function() {
                     var selections = this.getMetadataGrid().getSelectionModel().getSelections();
@@ -356,6 +360,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         if(!this.exportMetadataMenuButton) {
             this.exportMetadataMenuButton = new Ext.Button({
                 text: Openwis.i18n('Common.Btn.Export'),
+                cls: 'btn_wbox8',
                 menu: new Ext.menu.Menu({
                     items: [
                         this.getAsXmlAction(),
@@ -372,6 +377,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         if(!this.asXmlAction) {
             this.asXmlAction = new Ext.menu.Item({
             	disabled: true,
+            	cls: 'lybox_txt',
                 text: Openwis.i18n('Metadata.MetaInfo.Item.AsXml'),
                 scope: this,
                 handler: function() {
@@ -455,7 +461,8 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
     getSearchFormPanel: function() {
         if(!this.searchFormPanel) {
             this.searchFormPanel = new Ext.form.FormPanel({
-                labelWidth: 100,
+                labelWidth: 120,
+                cls: 'my_ac_bmm',
                 border: false,
                 buttonAlign: 'center'
             });
@@ -475,6 +482,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                 fieldLabel: Openwis.i18n('Metadata.CatalogContent.TextSearch'),
                 name: 'any',
                 enableKeyEvents: true, // is that the best? or change event?
+                cls: 'mac_input',
                 width: 150,
                 listeners: {
                     keyup: function(){
@@ -537,6 +545,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
                 fieldLabel: Openwis.i18n('Metadata.CatalogContent.SearchField'),
                 name: 'searchField',
                 enableKeyEvents: true,
+                cls: 'mac_input',
                 width: 150,
                 mode: 'local',
                 store: new Ext.data.ArrayStore({
@@ -655,6 +664,8 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             this.searchAction = new Ext.Action({
                 disabled: true,
                 text:Openwis.i18n('Common.Btn.Search'),
+                cls: 'mainbtn_blue mg_y10x2',
+                width:110,
                 scope: this,
                 handler: function() {
                     this.getMetadataStore().setBaseParam(
@@ -683,6 +694,8 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             this.resetAction = new Ext.Action({
                 disabled: true,
                 text:Openwis.i18n('Common.Btn.Reset'),
+                cls: 'mainbtn_blue mg_y10x2',
+                width:110,
                 scope: this,
                 handler: function() {
                     this.getSearchTextField().setValue('');

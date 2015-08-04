@@ -50,8 +50,8 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 		this.add(this.getHeader());
 		
 		var tabs = new Ext.TabPanel({
-            width:600,
-            height:400,
+			cls: 'mya_grid',
+            width:663,
             activeTab: 0,
             frame:true,
             defaults:{autoHeight: true},
@@ -78,7 +78,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 		if(!this.header) {
 			this.header = new Ext.Container({
 				html: Openwis.i18n('Security.User.UserInfo.Title'),
-				cls: 'administrationTitle1'
+				cls: 'administrationTitle1 top_hdp_txt'
 			});
 		}
 		return this.header;
@@ -105,6 +105,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 		if(!this.saveAction) {
 			this.saveAction = new Ext.Action({
 				text:Openwis.i18n('Common.Btn.Save'),
+				cls: 'btn_wbox5 mg_5r0',
 				scope: this,
 				handler: function() {
 				    var persoInfoValid = this.getPersonalInformationFormPanel().getForm().isValid();
@@ -141,6 +142,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 		if(!this.cancelAction) {
 			this.cancelAction = new Ext.Action({
 				text:Openwis.i18n('Common.Btn.Cancel'),
+				cls: 'btn_wbox5 mg5',
 				scope: this,
 				handler: function() {
 					this.close();

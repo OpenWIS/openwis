@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+	<heading>Metadata Not Found</heading>
+	<message>The requested metadata was not found.</message>
+	<button>Back</button>
+</strings>
