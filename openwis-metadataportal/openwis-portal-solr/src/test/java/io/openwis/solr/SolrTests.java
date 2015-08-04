@@ -9,6 +9,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.SolrParams;
 import org.apache.solr.util.AbstractSolrTestCase;
@@ -58,9 +59,10 @@ public class SolrTests extends AbstractSolrTestCase {
 
 		assertEquals(0L, response.getResults().getNumFound());
 	}
+	
 
 	@Test
-	public void testThatDocumentIsFound() throws SolrServerException,
+	public void testThatDocumentIsInserted() throws SolrServerException,
 			IOException {
 		SolrInputDocument document = new SolrInputDocument();
 		document.addField("_uuid", "abc");
@@ -72,8 +74,32 @@ public class SolrTests extends AbstractSolrTestCase {
 
 		SolrParams params = new SolrQuery("_uuid:a*");
 		QueryResponse response = server.query(params);
+		
 		assertEquals(1L, response.getResults().getNumFound());
 		assertEquals("abc", response.getResults().get(0).get("_uuid"));
+	}
+	
+	public void testThatDocumentIsDeleted()
+			throws SolrServerException, IOException {
+
+		SolrInputDocument document = new SolrInputDocument();
+		document.addField("_uuid", "def");
+		document.addField("_title", "my title");
+		document.addField("anytext", "any text");
+
+		server.add(document);
+		server.commit();
+		
+		server.deleteByQuery("_uuid:def");
+		server.commit();
+		
+		SolrParams params = new SolrQuery("_uuid:d*");
+		QueryResponse response = server.query(params);
+		
+		assertEquals(0L, response.getStatus());
+		assertEquals(0L, response.getResults().getNumFound());
+		
+
 	}
 
 	private void removeIndexDirectory() throws IOException {
