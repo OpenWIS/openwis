@@ -682,9 +682,15 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
    }
    
    public static void enforceGlobalExchange(IProductMetadataManager pmm, Metadata md, ProductMetadata pm) throws Exception {
-      if (pmm.isGlobalExchange(md)) {
-         pm.setGtsCategory(IProductMetadataExtractor.GLOBAL_EXCHANGE);
-         md.setGtsCategory(IProductMetadataExtractor.GLOBAL_EXCHANGE);
+      if ( pmm.isIsoCoreProfile1_3(md)){
+         if (pmm.isGlobalExchange(md)) {
+            pm.setGtsCategory(IProductMetadataExtractor.GLOBAL_EXCHANGE);
+            md.setGtsCategory(IProductMetadataExtractor.GLOBAL_EXCHANGE);
+         }else{
+            pm.setGtsCategory(IProductMetadataExtractor.CORE_PROFILE_1_3_NOT_GLOBAL_EXCHANGE);
+            md.setGtsCategory(IProductMetadataExtractor.CORE_PROFILE_1_3_NOT_GLOBAL_EXCHANGE);
+            
+         }
       }
    }
 

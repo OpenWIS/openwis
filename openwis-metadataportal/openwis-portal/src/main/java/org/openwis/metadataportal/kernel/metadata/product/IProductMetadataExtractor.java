@@ -101,6 +101,11 @@ public interface IProductMetadataExtractor {
     * GlobalExchange flag
     */
    static final String GLOBAL_EXCHANGE = "GlobalExchange";
+   
+   /**
+    * CoreProfile1.3NotGlobalExchange flag
+    */
+   static final String CORE_PROFILE_1_3_NOT_GLOBAL_EXCHANGE = "";
 
    
    /**
@@ -148,4 +153,6 @@ public interface IProductMetadataExtractor {
     * Max string length for Originator
     */
    static final int MAX_LENGTH_LOCAL_DATASOURCE = 255;
+
+   boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception;
 }
