@@ -1,20 +1,12 @@
 package io.openwis.solr;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.SolrParams;
-import org.apache.solr.util.AbstractSolrTestCase;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -25,32 +17,13 @@ import org.testng.annotations.Test;
  *
  */
 
-public class SolrTests extends AbstractSolrTestCase {
+public class SolrTests extends SolrTestBase {
 
-	private SolrServer server;
-	private final String indexLocation = System.getProperty("user.dir")
-			+ "\\src\\main\\resources\\";
-
-	@Override
-	public String getSchemaFile() {
-		return "conf/schema.xml";
+	
+	public SolrTests() throws Exception {
+		super();
 	}
 
-	@Override
-	public String getSolrConfigFile() {
-		return "src/test/resources/conf/solrconfig.xml";
-	}
-
-	@BeforeTest
-	@Override
-	public void setUp() throws Exception {
-		System.setProperty("solr.solr.home", indexLocation);
-		super.setUp();
-
-		server = new EmbeddedSolrServer(h.getCoreContainer(), h.getCore()
-				.getName());
-
-	}
 
 	@Test
 	public void testThatNoResultsAreReturned() throws SolrServerException {
@@ -79,6 +52,7 @@ public class SolrTests extends AbstractSolrTestCase {
 		assertEquals("abc", response.getResults().get(0).get("_uuid"));
 	}
 	
+	@Test
 	public void testThatDocumentIsDeleted()
 			throws SolrServerException, IOException {
 
@@ -90,26 +64,21 @@ public class SolrTests extends AbstractSolrTestCase {
 		server.add(document);
 		server.commit();
 		
+		SolrParams params = new SolrQuery("_uuid:def");
+		QueryResponse response = server.query(params);
+		
+		assertEquals(1L, response.getResults().getNumFound());
+		assertEquals("def", response.getResults().get(0).get("_uuid"));
+		
 		server.deleteByQuery("_uuid:def");
 		server.commit();
 		
-		SolrParams params = new SolrQuery("_uuid:d*");
-		QueryResponse response = server.query(params);
+		QueryResponse responsePostDelete = server.query(params);
 		
-		assertEquals(0L, response.getStatus());
-		assertEquals(0L, response.getResults().getNumFound());
+		assertEquals(0L, responsePostDelete.getStatus());
+		assertEquals(0L, responsePostDelete.getResults().getNumFound());
 		
-
 	}
+	
 
-	private void removeIndexDirectory() throws IOException {
-		File indexDir = new File(indexLocation, "data/index");
-		FileUtils.deleteDirectory(indexDir);
-	}
-
-	@AfterClass
-	public void testDestroy() throws IOException {
-		h.getCoreContainer().shutdown();
-		removeIndexDirectory();
-	}
 }
