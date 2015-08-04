@@ -42,7 +42,9 @@ Openwis.Common.User.PersonalInformation = Ext.extend(Ext.form.FormPanel, {
                         this.createDummy(),
                         this.createDummy(),
                         this.createLabel(Openwis.i18n('Security.User.PersoInfo.ContactEmail.Label')),
-                        this.getEmailTextField()
+                        this.getEmailTextField(),
+                        this.createDummy(),
+                        this.createDummy()
                     ]
                 }]
         });

@@ -16,6 +16,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	initializeCommons: function() {
+		//Only Geoss option
+	    //this.getOptionsFieldSet().add(this.getOnlyGeossMetadataCheckbox());
 	    //FieldSet options.
 	    this.getOptionsFieldSet().add(this.getSortDirectionCombobox());
 	    this.getOptionsFieldSet().add(this.getHitsCombobox());
@@ -24,11 +26,24 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 	    //Buttons.
 	    this.getButtonsPanel().addButton(new Ext.Button(this.getResetAction()));
 	    this.getButtonsPanel().addButton(new Ext.Button(this.getSearchAction()));
+	    
+	    //srubutton
+	    this.getButtonsSruPanel().addButton(new Ext.Button(this.getResetAction()));
+	    this.getButtonsSruPanel().addButton(new Ext.Button(this.getSruAction()));
     },
-    
+           
     isLoaded: function() {
     	return this.getButtonsPanel().rendered;
+    
     },
+    
+    getSRUServerLabel:function(){if(!this.sruServerlabel){this.sruServerlabel=new Ext.Container({border:false,cls:"mainLabelCls",html:Openwis.i18n("HomePage.Search.Criteria.SRU"),style:{padding:"0 0 3px 0"}});
+    	}return this.sruServerlabel;
+    },
+    
+	getSizeResultLabel:function(){if(!this.sizeResultLabel){this.sizeResultLabel=new Ext.Container({border:false,cls:"mainLabelCls",html:Openwis.i18n("HomePage.Search.Criteria.SizeResult"),style:{padding:"2px"}});
+		}return this.sizeResultLabel;
+	},
     
     getWhatLabel: function() {
         if(!this.whatlabel) {
@@ -37,7 +52,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 cls: 'mainLabelCls', 
                 html: Openwis.i18n('HomePage.Search.Criteria.What'),
                 style: {
-                    padding: '2px'
+                    padding: '0 0 3px 0'
                 }
             });       
         }
@@ -51,7 +66,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 cls: 'mainLabelCls', 
                 html: Openwis.i18n('HomePage.Search.Criteria.Where'),
                 style: {
-                    padding: '2px'
+                    padding: '0 0 3px 0'
                 }
             });       
         }
@@ -76,7 +91,11 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     getOptionsFieldSet: function() {
         if(!this.optionsFieldSet) {
             this.optionsFieldSet = new Ext.form.FieldSet({
-                title: Openwis.i18n('HomePage.Search.Criteria.Options'),
+                title: Openwis.i18n('HomePage.Search.Criteria.Options'),                
+                //layout: 'table',
+                layoutConfig: {
+                     columns: 1  
+                },                
 				autoHeight:true,
 				collapsed: true,
 				collapsible: true,
@@ -101,7 +120,18 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 buttonAlign: 'center'
             });
         }
-        return this.buttonsPanel;
+        return this.buttonsPanel;        
+    },
+    
+    getButtonsSruPanel:function(){
+    	if(!this.buttonsSruPanel){
+    		this.buttonsSruPanel=new Ext.Panel({
+    			border:false,buttonAlign:"center"
+    		});
+    	}
+    
+    	return this.buttonsSruPanel;
+
     },
     
     getSortDirectionCombobox: function() {
@@ -124,10 +154,11 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 name: 'sortDirection',
                 typeAhead: true,
 				mode: 'local',
+				cls:'mg_bi5',
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 95,
+				width: 112,
 				fieldLabel: Openwis.i18n('HomePage.Search.Criteria.Options.SortDirection')
             });
         }
@@ -153,14 +184,27 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 name: 'hitsPerPage',
                 typeAhead: true,
 				mode: 'local',
+				cls:'mg_bi0',
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 95,
+				width: 110,
 				fieldLabel: Openwis.i18n('HomePage.Search.Criteria.Options.HitsPerPage')
             });
         }
         return this.hitsCombobox;
+    },
+    
+ // rjy add
+    getOnlyGeossMetadataCheckbox: function() {
+        if(!this.onlyGeossMetadataCheckbox) {
+            this.onlyGeossMetadataCheckbox = new Ext.form.Checkbox({
+    			name: 'onlyGEOSSMetadata',
+    			checked: false,
+    			boxLabel: 'Only GEOSS Metadata'
+    		});
+    	}
+    	return this.onlyGeossMetadataCheckbox;
     },
     
     getMapPanel: function() {
@@ -170,8 +214,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 wmsUrl: "http://vmap0.tiles.osgeo.org/wms/vmap0?",
                 layerName: 'basic',
                 maxExtent: new OpenLayers.Bounds(-180,-90,180,90),
-                width: 225,
-			    height: 200,
+                width: 224,
+			    height: 160,
                 listeners: {
                     valueChanged: function(bounds) {
                     	var latMin = bounds.bottom;
@@ -236,9 +280,10 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 name: 'region',
                 typeAhead: true,
 				triggerAction: 'all',
+				cls: 'mg_bi10',
 				editable: false,
 				selectOnFocus:true,
-				width: 225,
+				width: 224,
     			listeners : {
     				select: function(combobox, rec, index) {
     				    if(rec.get('id') != 'UserDefined') {
@@ -271,8 +316,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
         if(!this.resetAction) {
             this.resetAction = new Ext.Action({
                 text: Openwis.i18n('Common.Btn.Reset'),
-                iconCls: 'iconBtnReset',
-                cls: 'openwisAction homePageSearchAction',
+                width: 110,
+                cls: 'mainbtn_gray mg_r4',
 				scope: this,
 				handler: function() {
 					this.reset();
@@ -286,8 +331,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
         if(!this.searchAction) {
             this.searchAction = new Ext.Action({
                 text: Openwis.i18n('Common.Btn.Search'),
-                iconCls: 'iconBtnSearch',
-                cls: 'openwisAction homePageSearchAction',
+                width: 110,
+                cls: 'mainbtn_gray',
 				scope: this,
 				handler: function() {
 					if (this.validate())
@@ -300,6 +345,24 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
             });
         }
         return this.searchAction;
+        
+    },
+    getSruAction: function(){
+    	if(!this.sruAction){
+    		this.sruAction = new Ext.Action({
+    			text:Openwis.i18n("Common.Btn.Search"),
+    			width:110,
+    			cls:"mainbtn_gray",
+    			scope:this,
+    			handler:function(){
+    				if(this.validate()){
+    					this.buildSearchParams();
+    				}
+    			}
+    		});
+    }
+    return this.sruAction;
+
     },
     
     setRegionToUserDefined: function() {

@@ -28,7 +28,7 @@
       <%} else { %>
       	doAdhocRequestFromCache("<%=StringEscapeUtils.escapeJavaScript(uuid)%>", "<%= StringEscapeUtils.escapeJavaScript(gtsCategory)%>");<%
       } 
-  } else if (isCacheEnable && StringUtils.isNotBlank(url)) {
+  } else if (isCacheEnable && StringUtils.isBlank(localDataSource)) {
       %>window.open("<%=url%>")<%
    } else {
       if (isBlacklisted) {%>

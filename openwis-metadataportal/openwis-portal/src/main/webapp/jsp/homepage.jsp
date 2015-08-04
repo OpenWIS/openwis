@@ -5,7 +5,7 @@
 <html>
 <head>
 <%
-String title = "OpenWIS Home";
+String title = "GISC Seoul";
 %>
 
 	<%@include file="header-common.jsp" %>

@@ -121,6 +121,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	        this.downloadAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.Download'),
 	            disabled: true,
+	            cls: 'btn_wbox10',
 	            iconCls: 'icon-download-adhoc',
 				scope: this,
 				handler: function() {
@@ -136,6 +137,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 		if (!this.acknowledgeAction) {
 			this.acknowledgeAction = new Ext.Action({
 				text: Openwis.i18n('TrackMyRequests.UserAlarms.Action.Acknowledge'),
+				cls: 'btn_wbox11',
 				iconCls: 'icon-discard-adhoc',
 				disabled: true,
 				scope: this,
@@ -166,6 +168,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 		if (!this.acknowledgeAllAction) {
 			this.acknowledgeAllAction = new Ext.Action({
 				text: Openwis.i18n('TrackMyRequests.UserAlarms.Action.AcknowledgeAll'),
+				cls: 'btn_wbox12',
 				iconCls: 'icon-discard-adhoc',
 				scope: this,
 				disabled: true,
@@ -212,6 +215,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	        this.viewRequestAction = new Ext.Action({
 	            text: Openwis.i18n('TrackMyRequests.Action.ViewRequest'),
 	            disabled: true,
+	            cls: 'btn_wbox11',
 	            iconCls: 'icon-view-adhoc',
 	            scope: this,
 				handler: function() {
@@ -229,6 +233,7 @@ Openwis.MyAccount.TrackMyRequests.MyUserAlarmsPanel = Ext.extend(Ext.grid.GridPa
 	        this.viewSubscriptionAction = new Ext.Action({
 	            text: Openwis.i18n('TrackMySubscriptions.Action.ViewEditSubscription'),
 	            disabled: true,
+	            cls: 'btn_wbox15',
 	            iconCls: 'icon-view-subscription',
 	            scope: this,
 				handler: function() {

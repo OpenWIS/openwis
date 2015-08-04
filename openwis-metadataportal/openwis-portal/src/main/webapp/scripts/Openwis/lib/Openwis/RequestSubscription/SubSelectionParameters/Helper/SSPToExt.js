@@ -29,7 +29,7 @@ Openwis.RequestSubscription.SubSelectionParameters.Helper.SSPToExt = function() 
 	        panel = new Openwis.Common.Components.GeographicalExtentSelection({
 	            fieldLabel: config.parameter.label,
 	            maxExtent: Openwis.Utils.Geo.getBoundsFromWKT(config.parameter.geoWKTMaxExtent),
-    			geoWKTSelection: this.toSingletonValue(config.editValue) || config.parameter.geoWKTSelection,
+    			geoWKTSelection: config.editValue || config.parameter.geoWKTSelection,
     			wmsUrl: config.parameter.geoConfig.wmsUrl,
     			layerName: config.parameter.geoConfig.layerName,
     			geoExtentType: config.parameter.geoExtentType,
@@ -105,13 +105,13 @@ Openwis.RequestSubscription.SubSelectionParameters.Helper.SSPToExt = function() 
 	    if(config.parameter.selectionType == "SingleSelection") {
 	        for(var i = 0; i < config.parameter.values.length; i++) {
 	            var value = config.parameter.values[i];
-	            if(value.code == this.toSingletonValue(config.editValue)) {
+	            if(value.code == config.editValue) {
 	                labelValue = value.value;
 	                break;
 	            }
 	        }
 	    } else if(config.parameter.selectionType == "MultipleSelection") {
-	        var selectedValues = config.editValue;
+	        var selectedValues = config.editValue.split(",");
 	        labelValue = "";
 	        for(var i = 0; i < config.parameter.values.length; i++) {
 	            var value = config.parameter.values[i];
@@ -123,7 +123,7 @@ Openwis.RequestSubscription.SubSelectionParameters.Helper.SSPToExt = function() 
 	        return new Openwis.Common.Components.GeographicalExtentSelection({
 	            fieldLabel: config.parameter.label,
 	            maxExtent: Openwis.Utils.Geo.getBoundsFromWKT(config.parameter.geoWKTMaxExtent),
-    			geoWKTSelection: this.toSingletonValue(config.editValue),
+    			geoWKTSelection: config.editValue,
     			wmsUrl: config.parameter.geoConfig.wmsUrl,
     			layerName: config.parameter.geoConfig.layerName,
     			geoExtentType: config.parameter.geoExtentType,
@@ -131,14 +131,14 @@ Openwis.RequestSubscription.SubSelectionParameters.Helper.SSPToExt = function() 
     			readOnly: true
 	        });
 	    } else if(config.parameter.selectionType == "SourceSelection") {
-	        labelValue = this.toSingletonValue(config.editValue);
+	        labelValue = config.editValue;
 	    } else if(config.parameter.selectionType == "DayPeriodSelection") {
-	        labelValue = this.toSingletonValue(config.editValue);
+	        labelValue = config.editValue;
 	    } else if(config.parameter.selectionType == "DatePeriodSelection") {
-	        var period = this.toSingletonValue(config.editValue).split("/");
+	        var period = config.editValue.split("/");
 	        labelValue = Openwis.i18n('Common.Extent.Temporal.From.To', {from: period[0], to: period[1]});
 	    } else if(config.parameter.selectionType == "TimePeriodSelection") {
-	        var period = this.toSingletonValue(config.editValue).split("/");
+	        var period = config.editValue.split("/");
 	        labelValue = Openwis.i18n('Common.Extent.Temporal.From.To', {from: period[0], to: period[1]});
 	    }
 	    
@@ -147,18 +147,6 @@ Openwis.RequestSubscription.SubSelectionParameters.Helper.SSPToExt = function() 
             value: labelValue,
             buildValue: function() {return labelValue;}
         });
-	};
-	
-	/**
-	 * If the value is an array, returns the first element of the array.  Otherwise,
-	 * returns the value unmodified.
-	 */
-	this.toSingletonValue = function(value) {
-		if ((value != null) && (value.constructor === Array)) {
-			return value[0];
-		} else {
-			return value;
-		}
 	};
 	
 	this.createEmptyComponent = function(label) {

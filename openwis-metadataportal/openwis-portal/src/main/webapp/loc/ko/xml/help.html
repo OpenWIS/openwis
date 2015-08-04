@@ -1,0 +1,131 @@
+<script type="text/javascript" language="javascript" defer="defer">
+
+var modal;
+
+function openPop(method){
+
+//	var retVal;
+	var url;
+
+	if(method == 'notice'){
+		url = 'http://gischelp.kma.go.kr/oper/web/notice/noticeList.do?lang=ko';
+//		$('#popup').load('/ows/web/notice/noticeList.do', '');
+//		$('#popup').show();
+	}else if(method == 'reference'){
+		url = 'http://gischelp.kma.go.kr/oper/web/reference/referenceList.do?lang=ko';
+	}else if(method == 'qainfo'){
+		url = 'http://gischelp.kma.go.kr/oper/web/qainfo/qaInfoRegister.do?lang=ko';
+	}
+	var openParam = "dialogWidth:800px;dialogHeight:800px;scroll:no;status:no;center:yes;resizable:yes;";
+//	window.showModalDialog(url, self, openParam);
+	window.open(url,"", "top=100px, left=100px, width=800px, height=800px, scrollbars=yes");
+}
+
+</script>
+
+<div class="help">
+	<div class="contentHeader" >
+		<p class="contentHeader_title">
+			<img src="/openwis-user-portal/images/openwis/help_title.png" alt="HELP DESK" />
+		</p>
+		<p class="contentHeader_text">
+			GISC 서울의 운영과 관련된 공지사항과 <br />운영자에게 궁금한 내용이나 요청사항을 질의할 수 있으며,
+			<br/>GISC 서울 사용자 매뉴얼 및 유용한 자료를 제공합니다.
+		</p>
+	</div>
+
+	<ul>
+		<a href="javascript:openPop('notice');">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_notice_img.jpg" alt="NOTICE" /></p>
+				<p class="tit">공지사항</p>
+				<p class="stit">시스템 작업관련 소식 및 일정에 대한 공지입니다.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="javascript:openPop('qainfo')">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_questions_img.jpg" alt="QUESTIONS" /></p>
+				<p class="tit">문의사항</p>
+				<p class="stit">문의 및 요청사항을 등록해 주십시오.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="javascript:openPop('reference')">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_manuals_img.jpg" alt="MANUALS DOWNLOAD" /></p>
+				<p class="tit">게시판</p>
+				<p class="stit">GISC 서울 매뉴얼 및 관련문서를 다운로드할 수 있습니다.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="http://gischelp.kma.go.kr/oper/web/wimms/wimmsDown.do">
+			<li class="pd_r23">
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_wimms_img.jpg" alt="WINNS DOWNLOAD" /></p>
+				<p class="tit">WIMMS 가이드</p>
+				<p class="stit">WIMMS 매뉴얼 및 신청서를 다운로드할 수 있습니다.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+		<a href="http://gisc.kma.go.kr/openwis-user-portal/excel/Application_for_Data_Retrieval.xlsx">
+			<li>
+				<p class="simg"><img src="/openwis-user-portal/loc/en/images/help_application_img.jpg" alt="APPLICATION FOR DATA RETRIEVAL" /></p>
+				<p class="tit">회원 추가 정보 양식</p>
+				<p class="stit">양식에 대한 자세한 내용을 다운로드 할 수 있습니다.</p>
+				<p class="more"><img src="/openwis-user-portal/loc/en/images/help_btn_more.jpg" alt="more" /></p>
+			</li>
+		</a>
+	</ul>
+
+</div>
+
+<!-- <h3>Help</h3>
+<p>For Frequently Asked Questions (FAQ's), Tutorials, Reference Manuals and other information on the use of GeoNetwork opensource, 
+	please refer to the <strong>Documentation</strong> center on <strong><a href="http://geonetwork-opensource.org" target="_blank">The GeoNetwork opensource Community website</a></strong></p>
+<h3>Content of this page</h3>
+<p>
+	<a href="#1">Finding spatial data</a><br/>
+	<a href="#2">Spatial data and related applications</a><br/>
+	<a href="#3">Downloading spatial data</a>
+	<p/>
+	<a name="1"/><h3>Finding spatial data</h3>
+	The GeoNetwork search engine allows you to search on the following fields
+	<ul>
+		<li>Title</li>
+		<li>Abstract</li>
+		<li>Keywords</li>
+		<li>Location</li>
+		<li>Free text (any metadata field)</li>
+	</ul>
+	In each search fields the user can write expressions using the following grammar:
+	<ul>
+		<li>string: search metadata having "string"' in field</li>
+		<li>string1 string2: equivalent to string1 and string2</li>
+		<li>"string1 string2": search metadata having the "string1 string2" in field</li>
+		<li>string1 and string2: search metadata having both "string1" and "string2" in field</li>
+		<li>string1 or string2: search metadata having either 'string1' or "string2" in field</li>
+		<li>string1 not string2: search metadata having "string1" but not "string2" in field</li>
+	</ul>
+	Keywords and operators (and, or not) are not case sensitive.
+	<p/>
+	For instance, in the title field:
+	<p/>
+	anchorage map: search for all metadata containing the words "anchorage" and "map" in the title;<br/>
+	"anchorage map": search for all metadata containing the text "anchorage map" in the title;<br/>
+	"anchorage map" not roads: search for all metadata containing the text "anchorage map" but not the word "roads" in the title.
+	<p/>
+	In the remote search the user can select multiple servers from the list; as an alternative, the user can select a profile; this automatically selects all servers defined for that profile. For instance, the GeoNetwork profile selects all GeoNetwork servers providing remote search capabilities.<br/>
+	Since remote Z39.50 transactions can be very slow, the user can define a timeout for the transaction of 10, 20 and 30 seconds.
+	<p/>
+	<a name="2"/><h3>Spatial data and related applications</h3>
+	<p/>
+	Spatial data that can be found in the GeoNetwork is often used as basic data in advanced web-based applications. These applications target specific problems related to agriculture, livestock, forests, fisheries and food security issues.<br/>
+	The user will be provided with links to these related applications.<br/>
+	Related applications will also allow the user to see what other spatial data makes part of the application.<br/>
+	Related applications can in some cases directly be viewed through the GeoNetwork Dynamic Map interface.
+	<p/>
+	<a name="3"/><h3>Downloading spatial data</h3>
+	Spatial data is often available for download. Data is provided in data formats that are compatible with most professional GIS applications and a variety of freeware GIS tools.<br/>
+	Downloadable data has a link to proceed for download. You will have to aggree with the download conditions and a disclaimer. You are asked to provide your personal details, and are kindly invited to provide us with feedback on your intended use of the data.<br/>
+	A number of datasets will allow you to only download an area of interest.
+</p> -->

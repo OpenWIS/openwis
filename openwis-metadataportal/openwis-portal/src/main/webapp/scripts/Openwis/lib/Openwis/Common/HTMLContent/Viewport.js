@@ -85,7 +85,7 @@ Openwis.Common.HTMLContent.Viewport = Ext.extend(Ext.Viewport, {
 				cls: 'body-center-panel',
 				region: 'center',
 				border: false,
-				width: 993,
+				width: 992,
 				layout: 'border'
 			});
 		}
@@ -124,7 +124,7 @@ Openwis.Common.HTMLContent.Viewport = Ext.extend(Ext.Viewport, {
 		var height = browserPanelHeight + 150;
 		
 	    if(relayoutWidth) {
-            var contentWidth = 993;
+            var contentWidth = 992;
         	
         	var size = this.getEl().getViewSize(), w = size.width;
         	
@@ -142,7 +142,7 @@ Openwis.Common.HTMLContent.Viewport = Ext.extend(Ext.Viewport, {
         		
         		// if scrollbar present
         		if (height > bodyHeight) {
-        			panelSideWidth -= 8;
+        			panelSideWidth -= 9;
         		}
         		westP.setWidth(panelSideWidth);
         		eastP.setWidth(panelSideWidth);

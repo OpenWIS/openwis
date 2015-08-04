@@ -3,10 +3,6 @@
  */
 package org.openwis.metadataportal.services.request.dto.follow;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 /**
  * Short Description goes here. <P>
  * Explanation goes here. <P>
@@ -16,7 +12,7 @@ public class SubSelectionParametersDTO {
 
    private String code;
 
-   private List<String> value;
+   private String value;
 
    /**
     * Default constructor.
@@ -24,10 +20,10 @@ public class SubSelectionParametersDTO {
     * @param label
     * @param value
     */
-   public SubSelectionParametersDTO(String code, Collection<String> value) {
+   public SubSelectionParametersDTO(String code, String value) {
       super();
       this.code = code;
-      this.value = new ArrayList<String>(value);
+      this.value = value;
    }
 
    /**
@@ -50,7 +46,7 @@ public class SubSelectionParametersDTO {
     * Gets the value.
     * @return the value.
     */
-   public List<String> getValue() {
+   public String getValue() {
       return value;
    }
 
@@ -58,7 +54,7 @@ public class SubSelectionParametersDTO {
     * Sets the value.
     * @param value the value to set.
     */
-   public void setValue(List<String> value) {
-      this.value = new ArrayList<String>(value);
+   public void setValue(String value) {
+      this.value = value;
    }
 }

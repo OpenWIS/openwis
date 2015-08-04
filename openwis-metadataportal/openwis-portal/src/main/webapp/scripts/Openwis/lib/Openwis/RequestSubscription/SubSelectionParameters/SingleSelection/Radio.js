@@ -45,7 +45,7 @@ Openwis.RequestSubscription.SubSelectionParameters.SingleSelection.Radio = Ext.e
 	    if(this.config.editValue || this.config.currentElementSelection) {
 	         var elementsToKeepSelected = [];
     	     if(this.config.editValue) {
-    	         elementsToKeepSelected.push(this.config.editValue[0]);
+    	         elementsToKeepSelected.push(this.config.editValue);
     	     } else if(this.config.currentElementSelection) {
                 Ext.each(matchingValues, 
                     function(item, index, allItems) {

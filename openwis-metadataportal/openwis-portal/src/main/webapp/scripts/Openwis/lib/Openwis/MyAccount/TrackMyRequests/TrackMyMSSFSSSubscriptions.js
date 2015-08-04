@@ -31,7 +31,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMyMSSFSSSubscriptions = Ext.extend(Ext.Co
 		if(!this.header) {
 			this.header = new Ext.Container({
 				html: Openwis.i18n('TrackMyMSSFSSSubscriptions.Title'),
-				cls: 'myAccountTitle1'
+				cls: 'myAccountTitle1 top_hdp_txt'
 			});
 		}
 		return this.header;

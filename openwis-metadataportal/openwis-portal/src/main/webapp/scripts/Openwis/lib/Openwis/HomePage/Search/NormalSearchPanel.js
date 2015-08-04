@@ -36,7 +36,9 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
             this.whatTextField = new Ext.form.TextField({
                 name: 'what',
 				allowBlank: true,
-				width: 210,
+				cls: 'mg_bi10',
+				width: 224,
+				height: 22,
                 listeners: {
                   specialkey: function(f,e){
                     if (e.getKey() == e.ENTER) {
@@ -66,6 +68,7 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
         this.getWhatTextField().reset();
         this.getMapPanel().reset();
         this.getRegionsCombobox().reset();
+        this.getOnlyGeossMetadataCheckbox().reset();
         this.getSortDirectionCombobox().reset();
         this.getHitsCombobox().reset();
     },
@@ -73,6 +76,9 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
     buildSearchParams: function() {
         var params = {};
 		params.any = this.getWhatTextField().getValue();
+		//GEOSS Only
+		params.geossOnly = this.getOnlyGeossMetadataCheckbox().getValue();
+		params.wisOnly = false;
 		params.sortBy = this.getSortDirectionCombobox().getValue();
 		params.hitsPerPage = this.getHitsCombobox().getValue();
 		params.from = 0;

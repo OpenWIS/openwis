@@ -5,7 +5,7 @@ Openwis.Common.Metadata.BatchImport = Ext.extend(Ext.Container, {
     initComponent: function() {
         Ext.apply(this, {
             style: {
-                margin: '10px 30px 10px 30px'
+            	margin: '10px 30px 10px 30px'
             }
         });
         Openwis.Common.Metadata.BatchImport.superclass.initComponent.apply(this, arguments);
@@ -63,7 +63,7 @@ Openwis.Common.Metadata.BatchImport = Ext.extend(Ext.Container, {
         if(!this.header) {
             this.header = new Ext.Container({
                 html: Openwis.i18n('MetadataBatchImport.Administration.Title'),
-                cls: 'administrationTitle1'
+                cls: 'administrationTitle1 top_hdp_txt'
             });
         }
         return this.header;
@@ -78,7 +78,7 @@ Openwis.Common.Metadata.BatchImport = Ext.extend(Ext.Container, {
 		if(!this.batchImportMetadataFormPanel) {
 			this.batchImportMetadataFormPanel = new Ext.form.FormPanel({
 				itemCls: 'formItems',
-				border: false,
+				border: true,
 				buttons:
 				[
 					{

@@ -53,7 +53,7 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 		if(!this.header) {
 			this.header = new Ext.Container({
 				html: Openwis.i18n('MetadataCreate.Administration.Title'),
-				cls: 'administrationTitle1'
+				cls: 'administrationTitle1 top_hdp_txt'
 			});
 		}
 		return this.header;
@@ -73,6 +73,8 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 				[
 					{
 						text: Openwis.i18n('Common.Btn.Create'),
+						cls:"mainbtn_blue mg_t10",
+						width:110,
 						handler: function(btn, e) {
 							if(this.getCreateMetadataFormPanel().getForm().isValid()) {
 								var saveHandler = new Openwis.Handler.Save({
@@ -101,7 +103,9 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 		if(!this.urnInfoFormPanel) {
 			this.urnInfoFormPanel = new Ext.Panel({
 				fieldLabel: Openwis.i18n('MetadataCreate.URN'),
-				border: false
+				border: false,
+				cls:"mac_input",
+				width:500
 			});
 
             // Fill the table layout panel
@@ -145,7 +149,7 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 			this.urnAuthTextField = new Ext.form.TextField({
 				name: 'urnAuth',
 				allowBlank:false,
-				width: 120,
+				width: 140,
 				emptyText: Openwis.i18n('MetadataCreate.Authority')
 			});
 		}
@@ -160,7 +164,7 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 			this.urnIdTextField = new Ext.form.TextField({
 				name: 'urnId',
 				allowBlank:false,
-				width: 120,
+				width: 140,
 				emptyText: Openwis.i18n('MetadataCreate.Id')
 			});
 		}
@@ -229,7 +233,8 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 				selectOnFocus:true,
 				editable: false,
 				allowBlank: false,
-				width: 330,
+				cls:"mac_input",
+				width: 396,
 				displayField: 'title',
 				valueField: 'id'
 			});
@@ -265,6 +270,7 @@ Openwis.Common.Metadata.Create = Ext.extend(Ext.Container, {
 				store: categoriesStore,
 				editable: false,
 				allowBlank: false,
+				cls:"mac_input",
 				width: 330,
 				displayField: 'name',
 				valueField: 'id'

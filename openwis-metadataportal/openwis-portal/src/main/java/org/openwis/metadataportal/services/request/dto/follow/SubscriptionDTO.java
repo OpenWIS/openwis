@@ -221,7 +221,9 @@ public class SubscriptionDTO extends AbstractRequestDTO {
                return ((Value) input).getValue();
             }
          });
-         dto.getSsp().add(new SubSelectionParametersDTO(param.getCode(), values));
+         dto.getSsp()
+               .add(new SubSelectionParametersDTO(param.getCode(), Joiner.on(",").join(
+                     values.toArray())));
       }
 
       //Dissemination.
@@ -294,7 +296,9 @@ public class SubscriptionDTO extends AbstractRequestDTO {
 
       //SSP
       for (org.openwis.harness.mssfss.Parameter param : subscription.getSubSelectionParams()) {
-         dto.getSsp().add(new SubSelectionParametersDTO(param.getCode(), param.getValues()));
+         dto.getSsp().add(
+               new SubSelectionParametersDTO(param.getCode(), Joiner.on(",")
+                     .join(param.getValues())));
       }
 
       //Dissemination
