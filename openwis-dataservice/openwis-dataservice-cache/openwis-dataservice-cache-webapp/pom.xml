@@ -29,6 +29,7 @@
       <version>${project.version}</version>
       <type>jar</type>
       <exclusions>
+        <!-- This is excluded to avoid a duplicate persistence.xml file from appearing in the deployed EAR -->
         <exclusion>
             <groupId>org.openwis.dataservice.common</groupId>
             <artifactId>openwis-dataservice-common-domain</artifactId>
