@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
-		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+		<groupId>io.openwis.securityservice.usermanagement.server</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+	<groupId>io.openwis.securityservice.usermanagement.server</groupId>
 	<artifactId>openwis-securityservice-usermanagement-server-ejb</artifactId>
 	<name>openwis-securityservice-usermanagement-server-ejb</name>
 	<packaging>jar</packaging>
@@ -16,7 +16,7 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
+			<groupId>io.openwis.securityservice.usermanagement.common</groupId>
 			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
 			<version>${project.version}</version>
 			<type>ejb</type>
@@ -57,7 +57,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.management</groupId>
+			<groupId>io.openwis.management</groupId>
 			<artifactId>openwis-management-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -89,7 +89,7 @@
 								<scope>compile</scope>
 							</dependency>
 							<dependency>
-								<groupId>org.openwis.securityservice.usermanagement.common</groupId>
+								<groupId>io.openwis.securityservice.usermanagement.common</groupId>
 								<artifactId>openwis-securityservice-usermanagement-common</artifactId>
 								<version>${project.version}</version>
 								<scope>compile</scope>
@@ -114,7 +114,7 @@
 								<id>process-classes-user</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.usermanagement.UserManagementServiceImpl</className>
+									<className>io.openwis.usermanagement.UserManagementServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -128,7 +128,7 @@
 								<id>process-classes-group</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.usermanagement.GroupManagementServiceImpl</className>
+									<className>io.openwis.usermanagement.GroupManagementServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -142,7 +142,7 @@
 								<id>process-classes-dissem-param</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.usermanagement.DisseminationParametersServiceImpl</className>
+									<className>io.openwis.usermanagement.DisseminationParametersServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>
@@ -156,7 +156,7 @@
 								<id>process-classes-monitoring</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>org.openwis.usermanagement.MonitoringServiceImpl</className>
+									<className>io.openwis.usermanagement.MonitoringServiceImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>

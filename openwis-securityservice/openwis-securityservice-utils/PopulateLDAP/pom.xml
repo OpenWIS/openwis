@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.openwis.securityservice.utils</groupId>
+		<groupId>io.openwis.securityservice.utils</groupId>
 		<artifactId>openwis-securityservice-utils</artifactId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.securityservice.utils</groupId>
+	<groupId>io.openwis.securityservice.utils</groupId>
 	<artifactId>openwis-securityservice-utils-populate-ldap</artifactId>
 	<name>openwis-securityservice-utils-populate-ldap</name>
 	<packaging>jar</packaging>
@@ -23,7 +23,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.openwis.metadataportal</groupId>
+			<groupId>io.openwis.metadataportal</groupId>
 			<artifactId>openwis-portal-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>

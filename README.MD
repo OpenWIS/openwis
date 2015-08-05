@@ -39,7 +39,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
              |+-- openwis-dataservice-server-ejb
              |+-- openwis-dataservice-server-test (not used)
              |+-- openwis-dataservice-server-webapp
-      |+--openwis-factorytests (not used)
+      |+--openwis-factorytests
       |+--openwis-harness 
           |+--openwis-harness-client
           |+--openwis-harness-dissemination
@@ -56,7 +56,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
           |+--oaipmh
           |+--openwis-portal
           |+--openwis-portal-client
-          |+--openwis-portal-solr (not used)
+          |+--openwis-portal-solr
           |+--schematrons (not used)
           |+--sde
       |+--openwis-securityservice
@@ -66,7 +66,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
              |+-- openwis-securityservice-usermanagement-server-ejb
              |+-- openwis-securityservice-usermanagement-server-webapp
           |+--openwis-securityservice-usermanagement-utils
-      |+--openwis-stagingpost (not used)
+      |+--openwis-stagingpost
       |+--openwis-resources
 
 * **openwis-dataservice:** contains the dataservice module (including the cache system)
@@ -96,7 +96,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests`
+ In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests -Dfile.encoding=UTF-8`
 
 After few minutes the build should finished successfully like this:
 
@@ -144,6 +144,7 @@ After few minutes the build should finished successfully like this:
     [INFO] openwis-securityservice-usermanagement-server-ear ..... SUCCESS [0.474s]
     [INFO] openwis-securityservice-utils ......................... SUCCESS [0.053s]
     [INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [3.217s]
+	[INFO] OpenWIS Staging Post .................................. SUCCESS [0.318s]
     [INFO] ------------------------------------------------------------------------
     [INFO] ------------------------------------------------------------------------
     [INFO] BUILD SUCCESSFUL
@@ -151,8 +152,8 @@ After few minutes the build should finished successfully like this:
 	
 **#3. Generate the admin and user portals*
 
-**User** In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests`
-**Admin:** In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests`
+**User** In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
+**Admin:** In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests -Dfile.encoding=UTF-8`
 
 **#4  Getting built artifacts**
 
@@ -166,7 +167,7 @@ After few minutes the build should finished successfully like this:
 
 **#5 Changing Verison Number**
 
-In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all` or whatever version you wish to change the project to
+In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all,user,admin` or whatever version you wish to change the project to
  
  **#6 Running SonarQube**
  

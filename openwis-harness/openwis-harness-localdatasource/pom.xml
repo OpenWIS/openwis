@@ -2,11 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>openwis-harness</artifactId>
-    <groupId>eu.akka.openwis.harness</groupId>
+    <groupId>io.openwis.harness</groupId>
 	<version>develop-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>eu.akka.openwis.harness</groupId>
+  <groupId>io.openwis.harness</groupId>
   <artifactId>openwis-harness-localdatasource</artifactId>
   <name>openwis-harness-localdatasource</name>
   

@@ -1,19 +1,50 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>eu.akka.openwis</groupId>
-   <artifactId>openwis</artifactId>
-   <version>develop-SNAPSHOT</version>
-   <packaging>pom</packaging>
-   <name>OpenWis</name>
-
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>io.openwis</groupId>
+	<artifactId>openwis</artifactId>
+	<version>develop-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>OpenWis</name>
+   
+    <description>OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions 
+	required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on 
+	behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)</description>
+	
    <scm>
       <connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
       <developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
 	  <tag>HEAD</tag>
       <url>https://github.com/OpenWIS/openwis</url>
    </scm>
+   
+   	<organization>
+		<name>OpenWIS Association</name>
+		<url>http://www.openis.io</url>
+	</organization>
 
-    <properties>
+	<inceptionYear>2013</inceptionYear>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/OpenWIS/openwis/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<system>Jenkins CloudBees</system>
+		<url> https://openwis-association.ci.cloudbees.com</url>
+	</ciManagement>
+
+	<mailingLists>
+		<mailingList>
+		   <name>User List</name>
+		   <subscribe>openwis-tmc@meteo.fr</subscribe>
+		</mailingList>
+	</mailingLists>
+   
+    
+	
+	<properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <file.encoding>UTF-8</file.encoding>	  
    </properties>
@@ -31,7 +62,7 @@
 			<module>openwis-dataservice</module>
 			<module>openwis-metadataportal</module>
 			<module>openwis-securityservice</module>
-			<!--<module>openwis-stagingpost</module>-->
+			<module>openwis-stagingpost</module>
          </modules>
       </profile>
       <profile>
@@ -138,146 +169,118 @@
       </pluginManagement>
    </build>
    
-   <organization>
-      <name>AKKA informatique &amp; Systèmes</name>
-      <url>http://www.akka.eu</url>
-   </organization>
+	<developers>
+		<developer>
+			<name>Leon Mika</name>
+			<organization>Bureau of Meteorology</organization>
+		</developer>
+		<developer>
+			<name>Weiging Qu</name>
+			<organization>Bureau of Meteorology</organization>
+		</developer>	
+		<developer>
+			<name>Y Wang</name>
+			<organization>Bureau of Meteorology</organization>
+		</developer>
+		<developer>
+			<name>Francois Faugeron</name>
+			<organization>Météo France</organization>
+		</developer>
+		<developer>
+			<name>Remy Gibault</name>
+			<organization>Météo France</organization>
+		</developer>
+		<developer>
+			<name>Yves Goupil</name>
+			<organization>Météo France</organization>
+		</developer>
+		<developer>
+			<name>Shaun Adams</name>
+			<organization>Met Office (UK)</organization>
+		</developer>
+			<developer>
+			<name>Kirsty Burgess</name>
+			<organization>Met Office (UK)</organization>
+		</developer>
+		<developer>
+			<name>Alan Morbey</name>
+			<organization>Met Office (UK)</organization>
+		</developer>
+		<developer>
+			<name>Yannick Lizzi</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Laurent Baresse</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Mathieu Coudert</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Nicolas Guerrier</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Florin Racaru</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Alexia Audevart</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Julien Baillagou</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Igor Laborie</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+		<developer>
+			<name>Nelly Sayer</name>
+			<organization>AKKA Technologies</organization>
+		</developer>
+	</developers>
    
-   <url>http://www.openwis.org</url>
-   <inceptionYear>2010</inceptionYear>
-   
-   <developers>
-      <developer>
-         <id>y.lizzi</id>
-         <name>Yannick Lizzi</name>
-         <email>y.lizzi@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Project Leader</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>l.baresse</id>
-         <name>Laurent Baresse</name>
-         <email>l.baresse@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Architect</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>m.coudert</id>
-         <name>Mathieu Coudert</name>
-         <email>m.coudert@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Java-J2EE Development Engineer</role>
-            <role>Metadata Expert</role>
-            <role>GeoNetwork community member</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>n.guerrier</id>
-         <name>Nicolas Guerrier</name>
-         <email>n.guerrier@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Java-J2EE Development Engineer</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>f.racaru</id>
-         <name>Florin Racaru</name>
-         <email>f.racaru@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Java-J2EE Development Engineer</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>a.audevart</id>
-         <name>Alexia Audevart</name>
-         <email>a.audevart@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Java-J2EE Development Engineer</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>j.baillagou</id>
-         <name>Julien Baillagou</name>
-         <email>j.baillagou@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Java-J2EE Development Engineer</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>i.laborie</id>
-         <name>Igor Laborie</name>
-         <email>i.laborie@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Java-J2EE Development Engineer</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-      <developer>
-         <id>n.sayer</id>
-         <name>Nelly Sayer</name>
-         <email>n.sayer@akka.eu</email>
-         <organization>AKKA Technologies</organization>
-         <organizationUrl>http://www.akka.eu</organizationUrl>
-         <roles>
-            <role>Graphist</role>
-         </roles>
-         <timezone>GMT+1</timezone>
-      </developer>
-   </developers>
-   
-	  <pluginRepositories>
-		<pluginRepository>
-		  <name>oss.sonatype.org</name>
-		  <id>oss.sonatype.org</id>
-		  <url>https://oss.sonatype.org/content/groups/public</url>
-		</pluginRepository>
-	  </pluginRepositories>
-   <repositories>
+	<pluginRepositories>
+	  <pluginRepository>
+		 <name>oss.sonatype.org</name>
+		 <id>oss.sonatype.org</id>
+		 <url>https://oss.sonatype.org/content/groups/public</url>
+	  </pluginRepository>
+	</pluginRepositories>
+	   
+    <repositories>
 	  <repository>
-         <id>openwis-releases</id>
-         <url>https://repository-openwis-association.forge.cloudbees.com/release</url>
-      </repository>
+		 <id>openwis-releases</id>
+		 <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
+	  </repository>
 	  <repository>
-         <id>openwis-snapshot</id>
-         <url>https://repository-openwis-association.forge.cloudbees.com/snapshot</url>
-      </repository>
-	<repository>
-         <id>openqa-releases</id>
-         <url>http://nexus.openqa.org/content/repositories/releases</url>
-      </repository>
-      <repository>
-         <id>openqa-snapshots</id>
-         <url>http://nexus.openqa.org/content/repositories/snapshots</url>
-      </repository>
-      <repository>
-         <id>openqa-thirdparty</id>
-         <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
-      </repository>
-   </repositories>
+		 <id>openwis-snapshot</id>
+		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-releases</id>
+		 <url>http://nexus.openqa.org/content/repositories/releases</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-snapshots</id>
+		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-thirdparty</id>
+		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+	  </repository>
+	  <repository>
+		<id>jboss-maven2</id>
+		<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
+	  </repository>
+	  <repository>
+		<id>jboss-maven2</id>
+		<url>http://repo1.maven.org/maven2</url>
+	  </repository>
+	</repositories>
    
 </project>

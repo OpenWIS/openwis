@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-securityservice-usermanagement-server</artifactId>
-		<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+		<groupId>io.openwis.securityservice.usermanagement.server</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.securityservice.usermanagement.server</groupId>
+	<groupId>io.openwis.securityservice.usermanagement.server</groupId>
 	<artifactId>openwis-securityservice-usermanagement-server-webapp</artifactId>
 	<name>openwis-securityservice-usermanagement-server-webapp</name>
 
@@ -16,7 +16,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openwis.securityservice.usermanagement.common</groupId>
+			<groupId>io.openwis.securityservice.usermanagement.common</groupId>
 			<artifactId>openwis-securityservice-usermanagement-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-dataservice-common</artifactId>
-		<groupId>org.openwis.dataservice.common</groupId>
+		<groupId>io.openwis.dataservice.common</groupId>
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.openwis.dataservice.common</groupId>
+	<groupId>io.openwis.dataservice.common</groupId>
 	<artifactId>openwis-dataservice-common-domain</artifactId>
 	<name>openwis-dataservice-common-domain</name>
 	<packaging>jar</packaging>
@@ -21,9 +21,9 @@
 	<dependencies>
 
          <dependency>
-            <groupId>eu.akka.jbosseap</groupId>
+            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>5.1.0</version>
+            <version>3.4.0.GA</version>
             <scope>provided</scope>
          </dependency>
         
@@ -35,11 +35,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>eu.akka.jbosseap</groupId>
+			<groupId>org.jboss.jbossas</groupId>
 			<artifactId>jboss-as-client</artifactId>
-			<version>5.1.0</version>
+			<version>5.1.0.GA</version>
 			<type>pom</type>
-			<scope>test</scope>
 		</dependency>
 
       <dependency>
@@ -51,23 +50,23 @@
       </dependency>
        
 		<dependency>
-			<groupId>org.openwis.dataservice.common</groupId>
+			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-utils</artifactId>
 			<version>${project.version}</version>
       		<type>jar</type>
 		</dependency>
 
 		<dependency>
-			<groupId>eu.akka.jbosseap-test</groupId>
+			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>eu.akka.jbosseap-test</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.4.0.GA_CP01</version>
+			<version>3.4.0.GA</version>
 			<scope>test</scope>
 		</dependency>
 
