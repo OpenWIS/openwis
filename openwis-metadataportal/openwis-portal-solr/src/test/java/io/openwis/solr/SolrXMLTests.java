@@ -3,18 +3,16 @@ package io.openwis.solr;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.DirectXmlRequest;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.params.SolrParams;
 import org.apache.solr.common.util.XML;
 import org.testng.annotations.Test;
 
 /**
- * Solr Tests to Test the opwenwis solr schema Uses Solr Embedded Server for
- * Testing
+ * Solr Tests to Test the XML Requests for the opwenwis solr schema 
+ * 
+ * Uses Solr Embedded Server for
  * 
  * @author gollogly_m
  *
@@ -23,6 +21,7 @@ import org.testng.annotations.Test;
 public class SolrXMLTests extends SolrTestBase {
 
 	SolrInputDocument[] doc = null;
+	
 	public SolrXMLTests() throws Exception {
 		super();
 	}
@@ -33,15 +32,17 @@ public class SolrXMLTests extends SolrTestBase {
 	 * @throws IOException
 	 */
 	@Test
-	public void testThatDirectXMLInsertRequests() throws SolrServerException,
+	public void testThatMultipleDocumentsCanInsert() throws SolrServerException,
 			IOException {
 
+		// Prepare documents
 		doc = new SolrInputDocument[3];
 		
 		for (int i = 0; i < 3; i++) {
 			doc[i] = new SolrInputDocument();
 			doc[i].setField("_uuid", i + " & 222", 1.0f);
 		}
+
 		// Add three documents
 		for (SolrInputDocument d : doc) {
 			server.add(d);
@@ -49,18 +50,20 @@ public class SolrXMLTests extends SolrTestBase {
 
 		server.commit();
 
-		assertNumFound("*:*", 3); // make sure it got in
+		// Assert all 3 documents were added
+		assertNumFound("*:*", 3); 
 	}
 	
 	/**
-	 * Test Multiple delete commands as Direct XML Request
+	 * Test Multiple delete commands as a Direct XML Request
 	 * @throws SolrServerException
 	 * @throws IOException
 	 */
-	@Test  (dependsOnMethods = { "testThatDirectXMLInsertRequests" })
-	public void testThatDirectXMLDeleteRequests() throws SolrServerException,
+	@Test  (dependsOnMethods = { "testThatMultipleDocumentsCanInsert" })
+	public void testThatDirectXMLRequestsCanDelete() throws SolrServerException,
 			IOException {
 
+		// Prepare Documents
 		StringWriter xml = new StringWriter();
 		xml.append("<delete>");
 		for (SolrInputDocument d : doc) {
@@ -71,10 +74,13 @@ public class SolrXMLTests extends SolrTestBase {
 		}
 		xml.append("</delete>");
 		
+		// Call Service
 		DirectXmlRequest up = new DirectXmlRequest("/update", xml.toString());
 		server.request(up);
 		server.commit();
-		assertNumFound("*:*", 0); // make sure it got out
+		
+		// Assert, make sure no documents are left
+		assertNumFound("*:*", 0); 
 	}
 
 }

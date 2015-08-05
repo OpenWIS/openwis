@@ -13,6 +13,14 @@ import org.apache.solr.util.AbstractSolrTestCase;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+/**
+ * Test Base Class for running Solr Tests
+ * 
+ *  Uses Solr Embedded Server
+ * 
+ * @author gollogly_m
+ *
+ */
 public abstract class SolrTestBase extends AbstractSolrTestCase {
 
 	protected SolrServer server;
