@@ -24,7 +24,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
    /**
     * The entity manager.
     */
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    protected EntityManager entityManager;
 
    /**

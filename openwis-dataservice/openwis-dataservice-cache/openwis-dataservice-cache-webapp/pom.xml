@@ -28,6 +28,12 @@
       <artifactId>openwis-dataservice-cache-core</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
+      <exclusions>
+        <exclusion>
+            <groupId>org.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-domain</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.openwis.management</groupId>

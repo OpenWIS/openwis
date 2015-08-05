@@ -37,7 +37,7 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
 
 	private static final Logger log = LoggerFactory.getLogger(UserAlarmManagerImpl.class);
 
-	@PersistenceContext(unitName="openwis-dataservice-common-domain")
+	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override

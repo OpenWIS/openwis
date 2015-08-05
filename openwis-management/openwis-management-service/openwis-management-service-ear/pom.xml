@@ -39,6 +39,7 @@
 						repertoire lib
 					-->
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
+			        <packagingExcludes>lib/openwis-management-service-common-*.jar</packagingExcludes>
 				</configuration>
 			</plugin>
             <!-- 

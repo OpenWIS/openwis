@@ -63,7 +63,7 @@ public class ProductMetadataServiceImpl implements ProductMetadataService {
    /**
     * The entity manager.
     */
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    private EntityManager entityManager;
 
    /**

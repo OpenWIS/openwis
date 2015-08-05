@@ -103,7 +103,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    @EJB
    private ProductMetadataService pmds;
    
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    private EntityManager entityManager;
 
    

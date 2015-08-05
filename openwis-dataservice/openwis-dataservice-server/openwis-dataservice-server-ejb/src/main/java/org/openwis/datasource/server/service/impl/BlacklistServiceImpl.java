@@ -57,7 +57,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    private final Logger logger = LoggerFactory.getLogger(BlacklistServiceImpl.class);
 
    /** The entity manager. */
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    protected EntityManager entityManager;
 
    /** The mail sender. */

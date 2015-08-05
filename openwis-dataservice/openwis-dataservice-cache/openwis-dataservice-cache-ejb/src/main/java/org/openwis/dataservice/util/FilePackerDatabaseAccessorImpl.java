@@ -12,7 +12,7 @@ import org.openwis.dataservice.common.domain.entity.cache.FilePackerInstance;
 @TransactionTimeout(18000)
 public class FilePackerDatabaseAccessorImpl implements FilePackerDatabaseAccessor {
 	
-	@PersistenceContext(unitName="openwis-dataservice-common-domain")
+	@PersistenceContext
 	private EntityManager entityManager;
 	
 	private static final int MAXIMUM_PACKAGE_NUMBER = 99999999;

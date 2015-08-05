@@ -55,7 +55,7 @@ public class ExtractManager implements MessageListener {
    /**
     * The entity manager.
     */
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    protected EntityManager entityManager;
 
    /** The extraction delegate. */

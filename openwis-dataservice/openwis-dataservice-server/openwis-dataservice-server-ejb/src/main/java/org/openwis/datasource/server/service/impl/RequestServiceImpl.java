@@ -63,7 +63,7 @@ public class RequestServiceImpl implements RequestService {
    /**
     * The entity manager.
     */
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    protected EntityManager entityManager;
 
    /** The request dao. */

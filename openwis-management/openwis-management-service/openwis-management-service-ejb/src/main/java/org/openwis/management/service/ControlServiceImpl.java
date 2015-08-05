@@ -58,7 +58,7 @@ public class ControlServiceImpl implements ControlService {
     */
    private static Logger logger = LoggerFactory.getLogger(ControlServiceImpl.class);
 
-   @PersistenceContext(unitName="ManagementPUnit")
+   @PersistenceContext
    private EntityManager entityManager;
 
    // -------------------------------------------------------------------------

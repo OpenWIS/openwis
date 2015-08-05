@@ -54,7 +54,12 @@
 						Copy all jar except for modules ones in lib
 					-->
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
-
+					
+					<!-- Exclude module jars that are duplicated in the libs directory -->
+                    <packagingExcludes>
+                        lib/openwis-dataservice-common-domain-*.jar,
+                        lib/openwis-dataservice-cache-ejb-*.jar
+                    </packagingExcludes>
 				</configuration>
 			</plugin>
 			

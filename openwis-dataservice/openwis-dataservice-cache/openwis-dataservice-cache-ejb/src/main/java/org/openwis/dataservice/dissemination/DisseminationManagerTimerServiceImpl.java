@@ -39,7 +39,7 @@ public class DisseminationManagerTimerServiceImpl implements DisseminationManage
 	private final Logger LOG = LoggerFactory.getLogger(DisseminationManagerTimerServiceImpl.class);
 
 	// Entity manager.
-	@PersistenceContext(unitName="openwis-dataservice-common-domain")
+	@PersistenceContext
 	protected EntityManager entityManager;
 
 	// Timer service

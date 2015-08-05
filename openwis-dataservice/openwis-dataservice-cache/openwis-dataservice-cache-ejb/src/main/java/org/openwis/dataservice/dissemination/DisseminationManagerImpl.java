@@ -42,7 +42,7 @@ public class DisseminationManagerImpl implements DisseminationManager, MessageLi
    private final Logger LOG = LoggerFactory.getLogger(DisseminationManagerImpl.class);
 
    // Entity manager
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    private EntityManager entityManager;
 
    // Message Driven Context.

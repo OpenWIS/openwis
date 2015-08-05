@@ -44,7 +44,7 @@ public class DisseminatedDataStatisticsImpl implements DisseminatedDataStatistic
    private static Logger logger = LoggerFactory.getLogger(DisseminatedDataStatisticsImpl.class);
 
    /** The entity manager. */
-   @PersistenceContext(unitName="ManagementPUnit")
+   @PersistenceContext
    private EntityManager em;
 
    // -------------------------------------------------------------------------

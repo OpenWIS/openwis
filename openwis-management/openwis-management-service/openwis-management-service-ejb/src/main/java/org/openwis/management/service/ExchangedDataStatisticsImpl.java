@@ -40,7 +40,7 @@ public class ExchangedDataStatisticsImpl implements ExchangedDataStatistics {
    private static Logger logger = LoggerFactory.getLogger(ExchangedDataStatisticsImpl.class);
 
    /** The entity manager. */
-   @PersistenceContext(unitName="ManagementPUnit")
+   @PersistenceContext
    private EntityManager em;
 
    // -------------------------------------------------------------------------

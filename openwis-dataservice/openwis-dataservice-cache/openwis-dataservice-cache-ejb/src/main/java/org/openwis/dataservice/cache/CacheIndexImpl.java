@@ -40,7 +40,7 @@ public class CacheIndexImpl implements CacheIndex, ConfigurationInfo {
 
    private final Logger LOG = LoggerFactory.getLogger(CacheIndexImpl.class);
 
-   @PersistenceContext(unitName="openwis-dataservice-common-domain")
+   @PersistenceContext
    private EntityManager entityManager;
 
    private static final String INSERTION_DATE_JPQL_SORT_FIELD_NAME = "insertionDate";

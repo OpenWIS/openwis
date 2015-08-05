@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 public class AlertServiceImpl implements AlertService {
 
    // Entity manager.
-   @PersistenceContext(unitName="ManagementPUnit")
+   @PersistenceContext
    private EntityManager entityManager;
 
    private static final String UNKNOWN = "Unknown";

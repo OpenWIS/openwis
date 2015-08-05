@@ -103,10 +103,10 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	@EJB
 	private CacheIndex cacheIndex;
 
-	@PersistenceContext(unitName="openwis-dataservice-common-domain")
+	@PersistenceContext
 	private EntityManager entityManager;
 
-	@PersistenceUnit(unitName="openwis-dataservice-common-domain")
+	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
 
 	@Resource
