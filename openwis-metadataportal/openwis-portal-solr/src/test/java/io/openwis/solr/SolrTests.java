@@ -1,12 +1,15 @@
 package io.openwis.solr;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.SolrParams;
+import org.apache.solr.common.util.DateUtil;
+import org.apache.solr.schema.DateField;
 import org.testng.annotations.Test;
 
 /**
@@ -134,7 +137,7 @@ public class SolrTests extends SolrTestBase {
 	}
 
 	private void addDocumentWithSupportFields() throws SolrServerException,
-			IOException {
+			IOException, ParseException {
 		SolrInputDocument document = new SolrInputDocument();
 		document.addField("_uuid", "abc");
 		document.addField("anytext", "Any text");
@@ -145,8 +148,66 @@ public class SolrTests extends SolrTestBase {
 		document.addField("orgName", "ABC Org");
 		document.addField("specificationTitle", "Specification Title");
 		document.addField("title", "My title");
-
-		server.add(document);
+		
+		document.addField("accessConstr", "accessConstr");
+		document.addField("authority", "authority");
+		document.addField("changeDate", DateUtil.parseDate("2015-01-01"));
+		document.addField("classif", "classif");
+		document.addField("conditionApplyingToAccessAndUse", "");
+		document.addField("couplingType", "");
+		document.addField("createDate", DateUtil.parseDate("2015-01-02"));
+		document.addField("creationDate", DateUtil.parseDate("2015-01-03"));
+		document.addField("crs", "crs");
+		document.addField("crsCode", "1");
+		document.addField("crsVersion", "1");
+		document.addField("datasetLang", "datasetLang");
+		document.addField("degree", "1");
+		document.addField("denominator", "1");
+		document.addField("digital", "digital");
+		document.addField("distanceUom", "M");
+		document.addField("distanceVal", "123");
+		document.addField("eastBL", "");
+		document.addField("fileId", "");
+		document.addField("format", "");
+		document.addField("geoDescCode", "");
+		document.addField("identifier", "");
+		document.addField("inspireannex", "");
+		document.addField("inspirecat", "");
+		document.addField("keyword", "");
+		document.addField("language", "");
+		document.addField("lineage", "");
+		document.addField("metadataPOC", "");
+		document.addField("mimetype", "");
+		document.addField("northBL", "");
+		document.addField("operatesOn", "");
+		document.addField("operatesOnIdentifier", "");
+		document.addField("operatesOnName", "");
+		document.addField("operation", "");
+		document.addField("otherConstr", "");
+		document.addField("paper", "");
+		document.addField("parentUuid", "URN::12345");
+		document.addField("protocol", "");
+		document.addField("publicationDate", DateUtil.parseDate("2015-01-04"));
+		document.addField("relation", "");
+		document.addField("revisionDate", DateUtil.parseDate("2015-01-05"));
+		document.addField("secConstr", "");
+		document.addField("serviceType", "");
+		document.addField("serviceTypeVersion", "");
+		document.addField("southBL", "");
+		document.addField("spatial", "");
+		document.addField("spatialRepresenation", "");
+		document.addField("specificationDate", DateUtil.parseDate("2015-01-06"));
+		document.addField("specificationDateType", "");
+		document.addField("subject", "");
+		document.addField("tempExtentBegin", DateUtil.parseDate("2015-01-07"));
+		document.addField("tempExtentEnd", DateUtil.parseDate("2015-01-08"));
+		document.addField("topicCat", "");
+		document.addField("type", "");
+		document.addField("westBL", "");
+		document.addField("description", "");
+		document.addField("_stopGap", "");
+	
+    	server.add(document);
 		server.commit();
 	}
 

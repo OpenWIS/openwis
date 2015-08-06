@@ -9,5 +9,12 @@
             <class name="io.openwis.solr.SolrXMLTests"/>
         </classes>
     </test>
+    
+    <!-- OpenwisLucenceQParser Tests -->
+    <test name="OpenWisLuceneQParserTests">
+        <classes>
+            <class name="org.openwis.metadataportal.search.solr.spatial.parser.OpenwisLuceneQParserTests"/>
+        </classes>
+    </test>
 
 </suite>
