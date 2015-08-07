@@ -59,7 +59,7 @@ public class SolrTests extends SolrTestBase {
 		try {
 			server.add(document);
 			server.commit();
-			fail("UUID PK is needed for a document to be added");
+			fail("SOME_INVALID_FIELD should not allow a document to be added");
 		} catch (SolrServerException sse) {
 			// pass, SolrServer exception expected
 			assertTrue(sse.getMessage().contains("SOME_INVALID_FIELD"));
