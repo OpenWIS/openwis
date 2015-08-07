@@ -23,6 +23,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 
       .
       +-- pom.xml
+      |+--openwis-database
       |+--openwis-dataservice
           |+--openwis-dataservice-cache
              |+-- openwis-dataservice-cache-core
@@ -69,6 +70,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
       |+--openwis-stagingpost
       |+--openwis-resources
 
+* **openwis-database:** contains the datbase code for the openwis_ schema
 * **openwis-dataservice:** contains the dataservice module (including the cache system)
 * **openwis-factorytests:** contains selenium functional tests
 * **openwis-harness:** contains harness WSDL (dissemination, localdatasource) and samples harness implementations
