@@ -634,7 +634,7 @@
 	<timeoutChoice value="10">after 10 seconds</timeoutChoice>
 	<timeoutChoice value="20">after 20 seconds</timeoutChoice>
 	<timeoutChoice value="30">after 30 seconds</timeoutChoice>
-	<title>GISC Seoul</title>
+	<title>OpenWIS Home</title>
 	<to>To</to>
 	<toDateSelector>Select TO date</toDateSelector>
 	<tools>Tools</tools>

@@ -97,8 +97,7 @@ public class AdhocDTO extends AbstractRequestDTO {
                return ((Value) input).getValue();
             }
          });
-         dto.getSsp().add(
-               new SubSelectionParametersDTO(param.getCode(), Joiner.on(",").join(values)));
+         dto.getSsp().add(new SubSelectionParametersDTO(param.getCode(), values));
       }
 
       //Dissemination.

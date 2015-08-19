@@ -2,7 +2,6 @@
 #contentElement h1              { font-size: 2.2em; margin: .67em 0 }
 #contentElement h2              { font-size: 1.7em; margin: .75em 0 }
 #contentElement h3              { font-size: 1.37em; margin: .83em 0 }
-
 #contentElement strong          { font-weight: bolder }
 #contentElement h4, 
 #contentElement p, 
@@ -13,9 +12,9 @@
 #contentElement dir, 
 #contentElement h5, 
 #contentElement a			 /*   { font-size: 1.07em}	*/
-
 #contentElement li              { font-size: 1.03em }
 #contentElement h6              { font-size: .95em; margin: 1.67em 0 }
+
 #contentElement h1, 
 #contentElement h2, 
 #contentElement h3, 

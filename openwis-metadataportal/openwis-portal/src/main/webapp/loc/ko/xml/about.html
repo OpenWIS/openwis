@@ -1,416 +1,32 @@
- <script type="text/javascript" language="javascript" defer="defer">
+<script type="text/javascript" language="javascript" defer="defer">
 function openPop(url,win){
 		window.open(url, win, "fullscreen=no, toolbar=yes, location=yes, directories=no, status=no, menubar=yes,scrollbars=yes ") ;
 	}
 </script>
 <div class="about">
-	<div class="contentHeader" style="text-align:left">
+	<div class="contentHeader" >
 		<p class="contentHeader_title">
 			<img src="/openwis-user-portal/images/openwis/about_title.png" alt="ABOUT" />
 		</p>
 		<p class="contentHeader_text">
-			GISC 서울은 OpenWIS 소프트웨어를 기반으로<br />세계기상정보시스템(WIS)을 구현하였습니다.
+			OpenWIS is an implementation of the<br />WMO Information System.
 		</p>
-		<p class="contentHeader_msg">- OpenWIS v3.13.1</p>
+		<p class="contentHeader_msg">- OpenWIS v3.13.2</p>
 	</div>
-	
 	<div class="wd_792">
 	
 		<div class="bbox mg_b26">
-			세계기상기구(WMO)는 모든 국제적인 프로그램들의 업무 및 운영, 연구, 정보 수집 및 공유, 제공을 지원하기 위한 글로벌 인프라의 개선을 위해 수년간 작업하고 있습니다. WIS라고 불리는 새로운 인프라는 아래와 같이 3개의 센터들로 구성됩니다. 
+			The World Meteorological Organization (WMO) has been working for several years towards upgrading its global infrastructure to support all of its international programmes of work, both operational and research-based, to collect, share and disseminate information. The new infrastructure is called the WIS, the WMO Information System, and identifies three top-level functions. These are: 
 			<ul>
-				<li>GISC: 전지구정보시스템센터(Global Information System Centre)</li>
-				<li>DCPC: 기상자료수집생산센터(Data Collection or Production Centre)</li>
-				<li>NC: 국가센터(National Centre)</li>
+				<li>GISC: Global Information System Centre;</li>
+				<li>DCPC: Data Collection or Production Centre;</li>
+				<li>NC: National Centre.</li>
 			</ul>
-			위의 3개의 센터는 우선순위 데이터 처리, 시스템 전체 보안, 모니터링 및 WMO 데이터 정책의 구현 등에 기여하고 있습니다. GISCs와 DCPCs는 WIS 센터들에 의해 제공된 데이터와 생산물에 대하여 DAR (Discovery Access and Retrieval) 서비스를 제공하며, GISC는 이러한 정보에 대한 통합 관리를 제공하고, 분산되어 있는 중요 데이터 및 생산물을 제공합니다. 
-		</div>
-		<div class="bl_tt">GISC서울 캐쉬자료 보유현황</div>
-				<table class="about_table wd_792">
-			<colgroup>
-				<col width="5%" />
-				<col width="20%" />
-				<col width="5%" />
-				<col width="20%" />
-				<col width="5%" />
-				<col width="20%" />
-				<col width="5%" />
-				<col width="20%" />
-			</colgroup>
-			<thead>
-				<tr>
-					<th class="blue_line">No</th>
-					<th>Weather elements(FORMAT)</th>
-					<th class="blue_line">No</th>
-					<th>Weather elements(FORMAT)</th>
-					<th class="blue_line">No</th>
-					<th>Weather elements(FORMAT)</th>
-					<th class="blue_line">No</th>
-					<th>Weather elements(FORMAT)</th>
-				</tr>
-			</thead>
-				<tbody>
-				<tr>
-					<th>1</th>
-					<td>SYNOP (FM 12)</td>
-					<th>15</th>
-					<td>WINTEM (FM 50)</td>
-					<th>29</th>
-					<td>Pressure (GRIB)</td>
-					<th>43</th>
-					<td>Wave height combinations (Binary coded)</td>	
-				</tr>
-				<tr>
-					<th>2</th>
-					<td>SHIP (FM 13)</td>				
-					<th>16</th>
-					<td>TAF (FM 51)</td>		
-					<th>30</th>
-					<td>Relative humidity (GRIB)</td>
-					<th>44</th>
-					<td>Pressure (Binary coded)</td>
-				</tr>
-				<tr>
-					<th>3</th>
-					<td>METAR (FM 15)</td>
-					<th>17</th>
-					<td>ARFOR (FM 53 /TEXT)</td>
-					<th>31</th>
-					<td>Temperature (GRIB)</td>
-					<th>45</th>
-					<td>Temperature (Binary coded)</td>
-				</tr>
-				<tr>
-					<th>4</th>
-					<td>SPECI (FM 16)</td>
-					<th>18</th>
-					<td>TRACKOB (FM 62)</td>
-					<th>32</th>
-					<td>Eastward wind component (GRIB)</td>
-					<th>46</th>
-					<td>AIRMET (TEXT)</td>
-				</tr>
-				<tr>
-					<th>5</th>
-					<td>BUOY (FM 18)</td>
-					<th>19</th>
-					<td>BATHY (FM 63)</td>
-					<th>33</th>
-					<td>Northward wind component (GRIB)</td>
-					<th>47</th>
-					<td>SIGMET (TEXT)</td>
-				</tr>
-				<tr>
-					<th>6</th>
-					<td>RADOB (FM 20)</td>
-					<th>20</th>
-					<td>TESAC (FM 64)</td>
-					<th>34</th>
-					<td>Lifted index (GRIB)</td>
-					<th>48</th>
-					<td>Severe thunderstorm (TEXT)</td>
-				</tr>
-				<tr>
-					<th>7</th>
-					<td>PILOT (FM 32)</td>
-					<th>21</th>
-					<td>WAVEOB (FM 65)</td>
-					<th>35</th>
-					<td>Observational plotted chart (GRIB)</td>
-					<th>49</th>
-					<td>Warnings and weather summary (TEXT)</td>
-				</tr>
-				<tr>
-					<th>8</th>
-					<td>PILOT SHIP (FM 33)</td>
-					<th>22</th>
-					<td>HYDRA (FM 67)</td>
-					<th>36</th>
-					<td>Wind (GRIB)</td>
-					<th>50</th>
-					<td>Weather Summary (TEXT)</td>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>PILOT MOBIL (FM 34)</td>
-					<th>23</th>
-					<td>HYFOR (FM 68)</td>
-					<th>37</th>
-					<td>Oceanographic /limnographic (BUFR)</td>
-					<th>51</th>
-					<td>Miscellaneous (TEXT)</td>
-				</tr>
-				<tr>
-					<th>10</th>
-					<td>TEMP (FM 35)</td>
-					<th>24</th>
-					<td>CLIMAT (FM 71)</td>
-					<th>38</th>
-					<td>Surface /sea level (BUFR)</td>
-					<th>52</th>
-					<td>Public (TEXT)</td>
-				</tr>
-				<tr>
-					<th>11</th>
-					<td>TEMP SHIP (FM 36)</td>
-					<th>25</th>
-					<td>CLIMAT TEMP (FM 75)</td>
-					<th>39</th>
-					<td>Upper air (BUFR)</td>
-					<th>53</th>
-					<td>Other shipping (TEXT)</td>
-				</tr>
-				<tr>
-					<th>12</th>
-					<td>TEMP MOBIL (FM 38)</td>
-					<th>26</th>
-					<td>Precipitation (GRIB)</td>
-					<th>40</th>
-					<td>Other surface data IAC (CREX)</td>
-					<th>54</th>
-					<td>Other (TEXT)</td>
-				</tr>
-				<tr>
-					<th>13</th>
-					<td>CODAR (FM 41)</td>
-					<th>27</th>
-					<td>Height (GRIB)</td>
-					<th>41</th>
-					<td>RADAR (Binary coded)</td>
-					<th>55</th>
-					<td>Seismic data</td>
-				</tr>
-				<tr>
-					<th>14</th>
-					<td>AMDAR (FM 42)</td>
-					<th>28</th>
-					<td>Vertical velocity (GRIB)</td>
-					<th>42</th>
-					<td>Significant weather (Binary coded)</td>
-					<th>56</th>
-					<td>Ozone</td>
-				</tr>
-				
-			</tbody>
-		</table>
-		<br/><br/>
-		<div class="bl_tt">GEOSS의 32개 메타데이터 제공 목록</div>
-		<table class="about_table wd_792">
-			<colgroup>
-				<col width="5%" />
-				<col width="50%" />
-				<col width="*" />
-			</colgroup>
-			<thead>
-				<tr>
-					<th class="blue_line">No</th>
-					<th>GEOSS provider</th>
-					<th>Homepage</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th>1</th>
-					<td>PANGAEA of type OAI-PMH</td>
-					<td><a href="javascript:openPop('http://ws.pangaea.de','PANGAEA');" >http://ws.pangaea.de</a></td>
-				</tr>
-				<tr>
-					<th>2</th>
-					<td>NASA Global Change Master Directory of type CSW/GCMD</td>
-					<td><a href="javascript:openPop('http://gcmdsrv.gsfc.nasa.gov','GCMD');" >http://gcmdsrv.gsfc.nasa.gov</a></td>
-				</tr>
-				<tr>
-					<th>3</th>
-					<td>One Geology of type GEONETWORK</td>
-					<td><a href="javascript:openPop('http://onegeology-catalog.brgm.fr/geonetwork','Geology');" >http://onegeology-catalog.brgm.fr/geonetwork</a></td>
-				</tr>
-				<tr>
-					<th>4</th>
-					<td>Knossos of type OAI-PMH</td>
-					<td><a href="javascript:openPop('http://41.191.195.17:8080/oai','Knossos');" >http://41.191.195.17:8080/oai</a></td>
-				</tr>
-				<tr>
-					<th>5</th>
-					<td>EEA SDI Catalog of type GEONETWORK</td>
-					<td><a href="javascript:openPop('http://sdi.eea.europa.eu','EEA');" >http://sdi.eea.europa.eu</a></td>
-				</tr>
-				<tr>
-					<th>6</th>
-					<td>South African Environmental Observation Network of type CSW/CORE/SAEON</td>
-					<td><a href="javascript:openPop('http://app01.saeon.ac.za','SAEON');" >http://app01.saeon.ac.za</a></td>
-				</tr>
-				<tr>
-					<th>7</th>
-					<td>EGASKRO of type EGASKRO</td>
-					<td><a href="javascript:openPop('http://www.feerc.ru/geoss/egaskro','EGASKRO');" >http://www.feerc.ru/geoss/egaskro</a></td>
-				</tr>
-				<tr>
-					<th>8</th>
-					<td>IODE of type GEONETWORK</td>
-					<td><a href="javascript:openPop('http://nodc.meteo.ru:8080/geonetwork','IODE');" >http://nodc.meteo.ru:8080/geonetwork</a></td>
-				</tr>
-				<tr>
-					<th>9</th>
-					<td>SeaDataNet of type CDI</td>
-					<td><a href="javascript:openPop('http://seadatanet.maris2.nl','CDI');" >http://seadatanet.maris2.nl</a></td>
-				</tr>
-				<tr>
-					<th>10</th>
-					<td>NOAA Unified Access Framework Catalog of type WAF</td>
-					<td><a href="javascript:openPop('http://ferret.pmel.noaa.gov','NOAA');" >http://ferret.pmel.noaa.gov</a></td>
-				</tr>
-				<tr>
-					<th>11</th>
-					<td>Red Vial (Road Network, from Ministry of Public Works) -- from Chile of type WMS</td>
-					<td><a href="javascript:openPop('http://wservice-sit.mop.gov.cl/arcgis/services/DV/red_caminera_de_chile/MapServer/WMSServer','RedVial');" >http://wservice-sit.mop.gov.cl/arcgis/services/DV/red_caminera_de_chile/MapServer/WMSServer</a></td>
-				</tr>
-				<tr>
-					<th>12</th>
-					<td>Límites (Administrative Boundaries, from Ministry of Public Works as well) -- from Chile of type WMS</td>
-					<td><a href="javascript:openPop('http://wservice-sit.mop.gov.cl/arcgis/services/MAPA_BASE/LIMITES_LINEAL/MapServer/WMSServer','Limites');" >http://wservice-sit.mop.gov.cl/arcgis/services/MAPA_BASE/LIMITES_LINEAL/MapServer/WMSServer</a></td>
-				</tr>
-				<tr>
-					<th>13</th>
-					<td>New Zealand Monitoring Network of type WFS</td>
-					<td><a href="javascript:openPop('http://hilltopserver.horizons.govt.nz/data.hts','WFS');" >http://hilltopserver.horizons.govt.nz/data.hts</a></td>
-				</tr>
-				<tr>
-					<th>14</th>
-					<td>Webservice Energy Catalog of type GEONETWORK</td>
-					<td><a href="javascript:openPop(' http://geocatalog.webservice-energy.org/geonetwork/srv/eng/csw','GEONETWORK');" > http://geocatalog.webservice-energy.org/geonetwork/srv/eng/csw</a></td>
-				</tr>
-				<tr>
-					<th>15</th>
-					<td>CEOS WGISS Integrated Catalog (CWIC) of type CWIC</td>
-					<td><a href="javascript:openPop('http://lsiexplorer.cr.usgs.gov','CWIC');" >http://lsiexplorer.cr.usgs.gov</a></td>
-				</tr>
-				<tr>
-					<th>16</th>
-					<td>NIWA data catalog of type GEONETWORK</td>
-					<td><a href="javascript:openPop('http://dc.niwa.co.nz/niwa_dc','NIWA');" >http://dc.niwa.co.nz/niwa_dc</a></td>
-				</tr>
-				<tr>
-					<th>17</th>
-					<td>New Zealand government data catalog of type ATOM</td>
-					<td><a href="javascript:openPop('https://data.govt.nz','NZATOM');" >https://data.govt.nz</a></td>
-				</tr>
-				<tr>
-					<th>18</th>
-					<td>New Zealand government geodata catalog of type GEONETWORK</td>
-					<td><a href="javascript:openPop('https://data.govt.nz','NZgeodata');" ></a>https://data.govt.nz</td>
-				</tr>
-				<tr>
-					<th>19</th>
-					<td>BYU World Water Data catalog of type HYDRO</td>
-					<td><a href="javascript:openPop('http://worldwater.byu.edu/interactive/dr/services/index.php','BYUHYDRO');" >http://worldwater.byu.edu/interactive/dr/services/index.php</a></td>
-				</tr>
-				<tr>
-					<th>20</th>
-					<td>ISPRA Monitoring network of type HYDRO</td>
-					<td><a href="javascript:openPop('http://193.206.192.247/hiscentral/webservices/hiscentral.asmx','ISPRA');" >http://193.206.192.247/hiscentral/webservices/hiscentral.asmx</a></td>
-				</tr>
-				<tr>
-					<th>21</th>
-					<td>RASAQM of type RASAQM</td>
-					<td><a href="javascript:openPop('http://www.feerc.obninsk.org:8080/geoss/rasaqm','RASAQM');" >http://www.feerc.obninsk.org:8080/geoss/rasaqm</a></td>
-				</tr>
-				<tr>
-					<th>22</th>
-					<td>Canadian Monitoring Network of type CSW/ISO</td>
-					<td><a href="javascript:openPop('http://giwsdocs.usask.ca:8100/gi-cat/services/cswiso','CSW');" >http://giwsdocs.usask.ca:8100/gi-cat/services/cswiso</a></td>
-				</tr>
-				<tr>
-					<th>23</th>
-					<td>Global River Discharge Datasets (GRDC/GEOWOW) - 52 degree North of type SOS/Hydro</td>
-					<td><a href="javascript:openPop('http://geowow.dev.52north.org/52n-sos-grdc-webapp/sos/kvp','Hydro');" >http://geowow.dev.52north.org/52n-sos-grdc-webapp/sos/kvp</a></td>
-				</tr>
-				<tr>
-					<th>24</th>
-					<td>Global River Discharge Datasets (GRDC/GEOWOW) - Kisters AG of type SOS/Hydro</td>
-					<td><a href="javascript:openPop('http://kiwis.kisters.de/KiWIS/','Kisters');" >http://kiwis.kisters.de/KiWIS/</a></td>
-				</tr>
-				<tr>
-					<th>25</th>
-					<td>MEDINA SDI of type GEONETWORK</td>
-					<td><a href="javascript:openPop('http://www.medinageoportal.eu','MEDINA');" >http://www.medinageoportal.eu</a></td>
-				</tr>
-				<tr>
-					<th>26</th>
-					<td>FedEO of type FEDEO</td>
-					<td><a href="javascript:openPop('http://geo.spacebel.be/opensearch/request','FEDEO');" >http://geo.spacebel.be/opensearch/request</a></td>
-				</tr>
-				<tr>
-					<th>27</th>
-					<td>MEDINA BP Broker of type WPS</td>
-					<td><a href="javascript:openPop('http://dioniso.essi-lab.eu:8080/medina/services/http-get','WPS');" >http://dioniso.essi-lab.eu:8080/medina/services/http-get</a></td>
-				</tr>
-				<tr>
-					<th>28</th>
-					<td>Data Integration & Analysis System (DIAS) - Japan of type WAF</td>
-					<td><a href="javascript:openPop('http://dias-dss.tkl.iis.u-tokyo.ac.jp/dl/storages/filelist/dataset:168','DIAS');" >http://dias-dss.tkl.iis.u-tokyo.ac.jp/dl/storages/filelist/dataset:168</a></td>
-				</tr>
-				<tr>
-					<th>29</th>
-					<td>GMOS Database of type WMS</td>
-					<td><a href="javascript:openPop('http://sdi.iia.cnr.it/geoint','GMOS');" >http://sdi.iia.cnr.it/geoint</a></td>
-				</tr>
-				<tr>
-					<th>30</th>
-					<td>ArcGIS Online ESRI of type ESRI</td>
-					<td><a href="javascript:openPop('http://doc.arcgis.com/en/web-appbuilder','ESRI');" >http://doc.arcgis.com/en/web-appbuilder</a></td>
-				</tr>
-				<tr>
-					<th>31</th>
-					<td>US Data Gov of type CSW/ISO</td>
-					<td><a href="javascript:openPop('http://catalog.data.gov/csw','CSW');" >http://catalog.data.gov/csw</a></td>
-				</tr>
-				<tr>
-					<th>32</th>
-					<td>IRIS Station of type IRIS_STATION</td>
-					<td><a href="javascript:openPop('http://service.iris.edu/fdsnws','iris');" >http://service.iris.edu/fdsnws</a></td>
-				</tr>
-			</tbody>
-		</table>
-		
-	</div>
-	
-</div>
-
-
-
-
-<!-- <p>
-	<span lang="EN-US">OpenWIS is an implementation of the WMO Information
-		System.</span>
-</p>
-<p>
-	<span lang="EN-US">The World Meteorological Organization (WMO) has been
-		working for several years towards upgrading its global
-		infrastructure to support all of its international programmes of
-		work, both operational and research-based, to collect, share and
-		disseminate information. The new infrastructure is called the WIS,
-		the WMO Information System, and identifies three top-level
-		functions. These are:</span>
-</p>
-<ul type="disc" style="margin-top: 0cm;">
-	<li>GISC: Global Information System Centre;</li>
-	<li>DCPC: Data Collection and Production Centre;</li>
-	<li>NC: National Centre.</li>
-</ul>
-<p>
-	<span lang="EN-US">
-		All three functions contribute to the circulation of
-		priority data,
-		system wide security, monitoring and implementation of
-		WMO data
-		policies. GISCs and DCPCs allow the Discovery Access and
-		Retrieval
-		of data, products and services offered by WIS Centres, but
-		GISCs
-		offer a global view of this information and provide distributed
-		and
-		resilient access to critical data and products.</span>
-</p>
+			All three functions contribute to the circulation of priority data, system wide security, monitoring and implementation of WMO data policies. GISCs, DCPCs and NCs allow the Discovery Access and Retrieval of data, products and services offered by WIS Centres over the world.
+			KMA was designated as 「GISC Seoul」 in 2012. Since 2013, it has been operated with OpenWIS which was developed as dedicated software by KMA(Korea), Met.Office(U.K.), MF(France), MFI(France) and BoM(Australia).
+			Recently, KMA customized the latest versioned OpenWIS to serve various metadata of GEOSS so that users can take not only meteorological data but also non-meteorological ones for better social and economical community.
+<br/>
+<br/>
 <p>
 	<span lang="EN-US">
 		OpenWIS aims to
@@ -420,11 +36,14 @@ function openPop(url,win){
 		that is, GISC, DCPC and NC.</span>
 </p>
 <p>
+
 	This site is based on
 	<a href="http://geonetwork-opensource.org" target="_blank">GeoNetwork
 		opensource</a>
 	.
 </p>
+<br/>
+
 <p>
 	<strong>GeoNetwork opensource</strong>
 	is a standardized and decentralized spatial information management
@@ -440,4 +59,7 @@ function openPop(url,win){
 <p>
 	<a href="http://geonetwork-opensource.org" target="_blank">Read more ...</a>
 </p>
- -->
+
+		</div>
+	</div>
+</div>

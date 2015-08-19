@@ -39,6 +39,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 		this.add(this.getViewportPanel());
 		
 		this.add(this.getStartPanel());
+		
 	},
 	
 	getViewportPanel: function() {
@@ -173,7 +174,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         		},
         		defaults: {
             		style: {
-                        marginLeft: '28px',
+            			marginLeft: '28px',
                         marginRight: '28px',
                         width: '244px'
         	        }
@@ -197,7 +198,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         		cls: 'homePageMainContent',
         		items:
         		[
-        		   // this.getContentCenterHeaderPanel(),
+        		    // this.getContentCenterHeaderPanel(),
         		    this.getSearchResultsPanel()
         		]
         	});
@@ -306,12 +307,13 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
             compMinHeight += 115;
             
         	this.getViewportPanel().boxMinHeight = compMinHeight;
+        	
         	this.doLayout();
 	    }
 				
 		this.resumeEvents();
 	},
-
+	
 	getStartPanel : function() {
 		if (!this.startPanel) {
 			this.startPanel = new Ext.Panel({
@@ -348,6 +350,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 		}
 		return this.startSearchPanel;
 	},
+	
 	getStartMapPanel : function() {
 		if (!this.startMapPanel) {
 			this.startMapPanel = new Ext.Panel({

@@ -101,12 +101,24 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 	    //Buttons.
 	    this.add(this.getButtonsPanel());
 	    
-	    
-	},getBoundsPanel:function(){if(!this.boundsPanel){this.boundsPanel=new Ext.Panel({layout: 'table',layoutConfig: {columns: 1},defaults: {style: {margin: '2px 0 17px 0'}},border:false,autoScroll:false});this.boundsPanel.add(this.getWhereBoundsPanel());
-	}return this.boundsPanel;
-
-	    
-	    
+	},
+	
+	getBoundsPanel:function(){
+		if(!this.boundsPanel){
+			this.boundsPanel=new Ext.Panel({
+				layout: 'table',
+				layoutConfig: {columns: 1},
+				defaults: {
+					style: {
+						margin: '2px 0 17px 0'
+							}
+				},
+				border:false,
+				autoScroll:false
+			});
+			this.boundsPanel.add(this.getWhereBoundsPanel());
+		}
+		return this.boundsPanel;
     },
     
     //----------------------------------------------------------------- WHAT ?
@@ -875,7 +887,6 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 	    this.getRestrictToKindComboBox().reset();
 	
 	    //Options.
-	    this.getOnlyGeossMetadataCheckbox().reset();
         this.getSortDirectionCombobox().reset();
         this.getHitsCombobox().reset();
         
@@ -978,8 +989,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 		params.useSessionDefaults = 'false';
 
         
-		//GEOSS Only
-		params.geossOnly = this.getOnlyGeossMetadataCheckbox().getValue();
+        
 		params.sortBy = this.getSortDirectionCombobox().getValue();
 		params.hitsPerPage = this.getHitsCombobox().getValue();
 		params.from = 0;

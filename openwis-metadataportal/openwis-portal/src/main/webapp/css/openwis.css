@@ -248,7 +248,7 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 	list-style:none;
 }
 #pagination-flickr a{
-	
+		
 }
 
 #pagination-flickr .previous-off {
@@ -259,6 +259,7 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 	padding-right:11px;
 	height:12px;
 }
+
 
 #pagination-flickr .next-off {
 	color:#8CB2B6;
@@ -276,6 +277,7 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 	padding-left:11px;
 	height:12px;
 }
+
 #pagination-flickr .previous {
 	color:#8CB2B6;
 	display:inline;
@@ -304,7 +306,6 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 	font-size:14px;
 	padding:0 5px;
 }
-
 #pagination-flickr a:link,
 #pagination-flickr a:visited {
 	color:#b5b5b5;
@@ -315,19 +316,19 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 	padding:0 5px;
 	text-decoration:none;
 }
-
 #pagination-flickr a:hover{
+	
 }
-
 
 /************************************************************************************/
 /*	Dissemination */
 /***********************************************************************************/
 .dissemination-selected .x-panel-header-text {
-    font-weight:bold;
+    font-weight:bold;    
 }
 
-/* Header  */
+
+/* add 20150817 Header  */
 .gnb_bg {background: url(../images/openwis/header_top_line.png) repeat-x left top #e1e8ee }
 .gnb_top_line {padding-top:18px;}
 .gnb_slogo {text-align:right; vertical-align:top; height:35px;}
@@ -360,20 +361,14 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 .contentHeader  .contentHeader_msg {padding-top:7px; color:#798899}
 
 /* help */
+/*.help {text-align:center;}*/
+.help ul {margin-bottom:20px}
+.help ul li {padding-left:0; list-style:disc;}
 
-.help {text-align:center;}
-.help ul {list-style:none; padding-left:10px; overflow: hidden}
-.help ul li {width:140px; float:left; vertical-align:top;}
-.help ul li p {margin:0 !important; text-align:left; display:block;}
-.help ul li .simg {padding-bottom:20px;}
-.help ul li .tit {font-family:verdana; font-size:13px; font-weight:bold; color:#434343; padding-bottom:5px;letter-spacing:-0.05em;}
-.help ul li .stit {font-family:verdana; font-size:11px; color:#666666; line-height:14px;letter-spacing:-0.01em;}
-.help ul li .more {padding-top:20px;}
+.help .contentHeader {width:792px; margin:-60px auto 30px; padding-top:60px; height:1100px;  background: url(../images/openwis/help_top_img.jpg) no-repeat right top }
 
-.help .contentHeader {width:792px; margin:-60px auto 30px; padding-top:60px; height:160px; border-bottom:1px solid #424242; background: url(../images/openwis/help_top_img.jpg) no-repeat right top }
 /* about */
-
-.about .contentHeader {width:792px;height:137px;background: url(../images/openwis/about_top_img.jpg) no-repeat right top }
+.about .contentHeader {width:792px; height:137px; background: url(../images/openwis/about_top_img.jpg) no-repeat right top }
 
 .about {text-align:center; margin:0 50px;}
 .about p {margin:0 !important;}
@@ -1026,4 +1021,3 @@ a {text-decoration:none; color:#bc6060;}
 	font-size: 11px;
 	color: #8697a7
 }
-

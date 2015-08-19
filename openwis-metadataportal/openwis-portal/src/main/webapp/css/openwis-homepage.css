@@ -1,5 +1,6 @@
 /** Home page main content */
 .homePageMainContent {
+    /* delete 20150817 */
     /*padding-left: 5px;*/
 }
 
@@ -8,23 +9,38 @@
 }
 
 .homePageMainContent h1 {
-    font:20px Arial, dotum;
+/* changed 20150817 
+    font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
+    text-transform: uppercase;
+*/
+	font:20px Arial, dotum;
 	color: #3280b5;
-    margin-bottom: 6px;
+	margin-bottom: 6px;
     margin-top: 8px;
 }
 
 .homePageMainContent ul {
-    list-style: none
+/* 20150817
+    list-style: disc outside none;
+*/
+	list-style: none;
 }
 
 .homePageMainContent .homePageMainContentHeader {
-    /*border-bottom: 1px solid #2A628F;*/
+    /* border-bottom: 1px solid #2A628F; */
     margin-bottom: 20px;
 }
 
 /** Search results **/
 .hit{
+/* 20150817
+	border: 1px solid #8CB2B6;
+	margin: 2px;
+	padding: 10px;
+	background-color: #f8fbfb;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+*/	
 	border-top: 1px solid #636b6e;
 	border-left: 1px solid #e0e0e0;
 	border-right: 1px solid #e0e0e0;
@@ -35,17 +51,20 @@
 }
 
 div.hittext_top {
-    /*margin-bottom: 30px;*/
+/* 20150817
+    margin-bottom: 30px; */
 }
 
 
 div.hittitle {
+/* 20150817    
+    margin-left: 0; */
     padding-left: 0;
     font-weight: bold;
     text-align: left;
     text-transform: uppercase;
     font-size:12px;
-	color:#30698a
+	color:#30698a;
 }
 
 div.hittitle span {
@@ -61,7 +80,11 @@ div.attributionlogo {
 }
 
 div.action_buttons {
-    margin: 15px 0 10px 0;
+/* 20150817	
+    margin-left: 65px;
+    margin-top: 5px;
+*/
+	margin: 15px 0 10px 0;
 }
 
 div.hittext_wrap {
@@ -75,9 +98,22 @@ div.hittext_middle, div.hittext_keywords {
 }
 
 div.hittext_middle {
-    padding-bottom: 6px
+/* 20150817	
+    clear: left;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+*/
+	padding-bottom: 6px;	
 }
 
+/* 20150817	
+div.hittext_middle, div.hittext_keywords {
+    background-color: #E6EDF5;
+    margin: 0;
+    padding: 5px;
+}
+*/
 div.hittext_keywords {
 	padding-top: 6px
 }
@@ -85,6 +121,10 @@ div.hittext_keywords {
 div.caption {
     text-align: left;
     width: 100px;
+/* 20150817
+    color: #26559D;
+    font-size: 11px;
+*/    
     color: #3280b5;
     font-size: 12px
 }
@@ -98,10 +138,20 @@ div.abstract1 {
 }
 
 #search-results-content {
-    width:664px;
+/* 20150817	
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 10px;
+*/
+	width:664px;
 }
 
 .results_header {
+/* 20150817	
+	margin-top: 5px; 
+	margin-bottom: 5px; 
+    overflow-x: hidden;
+*/
 	margin-bottom: 4px; 
 	overflow-x: hidden;	
 	overflow-y: auto;	
@@ -129,8 +179,8 @@ div.ownership img{
 	margin-top:-9px;
 }
 
-
 div.thumbnail_results {
+/*    margin-right: 10px;*/
     text-align: right;
     float: right;
     height: auto !important;
@@ -144,6 +194,7 @@ div.metadatabuttons {
     margin-left: 0;
     margin-right: 0;
 }
+
 
 a.content, button.content {
     background-color: #E7E7E7;
@@ -173,9 +224,10 @@ div.hitexport {
 }
 
 div.icones {
-    /*margin-bottom: 15px;
+/*    margin-bottom: 15px;
     margin-right: -10px;
-    margin-top: -10px;*/
+    margin-top: -10px;
+*/    
 }
 
 div.btnSearchResultsActions {
@@ -184,7 +236,7 @@ div.btnSearchResultsActions {
 }
 
 div.btnXXLFixedSize {
-	background: url("../images/openwis/com_btn_wg.jpg") no-repeat scroll 0 0 transparent;
+    background: url("../images/openwis/com_btn_wg.jpg") no-repeat scroll 0 0 transparent;
 	cursor: pointer;
 	height: 20px;
 	padding-left:10px;
@@ -256,7 +308,12 @@ div.pageList {
 
 /** Search Panel **/
 .tabSearchType {
-    border:1px solid #d1d3d9;
+/* 20150817	
+    background: url("../images/openwis/fond-panel-gauche.png") no-repeat scroll left top transparent;
+    padding-left: 10px;
+    padding-top: 10px;
+*/
+	border:1px solid #d1d3d9;
 	background:#f3f3f3;
 }
 
@@ -287,7 +344,7 @@ div.pageList {
 }
 
 .tabSearchType .x-tab-strip span.x-tab-strip-text {
-	border-left:1px solid #d1d3d9;
+    border-left:1px solid #d1d3d9;
 	border-right:1px solid #d1d3d9;
 	border-bottom:1px solid #d1d3d9;
     color: #666666;
@@ -301,7 +358,7 @@ div.pageList {
 }
 
 .tabSearchType ul.x-tab-strip-top li {
-    /*border-left: solid 1px #95B3BB; */
+/*    border-left: solid 1px #95B3BB;*/ 
 }
 
 .tabSearchType .x-tab-panel-body, .tabSearchType .x-tab-panel-header, 
@@ -336,7 +393,7 @@ div.pageList {
     font-size: 12px;
     font-weight: bold;
     text-align: center;
-	padding-top:30px;
+    padding-top: 30px;
     /*padding-top: 5px;*/
 }
 
@@ -371,11 +428,18 @@ Other action buttons
 *******************************************************************************/
 
 .oAcEle {
+/*    background-color: #D7E2E3;
+    border: 1px solid #A4BBC4; */
     margin-top:-4px;
     background: #ffffff;
     border: 1px solid #cacbcd;
     position: absolute;
     z-index:1;
+/*    
+    -moz-border-radius: 10px;
+	border-radius: 10px;
+	width: 280px !important;
+*/    
 	width: 320px !important;
 	display: none;
 	padding:11px 12px 7px 12px;
@@ -394,9 +458,7 @@ Other action buttons
 	text-decoration: underline;
 }
 
-
-
-/* text */
+/* add text 20150817 */
 .main_gtxt {font:13px Arial, dotum; color:#666666; width:664px; text-align:justify; line-height:16px; margin-bottom:30px;}
 .main_btxt {font:bold 16px Arial, dotum; color:#434343; margin-bottom:18px;}
 .main_btxt2 {font:12px verdana, dotum; color:#666666; padding-left:6px !important;}

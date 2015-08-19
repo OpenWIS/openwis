@@ -22,11 +22,6 @@
             <output sheet="/jsp/help.jsp"/>
         </service>
         
-       	<!-- added by ken -->
-        <service name="stat.home">
-            <output sheet="/jsp/stat.jsp"/>
-        </service>
-        
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Users                                                         -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

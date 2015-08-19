@@ -517,11 +517,11 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,bloc
 }
 
 .x-grouptabs-panel-header .x-tab-strip-wrap {
-width:5000px;
-    overflow:hidden;
-    position:relative;
-    zoom:1;
-padding-bottom:10px;
+	width:5000px;
+	overflow:hidden;
+	position:relative;
+	zoom:1;
+	padding-bottom:10px;
 }
 
 
@@ -916,7 +916,6 @@ textarea.x-form-field {
     line-height:18px;
 }
 
-
 .ext-ie6 .x-form-field-wrap .x-form-file-btn, .ext-ie7 .x-form-field-wrap .x-form-file-btn {
     top: -1px; /* because of all these margin hacks, these buttons are off by one pixel in IE6,7 */
 }
@@ -1128,6 +1127,7 @@ textarea {
 }
 
 .x-form-element {
+/*    padding-left:105px;*/
     position:relative;
 }
 
@@ -1357,6 +1357,7 @@ textarea {
 }
 
 .x-fieldset legend .x-tool-toggle {
+/*    margin-right:3px;*/
     margin-left:0;
     float:left !important;
 }
@@ -2026,10 +2027,10 @@ fieldset.x-panel-collapsed .x-fieldset-bwrap {
 	display: block;
 	font-size: 1px;
 	height: 16px;
-/* rjy ch	width:4px; 	*/
+/*	width:4px;*/
 	overflow: hidden;
 	cursor:default;
-/* rjy ch	margin: 0 2px 0;	*/
+/*	margin: 0 2px 0;*/
 	border:0;
 }
 
@@ -5521,7 +5522,6 @@ ul.x-tab-strip-bottom{
 	margin-bottom:0 !important;
 }
 
-
 .x-form-select-one {
     background-color:#fff;
     border-color:#b5b8c8;
@@ -5543,7 +5543,6 @@ ul.x-tab-strip-bottom{
 
 .x-form-field-wrap .x-form-date-trigger {
     background-image: url(../images/default/form/date-trigger.jpg);
-    width:22px;
 }
 
 .x-form-field-wrap .x-form-clear-trigger {
@@ -5558,7 +5557,6 @@ ul.x-tab-strip-bottom{
     border-bottom-color:#7eadd9;
 }*/
 
-
 .x-item-disabled .x-form-trigger-over {
     border-bottom-color:#b5b8c8;
 }
@@ -5567,9 +5565,11 @@ ul.x-tab-strip-bottom{
     border-bottom-color:#b5b8c8;
 }
 
-/*.x-form-focus, textarea.x-form-focus {
+/*
+.x-form-focus, textarea.x-form-focus {
 	border-color:#7eadd9;
-}*/
+}
+*/
 
 .x-form-invalid, textarea.x-form-invalid {
     background-color:#fff;
@@ -6686,7 +6686,7 @@ a.x-menu-item {
 }
 
 .x-panel-body-noheader, .x-panel-mc .x-panel-body {
-	border-left:1px solid #b3b5b8;
+    border-left:1px solid #b3b5b8;
     border-right:1px solid #b3b5b8;
     border-bottom:1px solid #b3b5b8;
 	border-top:1px solid #2e3438;
@@ -6990,11 +6990,46 @@ body.x-body-masked .x-window-plain .x-window-mc {
     background-image:url(../images/default/window/icon-error.gif);
 }
 
-.home_tops .x-tab-strip-wrap {width:243px; overflow:hidden; position:relative; zoom:1; padding-bottom:10px;}
-.home_tops .x-grouptabs-panel-header .x-tab-strip-wrap {width:250px;overflow:hidden;position:relative;zoom:1;padding-bottom:10px;}
-.home_tops .x-tab-panel-footer-plain {background:transparent !important;border-width:0 !important;padding-top:0 !important;margin-left:0 !important;}
-.home_tops .x-tab-strip-top .x-tab-right {background: transparent no-repeat 0 -51px;padding-left:0 !important;}
-.home_tops .x-tab-strip-top .x-tab-left {background: transparent no-repeat right -351px;padding-right:0 !important;}
-.home_tops ul.x-tab-strip li {float:left;margin-left:0 !important;}
-.home_tops ul.x-tab-strip {display:block;width:250px;zoom:1;}
-.home_tops ul.x-tab-strip-top {margin-top:-1px !important; background: repeat-x bottom; border-bottom: 1px solid;}
+/* add 20150817 */
+.home_tops .x-tab-strip-wrap {
+	width:243px; 
+	overflow:hidden; 
+	position:relative; 
+	zoom:1; 
+	padding-bottom:10px;
+}
+.home_tops .x-grouptabs-panel-header .x-tab-strip-wrap {
+	width:250px;
+	overflow:hidden;
+	position:relative;
+	zoom:1;
+	padding-bottom:10px;
+}
+.home_tops .x-tab-panel-footer-plain {
+	background:transparent !important;
+	border-width:0 !important;
+	padding-top:0 !important;
+	margin-left:0 !important;
+}
+.home_tops .x-tab-strip-top .x-tab-right {
+	background: transparent no-repeat 0 -51px;
+	padding-left:0 !important;
+}
+.home_tops .x-tab-strip-top .x-tab-left {
+	background: transparent no-repeat right -351px;
+	padding-right:0 !important;
+}
+.home_tops ul.x-tab-strip li {
+	float:left;
+	margin-left:0 !important;
+}
+.home_tops ul.x-tab-strip {
+	display:block;
+	width:250px;
+	zoom:1;
+}
+.home_tops ul.x-tab-strip-top {
+	margin-top:-1px !important; 
+	background: repeat-x bottom; 
+	border-bottom: 1px solid;
+}

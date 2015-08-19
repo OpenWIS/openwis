@@ -199,11 +199,6 @@
         <servlet-name>gn-servlet</servlet-name>
         <url-pattern>/srv/*</url-pattern>
     </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>gn-servlet</servlet-name>
-        <url-pattern>/srv/*</url-pattern>
-    </servlet-mapping>
     
     <!-- Web map context servlet -->
     <servlet>
@@ -234,5 +229,4 @@
         <error-code>500</error-code> 
         <location>/error.jsp</location>
     </error-page> 
-    
 </web-app>

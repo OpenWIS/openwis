@@ -5,7 +5,7 @@ Openwis.Common.Metadata.BatchImport = Ext.extend(Ext.Container, {
     initComponent: function() {
         Ext.apply(this, {
             style: {
-            	margin: '10px 30px 10px 30px'
+                margin: '10px 30px 10px 30px'
             }
         });
         Openwis.Common.Metadata.BatchImport.superclass.initComponent.apply(this, arguments);

@@ -187,8 +187,7 @@
 		<!-- Get help -->
 		<allow service="help.home"/>
 		<allow service="about.home"/>
-		<!-- added by ken -->
-		<allow service="stat.home"/>
+
 
 		<!-- Get metadata from external application -->
 		<allow service="external.getmetadata"/>

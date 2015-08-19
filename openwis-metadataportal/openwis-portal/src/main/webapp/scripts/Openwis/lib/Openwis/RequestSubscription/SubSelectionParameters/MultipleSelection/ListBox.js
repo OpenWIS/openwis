@@ -83,7 +83,7 @@ Openwis.RequestSubscription.SubSelectionParameters.MultipleSelection.ListBox = E
 	    if(this.config.editValue || this.config.currentElementSelection) {
 	        var elementsToKeepSelected = [];
     	     if(this.config.editValue) {
-    	         Ext.each(this.config.editValue.split(","), 
+    	         Ext.each(this.config.editValue, 
                     function(item, index, allItems) {
                         elementsToKeepSelected.push(item);
                     },

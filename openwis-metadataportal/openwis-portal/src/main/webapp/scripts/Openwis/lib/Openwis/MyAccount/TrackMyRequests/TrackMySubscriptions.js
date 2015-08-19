@@ -95,7 +95,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMySubscriptions = Ext.extend(Ext.Containe
 				triggerAction: 'all',
 				editable: false,
 				style: {
-					marginLeft: '0 0 0 30px'
+					marginLeft: '0px 0px 0px 30px'
                 },
 				selectOnFocus:true,
 				width: 200,

@@ -1,5 +1,7 @@
 Ext.ns('Openwis.HomePage.Search');
+
 Openwis.HomePage.Search.SearchResultsPanel = Ext.extend(Ext.Panel, {
+
 	initComponent: function() {
 		Ext.apply(this, {
 				region:'center',
@@ -8,6 +10,7 @@ Openwis.HomePage.Search.SearchResultsPanel = Ext.extend(Ext.Panel, {
 		});
 		Openwis.HomePage.Search.SearchResultsPanel.superclass.initComponent.apply(this, arguments);
 	},
+
 	loadSearchResults: function(url, params) {
 		var startPanel = homePageViewport.getStartPanel();
 		if (startPanel.isVisible()) {
@@ -34,4 +37,8 @@ Openwis.HomePage.Search.SearchResultsPanel = Ext.extend(Ext.Panel, {
          });
          getHandler.proceed();
      }
+
 });
+
+
+        		

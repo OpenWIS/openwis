@@ -73,7 +73,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
     		    newFile
     		);
     		this.getUploadTablePanel().add(new Ext.form.Label({
-				text: Openwis.i18n('MetadataInsert.Metadata')+':',
+    			text: Openwis.i18n('MetadataInsert.Metadata') + ':',
 				cls:'ma_instxt'
 			}));
     		this.getUploadTablePanel().add(
@@ -107,7 +107,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
      	            {
          	            text : Openwis.i18n('Common.Btn.Insert'),
          	            cls:'mainbtn_blue mg_t10',
-         	            width:110,
+        	            width:110,
          	            scope : the,
          	            handler : function() {
          	                if (this.uploadForm.getForm().isValid()) {
@@ -143,8 +143,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
                 layoutConfig: {
                     columns: 3
                 },
-                // defaults are applied to items, not the container
-                //cls:"myac_ins_new",
+                // defaults are applied to items, not the container                
                 cls:"myac_ins_metad",
                 border: false
 			});
@@ -172,7 +171,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
                         }
 					);
 					var metadataLabel = new Ext.form.Label({
-				        text: Openwis.i18n('MetadataInsert.Metadata') + ':',
+						text: Openwis.i18n('MetadataInsert.Metadata') + ':',
 				        cls:"ma_instxt"
 			        });
 					this.getFileUploadArray().push(

@@ -7,7 +7,7 @@
 <html>
 <head>
 <%
-String title = "GISC Seoul Register";
+String title = "OpenWIS Register User";
 %>
 
 	<%@include file="header-common.jsp" %>

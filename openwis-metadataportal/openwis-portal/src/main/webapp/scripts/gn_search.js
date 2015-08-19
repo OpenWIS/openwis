@@ -655,6 +655,7 @@ function gn_search_complete(req) {
     var rlist = $('search-results-content');
 
     rlist.innerHTML = req.responseText;
+
     homePageViewport.relayoutViewport(false, true);
     //$('loadingMD').hide();
 }

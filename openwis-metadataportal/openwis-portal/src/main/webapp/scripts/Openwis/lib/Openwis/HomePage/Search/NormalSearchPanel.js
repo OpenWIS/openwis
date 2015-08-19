@@ -68,7 +68,6 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
         this.getWhatTextField().reset();
         this.getMapPanel().reset();
         this.getRegionsCombobox().reset();
-        this.getOnlyGeossMetadataCheckbox().reset();
         this.getSortDirectionCombobox().reset();
         this.getHitsCombobox().reset();
     },
@@ -76,9 +75,6 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
     buildSearchParams: function() {
         var params = {};
 		params.any = this.getWhatTextField().getValue();
-		//GEOSS Only
-		params.geossOnly = this.getOnlyGeossMetadataCheckbox().getValue();
-		params.wisOnly = false;
 		params.sortBy = this.getSortDirectionCombobox().getValue();
 		params.hitsPerPage = this.getHitsCombobox().getValue();
 		params.from = 0;

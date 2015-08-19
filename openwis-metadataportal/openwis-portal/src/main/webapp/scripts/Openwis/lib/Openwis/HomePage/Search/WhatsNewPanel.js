@@ -8,6 +8,7 @@ Openwis.HomePage.Search.WhatsNewPanel = Ext.extend(Ext.Panel, {
 	initComponent: function() {
 		Ext.apply(this, {
 		    border: false,
+			
 			cls: 'homePageMenuPanelCls'
 		});
 		Openwis.HomePage.Search.WhatsNewPanel.superclass.initComponent.apply(this, arguments);

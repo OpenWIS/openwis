@@ -45,9 +45,11 @@
 	<div class="results_header">
 <%-- 		<a name="page_<%=currentPage%>"/> --%>
 		<div class="results_title" style="float: left;">
-			<span class="strong_font" style="color: #3366FF;"><openwis:i18n key="HomePage.Search.Result.ResultsMatching"/>
-			&nbsp;<%=from+1 %>-<%=to+1%>/<%=count%>&nbsp;(<openwis:i18n key="HomePage.Search.Result.Page"/>
-			<%=currentPage%>/<%=maxPage%>)&nbsp;</span>
+			<span class="strong_font" style="color: #3366FF;">
+				<openwis:i18n key="HomePage.Search.Result.ResultsMatching"/>
+				&nbsp;<%=from+1 %>-<%=to+1%>/<%=count%>&nbsp;(<openwis:i18n key="HomePage.Search.Result.Page"/>
+				<%=currentPage%>/<%=maxPage%>)&nbsp;
+			</span>
 		</div>
 	</div>
 

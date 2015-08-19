@@ -16,8 +16,6 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 	},
 	
 	initializeCommons: function() {
-		//Only Geoss option
-	    //this.getOptionsFieldSet().add(this.getOnlyGeossMetadataCheckbox());
 	    //FieldSet options.
 	    this.getOptionsFieldSet().add(this.getSortDirectionCombobox());
 	    this.getOptionsFieldSet().add(this.getHitsCombobox());
@@ -26,24 +24,41 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 	    //Buttons.
 	    this.getButtonsPanel().addButton(new Ext.Button(this.getResetAction()));
 	    this.getButtonsPanel().addButton(new Ext.Button(this.getSearchAction()));
-	    
-	    //srubutton
-	    this.getButtonsSruPanel().addButton(new Ext.Button(this.getResetAction()));
-	    this.getButtonsSruPanel().addButton(new Ext.Button(this.getSruAction()));
+    
+    	//srubutton
+    	this.getButtonsSruPanel().addButton(new Ext.Button(this.getResetAction()));
+    	this.getButtonsSruPanel().addButton(new Ext.Button(this.getSruAction()));
     },
-           
+    
     isLoaded: function() {
     	return this.getButtonsPanel().rendered;
-    
     },
     
-    getSRUServerLabel:function(){if(!this.sruServerlabel){this.sruServerlabel=new Ext.Container({border:false,cls:"mainLabelCls",html:Openwis.i18n("HomePage.Search.Criteria.SRU"),style:{padding:"0 0 3px 0"}});
+    getSRUServerLabel:function(){
+    	if(!this.sruServerlabel){
+    		this.sruServerlabel=new Ext.Container({
+    			border:false,
+    			cls:"mainLabelCls",
+    			html:Openwis.i18n("HomePage.Search.Criteria.SRU"),
+    			style:{
+    				padding:"0 0 3px 0"
+    					}
+    		});
     	}return this.sruServerlabel;
     },
-    
-	getSizeResultLabel:function(){if(!this.sizeResultLabel){this.sizeResultLabel=new Ext.Container({border:false,cls:"mainLabelCls",html:Openwis.i18n("HomePage.Search.Criteria.SizeResult"),style:{padding:"2px"}});
-		}return this.sizeResultLabel;
-	},
+
+    getSizeResultLabel:function(){
+    	if(!this.sizeResultLabel){
+    		this.sizeResultLabel=new Ext.Container({
+    			border:false,
+    			cls:"mainLabelCls",
+    			html:Openwis.i18n("HomePage.Search.Criteria.SizeResult"),
+    			style:{
+    				padding:"2px"
+    					}
+    		});    	
+    	}return this.sizeResultLabel;
+    },
     
     getWhatLabel: function() {
         if(!this.whatlabel) {
@@ -52,7 +67,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 cls: 'mainLabelCls', 
                 html: Openwis.i18n('HomePage.Search.Criteria.What'),
                 style: {
-                    padding: '0 0 3px 0'
+                	padding: '0 0 3px 0'
                 }
             });       
         }
@@ -66,7 +81,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 cls: 'mainLabelCls', 
                 html: Openwis.i18n('HomePage.Search.Criteria.Where'),
                 style: {
-                    padding: '0 0 3px 0'
+                	padding: '0 0 3px 0'
                 }
             });       
         }
@@ -91,7 +106,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     getOptionsFieldSet: function() {
         if(!this.optionsFieldSet) {
             this.optionsFieldSet = new Ext.form.FieldSet({
-                title: Openwis.i18n('HomePage.Search.Criteria.Options'),                
+            	title: Openwis.i18n('HomePage.Search.Criteria.Options'),                
                 //layout: 'table',
                 layoutConfig: {
                      columns: 1  
@@ -131,7 +146,6 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     	}
     
     	return this.buttonsSruPanel;
-
     },
     
     getSortDirectionCombobox: function() {
@@ -193,18 +207,6 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
             });
         }
         return this.hitsCombobox;
-    },
-    
- // rjy add
-    getOnlyGeossMetadataCheckbox: function() {
-        if(!this.onlyGeossMetadataCheckbox) {
-            this.onlyGeossMetadataCheckbox = new Ext.form.Checkbox({
-    			name: 'onlyGEOSSMetadata',
-    			checked: false,
-    			boxLabel: 'Only GEOSS Metadata'
-    		});
-    	}
-    	return this.onlyGeossMetadataCheckbox;
     },
     
     getMapPanel: function() {
@@ -344,9 +346,9 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 				}
             });
         }
-        return this.searchAction;
-        
+        return this.searchAction;                
     },
+    
     getSruAction: function(){
     	if(!this.sruAction){
     		this.sruAction = new Ext.Action({
@@ -360,9 +362,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     				}
     			}
     		});
-    }
-    return this.sruAction;
-
+	    }
+	    return this.sruAction;
     },
     
     setRegionToUserDefined: function() {

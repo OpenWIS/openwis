@@ -9,9 +9,7 @@ String serviceName = context.getService();
 %>
 
 <script>
-
 	function login(){
-
 		var frm = document.getElementById("login");
 		frm.submit();
 	}
@@ -42,48 +40,43 @@ String serviceName = context.getService();
 	
 </script>
 
-<div class="header_top" >
-	<h1><a href="<%= locService %>/main.home" ><img src="<%= context.getBaseUrl() %>/images/openwis/top_logo_giscSeoul.png" alt="GISC Seoul - Global Information System Center" /></a></h1>
-	<div class="util"><div>
-		<% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) { 
-                      
-		   String entityID = (String) context.getUserSession().getProperty("idpEntityID");
-		%>
-			<form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">				
-				<p class="user_name" >Welcome,<strong><%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %><!-- (<%= entityID %>)--></strong></p>
-				<a class="user_logout" href="javascript:logout()"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout'))</script></a>
-				<input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
-			
-			
-		<% } else { %>
-			<form name="login" action="<%= context.getBaseUrl() %>/openWisInit" method="post" id="login">
-				<a class="user_login" href="javascript:login()"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
-				<input type="hidden" name="lang" id="lang" value="<%= context.getLanguage() %>"/>
-			
-		<% } %>
-		
-<%-- 		<a class="banner" href="javascript:changeLang('../ko/<%= serviceName %>')" id="loginFormEl"><img src="<%= context.getBaseUrl() %>/images/openwis/util_korean.png" alt="Korea" /></a>
-		<a class="banner lastChild" href="javascript:changeLang('../en/<%= serviceName %>')"><img src="<%= context.getBaseUrl() %>/images/openwis/util_english.png" alt="English" /></a>
---%>
-		<ul class="changeLang">
-			 <% for (String lang : langList) {
-			             String[] langParams = lang.split("/");
-			             String langValue = langParams[0];
-				         String langLabel = langParams[1];
-				         String selected = "";
-				         if (context.getLanguage().equals(langValue)) {
-				            selected = "class='selected'";
-				         }
-			         %>
-        	
-			<li <%= selected %>><a href="javascript:changeLang('../<%= langValue %>/<%= serviceName %>')" ><%= langLabel %></a></li>
-        	<% } %>
-		</ul>		
-        	</form>
-	</div></div>
-	<div class="gnb">
-		
-		
+		<div class="header_top" >
+			<h1><a href="<%= locService %>/main.home" ><img src="<%= context.getBaseUrl() %>/images/openwis/top_logo_giscSeoul.png" alt="GISC Seoul - Global Information System Center" /></a></h1>
+			<div class="util">
+				<div>
+					<% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) { 
+			                      
+					   String entityID = (String) context.getUserSession().getProperty("idpEntityID");
+					%>
+					<form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">				
+						<p class="user_name" >Welcome,<strong><%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %><!-- (<%= entityID %>)--></strong></p>
+						<a class="user_logout" href="javascript:logout()"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout'))</script></a>
+						<input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
+										
+					<% } else { %>
+					<form name="login" action="<%= context.getBaseUrl() %>/openWisInit" method="post" id="login">
+						<a class="user_login" href="javascript:login()"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+						<input type="hidden" name="lang" id="lang" value="<%= context.getLanguage() %>"/>						
+					<% } %>
+				
+						<ul class="changeLang">
+							 <% for (String lang : langList) {				
+					            	String[] langParams = lang.split("/");
+					             	String langValue = langParams[0];
+						         	String langLabel = langParams[1];
+						         	String selected = "";
+						         	if (context.getLanguage().equals(langValue)) {
+						        		selected = "class='selected'";
+						         	}
+					         %>
+						   					           	
+							<li <%= selected %>><a href="javascript:changeLang('../<%= langValue %>/<%= serviceName %>')" ><%= langLabel %></a></li>
+				        	 <% } %>
+						</ul>		
+				    </form>
+				</div>
+			</div>
+			<div class="gnb">		
 		
 					<% if ("main.home".equals(context.getService())) { %>
 						<span><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.Home'))</script></span>
@@ -121,12 +114,13 @@ String serviceName = context.getService();
                     <% } else { %>
                         <a class="banner" href="<%= locService %>/help.home"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.Help'))</script></a>
                     <% } %>
+			
+			</div>
+			<ul class="logoList">
+				<li><a href="javascript:openPop('kma');" ><img src="<%= context.getBaseUrl() %>/images/openwis/top_logo_kma.png" alt="KMA" /></a></li>
+				<li><a href="javascript:openPop('openwis');" ><img src="<%= context.getBaseUrl() %>/images/openwis/top_logo_openwis.png" alt="OpenWIS" /></a></li>				
+			</ul>	
+		</div>
+		
 
 		
-	</div>
-	<ul class="logoList">
-		<li><a href="javascript:openPop('kma');" ><img src="<%= context.getBaseUrl() %>/images/openwis/top_logo_kma.png" alt="KMA" /></a></li>
-		<li><a href="javascript:openPop('openwis');" ><img src="<%= context.getBaseUrl() %>/images/openwis/top_logo_openwis.png" alt="OpenWIS" /></a></li>
-		
-	</ul>	
-</div>

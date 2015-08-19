@@ -5,7 +5,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
     initComponent: function() {
         Ext.apply(this, {
             style: {
-            	margin: '10px 30px 10px 30px'
+                margin: '10px 30px 10px 30px'
             }
         });
         Openwis.Common.Metadata.MonitorCatalog.superclass.initComponent.apply(this, arguments);
@@ -461,7 +461,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
     getSearchFormPanel: function() {
         if(!this.searchFormPanel) {
             this.searchFormPanel = new Ext.form.FormPanel({
-                labelWidth: 120,
+            	labelWidth: 120,
                 cls: 'my_ac_bmm',
                 border: false,
                 buttonAlign: 'center'

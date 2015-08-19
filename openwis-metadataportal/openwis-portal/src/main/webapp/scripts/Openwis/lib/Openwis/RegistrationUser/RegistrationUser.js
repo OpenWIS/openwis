@@ -25,13 +25,16 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 	            // Second Line
 				this.createLabel(Openwis.i18n('RegistrationUser.ContactEmail.Label')),
 	            this.getEmailTextField(),
+	            
 	            // Third Line
+	            
 	            // Fourth Line
 	            this.createLabel(Openwis.i18n('RegistrationUser.Password')),
 	            this.getPasswordTextField(),
 	            this.createLabel(Openwis.i18n('RegistrationUser.Confirm.Password')),
 	            this.getPassword2TextField(),
 	            //Fifth Line
+	            
 	            //Sixth Line
 	            this.createLabelText(Openwis.i18n('RegistrationUser.Captcha'), 2),
 	            //Seventh Line
@@ -131,7 +134,7 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
                 name: 'password',
                 allowBlank:false,
 				maxLength: 32,
-                width: 180,
+				width: 180,
                 cls:"pd_tb10"
             });
         }
@@ -145,7 +148,7 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
                 name: 'password',
                 allowBlank:false,
 				maxLength: 32,
-                width: 180,
+				width: 180,
                 cls:"pd_tb10"
             });
         }
