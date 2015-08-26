@@ -38,7 +38,9 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 	    this.add(this.getWhatMapTypeFieldSet());
 	    
 	    this.getWhatSearchAccuracyFieldSet().add(this.createCriteriaLabel(Openwis.i18n('HomePage.Search.Criteria.What.SearchAccuracy.Imprecise')));
+	    this.getWhatSearchAccuracyFieldSet().add(this.createCriteriaLabel(Openwis.i18n("HomePage.Search.Criteria.What.SearchAccuracy.dummy")));
 	    this.getWhatSearchAccuracyFieldSet().add(this.getWhatSearchAccuracyRadioGroup());
+	    this.getWhatSearchAccuracyFieldSet().add(this.createCriteriaLabel(Openwis.i18n("HomePage.Search.Criteria.What.SearchAccuracy.dummy")));
 	    this.getWhatSearchAccuracyFieldSet().add(this.createCriteriaLabel(Openwis.i18n('HomePage.Search.Criteria.What.SearchAccuracy.Precise')));
 	    this.add(this.getWhatSearchAccuracyFieldSet());
 	    
@@ -98,6 +100,25 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 	    
 	    //Buttons.
 	    this.add(this.getButtonsPanel());
+	    
+	},
+	
+	getBoundsPanel:function(){
+		if(!this.boundsPanel){
+			this.boundsPanel=new Ext.Panel({
+				layout: 'table',
+				layoutConfig: {columns: 1},
+				defaults: {
+					style: {
+						margin: '2px 0 17px 0'
+							}
+				},
+				border:false,
+				autoScroll:false
+			});
+			this.boundsPanel.add(this.getWhereBoundsPanel());
+		}
+		return this.boundsPanel;
     },
     
     //----------------------------------------------------------------- WHAT ?
@@ -107,7 +128,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.eitherTextField = new Ext.form.TextField({
                 name: 'or',
 				allowBlank: true,
-				width: 190
+				width: 202,
+				cls: 'mg_b4'
             });
         }
         return this.eitherTextField;
@@ -118,7 +140,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.titleTextField = new Ext.form.TextField({
                 name: 'title',
 				allowBlank: true,
-				width: 210
+				width: 224,
+				cls: 'mg_b4'
             });
         }
         return this.titleTextField;
@@ -129,7 +152,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.abstractTextField = new Ext.form.TextField({
                 name: 'abstract',
 				allowBlank: true,
-				width: 210
+				width: 224,
+				cls: 'mg_b4'
             });
         }
         return this.abstractTextField;
@@ -140,7 +164,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.keywordsTextField = new Ext.form.TriggerField({
                 name: 'themekey',
 				allowBlank: true,
-				width: 210,
+				width: 224,
+				cls: 'mg_b20',
 				onTriggerClick: function(e) {
 					new Openwis.Common.Search.KeywordsSearch({
 						keywordsFromTf: this.getValue(),
@@ -163,7 +188,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.exactPhraseTextField = new Ext.form.TextField({
                 name: 'phrase',
 				allowBlank: true,
-				width: 190
+				width: 202,
+				cls: 'mg_b4'
             });
         }
         return this.exactPhraseTextField;
@@ -174,7 +200,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whatTextField = new Ext.form.TextField({
                 name: 'all',
 				allowBlank: true,
-				width: 190
+				width: 202,
+				cls: 'mg_b4'
             });
         }
         return this.whatTextField;
@@ -185,7 +212,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.withoutPhraseTextField = new Ext.form.TextField({
                 name: 'without',
 				allowBlank: true,
-				width: 190
+				width: 202,
+				cls: 'mg_b4'
             });
         }
         return this.withoutPhraseTextField;
@@ -250,7 +278,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
                 title: Openwis.i18n('HomePage.Search.Criteria.What.SearchAccuracy'),
                 layout: 'table',
                 layoutConfig: {
-                     columns: 3  
+                     columns: 5  
                 },
 				autoHeight:true,
 				collapsed: true,
@@ -267,7 +295,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whatSearchAccuracyRadioGroup2 = new Ext.form.SliderField({
                 name: 'similarity',
                 value: 80,
-                width: 120
+                width: 99
             });
             // Prevent the slider from displaying on top of md viewer/editor
             this.whatSearchAccuracyRadioGroup2.slider.topThumbZIndex = 8000;
@@ -320,7 +348,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whereBoundsLatMinTextField = new Ext.form.TextField({
                 name: 'southBL',
 				allowBlank: true,
-				autoCreate: {tag: 'input', type: 'text', size: '5', autocomplete: 'off'},
+				cls: 'where_sinput',
+				autoCreate: {tag: 'input', type: 'text', autocomplete: 'off'},
 				listeners: {
 				    change: this.coordsChanged,
 				    scope: this
@@ -341,7 +370,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whereBoundsLatMaxTextField = new Ext.form.TextField({
                 name: 'northBL',
 				allowBlank: true,
-				autoCreate: {tag: 'input', type: 'text', size: '5', autocomplete: 'off'},
+				cls: 'where_sinput',
+				autoCreate: {tag: 'input', type: 'text', autocomplete: 'off'},
 				listeners: {
 				    change: this.coordsChanged,
 				    scope: this
@@ -362,7 +392,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whereBoundsLongMinTextField = new Ext.form.TextField({
                 name: 'westBL',
 				allowBlank: true,
-				autoCreate: {tag: 'input', type: 'text', size: '5', autocomplete: 'off'},
+				cls: 'where_sinput',
+				autoCreate: {tag: 'input', type: 'text', autocomplete: 'off'},
 				listeners: {
 				    change: this.coordsChanged,
 				    scope: this
@@ -383,7 +414,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whereBoundsLongMaxTextField = new Ext.form.TextField({
                 name: 'eastBL',
 				allowBlank: true,
-				autoCreate: {tag: 'input', type: 'text', size: '5', autocomplete: 'off'},
+				cls: 'where_sinput',
+				autoCreate: {tag: 'input', type: 'text', autocomplete: 'off'},
 				listeners: {
 				    change: this.coordsChanged,
 				    scope: this
@@ -424,7 +456,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 225
+				width: 224,
+				cls: 'mg_b4'
             });
         }
         return this.whereTypeCombobox;
@@ -437,7 +470,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whenAnytimeRadio = new Ext.form.Radio({
     			name: 'whenMode',
     			inputValue: 'Anytime',
-    			checked: true
+    			checked: true,
+    			cls: 'mg_b3'
     		});
     	}
     	return this.whenAnytimeRadio;
@@ -449,6 +483,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
     			name: 'whenMode',
     			inputValue: 'MetadataChangeDate',
     			checked: false,
+    			cls: 'mg_b2',
     			listeners : {
     				check: function(checkbox, checked) {
     					if(checked) {
@@ -474,7 +509,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
         		editable: false,
         		format: 'Y-m-d',
         		disabled: true,
-        		width: 165
+        		width: 178,
+        		cls: 'when_calinput2'
     		});
     	}
     	return this.whenMetadataChangeDateFromDateField;
@@ -488,7 +524,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
         		editable: false,
         		format: 'Y-m-d',
         		disabled: true,
-        		width: 165
+        		width: 178,
+        		cls: 'when_calinput2'
     		});
     	}
     	return this.whenMetadataChangeDateToDateField;
@@ -499,6 +536,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whenTemporalExtentRadio = new Ext.form.Radio({
     			name: 'whenMode',
     			inputValue: 'TemporalExtent',
+    			cls: 'mg_b3',
     			checked: false,
     			listeners : {
     				check: function(checkbox, checked) {
@@ -525,7 +563,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
         		editable: false,
         		format: 'Y-m-d',
         		disabled: true,
-        		width: 165
+        		width: 178,
+        		cls: 'when_calinput2'
     		});
     	}
     	return this.whenTemporalExtentFromDateField;
@@ -539,7 +578,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
         		editable: false,
         		format: 'Y-m-d',
         		disabled: true,
-        		width: 165
+        		width: 178,
+        		cls: 'when_calinput2'
     		});
     	}
     	return this.whenTemporalExtentToDateField;
@@ -617,7 +657,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 200
+				width: 200,
+				autoLoad: true
             });
         }
         return this.restrictToCatalogComboBox;
@@ -655,7 +696,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 200
+				width: 202,
+				cls: 'mg_bi5'
             });
         }
         return this.restrictToCategoryComboBox;
@@ -681,7 +723,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 200
+				width: 202,
+				cls: 'mg_bi5'
             });
             this.restrictToKindComboBox.setValue('');
         }
@@ -739,6 +782,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
                 typeAhead: true,
 				mode: 'local',
 				triggerAction: 'all',
+				cls: 'mg_bi5',
 				editable: false,
 				selectOnFocus:true,
 				width: 200
@@ -805,6 +849,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
+				cls: 'mg_bi5',
 				width: 200
             });
         }

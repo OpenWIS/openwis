@@ -443,11 +443,14 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/AbstractSearchPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/AdvancedSearchPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/NormalSearchPanel.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/SruSearchPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/WhatsNewPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/LastProductsPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/SearchPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/SearchResultsPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/RelatedServicesPanel.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/StartSearchPanel.js</include>
+                        <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Search/StartRemoteSearchPanel.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Viewport.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/HomePage/Init.js</include>
                      </includes>

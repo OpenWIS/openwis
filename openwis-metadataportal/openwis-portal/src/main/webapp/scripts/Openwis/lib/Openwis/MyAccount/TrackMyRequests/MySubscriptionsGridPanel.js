@@ -121,6 +121,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 	        this.viewSubscriptionAction = new Ext.Action({
 	            text: Openwis.i18n('TrackMySubscriptions.Action.ViewEditSubscription'),
 	            disabled: true,
+	            cls: 'btn_wbox15',
 	            iconCls: 'icon-view-subscription',
 				scope: this,
 				handler: function() {
@@ -138,6 +139,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 	        this.viewMetadataAction = new Ext.Action({
 	            text: Openwis.i18n('TrackMySubscriptions.Action.ViewMetadata'),
 	            disabled: true,
+	            cls: 'btn_wbox12',
 	            iconCls: 'icon-viewmd-subscription',
 				scope: this,
 				handler: function() {
@@ -154,6 +156,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 	        this.suspendAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.Suspend'),
 	            disabled: true,
+	            cls: 'btn_wbox8',
 	            iconCls: 'icon-suspend-subscription',
 				scope: this,
 				handler: function() {
@@ -183,6 +186,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 	        this.resumeAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.Resume'),
 	            disabled: true,
+	            cls: 'btn_wbox8',
 	            iconCls: 'icon-resume-subscription',
 				scope: this,
 				handler: function() {
@@ -212,6 +216,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 	        this.discardAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.Discard'),
 	            disabled: true,
+	            cls: 'btn_wbox8',
 	            iconCls: 'icon-discard-subscription',
 				scope: this,
 				handler: function() {
@@ -246,6 +251,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 	        this.goToDeploymentAction = new Ext.Action({
 	            text: Openwis.i18n('Common.Btn.GoToDeployment'),
 	            disabled: true,
+	            cls: 'btn_wbox12',
 				scope: this,
 				handler: function() {
 				    var rec = this.getSelectionModel().getSelected();

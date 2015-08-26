@@ -18,6 +18,41 @@
 	background-image: none !important;
 }
 
+
+/* 20150817 */
+.mainbtn_gray {background:url("../images/openwis/button/com_btn_gray.jpg") no-repeat left top; text-align:center; color:#ffffff !important;height:24px; padding-bottom:10px;}
+.mainbtn_blue {background:url("../images/openwis/button/com_btn_blue.jpg") no-repeat left top; text-align:center; color:#ffffff !important;height:30px; margin-top:10px;}
+.btn_wbox5 {background:url("../images/openwis/button/wbox_wd50.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px 4px; width:50px !important;}
+.btn_wbox7 {background:url("../images/openwis/button/wbox_wd70.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px  4px; width:70px !important;}
+.btn_wbox8 {background:url("../images/openwis/button/wbox_wd80.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px  4px; width:80px !important;}
+.btn_wbox10 {background:url("../images/openwis/button/wbox_wd100.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px  4px; width:100px !important;}
+.btn_wbox11 {background:url("../images/openwis/button/wbox_wd110.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px  4px; width:110px !important;}
+.btn_wbox12 {background:url("../images/openwis/button/wbox_wd120.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px  4px; width:120px !important;}
+.btn_wbox15 {background:url("../images/openwis/button/wbox_wd150.jpg") no-repeat left top; text-align:center; color:#434343 !important;height:22px; margin:10px 0 10px  4px; width:150px !important;}
+.btn_wbox5 em button,.btn_wbox7 em button,.btn_wbox8 em button,.btn_wbox10 em button,.btn_wbox11 em button,.btn_wbox12 em button,.btn_wbox15 em button {color:#434343 !important; height:16px !Important;}
+.mainbtn_blue td {border:0 none !important;}
+.x-panel-footer, .x-panel-footer-noborder, .x-panel-btns td{border: 0 none !important;}
+
+
+
+/* layer pop - add 20150817 */
+.x-window .x-toolbar-cell .x-btn {background:url("../images/openwis/button/bwbox_wd70.jpg") no-repeat left top !important; text-align:center; color:#434343 !important;height:22px; margin:4px 0 0 4px; width:70px !important;}
+.x-window .x-toolbar-cell .x-btn em button {color:#434343 !important; height:16px !Important;}
+.x-window .x-form-text, textarea.x-form-field {margin-bottom:0 !important;}
+
+.x-window .x-fieldset-bwrap .x-btn {background:url("../images/openwis/button/bgbox_wd70.jpg") no-repeat left top !important; text-align:center; color:#434343 !important;width:70px !important; padding-bottom:2px; height:24px !Important;vertical-align:top !important;}
+.x-window .x-fieldset-bwrap .x-btn em button {color:#ffffff !important;}
+
+/* layer pop - add 20150817 */
+.x-window .x-toolbar-left .x-toolbar-left-row .x-btn {background:url("../images/openwis/button/wbox_wd22.png") no-repeat left top !important; text-align:center; color:#434343 !important;height:22px; margin:4px 0 0 4px; width:22px !important;}
+.x-window .x-panel-footer .x-toolbar-cell .x-btn {background:url("../images/openwis/button/wbox_wd100.jpg") no-repeat left top !important; text-align:center; color:#434343 !important;height:22px; margin:4px 0 0 4px; width:100px !important;}
+.x-window .x-table-layout .x-btn-noicon {background:url("../images/openwis/button/wbox_wd150.jpg") no-repeat left top !important; text-align:center; color:#434343 !important;height:22px; margin:4px 0 0 4px; width:150px !important;}
+.x-window .x-table-layout .x-btn-noicon em button {color:#434343 !important; height:16px !Important;}
+.x-window-dlg .x-toolbar-left .x-toolbar-left-row .x-btn {background:url("../images/openwis/button/wbox_wd50.jpg") no-repeat left top !important; text-align:center; color:#434343 !important;height:22px; margin:4px 0 0 4px; width:50px !important;}
+.x-window #md_dialog_tb .x-toolbar-cell .x-btn {background:url("../images/openwis/button/wbox_wd100.jpg") no-repeat left top !important; text-align:center; color:#434343 !important;height:22px; margin:4px 0 0 4px; width:100px !important;}
+
+
+
 /***********/
 /*top left*/
 .openwisAction .x-btn-tl {
@@ -113,9 +148,15 @@
 /** MAP **/
 
 .mapCtrlDrawRectangleExtent {
+/* changed 20150817
 	background-image: url("../images/openwis/icon_selextent.png") !important;
 	height: 26px !important;
 	width: 29px!important;
+*/
+	background-image: url("../images/openwis/icon_selextent2.jpg") !important;
+	height: 22px !important;
+	width: 22px !important;
+	margin-left:16px !important;
 }
 
 .mapCtrlDrawPolygonExtent {
@@ -125,27 +166,51 @@
 }
 		
 .mapCtrlDrag {
+/* changed 20150817
 	background-image: url("../images/openwis/icon_pan.png") !important;
 	height: 26px !important;
 	width: 25px!important;
+*/
+	background-image: url("../images/openwis/icon_pan2.jpg") !important;
+	height: 22px !important;
+	width: 22px !important;
+	margin-left:21px !important;	
 }
 
 .mapCtrlZoomOut {
+/* changed 20150817	
 	background-image: url("../images/openwis/icon_zoomout.png") !important;
 	height: 26px !important;
 	width: 29px!important;
+*/
+	background-image: url("../images/openwis/icon_zoomout2.jpg") !important;
+	height: 22px !important;
+	width: 22px !important;
+	margin-left:11px !important;
 }
 
 .mapCtrlZoomIn {
+/* changed 20150817	
 	background-image: url("../images/openwis/icon_zoomin.png") !important;
 	height: 26px !important;
 	width: 29px!important;
+*/
+	background-image: url("../images/openwis/icon_zoomin2.jpg") !important;
+	height: 22px !important;
+	width: 22px!important;
+	margin-left:18px !important;
 }
 
 .mapCtrlZoomFull {
+/* changed 20150817
 	background-image: url("../images/openwis/icon_zoomfull.png") !important;
 	height: 26px !important;
 	width: 29px!important;
+*/
+	background-image: url("../images/openwis/icon_zoomfull2.jpg") !important;
+	height: 22px !important;
+	width: 22px!important;
+	margin-left:7px !important;
 }
 
 .mapCtrlToolbar .x-toolbar {

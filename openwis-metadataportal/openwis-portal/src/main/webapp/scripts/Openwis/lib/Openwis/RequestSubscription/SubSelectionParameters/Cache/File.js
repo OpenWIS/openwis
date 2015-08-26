@@ -89,7 +89,7 @@ Openwis.RequestSubscription.SubSelectionParameters.Cache.File = Ext.extend(Ext.f
     			loadMask: true,
     			columns: [
                     {id: 'filename', header: Openwis.i18n('RequestSubscription.SSP.Cache.File.Name'), dataIndex: 'filename', width: 300, sortable: true},
-                    {id: 'checksum', header: Openwis.i18n('RequestSubscription.SSP.Cache.File.Checksum'), dataIndex: 'checksum', width: 250, sortable: true}
+                    {id: 'checksum', header: Openwis.i18n('RequestSubscription.SSP.Cache.File.Checksum'), dataIndex: 'checksum', width: 244, sortable: true}
     			],
     			autoExpandColumn: 'filename',
     			style : {

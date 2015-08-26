@@ -5,10 +5,10 @@ Openwis.HomePage.Search.SearchPanel = Ext.extend(Ext.TabPanel, {
 	initComponent: function() {
 		Ext.apply(this, {
 		    border:false,
-            width: 250,
+            width: 244,
         	activeTab: ((showAdvancedSearchFirst) ? 1 : 0),
-			bodyStyle: 'padding:5px',
-			cls: 'tabSearchType',
+        	bodyStyle: 'padding:9px',
+			cls: 'tabSearchType home_tops',
 			listeners: {
 			    afterrender: function() {
 			        this.addListener('tabchange',function() {
@@ -30,6 +30,7 @@ Openwis.HomePage.Search.SearchPanel = Ext.extend(Ext.TabPanel, {
 	initialize: function() {
 	    this.add(this.getNormalSearchPanel());
 	    this.add(this.getAdvancedSearchPanel());
+	    this.add(this.getSruSearchPanel());
     },
     
     getNormalSearchPanel: function() {
@@ -70,6 +71,26 @@ Openwis.HomePage.Search.SearchPanel = Ext.extend(Ext.TabPanel, {
 	        });
         }
         return this.advancedSearchPanel;
-    }
+    },
+    
+    getSruSearchPanel: function() {
+	    if(!this.sruSearchPanel) {
+	        this.sruSearchPanel = new Openwis.HomePage.Search.SruSearchPanel({
+	            targetResult: this.targetResult,
+	            listeners: {
+	                searchResultsDisplayed: function() {
+	                    this.fireEvent('searchResultsDisplayed');
+	                },
+				    guiChanged: function() {
+				    	if (pageLoaded && this.sruSearchPanel.isLoaded() && this.sruSearchPanel.getMapPanel().mapLoaded) {
+				    		this.fireEvent('guiChanged');
+				    	}
+				    },
+	                scope: this
+	            }
+	        });
+	    }
+	    return this.sruSearchPanel;
+	}
     
 });

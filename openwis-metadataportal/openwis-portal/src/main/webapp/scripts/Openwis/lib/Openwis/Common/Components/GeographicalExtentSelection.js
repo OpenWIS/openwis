@@ -106,7 +106,7 @@ Openwis.Common.Components.GeographicalExtentSelection = Ext.extend(Ext.form.Fiel
                 width: this.width,
                 map: this.getMap(),
                 tbar: this.getMapToolbar(),
-                tbarCssClass: 'mapCtrlToolbar'
+                tbarCssClass: 'mapCtrlToolbar mappanel_bg'
 	        });
 	    }
 	    return this.mapPanel;	    
@@ -216,9 +216,7 @@ Openwis.Common.Components.GeographicalExtentSelection = Ext.extend(Ext.form.Fiel
                 }
             });
     
-            this.mapToolbar.push(action);
-    
-            this.mapToolbar.push("-");
+            this.mapToolbar.push(action);    
             
              action = new GeoExt.Action({
                 control: new OpenLayers.Control.DragPan({

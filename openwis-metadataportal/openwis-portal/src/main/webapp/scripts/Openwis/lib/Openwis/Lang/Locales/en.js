@@ -10,7 +10,7 @@ Openwis.Lang.Dictionary = {
 	'Common.Banner.About'    	: 'About',
 	'Common.Banner.Help'    	: 'Help',
 	'Common.Banner.User'    	: 'User',
-
+	'Common.Banner.Stat'    	: 'Stat',
 	'Common.Btn.Next'     : 'Next >',
     'Common.Btn.Previous' : '< Previous',
     'Common.Btn.Finish' : 'Finish',
@@ -58,6 +58,7 @@ Openwis.Lang.Dictionary = {
     'Common.Extent.Temporal.To' : 'To',
     'Common.Extent.Temporal.Error.From.After.To' : 'The starting date is later than the ending date.',
     'Common.Extent.Temporal.From.To' : 'From ${from} to ${to}',
+    'Common.Extent.Temporal.Userd' : 'Userd against',
     
     'Common.Extent.Geo.Mandatory': 'You must select a geographical extent.',
     
@@ -91,7 +92,10 @@ Openwis.Lang.Dictionary = {
     'Common.Grid.Range': 'Displaying data {0} - {1} of {2}',
     'Common.Grid.No.Data': 'No data to display',
 
-
+    'Common.Url.kma': 'http://web.kma.go.kr/eng/',
+    'Common.Url.openwis': 'http://openwis.io',
+    'Common.Url.geoss': 'http://www.earthobservations.org',
+    
     //----------------------------------------------------------------- Message Box
     'MessageBox.displayErrorMsg.Title' : 'Error',
     'MessageBox.displaySuccessMsg.Title' : 'Success',
@@ -227,27 +231,76 @@ Openwis.Lang.Dictionary = {
    
     
     //----------------------------------------------------------------- Home page.
-	'HomePage.Main.Header' : '<h1>Find Interactive Maps, GIS datasets, Satellite Imagery and Related Applications</h1>',
+    'HomePage.Main.Welcome.Content' : '<div class="main_body">\
+		<h2>Welcome to 「GISC Seoul」 User Portal!</h2>\
+		<p class="main_body_t1">As WMO Information System, 「GISC Seoul」 is operated by the Korea Meteorological Administration (KMA). 「GISC Seoul」 is exchanging metadata with 「GISC Tokyo」, 「GISC Toulouse」, 「GISC Offenbach」, 「GISC Melbourne」, 「GISC Beijing」, 「GISC Exeter」, 「GISC Moscow」, 「GISC Washington」,「GISC Tehran」 and 「GISC Jeddah」. 「GISC Seoul」 serves WMO Essential and Additional data, as defined under WMO Resolutions, 40(Cg-XII) and 25.</p>\
+		<p class="main_body_t2">The designated WIS centres in the responsible area of 「GISC Seoul」 are as follows:</p>\
+		<div class="main_body_content">\
+			<div><img src="/openwis-user-portal/images/openwis/main/main_gisc.png" alt="GISC Seoul" /></div>\
+			<ul>\
+				<li><h3>NC Seoul&nbsp;<a href="http://nc.seoul.kma.go.kr" target="_blank" title="Open In A New Window">( nc.seoul.kma.go.kr )</a></h3>\
+					<p>「NC Seoul」 distributes various observation data and resources harvested in NMC Seoul and meteorological information at the national level.</p>\
+				</li>\
+				<li><h3>DCPC NMSC&nbsp;<a href="http://dcpc.nmsc.kma.go.kr" target="_blank" title="Open In A New Window">( dcpc.nmsc.kma.go.kr )</a></h3>\
+					<p>「DCPC NMSC」 is operated by the National Meteorological Satellite Center. The 「DCPC NMSC」 provides the COMS (Communication, Ocean and Meteorological Satellite) products.</p>\
+				</li>\
+				<li><h3>DCPC WAMIS&nbsp;<a href="http://dcpc.wamis.kma.go.kr" target="_blank" title="Open In A New Window">( dcpc.wamis.kma.go.kr )</a></h3>\
+					<p>「DCPC WAMIS」 provides the various agro meteorological information by connecting with the WAMIS which is a WMO sponsored website for agrometeorological products, tools and resources.</p>\
+				</li>\
+				<li><h3>DCPC LC/LRFMME&nbsp;<a href="http://wmolc.org/metadata/srv/eng/main.home" target="_blank" title="Open In A New Window">( wmolc.org/metadata )</a></h3>\
+					<p>The twelve GPCs produced data for long range forecast, based on which LC/LRFMME makes resources for multi-model ensemble. 「DCPC LC/LRFMME」 provides national members with these data using metadata.</p>\
+				</li>\
+				<li><h3>DCPC Tashkent</h3>\
+					<p>「DCPC Tashkent」 is going to function to harvest and produce data and resources in the responsible region as a RTH of GTS system and is exchanging data and resources with other centres.</p>\
+				</li>\
+			</ul>\
+		</div>\
+		<div class="main_body_t3">\
+			<p>Concerning 「GISC Seoul」 related inquiries, please contact us: <a href="mailto:gisc_op@korea.kr">( gisc_op@korea.kr )</a></p>\
+			<p>WIS is a single, unified global infrastructure for the World Meteorological Organization (WMO) to provide meteorological data for communications and data management capabilities. More information on WIS can be found on the WMO WIS Pages.&nbsp;<a href="http://www.wmo.int/pages/prog/www/WIS/index_en.html" target="_blank" title="Open In A New Window">( here )</a></p>\
+		</div>\
+		<div class="footer">COPYRIGHT 2015 GISC Seoul. ALL RIGHTS RESERVED.</div>\
+	</div>',
+    	
+	'HomePage.Main.Header' : 'WELCOME TO 「GISC Seoul」 USER POTRAL!!',
 	
     'HomePage.Main.Content' : '<p>\
-                                      <h1>OpenWIS purpose is:</h1>\
-                                	  <ul>\
-                                	   	<li>To improve access to and integrated use of spatial data and information</li>\
-                                	  		<li>To support decision making</li>\
-                                	  		<li>To promote multidisciplinary approaches to sustainable development</li>\
-                                	  		<li>To enhance understanding of the benefits of geographic information</li>\
-                                	  </ul>\
-                            	  </p>\
-                            	  <p>\
-    		                          OpenWIS allows to easily share geographically referenced thematic information between different organizations. For more information please contact\
-    		                      </p>',
+						    	<div class="pd_b20"><img src="/openwis-user-portal/images/openwis/main_visual_img.jpg" alt="GISC Seoul visual image" /></div><h1>Welcome to the GISC Seoul User Portal!!</h1><ul>\
+						    	<li class="main_gtxt">As WMO Information System, GISC Seoul is operating by the Korea Meteorological Administration (KMA). GISC Seoul is exchanging metadata with GISC Tokyo, Toulouse, Offenbach, Melbourne, Beijing and Exeter. Initially the GISC Seoul will contain WMO Essential and Additional data, as defined under WMO Resolutions, 40(Cg-XII) and 25.</li>\
+						    	<li class="main_btxt">The responsible regional designated sub centres of GISC Seoul are as follows:</li><li class="bl_txt"><span class="tc_black">DCPC NMSC</span>: DCPC NMSC is operating by the National Meteorological Satellite Center. The DCPC NMSC will provide the COMS (Communication, Ocean and Meteorological Satellite) Level 1, 2. <span class="tc_black">(Normal operating)</span></li><li class="bl_txt"><span class="tc_black">DCPC LC/LRFMME</span>: LC/LRFMME produce multi-model ensemble forecast resources that the twelve GPCs produced and provide to members by harvesting and standardizing the data for long range forecast. <a href="https://www.wmolc.org/" target="_blank">(www.wmolc.org)</a></li>\
+						    	<li class="bl_txt"><span class="tc_black">DCPC Tashkent</span>: DCPC Tashkent is running the function to harvest and produce data and resources in the responsible region as a RTH of GTS system and is exchanging data and resources with other centres. <span class="tc_black"><br />(scheduled to be operational in 2014)</span></li>\
+						    	<li class="bl_txt mg_b10"><span class="tc_black">NC Seoul</span>: NC Seoul distribute various observation data and resources harvested in NMC Seoul and distribute meteorological information at the national level. <span class="tc_black"></span></li>\
+						    	<li class="main_btxt2">GISC Seoul and related inquiries, please use the mail <a href="mailto:gisc_op@korea.kr">(gisc_op@korea.kr)</a></li>\
+						    	<li class="main_gtxt">WIS is a single, unified global infrastructure for the World Meteorological Organization (WMO) to provide meteorological data for communications and data management capabilities. <br />More information on WIS can be found on the WMO WIS Pages <a href="http://www.wmo.int/pages/prog/www/WIS/index_en.html" target="_blank">here</a>.</li>\
+						    	</ul>\
+						    	</p>',
     'HomePage.Search.Loading' : '<div class="searchLoadingMessage">:: Searching for Metadata ::</div>',
     'HomePage.Search.WhatsNew.Title' : "What's New",
     'HomePage.Search.LastProducts.Title' : 'Last Products',
-    'HomePage.Search.Normal.Title'   : 'Normal Search',
+    'HomePage.Search.Normal.Title'   : 'Normal <br/>Search',
     'HomePage.Search.Normal.What.ToolTip' : 'Enter key words',
-    'HomePage.Search.Advanced.Title' : 'Advanced Search',
+    'HomePage.Search.Advanced.Title' : 'Advanced <br/>Search',
+    'HomePage.Search.Remote.Title' : 'Remote <br/>Search',
     'HomePage.Search.Criteria.What'  : 'WHAT?',
+    'HomePage.Search.Criteria.SRU'  : 'SRU-SERVER',
+    'HomePage.Search.Criteria.SizeResult'  : 'SIZE OF RESULT',
+    'HomePage.Search.Criteria.What.HomePage'  : 'HomePage',
+    'HomePage.Search.Criteria.What.Sru'  : 'Remote Search',	
+    'HomePage.Search.Criteria.What.GiscSeoul'  : 'GISC Seoul',
+    'HomePage.Search.Criteria.What.GiscTokyo'  : 'GISC Tokyo',
+    'HomePage.Search.Criteria.What.GiscBeijing'  : 'GISC Beijing',
+    'HomePage.Search.Criteria.What.GiscToulouse'  : 'GISC Toulouse',
+	'HomePage.Search.Criteria.What.GiscOffenbach'  : 'GISC Offenbach',
+	'HomePage.Search.Criteria.What.GiscExeter'  : 'GISC Exeter',
+	'HomePage.Search.Criteria.What.GiscJeddah'  : 'GISC Jeddah',
+	'HomePage.Search.Criteria.What.GiscMoscow'  : 'GISC Moscow',
+	'HomePage.Search.Criteria.What.GiscMelbourne'  : 'GISC Melbourne',
+	'HomePage.Search.Criteria.What.GiscPretoria'  : 'GISC Pretoria',
+	'HomePage.Search.Criteria.What.GiscCasablanca'  : 'GISC Casablanca',
+	'HomePage.Search.Criteria.What.GiscTehran'  : 'GISC Tehran',
+	'HomePage.Search.Criteria.What.GiscNewDelhi'  : 'GISC NewDelhi',
+	'HomePage.Search.Criteria.What.GiscWashington'  : 'GISC Washington',
+	'HomePage.Search.Criteria.What.GiscBrasilia'  : 'GISC Brasilia',
     'HomePage.Search.Criteria.What.TextSearchOptions'  : 'Advanced text search options',
     'HomePage.Search.Criteria.What.Either'  : 'Either of the words',
     'HomePage.Search.Criteria.What.ExactPhrase'  : 'Exact phrase',
@@ -264,6 +317,7 @@ Openwis.Lang.Dictionary = {
     'HomePage.Search.Criteria.What.SearchAccuracy'  : 'Search Accuracy',
     'HomePage.Search.Criteria.What.SearchAccuracy.Precise'  : 'Precise',
     'HomePage.Search.Criteria.What.SearchAccuracy.Imprecise'  : 'Imprecise',
+    'HomePage.Search.Criteria.What.SearchAccuracy.dummy'  : '&nbsp;&nbsp;&nbsp;&nbsp;',
     'HomePage.Search.Criteria.Where' : 'WHERE?',
     'HomePage.Search.Criteria.Where.Map.Ctrl.ZoomFull.Title' : 'Full extent',
     'HomePage.Search.Criteria.Where.Map.Ctrl.ZoomFull.Text' : 'Use this button to go to the full extent of the map.',
@@ -294,6 +348,11 @@ Openwis.Lang.Dictionary = {
     'HomePage.Search.Criteria.When.MetadataChangeDate' : 'Metadata change date',
     'HomePage.Search.Criteria.When.TemporalExtent' : 'Temporal extent',
     'HomePage.Search.Criteria.When.Any' : 'Anytime',
+    'HomePage.Search.Criteria.When.CreationDate' : 'CreationDate',
+    'HomePage.Search.Criteria.When.ModificationDate' : 'ModificationDate',
+    'HomePage.Search.Criteria.When.PublicationDate' : 'PublicationDate',
+    'HomePage.Search.Criteria.When.BeginningDate' : 'BeginningDate',
+    'HomePage.Search.Criteria.When.EndingDate' : 'EndingDate',
     'HomePage.Search.Criteria.RestrictTo'  : 'Restrict to',
     'HomePage.Search.Criteria.RestrictTo.Catalog'  : 'Catalogue',
     'HomePage.Search.Criteria.RestrictTo.Category'  : 'Category',
@@ -377,6 +436,8 @@ Openwis.Lang.Dictionary = {
     'Alarms.GlobalReports.Replicated.Grid.Date' : 'Date',
     'Alarms.GlobalReports.Replicated.Grid.Source' : 'Source',
     'Alarms.GlobalReports.Replicated.Grid.Size' : 'Size',
+    
+    'Admin.Browser.Alarms.UserAlarms' : 'User Alarms',
 
     //----------------------------------------------------------------- Request / Subscription.
     
@@ -1098,6 +1159,7 @@ Openwis.Lang.Dictionary = {
 	'RegistrationUser.Confirm.Password' : 'Confirm Password',
 	'RegistrationUser.Captcha' : 'Are you really an human ? Resolve this addition',
 	'RegistrationUser.Submit' : 'Register',
+	'RegistrationUser.image.top' : '<div class="register_top"></div>',
 	
 	'RegistrationUser.Password.ErrorDlg.pswd.title' : 'Register User',
 	'RegistrationUser.Password.ErrorDlg.pswd' : 'Check if the two password fields have the same value.',
@@ -1126,7 +1188,7 @@ Openwis.Lang.Dictionary = {
 	
 	'AdditionalProduct.warning.title' : 'Warning Additional Product',
 	'AdditionalProduct.warning.msg' : 'This product is subject to Resolution 40 / 25. Do you accept ?',
-		
+	
     //----------------------------------------------------------------- Admin Browser
     'Admin.Browser.Alarms' : 'Alarms',
     'Admin.Browser.Alarms.RecentEvents' : 'Recent events',

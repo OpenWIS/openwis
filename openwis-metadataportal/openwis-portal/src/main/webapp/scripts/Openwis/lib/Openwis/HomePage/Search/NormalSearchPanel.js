@@ -36,7 +36,9 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
             this.whatTextField = new Ext.form.TextField({
                 name: 'what',
 				allowBlank: true,
-				width: 210,
+				cls: 'mg_bi10',
+				width: 224,
+				height: 22,
                 listeners: {
                   specialkey: function(f,e){
                     if (e.getKey() == e.ENTER) {

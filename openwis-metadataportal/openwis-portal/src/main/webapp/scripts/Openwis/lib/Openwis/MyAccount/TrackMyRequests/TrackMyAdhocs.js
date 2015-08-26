@@ -20,21 +20,21 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 		//Create User Alarm Grid
 		this.add(new Ext.Container({
 			html: Openwis.i18n('TrackMyRequests.UserAlarms.Title'),
-			cls: 'myAccountTitle2'
+			cls: 'mya_2dth_tit'
 		}));
 		this.add(this.getUserAlarmsGrid());
 
 		//Create Local Requests Grid.
 		this.add(new Ext.Container({
 			html: Openwis.i18n('TrackMyRequests.Local.Title'),
-			cls: 'myAccountTitle2'
+			cls: 'mya_2dth_tit'
 		}));
 		this.add(this.getLocalRequestsGrid());
 		
 		//Create Remote Requests Grid.
 		this.add(new Ext.Container({
 			html: Openwis.i18n('TrackMyRequests.Remote.Title'),
-			cls: 'myAccountTitle2'
+			cls: 'mya_2dth_tit'
 		}));
 		this.add(this.getDeploymentsComboBox());
 		this.add(this.getRemoteRequestsGrid());
@@ -44,7 +44,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 		if(!this.header) {
 			this.header = new Ext.Container({
 				html: Openwis.i18n('TrackMyRequests.Title'),
-				cls: 'myAccountTitle1'
+				cls: 'myAccountTitle1 top_hdp_txt'
 			});
 		}
 		return this.header;
@@ -91,7 +91,7 @@ Openwis.MyAccount.TrackMyRequests.TrackMyAdhocs = Ext.extend(Ext.Container, {
 				triggerAction: 'all',
 				editable: false,
 				style: {
-                    margin: '0px 0px 0px 30px'
+					marginLeft: '0px 0px 0px 30px'
                 },
 				selectOnFocus:true,
 				width: 200,

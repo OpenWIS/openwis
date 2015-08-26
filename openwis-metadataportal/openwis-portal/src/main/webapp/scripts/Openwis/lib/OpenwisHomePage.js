@@ -102,6 +102,8 @@
             "Openwis/HomePage/Search/AbstractSearchPanel.js",
             "Openwis/HomePage/Search/AdvancedSearchPanel.js",
             "Openwis/HomePage/Search/NormalSearchPanel.js",
+            // Include SRU services
+            "Openwis/HomePage/Search/SruSearchPanel.js",
             "Openwis/HomePage/Search/WhatsNewPanel.js",
             "Openwis/HomePage/Search/LastProductsPanel.js",
             "Openwis/HomePage/Search/SearchPanel.js",
@@ -109,6 +111,10 @@
 
             // Include Javascript for related services
             "Openwis/HomePage/Search/RelatedServicesPanel.js",
+            
+            // Include start page
+            "Openwis/HomePage/Search/StartSearchPanel.js",
+            "Openwis/HomePage/Search/StartRemoteSearchPanel.js",
             
             "Openwis/HomePage/Viewport.js",
             "Openwis/HomePage/Init.js"

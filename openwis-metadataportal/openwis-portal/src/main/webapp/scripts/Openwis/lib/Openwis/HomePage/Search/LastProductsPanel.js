@@ -15,9 +15,12 @@ Openwis.HomePage.Search.LastProductsPanel = Ext.extend(Ext.Panel, {
 		
 		//Initialize static elements.
 		this.initialize();
+		//move to SearchResultPanel.js
+		/*
 		if (g_userConnected) {			
 			this.getInfosAndInitialize();
 		}
+		*/
 	},
 	
 	initialize: function() {

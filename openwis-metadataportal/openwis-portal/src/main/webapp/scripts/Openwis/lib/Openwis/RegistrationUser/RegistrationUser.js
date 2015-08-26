@@ -8,23 +8,15 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 			width : 370,
 			autoHeight: true,
 			layout: 'table',
+			cls:'reg_tb',
 			region: 'center',
 			border: false,
-			defaults : {
-				bodyStyle : 'padding: 20px'
-			},
 			layoutConfig: {
 		        // The total column count must be specified here
 		        columns: 4
 		    },
 			items : [
-				
-				this.createLabelText(Openwis.i18n('RegistrationUser.info.msg'), 4),
-				this.createDummy(),
-	            this.createDummy(),
-	            this.createDummy(),
-	            this.createDummy(),
-	            
+					            
 	            // First Line
 				this.createLabel(Openwis.i18n('RegistrationUser.LastName.Label')),
 				this.getSurNameTextField(),
@@ -33,24 +25,18 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 	            // Second Line
 				this.createLabel(Openwis.i18n('RegistrationUser.ContactEmail.Label')),
 	            this.getEmailTextField(),
-	            this.createDummy(),
+	            
 	            // Third Line
-	            this.createDummy(),
-	            this.createDummy(),
-	            this.createDummy(),
-	            this.createDummy(),
+	            
 	            // Fourth Line
 	            this.createLabel(Openwis.i18n('RegistrationUser.Password')),
 	            this.getPasswordTextField(),
 	            this.createLabel(Openwis.i18n('RegistrationUser.Confirm.Password')),
 	            this.getPassword2TextField(),
 	            //Fifth Line
-	            this.createDummy(),
-	            this.createDummy(),
-	            this.createDummy(),
-	            this.createDummy(),
+	            
 	            //Sixth Line
-	            this.createLabelText(Openwis.i18n('RegistrationUser.Captcha'), 4),
+	            this.createLabelText(Openwis.i18n('RegistrationUser.Captcha'), 2),
 	            //Seventh Line
 	            this.createLabel(this.getCaptcha().a + ' + ' + this.getCaptcha().b + ' = ', 1),
 	            this.getCaptcha()
@@ -73,10 +59,8 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 	        border: false,
 	        colspan: colspansize,
 	        html: label,
-	        width: 100,
-	        style : {
-	           padding: '5px'
-	        }
+	        width: 130,
+	        cls:'main_btxt2'
 	    });
 	},
 	
@@ -85,9 +69,7 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 	        border: false,
 	        colspan: colspansize,
 	        html: label,
-	        style : {
-	           padding: '5px'
-	        }
+	        cls:'main_btxt2'
 	    });
 	},
 
@@ -104,7 +86,8 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 						name : 'name',
 						allowBlank : false,
 						maxLength: 64,
-						width : 150
+						width : 180,
+						cls:"pd_tb10"
 					});
 		}
 		return this.nameTextField;
@@ -119,7 +102,8 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 						name : 'surname',
 						allowBlank : false,
 						maxLength: 64,
-						width : 150
+						width : 180,
+						cls:"pd_tb10"
 					});
 		}
 		return this.surnameTextField;
@@ -135,8 +119,9 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 						vtype : 'email',
 						allowBlank : false,
 						maxLength: 128,
-						width : 300,
-						colspan: 2
+						width : 514,
+						colspan: 3,
+						cls:"pd_tb10"
 					});
 		}
 		return this.emailTextField;
@@ -149,7 +134,8 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
                 name: 'password',
                 allowBlank:false,
 				maxLength: 32,
-                width: 150
+				width: 180,
+                cls:"pd_tb10"
             });
         }
         return this.passwordTextField;
@@ -162,7 +148,8 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
                 name: 'password',
                 allowBlank:false,
 				maxLength: 32,
-                width: 150
+				width: 180,
+                cls:"pd_tb10"
             });
         }
         return this.password2TextField;
@@ -170,7 +157,10 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
     
     getCaptcha: function() {
     	if (!this.captcha) {
-    		this.captcha = new Openwis.Utils.Captcha();
+    		this.captcha = new Openwis.Utils.Captcha({
+    			width: 180,
+    			colspan: 2,
+    			cls:"pd_tb10" });
     	}
     	return this.captcha;
     },
@@ -207,6 +197,8 @@ Openwis.RegistrationUser.RegistrationUser = Ext.extend(Ext.form.FormPanel, {
 		if(!this.registerAction) {
 			this.registerAction = new Ext.Action({
 				text:Openwis.i18n('RegistrationUser.Submit'),
+				cls:'mainbtn_blue',
+				width:110,
 				scope: this,
 				handler: function() {
 				    var registerInfoValid = this.getForm().isValid();

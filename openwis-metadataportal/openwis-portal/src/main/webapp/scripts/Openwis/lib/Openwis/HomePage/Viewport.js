@@ -38,6 +38,8 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 		
 		this.add(this.getViewportPanel());
 		
+		this.add(this.getStartPanel());
+		
 	},
 	
 	getViewportPanel: function() {
@@ -150,7 +152,8 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         		region:'north',
         		border: false,
         		boxMaxHeight: 20,
-        		cls: 'homePageMainContentHeader',
+        		width: 664,
+        		cls: 'homePageMainContentHeader top_hdp_txt',
         		html: Openwis.i18n('HomePage.Main.Header')
         	});
 	    }
@@ -171,10 +174,9 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         		},
         		defaults: {
             		style: {
-                        marginLeft: '25px',
-                        marginRight: '25px',
-                        marginBottom: '25px',
-                        width: '250px'
+            			marginLeft: '28px',
+                        marginRight: '28px',
+                        width: '244px'
         	        }
                 },
         		items:
@@ -196,7 +198,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         		cls: 'homePageMainContent',
         		items:
         		[
-        		    this.getContentCenterHeaderPanel(),
+        		    // this.getContentCenterHeaderPanel(),
         		    this.getSearchResultsPanel()
         		]
         	});
@@ -236,7 +238,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 				cls: 'body-center-panel',
 				region: 'center',
 				border: false,
-				width: 993,
+				width: 992,
 				layout: 'border'
 			});
 		}
@@ -272,7 +274,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         this.suspendEvents();
         
 	    if(relayoutWidth) {
-            var contentWidth = 993;
+            var contentWidth = 992;
             //var contentHeight = this.el.dom.scrollHeight; 
         	
         	var size = this.getEl().getViewSize(), w = size.width;
@@ -299,6 +301,8 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
                 this.getWhatsNewPanel().getHeight() + this.getLastProductsPanel().getHeight() + 75;
             
             var contentPanelHeight = this.getSearchResultsPanel().getHeight() + 350;
+            this.getCenterPanel().boxMinHeight = contentPanelHeight;
+            
             var compMinHeight = (leftPanelHeight > contentPanelHeight) ? leftPanelHeight : contentPanelHeight;
             compMinHeight += 115;
             
@@ -308,5 +312,85 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 	    }
 				
 		this.resumeEvents();
+	},
+	
+	getStartPanel : function() {
+		if (!this.startPanel) {
+			this.startPanel = new Ext.Panel({
+				region : 'center',
+				autoScroll : true,
+				border : false,
+				layout : 'fit',
+				width: '100%',
+				id : 'main-center',
+				items : [ this.getStartSearchPanel(),
+						this.getStartMapPanel() ]
+			});
+		}
+		return this.startPanel;
+	},
+	
+	getStartSearchPanel : function() {
+		if (!this.startSearchPanel) {
+			this.startSearchPanel = new Openwis.HomePage.Search.StartSearchPanel(
+					{
+						targetResult : this.getSearchResultsPanel(),
+						listeners : {
+							guiChanged : function() {
+								this.relayoutViewport(false,
+										true);
+							},
+							searchResultsDisplayed : function() {
+								this.relayoutViewport(true,
+										true);
+							},
+							scope : this
+						}
+					});
+		}
+		return this.startSearchPanel;
+	},
+	
+	getStartMapPanel : function() {
+		if (!this.startMapPanel) {
+			this.startMapPanel = new Ext.Panel({
+				layout : 'fit',
+				width : '100%',
+				border : false,
+				cls : 'start-map'
+			});
+		}
+		return this.startMapPanel;
+	},
+
+	getStartRemoteSearchWindow : function(srv, title) {
+		var startRemoteSearchPanel = this.getStartRemoteSearchPanel();
+		startRemoteSearchPanel.getServerComboBox().setValue(srv);
+		var startRemoteSearchWindow = new Ext.Window({
+			title : title,
+			layout : 'table',
+			layoutConfig : {
+				columns : 1
+			},
+			autoScroll : false,
+			width : 260,
+			closeAction : 'hide',
+			cls : 'start-search-window tabSearchType',
+			items : [ startRemoteSearchPanel ]
+		});
+		startRemoteSearchWindow.on('show', function() {
+			startRemoteSearchWindow.center();
+		});
+		startRemoteSearchWindow.show();
+	},
+	
+	getStartRemoteSearchPanel : function() {
+		if (!this.startRemoteSearchPanel) {
+			this.startRemoteSearchPanel = new Openwis.HomePage.Search.StartRemoteSearchPanel(
+					{
+						targetResult : this.getSearchResultsPanel()
+					});
+		}
+		return this.startRemoteSearchPanel;
 	}
 });
