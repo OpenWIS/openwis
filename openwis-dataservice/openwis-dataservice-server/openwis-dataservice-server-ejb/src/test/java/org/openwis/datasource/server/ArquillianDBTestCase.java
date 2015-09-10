@@ -45,6 +45,7 @@ import org.openwis.dataservice.common.domain.entity.subscription.EventBasedFrequ
 import org.openwis.dataservice.common.domain.entity.subscription.Frequency;
 import org.openwis.dataservice.common.domain.entity.subscription.RecurrentFrequency;
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
+import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.hash.HashUtils;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
@@ -108,7 +109,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   PatternMetadataMapping.class.getPackage(), QueueUtils.class.getPackage(),
                   BlacklistServiceImpl.class.getPackage(),
                   DisseminatedDataStatisticsImpl.class.getPackage(),
-                  UserAlarmManagerImpl.class.getPackage())
+                  UserAlarmManagerImpl.class.getPackage(), UserAlarm.class.getPackage())
             .addManifestResource("test-persistence.xml", "persistence.xml");
 
 
