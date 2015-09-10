@@ -96,7 +96,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests -Dfile.encoding=UTF-8`
+ In a terminal, go into the root directory and launch the command: `mvn clean install -DskipTests -Dfile.encoding=UTF-8`
 
 After few minutes the build should finished successfully like this:
 
@@ -171,7 +171,7 @@ In a terminal, go into the root directory and launch the command: `mvn versions:
  
  **#6 Running SonarQube**
  
-In a terminal, go into the root directory and launch the command: `mvn -P all sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
+In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
 configured in you ~/.m2/settings.xml. 
 
 This does take a while given the number of modules that need to run.
