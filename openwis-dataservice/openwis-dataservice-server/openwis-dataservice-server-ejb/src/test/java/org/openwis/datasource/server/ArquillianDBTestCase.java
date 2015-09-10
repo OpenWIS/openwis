@@ -49,6 +49,7 @@ import org.openwis.dataservice.common.hash.HashUtils;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.extraction.ExtractFromCacheImpl;
+import org.openwis.dataservice.useralarms.UserAlarmManagerImpl;
 import org.openwis.dataservice.util.FileInfo;
 import org.openwis.dataservice.util.GTScategory;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
@@ -106,7 +107,8 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   ProcessedRequestServiceImplTestCase.class.getPackage(),
                   PatternMetadataMapping.class.getPackage(), QueueUtils.class.getPackage(),
                   BlacklistServiceImpl.class.getPackage(),
-                  DisseminatedDataStatisticsImpl.class.getPackage())
+                  DisseminatedDataStatisticsImpl.class.getPackage(),
+                  UserAlarmManagerImpl.class.getPackage())
             .addManifestResource("test-persistence.xml", "persistence.xml");
 
 
