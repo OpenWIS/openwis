@@ -25,7 +25,7 @@ public abstract class SolrTestBase extends AbstractSolrTestCase {
 
 	protected SolrServer server;
 	private final String indexLocation = System.getProperty("user.dir")
-			+ "\\src\\main\\resources\\";
+			+ "/src/main/resources/";
 	
 	@Override
 	public String getSchemaFile() {
