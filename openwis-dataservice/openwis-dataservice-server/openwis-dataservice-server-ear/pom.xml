@@ -154,9 +154,13 @@
 				   <groupId>org.jboss.jbossas</groupId>
 				   <artifactId>jboss-as-j2se</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.jbossas</groupId>
+					<artifactId>jboss-as-client</artifactId>
+				</exclusion>
 			 </exclusions> 
 		</dependency>
-
+		
 		<dependency>
 			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-timer</artifactId>

@@ -36,7 +36,7 @@
 			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-domain</artifactId>
 			<version>${project.version}</version>
-			<type>ejb</type>
+			<type>jar</type>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jboss.jbossas</groupId>
