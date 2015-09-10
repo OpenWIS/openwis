@@ -126,6 +126,8 @@ public class ExtractFromCacheTestCase extends ArquillianDBTestCase {
 
       // Checks
       Assert.assertNotNull(extract);
+      logger.info("Status.EXTRACTED: " + Status.EXTRACTED );
+      logger.info("extract.getStatus(): " + extract.getStatus() );
       Assert.assertEquals(Status.EXTRACTED, extract.getStatus());
    }
 
