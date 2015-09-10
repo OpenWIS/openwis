@@ -225,9 +225,6 @@ public class RequestServiceImpl implements RequestService {
    @Override
    public void deleteRequest(@WebParam(name = "requestId") Long id) {
       // Deletes the user alarms associated with the request
-      if (userAlarmManager == null) { 
-        logger.info("userAlarmManager is null");
-      }
       userAlarmManager.deleteAlarmsOfRequest(id);
 
       processedRequestService.deleteProcessedRequestsByRequest(id);
