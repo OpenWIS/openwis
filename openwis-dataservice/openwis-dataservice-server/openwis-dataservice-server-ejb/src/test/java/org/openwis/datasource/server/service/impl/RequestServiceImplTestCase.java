@@ -116,7 +116,11 @@ public class RequestServiceImplTestCase extends ArquillianDBTestCase {
       users.add(USER_TEST);
       List<ProcessedRequest> requests = requestSrv.getRequestsByUsers(users, 0, 5, null, null);
       for (ProcessedRequest pr : requests) {
-         requestSrv.deleteRequest(pr.getRequest().getId());
+         logger.info("Checking processed request ID: " + pr.getRequest().getId().toString() );
+         if (requestSrv != null) {
+            logger.info("requestSrv is not null ... ");
+            requestSrv.deleteRequest(pr.getRequest().getId());
+         }
       }
       // clear User staging post
       clearStagingPost(USER_TEST);
