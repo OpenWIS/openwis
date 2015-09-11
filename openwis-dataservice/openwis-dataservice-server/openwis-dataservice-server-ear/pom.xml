@@ -26,6 +26,7 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
+					<packagingExcludes>ejb3-core*.jar</packagingExcludes>
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
 
 					<!-- Generate the conf file jboss-app.xml -->
