@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:soap="http://cxf.apache.org/bindings/soap"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+    <jaxws:server id="DisseminationParametersService" serviceClass="org.openwis.usermanagement.DisseminationParametersService"
+        address="/DisseminationParametersService">
+        <jaxws:serviceBean>
+            <bean class="org.openwis.usermanagement.DisseminationParametersServiceImpl" />
+        </jaxws:serviceBean>
+    </jaxws:server>
+    <jaxws:server id="GroupManagementService" serviceClass="org.openwis.usermanagement.GroupManagementService"
+        address="/GroupManagementService">
+        <jaxws:serviceBean>
+            <bean class="org.openwis.usermanagement.GroupManagementServiceImpl" />
+        </jaxws:serviceBean>
+    </jaxws:server>
+    <jaxws:server id="MonitoringService" serviceClass="org.openwis.usermanagement.MonitoringService"
+        address="/MonitoringService">
+        <jaxws:serviceBean>
+            <bean class="org.openwis.usermanagement.MonitoringServiceImpl" />
+        </jaxws:serviceBean>
+    </jaxws:server>
+    <jaxws:server id="UserManagementService" serviceClass="org.openwis.usermanagement.UserManagementService"
+        address="/UserManagementService">
+        <jaxws:serviceBean>
+            <bean class="org.openwis.usermanagement.UserManagementServiceImpl" />
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+
+    <task:annotation-driven scheduler="taskScheduler" />
+    <task:scheduler id="taskScheduler" pool-size="5" />
+    <task:scheduled-tasks scheduler="taskScheduler">
+        <task:scheduled ref="logWatcher" method="timeout" fixed-rate="10000" />
+    </task:scheduled-tasks>
+    <bean id="logWatcher" class="org.openwis.usermanagement.LogWatcherTask" /> 
+</beans>
