@@ -224,7 +224,7 @@ public class BlacklistInfo {
     *
     * @param volDisseminationBlacklistThreshold the new volume dissemination blacklist threshold
     */
-   public void setVolDisseminationBlacklistThreshold(int volDisseminationBlacklistThreshold) {
+   public void setVolDisseminationBlacklistThreshold(long volDisseminationBlacklistThreshold) {
       this.volDisseminationBlacklistThreshold = volDisseminationBlacklistThreshold;
    }
 

@@ -314,7 +314,7 @@ public class BlacklistServiceImpl implements BlacklistService {
          result.setVolDisseminationWarnThreshold(JndiUtils
                .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
          result.setVolDisseminationBlacklistThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
 
       }
       return result;
