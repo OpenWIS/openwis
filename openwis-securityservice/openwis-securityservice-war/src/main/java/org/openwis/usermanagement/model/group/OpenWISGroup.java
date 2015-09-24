@@ -85,7 +85,7 @@ public class OpenWISGroup implements Serializable {
     * Gets the isGlobal.
     * @return the isGlobal.
     */
-   public boolean isGlobal() {
+   public boolean isIsGlobal() {
       return isGlobal;
    }
 
@@ -93,7 +93,7 @@ public class OpenWISGroup implements Serializable {
     * Sets the isGlobal.
     * @param globalGroup True if the group is global, false otherwise.
     */
-   public void setGlobal(boolean globalGroup) {
+   public void setIsGlobal(boolean globalGroup) {
       this.isGlobal = globalGroup;
    }
 

@@ -151,7 +151,7 @@ public class UserManagementServiceUtil {
          List<OpenWISGroup> groups) throws UserManagementException {
 
       for (OpenWISGroup openWisGroup : groups) {
-         if (openWisGroup.isGlobal()) {
+         if (openWisGroup.isIsGlobal()) {
             for (String groupId : openWisGroup.getGroupIds()) {
                userManagementService.addUserToGlobalGroup(user.getUserName(), groupId);
             }
@@ -174,7 +174,7 @@ public class UserManagementServiceUtil {
    private void removeOldGroupToUser(OpenWISUser user, UserManagementService userManagementService,
          List<OpenWISGroup> usersGroup) throws UserManagementException {
       for (OpenWISGroup openWisGroup : usersGroup) {
-         if (openWisGroup.isGlobal()) {
+         if (openWisGroup.isIsGlobal()) {
             for (String groupId : openWisGroup.getGroupIds()) {
                userManagementService.removeUserToGroup(user.getUserName(), GLOBAL, groupId);
             }

@@ -72,7 +72,7 @@ public final class GroupUtils {
          openWISGroup.setCentreName(ldapPath[1]);
          
          //test if the group is Global.
-         openWISGroup.setGlobal(GLOBAL.equals(ldapPath[1]));
+         openWISGroup.setIsGlobal(GLOBAL.equals(ldapPath[1]));
 
       }
 

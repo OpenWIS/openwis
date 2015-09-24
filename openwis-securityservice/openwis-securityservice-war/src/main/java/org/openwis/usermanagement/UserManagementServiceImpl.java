@@ -193,7 +193,7 @@ public class UserManagementServiceImpl implements UserManagementService {
       int numberOfLocalCentre = 0;
       OpenWISGroup userLocalCentre = null;
       for (OpenWISGroup openWISGroup : openWISGroups) {
-         if (!openWISGroup.isGlobal()) {
+         if (!openWISGroup.isIsGlobal()) {
             numberOfLocalCentre = numberOfLocalCentre + 1;
             if (centre.equals(openWISGroup.getCentreName())) {
                userLocalCentre = openWISGroup;

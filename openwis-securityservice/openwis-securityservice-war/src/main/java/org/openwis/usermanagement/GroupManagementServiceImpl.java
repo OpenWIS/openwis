@@ -529,7 +529,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
          throws UserManagementException {
       List<OpenWISUser> users = new ArrayList<OpenWISUser>();
       for (OpenWISGroup openWISGroup : groups) {
-         if (openWISGroup.isGlobal()) {
+         if (openWISGroup.isIsGlobal()) {
             for (String groupId : openWISGroup.getGroupIds()) {
                users.addAll(CollectionUtils.collect(getAllUsersByGlobalGroupId(groupId),
                      new Transformer() {
@@ -592,7 +592,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
          throws UserManagementException {
       logger.debug("getAllUserNameByGroup : " + group.getCentreName() + " - " + group.getGroupIds());
       String localCentreGroupName;
-      if (group.isGlobal()) {
+      if (group.isIsGlobal()) {
          localCentreGroupName = GLOBAL;
       } else {
          localCentreGroupName = group.getCentreName();
