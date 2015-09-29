@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.openwis.metadataportal.kernel.metadata.product;
 
 import org.openwis.dataservice.ProductMetadata;
@@ -80,6 +77,11 @@ public class ProductMetadataDefaultExtractor implements IProductMetadataExtracto
    }
    @Override
    public boolean isGlobalExchange(Metadata metadata) throws Exception {
+      return false;
+   }
+   
+   @Override
+   public boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception {
       return false;
    }
 
