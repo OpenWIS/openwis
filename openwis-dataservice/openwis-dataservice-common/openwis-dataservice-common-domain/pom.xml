@@ -34,12 +34,14 @@
 			<scope>provided</scope>
 		</dependency>
 
+        <!-- 
 		<dependency>
 			<groupId>org.jboss.jbossas</groupId>
 			<artifactId>jboss-as-client</artifactId>
 			<version>5.1.0.GA</version>
 			<type>pom</type>
 		</dependency>
+		 -->
 
       <dependency>
          <groupId>commons-io</groupId>
