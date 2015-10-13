@@ -3,7 +3,7 @@
 	
 	<groupId>io.openwis</groupId>
 	<artifactId>openwis</artifactId>
-	<version>3.13.2</version>
+	<version>3.13.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>OpenWis</name>
    
@@ -255,11 +255,11 @@
     <repositories>
 	  <repository>
 		 <id>openwis-releases</id>
-		 <url>https://repository-openwis-association.forge.cloudbees.com/release</url>
+		 <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
 	  </repository>
 	  <repository>
 		 <id>openwis-snapshot</id>
-		 <url>https://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
 	  </repository>
 	  <repository>
 		 <id>openqa-releases</id>

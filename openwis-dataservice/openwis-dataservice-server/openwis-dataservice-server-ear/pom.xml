@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
 		<groupId>io.openwis.dataservice.server</groupId>
-		<version>3.13.2</version>
+		<version>3.13.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -26,6 +26,7 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
+					<packagingExcludes>ejb3-core*.jar</packagingExcludes>
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
 
 					<!-- Generate the conf file jboss-app.xml -->
@@ -154,9 +155,13 @@
 				   <groupId>org.jboss.jbossas</groupId>
 				   <artifactId>jboss-as-j2se</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.jbossas</groupId>
+					<artifactId>jboss-as-client</artifactId>
+				</exclusion>
 			 </exclusions> 
 		</dependency>
-
+		
 		<dependency>
 			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-timer</artifactId>

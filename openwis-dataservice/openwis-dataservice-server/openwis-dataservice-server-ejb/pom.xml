@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
 		<groupId>io.openwis.dataservice.server</groupId>
-		<version>3.13.2</version>
+		<version>3.13.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -36,7 +36,7 @@
 			<groupId>io.openwis.dataservice.common</groupId>
 			<artifactId>openwis-dataservice-common-domain</artifactId>
 			<version>${project.version}</version>
-			<type>ejb</type>
+			<type>jar</type>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jboss.jbossas</groupId>
