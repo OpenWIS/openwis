@@ -15,12 +15,18 @@
     <cxf.version>2.1.10</cxf.version>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>io.openwis.dataservice.common</groupId>
-      <artifactId>openwis-dataservice-common-domain</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
-    </dependency>
+	<dependency>
+		<groupId>io.openwis.dataservice.common</groupId>
+		<artifactId>openwis-dataservice-common-domain</artifactId>
+		<version>${project.version}</version>
+		<type>jar</type>
+		<exclusions>
+			<exclusion>
+				<groupId>org.jboss.jbossas</groupId>
+				<artifactId>jboss-as-client</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
     <dependency>
       <groupId>io.openwis.dataservice.common</groupId>
       <artifactId>openwis-dataservice-common-utils</artifactId>
@@ -109,6 +115,7 @@
 		<groupId>org.jboss.ejb3</groupId>
 		<artifactId>jboss-ejb3-ext-api</artifactId>
 		<version>1.0.0</version>
+		<scope>provided</scope>
 	</dependency>
     <dependency>
       <groupId>jboss</groupId>
