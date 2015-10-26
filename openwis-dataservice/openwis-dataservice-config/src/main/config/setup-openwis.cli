@@ -6,6 +6,18 @@ batch
 
 # Set the HTTP port to 8180
 /socket-binding-group="standard-sockets"/socket-binding="http":write-attribute(name="port",value=8180)
+
+# Setup logging
+/subsystem=logging/periodic-rotating-file-handler="CollectionHandler":add(level=INFO, file={"relative-to"=>"jboss.server.log.dir", "path"=>"collection.log"}, formatter="%d %-5p [%c] %m%n", append=true, autoflush=true, suffix="yyyy-MM-dd")
+/subsystem=logging/periodic-rotating-file-handler="RequestHandler":add(level=INFO, file={"relative-to"=>"jboss.server.log.dir", "path"=>"request.log"}, formatter="%d %-5p [%c] %m%n", append=true, autoflush=true, suffix="yyyy-MM-dd")
+/subsystem=logging/periodic-rotating-file-handler="AlertsHandler":add(level=INFO, file={"relative-to"=>"jboss.server.log.dir", "path"=>"alerts.log"}, formatter="%d %-5p [%c] %m%n", append=true, autoflush=true, suffix="yyyy-MM-dd")
+
+/subsystem=logging/logger=org.openwis.dataservice.util.WMOFTP:add(use-parent-handlers=true,handlers=["CollectionHandler"])
+/subsystem=logging/logger=org.openwis.dataservice.gts.collection:add(use-parent-handlers=true,handlers=["CollectionHandler"])
+/subsystem=logging/logger=org.openwis.dataservice.dissemination:add(use-parent-handlers=true,handlers=["RequestHandler"])
+/subsystem=logging/logger=org.openwis.datasource:add(use-parent-handlers=true,handlers=["RequestHandler"])
+/subsystem=logging/logger=org.openwis.management.service:add(use-parent-handlers=true,handlers=["AlertsHandler"])
+
 :reload
 
 
