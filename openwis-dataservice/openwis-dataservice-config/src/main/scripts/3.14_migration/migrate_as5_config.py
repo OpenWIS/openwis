@@ -33,7 +33,14 @@ OPENWIS_DATASERVICE_BLACKLIST = [
     "cache.feeder.url",
     "cache.mailSender.url",
     "cache.gts.feeding.packedFeedingTimerService.url",
-    "cache.gts.util.databaseAccessor.url"
+    "cache.gts.util.databaseAccessor.url",
+
+	"openwis.management.alertservice.wsdl",
+	"openwis.management.controlservice.wsdl",
+	"openwis.management.disseminateddatastatistics.wsdl",
+	"openwis.management.exchangeddatastatistics.wsdl",
+	"openwis.management.replicateddatastatistics.wsdl",
+	"openwis.management.ingesteddatastatistics.wsdl"
 ]
 
 # ----------------------------------------------------------------------------------
