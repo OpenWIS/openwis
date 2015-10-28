@@ -3,6 +3,7 @@ package org.openwis.metadataportal.services.search;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -134,11 +135,18 @@ public class UserSearch implements ServiceWithJsp, Service {
       if (session.isAuthenticated()) {
          if (session.getProfile().equals(Geonet.Profile.ADMINISTRATOR)) {
             groups = gm.getAllGroups();
+            
+            // Grant everything for every metadata
+            result = new HashMap<String, Set<OperationEnum>>();
+            for (String mdId : metadataId) {
+            	result.put(mdId, EnumSet.allOf(OperationEnum.class));
+            }
          } else {
             groups = gm.getAllUserGroups(session.getUserId());
+            
+            IDataPolicyManager dpm = new DataPolicyManager(dbms);
+            result = dpm.getAllOperationAllowedByMetadataId(metadataId, groups);
          }
-         IDataPolicyManager dpm = new DataPolicyManager(dbms);
-         result = dpm.getAllOperationAllowedByMetadataId(metadataId, groups);
       } else {
          result = new LinkedHashMap<String, Set<OperationEnum>>();
       }

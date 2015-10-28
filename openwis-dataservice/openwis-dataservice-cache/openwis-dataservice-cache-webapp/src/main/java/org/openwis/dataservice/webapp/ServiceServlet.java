@@ -1,14 +1,12 @@
 package org.openwis.dataservice.webapp;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.cache.CacheManager;
-import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.dissemination.DisseminationStatusMonitor;
+import org.openwis.dataservice.webapp.wrapper.DataServiceCacheBeans;
 import org.openwis.dataservice.webapp.wrapper.DisseminationServiceWrapper;
 import org.openwis.dataservice.webapp.wrapper.FeedingWrapper;
 import org.openwis.dataservice.webapp.wrapper.GlobalDataCollectionWrapper;
@@ -37,10 +35,8 @@ public class ServiceServlet extends HttpServlet {
 	 */
 	@Override
 	public void init() throws ServletException {
-		InitialContext context;
 		try {
-			context = new InitialContext();
-			cacheManager = (CacheManager) context.lookup(JndiUtils.getString(ConfigurationInfo.CACHE_MANAGER_URL_KEY));
+			cacheManager = DataServiceCacheBeans.getInstance().getCacheManager();
 			cacheManager.stop();
 
 			// this resets the flag if the server crashed while service was running
@@ -64,8 +60,7 @@ public class ServiceServlet extends HttpServlet {
 		feeding.start();
 
 		try {
-			context = new InitialContext();
-			DisseminationStatusMonitor disseminationStatusMonitor = (DisseminationStatusMonitor) context.lookup("openwis-dataservice/DisseminationStatusMonitor/local");
+			DisseminationStatusMonitor disseminationStatusMonitor = DataServiceCacheBeans.getInstance().getDisseminationStatusMonitor();
 			disseminationStatusMonitor.stop();
 			if (disseminationStatusMonitor.isPurgeStagingPostAlreadyRunning()) disseminationStatusMonitor.setPurgeStagingPostRunning(false);
 		} catch (NamingException e) {

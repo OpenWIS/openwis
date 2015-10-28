@@ -1,15 +1,14 @@
 package org.openwis.metadataportal.services.useralarms;
 
-import org.jdom.Element;
-import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
-import org.openwis.metadataportal.kernel.external.DataServiceProvider;
-import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
-import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.useralarms.dto.AcknowledgeAlarmsDTO;
-
 import jeeves.interfaces.Service;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
+
+import org.jdom.Element;
+import org.openwis.dataservice.UserAlarmManagerWebService;
+import org.openwis.metadataportal.kernel.external.DataServiceProvider;
+import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
+import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 
 public class DeleteAll implements Service {
 

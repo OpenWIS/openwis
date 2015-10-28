@@ -10,7 +10,6 @@ import javax.ejb.MessageDrivenContext;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(messageListenerInterface = MessageListener.class, name = "DisseminationManager", activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/DisseminationQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/DisseminationQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class DisseminationManagerImpl implements DisseminationManager, MessageListener,
       ConfigurationInfo {
@@ -52,9 +51,6 @@ public class DisseminationManagerImpl implements DisseminationManager, MessageLi
 
    @EJB
    private DisseminationDelegate disseminationDelegate;
-
-   // Initial context
-   InitialContext context;
 
    // -------------------------------------------------------------------------
    // Message listener implementation

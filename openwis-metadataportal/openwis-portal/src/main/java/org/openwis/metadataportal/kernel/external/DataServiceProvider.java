@@ -15,10 +15,10 @@ import org.openwis.dataservice.RequestService;
 import org.openwis.dataservice.RequestService_Service;
 import org.openwis.dataservice.SubscriptionService;
 import org.openwis.dataservice.SubscriptionService_Service;
+import org.openwis.dataservice.UserAlarmManagerWebService;
+import org.openwis.dataservice.UserAlarmManagerWebService_Service;
 import org.openwis.dataservice.cache.CacheIndexImplService;
 import org.openwis.dataservice.cache.CacheIndexWebService;
-import org.openwis.dataservice.useralarms.UserAlarmManagerImplService;
-import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 
@@ -172,7 +172,7 @@ public final class DataServiceProvider {
       try {
          if (userAlarmService == null) {
             String wsdl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.USER_ALARM_SERVICE_WSDL);
-            UserAlarmManagerImplService service = new UserAlarmManagerImplService(new URL(wsdl));
+            UserAlarmManagerWebService_Service service = new UserAlarmManagerWebService_Service(new URL(wsdl));
             userAlarmService = service.getUserAlarmManagerWebServicePort();
             ServiceProviderUtil.enforceServiceEndpoint((BindingProvider) userAlarmService, wsdl);
          }

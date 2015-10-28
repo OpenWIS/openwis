@@ -50,8 +50,8 @@ public class AlarmEvent implements Serializable {
    private String severity;
 
    /** A description of the alarm event. */
-   @Lob
-   @Column(name = "MESSAGE")
+   // @Lob has been replaced with 'columnDefinition="text"'.  See: http://www.shredzone.de/cilla/page/299/string-lobs-on-postgresql-with-hibernate-36.html
+   @Column(name = "MESSAGE", columnDefinition = "text")
    private String message;
 
    /**

@@ -41,7 +41,7 @@ import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.service.RequestService;
-import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
+import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
 import org.openwis.datasource.server.utils.QueueUtils;
 import org.openwis.datasource.server.utils.RequestUtils;
@@ -87,7 +87,7 @@ public class RequestServiceImpl implements RequestService {
    private ConnectionFactory connectionFactory;
 
    /** injection queue. */
-   @Resource(mappedName = "queue/RequestQueue")
+   @Resource(mappedName = "java:/queue/RequestQueue")
    private Queue queue;
 
    /** The blacklist service. */

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.1" name="org.openwis.dataservice.config">
+	<resources>
+		<resource-root path="."/>
+		<resource-root path="openwis-dataservice-config.jar"/>
+	</resources>
+	<dependencies>
+		<module name="javax.api"/>
+		<module name="org.apache.commons.lang"/>
+		<module name="org.apache.commons.io"/>
+		<module name="org.apache.commons.configuration"/>
+	</dependencies>
+</module>

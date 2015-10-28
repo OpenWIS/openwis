@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
-	<persistence-unit name="DataServicePUnit"
+	<persistence-unit name="openwis-dataservice-common-domain"
 		transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/OpenwisDS</jta-data-source>
@@ -34,11 +34,15 @@
 				value="true" />
 			<property name="hibernate.cache.use_query_cache" value="true" />
 			<!-- END 2nd level cache management  -->
+      <!-- 
+            TODO - lmika: Re-enable a cache
+            
             <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.jbc2.JndiMultiplexedJBossCacheRegionFactory"/>
-            <!-- region factory specific properties --> 
+            <!-+- region factory specific properties -+-> 
             <property name="hibernate.cache.region.jbc2.cachefactory" value="java:CacheManager"/> 
             <property name="hibernate.cache.region.jbc2.cfg.entity" value="mvcc-entity"/>
             <property name="hibernate.cache.region.jbc2.cfg.collection" value="mvcc-entity"/>
+       -->
                           
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<!--

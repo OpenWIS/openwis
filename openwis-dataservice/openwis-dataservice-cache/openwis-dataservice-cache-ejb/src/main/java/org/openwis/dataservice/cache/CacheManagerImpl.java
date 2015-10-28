@@ -27,7 +27,6 @@ import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -52,6 +51,7 @@ import org.openwis.dataservice.util.WMOFNC;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.IncomingDSMessage;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.entity.IngestedData;
 import org.openwis.management.entity.ReplicatedData;
@@ -115,7 +115,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	/**
     * injection queue
     */
-   @Resource(mappedName = "queue/StatisticsQueue")
+   @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue statisticsQueue;
    
    /**
@@ -129,9 +129,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }
@@ -144,9 +142,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    private ReplicatedDataStatistics getReplicatedDataStatistics() {
       if (replicatedStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            replicatedStatistics = (ReplicatedDataStatistics) context
-                  .lookup("openwis-management-service/ReplicatedDataStatistics/remote");
+            replicatedStatistics = ManagementServiceBeans.getInstance().getReplicatedDataStatistics();
          } catch (NamingException e) {
             replicatedStatistics = null;
          }
@@ -158,9 +154,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    private IngestedDataStatistics getIngestedDataStatistics() {
       if (ingestionStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            ingestionStatistics = (IngestedDataStatistics) context
-                  .lookup("openwis-management-service/IngestedDataStatistics/remote");
+            ingestionStatistics = ManagementServiceBeans.getInstance().getIngestedDataStatistics();
          } catch (NamingException e) {
             ingestionStatistics = null;
          }

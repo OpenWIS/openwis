@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(messageListenerInterface = MessageListener.class, activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/DLQ"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/DLQ"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "3")})
 public class DLQMDB implements MessageListener, ConfigurationInfo {
 

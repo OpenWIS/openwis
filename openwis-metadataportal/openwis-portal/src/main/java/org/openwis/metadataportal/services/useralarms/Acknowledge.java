@@ -5,13 +5,11 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 
 import org.jdom.Element;
-import org.openwis.dataservice.useralarms.UserAlarmManagerWebService;
+import org.openwis.dataservice.UserAlarmManagerWebService;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.useralarms.dto.AcknowledgeAlarmsDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Acknowledges an alarm for a user.  The user must own the alarm to have it acknowledged.

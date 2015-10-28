@@ -9,6 +9,7 @@ import junit.framework.Assert;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openwis.management.entity.ReplicatedData;
@@ -18,6 +19,7 @@ import org.openwis.management.utils.DateTimeUtils;
  * The Class ReplicatedDataStatisticsImplTestCase.
  */
 @RunWith(Arquillian.class)
+@Ignore
 public class ReplicatedDataStatisticsImplTestCase extends ManagementServiceTest {
 
    /** The statistics. */
