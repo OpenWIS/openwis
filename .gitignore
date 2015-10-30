@@ -1,10 +1,10 @@
 # Ignore all maven build
 target/
+*.versionsBackup
+*.log
 
 # Ignore eclipse files
 .project
 .classpath
 .settings/
 
-# Ignore Maven files
-*.versionsBackup
