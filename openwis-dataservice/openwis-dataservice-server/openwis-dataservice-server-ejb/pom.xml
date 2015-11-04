@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
 		<groupId>io.openwis.dataservice.server</groupId>
-		<version>3.13.3-SNAPSHOT</version>
+		<version>3.13.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -159,6 +159,27 @@
 					</includes>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>ejb</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <archive>
+                        <manifestEntries>
+                            <Dependencies>org.apache.commons.collections</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
@@ -167,7 +188,7 @@
 			<id>arq-openejb-embedded-hibernate</id>
 
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 
 			<dependencies>
@@ -354,7 +375,7 @@
 								<id>user-alarm-service-to-wsdl</id>
 								<phase>process-classes</phase>
 								<configuration>
-									<className>io.openwis.dataservice.useralarms.UserAlarmManagerImpl</className>
+									<className>io.openwis.datasource.server.service.impl.UserAlarmManagerImpl</className>
 									<genWsdl>true</genWsdl>
 									<argline>-createxsdimports</argline>
 									<verbose>true</verbose>

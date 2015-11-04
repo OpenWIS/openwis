@@ -10,12 +10,12 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.xml.bind.JAXBException;
 
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.DisseminatedDataStatistics;
 import org.openwis.management.service.IngestedDataStatistics;
 import org.openwis.management.service.ReplicatedDataStatistics;
@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/StatisticsQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/StatisticsQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class StatisticsMDB implements MessageListener {
 
@@ -38,10 +38,10 @@ public class StatisticsMDB implements MessageListener {
    private static Logger logger = LoggerFactory.getLogger(StatisticsMDB.class);
 
    /** The data statistics. */
-   private DisseminatedDataStatistics dataStatistics;
+//   private DisseminatedDataStatistics dataStatistics;
 
    /** The ingested statistics. */
-   private IngestedDataStatistics ingestedStatistics;
+//   private IngestedDataStatistics ingestedStatistics;
 
    /** The replicated statistics. */
    private ReplicatedDataStatistics replicatedStatistics;
@@ -110,17 +110,11 @@ public class StatisticsMDB implements MessageListener {
     * @return the data statistics
     */
    private DisseminatedDataStatistics getDataStatistics() {
-      if (dataStatistics == null) {
-         try {
-            InitialContext context = new InitialContext();
-            dataStatistics = (DisseminatedDataStatistics) context
-            .lookup("openwis-management-service/DisseminatedDataStatistics/remote");
-         } catch (NamingException e) {
-            dataStatistics = null;
-         }
+      try {
+         return ManagementServiceBeans.getInstance().getDisseminatedDataStatistics();
+      } catch (NamingException e) {
+         throw new RuntimeException("Cannot get DisseminatedDataStatistics bean", e);
       }
-      
-      return dataStatistics;
    }
    
    /**
@@ -129,17 +123,17 @@ public class StatisticsMDB implements MessageListener {
     * @return the data statistics
     */
    private IngestedDataStatistics getIngestedStatistics() {
-      if (ingestedStatistics == null) {
+//      if (ingestedStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            ingestedStatistics = (IngestedDataStatistics) context
-            .lookup("openwis-management-service/IngestedDataStatistics/remote");
+        	 
+        	 return ManagementServiceBeans.getInstance().getIngestedDataStatistics();
          } catch (NamingException e) {
-            ingestedStatistics = null;
+//            ingestedStatistics = null;
+            throw new RuntimeException("Cannot get IngestedDataStatistics bean", e);
          }
-      }
+//      }
       
-      return ingestedStatistics;
+//      return ingestedStatistics;
    }
    
    /**
@@ -150,9 +144,7 @@ public class StatisticsMDB implements MessageListener {
    private ReplicatedDataStatistics getReplicatedStatistics() {
       if (replicatedStatistics == null) {
          try {
-            InitialContext context = new InitialContext();
-            replicatedStatistics = (ReplicatedDataStatistics) context
-            .lookup("openwis-management-service/ReplicatedDataStatistics/remote");
+            replicatedStatistics = ManagementServiceBeans.getInstance().getReplicatedDataStatistics();
          } catch (NamingException e) {
             replicatedStatistics = null;
          }

@@ -2,6 +2,7 @@ package org.openwis.metadataportal.services.request.util;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 
 import jeeves.resources.dbms.Dbms;
@@ -27,10 +28,18 @@ public class OperationEnumUtils {
       List<Group> groups = null;
       if (session.isAuthenticated()) {
          if (session.getProfile().equals(Geonet.Profile.ADMINISTRATOR)) {
-            groups = gm.getAllGroups();
+            //groups = gm.getAllGroups();
+        	 // All admin to perform everything
+        	 return CollectionUtils.collect(EnumSet.allOf(OperationEnum.class), new Transformer() {
+				@Override
+				public Object transform(Object arg0) {
+					return ((OperationEnum) arg0).getId();
+				}
+        	 });
          } else {
             groups = gm.getAllUserGroups(session.getUserId());
          }
+         
          IDataPolicyManager dpm = new DataPolicyManager(dbms);
          Collection<Operation> operations = dpm.getAllOperationAllowedByMetadataUrn(urn, groups);
 

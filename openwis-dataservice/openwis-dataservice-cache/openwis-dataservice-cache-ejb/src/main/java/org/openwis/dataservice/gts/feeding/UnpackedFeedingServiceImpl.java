@@ -9,7 +9,6 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.tools.ant.util.FileUtils;
@@ -17,6 +16,7 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.FeedingMessage;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 @MessageDriven(messageListenerInterface=MessageListener.class, name = "UnpackedFeedingService", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-    @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/UnpackedFeedingQueue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/UnpackedFeedingQueue"),
     @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")})
 @TransactionTimeout(18000)    
 public class UnpackedFeedingServiceImpl implements ConfigurationInfo,UnpackedFeedingService {
@@ -37,9 +37,7 @@ public class UnpackedFeedingServiceImpl implements ConfigurationInfo,UnpackedFee
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }

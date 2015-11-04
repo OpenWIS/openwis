@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice-server</artifactId>
 		<groupId>io.openwis.dataservice.server</groupId>
-		<version>3.13.3-SNAPSHOT</version>
+		<version>3.13.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -24,9 +24,25 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-ear-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>2.10.1</version>
+                <!-- 
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-application-xml</goal>
+                        </goals>
+                        <configuration>
+                            <version>6</version>
+	                    <packagingExcludes>ejb3-core*.jar</packagingExcludes>
+                            <initializeInOrder>true</initializeInOrder>
+                        </configuration>
+                    </execution>
+                </executions>
+                -->
 				<configuration>
-					<packagingExcludes>ejb3-core*.jar</packagingExcludes>
+                    <version>6</version>
+                    <initializeInOrder>true</initializeInOrder>
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
 
 					<!-- Generate the conf file jboss-app.xml -->
@@ -34,11 +50,16 @@
 						<version>5</version>
 						<loader-repository>openwis-dataservice:archive=openwis-dataservice.ear</loader-repository>
 					</jboss>
-
+          
 					<!--
 						Copy all jar except for modules ones in lib
 					-->
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<!-- Exclude module jars that are duplicated in the libs directory -->
+                    <packagingExcludes>
+                        lib/openwis-dataservice-common-domain-*.jar,
+                        lib/openwis-dataservice-cache-ejb-*.jar
+                    </packagingExcludes>
 				</configuration>
 			</plugin>
 			
@@ -133,23 +154,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>io.openwis.dataservice.server</groupId>
-			<artifactId>openwis-dataservice-server-ejb</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-			 <exclusions>
-				<exclusion>
-				   <groupId>org.jboss.jbossas</groupId>
-				   <artifactId>jboss-as-j2se</artifactId>
-				</exclusion>
-			 </exclusions> 
-		</dependency>
-
-		<dependency>
-			<groupId>io.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-domain</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
+            <groupId>io.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-timer</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
 			 <exclusions>
 				<exclusion>
 				   <groupId>org.jboss.jbossas</groupId>
@@ -160,38 +168,11 @@
 					<artifactId>jboss-as-client</artifactId>
 				</exclusion>
 			 </exclusions> 
-		</dependency>
-		
-		<dependency>
-			<groupId>io.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-timer</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-			 <exclusions>
-				<exclusion>
-				   <groupId>org.jboss.jbossas</groupId>
-				   <artifactId>jboss-as-j2se</artifactId>
-				</exclusion>
-			 </exclusions> 
-		</dependency>
-
-		<dependency>
-			<groupId>io.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-utils</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
-
-		<dependency>
-			<groupId>io.openwis.dataservice.server</groupId>
-			<artifactId>openwis-dataservice-server-webapp</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-		
-		<dependency>
-            <groupId>io.openwis.dataservice.cache</groupId>
-            <artifactId>openwis-dataservice-cache-core</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-domain</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
 			 <exclusions>
@@ -201,7 +182,34 @@
 				</exclusion>
 			 </exclusions> 
         </dependency>
-                
+
+        <dependency>
+            <groupId>io.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-utils</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>io.openwis.dataservice.cache</groupId>
+            <artifactId>openwis-dataservice-cache-core</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>io.openwis.dataservice.server</groupId>
+            <artifactId>openwis-dataservice-server-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+			 <exclusions>
+				<exclusion>
+				   <groupId>org.jboss.jbossas</groupId>
+				   <artifactId>jboss-as-j2se</artifactId>
+				</exclusion>
+			 </exclusions> 
+        </dependency>
+
         <dependency>
             <groupId>io.openwis.dataservice.cache</groupId>
             <artifactId>openwis-dataservice-cache-ejb</artifactId>
@@ -213,14 +221,22 @@
 				   <artifactId>jboss-as-j2se</artifactId>
 				</exclusion>
 			 </exclusions> 
-        </dependency>           
-        
+        </dependency>
+
         <dependency>
             <groupId>io.openwis.dataservice.cache</groupId>
             <artifactId>openwis-dataservice-cache-webapp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
-        </dependency>               
+        </dependency>
+         
+        <dependency>
+            <groupId>io.openwis.dataservice.server</groupId>
+            <artifactId>openwis-dataservice-server-webapp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>        
+                        
 	</dependencies>
 
 </project>

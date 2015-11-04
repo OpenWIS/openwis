@@ -14,7 +14,8 @@ import javax.naming.NamingException;
 
 import org.openwis.dataservice.cache.CacheIndex;
 import org.openwis.dataservice.common.service.CacheExtraService;
-import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.extraction.ExtractFromCache;
+import org.openwis.management.service.DisseminatedDataStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,9 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 public final class ServiceProvider {
+	
+   private static final String CACHE_SERVICE_JNDI_PREFIX = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb";
+	
 
    /** The logger. */
    private static Logger logger = LoggerFactory.getLogger(ServiceProvider.class);
@@ -32,7 +36,7 @@ public final class ServiceProvider {
 
    /** The cache index. */
    private static CacheIndex cacheIndex;
-
+   
    /**
     * Default constructor.
     * Builds a ServiceProvider.
@@ -80,7 +84,7 @@ public final class ServiceProvider {
       }
       return cacheIndex;
    }
-
+   
    /**
     * Load cache service.
     *
@@ -89,9 +93,7 @@ public final class ServiceProvider {
    private static CacheExtraService loadCacheService() {
       CacheExtraService result = null;
       try {
-         InitialContext context = new InitialContext();
-         String cacheUrl = JndiUtils.getString(DataServiceConfiguration.CACHE_URL_KEY);
-         result = (CacheExtraService) context.lookup(cacheUrl);
+         return getRemoteBean("ExtractFromCache", ExtractFromCache.class);
       } catch (NamingException e) {
          logger.error("Unable to locate the CacheExtraService", e);
       }
@@ -106,13 +108,30 @@ public final class ServiceProvider {
    private static CacheIndex loadCacheIndex() {
       CacheIndex result = null;
       try {
-         InitialContext context = new InitialContext();
-         String cacheUrl = JndiUtils.getString(DataServiceConfiguration.CACHE_INDEX_URL_KEY);
-         result = (CacheIndex) context.lookup(cacheUrl);
+         return getRemoteBean("CacheIndex", CacheIndex.class);
       } catch (NamingException e) {
-         logger.error("Unable to locate the CacheExtraService", e);
+         logger.error("Unable to locate the CacheIndex", e);
       }
       return result;
    }
 
+   /**
+    * Provides access to a remote bean. This uses the standard remote EJB naming
+    * protocol used by JBoss AS 7.1 See:
+    * https://docs.jboss.org/author/display/AS71
+    * /EJB+invocations+from+a+remote+client+using+JNDI
+    * 
+    * @param class1
+    * @return
+    * @throws NamingException
+    */
+   private static <T> T getRemoteBean(String beanName, Class<T> remoteInterfaceClass)
+         throws NamingException {
+      InitialContext initialContext = new InitialContext();
+      String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
+            remoteInterfaceClass.getName());
+      
+      logger.info("*** Getting remote bean: " + jndiName);
+      return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
+   }
 }

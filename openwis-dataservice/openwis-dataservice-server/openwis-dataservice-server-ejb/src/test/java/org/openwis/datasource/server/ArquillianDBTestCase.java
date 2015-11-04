@@ -50,7 +50,6 @@ import org.openwis.dataservice.common.hash.HashUtils;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.extraction.ExtractFromCacheImpl;
-import org.openwis.dataservice.useralarms.UserAlarmManagerImpl;
 import org.openwis.dataservice.util.FileInfo;
 import org.openwis.dataservice.util.GTScategory;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
@@ -60,6 +59,7 @@ import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequest
 import org.openwis.datasource.server.mdb.delegate.impl.SubscriptionDelegateImpl;
 import org.openwis.datasource.server.service.impl.BlacklistServiceImpl;
 import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplTestCase;
+import org.openwis.datasource.server.service.impl.UserAlarmManagerImpl;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.openwis.datasource.server.utils.QueueUtils;
 import org.openwis.management.service.DisseminatedDataStatisticsImpl;

@@ -15,7 +15,6 @@ import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +24,7 @@ import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.timer.SubscriptionTimerService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
@@ -124,9 +124,7 @@ public class SubscriptionTimerServiceImpl implements SubscriptionTimerService {
    private ControlService getControlService() {
       if (ctrlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            ctrlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            ctrlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             ctrlService = null;
          }

@@ -19,7 +19,6 @@ import javax.ejb.MessageDrivenContext;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -41,6 +40,7 @@ import org.openwis.dataservice.util.GTScategory;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
 import org.openwis.dataservice.util.WMOFNC;
 import org.openwis.dataservice.util.WMOFTP;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.utils.DataServiceAlerts;
@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
  */
 @MessageDriven(messageListenerInterface = MessageListener.class, activationConfig = {
       @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/CollectionQueue"),
+      @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/CollectionQueue"),
       @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "5")})
 public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
@@ -68,9 +68,6 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    @EJB
    private CacheManager cacheManager;
-
-   // Initial context
-   InitialContext context;
 
    private String sourceDirectory;
 
@@ -238,9 +235,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+        	 controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }
@@ -723,6 +718,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseHighPriorityProductAlert(FileInfo fileInfo){
+	  // XXX - Should we be using a JNDI bean for this?
       AlertService alertService = ManagementServiceProvider.getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");

@@ -41,7 +41,7 @@ public interface ConfigurationInfo {
    // -------------------------------------------------------------------------
 
    String COLLECTION_TIMER_PERIOD_KEY = "cache.gts.collection.collectionTimer.period";
-   String COLLECTION_TIMER_SERVICE_URL_KEY = "cache.gts.collection.collectionTimerService.url";
+//   String COLLECTION_TIMER_SERVICE_URL_KEY = "cache.gts.collection.collectionTimerService.url";     XXX - To delete
    String COLLECTION_TIMER_INITIAL_DELAY_KEY = "cache.gts.collection.collectionTimer.initialDelay";
 
    String SPLITTING_TIMER_PERIOD_KEY = "cache.gts.collection.splittingTimer.period";
@@ -131,16 +131,16 @@ public interface ConfigurationInfo {
    // JMS Queue
    // -------------------------------------------------------------------------
    /** Identifies the name of the Request message queue. */
-   String REQUEST_QUEUE_NAME = "queue/RequestQueue";
+   String REQUEST_QUEUE_NAME = "java:/queue/RequestQueue";
    /** Identifies the name of the Incoming message queue. */
-   String INCOMING_DATA_QUEUE_NAME = "queue/IncomingDataQueue";
+   String INCOMING_DATA_QUEUE_NAME = "java:/queue/IncomingDataQueue";
 
    /** Identifies the names of the feeding queues. */
-   String PACKED_FEEDING_QUEUE_NAME = "queue/PackedFeedingQueue";
-   String UNPACKED_FEEDING_QUEUE_NAME = "queue/UnpackedFeedingQueue";
+   String PACKED_FEEDING_QUEUE_NAME = "java:/queue/PackedFeedingQueue";
+   String UNPACKED_FEEDING_QUEUE_NAME = "java:/queue/UnpackedFeedingQueue";
 
    /** Identifies the name of the Dissemination message queue. */
-   String DISSEMINATION_QUEUE_NAME = "queue/DisseminationQueue";
+   String DISSEMINATION_QUEUE_NAME = "java:/queue/DisseminationQueue";
 
    // -------------------------------------------------------------------------
    // Operator config

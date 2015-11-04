@@ -14,6 +14,7 @@ import junit.framework.Assert;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openwis.dataservice.cache.CacheIndex;
@@ -37,6 +38,7 @@ import org.openwis.datasource.server.jaxb.serializer.incomingds.IncomingDSMessag
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
+@Ignore
 public class SubscriptionDelegateTestCase extends ArquillianDBTestCase {
 
    /** The Constant URN_TEST. */

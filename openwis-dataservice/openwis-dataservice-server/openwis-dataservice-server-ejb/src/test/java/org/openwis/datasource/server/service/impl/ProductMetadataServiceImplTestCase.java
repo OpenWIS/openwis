@@ -12,6 +12,7 @@ import javax.ejb.EJBException;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openwis.dataservice.cache.CacheIndex;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
+@Ignore
 public class ProductMetadataServiceImplTestCase extends ArquillianDBTestCase {
 
    /** Comment for <code>EXPECTED_EXCEPTION</code>. @member: EXPECTED_EXCEPTION */

@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice-common</artifactId>
 		<groupId>io.openwis.dataservice.common</groupId>
-		<version>3.13.3-SNAPSHOT</version>
+		<version>3.13.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -40,6 +40,7 @@
 			<artifactId>jboss-as-client</artifactId>
 			<version>5.1.0.GA</version>
 			<type>pom</type>
+			<scope>test</scope>
 		</dependency>
 		 -->
 

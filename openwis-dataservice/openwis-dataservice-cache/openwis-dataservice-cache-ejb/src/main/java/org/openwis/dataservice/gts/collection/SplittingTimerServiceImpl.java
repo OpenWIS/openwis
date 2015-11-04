@@ -21,7 +21,6 @@ import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,6 +36,7 @@ import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.gts.GTSTimerService;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
 import org.openwis.dataservice.util.WMOFTP;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
@@ -96,7 +96,7 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
    /**
     * injection queue
     */
-   @Resource(mappedName = "queue/CollectionQueue")
+   @Resource(mappedName = "java:/queue/CollectionQueue")
    private Queue queue;
 
    private ControlService controlService;
@@ -104,12 +104,10 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
-         }
+         }  
       }
       return controlService;
    }

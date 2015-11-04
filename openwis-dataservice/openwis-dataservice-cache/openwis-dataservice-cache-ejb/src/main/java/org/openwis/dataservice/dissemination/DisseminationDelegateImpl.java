@@ -54,16 +54,14 @@ import org.openwis.dataservice.common.domain.entity.request.dissemination.Shoppi
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
-import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
+import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
-import org.openwis.dataservice.useralarms.UserAlarmManagerLocal;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
-import org.openwis.dataservice.util.WMOFTP;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.harness.dissemination.Diffusion;
@@ -72,6 +70,7 @@ import org.openwis.harness.dissemination.DisseminationImplService;
 import org.openwis.harness.dissemination.DisseminationInfo;
 import org.openwis.harness.dissemination.DisseminationStatus;
 import org.openwis.harness.dissemination.RequestStatus;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
@@ -139,7 +138,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    /**
     * injection queue
     */
-   @Resource(mappedName = "queue/StatisticsQueue")
+   @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue queue;
 
    private ControlService controlService;
@@ -147,9 +146,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private ControlService getControlService() {
       if (controlService == null) {
          try {
-            InitialContext context = new InitialContext();
-            controlService = (ControlService) context
-                  .lookup("openwis-management-service/ControlService/remote");
+            controlService = ManagementServiceBeans.getInstance().getControlService();
          } catch (NamingException e) {
             controlService = null;
          }
