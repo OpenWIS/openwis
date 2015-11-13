@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>openwis-securityservice</artifactId>
-        <groupId>org.openwis.securityservice</groupId>
+        <groupId>io.openwis.securityservice</groupId>
         <version>develop-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -70,7 +70,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.openwis.management</groupId>
+            <groupId>io.openwis.management</groupId>
             <artifactId>openwis-management-client</artifactId>
             <version>${project.version}</version>
         </dependency>
