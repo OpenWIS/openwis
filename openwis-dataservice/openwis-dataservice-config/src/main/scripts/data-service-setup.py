@@ -9,11 +9,59 @@ import getpass
 
 DESCRIPTION = """
 OpenWIS Data Services - Setup Script
-------------------------------------
 
 This script can be used to setup the initial configuration of the data and
-management services and configure the JBoss environment.
+management services and configure the JBoss environment.  This script
+requires the following information about the environment:
+
+ - Location of the data directory.  This is the directory that will contain
+   the cache, stagingPost, harness and replication directories.
+   
+ - Location of the configuration directory.  This directory, which can be
+   created if it does not exist, will contain the configuration for the
+   data and management services.
+   
+ - Location of the PostgreSQL JDBC driver.  This will be a jar of the form
+   postgresql-9.2-xxxx.jdbc4.jar
+   
+ - Database connection details.
+
+This script will generate the following three files in the configuration
+directory:
+
+ - openwis-dataservice.properties: the configuration of the data and
+   management services.
+   
+ - localdatasourceservice.properties: the configuration of local data sources.
+ 
+ - setup-openwis.cli: a JBoss AS 7.1 CLI batch file which will install the
+   data sources, JMS queues and will configure the environment for running
+   the data and management services.
+
+WARNING: executing this script multiple times will regenerate these files
+from internal templates, even if they already exist.
+
 """
+
+# ---------------------------------------------------------------------------
+#
+
+# Display a quick intro screen 
+def display_intro():
+    print(DESCRIPTION)
+    raw_input("Press ENTER to continue: ")
+
+# A validation function which will check if the directory exists.  If not,
+# it will prompt the user if they would like to create it.
+def isdir_or_user_wants_dir_created(dir):
+    if os.path.isdir(dir):
+        return True
+    canCreate = raw_input("Directory '" + dir + "' does not exist.  Create? (y/n) ")
+    if (canCreate.lower() == "y"):
+        os.makedirs(dir)
+        return True
+    else:
+        return False
 
 # ---------------------------------------------------------------------------
 #
@@ -93,25 +141,28 @@ PARAMETERS = [
     # data base location
     Parameter(
         key="dataService.baseLocation",
-        descr="OpenWIS data location",
-        default="/var/opt/openwis"
+        descr="the OpenWIS data directory",
+        default="/var/opt/openwis",
+        valids=[
+            { "test": os.path.isdir, "message": "Must be a directory" }
+        ]
     ),
 
     # config directory
     Parameter(
         key="openwis.config.dir",
-        descr="Configuration directory", 
+        descr="the configuration directory", 
         default=os.path.join(os.getenv("HOME"), "conf"),
         valids=[
-            { "test": os.path.isdir, "message": "Must be a directory" }
+            { "test": isdir_or_user_wants_dir_created, "message": "Must be a directory" }
         ]
     ),
 
     # postgresql driver name
     Parameter(
         key="postgresql.driver.path",
-        descr="PostgreSQL JDBC driver", 
-        default=os.path.join(os.getenv("HOME"), "conf"),
+        descr="the full path of the PostgreSQL JDBC driver", 
+        default="postgresql-9.2-1004.jdbc4.jar",
         valids=[
             { "test": os.path.isfile, "message": "Must be a file" }
         ],
@@ -121,11 +172,11 @@ PARAMETERS = [
     ),
     
     # database config
-    Parameter(key="openwis.db.host", descr="OpenWIS database host"),
-    Parameter(key="openwis.db.port", descr="OpenWIS database port", default="5432"),
-    Parameter(key="openwis.db.name", descr="OpenWIS database name", default="OpenWIS"),
-    Parameter(key="openwis.db.username", descr="OpenWIS database username", default="openwis"),
-    Parameter(key="openwis.db.password", descr="OpenWIS database password", password=True)
+    Parameter(key="openwis.db.host", descr="the OpenWIS database host"),
+    Parameter(key="openwis.db.port", descr="the OpenWIS database port", default="5432"),
+    Parameter(key="openwis.db.name", descr="the OpenWIS database name", default="OpenWIS"),
+    Parameter(key="openwis.db.username", descr="the OpenWIS database username", default="openwis"),
+    Parameter(key="openwis.db.password", descr="the OpenWIS database password", password=True)
 ]
 
 # Files to transform and the destinations
@@ -137,12 +188,6 @@ FILES = [
 
 # ---------------------------------------------------------------------------
 #
-
-# Display a quick intro screen 
-def display_intro():
-    print(DESCRIPTION)
-    raw_input("Press ENTER to continue: ")
-
 
 # Prompt for all parameters.  Returns a hash containing the entered values.
 def prompt_for_params():

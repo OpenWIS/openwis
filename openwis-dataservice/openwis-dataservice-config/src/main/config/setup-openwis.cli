@@ -23,8 +23,6 @@ batch
 /subsystem=logging/logger=org.openwis.datasource:add(use-parent-handlers=true,handlers=["RequestHandler"])
 /subsystem=logging/logger=org.openwis.management.service:add(use-parent-handlers=true,handlers=["AlertsHandler"])
 
-:reload
-
 
 # Setup the OpenDS data source 
 data-source add --name=OpenwisDS --jndi-name="java:/OpenwisDS" --connection-url="jdbc:postgresql://@openwis.db.host@:@openwis.db.port@/@openwis.db.name@?stringtype=unspecified" --user-name="@openwis.db.username@" --password="@openwis.db.password@" --driver-name="@postgresql.driver.name@" --driver-class="org.postgresql.Driver" --min-pool-size=10 --max-pool-size=40 --idle-timeout-minutes=15 --blocking-timeout-wait-millis=15000 --background-validation-millis=50000 --check-valid-connection-sql="select count(*) from openwis_cache_configuration"
