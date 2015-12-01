@@ -36,7 +36,7 @@
     <module>oaipmh</module>
     <module>sde</module>
 	
-	<module>openwis-portal-client</module>
+	<!-- this is now run from the profiles set in the "top" pom -->
 	<!--<module>openwis-portal</module>-->
 
 	<module>openwis-portal-solr</module>

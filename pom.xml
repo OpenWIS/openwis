@@ -60,6 +60,7 @@
 			<module>openwis-harness</module>
 			<module>openwis-management</module>
 			<module>openwis-dataservice</module>
+			<module>openwis-portal-client</module>
 			<module>openwis-metadataportal</module>
 			<module>openwis-securityservice</module>
 			<module>openwis-stagingpost</module>
