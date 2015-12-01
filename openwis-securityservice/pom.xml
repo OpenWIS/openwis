@@ -15,8 +15,7 @@
 	<name>OpenWIS Security Service project</name>
 	
   <modules>
-    <module>openwis-securityservice-usermanagement-common</module>
-	<module>openwis-securityservice-usermanagement-server</module>
+    <module>openwis-securityservice-war</module>
 	<module>openwis-securityservice-utils</module>
   </modules>
   
