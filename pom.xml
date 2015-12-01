@@ -5,7 +5,7 @@
 	<artifactId>openwis</artifactId>
 	<version>develop-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>OpenWis</name>
+	<name>OpenWIS</name>
    
     <description>OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions 
 	required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on 

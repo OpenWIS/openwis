@@ -10,8 +10,9 @@
 	
 	<groupId>io.openwis.metadataportal</groupId>
 	<artifactId>openwis-portal-client</artifactId>
-	<name>Openwis Portal client</name>
-   
+	<description>Openwis Portal client</description>
+  	<name>openwis-portal-client</name>
+	
 	<properties>
 		<cxf.version>2.2.12</cxf.version>
 	</properties>

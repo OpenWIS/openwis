@@ -11,7 +11,8 @@
   <groupId>io.openwis.management.service</groupId>
   <artifactId>openwis-management-service</artifactId>
   <packaging>pom</packaging>
-  <name>OpenWIS Management Service</name>
+  <description>OpenWIS Management Service</description>
+  <name>openwis-management-service</name>
 
 
   <modules>

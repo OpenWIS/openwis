@@ -8,7 +8,8 @@
   </parent>
   <groupId>io.openwis.harness</groupId>
   <artifactId>openwis-harness-subselectionparameters</artifactId>
-  <name>Harness for Sub Selection Parameters</name>
+  <description>Harness for Sub Selection Parameters</description>
+  <name>openwis-harness-subselectionparameters</name>
   
   <properties>
 		<cxf.version>2.1.10</cxf.version>

@@ -50,20 +50,20 @@ The "mvn" command should be available in the terminal, maybe you should add the 
       |+--openwis-management
           |+--openwis-management-client
           |+--openwis-management-server
-      |+--openwis-openwis-metadataportal
+      |+--openwis-metadataportal
           |+--cachingxslt
           |+--jeeves
           |+--oaipmh
-          |+--openwis-portal
-          |+--openwis-portal-client
+          |+--openwis-portal  
           |+--openwis-portal-solr
           |+--schematrons (not used)
           |+--sde
+	  |+--openwis-portal-client
       |+--openwis-securityservice
           |+--openwis-securityservice-war
           |+--openwis-securityservice-utils
       |+--openwis-stagingpost
-      |+--openwis-resources
+      |+--resources
 
 * **openwis-dataservice:** contains the dataservice module (including the cache system)
 * **openwis-factorytests:** contains selenium functional tests
@@ -99,20 +99,20 @@ After few minutes the build should finished successfully like this:
 	[INFO] ------------------------------------------------------------------------
 	[INFO] Reactor Summary:
 	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWis ............................................... SUCCESS [1.248s]
-	[INFO] OpenWIS Harness Parent Project ........................ SUCCESS [0.000s]
-	[INFO] Harness for Sub Selection Parameters .................. SUCCESS [6.724s]
+	[INFO] OpenWIS ............................................... SUCCESS [1.248s]
+	[INFO] openwis-harness ....................................... SUCCESS [0.000s]
+	[INFO] openwis-harness-subselectionparameters ................ SUCCESS [6.724s]
 	[INFO] openwis-harness-localdatasource ....................... SUCCESS [1.232s]
-	[INFO] Openwis Harness client ................................ SUCCESS [0.796s]
+	[INFO] openwis-harness-client ................................ SUCCESS [0.796s]
 	[INFO] openwis-harness-mssfss ................................ SUCCESS [1.560s]
 	[INFO] openwis-harness-dissemination ......................... SUCCESS [1.264s]
-	[INFO] OpenWIS Monitoring And Control ........................ SUCCESS [0.046s]
-	[INFO] OpenWIS Management Client ............................. SUCCESS [4.134s]
-	[INFO] OpenWIS Management Service ............................ SUCCESS [0.016s]
+	[INFO] openwis-management .................................... SUCCESS [0.046s]
+	[INFO] openwis-management-client ............................. SUCCESS [4.134s]
+	[INFO] openwis-management-service ............................ SUCCESS [0.016s]
 	[INFO] openwis-management-service-common ..................... SUCCESS [1.045s]
 	[INFO] openwis-management-service-ejb ........................ SUCCESS [6.740s]
 	[INFO] openwis-management-service-ear ........................ SUCCESS [4.118s]
-	[INFO] OpenWIS DataService project ........................... SUCCESS [0.016s]
+	[INFO] openwis-dataservice ................................... SUCCESS [0.016s]
 	[INFO] openwis-dataservice-common ............................ SUCCESS [0.015s]
 	[INFO] openwis-dataservice-common-utils ...................... SUCCESS [1.513s]
 	[INFO] openwis-dataservice-common-domain ..................... SUCCESS [2.762s]
@@ -126,29 +126,65 @@ After few minutes the build should finished successfully like this:
 	[INFO] openwis-dataservice-server-webapp ..................... SUCCESS [1.295s]
 	[INFO] openwis-dataservice-server-ear ........................ SUCCESS [0.515s]
 	[INFO] openwis-dataservice-config ............................ SUCCESS [2.621s]
+	[INFO] openwis-portal-client ................................. SUCCESS [17.862s]	
 	[INFO] GeoNetwork opensource ................................. SUCCESS [0.000s]
 	[INFO] Caching xslt module ................................... SUCCESS [0.514s]
 	[INFO] Jeeves modules ........................................ SUCCESS [4.181s]
 	[INFO] Oaipmh modules ........................................ SUCCESS [1.155s]
 	[INFO] ArcSDE module (dummy-api) ............................. SUCCESS [1.560s]
-	[INFO] Openwis Portal client ................................. SUCCESS [17.862s]
-	[INFO] Openwis Portal SolR ................................... SUCCESS [7.301s]
-	[INFO] OpenWIS Security Service project ...................... SUCCESS [0.015s]
+	[INFO] openwis-portal-solr ................................... SUCCESS [7.301s]
+	[INFO] openwis-securityservice ............................... SUCCESS [0.015s]
 	[INFO] openwis-securityservice-utils ......................... SUCCESS [0.000s]
 	[INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [4.181s]
 	[INFO] openwis-securityservice-war ........................... SUCCESS [9.657s]
-	[INFO] OpenWIS Staging Post .................................. SUCCESS [0.327s]
+	[INFO] openwis-stagingpost ................................... SUCCESS [0.327s]
 	[INFO] ------------------------------------------------------------------------
 	[INFO] ------------------------------------------------------------------------
 	[INFO] BUILD SUCCESSFUL
 	[INFO] ------------------------------------------------------------------------
+	[INFO] Total time: 3 minutes 6 seconds
+	[INFO] Finished at: Tue Dec 01 13:24:46 GMT 2015
+	[INFO] Final Memory: 237M/416M
+	[INFO] ------------------------------------------------------------------------	
 	
-**#3. Generate the admin and user portals*
+**#3. Generate the user portal*
 
-**User** In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
-**Admin:** In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests -Dfile.encoding=UTF-8`
+In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
 
-**#4  Getting built artifacts**
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Reactor Summary:
+	[INFO] ------------------------------------------------------------------------
+	[INFO] OpenWIS module ........................................ SUCCESS [36.687s]
+	[INFO] OpenWis ............................................... SUCCESS [0.455s]
+	[INFO] ------------------------------------------------------------------------
+	[INFO] ------------------------------------------------------------------------
+	[INFO] BUILD SUCCESSFUL
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Total time: 37 seconds
+	[INFO] Finished at: Tue Dec 01 13:25:28 GMT 2015
+	[INFO] Final Memory: 58M/326M
+	[INFO] ------------------------------------------------------------------------
+
+**#4. Generate the admin portal*	
+	
+In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests -Dfile.encoding=UTF-8`
+**Please note the lack of a "clean" phase. Running a clean will delete any client portals that may have been created.
+
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Reactor Summary:
+	[INFO] ------------------------------------------------------------------------
+	[INFO] OpenWIS module ........................................ SUCCESS [26.004s]
+	[INFO] OpenWis ............................................... SUCCESS [0.402s]
+	[INFO] ------------------------------------------------------------------------
+	[INFO] ------------------------------------------------------------------------
+	[INFO] BUILD SUCCESSFUL
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Total time: 26 seconds
+	[INFO] Finished at: Tue Dec 01 13:25:56 GMT 2015
+	[INFO] Final Memory: 42M/302M
+	[INFO] ------------------------------------------------------------------------
+
+**#5  Getting built artifacts**
 
 * **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
 * **dataservice configs:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
@@ -161,11 +197,11 @@ After few minutes the build should finished successfully like this:
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
 * **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
-**#5 Changing Verison Number**
+**#6 Changing Verison Number**
 
 In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all,user,admin` or whatever version you wish to change the project to
  
- **#6 Running SonarQube**
+ **#7 Running SonarQube**
  
 In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
 configured in you ~/.m2/settings.xml. 

@@ -10,8 +10,8 @@
   <groupId>io.openwis.management</groupId>
   <artifactId>openwis-management-client</artifactId>
 
-  <name>OpenWIS Management Client</name>
-
+  <description>OpenWIS Management Client</description>
+  <name>openwis-management-client</name>
   <properties>
    <cxf.version>2.1.10</cxf.version>
   </properties>
