@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
 		<groupId>io.openwis.management.service</groupId>
-		<version>3.14.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -11,13 +11,7 @@
 	<artifactId>openwis-management-service-common</artifactId>
 	<packaging>jar</packaging>
 
-
 	<name>openwis-management-service-common</name>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 
     <dependencies>
         <dependency>

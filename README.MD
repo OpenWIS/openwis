@@ -6,7 +6,7 @@ OpenWIS is an implementation of WMO Information System (WIS) and aims to perform
 
 ##1. Requirements
 
-* Oacle JDK 1.7
+* Oracle JDK 1.7
 * Maven 2.2.1
 
 ###Environment variables:
@@ -23,6 +23,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 
       .
       +-- pom.xml
+	  |+--openwis-database (not used)
       |+--openwis-dataservice
           |+--openwis-dataservice-cache
              |+-- openwis-dataservice-cache-core
@@ -30,7 +31,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
              |+-- openwis-dataservice-cache-ftpreplication (not used)
              |+-- openwis-dataservice-cache-test (not used)
              |+-- openwis-dataservice-cache-webapp
-          |+--openwis-dataservice-common
+          |+--openwis-dataservice-common			 
              |+-- openwis-dataservice-common-domain
              |+-- openwis-dataservice-common-timer
              |+-- openwis-dataservice-common-utils
@@ -49,7 +50,10 @@ The "mvn" command should be available in the terminal, maybe you should add the 
           |+--openwis-harness-subselectionparameters
       |+--openwis-management
           |+--openwis-management-client
-          |+--openwis-management-server
+          |+--openwis-management-service
+			|+--openwis-management-service-common
+			|+--openwis-management-service-ear
+			|+--openwis-management-service-ejb
       |+--openwis-metadataportal
           |+--cachingxslt
           |+--jeeves
@@ -108,12 +112,10 @@ After few minutes the build should finished successfully like this:
 	[INFO] openwis-harness-dissemination ......................... SUCCESS [1.264s]
 	[INFO] openwis-management .................................... SUCCESS [0.046s]
 	[INFO] openwis-management-client ............................. SUCCESS [4.134s]
-	[INFO] openwis-management-service ............................ SUCCESS [0.016s]
 	[INFO] openwis-management-service-common ..................... SUCCESS [1.045s]
 	[INFO] openwis-management-service-ejb ........................ SUCCESS [6.740s]
 	[INFO] openwis-management-service-ear ........................ SUCCESS [4.118s]
 	[INFO] openwis-dataservice ................................... SUCCESS [0.016s]
-	[INFO] openwis-dataservice-common ............................ SUCCESS [0.015s]
 	[INFO] openwis-dataservice-common-utils ...................... SUCCESS [1.513s]
 	[INFO] openwis-dataservice-common-domain ..................... SUCCESS [2.762s]
 	[INFO] openwis-dataservice-common-timer ...................... SUCCESS [2.761s]

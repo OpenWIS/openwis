@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
 		<groupId>io.openwis.management.service</groupId>
-		<version>3.14.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -14,8 +14,6 @@
 	<name>openwis-management-service-ejb</name>
 
 	<properties>
-		<cxf.version>2.1.10</cxf.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.org.apache.openejb_openejb.core>3.1.3</version.org.apache.openejb_openejb.core>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 
@@ -111,12 +109,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
 			</plugin>
 			<plugin>
 				<!-- Generate WSDL file from Java source -->
@@ -124,18 +116,17 @@
 				<artifactId>cxf-java2ws-plugin</artifactId>
 				<version>${cxf.version}</version>
 				<dependencies>
-				<dependency>
-	<groupId>log4j</groupId>
-	<artifactId>log4j</artifactId>
-	<version>1.2.13</version>
-	<!-- Same as the dependency in commons-logging -->
-</dependency>
-	<dependency>
-		<groupId>com.sun.javaee</groupId>
-		<artifactId>javaee</artifactId>
-		<version>5.0</version>
-	</dependency>
-
+						<dependency>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+						<version>1.2.13</version>
+						<!-- Same as the dependency in commons-logging -->
+					</dependency>
+					<dependency>
+						<groupId>com.sun.javaee</groupId>
+						<artifactId>javaee</artifactId>
+						<version>5.0</version>
+					</dependency>
 					<dependency>
 						<groupId>org.apache.cxf</groupId>
 						<artifactId>cxf-rt-frontend-jaxws</artifactId>

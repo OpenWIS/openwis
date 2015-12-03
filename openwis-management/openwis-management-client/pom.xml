@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>openwis-management</artifactId>
 		<groupId>io.openwis.management</groupId>
-		<version>3.14.0-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -12,9 +12,6 @@
 
   <description>OpenWIS Management Client</description>
   <name>openwis-management-client</name>
-  <properties>
-   <cxf.version>2.1.10</cxf.version>
-  </properties>
   
   <dependencies>
     <dependency>

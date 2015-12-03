@@ -5,7 +5,7 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-	  <version>3.14.0-SNAPSHOT</version>
+	  <version>develop-SNAPSHOT</version>
 	  <relativePath>../pom.xml</relativePath>
    </parent>
 
@@ -29,7 +29,6 @@
       <geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
       <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
       <minify.verbose>false</minify.verbose>
-      <solr.version>1.4.1</solr.version>
    </properties>
 
     <!-- =========================================================== -->

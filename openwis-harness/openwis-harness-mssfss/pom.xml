@@ -3,7 +3,7 @@
   <parent>
     <artifactId>openwis-harness</artifactId>
     <groupId>io.openwis.harness</groupId>
-	<version>3.14.0-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>io.openwis.harness</groupId>
@@ -11,10 +11,6 @@
   <name>openwis-harness-mssfss</name>
   <packaging>jar</packaging>
   
-  <properties>
-		<cxf.version>2.1.10</cxf.version>
-  </properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
