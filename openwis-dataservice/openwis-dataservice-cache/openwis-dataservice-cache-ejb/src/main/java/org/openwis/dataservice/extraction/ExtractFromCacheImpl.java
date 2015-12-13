@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -29,9 +30,12 @@ import org.openwis.dataservice.common.domain.entity.request.ParameterCode;
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.domain.entity.request.Value;
 import org.openwis.dataservice.common.service.BlacklistService;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.ConfigService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;
@@ -322,7 +326,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    protected final String getStagingPostDirectory() {
 
       if (stagingPostDirectory == null) {
-         stagingPostDirectory = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
+         stagingPostDirectory = ConfigServiceFacade.getInstance().getString(STAGING_POST_DIRECTORY_KEY); //JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
       }
       return stagingPostDirectory;
    }

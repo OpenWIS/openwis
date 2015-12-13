@@ -709,17 +709,29 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	           CacheUtils.postTextMessage(INCOMING_DATA_QUEUE_NAME, body);
 	      }
 	}
+	
+	// TEMP
+	private long getConfigValue(String configValue) {
+	   try {
+         return Long.parseLong(ManagementServiceBeans.getInstance().getConfigService().getString(configValue));
+      } catch (NumberFormatException e) {
+         throw new RuntimeException("Cannot get config value: " + configValue, e);
+      } catch (NamingException e) {
+         throw new RuntimeException("Cannot get config value: " + configValue, e);
+      }
+	}
+	// END TEMP
 
 	public long getPurgingTimerPeriod(){
 		if (purgingTimerPeriod == 0){
-			purgingTimerPeriod = JndiUtils.getLong(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_PERIOD_KEY);
+			purgingTimerPeriod = getConfigValue(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_PERIOD_KEY);
 		}
 		return purgingTimerPeriod;
 	}
 
 	public long getPurgingTimerInitialDelay(){
 		if (purgingTimerInitialDelay == 0){
-			purgingTimerInitialDelay = JndiUtils.getLong(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_INITIAL_DELAY_KEY);
+			purgingTimerInitialDelay = getConfigValue(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_INITIAL_DELAY_KEY);
 		}
 		return purgingTimerInitialDelay;
 	}
@@ -727,7 +739,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	public long getAlertCleanerTimerPeriod(){
 		if (alertCleanerTimerPeriod == 0){
 			try {
-				alertCleanerTimerPeriod = JndiUtils.getLong(CACHE_MANAGER_ALERT_CLEANER_TIMER_PERIOD_KEY);
+				alertCleanerTimerPeriod = getConfigValue(CACHE_MANAGER_ALERT_CLEANER_TIMER_PERIOD_KEY);
 			}
 			catch (NumberFormatException e){
 				// catch if no entry can be found in the JNDI
@@ -741,7 +753,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	public long getAlertCleanerTimerInitialDelay(){
 		if (alertCleanerTimerInitialDelay == 0){
 			try {
-				alertCleanerTimerInitialDelay = JndiUtils.getLong(CACHE_MANAGER_ALERT_CLEANER_TIMER_INITIAL_DELAY_KEY);
+				alertCleanerTimerInitialDelay = getConfigValue(CACHE_MANAGER_ALERT_CLEANER_TIMER_INITIAL_DELAY_KEY);
 			}
 			catch (NumberFormatException e){
 				// catch if no entry can be found in the JNDI
@@ -754,21 +766,21 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 
 	public long getHousekeepingTimerPeriod(){
 		if (housekeepingTimerPeriod == 0){
-			housekeepingTimerPeriod = JndiUtils.getLong(CACHE_MANAGER_HOUSEKEEPING_TIMER_PERIOD_KEY);
+			housekeepingTimerPeriod = getConfigValue(CACHE_MANAGER_HOUSEKEEPING_TIMER_PERIOD_KEY);
 		}
 		return housekeepingTimerPeriod;
 	}
 
 	public long getHousekeepingTimerInitialDelay(){
 		if (housekeepingTimerInitialDelay == 0){
-			housekeepingTimerInitialDelay = JndiUtils.getLong(CACHE_MANAGER_HOUSEKEEPING_TIMER_INITIAL_DELAY_KEY);
+			housekeepingTimerInitialDelay = getConfigValue(CACHE_MANAGER_HOUSEKEEPING_TIMER_INITIAL_DELAY_KEY);
 		}
 		return housekeepingTimerInitialDelay;
 	}
 
 	public long getHousekeepingExpirationWindow(){
 		if (housekeepingExpirationWindow == 0){
-			housekeepingExpirationWindow = MILLISECONDS_PER_DAY * JndiUtils.getLong(CACHE_MANAGER_HOUSEKEEPING_EXPIRATION_WINDOW_KEY);
+			housekeepingExpirationWindow = MILLISECONDS_PER_DAY * getConfigValue(CACHE_MANAGER_HOUSEKEEPING_EXPIRATION_WINDOW_KEY);
 		}
 		return housekeepingExpirationWindow;
 	}
@@ -776,7 +788,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	public long getAlertCleanerExpirationWindow(){
 		if (alertCleanerExpirationWindow == 0){
 			try {
-				alertCleanerExpirationWindow = MILLISECONDS_PER_DAY * JndiUtils.getLong(CACHE_MANAGER_ALERT_CLEANER_EXPIRATION_WINDOW_KEY);
+				alertCleanerExpirationWindow = MILLISECONDS_PER_DAY * getConfigValue(CACHE_MANAGER_ALERT_CLEANER_EXPIRATION_WINDOW_KEY);
 			}
 			catch (NumberFormatException e){
 				// catch if no entry can be found in the JNDI
@@ -789,7 +801,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 
 	public long getPurgingExpirationWindow(){
 		if (purgingExpirationWindow == 0){
-			purgingExpirationWindow = JndiUtils.getLong(CACHE_MANAGER_PURGING_EXPIRATION_WINDOW_KEY);
+			purgingExpirationWindow = getConfigValue(CACHE_MANAGER_PURGING_EXPIRATION_WINDOW_KEY);
 		}
 		return purgingExpirationWindow;
 	}

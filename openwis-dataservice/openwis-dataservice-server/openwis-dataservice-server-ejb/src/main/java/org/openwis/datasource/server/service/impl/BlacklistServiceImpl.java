@@ -34,12 +34,14 @@ import org.openwis.dataservice.common.domain.entity.enumeration.BlacklistStatus;
 import org.openwis.dataservice.common.domain.entity.enumeration.SortDirection;
 import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.service.MailSender;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.entity.UserDisseminatedData;
+import org.openwis.management.service.ConfigService;
 import org.openwis.management.service.DisseminatedDataStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -301,19 +303,21 @@ public class BlacklistServiceImpl implements BlacklistService {
          result = (BlacklistInfo) query.getSingleResult();
       } catch (NoResultException e) {
          logger.info("No blacklist information found for user: {}", user);
+         
+         ConfigServiceFacade configServiceFacade = ConfigServiceFacade.getInstance();
          // Build default result
          result = new BlacklistInfo();
          result.setUser(user);
          result.setStatus(BlacklistStatus.NOT_BLACKLISTED);
-         result.setNbDisseminationWarnThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
-         result.setNbDisseminationBlacklistThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
-         result.setVolDisseminationWarnThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
-         result.setVolDisseminationBlacklistThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
-
+         
+         result.setNbDisseminationWarnThreshold(
+               configServiceFacade.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
+         result.setNbDisseminationBlacklistThreshold(
+               configServiceFacade.getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+         result.setVolDisseminationWarnThreshold(
+               configServiceFacade.getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+         result.setVolDisseminationBlacklistThreshold(
+               configServiceFacade.getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
       }
       return result;
    }

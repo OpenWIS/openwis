@@ -4,6 +4,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.openwis.management.service.AlertService;
+import org.openwis.management.service.ConfigService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.DisseminatedDataStatistics;
 import org.openwis.management.service.IngestedDataStatistics;
@@ -37,6 +38,17 @@ public class ManagementServiceBeans {
     */
    public ControlService getControlService() throws NamingException {
       return getRemoteBean("ControlService", ControlService.class);
+   }
+   
+   /**
+    * Returns the remote interface to the ConfigService.
+    * 
+    * @return
+    *       The ConfigService
+    * @throws NamingException
+    */
+   public ConfigService getConfigService() throws NamingException {
+      return getRemoteBean("ConfigService", ConfigService.class);
    }
 
    /**
