@@ -301,7 +301,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
       // dataservice-cache module configuration.
 
       // cache directory
-      String directory = JndiUtils.getString(CACHE_DIRECTORY_KEY);
+      String directory = ConfigServiceFacade.getInstance().getString(CACHE_DIRECTORY_KEY);
       if (directory == null || "".equals(directory.trim())) {
          // trace...
          LOG.warn("No cache directory defined, ignoring");

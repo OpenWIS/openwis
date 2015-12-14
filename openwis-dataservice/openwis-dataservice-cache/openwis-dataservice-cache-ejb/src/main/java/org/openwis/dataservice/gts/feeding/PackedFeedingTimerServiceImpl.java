@@ -19,7 +19,7 @@ import javax.naming.NamingException;
 import org.jboss.ejb3.annotation.Depends;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
-import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.util.FilePacker;
 import org.openwis.dataservice.util.Priority;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.FeedingMessage;
@@ -129,15 +129,15 @@ public class PackedFeedingTimerServiceImpl implements ConfigurationInfo, PackedF
 	}
 	
 	private String getOutgoingDirectory(){
-		return JndiUtils.getString(HARNESS_OUTGOING_DIRECTORY_KEY);
+		return ConfigServiceFacade.getInstance().getString(HARNESS_OUTGOING_DIRECTORY_KEY);
 	}
 
 	private int getFeedingTimerInitialDelay(){
-		return JndiUtils.getInt(FEEDING_TIMER_INITIAL_DELAY_KEY);
+		return ConfigServiceFacade.getInstance().getInt(FEEDING_TIMER_INITIAL_DELAY_KEY);
 	}
 
 	private int getFeedingTimerPeriod(){
-		return JndiUtils.getInt(FEEDING_TIMER_PERIOD_KEY);
+		return ConfigServiceFacade.getInstance().getInt(FEEDING_TIMER_PERIOD_KEY);
 	}
 
 	// --------------------------------

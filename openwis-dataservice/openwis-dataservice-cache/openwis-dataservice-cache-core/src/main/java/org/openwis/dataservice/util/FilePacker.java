@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import org.apache.tools.ant.util.FileUtils;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -266,7 +267,7 @@ public class FilePacker implements ConfigurationInfo {
 	}
 	
 	public int getMaximumNumberOfIncludedBulletins(){
-		return JndiUtils.getInt(MAXIMUM_MESSAGE_COUNT_KEY);
+		return ConfigServiceFacade.getInstance().getInt(MAXIMUM_MESSAGE_COUNT_KEY);
 	}
 	
 	private int getTransmissionSequenceNumber(){
@@ -300,7 +301,7 @@ public class FilePacker implements ConfigurationInfo {
 	}
 	
 	private String getSendingCentreLocationIdentifier(){
-		return JndiUtils.getString(SENDING_CENTRE_LOCATION_IDENTIFIER);
+		return ConfigServiceFacade.getInstance().getString(SENDING_CENTRE_LOCATION_IDENTIFIER);
 	}
 
 	private String getNewPackedFilename(String sendingCentre, int packageNumber){
@@ -316,7 +317,7 @@ public class FilePacker implements ConfigurationInfo {
 		FilePackerDatabaseAccessor databaseAccessor = null;
 		try {
 			InitialContext context = new InitialContext();
-			databaseAccessor = (FilePackerDatabaseAccessor) context.lookup(JndiUtils.getString(FILE_PACKER_DATABASE_ACCESSOR_URL_KEY));
+			databaseAccessor = (FilePackerDatabaseAccessor) context.lookup(ConfigServiceFacade.getInstance().getString(FILE_PACKER_DATABASE_ACCESSOR_URL_KEY));
 		}
 		catch (NamingException e) {
 			LOG.error("--- Could not resolve name " + FILE_PACKER_DATABASE_ACCESSOR_URL_KEY);

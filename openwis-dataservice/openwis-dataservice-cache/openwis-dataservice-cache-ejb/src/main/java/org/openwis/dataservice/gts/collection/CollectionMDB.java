@@ -33,6 +33,7 @@ import org.openwis.dataservice.common.domain.entity.cache.CachedFile;
 import org.openwis.dataservice.common.domain.entity.cache.PatternMetadataMapping;
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.service.ProductMetadataService;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.ChecksumCalculator;
 import org.openwis.dataservice.util.FileInfo;
@@ -227,7 +228,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    public String getWorkingDirectory() {
       if (workingDirectory == null) {
-         workingDirectory = JndiUtils.getString(HARNESS_WORKING_DIRECTORY_KEY);
+         workingDirectory = ConfigServiceFacade.getInstance().getString(HARNESS_WORKING_DIRECTORY_KEY);
       }
       return workingDirectory;
    }
@@ -739,14 +740,14 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    public String getSourceDirectory(){
       if (sourceDirectory == null){
-         sourceDirectory = JndiUtils.getString(HARNESS_WORKING_DIRECTORY_KEY);
+         sourceDirectory = ConfigServiceFacade.getInstance().getString(HARNESS_WORKING_DIRECTORY_KEY);
       }
       return sourceDirectory;
    }
 
    public String getTempDirectory(){
       if (tempDirectoryPath == null){
-         tempDirectoryPath = JndiUtils.getString(TEMP_DIRECTORY_KEY);
+         tempDirectoryPath = ConfigServiceFacade.getInstance().getString(TEMP_DIRECTORY_KEY);
       }
       return tempDirectoryPath;
    }
@@ -754,14 +755,14 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    public String getReplicationWorkingDirectory(){
       if (replicationWorkingDirectory == null){
          replicationWorkingDirectory = new File(getWorkingDirectory(),
-               JndiUtils.getString(REPLICATION_CONFIG_FROM_REPLICATION_FOLDER_KEY)).getPath();
+               ConfigServiceFacade.getInstance().getString(REPLICATION_CONFIG_FROM_REPLICATION_FOLDER_KEY)).getPath();
       }
       return replicationWorkingDirectory;
    }
 
    public String[] getExcludePatterns(){
       if (excludePatterns == null){
-         String excludePatternString = JndiUtils.getString(EXCLUDE_PATTERNS_KEY);
+         String excludePatternString = ConfigServiceFacade.getInstance().getString(EXCLUDE_PATTERNS_KEY);
          excludePatternString = excludePatternString.replace(" ", "");
          excludePatterns = excludePatternString.split(";");
       }
@@ -770,7 +771,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    public String[] getIncludePatterns(){
       if (includePatterns == null){
-         String includePatternString = JndiUtils.getString(INCLUDE_PATTERNS_KEY);
+         String includePatternString = ConfigServiceFacade.getInstance().getString(INCLUDE_PATTERNS_KEY);
          includePatternString = includePatternString.replace(" ", "");
          includePatterns = includePatternString.split(";");
       }
@@ -779,14 +780,14 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    public int getMaxNumberOfIncludedFiles(){
       if (maxNumberOfIncludedFiles == 0){
-         maxNumberOfIncludedFiles = JndiUtils.getInt(MAX_NUMBER_INCLUDED_UNPACKED_FILES);
+         maxNumberOfIncludedFiles = ConfigServiceFacade.getInstance().getInt(MAX_NUMBER_INCLUDED_UNPACKED_FILES);
       }
       return maxNumberOfIncludedFiles;
    }
 
    public int getNumberOfChecksumBytes(){
       if (numberOfChecksumBytes == 0){
-         numberOfChecksumBytes = JndiUtils.getInt(NUMBER_OF_CHECKSUM_BYTES_KEY);
+         numberOfChecksumBytes = ConfigServiceFacade.getInstance().getInt(NUMBER_OF_CHECKSUM_BYTES_KEY);
       }
       return numberOfChecksumBytes;
    }
@@ -826,14 +827,14 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    public long getCollectionInitialDelay(){
       if (collectionInitialDelay == 0){
-         collectionInitialDelay = JndiUtils.getLong(COLLECTION_TIMER_INITIAL_DELAY_KEY);
+         collectionInitialDelay = ConfigServiceFacade.getInstance().getLong(COLLECTION_TIMER_INITIAL_DELAY_KEY);
       }
       return collectionInitialDelay;
    }
 
    public long getCollectionPeriod(){
       if (collectionPeriod == 0){
-         collectionPeriod = JndiUtils.getLong(COLLECTION_TIMER_PERIOD_KEY);
+         collectionPeriod = ConfigServiceFacade.getInstance().getLong(COLLECTION_TIMER_PERIOD_KEY);
       }
       return collectionPeriod;
    }

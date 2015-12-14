@@ -32,6 +32,7 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.cache.CacheManager;
 import org.openwis.dataservice.common.domain.entity.cache.CacheConfiguration;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.gts.GTSTimerService;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
@@ -357,14 +358,14 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
 
    public int getMaxNumberOfIncludedNonpackedFiles() {
       if (maxNumberOfIncludedNonpackedFiles == 0) {
-         maxNumberOfIncludedNonpackedFiles = JndiUtils.getInt(MAX_NUMBER_INCLUDED_UNPACKED_FILES);
+         maxNumberOfIncludedNonpackedFiles = ConfigServiceFacade.getInstance().getInt(MAX_NUMBER_INCLUDED_UNPACKED_FILES);
       }
       return maxNumberOfIncludedNonpackedFiles;
    }
 
    public String[] getExcludePatterns() {
       if (excludePatterns == null) {
-         String excludePatternString = JndiUtils.getString(EXCLUDE_PATTERNS_KEY);
+         String excludePatternString = ConfigServiceFacade.getInstance().getString(EXCLUDE_PATTERNS_KEY);
          excludePatternString = excludePatternString.replace(" ", "");
          excludePatterns = excludePatternString.split(";");
       }
@@ -373,7 +374,7 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
 
    public String[] getIncludePatterns() {
       if (includePatterns == null) {
-         String includePatternString = JndiUtils.getString(INCLUDE_PATTERNS_KEY);
+         String includePatternString = ConfigServiceFacade.getInstance().getString(INCLUDE_PATTERNS_KEY);
          includePatternString = includePatternString.replace(" ", "");
          includePatterns = includePatternString.split(";");
       }
@@ -382,21 +383,21 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
 
    public String getSourceDirectory() {
       if (sourceDirectory == null) {
-         sourceDirectory = JndiUtils.getString(HARNESS_INGESTING_DIRECTORY_KEY);
+         sourceDirectory = ConfigServiceFacade.getInstance().getString(HARNESS_INGESTING_DIRECTORY_KEY);
       }
       return sourceDirectory;
    }
 
    public String getWorkingDirectory() {
       if (workingDirectory == null) {
-         workingDirectory = JndiUtils.getString(HARNESS_WORKING_DIRECTORY_KEY);
+         workingDirectory = ConfigServiceFacade.getInstance().getString(HARNESS_WORKING_DIRECTORY_KEY);
       }
       return workingDirectory;
    }
    
    public String getFromReplicationDirectoryName() {
       if (fromReplicationDirectoryName == null) {
-         fromReplicationDirectoryName = JndiUtils.getString(REPLICATION_CONFIG_FROM_REPLICATION_FOLDER_KEY);
+         fromReplicationDirectoryName = ConfigServiceFacade.getInstance().getString(REPLICATION_CONFIG_FROM_REPLICATION_FOLDER_KEY);
       }
       return fromReplicationDirectoryName;
    }
@@ -410,14 +411,14 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
 
    public long getSplittingPeriod() {
       if (splittingPeriod == 0) {
-         splittingPeriod = JndiUtils.getLong(SPLITTING_TIMER_PERIOD_KEY);
+         splittingPeriod = ConfigServiceFacade.getInstance().getLong(SPLITTING_TIMER_PERIOD_KEY);
       }
       return splittingPeriod;
    }
 
    public long getSplittingInitialDelay() {
       if (splittingInitialDelay == 0) {
-         splittingInitialDelay = JndiUtils.getLong(SPLITTING_TIMER_INITIAL_DELAY_KEY);
+         splittingInitialDelay = ConfigServiceFacade.getInstance().getLong(SPLITTING_TIMER_INITIAL_DELAY_KEY);
       }
       return splittingInitialDelay;
    }

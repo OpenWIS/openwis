@@ -194,7 +194,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    private boolean checkBlacklistStatus(String user, String email, UserDisseminatedData data,
          BlacklistInfo bli) {
       ResourceBundle bundle = ResourceBundle.getBundle("openwis-blacklist");
-      String from = JndiUtils.getString(DataServiceConfiguration.MAIL_FROM);
+      String from = ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_FROM);
       String title = null;
       String body = null;
       // Check files numbers
