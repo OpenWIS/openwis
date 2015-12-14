@@ -3,6 +3,7 @@ package org.openwis.dataservice.util;
 import java.util.regex.Pattern;
 
 import org.openwis.dataservice.ConfigurationInfo;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 
 public enum GTScategory {
@@ -36,12 +37,12 @@ public enum GTScategory {
 	}
 	
 	private static void precompilePatterns() {
-      String essentialRegexp = JndiUtils.getString(ConfigurationInfo.GTS_CATEGORY_ESSENTIAL_REGEXP);
+      String essentialRegexp = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.GTS_CATEGORY_ESSENTIAL_REGEXP);
       if (essentialRegexp == null) {
          // default pattern
          essentialRegexp = "WMO\\s*Essential";
       }
-      String additionalRegexp = JndiUtils.getString(ConfigurationInfo.GTS_CATEGORY_ADDITIONAL_REGEXP);
+      String additionalRegexp = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.GTS_CATEGORY_ADDITIONAL_REGEXP);
       if (additionalRegexp == null) {
          // default pattern
          additionalRegexp = "WMO\\s*Additional";

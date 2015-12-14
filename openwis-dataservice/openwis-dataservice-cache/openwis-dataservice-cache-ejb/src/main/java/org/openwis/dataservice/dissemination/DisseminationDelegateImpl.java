@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -113,16 +114,16 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private static String FAILURE_DISS_STATE = "FAILED";
 
    // Dissemination harness URLs
-   private String disseminationHarnessPublicURL = JndiUtils.getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
+   private String disseminationHarnessPublicURL; // = JndiUtils.getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
 
-   private String disseminationHarnessRMDCNURL = JndiUtils.getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
+   private String disseminationHarnessRMDCNURL; // = JndiUtils.getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
 
    // Staging Post items
-   private static String stagingPostDirectory = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
+   private static String stagingPostDirectory; // = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
    private static final String STAGING_POST_MAIL_PROPERTIES = "openwis-sp-mail-message";
    private static final String STAGING_POST_MAIL_SUBJECT_KEY = "dataservice.dissemination.stagingPostMessage.subject";
    private static final String STAGING_POST_MAIL_CONTENT_KEY = "dataservice.dissemination.stagingPostMessage.content";
-   private static String stagingPostUrl = JndiUtils.getString(STAGING_POST_URL_KEY);
+   private static String stagingPostUrl; // = JndiUtils.getString(STAGING_POST_URL_KEY);
 
    @EJB
    private UserAlarmManagerLocal userAlarmManager;
@@ -141,6 +142,14 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
     */
    @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue queue;
+   
+   @PostConstruct
+   public void initialize() {
+      disseminationHarnessPublicURL = ConfigServiceFacade.getInstance().getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
+      disseminationHarnessRMDCNURL = ConfigServiceFacade.getInstance().getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
+      stagingPostDirectory = ConfigServiceFacade.getInstance().getString(STAGING_POST_DIRECTORY_KEY);
+      stagingPostUrl = ConfigServiceFacade.getInstance().getString(STAGING_POST_URL_KEY);
+   }
 
    private ControlService controlService;
 

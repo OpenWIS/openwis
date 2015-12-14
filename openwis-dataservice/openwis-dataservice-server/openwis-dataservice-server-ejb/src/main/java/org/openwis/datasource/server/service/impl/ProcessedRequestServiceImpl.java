@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Local;
@@ -53,6 +54,7 @@ import org.openwis.dataservice.common.service.CacheExtraService;
 import org.openwis.dataservice.common.service.LocalDataSourceExtractService;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.service.bean.ProcessedRequestListResult;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
@@ -81,8 +83,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
    /**
     * The stating post URI.
     */
-   private static final String STAGING_POST_URI = JndiUtils
-         .getString(DataServiceConfiguration.STAGING_POST_URI_KEY);
+   private String stagingPostUri;
 
    /**
     * The entity manager.
@@ -97,6 +98,11 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
    /** The blacklist service. */
    @EJB
    private BlacklistService blacklistService;
+   
+   @PostConstruct
+   public void initialize() {
+      stagingPostUri = ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.STAGING_POST_URI_KEY);
+   }
 
    /**
     * {@inheritDoc}
@@ -204,7 +210,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
     * @param extractedFiles
     */
    protected void updateExtractedDataStatistics(final ProcessedRequest processedRequest, final String userId) {
-      File disseminatedFile = new File(STAGING_POST_URI,processedRequest.getUri());
+      File disseminatedFile = new File(stagingPostUri,processedRequest.getUri());
       if (disseminatedFile != null) {
          // get statistics parameter
          long size = 0;
