@@ -37,6 +37,7 @@ import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmCategory;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.GlobalDataCollectionUtils;
 import org.openwis.harness.dissemination.Dissemination;
@@ -694,14 +695,14 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
    private void configure() {
 
 	   // TODO: eventually use different properties for the timer related values (these are also used by the DisseminationManagerTimerService)
-	   disseminationInitialDelay = JndiUtils.getLong(DISSEMINATION_TIMER_INITIAL_DELAY_KEY);
-	   disseminationPeriod = JndiUtils.getLong(DISSEMINATION_TIMER_PERIOD_KEY);
+	   disseminationInitialDelay = ConfigServiceFacade.getInstance().getLong(DISSEMINATION_TIMER_INITIAL_DELAY_KEY);
+	   disseminationPeriod = ConfigServiceFacade.getInstance().getLong(DISSEMINATION_TIMER_PERIOD_KEY);
 
-	   disseminationHarnessPublicURL = JndiUtils.getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
-	   disseminationHarnessRMDCNURL = JndiUtils.getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
+	   disseminationHarnessPublicURL = ConfigServiceFacade.getInstance().getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
+	   disseminationHarnessRMDCNURL = ConfigServiceFacade.getInstance().getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
 
-	   stagingPostDirectory = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
-	   stagingPostPurgingTime = JndiUtils.getLong(STAGING_POST_PURGE_TIME);
+	   stagingPostDirectory = ConfigServiceFacade.getInstance().getString(STAGING_POST_DIRECTORY_KEY);
+	   stagingPostPurgingTime = ConfigServiceFacade.getInstance().getLong(STAGING_POST_PURGE_TIME);
 
 	   publicRetriesCounter = 0;
 	   privateRetriesCounter = 0;

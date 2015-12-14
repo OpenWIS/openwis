@@ -40,6 +40,7 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.common.domain.entity.cache.CacheConfiguration;
 import org.openwis.dataservice.common.domain.entity.cache.CachedFile;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.gts.feeding.Feeder;
@@ -808,28 +809,28 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 
 	public String getCacheDirectory(){
 		if (cacheDirectoryPath == null){
-			cacheDirectoryPath = JndiUtils.getString(CACHE_DIRECTORY_KEY);
+			cacheDirectoryPath = ConfigServiceFacade.getInstance().getString(CACHE_DIRECTORY_KEY);
 		}
 		return cacheDirectoryPath;
 	}
 
 	public String getHarnessOutgoingDirectory(){
 		if (harnessOutgoingDirectoryPath == null){
-			harnessOutgoingDirectoryPath = JndiUtils.getString(HARNESS_OUTGOING_DIRECTORY_KEY);
+			harnessOutgoingDirectoryPath = ConfigServiceFacade.getInstance().getString(HARNESS_OUTGOING_DIRECTORY_KEY);
 		}
 		return harnessOutgoingDirectoryPath;
 	}
 
 	public String getTempDirectory(){
 		if (tempDirectoryPath == null){
-			tempDirectoryPath = JndiUtils.getString(TEMP_DIRECTORY_KEY);
+			tempDirectoryPath = ConfigServiceFacade.getInstance().getString(TEMP_DIRECTORY_KEY);
 		}
 		return tempDirectoryPath;
 	}
 
 	public String getWorkingDirectory(){
 		if (workingDirectoryPath == null){
-			workingDirectoryPath = JndiUtils.getString(HARNESS_WORKING_DIRECTORY_KEY);
+			workingDirectoryPath = ConfigServiceFacade.getInstance().getString(HARNESS_WORKING_DIRECTORY_KEY);
 		}
 		return workingDirectoryPath;
 	}
@@ -849,7 +850,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 			return;
 		}
 
-		long stagingPostMaximumSize = JndiUtils.getLong(STAGING_POST_MAXIMUM_SIZE);
+		long stagingPostMaximumSize = ConfigServiceFacade.getInstance().getLong(STAGING_POST_MAXIMUM_SIZE);
 		if (stagingPostSize >= stagingPostMaximumSize){
 			raiseStagingPostMaximumSizeReachedEvent(Long.valueOf(stagingPostMaximumSize), Long.valueOf(stagingPostSize));
 		}
@@ -863,7 +864,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
       ReplicatedData replicatedData = getReplicatedDataStatistics().getReplicatedData(date);
 
       if (ingestedData != null && replicatedData != null) {
-         long cacheMaximumSize = JndiUtils.getLong(CACHE_MAXIMUM_SIZE);
+         long cacheMaximumSize = ConfigServiceFacade.getInstance().getLong(CACHE_MAXIMUM_SIZE);
          long actualSize = ingestedData.getSize() + replicatedData.getSize();
 
          if (actualSize >= cacheMaximumSize) {

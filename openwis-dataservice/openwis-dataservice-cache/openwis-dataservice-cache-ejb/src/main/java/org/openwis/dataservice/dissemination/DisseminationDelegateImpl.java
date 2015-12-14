@@ -57,6 +57,7 @@ import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
@@ -714,13 +715,13 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
    private long getMailDiffusionThreshold() {
       long value;
-      value = JndiUtils.getLong(MAIL_DIFFUSION_THRESHOLD_KEY);
+      value = ConfigServiceFacade.getInstance().getLong(MAIL_DIFFUSION_THRESHOLD_KEY);
       return value;
    }
 
    private long getFTPDiffusionThreshold() {
       long value;
-      value = JndiUtils.getLong(FTP_DIFFUSION_THRESHOLD_KEY);
+      value = ConfigServiceFacade.getInstance().getLong(FTP_DIFFUSION_THRESHOLD_KEY);
       return value;
    }
 
@@ -1175,7 +1176,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       ProcessedRequest processedRequest = getProcessedRequest(dissJob.getRequestId());
       prepareForDelivery(dissJob.getFileURI(), getZipMode(processedRequest, startPrimary), dissJob, processedRequest);
 
-      String fromMailAddress = JndiUtils.getString(ConfigurationInfo.MAIL_FROM);
+      String fromMailAddress = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.MAIL_FROM);
       String userMailAddress = processedRequest.getRequest().getEmail();
       if (userMailAddress == null) {
          logger.error("No user e-mail address was provided. Could not send a mail to user for staging post dissemination.");
@@ -1188,7 +1189,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
       try {
          InitialContext context = new InitialContext();
-         MailSender mailSender = (MailSender) context.lookup(JndiUtils
+         MailSender mailSender = (MailSender) context.lookup(ConfigServiceFacade.getInstance()
                .getString(MAIL_SENDER_URL_KEY));
          logger.info("Sending mail to " + userMailAddress);
          mailSender.sendMail(fromMailAddress, userMailAddress, subject, content);
