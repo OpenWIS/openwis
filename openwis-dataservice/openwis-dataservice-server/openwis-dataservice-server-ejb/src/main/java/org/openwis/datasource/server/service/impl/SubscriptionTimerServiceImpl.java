@@ -25,7 +25,7 @@ import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.timer.SubscriptionTimerService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.management.ManagementServiceBeans;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.openwis.management.utils.ManagementServiceProvider;

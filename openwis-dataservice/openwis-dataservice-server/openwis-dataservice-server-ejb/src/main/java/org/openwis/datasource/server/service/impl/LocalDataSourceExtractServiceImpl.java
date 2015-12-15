@@ -31,7 +31,7 @@ import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.openwis.harness.localdatasource.LocalDataSource;
 import org.openwis.harness.localdatasource.LocalDataSourceService;
 import org.openwis.harness.localdatasource.MonitorStatus;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;

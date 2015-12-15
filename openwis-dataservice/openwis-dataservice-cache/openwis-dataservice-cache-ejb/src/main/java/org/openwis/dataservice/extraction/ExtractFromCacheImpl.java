@@ -15,7 +15,6 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -32,10 +31,7 @@ import org.openwis.dataservice.common.domain.entity.request.Value;
 import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
-import org.openwis.dataservice.common.util.JndiUtils;
-import org.openwis.management.ManagementServiceBeans;
-import org.openwis.management.alert.AlertService;
-import org.openwis.management.service.ConfigService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;

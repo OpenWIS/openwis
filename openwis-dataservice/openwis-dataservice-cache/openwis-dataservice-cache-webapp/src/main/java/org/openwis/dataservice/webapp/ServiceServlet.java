@@ -10,9 +10,8 @@ import org.openwis.dataservice.webapp.wrapper.DataServiceCacheBeans;
 import org.openwis.dataservice.webapp.wrapper.DisseminationServiceWrapper;
 import org.openwis.dataservice.webapp.wrapper.FeedingWrapper;
 import org.openwis.dataservice.webapp.wrapper.GlobalDataCollectionWrapper;
-import org.openwis.management.control.ControlService;
-import org.openwis.management.control.ManagedServiceIdentifier;
 import org.openwis.management.control.ManagedServiceStatus;
+import org.openwis.management.service.ControlService;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,11 +79,11 @@ public class ServiceServlet extends HttpServlet {
 			String DEGRADED = ManagedServiceStatus.DEGRADED.name();
 			String UNKNOWN = ManagedServiceStatus.UNKNOWN.name();
 
-			for (ManagedServiceIdentifier service : ManagedServiceIdentifier.values()){
+			for (org.openwis.management.service.ManagedServiceIdentifier service : org.openwis.management.service.ManagedServiceIdentifier.values()){
 				String serviceStatusString = controlService.getServiceStatus(service);
 				if (serviceStatusString.equals(DEGRADED) || serviceStatusString.equals(UNKNOWN)){
 					LOG.info(service.name() + " will now be enabled.");
-					controlService.setServiceStatus(service, ManagedServiceStatus.ENABLED);
+					controlService.setServiceStatus(service, org.openwis.management.service.ManagedServiceStatus.ENABLED);
 				}
 			}
 		}

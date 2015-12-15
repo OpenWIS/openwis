@@ -7,6 +7,7 @@ import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ConfigService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.DisseminatedDataStatistics;
+import org.openwis.management.service.ExchangedDataStatistics;
 import org.openwis.management.service.IngestedDataStatistics;
 import org.openwis.management.service.ReplicatedDataStatistics;
 
@@ -66,6 +67,10 @@ public class ManagementServiceBeans {
    
    public DisseminatedDataStatistics getDisseminatedDataStatistics() throws NamingException {
       return getRemoteBean("DisseminatedDataStatistics", DisseminatedDataStatistics.class);
+   }
+   
+   public ExchangedDataStatistics getExchangedDataStatistics() throws NamingException {
+      return getRemoteBean("ExchangedDataStatistics", ExchangedDataStatistics.class);
    }
    
    /**

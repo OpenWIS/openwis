@@ -34,7 +34,6 @@ import org.openwis.dataservice.common.domain.entity.cache.PatternMetadataMapping
 import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.util.ConfigServiceFacade;
-import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.ChecksumCalculator;
 import org.openwis.dataservice.util.FileInfo;
 import org.openwis.dataservice.util.GTScategory;
@@ -42,7 +41,7 @@ import org.openwis.dataservice.util.GlobalDataCollectionUtils;
 import org.openwis.dataservice.util.WMOFNC;
 import org.openwis.dataservice.util.WMOFTP;
 import org.openwis.management.ManagementServiceBeans;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
@@ -719,7 +718,6 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseHighPriorityProductAlert(FileInfo fileInfo){
-	  // XXX - Should we be using a JNDI bean for this?
       AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
