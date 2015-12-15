@@ -323,7 +323,7 @@ public class SplittingTimerServiceImpl implements GTSTimerService, Configuration
    }
 
    private void raiseCorruptedDataAlert(String filename) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;

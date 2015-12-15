@@ -28,16 +28,6 @@ import org.openwis.management.monitoring.ReplicatedDataStatistics_Service;
  */
 public final class ManagementServiceProvider {
 	
-   // -------------------------------------------------------------------------
-   // Management Client Settings
-   // -------------------------------------------------------------------------
-   private static final String MANAGEMENT_ALERTSERVICE_WSDL = "openwis.management.alertservice.wsdl";
-   private static final String MANAGEMENT_CONTROLSERVICE_WSDL = "openwis.management.controlservice.wsdl";
-   private static final String MANAGEMENT_DISSEMINATEDDATA_STATISTICS_WSDL = "openwis.management.disseminateddatastatistics.wsdl";
-   private static final String MANAGEMENT_EXCHANGEDDATA_STATISTICS_WSDL = "openwis.management.exchangeddatastatistics.wsdl";
-   private static final String MANAGEMENT_REPLICATEDDATA_STATISTICS_WSDL = "openwis.management.replicateddatastatistics.wsdl";
-   private static final String MANAGEMENT_INGESTEDDATA_STATISTICS_WSDL = "openwis.management.ingesteddatastatistics.wsdl";
-
    // Management services
    private static AlertService alertService;
    private static ControlService controlService;
@@ -47,23 +37,37 @@ public final class ManagementServiceProvider {
    private static ExchangedDataStatistics exchangedDataStatistics;
    private static ReplicatedDataStatistics replicatedDataStatistics;
    private static DisseminatedDataStatistics disseminatedDataStatistics;
-
-   /**
-    * Default constructor.
-    * Builds a ManagementServiceProvider.
-    */
+   
+   private static ManagementServiceProvider instance;
+   
+   private final ManagementServiceUrls managementServiceUrls = new JndiManagementServiceUrls();
+   
    private ManagementServiceProvider() {
+      
    }
+   
+   public static ManagementServiceProvider getInstance() {
+      if (instance == null) {
+         synchronized(ManagementServiceProvider.class) {
+            if (instance == null) {
+               instance = new ManagementServiceProvider();
+            }
+         }
+      }
+      
+      return instance;
+   }
+   
 
    /**
     * Returns the shared instance of the {@code AlertService}.
     *
     * @return the {@code AlertService}.
     */
-   public static AlertService getAlertService() {
+   public AlertService getAlertService() {
       try {
          if (alertService == null) {
-            String wsdl = JndiUtils.getString(MANAGEMENT_ALERTSERVICE_WSDL);
+            String wsdl = managementServiceUrls.getAlertServiceWsdl();
             AlertService_Service service = new AlertService_Service(new URL(wsdl));
             alertService = service.getAlertServicePort();
             ServiceProviderUtil.enforceServiceEndpoint((BindingProvider) alertService, wsdl);
@@ -79,10 +83,10 @@ public final class ManagementServiceProvider {
     *
     * @return the {@code ControlService}.
     */
-   public static ControlService getControlService() {
+   public ControlService getControlService() {
       try {
          if (controlService == null) {
-            String wsdl = JndiUtils.getString(MANAGEMENT_CONTROLSERVICE_WSDL);
+            String wsdl = managementServiceUrls.getControlServiceWsdl();
             ControlService_Service service = new ControlService_Service(new URL(wsdl));
             controlService = service.getControlServicePort();
             ServiceProviderUtil.enforceServiceEndpoint((BindingProvider) controlService, wsdl);
@@ -102,10 +106,10 @@ public final class ManagementServiceProvider {
     * 
     * @return the {@code DisseminatedDataStatistics}.
     */
-   public static DisseminatedDataStatistics getDisseminatedDataStatistics() {
+   public DisseminatedDataStatistics getDisseminatedDataStatistics() {
       try {
          if (disseminatedDataStatistics == null) {
-            String wsdl = JndiUtils.getString(MANAGEMENT_DISSEMINATEDDATA_STATISTICS_WSDL);
+            String wsdl = managementServiceUrls.getDisseminatedDataStatisticsWsdl();
             DisseminatedDataStatistics_Service service = new DisseminatedDataStatistics_Service(
                   new URL(wsdl));
             disseminatedDataStatistics = service.getDisseminatedDataStatisticsPort();
@@ -124,10 +128,10 @@ public final class ManagementServiceProvider {
     * 
     * @return the {@code ExchangedDataStatistics}.
     */
-   public static ExchangedDataStatistics getExchangedDataStatistics() {
+   public ExchangedDataStatistics getExchangedDataStatistics() {
       try {
          if (exchangedDataStatistics == null) {
-            String wsdl = JndiUtils.getString(MANAGEMENT_EXCHANGEDDATA_STATISTICS_WSDL);
+            String wsdl = managementServiceUrls.getExchangedDataStatisticsWsdl();
             ExchangedDataStatistics_Service service = new ExchangedDataStatistics_Service(new URL(
                   wsdl));
             exchangedDataStatistics = service.getExchangedDataStatisticsPort();
@@ -146,10 +150,10 @@ public final class ManagementServiceProvider {
     * 
     * @return the {@code ReplicatedDataStatistics}.
     */
-   public static ReplicatedDataStatistics getReplicatedDataStatistics() {
+   public ReplicatedDataStatistics getReplicatedDataStatistics() {
       try {
          if (replicatedDataStatistics == null) {
-            String wsdl = JndiUtils.getString(MANAGEMENT_REPLICATEDDATA_STATISTICS_WSDL);
+            String wsdl = managementServiceUrls.getReplicatedDataStatisticsWsdl();
             ReplicatedDataStatistics_Service service = new ReplicatedDataStatistics_Service(
                   new URL(wsdl));
             replicatedDataStatistics = service.getReplicatedDataStatisticsPort();
@@ -168,10 +172,10 @@ public final class ManagementServiceProvider {
     * 
     * @return the {@code IngestedDataStatistics}.
     */
-   public static IngestedDataStatistics getIngestedDataStatistics() {
+   public IngestedDataStatistics getIngestedDataStatistics() {
       try {
          if (ingestedDataStatistics == null) {
-            String wsdl = JndiUtils.getString(MANAGEMENT_INGESTEDDATA_STATISTICS_WSDL);
+            String wsdl = managementServiceUrls.getIgestedDataStatisticsWsdl();
             IngestedDataStatistics_Service service = new IngestedDataStatistics_Service(new URL(
                   wsdl));
             ingestedDataStatistics = service.getIngestedDataStatisticsPort();

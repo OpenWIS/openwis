@@ -439,7 +439,7 @@ public class ProcessedRequestServiceImpl implements ProcessedRequestService {
    }
 
    private void raiseExtractionFailedAlarm(String source, String product, Throwable t) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       List<Object> args = new ArrayList<Object>();
       args.add(source);
       args.add(product);

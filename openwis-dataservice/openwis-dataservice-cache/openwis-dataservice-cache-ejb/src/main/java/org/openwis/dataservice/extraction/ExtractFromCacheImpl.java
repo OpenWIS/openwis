@@ -151,7 +151,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    }
 
    private void raiseExtractionFailsAlert(Object productInfo, Object cause){
-	   AlertService alertService = ManagementServiceProvider.getAlertService();
+	   AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 	   if (alertService == null){
 		   LOG.error("Could not get hold of the AlertService. No alert was passed!");
 		   return;

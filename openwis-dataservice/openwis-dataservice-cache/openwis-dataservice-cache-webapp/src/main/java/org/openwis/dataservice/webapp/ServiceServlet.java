@@ -72,7 +72,7 @@ public class ServiceServlet extends HttpServlet {
 	}
 
 	private void resetStatusOfAllServices() {
-		ControlService controlService = ManagementServiceProvider.getControlService();
+		ControlService controlService = ManagementServiceProvider.getInstance().getControlService();
 		if (controlService == null){
 			LOG.error("Could not reset status of data service. Control service not found.");
 			return;

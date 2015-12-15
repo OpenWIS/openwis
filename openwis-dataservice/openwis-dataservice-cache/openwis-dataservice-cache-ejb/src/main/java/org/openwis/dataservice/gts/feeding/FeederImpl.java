@@ -133,7 +133,7 @@ public class FeederImpl implements Feeder, ConfigurationInfo {
    }
 
 	private List<Pattern> getFeedingFilters(){	
-		ControlService controlService = ManagementServiceProvider.getControlService();
+		ControlService controlService = ManagementServiceProvider.getInstance().getControlService();
 		if (controlService == null){
 			LOG.error("Could not find the ControlService.");
 			return null;
@@ -147,14 +147,14 @@ public class FeederImpl implements Feeder, ConfigurationInfo {
 	}
 
 	private void setServiceDegradedAndRaiseError(String cause){
-		ControlService controlService = ManagementServiceProvider.getControlService();
+		ControlService controlService = ManagementServiceProvider.getInstance().getControlService();
 		if (controlService == null){
 			LOG.error("Could not find ControlSerivice.");
 		} else {
 			controlService.setServiceStatus(ManagedServiceIdentifier.FEEDING_SERVICE, ManagedServiceStatus.DEGRADED);
 			LOG.error("Set Feeding status to degraded. Cause: " + cause);
 			
-			AlertService alertService = ManagementServiceProvider.getAlertService();
+			AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 			if (alertService == null){
 				LOG.error("Could not find the AlertService.");
 			} else {

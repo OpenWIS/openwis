@@ -626,7 +626,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    }
 	
 	private void raiseLargeProductAlert(FileInfo fileInfo){
-		AlertService alertService = ManagementServiceProvider.getAlertService();
+		AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 		if (alertService == null){
 			LOG.error("Could not get hold of the AlertService. No alert was passed!");
 			return;
@@ -874,7 +874,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    }
 	
 	private void raiseCacheMaximumSizeReachedAlert(long maximumSize, long actualSize) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -892,7 +892,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    }
 
 	private void raiseStagingPostMaximumSizeReachedEvent(Object stagingPostMaximumSize, Object stagingPostCurrentSize){
-		AlertService alertService = ManagementServiceProvider.getAlertService();
+		AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 	   if (alertService == null){
 		   LOG.error("Could not get hold of the AlertService. No alert was passed!");
 		   return;

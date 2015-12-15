@@ -699,7 +699,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
    private void raiseDeliveryFailedEvent(ProcessedRequest processedRequest,
          DisseminationJob dissJob, String errorMessage) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          logger.error("Could not get hold of the Alert Service. No alert was passed.");
       } else {
@@ -912,7 +912,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
    private void raiseThresholdExceededAlarm(Object threshold, Object value, Object user,
          Object dissMethod) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          logger.error("Could not get hold of the AlertService. No alert was passed!");
          return;

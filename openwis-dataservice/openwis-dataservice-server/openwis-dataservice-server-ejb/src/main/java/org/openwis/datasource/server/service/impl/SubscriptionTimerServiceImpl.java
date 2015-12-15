@@ -164,7 +164,7 @@ public class SubscriptionTimerServiceImpl implements SubscriptionTimerService {
    private void raiseAlarm(Throwable t) {
       String msg = MessageFormat.format("Cannot process recurrent subscription. Error: {0}", t);
       logger.error(msg, t);
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       alertService.raiseError("Data Service", "Subscription Timer", msg);
    }
 }

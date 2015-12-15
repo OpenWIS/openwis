@@ -216,7 +216,7 @@ public class LocalDataSourceExtractServiceImpl implements LocalDataSourceExtract
    }
 
    private void raiseAlarm(String dataSourceName, Throwable t) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       List<Object> args = new ArrayList<Object>();
       args.add(dataSourceName);
       args.add(t.toString());

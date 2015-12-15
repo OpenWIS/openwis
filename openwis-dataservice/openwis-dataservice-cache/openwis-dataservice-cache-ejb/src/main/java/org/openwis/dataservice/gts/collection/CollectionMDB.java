@@ -326,7 +326,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseUnparsableFileAlert(String filename){
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -345,7 +345,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseCorruptedDataAlert(String filename, String cause){
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -600,7 +600,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseNoMetadataAlert(final String filename, long filesize) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -638,7 +638,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
    }
 
    private void raiseStopgapMetadataCreatedAlert(String filename, String metadataUrn){
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -720,7 +720,7 @@ public class CollectionMDB implements MessageListener, ConfigurationInfo {
 
    private void raiseHighPriorityProductAlert(FileInfo fileInfo){
 	  // XXX - Should we be using a JNDI bean for this?
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null){
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
