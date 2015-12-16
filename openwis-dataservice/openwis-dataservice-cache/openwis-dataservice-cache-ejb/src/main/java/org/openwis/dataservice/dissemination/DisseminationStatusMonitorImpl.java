@@ -188,7 +188,7 @@ public class DisseminationStatusMonitorImpl implements DisseminationStatusMonito
 		if (disseminationHarnessPublicURL == null || disseminationHarnessPublicURL.length() == 0 ||
 			disseminationHarnessRMDCNURL == null || disseminationHarnessRMDCNURL.length() == 0)
 		{
-			LOG.error("No dissemination harness URLs defined!");
+			LOG.debug("No dissemination harness URLs defined!");
 			return;
 		}
 

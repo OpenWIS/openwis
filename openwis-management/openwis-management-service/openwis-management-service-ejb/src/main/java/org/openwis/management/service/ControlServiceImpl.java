@@ -132,7 +132,7 @@ public class ControlServiceImpl implements ControlService {
                   return ManagedServiceStatus.UNKNOWN.name();
                }
             } catch (Exception e) {
-               logger.error(e.getMessage(), e);
+               logger.error("Cannot create status file " + fEnabled + ": " + e.getMessage(), e);
                return ManagedServiceStatus.UNKNOWN.name();
             }
          }

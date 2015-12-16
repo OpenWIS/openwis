@@ -1,11 +1,16 @@
 package org.openwis.management.config;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import org.apache.commons.configuration.CompositeConfiguration;
+import org.apache.commons.configuration.ConfigurationConverter;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Retrieve the Properties instance for a configuration file.
@@ -15,8 +20,21 @@ import java.util.logging.Logger;
  */
 public class PropertySource {
    
+   private static final Logger log = LoggerFactory.getLogger(PropertySource.class);
+   
+   public static final String OPENWIS_DATASERVICE_CONFIGDIR = "openwis.dataService.configDir";
+   
+   /**
+    * The data service property file.
+    */
    public static final String OPENWIS_DATA_SERVICE = "openwis-dataservice";
+   
+   /**
+    * The local data source property file.
+    */
    public static final String LOCAL_DATA_SOURCE = "localdatasourceservice";
+   
+   
 
    private final String name;
    private Properties properties;
@@ -26,6 +44,11 @@ public class PropertySource {
       this.properties = null;
    }
    
+   /**
+    * Retrieve the properties from this property source.
+    * 
+    * @return
+    */
    public Properties getProperties() {
       if (properties == null) {
          synchronized(this) {
@@ -38,29 +61,46 @@ public class PropertySource {
    }
    
    private Properties readProperties() {
-      // !!TEMP!!
-      File homeDirectory = new File(System.getProperty("user.home"));
-      File configDir = new File(homeDirectory, "conf");
-      File configFile = new File(configDir, name + ".properties");
+      final String propertiesFileName = name + ".properties";
       
-      System.err.println("Using configuration from '" + configFile + "'");
-      // !!END TEMP!!
+      CompositeConfiguration compositeConfig = new CompositeConfiguration();
       
-      InputStream inStream = null;
-      Properties configProperties = null;
-      try {
-         inStream = new FileInputStream(configFile);
-         
+      // The configuration files on the file system.  Read the configuration
+      String configDir = System.getProperty(OPENWIS_DATASERVICE_CONFIGDIR, new File(System.getProperty("user.home"), "conf").toString());
+      File configFile = new File(configDir, propertiesFileName);
+      
+      if ((configFile.exists()) && (configFile.canRead())) {
          try {
-            configProperties = new Properties();
-            configProperties.load(inStream);
-            
-            return configProperties;
-         } finally {
-            inStream.close();
+            log.info("Using properties file: " + configFile);
+            PropertiesConfiguration fileSystemConfig = readPropertiesConfiguration(configFile.toURI().toURL());
+            compositeConfig.addConfiguration(fileSystemConfig);
+         } catch (ConfigurationException e) {
+            log.error("Failed to read properties from file system: " + configFile, e);
+         } catch (MalformedURLException e) {
+            log.error("Failed to read properties from file system: " + configFile, e);
          }
-      } catch (IOException e) {
-         throw new RuntimeException("Cannot load configuration from '" + configFile + "'", e);
+      } else {
+         log.info("No properties file found at " + configFile + ".  Using embedded properties.");
       }
+      
+      
+      // The embedded configuration files
+      String embeddedPropertiesResourceName = "/conf/" + propertiesFileName;
+      try {
+         PropertiesConfiguration defaultConfig = readPropertiesConfiguration(getClass().getResource(embeddedPropertiesResourceName));
+         compositeConfig.addConfiguration(defaultConfig);
+      } catch (ConfigurationException e) {
+         log.error("Failed to read embedded properties resource: " + embeddedPropertiesResourceName, e);
+      }
+      
+      return ConfigurationConverter.getProperties(compositeConfig);
+   }
+   
+   private PropertiesConfiguration readPropertiesConfiguration(URL resource) throws ConfigurationException {
+      PropertiesConfiguration propertiesConfig = new PropertiesConfiguration();
+      propertiesConfig.setDelimiterParsingDisabled(true);
+      propertiesConfig.load(resource);
+      
+      return propertiesConfig;
    }
 }
