@@ -280,7 +280,7 @@
 		<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
 	  </repository>
 	  <repository>
-		<id>jboss-maven21</id>
+		<id>jboss-maven2</id>
 		<url>http://repo1.maven.org/maven2</url>
 	  </repository>
 	</repositories>
