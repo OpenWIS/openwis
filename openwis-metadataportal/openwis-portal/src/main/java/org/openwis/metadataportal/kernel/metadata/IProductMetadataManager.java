@@ -76,4 +76,11 @@ public interface IProductMetadataManager {
     * @throws Exception if an error occurs.
     */
    ProductMetadata extract(Metadata metadata, boolean isExisting) throws Exception;
+   
+   /**
+    * Test if the metadata is flagged as GlobalExchange
+    * @param metadata the metadata
+    * @return <code>true</code> if global exchange is found
+    */
+   boolean isGlobalExchange(Metadata metadata) throws Exception;
 }

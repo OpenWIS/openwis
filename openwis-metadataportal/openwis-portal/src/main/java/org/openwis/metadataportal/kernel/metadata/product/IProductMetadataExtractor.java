@@ -65,6 +65,8 @@ public interface IProductMetadataExtractor {
     */
    void extractGTSCategoryGTSPriorityAndDataPolicy(Metadata metadata, ProductMetadata pm) throws Exception;
 
+   boolean isGlobalExchange(Metadata metadata) throws Exception;
+   
    /**
     * The GTS Category Additional.
     */
@@ -94,6 +96,12 @@ public interface IProductMetadataExtractor {
     * The Unknown Data policy.
     */
    static final String UNKNOWN_DATAPOLICY = "unknown";
+   
+   /**
+    * GlobalExchange flag
+    */
+   static final String GLOBAL_EXCHANGE = "GlobalExchange";
+
    
    /**
     * Default priority.
