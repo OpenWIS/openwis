@@ -83,4 +83,9 @@ public class ProductMetadataDefaultExtractor implements IProductMetadataExtracto
       return false;
    }
 
+   @Override
+   public boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception {
+  	  return false;
+   }
+
 }

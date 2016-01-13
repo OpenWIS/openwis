@@ -186,6 +186,22 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
       return false;
    }
 
+   @Override
+   public boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception {
+      String xpathStandardName = "gmd:metadataStandardName/gco:CharacterString";
+      String standardName = Xml.selectString(metadata.getData(), xpathStandardName, nsListGMDGCO);
+      if (standardName != null && standardName.startsWith("WMO Core Metadata Profile")) {
+         String xpathStandardVersion = "gmd:metadataStandardVersion/gco:CharacterString";
+         String standardVersion = Xml.selectString(metadata.getData(), xpathStandardVersion, nsListGMDGCO);
+         //metadata is wmo core profile 1.3 or higher
+         int resultCmp = standardVersion.compareTo("1.3");
+         if (resultCmp>0 || resultCmp == 0){
+            Log.info(Geonet.EXTRACT_PRODUCT_METADATA, "Found wmo core profile 1.3 or higher");
+            return true;
+         }
+      }
+      return false;
+   }
    /**
     * !! FNC Pattern and URN must be set before processing GTS Category.
     * This allows to ignore patterns in some cases.
@@ -386,4 +402,5 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
 
       return result;
    }
+   
 }

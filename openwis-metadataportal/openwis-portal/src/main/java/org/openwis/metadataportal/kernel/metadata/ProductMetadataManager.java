@@ -308,6 +308,18 @@ public class ProductMetadataManager implements IProductMetadataManager {
       return productMetadataExtractor.isGlobalExchange(metadata);
       
    }
+   /**
+    * Test if the metadata is iso Core Profile 1.3 or higher
+    * @param metadata the metadata
+    */
+   @Override
+   public boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception {
+    //Get PM Extractor according to schema.
+      IProductMetadataExtractor productMetadataExtractor = ProductMetadataExtractorFactory
+            .getProductMetadataExtractor(metadata.getSchema());
+      return productMetadataExtractor.isIsoCoreProfile1_3(metadata);
+      
+   }
    
    /**
     * Gets a productMetadataService.
