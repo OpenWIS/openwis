@@ -78,5 +78,14 @@ public class ProductMetadataDefaultExtractor implements IProductMetadataExtracto
       pm.setGtsCategory(GTS_CATEGORY_NONE);
       pm.setDataPolicy(UNKNOWN_DATAPOLICY);
    }
+   @Override
+   public boolean isGlobalExchange(Metadata metadata) throws Exception {
+      return false;
+   }
+
+   @Override
+   public boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception {
+  	  return false;
+   }
 
 }
