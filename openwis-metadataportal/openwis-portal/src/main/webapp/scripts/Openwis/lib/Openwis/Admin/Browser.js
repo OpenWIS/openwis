@@ -886,7 +886,9 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 				title: Openwis.i18n('Admin.Browser.PersonalInformation.UserInfo'),
 				listeners : {
 					activate: function(ct) {
-						ct.add(new Openwis.Common.User.UserInformation());
+						ct.add(new Openwis.Common.User.UserInformation({
+	    			    	hidePassword: true
+						}));
 						ct.doLayout();
 					},
 					deactivate: function(ct) {

@@ -60,7 +60,7 @@
 		
         <!-- User profile -->
         <!-- Manage Personal Information -->
-        <allow service="xml.user.get"/>
+        <allow service="xml.user.getSelf"/>
         <allow service="xml.user.saveSelf"/>
         <allow service="xml.user.changePassword"/>
         

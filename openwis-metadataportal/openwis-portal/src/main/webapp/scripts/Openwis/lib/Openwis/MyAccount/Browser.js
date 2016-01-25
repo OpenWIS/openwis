@@ -255,7 +255,9 @@ Openwis.MyAccount.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 				autoScroll: true,
 				listeners : {
 					activate: function(ct) {
-						ct.add(new Openwis.Common.User.UserInformation());
+						ct.add(new Openwis.Common.User.UserInformation({
+	    			    	hidePassword: true
+	    			    }));
 						ct.doLayout();
 					},
 					deactivate: function(ct) {
