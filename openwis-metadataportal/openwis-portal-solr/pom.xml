@@ -18,7 +18,7 @@
 	<name>openwis-portal-solr</name>
 	<packaging>war</packaging>
 	<description>OpenWIS SolR search engine module</description>
-
+	<version>3.14.1-SNAPSHOT</version>
 	<properties>
 		<openwis-portal-solr>openwis-portal-solr</openwis-portal-solr>
 		<solr.version>1.4.1</solr.version>
