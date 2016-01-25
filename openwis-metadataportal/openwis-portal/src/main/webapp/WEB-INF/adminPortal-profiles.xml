@@ -23,6 +23,9 @@
 		<allow service="xml.user.remove"/>
 		<allow service="xml.user.allImport"/>
 		<allow service="xml.user.import"/>
+        <allow service="xml.user.get"/>
+        <allow service="xml.user.save"/>
+        <allow service="xml.user.changePassword"/>   		
 		
 		<!-- Data Policy -->
 		<allow service="xml.datapolicy.all"/>
@@ -58,7 +61,7 @@
         <!-- User profile -->
         <!-- Manage Personal Information -->
         <allow service="xml.user.get"/>
-        <allow service="xml.user.save"/>
+        <allow service="xml.user.saveSelf"/>
         <allow service="xml.user.changePassword"/>
         
         <!-- Allow thumbnail services -->

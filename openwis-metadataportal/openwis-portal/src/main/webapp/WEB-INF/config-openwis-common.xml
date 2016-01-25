@@ -33,8 +33,8 @@
             </error>
         </service>
         
-        <service name="xml.user.save" type="xml">
-            <class name=".services.user.Save"/>
+        <service name="xml.user.saveSelf" type="xml">
+            <class name=".services.user.SaveSelf"/>
             <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
                 <xml name="error" file="xml/privileges-error.xml"/>
             </error>

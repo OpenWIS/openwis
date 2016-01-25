@@ -110,7 +110,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 				    var persoInfoValid = this.getPersonalInformationFormPanel().getForm().isValid();
 					if( persoInfoValid) {
 						var saveHandler = new Openwis.Handler.Save({
-							url: configOptions.locService+ '/xml.user.save',
+							url: configOptions.locService+ '/xml.user.saveSelf',
 							params: this.getUser(),
 							listeners: {
 								success: function(config) {
