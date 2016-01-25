@@ -337,6 +337,13 @@
 				<xml name="error" file="xml/privileges-error.xml"/>
 			</error>
 		</service>
+		
+        <service name="xml.user.get" type="xml">
+            <class name=".services.user.Get"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+        </service>		
 
 		<service name="xml.user.remove" type="xml">
 			<class name=".services.user.Remove"/>
