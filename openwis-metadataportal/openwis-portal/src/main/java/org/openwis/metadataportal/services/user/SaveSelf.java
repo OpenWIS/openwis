@@ -1,5 +1,7 @@
 package org.openwis.metadataportal.services.user;
 
+import java.util.Collections;
+
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
@@ -9,10 +11,13 @@ import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
 import org.openwis.metadataportal.kernel.request.RequestManager;
 import org.openwis.metadataportal.kernel.user.UserManager;
-import org.openwis.metadataportal.model.user.User;
+import org.openwis.metadataportal.model.group.Group;
+import org.openwis.metadataportal.model.user.BackUp;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
+
+import com.google.common.collect.Lists;
 
 /**
  * Saves the details of the current user.  Similar to ".Save" apart from the following
@@ -41,20 +46,13 @@ public class SaveSelf implements Service {
 	            "You do not have permission to modify any other user but yourself"));
 	   }
 	   
-	   // Update fields from the DTO.  Passwords are not included, they're handled
-	   // by another service.  Other fields like groups and profiles are also not
-	   // permitted as the user is not authorized to make these changes.
-	   User existingUser = um.getUserByUserName(currentUsername);
-	   User newUserDetails = user.getUser();
+	   // Explicitly null out certain fields to prevent changes to their privileges
+	   user.getUser().setProfile(null);
+	   user.getUser().setClassOfService(null);
+	   user.getUser().setGroups(Lists.<Group>newArrayList());
+	   user.getUser().setBackUps(Lists.<BackUp>newArrayList());
 	   
-	   existingUser.setName(newUserDetails.getName());
-	   existingUser.setSurname(newUserDetails.getSurname());
-	   existingUser.setEmailContact(newUserDetails.getEmailContact());
-	   existingUser.setAddress(newUserDetails.getAddress());
-	   existingUser.setFtps(newUserDetails.getFtps());
-	   existingUser.setEmails(newUserDetails.getEmails());
-	   
-      um.updateUser(existingUser);
+	   um.updateUser(user.getUser());
       
       // call method checkSubscription on RequestManager service.
       // (not sure if this is necessary).
