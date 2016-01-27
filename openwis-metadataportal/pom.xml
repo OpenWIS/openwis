@@ -25,6 +25,7 @@
       scm:svn:https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk
     </connection>
     <url>https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk</url>
+    <tag>HEAD</tag>
   </scm>
   
   <!-- =========================================================== -->

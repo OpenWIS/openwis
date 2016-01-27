@@ -6,7 +6,7 @@ OpenWIS is an implementation of WMO Information System (WIS) and aims to perform
 
 ##1. Requirements
 
-* Oacle JDK 1.7
+* Oracle JDK 1.7
 * Maven 2.2.1
 
 ###Environment variables:
@@ -81,7 +81,6 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 * **The harness localdatasource WSDL and WSD:** openwis-harness/openwis-harness-localdatasource/src/wsdl/
 * **The harness MSSFSS WSDL and WSD:** openwis-harness/openwis-harness-mssfss/src/wsdl/
 * **The harness subselectionparameters WSDL and WSD:** openwis-harness/openwis-harness-subselectionparameters/src/wsdl/
-
 
 
 ##3. Building OpenWIS
@@ -199,9 +198,14 @@ In a terminal, go to the root directory and launch the command: `mvn install -P 
 
 **#6 Changing Verison Number**
 
-In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all,user,admin` or whatever version you wish to change the project to
+In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all,user,admin` or whatever version you wish to change the project to.
+In some cases, you may find that OpenWIS complains about missing dependencies, should this happen try running 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all' followed by 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P admin'
+
+**#7 Maven Releasing **
+
+In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare-Pall -Darguments="-DskipTests"`
  
- **#7 Running SonarQube**
+**#8 Running SonarQube**
  
 In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
 configured in you ~/.m2/settings.xml. 
