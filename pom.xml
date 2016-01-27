@@ -159,10 +159,12 @@
                             <goals>
                             <goal>perform</goal>
                         </goals>
-                        <configuration>
-                            <pushChanges>false</pushChanges>
-                            <localCheckout>true</localCheckout>
-                        </configuration>
+						<configuration>
+							<pushChanges>true</pushChanges>
+							<localCheckout>true</localCheckout>
+							<preparationGoals>clean install</preparationGoals>
+							<autoVersionSubmodules>true</autoVersionSubmodules>		
+						</configuration>
                     </execution>
                 </executions>
 			</plugin>	
@@ -206,6 +208,10 @@
 		<developer>
 			<name>Alan Morbey</name>
 			<organization>Met Office (UK)</organization>
+		</developer>
+			<developer>
+			<name>Martin Gollogly</name>
+			<organization>SciSys</organization>
 		</developer>
 		<developer>
 			<name>Yannick Lizzi</name>
@@ -279,9 +285,22 @@
 		<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
 	  </repository>
 	  <repository>
-		<id>jboss-maven2</id>
+		<id>repo1-maven2</id>
 		<url>http://repo1.maven.org/maven2</url>
 	  </repository>
 	</repositories>
-   
+  
+
+	<distributionManagement>
+		<repository>
+		  <id>openwis-release</id>
+		  <name>OpenWIS Release Repository</name>
+		  <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
+		</repository>
+		<snapshotRepository>
+		  <id>openwis-snapshot</id>
+		  <name>OpenWIS Snapshot Repository</name>
+		  <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+		</snapshotRepository>
+	 </distributionManagement>  
 </project>

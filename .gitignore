@@ -4,6 +4,7 @@ target/
 *.releaseBackup
 release.properties
 *.log
+*.tag
 
 # Ignore eclipse files
 .project
