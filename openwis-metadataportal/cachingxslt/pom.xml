@@ -16,6 +16,7 @@
   <groupId>org.geonetwork-opensource</groupId>
   <artifactId>cachingxslt</artifactId>
   <packaging>jar</packaging>
+  <version>develop-SNAPSHOT</version>
   <name>Caching xslt module</name>
   <description>
     Caching xslt project.
