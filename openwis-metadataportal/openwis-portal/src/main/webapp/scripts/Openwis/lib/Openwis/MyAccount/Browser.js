@@ -221,7 +221,7 @@ Openwis.MyAccount.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 	 */
 	getPersonalInformationMenu: function() {
 		if(!this.personalInformationMenu) {
-		    var userInfoAccessible = this.isServiceAccessible("xml.user.save");
+		    var userInfoAccessible = this.isServiceAccessible("xml.user.saveSelf");
 			var changePswd = this.isServiceAccessible("xml.user.changePassword");
 			
 			if (userInfoAccessible || changePswd) {
@@ -255,7 +255,9 @@ Openwis.MyAccount.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 				autoScroll: true,
 				listeners : {
 					activate: function(ct) {
-						ct.add(new Openwis.Common.User.UserInformation());
+						ct.add(new Openwis.Common.User.UserInformation({
+	    			    	hidePassword: true
+	    			    }));
 						ct.doLayout();
 					},
 					deactivate: function(ct) {

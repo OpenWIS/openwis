@@ -16,37 +16,50 @@ Openwis.Common.User.PersonalInformation = Ext.extend(Ext.form.FormPanel, {
                         // The total column count must be specified here
                         columns: 4
                     },
-                    items: [
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.UserName.Label')),
-                        this.getUserNameTextField(),
-                        this.createDummy(),
-                        this.createDummy(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.LastName.Label')),
-                        this.getSurNameTextField(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.FirstName.Label')),
-                        this.getNameTextField(),
-                        this.createPasswordLabel(),
-                        this.createPasswordTextField(),
-                        this.createDummy(),
-                        this.createDummy(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.Address.Label')),
-                        this.getAddressTextField(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.City.Label')),
-                        this.getCityTextField(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.State.Label')),
-                        this.getStateTextField(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.Zip.Label')),
-                        this.getZipTextField(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.Country.Label')),
-                        this.getCountryTextField(),
-                        this.createDummy(),
-                        this.createDummy(),
-                        this.createLabel(Openwis.i18n('Security.User.PersoInfo.ContactEmail.Label')),
-                        this.getEmailTextField()
-                    ]
+                    items: this.getFormItems()
                 }]
         });
         Openwis.Common.User.PersonalInformation.superclass.initComponent.apply(this, arguments);
+    },
+    
+    getFormItems: function() {
+    	var items = [
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.UserName.Label')),
+	        this.getUserNameTextField(),
+	        this.createDummy(),
+	        this.createDummy(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.LastName.Label')),
+	        this.getSurNameTextField(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.FirstName.Label')),
+	        this.getNameTextField()
+        ];
+    	
+    	if (!this.hidePassword) {
+    		items = items.concat([
+      	        this.createPasswordLabel(),
+    	        this.createPasswordTextField(),
+    	        this.createDummy(),
+    	        this.createDummy()
+            ]);
+    	}
+    	
+    	items = items.concat([
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.Address.Label')),
+	        this.getAddressTextField(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.City.Label')),
+	        this.getCityTextField(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.State.Label')),
+	        this.getStateTextField(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.Zip.Label')),
+	        this.getZipTextField(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.Country.Label')),
+	        this.getCountryTextField(),
+	        this.createDummy(),
+	        this.createDummy(),
+	        this.createLabel(Openwis.i18n('Security.User.PersoInfo.ContactEmail.Label')),
+	        this.getEmailTextField()
+	    ]);
+    	return items;
     },
     
     createLabel: function(label) {
@@ -82,9 +95,12 @@ Openwis.Common.User.PersonalInformation = Ext.extend(Ext.form.FormPanel, {
             this.getUserNameTextField().disable();
             this.getNameTextField().setValue(user.name);
             this.getSurNameTextField().setValue(user.surname);
-            this.getPasswordTextField().setValue(user.password);
             this.getEmailTextField().setValue(user.emailContact);
-       
+
+            if (!this.hidePassword) {
+            	this.getPasswordTextField().setValue(user.password);
+            }
+            
             // Address
            this.getAddressTextField().setValue(user.address.address);
            this.getZipTextField().setValue(user.address.zip);
@@ -254,9 +270,12 @@ Openwis.Common.User.PersonalInformation = Ext.extend(Ext.form.FormPanel, {
        user.name = this.getNameTextField().getValue();
        user.username = this.getUserNameTextField().getValue();
        user.surname = this.getSurNameTextField().getValue();
-       //password
-       user.password = this.getPasswordTextField().getValue();
        user.emailContact = this.getEmailTextField().getValue();
+
+       //password
+       if (!this.hidePassword) {
+    	   user.password = this.getPasswordTextField().getValue();
+       }
        
        // Address
        user.address = {};
