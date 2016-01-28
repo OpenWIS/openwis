@@ -25,6 +25,18 @@
             <artifactId>hibernate-annotations</artifactId>
             <version>3.4.0.GA</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- lmika: The bundled version of slf4j-api (1.4.2) was clashing with the version of slf4j-api
+                     expected by slf4j-log4j12 (1.5.6).  This was causing IllegalAccessErrors when attempting to
+                     run the unit tests.
+                     
+                     See: http://stackoverflow.com/questions/9030476/java-lang-illegalaccesserror-tried-to-access-field-org-slf4j-impl-staticloggerb
+                -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
          </dependency>
         
 		<dependency>
@@ -58,6 +70,13 @@
 			<version>${project.version}</version>
       		<type>jar</type>
 		</dependency>
+		
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.6</version>
+            <scope>test</scope>
+        </dependency>		
 
 		<dependency>
 			<groupId>dom4j</groupId>
