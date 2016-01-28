@@ -3,11 +3,11 @@ target/
 *.versionsBackup
 *.releaseBackup
 release.properties
+*.log
+*.tag
 
 # Ignore eclipse files
 .project
 .classpath
 .settings/
 
-# Ignore general files
-*.log

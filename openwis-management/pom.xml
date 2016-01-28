@@ -12,7 +12,8 @@
   <groupId>io.openwis.management</groupId>
   <artifactId>openwis-management</artifactId>
   <packaging>pom</packaging>
-  <name>OpenWIS Monitoring And Control</name>
+  <description>OpenWIS Monitoring And Control</description>
+  <name>openwis-management</name>
 
   <modules>
     <module>openwis-management-client</module>

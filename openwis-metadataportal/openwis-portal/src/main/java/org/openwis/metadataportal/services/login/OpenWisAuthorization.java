@@ -287,10 +287,10 @@ public class OpenWisAuthorization extends HttpServlet {
             .get(0);
 
       // Split with "opensso" string so the result is like this : http://idp-hostname:<port>
-      urlSSO = ssoServiceElement.getLocation().split("/opensso/")[0];
+      urlSSO = ssoServiceElement.getLocation().split("/openam/")[0];
 
       // Add /opensso for get the IdP URL
-      urlSSO = urlSSO + "/opensso";
+      urlSSO = urlSSO + "/openam";
       //         
       //      } catch (SAML2MetaException e) {
       //         throw e;

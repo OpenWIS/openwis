@@ -16,7 +16,7 @@
 	<groupId>io.openwis.stagingpost</groupId>
 	<artifactId>openwis-stagingpost</artifactId>
 	<packaging>war</packaging>
-	<name>OpenWIS Staging Post</name>
+	<name>openwis-stagingpost</name>
 	<description>
         OpenWIS Staging Post.
     </description>

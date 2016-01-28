@@ -12,11 +12,10 @@
 	<groupId>io.openwis.securityservice</groupId>
 	<artifactId>openwis-securityservice</artifactId>
 	<packaging>pom</packaging>
-	<name>OpenWIS Security Service project</name>
-	
+	<name>openwis-securityservice</name>
+	<description>OpenWIS Security Service project</description>	
   <modules>
-    <module>openwis-securityservice-usermanagement-common</module>
-	<module>openwis-securityservice-usermanagement-server</module>
+    <module>openwis-securityservice-war</module>
 	<module>openwis-securityservice-utils</module>
   </modules>
   

@@ -12,8 +12,8 @@
 	<groupId>io.openwis.dataservice</groupId>
 	<artifactId>openwis-dataservice</artifactId>
 	<packaging>pom</packaging>
-	<name>OpenWIS DataService project</name>
-
+	<description>OpenWIS DataService project</description>
+	<name>openwis-dataservice</name>
   <modules>
     <module>openwis-dataservice-common</module>
 	<module>openwis-dataservice-cache</module>

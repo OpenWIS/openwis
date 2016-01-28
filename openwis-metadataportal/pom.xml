@@ -12,6 +12,7 @@
   <artifactId>geonetwork</artifactId>
   <!--<version>2.7.0-SNAPSHOT</version>-->
   <!-- 2.7.0 was never released, move to 2.8.0??-->
+  <version>develop-SNAPSHOT</version> 
   <packaging>pom</packaging>
   
   <name>GeoNetwork opensource</name>
@@ -25,6 +26,7 @@
       scm:svn:https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk
     </connection>
     <url>https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk</url>
+    <tag>HEAD</tag>
   </scm>
   
   <!-- =========================================================== -->
@@ -36,7 +38,7 @@
     <module>oaipmh</module>
     <module>sde</module>
 	
-	<module>openwis-portal-client</module>
+	<!-- this is now run from the profiles set in the "top" pom -->
 	<!--<module>openwis-portal</module>-->
 
 	<module>openwis-portal-solr</module>
@@ -128,7 +130,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>2.1-alpha-2</version>
+          <version>2.1.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -144,10 +146,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>3.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>

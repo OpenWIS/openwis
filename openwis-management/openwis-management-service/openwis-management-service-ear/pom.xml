@@ -47,7 +47,7 @@
             -->
 			<!--changed to the deploy goal so a JBOSS installation is not required for build -->
 			<!-- Shaun Adams - Met Office -->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jboss-maven-plugin</artifactId>
 				<version>1.4.1</version>
@@ -62,11 +62,11 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<!--
 				Permet de copier les fichiers de config
 			-->
-			<plugin>
+			<!--<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -114,7 +114,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 
 		</plugins>
 	</build>

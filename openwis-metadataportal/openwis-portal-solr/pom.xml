@@ -15,12 +15,10 @@
 	<groupId>io.openwis.metadataportal</groupId>
 	<artifactId>openwis-portal-solr</artifactId>
 	
-	<name>Openwis Portal SolR</name>
+	<name>openwis-portal-solr</name>
 	<packaging>war</packaging>
-	<description>
-    OpenWIS SolR search engine module.
-    </description>
-
+	<description>OpenWIS SolR search engine module</description>
+	<version>develop-SNAPSHOT</version>
 	<properties>
 		<openwis-portal-solr>openwis-portal-solr</openwis-portal-solr>
 		<solr.version>1.4.1</solr.version>

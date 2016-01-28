@@ -9,7 +9,8 @@
 	<groupId>io.openwis.harness</groupId>
 	<artifactId>openwis-harness</artifactId>
 	<packaging>pom</packaging>
-	<name>OpenWIS Harness Parent Project</name>
+	<description>OpenWIS Harness Parent Project</description>
+	<name>openwis-harness</name>
 
 	
 	<modules>
