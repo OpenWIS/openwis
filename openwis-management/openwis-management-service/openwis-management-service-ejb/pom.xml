@@ -86,7 +86,7 @@
 		<dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
          </dependency>
 	</dependencies>
@@ -154,7 +154,7 @@
 						</goals>
 						<configuration>
 							<className>org.openwis.management.service.AlertServiceImpl</className>
-							<targetNameSpace>http://alert.management.openwis.org/</targetNameSpace>
+							<targetNameSpace>http://alert.management.openwis.io/</targetNameSpace>
 							<genWsdl>true</genWsdl>
 							<verbose>true</verbose>
 							<outputFile>${project.build.directory}/generated/wsdl/AlertService.wsdl</outputFile>
@@ -171,7 +171,7 @@
 						</goals>
 						<configuration>
 							<className>org.openwis.management.service.DisseminatedDataStatisticsImpl</className>
-							<targetNameSpace>http://monitoring.management.openwis.org/</targetNameSpace>
+							<targetNameSpace>http://monitoring.management.openwis.io/</targetNameSpace>
 							<genWsdl>true</genWsdl>
 							<verbose>true</verbose>
 							<outputFile>${project.build.directory}/generated/wsdl/DisseminatedDataStatistics.wsdl</outputFile>
@@ -186,7 +186,7 @@
 						</goals>
 						<configuration>
 							<className>org.openwis.management.service.ExchangedDataStatisticsImpl</className>
-							<targetNameSpace>http://monitoring.management.openwis.org/</targetNameSpace>
+							<targetNameSpace>http://monitoring.management.openwis.io/</targetNameSpace>
 							<genWsdl>true</genWsdl>
 							<verbose>true</verbose>
 							<outputFile>${project.build.directory}/generated/wsdl/ExchangedDataStatistics.wsdl</outputFile>
@@ -201,7 +201,7 @@
 						</goals>
 						<configuration>
 							<className>org.openwis.management.service.IngestedDataStatisticsImpl</className>
-							<targetNameSpace>http://monitoring.management.openwis.org/</targetNameSpace>
+							<targetNameSpace>http://monitoring.management.openwis.io/</targetNameSpace>
 							<genWsdl>true</genWsdl>
 							<verbose>true</verbose>
 							<outputFile>${project.build.directory}/generated/wsdl/IngestedDataStatistics.wsdl</outputFile>
@@ -216,7 +216,7 @@
 						</goals>
 						<configuration>
 							<className>org.openwis.management.service.ReplicatedDataStatisticsImpl</className>
-							<targetNameSpace>http://monitoring.management.openwis.org/</targetNameSpace>
+							<targetNameSpace>http://monitoring.management.openwis.io/</targetNameSpace>
 							<genWsdl>true</genWsdl>
 							<verbose>true</verbose>
 							<outputFile>${project.build.directory}/generated/wsdl/ReplicatedDataStatistics.wsdl</outputFile>
@@ -232,7 +232,7 @@
 						</goals>
 						<configuration>
 							<className>org.openwis.management.service.ControlServiceImpl</className>
-							<targetNameSpace>http://control.management.openwis.org/</targetNameSpace>
+							<targetNameSpace>http://control.management.openwis.io/</targetNameSpace>
 							<genWsdl>true</genWsdl>
 							<verbose>true</verbose>
 							<outputFile>${project.build.directory}/generated/wsdl/ControlService.wsdl</outputFile>
@@ -278,7 +278,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>3.4.0.GA</version>
+					<version>${hibernate.version}</version>
 					<scope>test</scope>
 					<exclusions>
 						<exclusion>

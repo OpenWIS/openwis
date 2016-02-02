@@ -25,6 +25,7 @@
       scm:svn:https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk
     </connection>
     <url>https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk</url>
+    <tag>HEAD</tag>
   </scm>
   
   <!-- =========================================================== -->
@@ -396,7 +397,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-annotations</artifactId>
-        <version>3.2.0.ga</version>
+        <version>${hibernate.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.media</groupId>
@@ -454,7 +455,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.6</version>
+        <version>${junit.version}</version>
         <!--<scope>test</scope>-->
       </dependency>
 

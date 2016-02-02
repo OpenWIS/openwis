@@ -53,16 +53,7 @@ public class Get implements Service {
       UserDTO userDTO = JeevesJsonWrapper.read(params, UserDTO.class);
       Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
-      String username = null;
-
-      if (userDTO != null && (userDTO.getUser() != null || userDTO.isEditingPersoInfo())) {
-
-         if (userDTO.isEditingPersoInfo()) {
-            username = context.getUserSession().getUsername();
-         } else if (userDTO.getUser().getUsername() != null) {
-            username = userDTO.getUser().getUsername();
-         }
-      }
+      String username = getUsernameFromRequest(context, userDTO);
 
       if (StringUtils.isEmpty(username)) {
          User user = new User();
@@ -138,4 +129,23 @@ public class Get implements Service {
       return JeevesJsonWrapper.send(userDTO);
    }
 
+   /**
+    * Extract the username of the user to retrieve from the request information.  This
+    * can be overridden by subclasses to restrict the usernames that can be retrieved. 
+    * 
+    * @param context
+    * @param userDTO
+    * @param username
+    * @return
+    */
+   protected String getUsernameFromRequest(ServiceContext context, UserDTO userDTO) {
+      if (userDTO != null && (userDTO.getUser() != null || userDTO.isEditingPersoInfo())) {
+         if (userDTO.isEditingPersoInfo()) {
+            return context.getUserSession().getUsername();
+         } else if (userDTO.getUser().getUsername() != null) {
+            return userDTO.getUser().getUsername();
+         }
+      }
+      return null;
+   }
 }

@@ -9,7 +9,7 @@
 				<xsl:value-of select="gmd:fileIdentifier/gco:CharacterString"/>
 			</uuid>
 			<dateStamp>
-				<xsl:value-of select="gmd:dateStamp/gco:DateTime"/>
+				<xsl:value-of select="gmd:dateStamp/gco:DateTime | gmd:dateStamp/gco:Date"/>
 			</dateStamp>
 		</importInfo>
 	</xsl:template>

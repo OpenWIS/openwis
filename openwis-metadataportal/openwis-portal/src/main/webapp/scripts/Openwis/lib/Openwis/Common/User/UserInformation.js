@@ -15,10 +15,9 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 	
 	getInfosAndInitialize: function() {
 		var params = {};
-		params.editingPersoInfo = "true";
 		
 		var getHandler = new Openwis.Handler.Get({
-			url: configOptions.locService+ '/xml.user.get',
+			url: configOptions.locService+ '/xml.user.getSelf',
 			params: params,
 			listeners: {
 				success: function(config) {
@@ -86,7 +85,10 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 	
 	getPersonalInformationFormPanel: function() {
         if(!this.personalInformationFormPanel) {
-            this.personalInformationFormPanel = new Openwis.Common.User.PersonalInformation({isEdition: 'true'});
+            this.personalInformationFormPanel = new Openwis.Common.User.PersonalInformation({
+            	hidePassword: this.hidePassword,
+            	isEdition: 'true'
+    		});
         }
         return this.personalInformationFormPanel;
     },
@@ -110,7 +112,7 @@ Openwis.Common.User.UserInformation = Ext.extend(Ext.Container, {
 				    var persoInfoValid = this.getPersonalInformationFormPanel().getForm().isValid();
 					if( persoInfoValid) {
 						var saveHandler = new Openwis.Handler.Save({
-							url: configOptions.locService+ '/xml.user.save',
+							url: configOptions.locService+ '/xml.user.saveSelf',
 							params: this.getUser(),
 							listeners: {
 								success: function(config) {

@@ -7,7 +7,7 @@
 		<version>develop-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
-
+	
 	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-ejb</artifactId>
 	<name>openwis-dataservice-server-ejb</name>
@@ -23,7 +23,7 @@
          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
          </dependency>
 		<dependency>
@@ -207,7 +207,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>3.4.0.GA</version>
+					<version>${hibernate.version}</version>
 					<scope>test</scope>
 					<exclusions>
 						<exclusion>

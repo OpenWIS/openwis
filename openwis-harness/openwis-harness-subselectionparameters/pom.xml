@@ -11,6 +11,10 @@
   <description>Harness for Sub Selection Parameters</description>
   <name>openwis-harness-subselectionparameters</name>
   
+  <properties>
+		<cxf.version>2.1.10</cxf.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

@@ -10,9 +10,9 @@
   <artifactId>openwis-harness-localdatasource</artifactId>
   <name>openwis-harness-localdatasource</name>
   
-  <!--<properties>
+  <properties>
 		<cxf.version>2.1.10</cxf.version>
-	</properties>-->
+	</properties>
 
 	<dependencies>
 		<dependency>

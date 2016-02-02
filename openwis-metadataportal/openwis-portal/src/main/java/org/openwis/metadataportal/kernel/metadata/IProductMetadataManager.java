@@ -10,7 +10,6 @@ import jeeves.resources.dbms.Dbms;
 
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.kernel.DataManager;
-import org.openwis.dataservice.CannotDeleteAllProductMetadataException;
 import org.openwis.dataservice.CannotDeleteAllProductMetadataException_Exception;
 import org.openwis.dataservice.CannotDeleteProductMetadataException_Exception;
 import org.openwis.dataservice.ProductMetadata;
@@ -76,4 +75,17 @@ public interface IProductMetadataManager {
     * @throws Exception if an error occurs.
     */
    ProductMetadata extract(Metadata metadata, boolean isExisting) throws Exception;
+   
+   /**
+    * Test if the metadata is flagged as GlobalExchange
+    * @param metadata the metadata
+    * @return <code>true</code> if global exchange is found
+    */
+   boolean isGlobalExchange(Metadata metadata) throws Exception;
+
+   /**
+    * Test if the metadata is iso Core Profile 1.3 or higher
+    * @param metadata the metadata
+    */
+   boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception;
 }

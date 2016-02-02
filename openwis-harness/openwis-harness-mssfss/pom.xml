@@ -11,6 +11,10 @@
   <name>openwis-harness-mssfss</name>
   <packaging>jar</packaging>
   
+  <properties>
+		<cxf.version>2.1.10</cxf.version>
+  </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -47,7 +51,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.0</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
