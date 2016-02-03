@@ -1,18 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.openwis</groupId>
-		<artifactId>openwis</artifactId>
-		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+	  <groupId>io.openwis</groupId>
+	  <artifactId>openwis</artifactId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
 	</parent>
+	
 	<groupId>io.openwis.harness</groupId>
 	<artifactId>openwis-harness</artifactId>
 	<packaging>pom</packaging>
 	<description>OpenWIS Harness Parent Project</description>
 	<name>openwis-harness</name>
 
-	
 	<modules>
 		<module>openwis-harness-subselectionparameters</module>
 		<module>openwis-harness-localdatasource</module>
@@ -21,14 +21,44 @@
 		<module>openwis-harness-dissemination</module>
 	</modules>
 	
+	<dependencyManagement>   
+     <dependencies>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		<version>${cxf.version}</version>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http</artifactId>
+		<version>${cxf.version}</version>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-core</artifactId>
+		<version>${cxf.version}</version>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-databinding-aegis</artifactId>
+		<version>${cxf.version}</version>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-management</artifactId>
+		<version>${cxf.version}</version>
+	  </dependency>
+     </dependencies>
+    </dependencyManagement>
+	
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+	  <pluginManagement>
+		<plugins>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+		  </plugin>
+		</plugins>
+	  </pluginManagement>
 	</build>
 </project>

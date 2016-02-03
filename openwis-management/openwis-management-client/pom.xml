@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<artifactId>openwis-management</artifactId>
-		<groupId>io.openwis.management</groupId>
-		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	  <artifactId>openwis-management</artifactId>
+	  <groupId>io.openwis.management</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
+	</parent>
 
   <groupId>io.openwis.management</groupId>
   <artifactId>openwis-management-client</artifactId>
@@ -15,33 +15,31 @@
   
   <dependencies>
     <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.2</version>
-            <scope>provided</scope>
-        </dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.5.2</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
-  
-  <resources>        
-        <resource>
-            <directory>src/wsdl</directory>
-        </resource>          
-    </resources>
+	<resources>        
+	  <resource>
+		<directory>src/wsdl</directory>
+	  </resource>          
+	</resources>
     
     <plugins>
       <!-- Generate Java sources from WSDL -->
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-codegen-plugin</artifactId>
-        <version>2.1.10</version>
-
+        <version>${cxf.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.cxf</groupId>

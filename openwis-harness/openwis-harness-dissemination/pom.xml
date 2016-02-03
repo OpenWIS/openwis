@@ -1,115 +1,99 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>openwis-harness</artifactId>
-    <groupId>io.openwis.harness</groupId>
-	<version>develop-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
-  </parent>
-  <groupId>io.openwis.harness</groupId>
-  <artifactId>openwis-harness-dissemination</artifactId>
-
-  <name>openwis-harness-dissemination</name>
-  <packaging>jar</packaging>
-  
-  <properties>
-		<cxf.version>2.1.10</cxf.version>
-  </properties>
-
+    <modelVersion>4.0.0</modelVersion>
+	<parent>
+      <artifactId>openwis-harness</artifactId>
+      <groupId>io.openwis.harness</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
+	</parent>
+	
+	<groupId>io.openwis.harness</groupId>
+	<artifactId>openwis-harness-dissemination</artifactId>
+	<name>openwis-harness-dissemination</name>
+	<packaging>jar</packaging>
+ 
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-core</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-databinding-aegis</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-management</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>		
-		
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		<scope>provided</scope>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http</artifactId>
+		<scope>provided</scope>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-core</artifactId>
+		<scope>provided</scope>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-databinding-aegis</artifactId>
+		<scope>provided</scope>
+	  </dependency>
+	  <dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-management</artifactId>
+		<scope>provided</scope>
+	  </dependency>	
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
 	</dependencies>
 
 	<build>
-	
 	   <!-- include the .wsdl-fil and the .java-source-files -->
     <resources>
-        <resource>
-            <directory>src/main/java</directory>            
-        </resource>
-        <resource>
-            <directory>target/generated/src/main/java</directory>
-        </resource>
-        <resource>
-            <directory>src/test/java</directory>
-        </resource>
-        <resource>
-            <directory>src/wsdl</directory>
-        </resource>          
+      <resource>
+        <directory>src/main/java</directory>            
+      </resource>
+      <resource>
+        <directory>target/generated/src/main/java</directory>
+      </resource>
+      <resource>
+        <directory>src/test/java</directory>
+      </resource>
+      <resource>
+        <directory>src/wsdl</directory>
+      </resource>          
     </resources>
 	   
-		<plugins>				
-			<!-- Generate Java classes from WSDL during build -->
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
-
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-xjc-ts</artifactId>
-						<version>${cxf.version}</version>
-					</dependency>
-				</dependencies>
-
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>${basedir}/src/wsdl/DisseminationService.wsdl</wsdl>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-		
+	<plugins>				
+	  <!-- Generate Java classes from WSDL during build -->
+	  <plugin>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-codegen-plugin</artifactId>
+		<version>${cxf.version}</version>
+		<dependencies>
+		  <dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-xjc-ts</artifactId>
+			<version>${cxf.version}</version>
+		  </dependency>
+		</dependencies>
+		<executions>
+		  <execution>
+			<id>generate-sources</id>
+			<phase>generate-sources</phase>
+			<configuration>
+			  <sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>
+			  <wsdlOptions>
+				<wsdlOption>
+				  <wsdl>${basedir}/src/wsdl/DisseminationService.wsdl</wsdl>
+				</wsdlOption>
+			  </wsdlOptions>
+			</configuration>
+			<goals>
+			  <goal>wsdl2java</goal>
+			</goals>
+		  </execution>
+		</executions>
+	  </plugin>
+	</plugins>
 	</build>
 </project>
