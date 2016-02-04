@@ -42,6 +42,7 @@
             <war.name>openwis-user-portal</war.name>
          </properties>
          <build>
+		 <directory>openwis-user-portal</directory>
             <plugins>
                <plugin>
                   <artifactId>maven-resources-plugin</artifactId>
@@ -97,6 +98,7 @@
             <war.name>openwis-admin-portal</war.name>
          </properties>
          <build>
+		 <directory>openwis-admin-portal</directory>
             <plugins>
                <plugin>
                   <artifactId>maven-resources-plugin</artifactId>

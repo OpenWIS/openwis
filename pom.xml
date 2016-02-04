@@ -51,11 +51,7 @@
    
    <profiles>
        <profile>
-         <id>all</id>
-		  <properties>
-			 <admin.module>false</admin.module>	 
-			 <user.module>true</user.module>	 			 
-		  </properties>		 
+         <id>all</id> 
 		 <modules>
 			<module>openwis-harness</module>
 			<module>openwis-management</module>

@@ -62,6 +62,8 @@ The "mvn" command should be available in the terminal, maybe you should add the 
       |+--openwis-securityservice
           |+--openwis-securityservice-war
           |+--openwis-securityservice-utils
+			|+--GenerateSPConfFiles
+			|+--PopulateLDAP
       |+--openwis-stagingpost
       |+--resources
 
@@ -166,7 +168,7 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 
 **#4. Generate the admin portal*	
 	
-In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests -Dfile.encoding=UTF-8`
+In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests -Dfile.encoding=UTF-8`
 **Please note the lack of a "clean" phase. Running a clean will delete any client portals that may have been created.
 
 	[INFO] ------------------------------------------------------------------------
@@ -190,8 +192,8 @@ In a terminal, go to the root directory and launch the command: `mvn install -P 
 * **dataservice config module:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-module.zip
 * **harness client:** <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
 * **security service:** <rootdir>/openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war
-* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-user-portal.war
-* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-admin-portal.war
+* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-user-portal.war
+* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-admin-portal.war
 * **SolR search WAR:** <rootdir>/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
 * **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
