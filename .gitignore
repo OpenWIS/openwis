@@ -5,6 +5,8 @@ target/
 release.properties
 *.log
 *.tag
+openwis-metadataportal/openwis-portal/openwis-admin-portal
+openwis-metadataportal/openwis-portal/openwis-user-portal
 
 # Ignore eclipse files
 .project

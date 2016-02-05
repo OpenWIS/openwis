@@ -66,6 +66,8 @@ The "mvn" command should be available in the terminal, maybe you should add the 
       |+--openwis-securityservice
           |+--openwis-securityservice-war
           |+--openwis-securityservice-utils
+			|+--GenerateSPConfFiles
+			|+--PopulateLDAP
       |+--openwis-stagingpost
       |+--resources
 
@@ -95,7 +97,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the root directory and launch the command: `mvn clean install -P all -DskipTests -Dfile.encoding=UTF-8`
+ In a terminal, go into the root directory and launch the command: `mvn clean install -P openwis -DskipTests -Dfile.encoding=UTF-8`
 
 After few minutes the build should finished successfully like this:
 
@@ -139,37 +141,19 @@ After few minutes the build should finished successfully like this:
 	[INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [4.181s]
 	[INFO] openwis-securityservice-war ........................... SUCCESS [9.657s]
 	[INFO] openwis-stagingpost ................................... SUCCESS [0.327s]
+	[INFO] OpenWIS module ........................................ SUCCESS [36.687s]
 	[INFO] ------------------------------------------------------------------------
 	[INFO] ------------------------------------------------------------------------
 	[INFO] BUILD SUCCESSFUL
 	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 3 minutes 6 seconds
+	[INFO] Total time: 3 minutes 43 seconds
 	[INFO] Finished at: Tue Dec 01 13:24:46 GMT 2015
 	[INFO] Final Memory: 237M/416M
 	[INFO] ------------------------------------------------------------------------	
 	
-**#3. Generate the user portal*
-
-In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
-
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Reactor Summary:
-	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWIS module ........................................ SUCCESS [36.687s]
-	[INFO] OpenWis ............................................... SUCCESS [0.455s]
-	[INFO] ------------------------------------------------------------------------
-	[INFO] ------------------------------------------------------------------------
-	[INFO] BUILD SUCCESSFUL
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 37 seconds
-	[INFO] Finished at: Tue Dec 01 13:25:28 GMT 2015
-	[INFO] Final Memory: 58M/326M
-	[INFO] ------------------------------------------------------------------------
-
-**#4. Generate the admin portal*	
+**#3. Generate the admin portal*	
 	
-In a terminal, go to the root directory and launch the command: `mvn install -P admin -DskipTests -Dfile.encoding=UTF-8`
-**Please note the lack of a "clean" phase. Running a clean will delete any client portals that may have been created.
+In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests -Dfile.encoding=UTF-8`
 
 	[INFO] ------------------------------------------------------------------------
 	[INFO] Reactor Summary:
@@ -185,29 +169,34 @@ In a terminal, go to the root directory and launch the command: `mvn install -P 
 	[INFO] Final Memory: 42M/302M
 	[INFO] ------------------------------------------------------------------------
 
-**#5  Getting built artifacts**
+**#4  Getting built artifacts**
 
 * **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
 * **dataservice configs:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
 * **dataservice config module:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-module.zip
 * **harness client:** <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
 * **security service:** <rootdir>/openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war
-* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-user-portal.war
-* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/target/openwis-admin-portal.war
+* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-portal-user.war
+* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-portal-admin.war
 * **SolR search WAR:** <rootdir>/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
 * **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
-**#6 Changing Verison Number**
+**#5 Changing Verison Number**
 
-In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all,user,admin` or whatever version you wish to change the project to.
-In some cases, you may find that OpenWIS complains about missing dependencies, should this happen try running 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P all' followed by 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P admin'
+In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P openwis` or whatever version you wish to change the project to.
+In some cases, you may find that OpenWIS complains about missing dependencies, should this happen try running 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P openwis' followed by 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P admin'
 
-**#7 Maven Releasing **
+**#6 Maven Releasing **
 
-In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare-Pall -Darguments="-DskipTests"`
+Maven releasing for OpenWIS is two step process as the portal requires the build to be run twice (once for admin portal and once for the user portal).
+
+In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare -Popenwis release:perform -Dgoals="install"' this needs to be followed by a build of the admin portal as desribed in #3
+
+This will not deploy to the CloudBees repo as there are currentl permissions issues
+
  
-**#8 Running SonarQube**
+**#7 Running SonarQube**
  
 In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
 configured in you ~/.m2/settings.xml. 
