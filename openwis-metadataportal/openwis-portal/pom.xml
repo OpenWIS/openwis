@@ -28,7 +28,6 @@
       <geonetwork.webapp.js.dir>${geonetwork.webapp.dir}/scripts</geonetwork.webapp.js.dir>
       <geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
       <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
-      <war.name>openwis-portal</war.name>
       <minify.verbose>false</minify.verbose>
    </properties>
 
@@ -40,6 +39,7 @@
          <id>user</id>
          <properties>
 			<profile-id>user</profile-id>
+			<war.name>openwis-user-portal</war.name>
          </properties>
          <build>
 		 <directory>openwis-user-portal</directory>
@@ -95,6 +95,7 @@
 			<activeByDefault>${admin.module}</activeByDefault>
          </activation>
          <properties>
+		 	<war.name>openwis-admin-portal</war.name>
 			<profile-id>admin</profile-id>
          </properties>
          <build>
