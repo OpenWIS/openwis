@@ -187,7 +187,12 @@ In some cases, you may find that OpenWIS complains about missing dependencies, s
 
 **#6 Maven Releasing **
 
-In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare-Popenwis -Darguments="-DskipTests"` followed by a build of the admin portal
+Maven releasing for OpenWIS is two step process as the portal requires the build to be run twice (once for admin portal and once for the user portal).
+
+In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare -Popenwis release:perform -Dgoals="install"' this needs to be followed by a build of the admin portal as desribed in #3
+
+This will not deploy to the CloudBees repo as there are currentl permissions issues
+
  
 **#7 Running SonarQube**
  
