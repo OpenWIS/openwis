@@ -15,9 +15,15 @@
   <artifactId>openwis-dependencies</artifactId>
   <packaging>pom</packaging>
   <name>openwis-dependencies</name>
-  <description>
-        Various dependencies of the OpenWIS system.
-    </description>
+  <description>Various dependencies of the OpenWIS system.</description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>io.openwis.dataservice</groupId>
+      <artifactId>openwis-dataservice-config</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
