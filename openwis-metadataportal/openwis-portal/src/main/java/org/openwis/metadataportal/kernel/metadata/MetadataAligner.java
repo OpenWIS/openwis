@@ -613,6 +613,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
    /**
        * Ensure product metadata is valid regarding the extracted info and
        * manage the dp case:locally unknown datapolicy in case of GTS category (WMO Additional)
+       * And manage GlobalExchange flag
        */
    private boolean ensureProductMetadataValid(ProductMetadata pm, Metadata md) throws Exception {
       if (!productMetadataManager.isValid(pm)) {
@@ -625,6 +626,7 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
       }
 
       enforceDataPolicy(pm, md, dataPolicyManager);
+      enforceGlobalExchange(productMetadataManager, md, pm);
       
       md.setTitle(pm.getTitle());
       return true;
@@ -676,6 +678,19 @@ public class MetadataAligner extends AbstractManager implements IMetadataAligner
          }
       } else {
          md.setDataPolicy(dp);
+      }
+   }
+   
+   public static void enforceGlobalExchange(IProductMetadataManager pmm, Metadata md, ProductMetadata pm) throws Exception {
+      if ( pmm.isIsoCoreProfile1_3(md)){
+         if (pmm.isGlobalExchange(md)) {
+            pm.setGtsCategory(IProductMetadataExtractor.GLOBAL_EXCHANGE);
+            md.setGtsCategory(IProductMetadataExtractor.GLOBAL_EXCHANGE);
+         }else{
+            pm.setGtsCategory(IProductMetadataExtractor.CORE_PROFILE_1_3_NOT_GLOBAL_EXCHANGE);
+            md.setGtsCategory(IProductMetadataExtractor.CORE_PROFILE_1_3_NOT_GLOBAL_EXCHANGE);
+            
+         }
       }
    }
 

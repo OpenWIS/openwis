@@ -1741,6 +1741,7 @@ public class DataManager implements IndexListener {
 
          // Manage Data Policy
          MetadataAligner.enforceDataPolicy(pm, metadata, dpm);
+         MetadataAligner.enforceGlobalExchange(pmm, metadata, pm);
          
          new ProductMetadataManager().saveOrUpdate(pm);
          long after = System.currentTimeMillis();

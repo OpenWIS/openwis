@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>openwis</artifactId>
+    <groupId>io.openwis</groupId>
+    <version>develop-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <!-- =========================================================== -->
+  <!-- Module Description -->
+  <!-- =========================================================== -->
+  <groupId>io.openwis</groupId>
+  <artifactId>openwis-dependencies</artifactId>
+  <packaging>pom</packaging>
+  <name>openwis-dependencies</name>
+  <description>Various dependencies of the OpenWIS system.</description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>io.openwis.dataservice</groupId>
+      <artifactId>openwis-dataservice-config</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <finalName>openwis</finalName>
+          <descriptors>
+            <descriptor>src/main/assembly/dependencies.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

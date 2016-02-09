@@ -132,8 +132,7 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
             + "gmd:CI_Citation/gmd:title/gco:CharacterString";
       String title = Xml.selectString(metadata.getData(), xpath, nsListGMDGCO);
       title = StringUtils.abbreviate(title, MAX_LENGTH_TITLE);
-      Log.info(Geonet.EXTRACT_PRODUCT_METADATA,
-            MessageFormat.format("Extracted Title: {0}", title));
+      Log.info(Geonet.EXTRACT_PRODUCT_METADATA, MessageFormat.format("Extracted Title: {0}", title));
       return title;
    }
 
@@ -176,6 +175,33 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
       return recurrentUpdateFrequency;
    }
 
+   @Override
+   public boolean isGlobalExchange(Metadata metadata) throws Exception {
+      final String xpath = "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[gco:CharacterString/text() = 'GlobalExchange']";
+      Element keywordElt = Xml.selectElement(metadata.getData(), xpath, nsListGMDGCO);
+      if (keywordElt != null) {
+         Log.info(Geonet.EXTRACT_PRODUCT_METADATA, "Found GlobalExchange Keyword");
+         return true;
+      }
+      return false;
+   }
+
+   @Override
+   public boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception {
+      String xpathStandardName = "gmd:metadataStandardName/gco:CharacterString";
+      String standardName = Xml.selectString(metadata.getData(), xpathStandardName, nsListGMDGCO);
+      if (standardName != null && standardName.startsWith("WMO Core Metadata Profile")) {
+         String xpathStandardVersion = "gmd:metadataStandardVersion/gco:CharacterString";
+         String standardVersion = Xml.selectString(metadata.getData(), xpathStandardVersion, nsListGMDGCO);
+         //metadata is wmo core profile 1.3 or higher
+         int resultCmp = standardVersion.compareTo("1.3");
+         if (resultCmp>0 || resultCmp == 0){
+            Log.info(Geonet.EXTRACT_PRODUCT_METADATA, "Found wmo core profile 1.3 or higher");
+            return true;
+         }
+      }
+      return false;
+   }
    /**
     * !! FNC Pattern and URN must be set before processing GTS Category.
     * This allows to ignore patterns in some cases.
@@ -188,8 +214,9 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
    @Override
    @SuppressWarnings("unchecked")
    public void extractGTSCategoryGTSPriorityAndDataPolicy(Metadata metadata, ProductMetadata pm)
-         throws JDOMException {
-      List<String> xpathList = OpenwisMetadataPortalConfig.getList(ConfigurationConstants.EXTRACT_XPATH);
+         throws Exception {
+      List<String> xpathList = OpenwisMetadataPortalConfig
+            .getList(ConfigurationConstants.EXTRACT_XPATH);
       List<Element> useLimitationElts = new ArrayList<Element>();
       for (String xpath : xpathList) {
          useLimitationElts.addAll((List<Element>) Xml.selectNodes(metadata.getData(), xpath,
@@ -212,7 +239,7 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
             pm.setGtsCategory(useLimitationStr);
             // Extract the datapolicy
             pm.setDataPolicy(extractDatapolicy(useLimitationStr, metadata.getData()));
-            
+
             Log.info(Geonet.EXTRACT_PRODUCT_METADATA, MessageFormat.format(
                   "Extracted GTS Category: {0} - Data Policy: {1}", useLimitationStr,
                   pm.getDataPolicy()));
@@ -244,26 +271,28 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
             pm.setGtsCategory(otherDP);
          }
       }
-      
-      checkFNCPattern(pm, isGlobal);
+
+      checkFNCPattern(pm, metadata, isGlobal);
    }
-   
+
    /**
     * Check if FNC Pattern should be ignored, which occurs in the following cases:
-    * - the md is not Global
+    * - the md is not Global (including globalExchange)
     * - the md URN matches a given regexp
+    * @throws Exception 
     */
-   private void checkFNCPattern(ProductMetadata pm, boolean isGlobal) {
+   private void checkFNCPattern(ProductMetadata pm, Metadata m, boolean isGlobal) throws Exception {
       if (pm.getFncPattern() == null) {
          return;
       }
-      if (!isGlobal) {
+      if (!isGlobal && !isGlobalExchange(m)) {
          Log.info(Geonet.EXTRACT_PRODUCT_METADATA, "FNC Pattern ignored for non Global product");
          pm.setFncPattern(null);
       } else {
          // Check URN matches exclude pattern
          if (Pattern.matches(URN_PATTERN_FOR_IGNORED_FNC_PATTERN, pm.getUrn())) {
-            Log.info(Geonet.EXTRACT_PRODUCT_METADATA, "FNC Pattern ignored because of URN exclude pattern");
+            Log.info(Geonet.EXTRACT_PRODUCT_METADATA,
+                  "FNC Pattern ignored because of URN exclude pattern");
             pm.setFncPattern(null);
          }
       }
@@ -277,9 +306,9 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
    private void assignUnkownDataPolicy(ProductMetadata pm) {
       Log.warning(Geonet.EXTRACT_PRODUCT_METADATA,
             "Unable to extract the GTS category (and Data Policy)");
-      Log.info(Geonet.EXTRACT_PRODUCT_METADATA, MessageFormat.format(
-            "Assigning GTS Category: {0} - Data Policy: {1}", GTS_CATEGORY_NONE,
-            UNKNOWN_DATAPOLICY));
+      Log.info(Geonet.EXTRACT_PRODUCT_METADATA, MessageFormat
+            .format("Assigning GTS Category: {0} - Data Policy: {1}", GTS_CATEGORY_NONE,
+                  UNKNOWN_DATAPOLICY));
       pm.setGtsCategory(GTS_CATEGORY_NONE);
       pm.setDataPolicy(UNKNOWN_DATAPOLICY);
    }
@@ -319,7 +348,7 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
          Log.info(Geonet.EXTRACT_PRODUCT_METADATA,
                MessageFormat.format("Extracted GTS Priority: {0}", priority));
       }
-         
+
       return priority;
    }
 
@@ -373,4 +402,5 @@ public class ProductMetadataISO19139Extractor implements IProductMetadataExtract
 
       return result;
    }
+   
 }

@@ -66,6 +66,7 @@
 			<module>openwis-metadataportal</module>
 			<module>openwis-securityservice</module>
 			<module>openwis-stagingpost</module>
+            <module>openwis-dependencies</module>
          </modules>
       </profile>
       <profile>

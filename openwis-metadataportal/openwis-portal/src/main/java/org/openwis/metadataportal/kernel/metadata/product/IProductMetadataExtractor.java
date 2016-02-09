@@ -65,6 +65,8 @@ public interface IProductMetadataExtractor {
     */
    void extractGTSCategoryGTSPriorityAndDataPolicy(Metadata metadata, ProductMetadata pm) throws Exception;
 
+   boolean isGlobalExchange(Metadata metadata) throws Exception;
+   
    /**
     * The GTS Category Additional.
     */
@@ -94,6 +96,17 @@ public interface IProductMetadataExtractor {
     * The Unknown Data policy.
     */
    static final String UNKNOWN_DATAPOLICY = "unknown";
+   
+   /**
+    * GlobalExchange flag
+    */
+   static final String GLOBAL_EXCHANGE = "GlobalExchange";
+   
+   /**
+    * CoreProfile1.3NotGlobalExchange flag
+    */
+   static final String CORE_PROFILE_1_3_NOT_GLOBAL_EXCHANGE = "";
+
    
    /**
     * Default priority.
@@ -140,4 +153,6 @@ public interface IProductMetadataExtractor {
     * Max string length for Originator
     */
    static final int MAX_LENGTH_LOCAL_DATASOURCE = 255;
+
+   boolean isIsoCoreProfile1_3(Metadata metadata) throws Exception;
 }
