@@ -38,10 +38,15 @@
    <profiles>
       <profile>
          <id>user</id>
+		 <activation>
+			<activeByDefault>${user.module></activeByDefault>
+		 </activation>
          <properties>
-            <war.name>openwis-user-portal</war.name>
+			<war.name>openwis-user-portal</war.name>
+			<profile-id>user</profile-id>
          </properties>
          <build>
+		 <directory>openwis-user-portal</directory>
             <plugins>
                <plugin>
                   <artifactId>maven-resources-plugin</artifactId>
@@ -90,20 +95,22 @@
       </profile>
       <profile>
          <id>admin</id>
-         <activation>
-			<activeByDefault>${admin.module}</activeByDefault>
-         </activation>
+		 <activation>
+			<activeByDefault>${admin.module></activeByDefault>
+		 </activation>
          <properties>
-            <war.name>openwis-admin-portal</war.name>
+		    <war.name>openwis-admin-portal</war.name>
+			<profile-id>admin</profile-id>
          </properties>
          <build>
+		 <directory>openwis-admin-portal</directory>
             <plugins>
                <plugin>
                   <artifactId>maven-resources-plugin</artifactId>
                   <version>2.4.3</version>
                   <executions>
                      <execution>
-                        <id>copy-userPortal-resources</id>
+                        <id>copy-adminPortal-resources</id>
                         <phase>initialize</phase>
                         <goals>
                            <goal>copy-resources</goal>
@@ -156,6 +163,7 @@
                <attachClasses>true</attachClasses>
                <warName>${war.name}</warName>
                <webappDirectory>${geonetwork.webapp.target.dir}</webappDirectory>
+			   <classifier>${profile-id}</classifier>
             </configuration>
          </plugin>
          
