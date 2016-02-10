@@ -5,7 +5,7 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-	  <version>3.14.2-SNAPSHOT</version>
+	  <version>3.14.2</version>
 	  <relativePath>../pom.xml</relativePath>
    </parent>
 
@@ -39,7 +39,7 @@
       <profile>
          <id>user</id>
 		 <activation>
-			<activeByDefault>${user.module></activeByDefault>
+			<activeByDefault>${user.module&gt;</activeByDefault>
 		 </activation>
          <properties>
 			<war.name>openwis-user-portal</war.name>
@@ -96,7 +96,7 @@
       <profile>
          <id>admin</id>
 		 <activation>
-			<activeByDefault>${admin.module></activeByDefault>
+			<activeByDefault>${admin.module&gt;</activeByDefault>
 		 </activation>
          <properties>
 		    <war.name>openwis-admin-portal</war.name>
