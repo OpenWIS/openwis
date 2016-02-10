@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.geonetwork-opensource</groupId>
     <artifactId>geonetwork</artifactId>
-	<version>3.13.5-SNAPSHOT</version>
+	<version>3.14.2</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   
@@ -16,7 +16,6 @@
   <groupId>org.geonetwork-opensource</groupId>
   <artifactId>cachingxslt</artifactId>
   <packaging>jar</packaging>
-  <version>develop-SNAPSHOT</version>
   <name>Caching xslt module</name>
   <description>
     Caching xslt project.

@@ -26,17 +26,20 @@
 			<xsl:apply-templates select="gmd:MD_Metadata" mode="metadata" />
 			
 			<!-- isGlobal -->
+			<xsl:for-each select="//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[gco:CharacterString/text() = 'GlobalExchange']">">
+					<field name="_isGlobal">true</field>
+			</xsl:for-each>
 			<xsl:for-each select="//gmd:MD_LegalConstraints/*">
-				<xsl:if
+				<xsl:if 
 					test="(name(.)='gmd:useLimitation' or name(.)='gmd:otherConstraints') and 
 						(contains(string(./gco:CharacterString),'WMO Essential')
-                        or contains(string(./gco:CharacterString),'WMOEssential')
-                        or contains(string(./gco:CharacterString),'WMOAdditional') 
+	                       or contains(string(./gco:CharacterString),'WMOEssential')
+	                       or contains(string(./gco:CharacterString),'WMOAdditional') 
 						or contains(string(./gco:CharacterString),'WMO Additional'))">
 					<field name="_isGlobal">true</field>
 				</xsl:if>
 			</xsl:for-each>
-
+			
 			<!-- OpenWIS distribution / online resources -->
 			<xsl:for-each select="//gmd:CI_OnlineResource">
 				
