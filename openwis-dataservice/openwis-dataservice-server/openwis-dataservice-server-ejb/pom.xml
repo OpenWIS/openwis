@@ -7,7 +7,7 @@
 		<version>3.14.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
+	
 	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-ejb</artifactId>
 	<name>openwis-dataservice-server-ejb</name>
@@ -16,14 +16,14 @@
 	<properties>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 		<version.org.apache.openejb_openejb.core>3.1.3</version.org.apache.openejb_openejb.core>
-		<cxf.version>2.2.10</cxf.version>
+
 	</properties>
 
 	<dependencies>
          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
          </dependency>
 		<dependency>
@@ -207,7 +207,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>3.4.0.GA</version>
+					<version>${hibernate.version}</version>
 					<scope>test</scope>
 					<exclusions>
 						<exclusion>

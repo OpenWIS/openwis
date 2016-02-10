@@ -29,7 +29,6 @@
       <geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
       <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
       <minify.verbose>false</minify.verbose>
-      <solr.version>1.4.1</solr.version>
    </properties>
 
     <!-- =========================================================== -->
@@ -42,8 +41,8 @@
 			<activeByDefault>${user.module&gt;</activeByDefault>
 		 </activation>
          <properties>
-			<war.name>openwis-user-portal</war.name>
 			<profile-id>user</profile-id>
+			<war.name>openwis-user-portal</war.name>
          </properties>
          <build>
 		 <directory>openwis-user-portal</directory>
