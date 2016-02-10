@@ -159,7 +159,8 @@
 					<localCheckout>true</localCheckout>
 					<preparationGoals>clean install</preparationGoals>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<!--<updateWorkingCopyVersions>false</updateWorkingCopyVersions>-->
+					<!--This is set so not to break Maven releasings in Jenkins-->
+					<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
 				</configuration>
                 <executions>
                     <execution>

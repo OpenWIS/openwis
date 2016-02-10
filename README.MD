@@ -6,8 +6,8 @@ OpenWIS is an implementation of WMO Information System (WIS) and aims to perform
 
 ##1. Requirements
 
-* Oracle JDK 1.7
-* Maven 2.2.1
+* Open JDK 1.7
+* Maven 3.1.1
 
 ###Environment variables:
 
@@ -148,10 +148,35 @@ After few minutes the build should finished successfully like this:
 	[INFO] Finished at: Tue Dec 01 13:24:46 GMT 2015
 	[INFO] Final Memory: 237M/416M
 	[INFO] ------------------------------------------------------------------------	
+
+**#3. Generate the user portal*	
 	
-**#3. Generate the admin portal*	
+Although the openwis profile builds the OpenWIS portal, its inclusion is to make releasing and versioning easier. You may find that generate the correct artifacts in the expected places, 
+you may need to rebuild the user portal.
+
+Please note that the file produced is called openwis-user-portal-user.war and the name required for deployments is openwis-user-portal.war
+
+In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
+
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Reactor Summary:
+	[INFO] ------------------------------------------------------------------------
+	[INFO] OpenWIS module ........................................ SUCCESS [26.004s]
+	[INFO] OpenWis ............................................... SUCCESS [0.402s]
+	[INFO] ------------------------------------------------------------------------
+	[INFO] ------------------------------------------------------------------------
+	[INFO] BUILD SUCCESSFUL
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Total time: 26 seconds
+	[INFO] Finished at: Tue Dec 01 13:25:56 GMT 2015
+	[INFO] Final Memory: 42M/302M
+	[INFO] ------------------------------------------------------------------------	
+	
+**#4. Generate the admin portal*	
 	
 In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests -Dfile.encoding=UTF-8`
+
+Please note that the file produced is called openwis-admin-portal-admin.war and the name required for deployments is openwis-admin-portal.war
 
 	[INFO] ------------------------------------------------------------------------
 	[INFO] Reactor Summary:
@@ -167,7 +192,7 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 	[INFO] Final Memory: 42M/302M
 	[INFO] ------------------------------------------------------------------------
 
-**#4  Getting built artifacts**
+**#5  Getting built artifacts**
 
 * **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
 * **dataservice configs:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
@@ -180,20 +205,19 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
 * **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
-**#5 Changing Verison Number**
+**#6 Changing Verison Number**
 
 In a terminal, go into the root directory and launch the command: `mvn --batch-mode release:update-versions -DdevelopmentVersion=0.0.1-SNAPSHOT -P openwis` or whatever version you wish to change the project to.
 
-**#6 Maven Releasing **
+**#7 Maven Releasing **
 
 Maven releasing for OpenWIS is two step process as the portal requires the build to be run twice (once for admin portal and once for the user portal).
 
-In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare -Popenwis release:perform -Dgoals="install"' this needs to be followed by a build of the admin portal as desribed in #3
+In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare -Popenwis"' this needs to be followed by a build of the admin and user portals as desribed in #3 and #4
 
-This will not deploy to the CloudBees repo as there are currentl permissions issues
+A 'maven release:perform' will not deploy to the CloudBees repos as there are currently permissions issues.
 
- 
-**#7 Running SonarQube**
+**#8 Running SonarQube**
  
 In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
 configured in you ~/.m2/settings.xml. 
