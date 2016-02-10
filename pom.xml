@@ -260,42 +260,6 @@
 		  <name>Martin Gollogly</name>
 		  <organization>SciSys</organization>
 		</developer>
-		<developer>
-		  <name>Yannick Lizzi</name>
-		 <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Laurent Baresse</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Mathieu Coudert</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Nicolas Guerrier</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Florin Racaru</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Alexia Audevart</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Julien Baillagou</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Igor Laborie</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-		  <name>Nelly Sayer</name>
-		  <organization>AKKA Technologies</organization>
-		</developer>
 	</developers>
    
 	<pluginRepositories>
@@ -307,14 +271,14 @@
 	</pluginRepositories>
 	   
     <repositories>
-	  <repository>
+	  <!--<repository>
 		 <id>openwis-releases</id>
 		 <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
 	  </repository>
 	  <repository>
 		 <id>openwis-snapshot</id>
 		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
-	  </repository>
+	  </repository>-->
 	  <repository>
 		 <id>openqa-releases</id>
 		 <url>http://nexus.openqa.org/content/repositories/releases</url>
