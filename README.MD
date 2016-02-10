@@ -182,8 +182,7 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 
 **#5 Changing Verison Number**
 
-In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P openwis` or whatever version you wish to change the project to.
-In some cases, you may find that OpenWIS complains about missing dependencies, should this happen try running 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P openwis' followed by 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P admin'
+In a terminal, go into the root directory and launch the command: `mvn --batch-mode release:update-versions -DdevelopmentVersion=0.0.1-SNAPSHOT -P openwis` or whatever version you wish to change the project to.
 
 **#6 Maven Releasing **
 
