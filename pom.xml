@@ -119,6 +119,12 @@
 		  <artifactId>javaee</artifactId>
 		  <version>${javaee.version}</version>
         </dependency> 
+		<dependencies>
+          <dependency>
+			<groupId>org.owasp</groupId>
+			<artifactId>dependency-check-maven</artifactId>
+			<version>1.3.4</version>
+         </dependency>
       </dependencies>
     </dependencyManagement>
     
@@ -164,6 +170,12 @@
 	                </archive>
 	            </configuration>
             </plugin>
+               <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+               <version>1.3.4</version>
+            </plugin>
+       
 			
 			<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
 			<!-- 02/07/14 Shaun Adams UK Met Office-->
@@ -313,4 +325,14 @@
 		<url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
 	  </snapshotRepository>
 	</distributionManagement>  
+
+	<reporting>
+      <plugins>
+		<plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>1.3.4</version>
+		</plugin>
+      </plugins>
+    </reporting> 
 </project>
