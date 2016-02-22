@@ -10,6 +10,7 @@
 
   <groupId>io.openwis.management.service</groupId>
   <artifactId>openwis-management-service</artifactId>
+  <version>3.14.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>OpenWIS Management Service</description>
   <name>openwis-management-service</name>

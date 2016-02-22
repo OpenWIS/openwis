@@ -9,6 +9,7 @@
 
   <groupId>io.openwis.management</groupId>
   <artifactId>openwis-management-client</artifactId>
+  <version>3.14.4-SNAPSHOT</version>
 
   <description>OpenWIS Management Client</description>
   <name>openwis-management-client</name>

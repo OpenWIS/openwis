@@ -10,6 +10,7 @@
 	
 	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-ejb</artifactId>
+  <version>3.14.4-SNAPSHOT</version>
 	<name>openwis-dataservice-server-ejb</name>
 	<packaging>jar</packaging>
 
