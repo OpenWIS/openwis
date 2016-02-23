@@ -22,8 +22,8 @@
       </init-param>
       
       <init-param>
-         <param-name>globalXsltFile</param-name>
-         <param-value>/var/opt/openwis/stagingPost/WEB-INF/globalXsltFile.xsl</param-value>
+         <param-name>contextXsltFile</param-name>
+         <param-value>WEB-INF/globalXsltFile.xsl</param-value>
       </init-param>
 
       <load-on-startup>1</load-on-startup>
