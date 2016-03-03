@@ -16,6 +16,7 @@
    <groupId>org.geonetwork-opensource</groupId>
    <artifactId>openwis-portal</artifactId>
    <packaging>war</packaging>
+   <version>3.14.4-SNAPSHOT</version>
    <name>OpenWIS module</name>
    
    <description>
