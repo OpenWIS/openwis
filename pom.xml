@@ -3,7 +3,7 @@
 	
 	<groupId>io.openwis</groupId>
 	<artifactId>openwis</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>3.14.2</version>
 	<packaging>pom</packaging>
 	<name>OpenWIS</name>
    
@@ -14,7 +14,7 @@
    <scm>
       <connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
       <developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>openwis-3.14.2-release</tag>
       <url>https://github.com/OpenWIS/openwis</url>
    </scm>
    
@@ -51,11 +51,11 @@
    
    <profiles>
        <profile>
-         <id>all</id>
-		  <properties>
+         <id>openwis</id>
+		 <properties>
 			 <admin.module>false</admin.module>	 
 			 <user.module>true</user.module>	 			 
-		  </properties>		 
+		 </properties>		 
 		 <modules>
 			<module>openwis-harness</module>
 			<module>openwis-management</module>
@@ -64,16 +64,17 @@
 			<module>openwis-metadataportal</module>
 			<module>openwis-securityservice</module>
 			<module>openwis-stagingpost</module>
+			<module>openwis-metadataportal/openwis-portal</module>
             <module>openwis-dependencies</module>
          </modules>
       </profile>
-      <profile>
+	  <profile>
          <id>user</id>
-		  <properties>
-			 <admin.module>false</admin.module>	 
-			 <user.module>true</user.module>	 			 
-		  </properties>		 
-		 <modules>
+		 <properties>
+			 <admin.module>false</admin.module>
+			 <user.module>true</user.module>			 
+	     </properties>
+         <modules>
             <module>openwis-metadataportal/openwis-portal</module>
          </modules>
       </profile>
@@ -120,6 +121,12 @@
 	                </archive>
 	            </configuration>
             </plugin>
+               <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+               <version>1.3.4</version>
+            </plugin>
+       
 			
 			<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
 			<!-- 02/07/14 Shaun Adams UK Met Office-->
@@ -158,7 +165,8 @@
 					<pushChanges>true</pushChanges>
 					<localCheckout>true</localCheckout>
 					<preparationGoals>clean install</preparationGoals>
-					<autoVersionSubmodules>true</autoVersionSubmodules>		
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
 				</configuration>
                 <executions>
                     <execution>
@@ -172,6 +180,16 @@
          </plugins>
       </pluginManagement>
    </build>
+
+    <dependencyManagement>
+     <dependencies>
+       <dependency>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>1.3.4</version>
+       </dependency>
+     </dependencies>
+    </dependencyManagement>
    
 	<developers>
 		<developer>
@@ -303,5 +321,16 @@
 		  <name>OpenWIS Snapshot Repository</name>
 		  <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
 		</snapshotRepository>
-	 </distributionManagement>  
+	 </distributionManagement> 
+
+	<reporting>
+     <plugins>
+       <plugin>
+         <groupId>org.owasp</groupId>
+         <artifactId>dependency-check-maven</artifactId>
+         <version>1.3.4</version>
+       </plugin>
+ 
+     </plugins>
+   </reporting> 
 </project>
