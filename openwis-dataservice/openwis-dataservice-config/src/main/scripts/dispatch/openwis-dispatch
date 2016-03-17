@@ -1,0 +1,73 @@
+#!/bin/sh
+#
+# Startup script for OpenWIS dispatcher
+# The dispatcher copies files coming from GTS to proper directories
+# for further ingestion and replication
+#
+# chkconfig:   - 80 20
+# description: This scripts start/stop Dispatch
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+lockfile=/var/lock/subsys/openwis-dispatch
+
+OPENWIS_HOME="/home/openwis"
+DISPATCH_PID="$OPENWIS_HOME/dispatch.pid"
+
+start(){
+        echo "Starting dispatcher..."
+        runuser - openwis -c './start_openwis_dispatch.sh'
+        RETVAL=$?
+        [ $RETVAL = 0 ] && touch ${lockfile}
+        return $RETVAL
+}
+
+stop(){
+        echo "Stopping dispatcher..."
+        runuser - openwis -c './stop_openwis_dispatch.sh'
+        RETVAL=$?
+        [ $RETVAL = 0 ] && rm -f ${lockfile}
+}
+
+restart(){
+        stop
+        start
+}
+
+status() {
+    if [ -e $DISPATCH_PID ]
+    then
+      ps -p `cat $DISPATCH_PID` &> /dev/null
+      if [ $? = 0 ]
+      then
+        echo "Dispatch is running"
+        return 0
+      fi
+    fi
+    
+    echo "Dispatch is NOT running"
+    return 1
+}
+
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo "Usage: openwis-dispatch {start|stop|restart|status}"
+        exit 1
+esac
+
+exit $? 
+
