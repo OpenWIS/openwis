@@ -58,6 +58,7 @@
 	   Set<OperationEnum> ops;
 	   List<RelatedMetadataDTO> relatedMds;
 	   String title;
+	   String titleForHtml;
 	   String titleForJs;
 	   String abst;
 	   String source;
@@ -67,6 +68,7 @@
 	     pageContext.setAttribute("doc",doc);
 	     id = doc.getId();
 	     title = doc.getFieldAsString(IndexField._TITLE);
+	     titleForHtml = StringEscapeUtils.escapeHtml(title);
 	     titleForJs = StringEscapeUtils.escapeJavaScript(title);
 	     keywords = doc.getFieldAsListOfString(IndexField.KEYWORD);
 	     abst = doc.getFieldAsString(IndexField.ABSTRACT);
@@ -183,7 +185,7 @@
 					<% if ("true".equals(doc.getField(IndexField.STOP_GAP))) { %>
 					<span><openwis:i18n key="HomePage.Search.Result.Draft"/></span>
 					<% } %>
-					<%=title%>
+					<%=titleForHtml%>
 				</div>
 				<% } else { %>
 				<div class="hittitle" style="font-style: italic;">
@@ -353,7 +355,7 @@
 				</div>
 
 				<div class="abstract1">
-					<%=StringUtils.abbreviate(abst,200) %>
+					<%=StringEscapeUtils.escapeHtml(StringUtils.abbreviate(abst,200)) %>
 				</div>
 			</div>
 			<% } %>
