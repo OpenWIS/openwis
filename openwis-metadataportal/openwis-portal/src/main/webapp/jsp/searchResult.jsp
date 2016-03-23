@@ -304,10 +304,14 @@
 										if(otherActionInfo.length > 2) {
 										   otherActionTooltip += " " + otherActionInfo[2];
 										}
+										
+										String otherActionNameForHtml = StringEscapeUtils.escapeHtml(otherActionName);
+										String otherActionTooltipForHtml = StringEscapeUtils.escapeHtml(otherActionTooltip);
+										String otherActionUrlForHtml = StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(otherActionUrl));
 								   %>
-								 		<div style="cursor:pointer;" class="otherActionTarget" onClick='window.open("<%=otherActionUrl%>")'>
-											<a style="font-size: 10px;" title="<%= otherActionTooltip %>">
-												<%=otherActionName %>
+								 		<div style="cursor:pointer;" class="otherActionTarget" onClick='window.open("<%=otherActionUrlForHtml%>")'>
+											<a style="font-size: 10px;" title="<%= otherActionTooltipForHtml %>">
+												<%= otherActionNameForHtml %>
 											</a>
 										</div>
 							   
@@ -369,7 +373,7 @@
 				</div>
 				<div class="keywords">
 					<% for (String kw : keywords) { %>
-					<%=kw%>
+					<%=StringEscapeUtils.escapeHtml(kw)%>
 					<% } %>
 				</div>
 			</div>
