@@ -179,15 +179,15 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
                 view: this.getCurrentProcessedRequestsGridView(),
                 loadMask: true,
                 columns: [
-                    {id:'statusImg', header:'', dataIndex:'status', renderer: Openwis.Common.Request.Utils.statusRendererImg, width: 50, sortable: false},
+                    {id:'statusImg', header:'', dataIndex:'status', renderer: Openwis.Common.Request.Utils.statusRendererImg, width: 30, sortable: false},
                     {id:'requestType', header:'', dataIndex:'requestType', renderer: Openwis.Common.Request.Utils.requestTypeRenderer, width: 20, sortable: false},
                     {id:'user', header: Openwis.i18n('MonitorCurrentRequests.User'), dataIndex:'user', sortable: true, hideable:false},
-                    {id:'title', header: Openwis.i18n('MonitorCurrentRequests.ProductMetadata.Title'), dataIndex:'title', sortable: true, hideable:false},
+                    {id:'title', header: Openwis.i18n('MonitorCurrentRequests.ProductMetadata.Title'), dataIndex:'title', sortable: true, hideable:false, width: 100},
                     {id:'id', header: Openwis.i18n('MonitorCurrentRequests.Request.ID'), dataIndex:'id', sortable: true, hideable:false, width: 80},
+                    {id:'processedRequestID', header: Openwis.i18n('MonitorCurrentRequests.ProcessRequest.ID'), dataIndex:'processedRequestID', sortable: true, hideable:false, width: 80},
                     {id:'status', header: Openwis.i18n('MonitorCurrentRequests.Status'), dataIndex: 'status', renderer: Openwis.Common.Request.Utils.statusRenderer, width: 50, sortable: true},
                     {id: 'size', header:  Openwis.i18n('MonitorCurrentRequests.Volume'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 80, sortable: true},
-                    {id:'creationDate', header: Openwis.i18n('MonitorCurrentRequests.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true},
-                    {id:'dataSource', header: Openwis.i18n('MonitorCurrentRequests.DataSource'), dataIndex:'dataSource', sortable: true, hideable:false}
+                    {id:'creationDate', header: Openwis.i18n('MonitorCurrentRequests.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true}
                 ],
                 autoExpandColumn: 'title',
                 sm: new Ext.grid.RowSelectionModel({
@@ -249,7 +249,7 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 					{name: 'requestType', mapping: 'requestType'},
 					{name: 'processedRequestID', mapping: 'processedRequestDTO.id'},
                     {name: 'user', mapping: 'userName', sortType: Ext.data.SortTypes.asUCString},
-                    {name: 'title', mapping: 'productMetadataTitle', sortType: Ext.data.SortTypes.asUCString},
+                    {name: 'title', mapping: 'productMetadataURN', sortType: Ext.data.SortTypes.asUCString},
                     {name: 'creationDate', mapping:'processedRequestDTO.creationDate'},
                     {name: 'status', mapping:'processedRequestDTO.status'},
                     {name: 'size', mapping:'processedRequestDTO.size'},
@@ -331,7 +331,7 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
     			columns: [
     			    {id: 'statusImg', header:'', dataIndex:'state', renderer: Openwis.Common.Request.Utils.stateRendererImg, width: 50, sortable: false},
     				{id:'user', header: Openwis.i18n('MonitorCurrentRequests.User'), dataIndex:'user', sortable: true, hideable:false},
-                    {id: 'title', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Title'), dataIndex: 'title', sortable: true},
+                    {id: 'title', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Title'), dataIndex: 'urn', sortable: true},
                     {id: 'id', header: Openwis.i18n('TrackMySubscriptions.Subscription.ID'), dataIndex: 'id', width: 100, sortable: true},
                     {id: 'creationDate', header: Openwis.i18n('TrackMySubscriptions.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true},
                     {id: 'lastProcessingDate', header:  Openwis.i18n('TrackMySubscriptions.LastEventDate'), dataIndex: 'lastProcessingDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: false}

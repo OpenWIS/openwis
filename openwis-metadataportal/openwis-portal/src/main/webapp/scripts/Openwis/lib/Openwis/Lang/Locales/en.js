@@ -905,6 +905,7 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.User' : 'User',
     'MonitorCurrentRequests.ProductMetadata.Title' : 'Product',
     'MonitorCurrentRequests.Request.ID' : 'Request ID',
+    'MonitorCurrentRequests.ProcessRequest.ID' : 'Process ID',
     'MonitorCurrentRequests.Status' : 'Status',
     'MonitorCurrentRequests.Volume' : 'Volume',
     'MonitorCurrentRequests.CreationDate' : 'Creation Date', 
