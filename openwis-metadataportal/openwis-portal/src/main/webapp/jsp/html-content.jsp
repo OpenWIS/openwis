@@ -1,6 +1,6 @@
 <%@page import="jeeves.server.context.ServiceContext"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="jeeves.server.context.ServiceContext"%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -37,7 +37,7 @@
       %>
         <jsp:include page="<%= contentPage %>"></jsp:include>
       <% } else { %>
-        <div class="errorMsg">ERROR: <%= message %>
+        <div class="errorMsg">ERROR: <%= StringEscapeUtils.escapeHtml(message) %>
         	<br><br><br>
 	        <%
 	        if (needLogout != null) {

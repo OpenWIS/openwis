@@ -2,6 +2,8 @@
 <%@page import="jeeves.server.UserSession"%>
 <%@page import="org.openwis.metadataportal.services.login.LoginConstants"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
+
 
 	<script type="text/javascript" language="JavaScript">
 	    var remoteSearch = {};
@@ -42,7 +44,7 @@
 	  	if (urnParam != null && urnParam.length() > 0) {
 	  %>
 		   	remoteSearch.url = "<%=request.getContextPath()%>" + "/srv/en/main.search.embedded";
-		   	remoteSearch.urn = "<%= urnParam %>";
+		   	remoteSearch.urn = "<%= StringEscapeUtils.escapeJavaScript(urnParam) %>";
 	  <%
 	  	}
 	  %>

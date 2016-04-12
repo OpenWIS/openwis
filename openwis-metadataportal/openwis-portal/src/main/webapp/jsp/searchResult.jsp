@@ -58,6 +58,7 @@
 	   Set<OperationEnum> ops;
 	   List<RelatedMetadataDTO> relatedMds;
 	   String title;
+	   String titleForHtml;
 	   String titleForJs;
 	   String abst;
 	   String source;
@@ -67,6 +68,7 @@
 	     pageContext.setAttribute("doc",doc);
 	     id = doc.getId();
 	     title = doc.getFieldAsString(IndexField._TITLE);
+	     titleForHtml = StringEscapeUtils.escapeHtml(title);
 	     titleForJs = StringEscapeUtils.escapeJavaScript(title);
 	     keywords = doc.getFieldAsListOfString(IndexField.KEYWORD);
 	     abst = doc.getFieldAsString(IndexField.ABSTRACT);
@@ -183,7 +185,7 @@
 					<% if ("true".equals(doc.getField(IndexField.STOP_GAP))) { %>
 					<span><openwis:i18n key="HomePage.Search.Result.Draft"/></span>
 					<% } %>
-					<%=title%>
+					<%=titleForHtml%>
 				</div>
 				<% } else { %>
 				<div class="hittitle" style="font-style: italic;">
@@ -302,10 +304,14 @@
 										if(otherActionInfo.length > 2) {
 										   otherActionTooltip += " " + otherActionInfo[2];
 										}
+										
+										String otherActionNameForHtml = StringEscapeUtils.escapeHtml(otherActionName);
+										String otherActionTooltipForHtml = StringEscapeUtils.escapeHtml(otherActionTooltip);
+										String otherActionUrlForHtml = StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(otherActionUrl));
 								   %>
-								 		<div style="cursor:pointer;" class="otherActionTarget" onClick='window.open("<%=otherActionUrl%>")'>
-											<a style="font-size: 10px;" title="<%= otherActionTooltip %>">
-												<%=otherActionName %>
+								 		<div style="cursor:pointer;" class="otherActionTarget" onClick='window.open("<%=otherActionUrlForHtml%>")'>
+											<a style="font-size: 10px;" title="<%= otherActionTooltipForHtml %>">
+												<%= otherActionNameForHtml %>
 											</a>
 										</div>
 							   
@@ -353,7 +359,7 @@
 				</div>
 
 				<div class="abstract1">
-					<%=StringUtils.abbreviate(abst,200) %>
+					<%=StringEscapeUtils.escapeHtml(StringUtils.abbreviate(abst,200)) %>
 				</div>
 			</div>
 			<% } %>
@@ -367,7 +373,7 @@
 				</div>
 				<div class="keywords">
 					<% for (String kw : keywords) { %>
-					<%=kw%>
+					<%=StringEscapeUtils.escapeHtml(kw)%>
 					<% } %>
 				</div>
 			</div>
