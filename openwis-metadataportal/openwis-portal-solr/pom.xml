@@ -4,7 +4,7 @@
 	   <parent>
 		  <groupId>org.geonetwork-opensource</groupId>
 		  <artifactId>geonetwork</artifactId>
-		  <version>3.14.5-SNAPSHOT</version>
+		  <version>3.14.5</version>
 		  <relativePath>../pom.xml</relativePath>
 	   </parent>
 
