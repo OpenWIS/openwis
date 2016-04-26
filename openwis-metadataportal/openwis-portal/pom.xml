@@ -39,7 +39,7 @@
       <profile>
          <id>user</id>
 		 <activation>
-			<activeByDefault>${user.module&gt;</activeByDefault>
+			<activeByDefault>${user.module}</activeByDefault>
 		 </activation>
          <properties>
 			<war.name>openwis-user-portal</war.name>
@@ -96,7 +96,7 @@
       <profile>
          <id>admin</id>
 		 <activation>
-			<activeByDefault>${admin.module&gt;</activeByDefault>
+			<activeByDefault>${admin.module}</activeByDefault>
 		 </activation>
          <properties>
 		    <war.name>openwis-admin-portal</war.name>
@@ -734,7 +734,6 @@
       <dependency>
          <groupId>org.apache.avalon.framework</groupId>
          <artifactId>avalon-framework-impl</artifactId>
-         <version>4.3.1</version>
       </dependency>
       <dependency>
          <groupId>commons-digester</groupId>
