@@ -13,10 +13,11 @@ source /vagrant/resources/vagrant/provisioning/provision-functions.sh
 echo "Configuring the portals"
 
 openwisHome="/home/openwis"
+tomcatHome="$openwisHome/`basename "$RESOURCE_TOMCAT" .tar.gz`"
 
 # openwis-metadataportal.properties
-userProps="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-user-portal/WEB-INF/classes/openwis-metadataportal.properties"
-adminProps="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-admin-portal/WEB-INF/classes/openwis-metadataportal.properties"
+userProps="$tomcatHome/webapps/openwis-user-portal/WEB-INF/classes/openwis-metadataportal.properties"
+adminProps="$tomcatHome/webapps/openwis-admin-portal/WEB-INF/classes/openwis-metadataportal.properties"
 
 for propName in "$userProps" "$adminProps" ; do
     owConf "$propName" "dataServiceServer" "owdev-data:8180"
@@ -36,11 +37,13 @@ for propName in "$userProps" "$adminProps" ; do
     setProp "$propName" "openwis.metadataportal.securityservice.groupmanagement.wsdl" "http://127.0.0.1:8812/GroupManagementServiceImpl?wsdl"
     setProp "$propName" "openwis.metadataportal.securityservice.dissemparammanagement.wsdl" "http://127.0.0.1:8811/DisseminationParametersService?wsdl"
     setProp "$propName" "openwis.metadataportal.securityservice.monitoringservice.wsdl" "http://127.0.0.1:8813/MonitoringServiceImpl?wsdl"
+
+    # TODO: Security
 done
 
 # openwis-deployment.properties
-userDeps="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-user-portal/WEB-INF/classes/openwis-deployments.properties"
-adminDeps="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-admin-portal/WEB-INF/classes/openwis-deployments.properties"
+userDeps="$tomcatHome/webapps/openwis-user-portal/WEB-INF/classes/openwis-deployments.properties"
+adminDeps="$tomcatHome/webapps/openwis-admin-portal/WEB-INF/classes/openwis-deployments.properties"
 
 for depsName in "$userDeps" "$adminDeps" ; do
     owConf "$depsName" "deploymentName" "OWDEV"
@@ -49,8 +52,8 @@ for depsName in "$userDeps" "$adminDeps" ; do
 done
 
 # config.xml
-userConfXml="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-user-portal/WEB-INF/config.xml"
-adminConfXml="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-admin-portal/WEB-INF/config.xml"
+userConfXml="$tomcatHome/webapps/openwis-user-portal/WEB-INF/config.xml"
+adminConfXml="$tomcatHome/webapps/openwis-admin-portal/WEB-INF/config.xml"
 
 for confName in "$userConfXml" "$adminConfXml" ; do
     owConf "$confName" "database.user" "$OPENWIS_DB_USER"
@@ -59,8 +62,8 @@ for confName in "$userConfXml" "$adminConfXml" ; do
 done
 
 # enable admin login
-userPortalProfiles="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-user-portal/WEB-INF/userPortal-profiles.xml"
-adminPortalProfiles="$openwisHome/apache-tomcat-6.0.29/webapps/openwis-admin-portal/WEB-INF/adminPortal-profiles.xml"
+userPortalProfiles="$tomcatHome/webapps/openwis-user-portal/WEB-INF/userPortal-profiles.xml"
+adminPortalProfiles="$tomcatHome/webapps/openwis-admin-portal/WEB-INF/adminPortal-profiles.xml"
 
 sudoCmd="sudo -u openwis -i"
 if [ `whoami` = "openwis" ]; then

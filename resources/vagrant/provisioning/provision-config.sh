@@ -19,6 +19,8 @@ export ARTEFACT_SOLR="/vagrant/openwis-metadataportal/openwis-portal-solr/target
 export ARTEFACT_MANAGEMENT_SERVICE_EAR="/vagrant/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear"
 export ARTEFACT_DATA_SERVICE_EAR="/vagrant/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear"
 export ARTEFACT_STAGINGPOST_WAR="/vagrant/openwis-stagingpost/target/stagingPost.war"
+export ARTEFACT_USER_PORTAL="/vagrant/openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-user-portal-user.war"
+export ARTEFACT_ADMIN_PORTAL="/vagrant/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-admin-portal-admin.war"
 
 export ARTEFACT_DATASERVICE_CONFIG_MODULE="/vagrant/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-module.zip"
 export ARTEFACT_DATASERVICE_CONFIG_FILES="/vagrant/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip"

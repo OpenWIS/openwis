@@ -105,7 +105,7 @@ tomcatHome="$openwisHome/`basename "$RESOURCE_TOMCAT" .tar.gz`"
 sudo -iu openwis mkdir "$openwisOpt"
 sudo -iu openwis mkdir "$openwisHome/staging"
 
-echo "Unpacking Java"
+#echo "Unpacking Java"
 yum install -y java-1.7.0-openjdk-devel.x86_64
 
 echo "Unpacking Tomcat"
