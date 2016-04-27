@@ -8,7 +8,7 @@
 source /vagrant/resources/vagrant/provisioning/provision-common.sh
 
 # Copy vagrant scripts
-deployVagrantScripts data
+#deployVagrantScripts data
 
 # =====================================================================================
 # DATA SERVICES PROVISIONING
@@ -53,5 +53,5 @@ sudo -iu openwis mkdir "$DS_DIR/status"
 
 
 # JBoss and OpenWIS is installed and configured in setup-openwis-using-jboss7.sh
-/vagrant/provisioning/setup-openwis-using-jboss7.sh
+/vagrant/resources/vagrant/provisioning/setup-openwis-using-jboss7.sh
 

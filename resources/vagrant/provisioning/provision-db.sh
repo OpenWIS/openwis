@@ -8,7 +8,7 @@
 source /vagrant/resources/vagrant/provisioning/provision-common.sh
 
 # Copy vagrant scripts
-deployVagrantScripts db
+#deployVagrantScripts db
 
 # =====================================================================================
 # DATABASE PROVISIONING

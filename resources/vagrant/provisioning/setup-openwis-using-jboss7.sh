@@ -47,11 +47,11 @@ yum install -y java-1.7.0-openjdk-devel.x86_64
 
 # 2. As openwis, download and install JBoss AS 7.1 community edition from jboss.org.
 #
-#sudo -iu openwis wget 'http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz'
+sudo -iu openwis wget -q -O /tmp/jboss-as-7.1.1.Final.tar.gz "$RESOURCE_JBOSS"
 
 # 3. Unpack it in the home directory of openwis.
 #
-sudo -iu openwis tar -xvzf /vagrant/dependencies/jboss-as-7.1.1.Final.tar.gz
+sudo -iu openwis tar -xvzf /tmp/jboss-as-7.1.1.Final.tar.gz
 
 # 4. Add the JBOSS_HOME environment variable to `~/.bashrc`.  If unpacking it in the home directory of
 #    openwis, this should be '/home/openwis/jboss-as-7.1.1.Final'.  After modifying `~/.bashrc`, reload
@@ -64,7 +64,7 @@ export JBOSS_HOME="$jbossHome"
 # 5. Install the jndi-properties module.  This module allows for the injection of Property objects into JNDI,
 #    which is used to configure the data service.
 #
-( cd "$jbossHome/modules" ; unzip /vagrant/artefacts/dataservices/openwis-dataservice-config-module.zip )
+( cd "$jbossHome/modules" ; unzip "$ARTEFACT_DATASERVICE_CONFIG_MODULE" )
 
 # 5. Configure standalone.conf to enable debugging
 sudo -iu openwis echo 'JAVA_OPTS="$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"' >> "$jbossHome"/bin/standalone.conf
@@ -138,7 +138,10 @@ jbossCli ':reload'
 sleep 5
 
 # Deploy PostgreSQL driver
-jdbcDriverJar="/vagrant/dependencies/libs/postgresql-8.4-702.jdbc4.jar"
+jdbcDriverJar="/tmp/postgresql.jar"
+
+sudo -iu openwis wget -q -O "$jdbcDriverJar" "$RESOURCE_POSTGRESQL_JAR"
+
 jbossCli "deploy $jdbcDriverJar"
 
 # 3. Setup the OpenWIS data service using the CLI tool
@@ -148,7 +151,7 @@ jbossCli "deploy $jdbcDriverJar"
 jbossCli "data-source add --name=OpenwisDS --jndi-name=\"java:/OpenwisDS\" \
     --connection-url=\"jdbc:postgresql://${OPENWIS_DB_HOST}:5432/$OPENWIS_DB_NAME?stringtype=unspecified\" \
     --user-name=\"$OPENWIS_DB_USER\" --password=\"$OPENWIS_DB_PASSWD\" \
-    --driver-name=\"postgresql-8.4-702.jdbc4.jar\" --driver-class=\"org.postgresql.Driver\" \
+    --driver-name=\"`basename $jdbcDriverJar`\" --driver-class=\"org.postgresql.Driver\" \
     --min-pool-size=10 --max-pool-size=40 \
     --idle-timeout-minutes=15 --blocking-timeout-wait-millis=15000 \
     --background-validation-millis=50000 --check-valid-connection-sql=\"select count(*) from openwis_cache_configuration\""
@@ -169,9 +172,12 @@ jbossCli "jms-queue add --queue-address=StatisticsQueue --entries=[queue/Statist
 #   TODO: Work out appropriate directories
 #
 confDir=$openwisHome/conf
+
 sudo -iu openwis mkdir $confDir
-sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/localdatasourceservice.properties $confDir/.
-sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/openwis-dataservice.properties $confDir/.
+sudo -iu openwis unzip -d /tmp/openwis-config-files "$ARTEFACT_DATASERVICE_CONFIG_FILES"
+#sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/localdatasourceservice.properties $confDir/.
+#sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/openwis-dataservice.properties $confDir/.
+sudo -iu openwis cp /tmp/openwis-config-files/openwis-dataservice-config/config/*.properties $confDir/.
 
 owConf "$confDir/openwis-dataservice.properties" "dataService.baseLocation" "$DS_DIR"
 owConf "$confDir/openwis-dataservice.properties" "harnessDisseminationPublicServer" "http://localhost:8180/client-openwis-ejbs/DisseminationImplService/DisseminationServiceImpl?wsdl"
@@ -191,13 +197,13 @@ jbossCli "/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=
 
 # 7. Deploy the application
 #
-jbossCli "deploy /vagrant/artefacts/dataservices/openwis-management-service.ear"
-jbossCli "deploy /vagrant/artefacts/dataservices/openwis-dataservice.ear"
+jbossCli "deploy $ARTEFACT_MANAGEMENT_SERVICE_EAR"
+jbossCli "deploy $ARTEFACT_DATA_SERVICE_EAR"
 
 
 # 8. Deploy the staging post as an external WAR file
 #
-sudo -iu openwis unzip -d "$DS_DIR/stagingPost" "/vagrant/artefacts/dataservices/stagingPost.war"
+sudo -iu openwis unzip -d "$DS_DIR/stagingPost" "$ARTEFACT_STAGINGPOST_WAR"
 
 sudo -iu openwis ln -s "$DS_DIR/stagingPost" "$jbossHome"/standalone/deployments/stagingPost.war
 sudo -iu openwis touch "$jbossHome"/standalone/deployments/stagingPost.war.dodeploy
