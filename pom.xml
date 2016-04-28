@@ -66,6 +66,7 @@
 			<module>openwis-stagingpost</module>
 			<module>openwis-metadataportal/openwis-portal</module>
             <module>openwis-dependencies</module>
+            <module>openwis-tools</module>
          </modules>
       </profile>
 	  <profile>
