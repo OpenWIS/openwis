@@ -1,0 +1,515 @@
+
+        <gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://wis.wmo.int/2011/schemata/iso19139_2007/schema/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://wis.wmo.int/2011/schemata/iso19139_2007/schema/gmx/gmx.xsd">
+          <gmd:fileIdentifier>
+            <gco:CharacterString>urn:x-wmo:md:int.wmo.wis::HRUD20LFPW</gco:CharacterString>
+          </gmd:fileIdentifier>
+          <gmd:language>
+            <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+          </gmd:language>
+          <gmd:characterSet>
+            <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+          </gmd:characterSet>
+          <gmd:hierarchyLevel>
+            <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+          </gmd:hierarchyLevel>
+          <gmd:hierarchyLevelName>
+            <gco:CharacterString>Series of WMO GTS bulletins</gco:CharacterString>
+          </gmd:hierarchyLevelName>
+          <gmd:contact>
+            <gmd:CI_ResponsibleParty id="publisher">
+              <gmd:organisationName>
+                <gco:CharacterString>NMC FRANCE - Météo-France</gco:CharacterString>
+              </gmd:organisationName>
+              <gmd:contactInfo>
+                <gmd:CI_Contact>
+                  <gmd:address>
+                    <gmd:CI_Address>
+                      <gmd:deliveryPoint>
+                        <gco:CharacterString>73 avenue de Paris</gco:CharacterString>
+                      </gmd:deliveryPoint>
+                      <gmd:city>
+                        <gco:CharacterString>Saint-Mandé Cedex</gco:CharacterString>
+                      </gmd:city>
+                      <gmd:postalCode>
+                        <gco:CharacterString>94165</gco:CharacterString>
+                      </gmd:postalCode>
+                      <gmd:country>
+                        <gco:CharacterString>FRANCE</gco:CharacterString>
+                      </gmd:country>
+                      <gmd:electronicMailAddress>
+                        <gco:CharacterString>gisc.data@meteo.fr</gco:CharacterString>
+                      </gmd:electronicMailAddress>
+                    </gmd:CI_Address>
+                  </gmd:address>
+                  <gmd:onlineResource>
+                    <gmd:CI_OnlineResource>
+                      <gmd:linkage>
+                        <gmd:URL>http://www.meteo.fr/</gmd:URL>
+                      </gmd:linkage>
+                    </gmd:CI_OnlineResource>
+                  </gmd:onlineResource>
+                </gmd:CI_Contact>
+              </gmd:contactInfo>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+              </gmd:role>
+            </gmd:CI_ResponsibleParty>
+          </gmd:contact>
+          <gmd:dateStamp>
+            <gco:DateTime>2013-12-06T14:37:58Z</gco:DateTime>
+          </gmd:dateStamp>
+          <gmd:metadataStandardName>
+            <gco:CharacterString>WMO Core Profile of ISO 19115</gco:CharacterString>
+          </gmd:metadataStandardName>
+          <gmd:metadataStandardVersion>
+            <gco:CharacterString>1.2 (WMO Core), 2003/Cor.1:2006 (ISO 19115), 2007 (ISO/TS 19139)</gco:CharacterString>
+          </gmd:metadataStandardVersion>
+          <gmd:metadataExtensionInfo gco:nilReason="missing" />
+          <gmd:identificationInfo>
+            <gmd:MD_DataIdentification>
+              <gmd:citation>
+                <gmd:CI_Citation>
+                  <gmd:title>
+                    <gco:CharacterString>GRIB ARPEGE 75N/10N 60W/65E  at 00 and 12 parameter Relative humidity level 200 hPa 18 hour forecast</gco:CharacterString>
+                  </gmd:title>
+                  <gmd:date>
+                    <gmd:CI_Date>
+                      <gmd:date>
+                        <gco:Date>2009-03-24</gco:Date>
+                      </gmd:date>
+                      <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                      </gmd:dateType>
+                    </gmd:CI_Date>
+                  </gmd:date>
+                  <gmd:identifier>
+                    <gmd:MD_Identifier>
+                      <gmd:authority>
+                        <gmd:CI_Citation>
+                          <gmd:title>
+                            <gco:CharacterString>WMO Information System (WIS)</gco:CharacterString>
+                          </gmd:title>
+                          <gmd:date gco:nilReason="inapplicable" />
+                        </gmd:CI_Citation>
+                      </gmd:authority>
+                      <gmd:code>
+                        <gco:CharacterString>urn:x-wmo:bulletin:int.wmo.wis::HRUD20LFPW</gco:CharacterString>
+                      </gmd:code>
+                    </gmd:MD_Identifier>
+                  </gmd:identifier>
+                  <gmd:presentationForm>
+                    <gmd:CI_PresentationFormCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</gmd:CI_PresentationFormCode>
+                  </gmd:presentationForm>
+                </gmd:CI_Citation>
+              </gmd:citation>
+              <gmd:abstract>
+                <gco:CharacterString>---- The bulletin is coded as GRIB code form:
+FM 92 (GRIB, General regularly-distributed information in binary form) .
+
+
+(Refer to WMO No.306 - Manual on Codes for the definition of WMO international codes)
+
+---- The HRUD20 TTAAii Data Designators decode (2) as:
+T1 (H): Grid point information (GRIB).
+T2 (R): Relative humidity.
+A2 (D): 18 hours forecast.
+ii (20): 200 hPa.
+
+(2: Refer to WMO No.386 - Manual on the GTS - Attachment II.5)
+
+---- WMO No.9 - Volume C1 'Content' field:
+Bloc 'Européen'
+
+---- Grid size: 1 X 1.
+
+---- Forecast Offset: 18 (hours)
+
+---- WMO No.9 - Volume C1 'Remarks' field:
+(60°W-65°E) (75°N-10°N) res 1°x1°, 126x66 points</gco:CharacterString>
+              </gmd:abstract>
+              <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty id="NC-FR-1">
+                  <gmd:organisationName>
+                    <gco:CharacterString>NMC FRANCE - Météo-France</gco:CharacterString>
+                  </gmd:organisationName>
+                  <gmd:contactInfo>
+                    <gmd:CI_Contact>
+                      <gmd:address>
+                        <gmd:CI_Address>
+                          <gmd:deliveryPoint>
+                            <gco:CharacterString>73 avenue de Paris</gco:CharacterString>
+                          </gmd:deliveryPoint>
+                          <gmd:city>
+                            <gco:CharacterString>Saint-Mandé Cedex</gco:CharacterString>
+                          </gmd:city>
+                          <gmd:postalCode>
+                            <gco:CharacterString>94165</gco:CharacterString>
+                          </gmd:postalCode>
+                          <gmd:country>
+                            <gco:CharacterString>FRANCE</gco:CharacterString>
+                          </gmd:country>
+                          <gmd:electronicMailAddress>
+                            <gco:CharacterString>gisc.data@meteo.fr</gco:CharacterString>
+                          </gmd:electronicMailAddress>
+                        </gmd:CI_Address>
+                      </gmd:address>
+                      <gmd:onlineResource>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>http://www.meteo.fr/</gmd:URL>
+                          </gmd:linkage>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onlineResource>
+                    </gmd:CI_Contact>
+                  </gmd:contactInfo>
+                  <gmd:role>
+                    <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:pointOfContact>
+              <gmd:resourceMaintenance>
+                <gmd:MD_MaintenanceInformation>
+                  <gmd:maintenanceAndUpdateFrequency gco:nilReason="inapplicable" />
+                  <gmd:userDefinedMaintenanceFrequency>
+                    <gts:TM_PeriodDuration>P0Y0M0DT12H0M0S</gts:TM_PeriodDuration>
+                  </gmd:userDefinedMaintenanceFrequency>
+                  <gmd:updateScope>
+                    <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+                  </gmd:updateScope>
+                  <gmd:updateScopeDescription>
+                    <gmd:MD_ScopeDescription>
+                      <gmd:dataset>
+                        <gco:CharacterString>Instances of bulletin HRUD20LFPW are available every 12 hours starting at 0 UTC</gco:CharacterString>
+                      </gmd:dataset>
+                    </gmd:MD_ScopeDescription>
+                  </gmd:updateScopeDescription>
+                </gmd:MD_MaintenanceInformation>
+              </gmd:resourceMaintenance>
+              <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="WMOCodeListKeywords">
+                  <gmd:keyword gco:nilReason="unknown" />
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                  <gmd:thesaurusName>
+                    <gmd:CI_Citation id="WMOCodelist">
+                      <gmd:title>
+                        <gco:CharacterString>WMO_CodeList dictionary [http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#WMO_CategoryCode]</gco:CharacterString>
+                      </gmd:title>
+                      <gmd:date>
+                        <gmd:CI_Date>
+                          <gmd:date>
+                            <gco:Date>2010-11-13</gco:Date>
+                          </gmd:date>
+                          <gmd:dateType>
+                            <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                          </gmd:dateType>
+                        </gmd:CI_Date>
+                      </gmd:date>
+                      <gmd:identifier>
+                        <gmd:MD_Identifier>
+                          <gmd:authority>
+                            <gmd:CI_Citation>
+                              <gmd:title>
+                                <gco:CharacterString>Codelists for description of metadata datasets compliant with the WMO Core Metadata Profile version 1.2 [http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml]</gco:CharacterString>
+                              </gmd:title>
+                              <gmd:date>
+                                <gmd:CI_Date>
+                                  <gmd:date>
+                                    <gco:Date>2010-11-13</gco:Date>
+                                  </gmd:date>
+                                  <gmd:dateType>
+                                    <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                                  </gmd:dateType>
+                                </gmd:CI_Date>
+                              </gmd:date>
+                            </gmd:CI_Citation>
+                          </gmd:authority>
+                          <gmd:code>
+                            <gco:CharacterString>WMO_CategoryCode</gco:CharacterString>
+                          </gmd:code>
+                        </gmd:MD_Identifier>
+                      </gmd:identifier>
+                      <gmd:citedResponsibleParty>
+                        <gmd:CI_ResponsibleParty>
+                          <gmd:organisationName>
+                            <gco:CharacterString>WMO Secretariat</gco:CharacterString>
+                          </gmd:organisationName>
+                          <gmd:role>
+                            <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                          </gmd:role>
+                        </gmd:CI_ResponsibleParty>
+                      </gmd:citedResponsibleParty>
+                    </gmd:CI_Citation>
+                  </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="GEMETKeywords">
+                  <gmd:keyword>
+                    <gco:CharacterString>Atmospheric conditions</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                  <gmd:thesaurusName>
+                    <gmd:CI_Citation id="GEMET">
+                      <gmd:title>
+                        <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                      </gmd:title>
+                      <gmd:date>
+                        <gmd:CI_Date>
+                          <gmd:date>
+                            <gco:Date>2008-06-01</gco:Date>
+                          </gmd:date>
+                          <gmd:dateType>
+                            <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                          </gmd:dateType>
+                        </gmd:CI_Date>
+                      </gmd:date>
+                      <gmd:citedResponsibleParty>
+                        <gmd:CI_ResponsibleParty>
+                          <gmd:organisationName>
+                            <gco:CharacterString>GEneral Multilingual Environmental Thesaurus from the European Agency for Environment</gco:CharacterString>
+                          </gmd:organisationName>
+                          <gmd:contactInfo>
+                            <gmd:CI_Contact>
+                              <gmd:onlineResource>
+                                <gmd:CI_OnlineResource>
+                                  <gmd:linkage>
+                                    <gmd:URL>http://www.eionet.europa.eu/gemet</gmd:URL>
+                                  </gmd:linkage>
+                                </gmd:CI_OnlineResource>
+                              </gmd:onlineResource>
+                            </gmd:CI_Contact>
+                          </gmd:contactInfo>
+                          <gmd:role>
+                            <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                          </gmd:role>
+                        </gmd:CI_ResponsibleParty>
+                      </gmd:citedResponsibleParty>
+                    </gmd:CI_Citation>
+                  </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:resourceConstraints>
+                <gmd:MD_LegalConstraints>
+                  <gmd:accessConstraints>
+                    <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                  </gmd:accessConstraints>
+                  <gmd:useConstraints>
+                    <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                  </gmd:useConstraints>
+                  <gmd:otherConstraints>
+                    <gco:CharacterString>WMOAdditional</gco:CharacterString>
+                  </gmd:otherConstraints>
+                  <gmd:otherConstraints>
+                    <gco:CharacterString>GTSPriority3</gco:CharacterString>
+                  </gmd:otherConstraints>
+                </gmd:MD_LegalConstraints>
+              </gmd:resourceConstraints>
+              <gmd:spatialRepresentationType>
+                <gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="grid">grid</gmd:MD_SpatialRepresentationTypeCode>
+              </gmd:spatialRepresentationType>
+              <gmd:language>
+                <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+              </gmd:language>
+              <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</gmd:MD_TopicCategoryCode>
+              </gmd:topicCategory>
+              <gmd:extent>
+                <gmd:EX_Extent id="boundingExtent">
+                  <gmd:geographicElement>
+                    <gmd:EX_GeographicBoundingBox>
+                      <gmd:westBoundLongitude>
+                        <gco:Decimal>-60.00</gco:Decimal>
+                      </gmd:westBoundLongitude>
+                      <gmd:eastBoundLongitude>
+                        <gco:Decimal>65.00</gco:Decimal>
+                      </gmd:eastBoundLongitude>
+                      <gmd:southBoundLatitude>
+                        <gco:Decimal>10.00</gco:Decimal>
+                      </gmd:southBoundLatitude>
+                      <gmd:northBoundLatitude>
+                        <gco:Decimal>75.00</gco:Decimal>
+                      </gmd:northBoundLatitude>
+                    </gmd:EX_GeographicBoundingBox>
+                  </gmd:geographicElement>
+                  <gmd:temporalElement>
+                    <gmd:EX_TemporalExtent id="boundingTemporalExtent">
+                      <gmd:extent>
+                        <gml:TimePeriod gml:id="boundingTemporalExtentTP">
+                          <gml:beginPosition>2009-03-24</gml:beginPosition>
+                          <gml:endPosition indeterminatePosition="now" />
+                        </gml:TimePeriod>
+                      </gmd:extent>
+                    </gmd:EX_TemporalExtent>
+                  </gmd:temporalElement>
+                </gmd:EX_Extent>
+              </gmd:extent>
+            </gmd:MD_DataIdentification>
+          </gmd:identificationInfo>
+          <gmd:distributionInfo>
+            <gmd:MD_Distribution>
+              <gmd:distributionFormat>
+                <gmd:MD_Format>
+                  <gmd:name>
+                    <gco:CharacterString>GRIB</gco:CharacterString>
+                  </gmd:name>
+                  <gmd:version>
+                    <gco:CharacterString />
+                  </gmd:version>
+                  <gmd:specification>
+                    <gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString>
+                  </gmd:specification>
+                </gmd:MD_Format>
+              </gmd:distributionFormat>
+              <gmd:distributor>
+                <gmd:MD_Distributor>
+                  <gmd:distributorContact>
+                    <gmd:CI_ResponsibleParty>
+                      <gmd:individualName>
+                        <gco:CharacterString>DSI/OP/TEL</gco:CharacterString>
+                      </gmd:individualName>
+                      <gmd:organisationName>
+                        <gco:CharacterString>RTH Toulouse - Meteo France</gco:CharacterString>
+                      </gmd:organisationName>
+                      <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                          <gmd:address>
+                            <gmd:CI_Address>
+                              <gmd:deliveryPoint>
+                                <gco:CharacterString>Direction des Systèmes d'Information, 42 avenue Gaspard CORIOLIS</gco:CharacterString>
+                              </gmd:deliveryPoint>
+                              <gmd:city>
+                                <gco:CharacterString>TOULOUSE</gco:CharacterString>
+                              </gmd:city>
+                              <gmd:postalCode>
+                                <gco:CharacterString>31057</gco:CharacterString>
+                              </gmd:postalCode>
+                              <gmd:country>
+                                <gco:CharacterString>FRANCE</gco:CharacterString>
+                              </gmd:country>
+                              <gmd:electronicMailAddress>
+                                <gco:CharacterString>gisc.distribution@meteo.fr</gco:CharacterString>
+                              </gmd:electronicMailAddress>
+                            </gmd:CI_Address>
+                          </gmd:address>
+                        </gmd:CI_Contact>
+                      </gmd:contactInfo>
+                      <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                      </gmd:role>
+                    </gmd:CI_ResponsibleParty>
+                  </gmd:distributorContact>
+                  <gmd:distributorTransferOptions>
+                    <gmd:MD_DigitalTransferOptions />
+                  </gmd:distributorTransferOptions>
+                </gmd:MD_Distributor>
+              </gmd:distributor>
+              <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                  <gmd:onLine>
+                    <gmd:CI_OnlineResource>
+                      <gmd:linkage>
+                        <gmd:URL>http://wispi.meteo.fr/openwis-user-portal/srv/en/main.home?urn=urn:x-wmo:md:int.wmo.wis::HRUD20LFPW</gmd:URL>
+                      </gmd:linkage>
+                      <gmd:protocol>
+                        <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                      </gmd:protocol>
+                      <gmd:description>
+                        <gco:CharacterString>GISC Toulouse</gco:CharacterString>
+                      </gmd:description>
+                      <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+                      </gmd:function>
+                    </gmd:CI_OnlineResource>
+                  </gmd:onLine>
+                  <gmd:onLine>
+                    <gmd:CI_OnlineResource>
+                      <gmd:linkage>
+                        <gmd:URL>http://gisc.meteo.fr</gmd:URL>
+                      </gmd:linkage>
+                      <gmd:protocol>
+                        <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                      </gmd:protocol>
+                      <gmd:description>
+                        <gco:CharacterString>GISC Toulouse</gco:CharacterString>
+                      </gmd:description>
+                      <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+                      </gmd:function>
+                    </gmd:CI_OnlineResource>
+                  </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+              </gmd:transferOptions>
+            </gmd:MD_Distribution>
+          </gmd:distributionInfo>
+          <gmd:dataQualityInfo>
+            <gmd:DQ_DataQuality>
+              <gmd:scope>
+                <gmd:DQ_Scope>
+                  <gmd:level>
+                    <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+                  </gmd:level>
+                </gmd:DQ_Scope>
+              </gmd:scope>
+              <gmd:report>
+                <gmd:DQ_DomainConsistency>
+                  <gmd:measureIdentification>
+                    <gmd:RS_Identifier>
+                      <gmd:code>
+                        <gco:CharacterString>Conformity_001</gco:CharacterString>
+                      </gmd:code>
+                      <gmd:codeSpace>
+                        <gco:CharacterString>INSPIRE</gco:CharacterString>
+                      </gmd:codeSpace>
+                    </gmd:RS_Identifier>
+                  </gmd:measureIdentification>
+                  <gmd:result>
+                    <gmd:DQ_ConformanceResult>
+                      <gmd:specification>
+                        <gmd:CI_Citation>
+                          <gmd:title>
+                            <gco:CharacterString>INSPIRE Implementing Rules</gco:CharacterString>
+                          </gmd:title>
+                          <gmd:date>
+                            <gmd:CI_Date>
+                              <gmd:date>
+                                <gco:Date>2011-05-15</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                              </gmd:dateType>
+                            </gmd:CI_Date>
+                          </gmd:date>
+                        </gmd:CI_Citation>
+                      </gmd:specification>
+                      <gmd:explanation>
+                        <gco:CharacterString />
+                      </gmd:explanation>
+                      <gmd:pass>
+                        <gco:Boolean>true</gco:Boolean>
+                      </gmd:pass>
+                    </gmd:DQ_ConformanceResult>
+                  </gmd:result>
+                </gmd:DQ_DomainConsistency>
+              </gmd:report>
+              <gmd:lineage>
+                <gmd:LI_Lineage>
+                  <gmd:statement>
+                    <gco:CharacterString>High data quality controlled according to the procedures of the GTS</gco:CharacterString>
+                  </gmd:statement>
+                </gmd:LI_Lineage>
+              </gmd:lineage>
+            </gmd:DQ_DataQuality>
+          </gmd:dataQualityInfo>
+          <gmd:metadataConstraints>
+            <gmd:MD_Constraints>
+              <gmd:useLimitation>
+                <gco:CharacterString>This metadata record was created automatically based on the WMO No.9 Volume C1 declaration for bulletin HRUD20LFPW. Other references were used in the process, including WMO No.9 Volume A, WMO No.386 Manual on the GTS and WMO No.306 Manual on Codes. This work was done by Météo-France on a "best effort" basis. The current metadata record is therefore provided more for information than for reference.</gco:CharacterString>
+              </gmd:useLimitation>
+            </gmd:MD_Constraints>
+          </gmd:metadataConstraints>
+        </gmd:MD_Metadata>
+      

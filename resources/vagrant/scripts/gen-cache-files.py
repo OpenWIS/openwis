@@ -57,7 +57,7 @@ def add_cache_file(ttaaiicccc):
 # --------------------------------------------------------------------------
 #
 
-for i in range(500):
+for i in range(50):
     add_cache_file("IUPK14AMMC")
     add_cache_file("FTPF21NTAA")
     add_cache_file("HUTB15EGRR")
