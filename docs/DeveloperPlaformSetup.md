@@ -282,9 +282,9 @@ the following operations:
 
         C:\Projects\openwis> cd openwis-tools\load-test-data
 
-2. Run `mvn exec:java`
+2. Run `mvn -P openwis exec:java`
 
-        C:\Projects\openwis\openwis-tools\load-test-data> mvn exec:java
+        C:\Projects\openwis\openwis-tools\load-test-data> mvn -P openwis exec:java
 
     Doing so will upload some metadata records and generate a bunch of GTS products.
 
