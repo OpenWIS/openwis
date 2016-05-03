@@ -21,11 +21,11 @@ source /vagrant/resources/vagrant/provisioning/provision-common.sh
 # Database Setup
 
 # Setup and install the database
-rpm -ivh http://yum.postgresql.org/8.4/redhat/rhel-6-x86_64/pgdg-centos-8.4-3.noarch.rpm
-yum -y install postgresql84 postgresql84-server postgresql84-contrib postgis84
+rpm -ivh https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-7.noarch.rpm
+yum -y install postgresql92 postgresql92-server postgresql92-contrib postgis2_92-2.1.5
 
 # Configure the database
-cat > /etc/sysconfig/pgsql/postgresql-8.4 << .
+cat > /etc/sysconfig/pgsql/postgresql-9.2 << .
 PGDATA=$DB_DIR
 PGLOG=$DB_DIR/pgstartup.log
 .
@@ -34,11 +34,11 @@ PGLOG=$DB_DIR/pgstartup.log
 mkdir -p /data/datadb
 chown -R postgres: /data/datadb
 
-sudo -u postgres /usr/pgsql-8.4/bin/initdb -D "$DB_DIR"
+sudo -u postgres /usr/pgsql-9.2/bin/initdb -D "$DB_DIR"
 
-/sbin/service postgresql-8.4 start
-chkconfig --add postgresql-8.4
-chkconfig postgresql-8.4 on
+/sbin/service postgresql-9.2 start
+chkconfig --add postgresql-9.2
+chkconfig postgresql-9.2 on
 
 # -------------------------------------------------------------------------------------
 # Initialize the database
@@ -49,9 +49,11 @@ sudo -iu postgres createdb -O "$OPENWIS_DB_USER" harnesses
 
 # Install extensions
 sudo -iu postgres createlang -d "$OPENWIS_DB_NAME" plpgsql
-sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-8.4/share/contrib/postgis-1.5/postgis.sql  >/dev/null
-sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-8.4/share/contrib/postgis-1.5/spatial_ref_sys.sql  >/dev/null
-sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-8.4/share/contrib/citext.sql >/dev/null
+sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/postgis.sql  >/dev/null
+sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/postgis_comments.sql  >/dev/null
+sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/spatial_ref_sys.sql  >/dev/null
+sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/legacy.sql  >/dev/null
+sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -c "CREATE EXTENSION citext" >/dev/null
 
 sudo -iu postgres psql -c "alter user $OPENWIS_DB_USER with login password '$OPENWIS_DB_PASSWD'"
 
@@ -60,7 +62,7 @@ newStackDepthMB="$((`ulimit -s` / 5 * 4 / 1024))"
 sudo -iu postgres sed -i -e 's/^#listen_addresses = '\''localhost'\''/listen_addresses = '\''*'\''/' /data/datadb/postgresql.conf
 sudo -iu postgres sed -i -e 's/^#max_stack_depth =.*/max_stack_depth = '"$newStackDepthMB"'MB/' /data/datadb/postgresql.conf
 sudo -iu postgres echo 'host    all         all         0.0.0.0/0           password' >> /data/datadb/pg_hba.conf
-/sbin/service postgresql-8.4 restart
+/sbin/service postgresql-9.2 restart
 
 
 # Install the schema
