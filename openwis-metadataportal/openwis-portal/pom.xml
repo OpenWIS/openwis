@@ -38,13 +38,13 @@
    <profiles>
       <profile>
          <id>user</id>
-		 <activation>
-			<activeByDefault>${user.module}</activeByDefault>
-		 </activation>
-         <properties>
+	     <properties>
 			<war.name>openwis-user-portal</war.name>
 			<profile-id>user</profile-id>
          </properties>
+          <activation>
+			<activeByDefault>${user.module}</activeByDefault>
+		 </activation>
          <build>
 		 <directory>openwis-user-portal</directory>
             <plugins>
@@ -95,13 +95,13 @@
       </profile>
       <profile>
          <id>admin</id>
-		 <activation>
-			<activeByDefault>${admin.module}</activeByDefault>
-		 </activation>
-         <properties>
+		 <properties>
 		    <war.name>openwis-admin-portal</war.name>
 			<profile-id>admin</profile-id>
          </properties>
+         <activation>
+			<activeByDefault>${admin.module}</activeByDefault>
+		 </activation>
          <build>
 		 <directory>openwis-admin-portal</directory>
             <plugins>
@@ -582,66 +582,35 @@
       </dependency>
 
       <!-- OPEN AM FEDERATION -->
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>activation</artifactId>
-         <version>1.0</version>
-      </dependency>
-
 
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>esapiport</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-idpdiscovery</artifactId>
+         <version>12.0.0</version>
       </dependency>
 
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>mail</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-federation-library</artifactId>
+         <version>12.0.0</version>
       </dependency>
-
+      
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>idpdiscovery</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-core</artifactId>
+         <version>12.0.0</version>
       </dependency>
-
+      
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>openfedlib</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-clientsdk</artifactId>
+         <version>12.0.0</version>
       </dependency>
-
+      
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>opensso-sharedlib</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>relaxngDatatype</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>webservices-api</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>webservices-rt</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>xsdlib</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-shared</artifactId>
+         <version>12.0.0</version>
       </dependency>
 
       <!-- Imported from GeoNetwork -->
