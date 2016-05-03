@@ -255,28 +255,44 @@ ID:
 * `data`: Data and management services, and staging post.
 * `portals`: User portals.
 
-Once Vagrant done, you will have an OpenWIS instance running locally.  You can then perform
-the following operations:
+Vagrant is configured to forward a number of ports to provide direct access to the services.
+The set of forwarded ports is listed here:
 
-#### To log into the user portal
+
+Service | VM | Guest Post | Host Port
+--------+----+------------+-----------
+SSH | db | 22 | 2221
+SSH | data | 22 | 2222
+SSH | portals | 22 | 2223
+Portal HTTP Frontend | portals | 8080 | 8060
+JBoss SOAP | data | 8080 | 8061
+PostgreSQL | db | 5432 | 8062
+Solr | db | 8080 | 8063
+JBoss Remote Debugging | data | 8787 | 8067
+Portals Remote Debugging | portals | 8000 | 8068
+
+Once Vagrant done, you will have an OpenWIS instance running locally.  You can then perform
+the following operations.
+
+#### Log Into the User Portal
 
 1. To authenticate as "admin", follow this link: <http://localhost:8060/openwis-user-portal/srv/xml.user.login?username=admin&password=admin>
 
 2. Bring up the home-page by going to <http://localhost:8060/openwis-user-portal/>
 
-#### To log into the admin portal
+#### Log Into the Admin Portal
 
 1. To authenticate as "admin", follow this link: <http://localhost:8060/openwis-admin-portal/srv/xml.user.login?username=admin&password=admin>
 
 2. Bring up the home-page by going to <http://localhost:8060/openwis-admin-portal/>
 
-#### To log into the backend:
+#### Logging Into Backend
 
 1. Enter `vagrant ssh <machine ID>` where machine is either `db`, `data` or `portals`.
 
 2. Become the "openwis" user: `sudo -iu openwis`
 
-#### To load test data:
+#### Loading Test Data
 
 1. In the OpenWIS project directory, go to the "load-test-data" project:
 
@@ -288,7 +304,23 @@ the following operations:
 
     Doing so will upload some metadata records and generate a bunch of GTS products.
 
-#### To tear-down the Vagrant environment:
+#### Redeploy Without Rebuilding Environment
+
+Due to the amount of time it takes to tear down and reprovision VMs, there are a couple of utility
+scripts that can be use to redeploy some of the artefacts while Vagrant is running:
+
+To redeploy the user/admin portals:
+
+        C:\Projects\openwis> vagrant ssh portals -c '/vagrant/resources/vagrant/scripts/redeploy-portals.sh'
+
+To redeploy the data/management services:
+
+        C:\Projects\openwis> vagrant ssh data -c '/vagrant/resources/vagrant/scripts/redeploy-data-services.sh'
+
+Note, for the portals, redeploying will reconfigure the application as it was when the VM was provisioned.
+
+
+#### Tearing Down the Vagrant Environment
 
 1. In the OpenWIS project directory, enter the following command:
 
