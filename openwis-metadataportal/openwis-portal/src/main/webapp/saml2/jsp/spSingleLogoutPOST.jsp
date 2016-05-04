@@ -111,7 +111,7 @@
               IDPCache.proxySPLogoutReqCache.get(inRes); 
           if (origLogoutRequest != null && !origLogoutRequest.equals("")) {
               IDPCache.proxySPLogoutReqCache.remove(inRes);
-              IDPProxyUtil.sendProxyLogoutResponse(response,
+              IDPProxyUtil.sendProxyLogoutResponse(response, request,
                   origLogoutRequest.getID(), infoMap,
                   origLogoutRequest.getIssuer().getValue(),
                   SAML2Constants.HTTP_POST); 
@@ -173,7 +173,7 @@
              * @throws SAML2Exception if error processing
              *          <code>LogoutRequest</code>.
              */
-            SPSingleLogout.processLogoutRequest(request,response,
+            SPSingleLogout.processLogoutRequest(request,response, response.getWriter(),
                 samlRequest,relayState);
             } catch (SAML2Exception sse) {
                 SAML2Utils.debug.error("Error processing LogoutRequest :", sse);

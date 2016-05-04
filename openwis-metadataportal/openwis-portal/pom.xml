@@ -564,6 +564,19 @@
             </exclusion>
          </exclusions>
       </dependency>
+      
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-databinding-jaxb</artifactId>
+        <version>3.0.1</version>
+     </dependency>
+     
+    
+       <dependency>
+       <groupId>com.sun.xml.bind</groupId>
+       <artifactId>jaxb-impl</artifactId>
+       <version>1.0.6</version>
+    </dependency>
 
       <dependency>
          <groupId>io.openwis.management</groupId>
