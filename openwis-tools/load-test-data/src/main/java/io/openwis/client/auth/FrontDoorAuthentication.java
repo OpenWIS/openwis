@@ -24,14 +24,11 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Authentication which 
  */
 public class FrontDoorAuthentication implements Authentication {
-   private static final Logger log = LoggerFactory.getLogger(FrontDoorAuthentication.class);
    
    private final String username;
    private final String password;
@@ -57,14 +54,11 @@ public class FrontDoorAuthentication implements Authentication {
          // Get the home page
          URI homePageUrl = baseTarget.resolve("srv/en/main.home");
          
-         log.info("Fetching homepage: " + homePageUrl);
-         
          HttpGet getHomePage = new HttpGet(homePageUrl);
          IOUtils.closeQuietly(httpClient.execute(getHomePage));
          
          String initPage = getOpenWISInitPage(httpClient, baseTarget);
          
-         log.debug("Init page:\n=====\n" + initPage + "\n=====");
          Document initDoc = Jsoup.parse(initPage);
          
          // Get the login form
@@ -96,7 +90,6 @@ public class FrontDoorAuthentication implements Authentication {
          }
          
          String postbackPage = sendPostback(httpClient, postbackUri, formValues);
-         log.debug("Postback page:\n=====\n" + postbackPage + "\n=====");
          
          // Get the authorization postback form
          Element postbackForm = Jsoup.parse(postbackPage).select("form[action$=\"/openWisAuthorization\"]").first();
@@ -109,7 +102,6 @@ public class FrontDoorAuthentication implements Authentication {
          URI postbackUrl = baseTarget.resolve(postbackForm.attr("action"));
          
          String postbackFormPage = sendPostbackForm(httpClient, postbackUrl, samlResponseValue, relayState);
-         log.debug("Postback form page:\n=====\n" + postbackFormPage + "\n=====");
       } catch (Exception e) {
          throw new RuntimeException(e);
       }
@@ -126,10 +118,6 @@ public class FrontDoorAuthentication implements Authentication {
     * @throws ClientProtocolException 
     */
    private String sendPostbackForm(CloseableHttpClient client, URI postbackUri, String samlResponseValue, String relayState) throws ClientProtocolException, IOException {
-      log.info("Sending the postback form: " + postbackUri);
-      log.debug(" .. using parameter value: 'SAMLResponse'='" + samlResponseValue + "'");
-      log.debug(" .. using parameter value: 'RelayState'='" + relayState + "'");
-      
       List<NameValuePair> formPairs = new ArrayList<NameValuePair>();
       formPairs.add(new BasicNameValuePair("SAMLResponse", samlResponseValue));
       formPairs.add(new BasicNameValuePair("RelayState", relayState));
@@ -139,7 +127,6 @@ public class FrontDoorAuthentication implements Authentication {
       
       CloseableHttpResponse resp = client.execute(postInit);
       try {
-         log.debug("Response status: " + resp.getStatusLine().toString());
          return EntityUtils.toString(resp.getEntity());
       } finally {
          resp.close();
@@ -158,12 +145,9 @@ public class FrontDoorAuthentication implements Authentication {
     * @throws ParseException 
     */
    private String sendPostback(CloseableHttpClient client, URI postbackUri, Map<String, String> formValues) throws ParseException, IOException {
-      log.info("Fetching the postback page: " + postbackUri);
-      
       List<NameValuePair> formPairs = new ArrayList<NameValuePair>();
       for (Entry<String, String> entries : formValues.entrySet()) {
          formPairs.add(new BasicNameValuePair(entries.getKey(), entries.getValue()));
-         log.debug(" .. using parameter value: '" + entries.getKey() + "'='" + entries.getValue() + "'");
       }
       
       HttpPost post = new HttpPost(postbackUri);
@@ -171,7 +155,6 @@ public class FrontDoorAuthentication implements Authentication {
       
       CloseableHttpResponse resp = client.execute(post);
       try {
-         log.debug("Response status: " + resp.getStatusLine().toString());
          return EntityUtils.toString(resp.getEntity());
       } finally {
          resp.close();
@@ -189,15 +172,12 @@ public class FrontDoorAuthentication implements Authentication {
       List<NameValuePair> formPairs = new ArrayList<NameValuePair>();
       formPairs.add(new BasicNameValuePair("lang", "en"));
       
-      log.info("Fetching the /openWisInit page: " + openwisBaseUrl.resolve("openWisInit"));
-      
       HttpPost postInit = new HttpPost(openwisBaseUrl.resolve("openWisInit"));
       postInit.setEntity(new UrlEncodedFormEntity(formPairs, Consts.UTF_8));
       
       CloseableHttpResponse resp = client.execute(postInit);
       
       try {
-         log.debug("Response status: " + resp.getStatusLine().toString());
          return EntityUtils.toString(resp.getEntity());
       } finally {
          resp.close();

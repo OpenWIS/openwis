@@ -99,14 +99,24 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>io.openwis.tools.loadtestdata.LoadTestData</mainClass>
-                </configuration>
-            </plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>openwis</id>
+			<build>
+				<plugins>
+		            <plugin>
+		                <groupId>org.codehaus.mojo</groupId>
+		                <artifactId>exec-maven-plugin</artifactId>
+		                <configuration>
+		                    <mainClass>io.openwis.tools.loadtestdata.LoadTestData</mainClass>
+		                </configuration>
+		            </plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
