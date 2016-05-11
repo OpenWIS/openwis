@@ -188,7 +188,7 @@ Openwis.Admin.Statistics.RecentEvents = Ext.extend(Ext.Container, {
     	var msg = data.message;
     	
     	// create tool tip
-    	return '<div qtip="' + msg +'">' + value + '</div>';
+    	return '<div qtip="' + Ext.util.Format.htmlEncode(msg) +'">' + Ext.util.Format.htmlEncode(value) + '</div>';
     },
 
     /**
