@@ -14,7 +14,7 @@ Openwis.MyAccount.TrackMyRequests.MySubscriptionsGridPanel = Ext.extend(Ext.grid
 			columns: [
 			    {id: 'statusImg', header:'', dataIndex:'state', renderer: Openwis.Common.Request.Utils.stateRendererImg, width: 50, sortable: false},
 				{id: 'deployment', header: Openwis.i18n('TrackMySubscriptions.Deployment'), dataIndex: 'deployment', sortable: false, renderer: Openwis.Common.Request.Utils.backupRenderer, hidden: this.isLocal},
-                {id: 'title', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Title'), dataIndex: 'title', sortable: true},
+                {id: 'title', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Title'), dataIndex: 'title', sortable: true, renderer: Openwis.Common.Request.Utils.htmlSafeRenderer },
                 {id: 'backup', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Backup'), dataIndex: 'backup', sortable: true},
                 {id: 'id', header: Openwis.i18n('TrackMySubscriptions.Subscription.ID'), dataIndex: 'id', width: 100, sortable: true},
                 {id: 'startingDate', header: Openwis.i18n('TrackMySubscriptions.StartDate'), dataIndex: 'startingDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true},

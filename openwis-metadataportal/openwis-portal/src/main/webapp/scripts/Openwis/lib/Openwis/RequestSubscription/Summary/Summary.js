@@ -37,8 +37,8 @@ Openwis.RequestSubscription.Summary = Ext.extend(Ext.Panel, {
 				    {xtype: 'displayfield', value: this.config.userName, fieldLabel: Openwis.i18n('RequestSubscription.Summary.User')},
 				    {xtype: 'displayfield', value: this.config.requestID, fieldLabel: Openwis.i18n('RequestSubscription.Summary.RequestID')},
 				    {xtype: 'displayfield', value: this.config.extractMode, fieldLabel: Openwis.i18n('RequestSubscription.Summary.DataSource')},
-				    {xtype: 'displayfield', value: this.config.productMetadataURN, fieldLabel: Openwis.i18n('RequestSubscription.Summary.ProductMetadataURN')},
-				    {xtype: 'displayfield', value: this.config.productMetadataTitle, fieldLabel: Openwis.i18n('RequestSubscription.Summary.ProductMetadataTitle')}
+				    {xtype: 'displayfield', value: Ext.util.Format.htmlEncode(this.config.productMetadataURN), fieldLabel: Openwis.i18n('RequestSubscription.Summary.ProductMetadataURN')},
+				    {xtype: 'displayfield', value: Ext.util.Format.htmlEncode(this.config.productMetadataTitle), fieldLabel: Openwis.i18n('RequestSubscription.Summary.ProductMetadataTitle')}
 				]
 	        });
 	    }
