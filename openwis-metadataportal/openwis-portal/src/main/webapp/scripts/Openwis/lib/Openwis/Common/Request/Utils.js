@@ -70,3 +70,7 @@ Openwis.Common.Request.Utils.requestTypeRenderer = function(val) {
 	}
 	return "S";
 };
+
+Openwis.Common.Request.Utils.htmlSafeRenderer = function(val) {
+	return Ext.util.Format.htmlEncode(val);
+};

@@ -13,3 +13,5 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 .classpath
 .settings/
 
+# Ignore vagrant working files
+.vagrant/
