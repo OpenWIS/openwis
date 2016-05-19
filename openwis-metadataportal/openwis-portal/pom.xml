@@ -39,7 +39,7 @@
       <profile>
          <id>user</id>
 		 <activation>
-			<activeByDefault>${user.module&gt;</activeByDefault>
+			<activeByDefault>${user.module}</activeByDefault>
 		 </activation>
          <properties>
 			<war.name>openwis-user-portal</war.name>
