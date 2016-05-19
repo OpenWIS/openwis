@@ -96,7 +96,7 @@
       <profile>
          <id>admin</id>
 		 <activation>
-			<activeByDefault>${admin.module&gt;</activeByDefault>
+			<activeByDefault>${admin.module}</activeByDefault>
 		 </activation>
          <properties>
 		    <war.name>openwis-admin-portal</war.name>
