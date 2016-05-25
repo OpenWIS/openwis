@@ -19,12 +19,17 @@ import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
 import org.openwis.metadataportal.kernel.user.UserManager;
+import org.openwis.metadataportal.model.group.Group;
+import org.openwis.metadataportal.model.user.BackUp;
+import org.openwis.metadataportal.model.user.Profile;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
+
+import com.google.common.collect.Lists;
 
 /**
  * Self Registration Services. <P>
@@ -54,9 +59,26 @@ public class SelfRegister implements Service {
       boolean selfRegistrationEnabled = sm.getValueAsBool("system/userSelfRegistration/enable");
 
       AcknowledgementDTO acknowledgementDTO = new AcknowledgementDTO(true);
+
       if (selfRegistrationEnabled) {
+         User user = userDTO.getUser();
          try {
-            User user = userDTO.getUser();
+
+            // Check that the user profile is anything other than "User".  If it isn't,
+            // deny the request.  Allow blanks through: the profile will be hard coded
+            // below anyway.
+            if ((user.getProfile() != null) && (!"".equals(user.getProfile()))) {
+               if (!Profile.User.name().equals(user.getProfile())) {
+                  throw new IllegalArgumentException("User profile cannot be anything other than "
+                        + Profile.User.name());
+               }
+            }
+
+            // Force the user's profile
+            user.setProfile(Profile.User.name());
+            user.setGroups(Lists.<Group> newArrayList());
+            user.setBackUps(Lists.<BackUp> newArrayList());
+
             Log.info(Geonet.SELF_REGISTER, "Self-registration: username=" + user.getUsername()
                   + ", firstName=" + user.getName() + ", lastName=" + user.getSurname());
             // Create User
@@ -102,13 +124,22 @@ public class SelfRegister implements Service {
             Log.error(Geonet.SELF_REGISTER,
                   "Error during self registration : the user " + e.getUserName()
                         + " already exists");
+         } catch (IllegalArgumentException e) {
+            String msg = OpenWISMessages.format("SelfRegister.errorInvalidUser",
+                  context.getLanguage(), user.getUsername(), e.getMessage());
+            acknowledgementDTO = new AcknowledgementDTO(false, msg);
+            Log.error(
+                  Geonet.SELF_REGISTER,
+                  "Error during self registration : invalid user parameters for "
+                        + user.getUsername() + ": " + e.getMessage());
          }
       } else {
-         acknowledgementDTO = new AcknowledgementDTO(false, "SeflRegistration attempt while disabled !!");
-         Log.error(Geonet.SELF_REGISTER,
-               "!! SeflRegistration attempt while disabled : params=" +
-               Xml.getString(params));
+         acknowledgementDTO = new AcknowledgementDTO(false,
+               "SeflRegistration attempt while disabled !!");
+         Log.error(Geonet.SELF_REGISTER, "!! SeflRegistration attempt while disabled : params="
+               + Xml.getString(params));
       }
+
       return JeevesJsonWrapper.send(acknowledgementDTO);
    }
 
