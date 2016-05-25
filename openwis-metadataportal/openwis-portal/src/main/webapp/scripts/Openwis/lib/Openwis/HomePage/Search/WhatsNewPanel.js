@@ -62,7 +62,7 @@ Openwis.HomePage.Search.WhatsNewPanel = Ext.extend(Ext.Panel, {
 	    for(var i = 0; i < productMetadatas.length; i++) {
 	        var id = 'whats-new-' + productMetadatas[i].id;
 	        if(!this.getContentPanel().findById(id)) {
-	            var htmlContent = '<a>' + productMetadatas[i].title + '</a>';
+	            var htmlContent = '<a>' + Ext.util.Format.htmlEncode(productMetadatas[i].title) + '</a>';
 	        	var container = new Ext.Container({cls: 'line', style: 'cursor:pointer;', id: id, html: htmlContent});
 	        	this.getContentPanel().insert(i, container);
 	        } else {

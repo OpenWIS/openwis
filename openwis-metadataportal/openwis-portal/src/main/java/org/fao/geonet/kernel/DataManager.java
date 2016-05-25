@@ -2545,15 +2545,16 @@ public class DataManager implements IndexListener {
          if (aNs.getPrefix().equals("")) { // found default namespace
             String prefix = mds.getPrefix(aNs.getURI());
             if (prefix == null) {
-               throw new IllegalArgumentException(
+            	Log.warning(Geonet.DATA_MANAGER,
                      "No prefix - cannot find a namespace to set for element "
                            + md.getQualifiedName() + " - namespace URI " + aNs.getURI());
-            }
-            ns = Namespace.getNamespace(prefix, aNs.getURI());
-            setNamespacePrefix(md, ns);
-            if (!md.getNamespace().equals(ns)) {
-               md.removeNamespaceDeclaration(aNs);
-               md.addNamespaceDeclaration(ns);
+            } else {
+            	ns = Namespace.getNamespace(prefix, aNs.getURI());
+	            setNamespacePrefix(md, ns);
+	            if (!md.getNamespace().equals(ns)) {
+	               md.removeNamespaceDeclaration(aNs);
+	               md.addNamespaceDeclaration(ns);
+	            }
             }
          }
       }

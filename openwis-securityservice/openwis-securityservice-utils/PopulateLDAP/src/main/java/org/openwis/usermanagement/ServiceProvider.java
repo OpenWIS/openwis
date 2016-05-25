@@ -19,9 +19,9 @@ import org.openwis.securityservice.UserManagementService_Service;
  */
 public final class ServiceProvider {
 
-   private static String userWsdl = "http://localhost:8080/openwis-securityservice-openwis-securityservice-usermanagement-server-ejb-1.0-SNAPSHOT/UserManagementService?wsdl";
+   private static String userWsdl = "http://localhost:8080/openwis-securityservice/services/UserManagementService?wsdl";
 
-   private static String groupWsdl = "http://localhost:8080/openwis-securityservice-openwis-securityservice-usermanagement-server-ejb-1.0-SNAPSHOT/GroupManagementService?wsdl";
+   private static String groupWsdl = "http://localhost:8080/openwis-securityservice/services/GroupManagementService?wsdl";
 
    public static final String centreName = "DcpcDemo";
 

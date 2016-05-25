@@ -54,7 +54,7 @@ Openwis.HomePage.Search.LastProductsPanel = Ext.extend(Ext.Panel, {
 	    	var lastProductDto = processedRequests[i];
 	        var id = 'last-product-' + lastProductDto.id;
 	        if(!this.getContentPanel().findById(id)) {
-	        	var content = Openwis.Utils.Date.formatDateTimeUTC(lastProductDto.date) + ' - ' + lastProductDto.name;
+	        	var content = Openwis.Utils.Date.formatDateTimeUTC(lastProductDto.date) + ' - ' + Ext.util.Format.htmlEncode(lastProductDto.name);
 	            this.getContentPanel().insert(i, new Ext.Container({cls: 'line', style: 'cursor:pointer;', id: id, html: content}));
 	        } else {
 	            existingLastProducts.remove(id);
