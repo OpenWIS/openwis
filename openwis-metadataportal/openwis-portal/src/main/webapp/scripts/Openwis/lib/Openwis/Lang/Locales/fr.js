@@ -1079,7 +1079,7 @@ Openwis.Lang.Dictionary = {
     'Choose.Domain.msg': 'SVP, choisissez votre domaine.',
     
     //----------------------------------------------------------------- Register.
-    'RegistrationUser.info.msg' : 'Merci de saisir vos données personnelles pour créer un compte:',
+    'RegistrationUser.info.msg' : 'Merci de saisir vos données personnelles pour créer un compte (votre email sera votre nom d\'utilisateur):',
     'RegistrationUser.LastName.Label' : 'Nom de famille',
     'RegistrationUser.FirstName.Label' : 'Prénom',
 	'RegistrationUser.ContactEmail.Label' : 'Email',
