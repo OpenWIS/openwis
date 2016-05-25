@@ -25,6 +25,11 @@
 			<version>1.5.2</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+		    <groupId>io.openwis.management.service</groupId>
+            <artifactId>openwis-management-service-common</artifactId>
+            <version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

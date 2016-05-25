@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.openwis.dataservice.common.timer.SubscriptionTimerService;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.init.DataServiceTimerConfiguration;
 import org.openwis.datasource.server.init.ServerAgent;
@@ -24,12 +25,15 @@ public class SubscriptionTimerAgent implements ServerAgent {
    private static Logger logger = LoggerFactory.getLogger(SubscriptionTimerAgent.class);
 
    /** The Constant SERVICE_URL. */
-   private static final String SERVICE_URL = JndiUtils
-         .getString(DataServiceTimerConfiguration.SUBSCRUPTION_TIMER_URL_KEY);
+   private final String serviceUrl;
 
    /** The Constant TIME_PERIOD. */
-   private static final long TIME_PERIOD = JndiUtils
-         .getLong(DataServiceTimerConfiguration.SUBSCRIPTION_TIMER_PERIOD_KEY);
+   private final long timePeriod;
+   
+   public SubscriptionTimerAgent() {
+      this.serviceUrl = ConfigServiceFacade.getInstance().getString(DataServiceTimerConfiguration.SUBSCRUPTION_TIMER_URL_KEY);
+      this.timePeriod = ConfigServiceFacade.getInstance().getLong(DataServiceTimerConfiguration.SUBSCRIPTION_TIMER_PERIOD_KEY);
+   }
 
    /**
     * Shutdown.
@@ -47,7 +51,7 @@ public class SubscriptionTimerAgent implements ServerAgent {
          try {
             initialContext = new InitialContext();
             SubscriptionTimerService customTimer = (SubscriptionTimerService) initialContext
-                  .lookup(SERVICE_URL);
+                  .lookup(serviceUrl);
             customTimer.destroy();
          } catch (NamingException e) {
             logger.error("Context not found.", e);
@@ -68,14 +72,14 @@ public class SubscriptionTimerAgent implements ServerAgent {
    @Override
    public void startup() throws Exception {
       try {
-         logger.info("Subscription Timer Agent started, looking for {}.", SERVICE_URL);
+         logger.info("Subscription Timer Agent started, looking for {}.", serviceUrl);
 
          InitialContext initialContext;
          try {
             initialContext = new InitialContext();
             SubscriptionTimerService customTimer = (SubscriptionTimerService) initialContext
-                  .lookup(SERVICE_URL);
-            customTimer.start(TIME_PERIOD);
+                  .lookup(serviceUrl);
+            customTimer.start(timePeriod);
          } catch (NamingException e) {
             logger.error("Context not found.", e);
          }

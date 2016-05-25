@@ -29,9 +29,9 @@ import org.openwis.dataservice.common.domain.entity.request.ParameterCode;
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.domain.entity.request.Value;
 import org.openwis.dataservice.common.service.BlacklistService;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
-import org.openwis.dataservice.common.util.JndiUtils;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;
@@ -147,7 +147,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    }
 
    private void raiseExtractionFailsAlert(Object productInfo, Object cause){
-	   AlertService alertService = ManagementServiceProvider.getAlertService();
+	   AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 	   if (alertService == null){
 		   LOG.error("Could not get hold of the AlertService. No alert was passed!");
 		   return;
@@ -297,7 +297,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
       // dataservice-cache module configuration.
 
       // cache directory
-      String directory = JndiUtils.getString(CACHE_DIRECTORY_KEY);
+      String directory = ConfigServiceFacade.getInstance().getString(CACHE_DIRECTORY_KEY);
       if (directory == null || "".equals(directory.trim())) {
          // trace...
          LOG.warn("No cache directory defined, ignoring");
@@ -322,7 +322,7 @@ public class ExtractFromCacheImpl implements ExtractFromCache, ConfigurationInfo
    protected final String getStagingPostDirectory() {
 
       if (stagingPostDirectory == null) {
-         stagingPostDirectory = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
+         stagingPostDirectory = ConfigServiceFacade.getInstance().getString(STAGING_POST_DIRECTORY_KEY); //JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
       }
       return stagingPostDirectory;
    }

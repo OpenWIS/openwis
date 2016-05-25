@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
@@ -25,7 +26,6 @@ import javax.persistence.Query;
 import org.openwis.management.entity.FeedingFilter;
 import org.openwis.management.entity.IngestionFilter;
 import org.openwis.management.entity.ReplicationFilter;
-import org.openwis.management.utils.JndiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +60,9 @@ public class ControlServiceImpl implements ControlService {
 
    @PersistenceContext
    private EntityManager entityManager;
+   
+   @EJB
+   private ConfigService configService;
 
    // -------------------------------------------------------------------------
    // DataService Management
@@ -112,7 +115,7 @@ public class ControlServiceImpl implements ControlService {
     */
    private String checkServiceStatusWithFile(ManagedServiceIdentifier serviceId) {
 
-      String path = JndiUtils.getString(DATASERVICE_SERVICE_STATUS_FOLDER);
+      String path = configService.getString(DATASERVICE_SERVICE_STATUS_FOLDER);
       File fEnabled = new File(path, serviceId.name() + FILE_STATUS_ENABLED);
       File fDisabled = new File(path, serviceId.name() + FILE_STATUS_DISABLED);
       try {
@@ -129,7 +132,7 @@ public class ControlServiceImpl implements ControlService {
                   return ManagedServiceStatus.UNKNOWN.name();
                }
             } catch (Exception e) {
-               logger.error(e.getMessage(), e);
+               logger.error("Cannot create status file " + fEnabled + ": " + e.getMessage(), e);
                return ManagedServiceStatus.UNKNOWN.name();
             }
          }
@@ -147,7 +150,7 @@ public class ControlServiceImpl implements ControlService {
     */
    private String checkReplicationServiceStatus() {
 
-      String path = JndiUtils.getString(REPLICATION_STATUS_FOLDER);
+      String path = configService.getString(REPLICATION_STATUS_FOLDER);
       File fEnabled = new File(path, REPLICATION_STATUS_FILE_NAME + FILE_STATUS_ENABLED);
       File fDisabled = new File(path, REPLICATION_STATUS_FILE_NAME + FILE_STATUS_DISABLED);
       try {
@@ -332,7 +335,7 @@ public class ControlServiceImpl implements ControlService {
       query.executeUpdate();
 
       // create default feeding filters
-      String defaultFeedingFilterLocation = JndiUtils.getString(DEFAULT_FEEDING_FILTER_LOCATION);
+      String defaultFeedingFilterLocation = configService.getString(DEFAULT_FEEDING_FILTER_LOCATION);
       File feedingFilterFile = new File(defaultFeedingFilterLocation);
       FileReader fileReader = null;
       BufferedReader br = null;
@@ -583,7 +586,7 @@ public class ControlServiceImpl implements ControlService {
          return false;
       }
 
-      String path = JndiUtils.getString(REPLICATION_STATUS_FOLDER);
+      String path = configService.getString(REPLICATION_STATUS_FOLDER);
       
       File fEnable = new File(path, REPLICATION_STATUS_FILE_NAME + FILE_STATUS_ENABLED);
       File fDisable = new File(path, REPLICATION_STATUS_FILE_NAME + FILE_STATUS_DISABLED);
@@ -614,7 +617,7 @@ public class ControlServiceImpl implements ControlService {
          return false;
       }
 
-      String path = JndiUtils.getString(DATASERVICE_SERVICE_STATUS_FOLDER);
+      String path = configService.getString(DATASERVICE_SERVICE_STATUS_FOLDER);
       File fEnabled = new File(path, serviceId.name() + FILE_STATUS_ENABLED);
       File fDisabled = new File(path, serviceId.name() + FILE_STATUS_DISABLED);
 

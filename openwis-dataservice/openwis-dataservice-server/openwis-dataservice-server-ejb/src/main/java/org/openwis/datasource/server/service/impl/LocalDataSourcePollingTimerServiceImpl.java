@@ -21,6 +21,7 @@ import org.openwis.dataservice.common.service.LocalDataSourceExtractService;
 import org.openwis.dataservice.common.timer.LocalDataSourcePollingTimerService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
+import org.openwis.management.config.PropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,11 +135,12 @@ public class LocalDataSourcePollingTimerServiceImpl extends ProductArrivalHandle
          localDataSourcePolling = new ArrayList<String>();
          // Retrieve LocalDataSource for polling
          String ldsPolling;
-         InitialContext ctx;
-         try {
-            ctx = new InitialContext();
-            Properties properties = (Properties) ctx
-                  .lookup(DataServiceConfiguration.LOCA_DATA_SOURCE_CONFIGURATION_LOCATION);
+//         InitialContext ctx;
+//         try {
+//            ctx = new InitialContext();
+//            Properties properties = (Properties) ctx
+//                  .lookup(DataServiceConfiguration.LOCA_DATA_SOURCE_CONFIGURATION_LOCATION);
+            Properties properties = new PropertySource(PropertySource.LOCAL_DATA_SOURCE).getProperties();
             for (String ldsName : localDataSourceExtractSrv.getAllLocalDataSourceRef()) {
                ldsPolling = properties.getProperty(ldsName
                      + DataServiceConfiguration.LOCAL_DATA_SOURCE_POLLING_ENDS);
@@ -146,9 +148,9 @@ public class LocalDataSourcePollingTimerServiceImpl extends ProductArrivalHandle
                   localDataSourcePolling.add(ldsName);
                }
             }
-         } catch (NamingException e1) {
-            logger.error("Can not retrieve the JNDI context.", e1);
-         }
+//         } catch (NamingException e1) {
+//            logger.error("Can not retrieve the JNDI context.", e1);
+//         }
 
       }
       return localDataSourcePolling;

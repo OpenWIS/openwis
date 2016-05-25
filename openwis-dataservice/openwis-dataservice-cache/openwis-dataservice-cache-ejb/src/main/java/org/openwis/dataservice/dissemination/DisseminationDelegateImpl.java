@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -57,8 +58,8 @@ import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmBuilder;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarmRequestType;
 import org.openwis.dataservice.common.service.MailSender;
 import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
-import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.DisseminationRequestInfo;
 import org.openwis.dataservice.util.DisseminationUtils;
 import org.openwis.dataservice.util.FilePacker;
@@ -71,7 +72,7 @@ import org.openwis.harness.dissemination.DisseminationInfo;
 import org.openwis.harness.dissemination.DisseminationStatus;
 import org.openwis.harness.dissemination.RequestStatus;
 import org.openwis.management.ManagementServiceBeans;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.openwis.management.utils.DataServiceAlerts;
@@ -112,16 +113,16 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    private static String FAILURE_DISS_STATE = "FAILED";
 
    // Dissemination harness URLs
-   private String disseminationHarnessPublicURL = JndiUtils.getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
+   private String disseminationHarnessPublicURL; // = JndiUtils.getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
 
-   private String disseminationHarnessRMDCNURL = JndiUtils.getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
+   private String disseminationHarnessRMDCNURL; // = JndiUtils.getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
 
    // Staging Post items
-   private static String stagingPostDirectory = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
+   private static String stagingPostDirectory; // = JndiUtils.getString(STAGING_POST_DIRECTORY_KEY);
    private static final String STAGING_POST_MAIL_PROPERTIES = "openwis-sp-mail-message";
    private static final String STAGING_POST_MAIL_SUBJECT_KEY = "dataservice.dissemination.stagingPostMessage.subject";
    private static final String STAGING_POST_MAIL_CONTENT_KEY = "dataservice.dissemination.stagingPostMessage.content";
-   private static String stagingPostUrl = JndiUtils.getString(STAGING_POST_URL_KEY);
+   private static String stagingPostUrl; // = JndiUtils.getString(STAGING_POST_URL_KEY);
 
    @EJB
    private UserAlarmManagerLocal userAlarmManager;
@@ -140,6 +141,14 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
     */
    @Resource(mappedName = "java:/queue/StatisticsQueue")
    private Queue queue;
+   
+   @PostConstruct
+   public void initialize() {
+      disseminationHarnessPublicURL = ConfigServiceFacade.getInstance().getString(DISSEMINATION_HARNESS_PUBLIC_URL_KEY);
+      disseminationHarnessRMDCNURL = ConfigServiceFacade.getInstance().getString(DISSEMINATION_HARNESS_RMDCN_URL_KEY);
+      stagingPostDirectory = ConfigServiceFacade.getInstance().getString(STAGING_POST_DIRECTORY_KEY);
+      stagingPostUrl = ConfigServiceFacade.getInstance().getString(STAGING_POST_URL_KEY);
+   }
 
    private ControlService controlService;
 
@@ -689,7 +698,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
    private void raiseDeliveryFailedEvent(ProcessedRequest processedRequest,
          DisseminationJob dissJob, String errorMessage) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          logger.error("Could not get hold of the Alert Service. No alert was passed.");
       } else {
@@ -714,13 +723,13 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
    private long getMailDiffusionThreshold() {
       long value;
-      value = JndiUtils.getLong(MAIL_DIFFUSION_THRESHOLD_KEY);
+      value = ConfigServiceFacade.getInstance().getLong(MAIL_DIFFUSION_THRESHOLD_KEY);
       return value;
    }
 
    private long getFTPDiffusionThreshold() {
       long value;
-      value = JndiUtils.getLong(FTP_DIFFUSION_THRESHOLD_KEY);
+      value = ConfigServiceFacade.getInstance().getLong(FTP_DIFFUSION_THRESHOLD_KEY);
       return value;
    }
 
@@ -902,7 +911,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
    private void raiseThresholdExceededAlarm(Object threshold, Object value, Object user,
          Object dissMethod) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          logger.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -1175,7 +1184,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       ProcessedRequest processedRequest = getProcessedRequest(dissJob.getRequestId());
       prepareForDelivery(dissJob.getFileURI(), getZipMode(processedRequest, startPrimary), dissJob, processedRequest);
 
-      String fromMailAddress = JndiUtils.getString(ConfigurationInfo.MAIL_FROM);
+      String fromMailAddress = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.MAIL_FROM);
       String userMailAddress = processedRequest.getRequest().getEmail();
       if (userMailAddress == null) {
          logger.error("No user e-mail address was provided. Could not send a mail to user for staging post dissemination.");
@@ -1188,7 +1197,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
 
       try {
          InitialContext context = new InitialContext();
-         MailSender mailSender = (MailSender) context.lookup(JndiUtils
+         MailSender mailSender = (MailSender) context.lookup(ConfigServiceFacade.getInstance()
                .getString(MAIL_SENDER_URL_KEY));
          logger.info("Sending mail to " + userMailAddress);
          mailSender.sendMail(fromMailAddress, userMailAddress, subject, content);

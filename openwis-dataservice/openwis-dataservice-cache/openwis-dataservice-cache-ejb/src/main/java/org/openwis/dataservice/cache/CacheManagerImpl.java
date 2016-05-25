@@ -40,8 +40,8 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.common.domain.entity.cache.CacheConfiguration;
 import org.openwis.dataservice.common.domain.entity.cache.CachedFile;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
-import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.gts.feeding.Feeder;
 import org.openwis.dataservice.util.CacheUtils;
 import org.openwis.dataservice.util.ChecksumCalculator;
@@ -52,10 +52,10 @@ import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.IncomingDSMessage;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.StatisticsMessage;
 import org.openwis.management.ManagementServiceBeans;
-import org.openwis.management.alert.AlertService;
 import org.openwis.management.entity.IngestedData;
 import org.openwis.management.entity.ReplicatedData;
 import org.openwis.management.entity.ReplicationFilter;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.IngestedDataStatistics;
 import org.openwis.management.service.ReplicatedDataStatistics;
@@ -625,7 +625,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    }
 	
 	private void raiseLargeProductAlert(FileInfo fileInfo){
-		AlertService alertService = ManagementServiceProvider.getAlertService();
+		AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 		if (alertService == null){
 			LOG.error("Could not get hold of the AlertService. No alert was passed!");
 			return;
@@ -709,17 +709,29 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	           CacheUtils.postTextMessage(INCOMING_DATA_QUEUE_NAME, body);
 	      }
 	}
+	
+	// TEMP
+	private long getConfigValue(String configValue) {
+	   try {
+         return Long.parseLong(ManagementServiceBeans.getInstance().getConfigService().getString(configValue));
+      } catch (NumberFormatException e) {
+         throw new RuntimeException("Cannot get config value: " + configValue, e);
+      } catch (NamingException e) {
+         throw new RuntimeException("Cannot get config value: " + configValue, e);
+      }
+	}
+	// END TEMP
 
 	public long getPurgingTimerPeriod(){
 		if (purgingTimerPeriod == 0){
-			purgingTimerPeriod = JndiUtils.getLong(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_PERIOD_KEY);
+			purgingTimerPeriod = getConfigValue(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_PERIOD_KEY);
 		}
 		return purgingTimerPeriod;
 	}
 
 	public long getPurgingTimerInitialDelay(){
 		if (purgingTimerInitialDelay == 0){
-			purgingTimerInitialDelay = JndiUtils.getLong(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_INITIAL_DELAY_KEY);
+			purgingTimerInitialDelay = getConfigValue(CACHE_MANAGER_TEMPORARY_DIRECTORY_PURGE_TIMER_INITIAL_DELAY_KEY);
 		}
 		return purgingTimerInitialDelay;
 	}
@@ -727,7 +739,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	public long getAlertCleanerTimerPeriod(){
 		if (alertCleanerTimerPeriod == 0){
 			try {
-				alertCleanerTimerPeriod = JndiUtils.getLong(CACHE_MANAGER_ALERT_CLEANER_TIMER_PERIOD_KEY);
+				alertCleanerTimerPeriod = getConfigValue(CACHE_MANAGER_ALERT_CLEANER_TIMER_PERIOD_KEY);
 			}
 			catch (NumberFormatException e){
 				// catch if no entry can be found in the JNDI
@@ -741,7 +753,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	public long getAlertCleanerTimerInitialDelay(){
 		if (alertCleanerTimerInitialDelay == 0){
 			try {
-				alertCleanerTimerInitialDelay = JndiUtils.getLong(CACHE_MANAGER_ALERT_CLEANER_TIMER_INITIAL_DELAY_KEY);
+				alertCleanerTimerInitialDelay = getConfigValue(CACHE_MANAGER_ALERT_CLEANER_TIMER_INITIAL_DELAY_KEY);
 			}
 			catch (NumberFormatException e){
 				// catch if no entry can be found in the JNDI
@@ -754,21 +766,21 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 
 	public long getHousekeepingTimerPeriod(){
 		if (housekeepingTimerPeriod == 0){
-			housekeepingTimerPeriod = JndiUtils.getLong(CACHE_MANAGER_HOUSEKEEPING_TIMER_PERIOD_KEY);
+			housekeepingTimerPeriod = getConfigValue(CACHE_MANAGER_HOUSEKEEPING_TIMER_PERIOD_KEY);
 		}
 		return housekeepingTimerPeriod;
 	}
 
 	public long getHousekeepingTimerInitialDelay(){
 		if (housekeepingTimerInitialDelay == 0){
-			housekeepingTimerInitialDelay = JndiUtils.getLong(CACHE_MANAGER_HOUSEKEEPING_TIMER_INITIAL_DELAY_KEY);
+			housekeepingTimerInitialDelay = getConfigValue(CACHE_MANAGER_HOUSEKEEPING_TIMER_INITIAL_DELAY_KEY);
 		}
 		return housekeepingTimerInitialDelay;
 	}
 
 	public long getHousekeepingExpirationWindow(){
 		if (housekeepingExpirationWindow == 0){
-			housekeepingExpirationWindow = MILLISECONDS_PER_DAY * JndiUtils.getLong(CACHE_MANAGER_HOUSEKEEPING_EXPIRATION_WINDOW_KEY);
+			housekeepingExpirationWindow = MILLISECONDS_PER_DAY * getConfigValue(CACHE_MANAGER_HOUSEKEEPING_EXPIRATION_WINDOW_KEY);
 		}
 		return housekeepingExpirationWindow;
 	}
@@ -776,7 +788,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 	public long getAlertCleanerExpirationWindow(){
 		if (alertCleanerExpirationWindow == 0){
 			try {
-				alertCleanerExpirationWindow = MILLISECONDS_PER_DAY * JndiUtils.getLong(CACHE_MANAGER_ALERT_CLEANER_EXPIRATION_WINDOW_KEY);
+				alertCleanerExpirationWindow = MILLISECONDS_PER_DAY * getConfigValue(CACHE_MANAGER_ALERT_CLEANER_EXPIRATION_WINDOW_KEY);
 			}
 			catch (NumberFormatException e){
 				// catch if no entry can be found in the JNDI
@@ -789,35 +801,35 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 
 	public long getPurgingExpirationWindow(){
 		if (purgingExpirationWindow == 0){
-			purgingExpirationWindow = JndiUtils.getLong(CACHE_MANAGER_PURGING_EXPIRATION_WINDOW_KEY);
+			purgingExpirationWindow = getConfigValue(CACHE_MANAGER_PURGING_EXPIRATION_WINDOW_KEY);
 		}
 		return purgingExpirationWindow;
 	}
 
 	public String getCacheDirectory(){
 		if (cacheDirectoryPath == null){
-			cacheDirectoryPath = JndiUtils.getString(CACHE_DIRECTORY_KEY);
+			cacheDirectoryPath = ConfigServiceFacade.getInstance().getString(CACHE_DIRECTORY_KEY);
 		}
 		return cacheDirectoryPath;
 	}
 
 	public String getHarnessOutgoingDirectory(){
 		if (harnessOutgoingDirectoryPath == null){
-			harnessOutgoingDirectoryPath = JndiUtils.getString(HARNESS_OUTGOING_DIRECTORY_KEY);
+			harnessOutgoingDirectoryPath = ConfigServiceFacade.getInstance().getString(HARNESS_OUTGOING_DIRECTORY_KEY);
 		}
 		return harnessOutgoingDirectoryPath;
 	}
 
 	public String getTempDirectory(){
 		if (tempDirectoryPath == null){
-			tempDirectoryPath = JndiUtils.getString(TEMP_DIRECTORY_KEY);
+			tempDirectoryPath = ConfigServiceFacade.getInstance().getString(TEMP_DIRECTORY_KEY);
 		}
 		return tempDirectoryPath;
 	}
 
 	public String getWorkingDirectory(){
 		if (workingDirectoryPath == null){
-			workingDirectoryPath = JndiUtils.getString(HARNESS_WORKING_DIRECTORY_KEY);
+			workingDirectoryPath = ConfigServiceFacade.getInstance().getString(HARNESS_WORKING_DIRECTORY_KEY);
 		}
 		return workingDirectoryPath;
 	}
@@ -837,7 +849,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 			return;
 		}
 
-		long stagingPostMaximumSize = JndiUtils.getLong(STAGING_POST_MAXIMUM_SIZE);
+		long stagingPostMaximumSize = ConfigServiceFacade.getInstance().getLong(STAGING_POST_MAXIMUM_SIZE);
 		if (stagingPostSize >= stagingPostMaximumSize){
 			raiseStagingPostMaximumSizeReachedEvent(Long.valueOf(stagingPostMaximumSize), Long.valueOf(stagingPostSize));
 		}
@@ -851,7 +863,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
       ReplicatedData replicatedData = getReplicatedDataStatistics().getReplicatedData(date);
 
       if (ingestedData != null && replicatedData != null) {
-         long cacheMaximumSize = JndiUtils.getLong(CACHE_MAXIMUM_SIZE);
+         long cacheMaximumSize = ConfigServiceFacade.getInstance().getLong(CACHE_MAXIMUM_SIZE);
          long actualSize = ingestedData.getSize() + replicatedData.getSize();
 
          if (actualSize >= cacheMaximumSize) {
@@ -861,7 +873,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    }
 	
 	private void raiseCacheMaximumSizeReachedAlert(long maximumSize, long actualSize) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       if (alertService == null) {
          LOG.error("Could not get hold of the AlertService. No alert was passed!");
          return;
@@ -879,7 +891,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
    }
 
 	private void raiseStagingPostMaximumSizeReachedEvent(Object stagingPostMaximumSize, Object stagingPostCurrentSize){
-		AlertService alertService = ManagementServiceProvider.getAlertService();
+		AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 	   if (alertService == null){
 		   LOG.error("Could not get hold of the AlertService. No alert was passed!");
 		   return;
