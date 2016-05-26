@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="test">
+	<persistence-unit name="DataServicePUnit">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
@@ -49,7 +49,9 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.cache.use_second_level_cache" value="true" />
 			<property name="hibernate.cache.use_query_cache" value="true" />
+			<!--
 			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.jbc2.MultiplexedJBossCacheRegionFactory" />
+			 -->
 			<!-- region factory specific properties -->
 <!-- 			<property name="hibernate.cache.region.jbc2.cachefactory" value="java:CacheManager" /> -->
 <!-- 			<property name="hibernate.cache.region.jbc2.cfg.entity" value="mvcc-entity" /> -->

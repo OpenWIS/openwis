@@ -122,6 +122,7 @@
 		    <!-- <version>${shrinkwrap.versi  on}</version>   -->
 		    <scope>test</scope>  
 		</dependency>
+		
 		<!-- 
         <dependency>
           <groupId>org.jboss.shrinkwrap.resolver</groupId>
@@ -174,6 +175,11 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		  <groupId>org.wildfly</groupId>
+		  <artifactId>wildfly-cli</artifactId>
+		  <version>8.2.1.Final</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.openwis.management.service</groupId>
@@ -223,6 +229,7 @@
 					</includes>
 					
                     <!-- Fork every test because it will launch a separate AS instance -->
+                    <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
                     <forkMode>always</forkMode>
                     
                     <systemPropertyVariables>

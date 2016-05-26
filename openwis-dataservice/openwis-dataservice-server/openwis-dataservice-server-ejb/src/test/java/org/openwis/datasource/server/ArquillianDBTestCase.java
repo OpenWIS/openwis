@@ -23,16 +23,14 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.as.cli.CommandContext;
+import org.jboss.as.cli.CommandContextFactory;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
-import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
-import org.jboss.shrinkwrap.resolver.api.maven.strategy.AcceptScopesStrategy;
 import org.openwis.dataservice.cache.CacheIndex;
 import org.openwis.dataservice.cache.CacheIndexImpl;
 import org.openwis.dataservice.common.domain.entity.blacklist.BlacklistInfo;
@@ -67,6 +65,7 @@ import org.openwis.datasource.server.dao.JpaDao;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
 import org.openwis.datasource.server.mdb.delegate.ExtractionDelegate;
 import org.openwis.datasource.server.mdb.delegate.impl.SubscriptionDelegateImpl;
+import org.openwis.datasource.server.mocks.MockedFeederEjb;
 import org.openwis.datasource.server.service.impl.BlacklistServiceImpl;
 import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplTestCase;
 import org.openwis.datasource.server.service.impl.UserAlarmManagerImpl;
@@ -89,7 +88,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
 
    /** The Constant JDBC_HSQLDB_URL. */
    private static final String JDBC_HSQLDB_URL = "jdbc:hsqldb:mem";
-
+   
    /**
     * Creates the deployment.
     *
@@ -132,8 +131,11 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   BlacklistServiceImpl.class.getPackage(),
                   ExtractionDelegate.class.getPackage(),
                   DisseminatedDataStatisticsImpl.class.getPackage(),
-                  UserAlarmManagerImpl.class.getPackage(), UserAlarm.class.getPackage())
-            .addAsManifestResource("test-persistence.xml", "persistence.xml")
+                  UserAlarmManagerImpl.class.getPackage(), UserAlarm.class.getPackage(),
+                  MockedFeederEjb.class.getPackage()
+            )
+            //.addAsManifestResource("test-persistence.xml", " /WEB-INF/classes/persistence.xml")
+            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
             .addAsLibraries(mavenResolver.resolve("io.openwis.harness:openwis-harness-localdatasource").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-common").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().asFile())
