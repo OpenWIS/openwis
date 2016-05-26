@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-@Ignore
+//@Ignore
 public class ExtractionDelegateTestCase extends ArquillianDBTestCase {
 
    /**

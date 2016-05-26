@@ -14,10 +14,23 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<arquillian.version>1.0.0.Alpha4</arquillian.version>
+		<!-- <arquillian.version>1.0.3.Final</arquillian.version>
+		<shrinkwrap.version>1.1.0-alpha-3</shrinkwrap.version> -->
 		<version.org.apache.openejb_openejb.core>3.1.3</version.org.apache.openejb_openejb.core>
 		<cxf.version>2.2.10</cxf.version>
 	</properties>
+	
+	<dependencyManagement>
+	    <dependencies>
+	        <dependency>
+	            <groupId>org.jboss.arquillian</groupId>
+	            <artifactId>arquillian-bom</artifactId>
+	            <version>1.1.11.Final</version>
+	            <scope>import</scope>
+	            <type>pom</type>
+	        </dependency>
+	    </dependencies>
+	</dependencyManagement>	
 
 	<dependencies>
          <dependency>
@@ -98,11 +111,44 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jboss.arquillian</groupId>
-			<artifactId>arquillian-junit</artifactId>
-			<version>${arquillian.version}</version>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<!-- <version>${arquillian.version}</version> -->
 			<scope>test</scope>
 		</dependency>
+		<dependency>  
+		    <groupId>org.jboss.shrinkwrap.resolver</groupId>  
+		    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+		    <!-- <version>${shrinkwrap.versi  on}</version>   -->
+		    <scope>test</scope>  
+		</dependency>
+		<!-- 
+        <dependency>
+          <groupId>org.jboss.shrinkwrap.resolver</groupId>
+          <artifactId>shrinkwrap-resolver-depchain</artifactId>
+          <version>2.2.2</version>
+          <scope>test</scope>
+          <type>pom</type>
+        </dependency>
+         -->		
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-arquillian-container-embedded</artifactId>
+            <version>8.1.0.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-embedded</artifactId>
+            <version>8.1.0.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.4.2</version>
+            <scope>test</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.dbunit</groupId>
@@ -111,6 +157,11 @@
 			<scope>test</scope>
 		</dependency>
 
+        <dependency>
+            <groupId>io.openwis.dataservice.cache</groupId>
+            <artifactId>openwis-dataservice-cache-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>io.openwis.dataservice.cache</groupId>
 			<artifactId>openwis-dataservice-cache-ejb</artifactId>
@@ -131,7 +182,19 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		
+	    <dependency>
+	       <groupId>org.apache.commons</groupId>
+	       <artifactId>commons-lang3</artifactId>
+	       <version>3.1</version>
+	    </dependency>
+        <dependency>
+           <groupId>commons-collections</groupId>
+           <artifactId>commons-collections</artifactId>
+           <version>3.1</version>
+        </dependency>
 
+        <!-- 
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>openejb-core</artifactId>
@@ -144,6 +207,7 @@
 			</exclusions>
 			<scope>test</scope>
 		</dependency>
+		 -->
 	</dependencies>
 
 	<build>
@@ -152,11 +216,22 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<!-- version 2.5 creates separate test suites per class -->
-				<version>2.4.3</version>
+				<version>2.17</version>
 				<configuration>
 					<includes>
 						<include>**/*TestCase.java</include>
 					</includes>
+					
+                    <!-- Fork every test because it will launch a separate AS instance -->
+                    <forkMode>always</forkMode>
+                    
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                          <!-- the maven dependency plugin will have already downloaded the server on /target -->
+                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
+                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
+                    </systemPropertyVariables>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>					
 				</configuration>
 			</plugin>
             <plugin>
@@ -180,10 +255,55 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-dist</artifactId>
+                                    <version>8.1.0.Final</version>
+                                    <type>zip</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <!-+- Fork every test because it will launch a separate AS instance -+->
+                    <forkMode>always</forkMode>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                          <!-+- the maven dependency plugin will have already downloaded the server on /target -+->
+                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
+                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
+                    </systemPropertyVariables>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                </configuration>
+            </plugin> 
+            -->
 		</plugins>
 	</build>
 
 	<profiles>
+	   <!-- 
 		<profile>
 			<id>arq-openejb-embedded-hibernate</id>
 
@@ -241,6 +361,7 @@
 				</testResources>
 			</build>
 		</profile>
+		 -->
 		<profile>
 			<id>generate-wsdl</id>
 			<activation>
