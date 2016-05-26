@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.ControlService;
@@ -139,7 +140,7 @@ public class DisseminationManagerTimerServiceImpl implements DisseminationManage
     */
    private void configure() {
 	         
-	   disseminationInitialDelay = JndiUtils.getLong(DISSEMINATION_TIMER_INITIAL_DELAY_KEY);      
-	   disseminationPeriod = JndiUtils.getLong(DISSEMINATION_TIMER_PERIOD_KEY);
+	   disseminationInitialDelay = ConfigServiceFacade.getInstance().getLong(DISSEMINATION_TIMER_INITIAL_DELAY_KEY);      
+	   disseminationPeriod = ConfigServiceFacade.getInstance().getLong(DISSEMINATION_TIMER_PERIOD_KEY);
    }
 }

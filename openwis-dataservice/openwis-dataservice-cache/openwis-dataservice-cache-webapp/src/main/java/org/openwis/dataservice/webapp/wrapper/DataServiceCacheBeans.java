@@ -6,7 +6,7 @@ import javax.naming.NamingException;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.cache.CacheIndex;
 import org.openwis.dataservice.cache.CacheManager;
-import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.dissemination.DisseminationManagerTimerService;
 import org.openwis.dataservice.dissemination.DisseminationStatusMonitor;
 import org.openwis.dataservice.gts.GTSTimerService;
@@ -31,22 +31,22 @@ public class DataServiceCacheBeans {
    }
    
    public PackedFeedingTimerService getPackedFeedingTimerService() throws NamingException {
-      final String packedFeedingTimerServiceJndiName = JndiUtils.getString(ConfigurationInfo.PACKED_FEEDING_TIMER_SERVICE_URL_KEY);
+      final String packedFeedingTimerServiceJndiName = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.PACKED_FEEDING_TIMER_SERVICE_URL_KEY);
       return (PackedFeedingTimerService) lookupBean(packedFeedingTimerServiceJndiName);
    }
    
    public GTSTimerService getSplittingTimerService() throws NamingException {
-      final String gtsTimerServiceJndiName = JndiUtils.getString(ConfigurationInfo.SPLITTING_TIMER_SERVICE_URL_KEY);
+      final String gtsTimerServiceJndiName = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.SPLITTING_TIMER_SERVICE_URL_KEY);
       return (GTSTimerService) lookupBean(gtsTimerServiceJndiName);
    }
    
    public CacheIndex getCacheIndex() throws NamingException {
-      final String cacheIndexJndiName = JndiUtils.getString(ConfigurationInfo.CACHE_INDEX_URL_KEY);
+      final String cacheIndexJndiName = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.CACHE_INDEX_URL_KEY);
       return (CacheIndex) lookupBean(cacheIndexJndiName);
    }
    
    public CacheManager getCacheManager() throws NamingException {
-      final String cacheManagerJndiName = JndiUtils.getString(ConfigurationInfo.CACHE_MANAGER_URL_KEY);
+      final String cacheManagerJndiName = ConfigServiceFacade.getInstance().getString(ConfigurationInfo.CACHE_MANAGER_URL_KEY);
       return (CacheManager) lookupBean(cacheManagerJndiName);
    }   
    

@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.openwis.dataservice.common.timer.ExtractionTimerService;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.init.DataServiceTimerConfiguration;
 import org.openwis.datasource.server.init.ServerAgent;
@@ -26,12 +27,15 @@ public class ExtractionTimerAgent implements ServerAgent {
    private static Logger logger = LoggerFactory.getLogger(ExtractionTimerAgent.class);
 
    /** The Constant SERVICE_URL. */
-   private static final String SERVICE_URL = JndiUtils
-         .getString(DataServiceTimerConfiguration.EXTRACTION_TIMER_URL_KEY);
+   private final String serviceUrl;
 
    /** The Constant TIMER_PERIOD. */
-   private static final long TIMER_PERIOD = JndiUtils
-         .getLong(DataServiceTimerConfiguration.EXTRACTION_TIMER_PERIOD_KEY);
+   private final long timerPeriod;
+   
+   public ExtractionTimerAgent() {
+      this.serviceUrl = ConfigServiceFacade.getInstance().getString(DataServiceTimerConfiguration.EXTRACTION_TIMER_URL_KEY);
+      this.timerPeriod = ConfigServiceFacade.getInstance().getLong(DataServiceTimerConfiguration.EXTRACTION_TIMER_PERIOD_KEY);
+   }
 
    /**
     * Shutdown.
@@ -49,7 +53,7 @@ public class ExtractionTimerAgent implements ServerAgent {
          try {
             initialContext = new InitialContext();
             ExtractionTimerService customTimer = (ExtractionTimerService) initialContext
-                  .lookup(SERVICE_URL);
+                  .lookup(serviceUrl);
             customTimer.destroy();
          } catch (NamingException e) {
             logger.error("Context not found.", e);
@@ -70,14 +74,14 @@ public class ExtractionTimerAgent implements ServerAgent {
    @Override
    public void startup() throws Exception {
       try {
-         logger.info("Extraction Timer Agent started, looking for {}.", SERVICE_URL);
+         logger.info("Extraction Timer Agent started, looking for {}.", serviceUrl);
 
          InitialContext initialContext;
          try {
             initialContext = new InitialContext();
             ExtractionTimerService customTimer = (ExtractionTimerService) initialContext
-                  .lookup(SERVICE_URL);
-            customTimer.start(TIMER_PERIOD);
+                  .lookup(serviceUrl);
+            customTimer.start(timerPeriod);
          } catch (NamingException e) {
             logger.error("Context not found.", e);
          }
