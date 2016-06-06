@@ -5,7 +5,7 @@
   <parent>
     <artifactId>openwis-dataservice-cache</artifactId>
     <groupId>org.openwis.dataservice.cache</groupId>
-	<version>3.13.1MF3</version>
+	<version>3.13.1MF4</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 

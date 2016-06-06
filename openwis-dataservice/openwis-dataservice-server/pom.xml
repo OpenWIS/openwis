@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice</artifactId>
 		<groupId>org.openwis.dataservice</groupId>
-		<version>3.13.1MF3</version>
+		<version>3.13.1MF4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
