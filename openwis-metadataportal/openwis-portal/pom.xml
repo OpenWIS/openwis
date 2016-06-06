@@ -5,8 +5,8 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-	  <version>develop-SNAPSHOT</version>
-	  <relativePath>../pom.xml</relativePath>
+     <version>3.14.5</version>
+     <relativePath>../pom.xml</relativePath>
    </parent>
 
 
@@ -38,15 +38,15 @@
    <profiles>
       <profile>
          <id>user</id>
-	     <properties>
-			<war.name>openwis-user-portal</war.name>
-			<profile-id>user</profile-id>
+       <activation>
+         <activeByDefault>${user.module}</activeByDefault>
+       </activation>
+         <properties>
+         <war.name>openwis-user-portal</war.name>
+         <profile-id>user</profile-id>
          </properties>
-          <activation>
-			<activeByDefault>${user.module}</activeByDefault>
-		 </activation>
          <build>
-		 <directory>openwis-user-portal</directory>
+       <directory>openwis-user-portal</directory>
             <plugins>
                <plugin>
                   <artifactId>maven-resources-plugin</artifactId>
@@ -95,15 +95,15 @@
       </profile>
       <profile>
          <id>admin</id>
-		 <properties>
-		    <war.name>openwis-admin-portal</war.name>
-			<profile-id>admin</profile-id>
+       <activation>
+         <activeByDefault>${admin.module}</activeByDefault>
+       </activation>
+         <properties>
+          <war.name>openwis-admin-portal</war.name>
+         <profile-id>admin</profile-id>
          </properties>
-         <activation>
-			<activeByDefault>${admin.module}</activeByDefault>
-		 </activation>
          <build>
-		 <directory>openwis-admin-portal</directory>
+       <directory>openwis-admin-portal</directory>
             <plugins>
                <plugin>
                   <artifactId>maven-resources-plugin</artifactId>
@@ -163,7 +163,7 @@
                <attachClasses>true</attachClasses>
                <warName>${war.name}</warName>
                <webappDirectory>${geonetwork.webapp.target.dir}</webappDirectory>
-			   <classifier>${profile-id}</classifier>
+            <classifier>${profile-id}</classifier>
             </configuration>
          </plugin>
          
@@ -330,7 +330,7 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Harvesting/Harvester/FileSystem.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Harvesting/Harvester/Oaipmh.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Harvesting/Harvester/CSW.js</include>
-        				<include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Harvesting/Harvester/WebDav.js</include>
+                  <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Harvesting/Harvester/WebDav.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Harvesting/All.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Synchro/Manage.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Synchro/All.js</include>
@@ -365,7 +365,7 @@
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/SubSelectionParameters/SSPStandardProduct.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/SubSelectionParameters/SSPGlobalProduct.js</include>
 
-						<include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/BackUp/BackupSelection.js</include>
+                  <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/BackUp/BackupSelection.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/DisseminationParameters/Components/Diffusion.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/DisseminationParameters/Components/MSSFSS.js</include>
                         <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RequestSubscription/DisseminationParameters/Components/StagingPost.js</include>
@@ -544,19 +544,19 @@
       <dependency>
          <groupId>io.openwis.harness</groupId>
          <artifactId>openwis-harness-subselectionparameters</artifactId>
-		 <version>${project.version}</version>
+       <version>${project.version}</version>
       </dependency>
 
       <dependency>
          <groupId>io.openwis.harness</groupId>
          <artifactId>openwis-harness-mssfss</artifactId>
-		 <version>${project.version}</version>
+       <version>${project.version}</version>
       </dependency>
 
       <dependency>
          <groupId>io.openwis.metadataportal</groupId>
          <artifactId>openwis-portal-client</artifactId>
-		 <version>${project.version}</version>
+       <version>${project.version}</version>
          <exclusions>
             <exclusion>
                <groupId>org.apache.cxf</groupId>
@@ -564,24 +564,11 @@
             </exclusion>
          </exclusions>
       </dependency>
-      
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-databinding-jaxb</artifactId>
-        <version>3.0.1</version>
-     </dependency>
-     
-    
-       <dependency>
-       <groupId>com.sun.xml.bind</groupId>
-       <artifactId>jaxb-impl</artifactId>
-       <version>1.0.6</version>
-    </dependency>
 
       <dependency>
          <groupId>io.openwis.management</groupId>
          <artifactId>openwis-management-client</artifactId>
-		 <version>${project.version}</version>
+       <version>${project.version}</version>
       </dependency>
 
       <!-- SolR search -->
@@ -595,7 +582,6 @@
       </dependency>
 
       <!-- OPEN AM FEDERATION -->
-
       <dependency>
          <groupId>org.forgerock.openam</groupId>
          <artifactId>openam-idpdiscovery</artifactId>
@@ -607,24 +593,18 @@
          <artifactId>openam-federation-library</artifactId>
          <version>12.0.0</version>
       </dependency>
-      
-      <dependency>
-         <groupId>org.forgerock.openam</groupId>
-         <artifactId>openam-core</artifactId>
-         <version>12.0.0</version>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.forgerock.openam</groupId>
-         <artifactId>openam-clientsdk</artifactId>
-         <version>12.0.0</version>
-      </dependency>
-      
+
       <dependency>
          <groupId>org.forgerock.openam</groupId>
          <artifactId>openam-shared</artifactId>
          <version>12.0.0</version>
       </dependency>
+
+   <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>2.1.4</version>
+   </dependency>
 
       <!-- Imported from GeoNetwork -->
       <dependency>
@@ -716,6 +696,7 @@
       <dependency>
          <groupId>org.apache.avalon.framework</groupId>
          <artifactId>avalon-framework-impl</artifactId>
+         <version>4.3.1</version>
       </dependency>
       <dependency>
          <groupId>commons-digester</groupId>
