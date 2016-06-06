@@ -5,8 +5,8 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-     <version>3.14.5</version>
-     <relativePath>../pom.xml</relativePath>
+      <version>3.14.5</version>
+      <relativePath>../pom.xml</relativePath>
    </parent>
 
 
