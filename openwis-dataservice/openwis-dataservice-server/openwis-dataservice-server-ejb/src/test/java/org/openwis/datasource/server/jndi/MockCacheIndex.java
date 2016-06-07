@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.ejb.Stateless;
+
 import org.openwis.dataservice.cache.CacheIndex;
 import org.openwis.dataservice.common.domain.entity.cache.CachedFile;
 import org.openwis.dataservice.common.domain.entity.statistics.CachedFileInfo;
@@ -23,6 +25,7 @@ import org.openwis.dataservice.util.ProductDateFilter;
  * The Class MockCacheIndex. <P>
  * Explanation goes here. <P>
  */
+//@Stateless(name="MockCacheIndex")
 public class MockCacheIndex implements CacheIndex {
 
    /** The Constant INSTANCE. */

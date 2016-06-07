@@ -25,7 +25,9 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchiveFactory;
+import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -119,6 +121,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
             .addAsResource("openwis-dataservice-cache.properties")
             .addAsResource("conf-dataservice.properties")
             .addAsResource("ws-localdatasources.properties")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
             // Add a class from each package requested.
             // WARNING : Don't include MDB since "maxSession" and "DLQMaxResent" are not valid on OpenEJB
             .addPackages(true, JpaDao.class.getPackage(),
@@ -133,6 +136,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   BlacklistServiceImpl.class.getPackage(),
                   ExtractionDelegate.class.getPackage(),
                   ExtractionDelegateImpl.class.getPackage(),
+                  ExtractFromCacheImpl.class.getPackage(),
 //                  DisseminatedDataStatisticsImpl.class.getPackage(),
                   UserAlarmManagerImpl.class.getPackage(), UserAlarm.class.getPackage(),
                   ArquillianDBTestCase.class.getPackage(),

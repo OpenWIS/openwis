@@ -67,27 +67,27 @@ public class ExtractionDelegateTestCase extends ArquillianDBTestCase {
    private final Calendar now = Calendar.getInstance(DateTimeUtils.UTC_TIME_ZONE);
 
    /** The extraction delegate. */
-   @EJB(name="ExtractionDelegate")
+   @EJB
    private ExtractionDelegate extractionDelegate;
 
    /** The metada srv. */
-   @EJB(name="ProductMetadataService")
+   @EJB
    private ProductMetadataService metadaSrv;
 
    /** The request srv. */
-   @EJB(name="RequestService")
+   @EJB
    private RequestService requestSrv;
 
    /** The subscription srv. */
-   @EJB(name="SubscriptionService")
+   @EJB
    private SubscriptionService subscriptionSrv;
 
    /** The processed request srv. */
-   @EJB(name="ProcessedRequestService")
+   @EJB
    private ProcessedRequestService processedRequestSrv;
 
    /** The CacheIndex service. */
-   @EJB(name="CacheIndex")
+   @EJB
    private CacheIndex cacheIndexService;
 
    /**

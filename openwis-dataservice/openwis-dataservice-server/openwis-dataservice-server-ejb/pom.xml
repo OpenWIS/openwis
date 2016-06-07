@@ -133,15 +133,9 @@
         </dependency>
          -->		
         <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-arquillian-container-remote</artifactId>
-            <version>8.1.0.Final</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-embedded</artifactId>
-            <version>8.1.0.Final</version>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-arquillian-container-remote</artifactId>
+            <version>7.1.0.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>

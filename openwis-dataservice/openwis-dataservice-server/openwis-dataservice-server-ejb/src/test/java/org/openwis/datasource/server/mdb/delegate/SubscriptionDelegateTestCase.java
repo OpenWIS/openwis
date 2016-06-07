@@ -14,7 +14,6 @@ import junit.framework.Assert;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openwis.dataservice.cache.CacheIndex;
@@ -32,6 +31,7 @@ import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.IncomingDSMessage;
+import org.openwis.datasource.server.jndi.MockCacheIndex;
 import org.openwis.management.JndiManagementServiceBeans;
 import org.openwis.management.ManagementServiceBeans;
 
@@ -58,7 +58,7 @@ public class SubscriptionDelegateTestCase extends ArquillianDBTestCase {
    private static final String DATA_POLICY_TEST = "dp-test";
 
    /** The subscription delegate. */
-   @EJB(name = "SubscriptionDelegate")
+   @EJB
    private SubscriptionDelegate subscriptionDelegate;
 
    /** The subscription srv. */
