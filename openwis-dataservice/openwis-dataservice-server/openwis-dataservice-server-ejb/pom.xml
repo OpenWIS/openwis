@@ -134,7 +134,7 @@
          -->		
         <dependency>
             <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-arquillian-container-embedded</artifactId>
+            <artifactId>wildfly-arquillian-container-remote</artifactId>
             <version>8.1.0.Final</version>
             <scope>test</scope>
         </dependency>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.naming.NamingException;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
@@ -23,6 +24,8 @@ import org.openwis.dataservice.common.domain.entity.request.ProductMetadata;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
+import org.openwis.management.JndiManagementServiceBeans;
+import org.openwis.management.ManagementServiceBeans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +34,6 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-@Ignore
 public class ProductMetadataServiceImplTestCase extends ArquillianDBTestCase {
 
    /** Comment for <code>EXPECTED_EXCEPTION</code>. @member: EXPECTED_EXCEPTION */
@@ -70,9 +72,12 @@ public class ProductMetadataServiceImplTestCase extends ArquillianDBTestCase {
       return cacheIndexService;
    }
 
-   /** Initialize the test. */
+   /** Initialize the test. 
+    * @throws NamingException */
    @Before
-   public void init() {
+   public void init() throws NamingException {
+      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+      
       //FIXME: This insert must be remove as soon as DBUnit integration is performed
       ProductMetadata productMetadata = metadaSrv.getProductMetadataByUrn(URN_TEST);
       if (productMetadata == null) {

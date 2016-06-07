@@ -14,21 +14,37 @@ import org.openwis.management.service.ReplicatedDataStatistics;
 /**
  * Facade to the remote management service beans.
  */
-public class ManagementServiceBeans {
-
-   private static final String MANAGEMENT_SERVICE_JNDI_PREFIX = "ejb:openwis-management-service/openwis-management-service-ejb/";
-
-   private final InitialContext initialContext;
-
-   private ManagementServiceBeans() throws NamingException {
-      this.initialContext = new InitialContext();
-   }
+public abstract class ManagementServiceBeans {
+   
+   private static ManagementServiceBeans instance;
 
    public static ManagementServiceBeans getInstance() {
-      try {
-         return new ManagementServiceBeans();
-      } catch (NamingException e) {
-         throw new RuntimeException("Failed to get initial context", e);
+      if (instance == null) {
+         synchronized(ManagementServiceBeans.class) {
+            if (instance == null) {
+               try {
+                  instance = new JndiManagementServiceBeans(JndiManagementServiceBeans.REMOTE_JNDI_PREFIX);
+               } catch (NamingException e) {
+                  throw new RuntimeException("Failed to get initial context", e);
+               }
+            }
+         }
+      }
+      
+      return instance;
+   }
+   
+   /**
+    * Install the given instance as the singleton value.  Only used if it is necessary to customize
+    * the process of looking up management service beans.
+    * 
+    * !!HACK!! This is a hack and will eventually be replaced with something a little more robust.
+    * 
+    * @param newInstance
+    */
+   public static void setInstance(ManagementServiceBeans newInstance) {
+      synchronized (ManagementServiceBeans.class) {
+         instance = newInstance;
       }
    }
 
@@ -37,9 +53,7 @@ public class ManagementServiceBeans {
     * 
     * @throws NamingException
     */
-   public ControlService getControlService() throws NamingException {
-      return getRemoteBean("ControlService", ControlService.class);
-   }
+   public abstract ControlService getControlService() throws NamingException;
    
    /**
     * Returns the remote interface to the ConfigService.
@@ -48,57 +62,25 @@ public class ManagementServiceBeans {
     *       The ConfigService
     * @throws NamingException
     */
-   public ConfigService getConfigService() throws NamingException {
-      return getRemoteBean("ConfigService", ConfigService.class);
-   }
+   public abstract ConfigService getConfigService() throws NamingException;
 
    /**
     * Returns the remote interface of the AlertService.
     * 
     * @throws NamingException
     */
-   public AlertService getAlertService() throws NamingException {
-      return getRemoteBean("AlertService", AlertService.class);
-   }
+   public abstract AlertService getAlertService() throws NamingException;
    
-   public ReplicatedDataStatistics getReplicatedDataStatistics() throws NamingException {
-      return getRemoteBean("ReplicatedDataStatistics", ReplicatedDataStatistics.class);
-   }
+   public abstract ReplicatedDataStatistics getReplicatedDataStatistics() throws NamingException;
    
-   public DisseminatedDataStatistics getDisseminatedDataStatistics() throws NamingException {
-      return getRemoteBean("DisseminatedDataStatistics", DisseminatedDataStatistics.class);
-   }
+   public abstract DisseminatedDataStatistics getDisseminatedDataStatistics() throws NamingException;
    
-   public ExchangedDataStatistics getExchangedDataStatistics() throws NamingException {
-      return getRemoteBean("ExchangedDataStatistics", ExchangedDataStatistics.class);
-   }
+   public abstract ExchangedDataStatistics getExchangedDataStatistics() throws NamingException;
    
    /**
     * Returns the ingested data statistics bean.
     * 
     * @throws NamingException
     */
-   public IngestedDataStatistics getIngestedDataStatistics()
-         throws NamingException {
-      return getRemoteBean("IngestedDataStatistics",
-            IngestedDataStatistics.class);
-   }
-
-   /**
-    * Provides access to a remote bean. This uses the standard remote EJB naming
-    * protocol used by JBoss AS 7.1 See:
-    * https://docs.jboss.org/author/display/AS71
-    * /EJB+invocations+from+a+remote+client+using+JNDI
-    * 
-    * @param class1
-    * @return
-    * @throws NamingException
-    */
-   private <T> T getRemoteBean(String beanName, Class<T> remoteInterfaceClass)
-         throws NamingException {
-      String jndiName = String.format("%s/%s!%s",
-            MANAGEMENT_SERVICE_JNDI_PREFIX, beanName,
-            remoteInterfaceClass.getName());
-      return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
-   }
+   public abstract IngestedDataStatistics getIngestedDataStatistics() throws NamingException;
 }

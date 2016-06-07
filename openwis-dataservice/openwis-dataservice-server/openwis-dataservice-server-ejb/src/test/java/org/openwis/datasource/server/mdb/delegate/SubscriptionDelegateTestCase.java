@@ -32,13 +32,14 @@ import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.IncomingDSMessage;
+import org.openwis.management.JndiManagementServiceBeans;
+import org.openwis.management.ManagementServiceBeans;
 
 /**
  * The Class SubscriptionDelegateTestCase. <P>
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-@Ignore
 public class SubscriptionDelegateTestCase extends ArquillianDBTestCase {
 
    /** The Constant URN_TEST. */
@@ -96,7 +97,9 @@ public class SubscriptionDelegateTestCase extends ArquillianDBTestCase {
     * Description goes here.
     */
    @Before
-   public void initialize() {
+   public void initialize() throws Exception {
+      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+      
       // Initialize subscription attribute
       //FIXME: This insert must be remove as soon as DBUnit integration is performed
       ProductMetadata productMetadata = metadaSrv.getProductMetadataByUrn(URN_TEST);

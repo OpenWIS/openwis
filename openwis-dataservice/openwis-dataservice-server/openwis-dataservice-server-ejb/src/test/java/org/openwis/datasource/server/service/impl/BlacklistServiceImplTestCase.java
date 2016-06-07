@@ -3,6 +3,7 @@ package org.openwis.datasource.server.service.impl;
 import java.util.Arrays;
 
 import javax.ejb.EJB;
+import javax.naming.NamingException;
 
 import junit.framework.Assert;
 
@@ -20,9 +21,10 @@ import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
+import org.openwis.management.JndiManagementServiceBeans;
+import org.openwis.management.ManagementServiceBeans;
 
 @RunWith(Arquillian.class)
-@Ignore
 public class BlacklistServiceImplTestCase extends ArquillianDBTestCase {
 
 	/** The Constant USER_TEST. */
@@ -58,9 +60,12 @@ public class BlacklistServiceImplTestCase extends ArquillianDBTestCase {
 
 	/**
 	 * Initialize the test.
+	 * @throws NamingException 
 	 */
 	@Before
-	public void init() {
+	public void init() throws NamingException {
+      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+	   
 		ProductMetadata productMetadata = metadaSrv
 				.getProductMetadataByUrn(URN_TEST);
 		if (productMetadata == null) {

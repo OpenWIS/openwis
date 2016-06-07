@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class ServiceProvider. <P>
  * Explanation goes here. <P>
+ * 
+ * FIXME - This needs to be separated.
  */
 public final class ServiceProvider {
 	
@@ -127,11 +129,12 @@ public final class ServiceProvider {
     */
    private static <T> T getRemoteBean(String beanName, Class<T> remoteInterfaceClass)
          throws NamingException {
-      InitialContext initialContext = new InitialContext();
-      String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
-            remoteInterfaceClass.getName());
-      
-      logger.info("*** Getting remote bean: " + jndiName);
-      return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
+      return null;
+//      InitialContext initialContext = new InitialContext();
+//      String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
+//            remoteInterfaceClass.getName());
+//      
+//      logger.info("*** Getting remote bean: " + jndiName);
+//      return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
    }
 }

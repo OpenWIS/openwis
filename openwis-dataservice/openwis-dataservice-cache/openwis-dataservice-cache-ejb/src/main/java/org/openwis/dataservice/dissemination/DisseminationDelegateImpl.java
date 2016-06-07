@@ -1195,19 +1195,20 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
       String subject = getStagingPostMessageSubject();
       String content = getStagingPostMessageContent(dissJob.getFileURI());
 
-      try {
-         InitialContext context = new InitialContext();
-         MailSender mailSender = (MailSender) context.lookup(ConfigServiceFacade.getInstance()
-               .getString(MAIL_SENDER_URL_KEY));
-         logger.info("Sending mail to " + userMailAddress);
-         mailSender.sendMail(fromMailAddress, userMailAddress, subject, content);
-      } catch (NamingException e) {
-         logger.error("Could not get hold of the MailSender EJB.");
-         return false;
-      } catch (Exception e1) {
-         logger.error("Could not send message to user " + userMailAddress + ". " + e1);
-         return false;
-      }
+      // XXX
+//      try {
+//         InitialContext context = new InitialContext();
+//         MailSender mailSender = (MailSender) context.lookup(ConfigServiceFacade.getInstance()
+//               .getString(MAIL_SENDER_URL_KEY));
+//         logger.info("Sending mail to " + userMailAddress);
+//         mailSender.sendMail(fromMailAddress, userMailAddress, subject, content);
+//      } catch (NamingException e) {
+//         logger.error("Could not get hold of the MailSender EJB.");
+//         return false;
+//      } catch (Exception e1) {
+//         logger.error("Could not send message to user " + userMailAddress + ". " + e1);
+//         return false;
+//      }
 
       mergeProcessedRequestStatus(processedRequest, RequestResultStatus.ONGOING_DISSEMINATION);
 

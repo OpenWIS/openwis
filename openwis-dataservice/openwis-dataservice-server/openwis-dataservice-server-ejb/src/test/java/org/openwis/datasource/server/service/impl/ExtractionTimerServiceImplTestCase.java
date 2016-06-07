@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.ejb.EJB;
+import javax.naming.NamingException;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.After;
@@ -27,6 +28,8 @@ import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.timer.ExtractionTimerService;
 import org.openwis.datasource.server.ArquillianDBTestCase;
+import org.openwis.management.JndiManagementServiceBeans;
+import org.openwis.management.ManagementServiceBeans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +37,6 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-@Ignore
 public class ExtractionTimerServiceImplTestCase extends ArquillianDBTestCase {
 
    /**
@@ -94,9 +96,12 @@ public class ExtractionTimerServiceImplTestCase extends ArquillianDBTestCase {
 
    /**
     * Initialize the test.
+    * @throws NamingException 
     */
    @Before
-   public void init() {
+   public void init() throws NamingException {
+      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+      
       //FIXME: This insert must be remove as soon as DBUnit integration is performed
       ProductMetadata productMetadata = metadaSrv.getProductMetadataByUrn(URN_TEST);
       Long id = null;
