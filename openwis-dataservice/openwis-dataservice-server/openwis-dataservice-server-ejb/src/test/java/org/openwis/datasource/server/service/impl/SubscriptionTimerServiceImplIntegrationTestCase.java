@@ -39,11 +39,11 @@ import org.slf4j.LoggerFactory;
  */
 @RunWith(Arquillian.class)
 @Ignore
-public class SubscriptionTimerServiceImplTestCase extends ArquillianDBTestCase {
+public class SubscriptionTimerServiceImplIntegrationTestCase extends ArquillianDBTestCase {
 
    /** The logger. */
    private static Logger logger = LoggerFactory
-         .getLogger(SubscriptionTimerServiceImplTestCase.class);
+         .getLogger(SubscriptionTimerServiceImplIntegrationTestCase.class);
 
    /** The Constant METADATA_ID. */
    private static final String METADATA_ID = "FVXX01EGRR";

@@ -41,7 +41,7 @@ import org.openwis.management.ManagementServiceBeans;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-public class SubscriptionDelegateTestCase extends ArquillianDBTestCase {
+public class SubscriptionDelegateIntegrationTestCase extends ArquillianDBTestCase {
 
    /** The Constant URN_TEST. */
    private static final String URN_TEST = "URN_TEST";

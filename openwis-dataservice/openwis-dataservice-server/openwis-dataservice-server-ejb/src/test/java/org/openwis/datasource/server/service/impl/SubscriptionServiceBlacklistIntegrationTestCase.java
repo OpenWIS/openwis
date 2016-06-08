@@ -37,11 +37,11 @@ import org.slf4j.LoggerFactory;
  */
 @RunWith(Arquillian.class)
 @Ignore
-public class SubscriptionServiceBlacklistTestCase extends ArquillianDBTestCase {
+public class SubscriptionServiceBlacklistIntegrationTestCase extends ArquillianDBTestCase {
 
    /** The logger. */
    private static Logger logger = LoggerFactory
-         .getLogger(SubscriptionServiceBlacklistTestCase.class);
+         .getLogger(SubscriptionServiceBlacklistIntegrationTestCase.class);
 
    /** The Constant VALUE. */
    public static final String VALUE = "VALUE";

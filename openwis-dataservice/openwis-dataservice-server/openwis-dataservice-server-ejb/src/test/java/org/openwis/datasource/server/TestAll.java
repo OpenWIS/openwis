@@ -3,15 +3,15 @@ package org.openwis.datasource.server;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.openwis.datasource.server.mdb.delegate.ExtractionDelegateTestCase;
-import org.openwis.datasource.server.mdb.delegate.SubscriptionDelegateTestCase;
-import org.openwis.datasource.server.service.impl.BlacklistServiceImplTestCase;
-import org.openwis.datasource.server.service.impl.ExtractionTimerServiceImplTestCase;
-import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplTestCase;
-import org.openwis.datasource.server.service.impl.ProductMetadataServiceImplTestCase;
-import org.openwis.datasource.server.service.impl.RequestServiceImplTestCase;
-import org.openwis.datasource.server.service.impl.SubscriptionServiceImplTestCase;
-import org.openwis.datasource.server.service.impl.SubscriptionTimerServiceImplTestCase;
+import org.openwis.datasource.server.mdb.delegate.ExtractionDelegateIntegrationTestCase;
+import org.openwis.datasource.server.mdb.delegate.SubscriptionDelegateIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.BlacklistServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.ExtractionTimerServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.ProductMetadataServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.RequestServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.SubscriptionServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.SubscriptionTimerServiceImplIntegrationTestCase;
 
 /**
  * The Class TestAll.
@@ -20,14 +20,14 @@ import org.openwis.datasource.server.service.impl.SubscriptionTimerServiceImplTe
  * <P>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ SubscriptionDelegateTestCase.class,
-		ExtractionDelegateTestCase.class, RequestServiceImplTestCase.class,
-		SubscriptionTimerServiceImplTestCase.class,
-		ExtractionTimerServiceImplTestCase.class,
-		BlacklistServiceImplTestCase.class,
-		ProcessedRequestServiceImplTestCase.class,
-		SubscriptionServiceImplTestCase.class,
-		ProductMetadataServiceImplTestCase.class })
+@Suite.SuiteClasses({ SubscriptionDelegateIntegrationTestCase.class,
+		ExtractionDelegateIntegrationTestCase.class, RequestServiceImplIntegrationTestCase.class,
+		SubscriptionTimerServiceImplIntegrationTestCase.class,
+		ExtractionTimerServiceImplIntegrationTestCase.class,
+		BlacklistServiceImplIntegrationTestCase.class,
+		ProcessedRequestServiceImplIntegrationTestCase.class,
+		SubscriptionServiceImplIntegrationTestCase.class,
+		ProductMetadataServiceImplIntegrationTestCase.class })
 public final class TestAll {
 
 	/**

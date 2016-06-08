@@ -31,7 +31,7 @@ import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
-import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplTestCase;
+import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplIntegrationTestCase;
 import org.openwis.management.JndiManagementServiceBeans;
 import org.openwis.management.ManagementServiceBeans;
 import org.slf4j.Logger;
@@ -43,13 +43,13 @@ import org.slf4j.LoggerFactory;
  */
 @RunWith(Arquillian.class)
 //@Ignore
-public class ExtractionDelegateTestCase extends ArquillianDBTestCase {
+public class ExtractionDelegateIntegrationTestCase extends ArquillianDBTestCase {
 
    /**
     * The logger.
     */
    private static Logger logger = LoggerFactory
-         .getLogger(ProcessedRequestServiceImplTestCase.class);
+         .getLogger(ProcessedRequestServiceImplIntegrationTestCase.class);
 
    /** The Constant METADATA_ID. */
    private static final String METADATA_ID = "FVXX01EGRR";

@@ -70,7 +70,7 @@ import org.openwis.datasource.server.mdb.delegate.impl.ExtractionDelegateImpl;
 import org.openwis.datasource.server.mdb.delegate.impl.SubscriptionDelegateImpl;
 import org.openwis.datasource.server.mocks.MockedFeederEjb;
 import org.openwis.datasource.server.service.impl.BlacklistServiceImpl;
-import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplTestCase;
+import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplIntegrationTestCase;
 import org.openwis.datasource.server.service.impl.RequestServiceImpl;
 import org.openwis.datasource.server.service.impl.UserAlarmManagerImpl;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
@@ -130,7 +130,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   ProcessedRequestMessage.class.getPackage(), BlacklistInfo.class.getPackage(),
                   ExtractFromCacheImpl.class.getPackage(), CacheIndex.class.getPackage(),
                   CacheIndexImpl.class.getPackage(), CachedFile.class.getPackage(),
-                  ProcessedRequestServiceImplTestCase.class.getPackage(),
+                  ProcessedRequestServiceImplIntegrationTestCase.class.getPackage(),
                   PatternMetadataMapping.class.getPackage(), QueueUtils.class.getPackage(),
                   BlacklistService.class.getPackage(),
                   BlacklistInfoColumn.class.getPackage(),

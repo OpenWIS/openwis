@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 @RunWith(Arquillian.class)
 @Ignore
-public class RequestServiceImplTestCase extends ArquillianDBTestCase {
+public class RequestServiceImplIntegrationTestCase extends ArquillianDBTestCase {
 
    /** The Constant EXPECTED_EXCEPTION. */
    private static final String EXPECTED_EXCEPTION = "Expected Exception: ";
@@ -47,7 +47,7 @@ public class RequestServiceImplTestCase extends ArquillianDBTestCase {
    private static final String SHOULD_RAISE_AN_EJB_EXCEPTION = "Should raise an EJBException!";
 
    /** The logger. */
-   private static Logger logger = LoggerFactory.getLogger(SubscriptionServiceImplTestCase.class);
+   private static Logger logger = LoggerFactory.getLogger(SubscriptionServiceImplIntegrationTestCase.class);
 
    /** The Constant VALUE. */
    public static final String VALUE = "VALUE";

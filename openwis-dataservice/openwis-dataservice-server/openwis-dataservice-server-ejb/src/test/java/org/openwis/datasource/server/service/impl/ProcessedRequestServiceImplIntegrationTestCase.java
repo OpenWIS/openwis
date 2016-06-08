@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-public class ProcessedRequestServiceImplTestCase extends ArquillianDBTestCase {
+public class ProcessedRequestServiceImplIntegrationTestCase extends ArquillianDBTestCase {
 
    /**
     * Comment for <code>TIME_ZONE</code>
@@ -69,7 +69,7 @@ public class ProcessedRequestServiceImplTestCase extends ArquillianDBTestCase {
     * The logger.
     */
    private static Logger logger = LoggerFactory
-         .getLogger(ProcessedRequestServiceImplTestCase.class);
+         .getLogger(ProcessedRequestServiceImplIntegrationTestCase.class);
 
    /** The Constant METADATA_ID. */
    private static final String METADATA_ID = "FVXX01EGRR";
@@ -125,7 +125,7 @@ public class ProcessedRequestServiceImplTestCase extends ArquillianDBTestCase {
    /**
     * Instantiates a new processed request service impl test case.
     */
-   public ProcessedRequestServiceImplTestCase() {
+   public ProcessedRequestServiceImplIntegrationTestCase() {
       super();
    }
 

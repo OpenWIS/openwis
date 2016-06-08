@@ -36,10 +36,10 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-public class ExtractFromCacheTestCase extends ArquillianDBTestCase {
+public class ExtractFromCacheIntegrationTestCase extends ArquillianDBTestCase {
 
    /** The logger. */
-   private static Logger logger = LoggerFactory.getLogger(ExtractFromCacheTestCase.class);
+   private static Logger logger = LoggerFactory.getLogger(ExtractFromCacheIntegrationTestCase.class);
 
    /** The extract from cache instance. */
    @EJB
@@ -59,7 +59,7 @@ public class ExtractFromCacheTestCase extends ArquillianDBTestCase {
    /**
     * Instantiates a new extract from cache test case.
     */
-   public ExtractFromCacheTestCase() {
+   public ExtractFromCacheIntegrationTestCase() {
       super();
       createdFiles = new HashSet<File>();
    }

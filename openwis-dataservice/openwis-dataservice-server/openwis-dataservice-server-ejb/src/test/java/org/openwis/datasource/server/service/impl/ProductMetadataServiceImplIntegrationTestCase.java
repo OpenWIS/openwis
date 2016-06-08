@@ -34,13 +34,13 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-public class ProductMetadataServiceImplTestCase extends ArquillianDBTestCase {
+public class ProductMetadataServiceImplIntegrationTestCase extends ArquillianDBTestCase {
 
    /** Comment for <code>EXPECTED_EXCEPTION</code>. @member: EXPECTED_EXCEPTION */
    private static final String EXPECTED_EXCEPTION = "Expected Exception: ";
 
    /** The logger. */
-   private static Logger logger = LoggerFactory.getLogger(SubscriptionServiceImplTestCase.class);
+   private static Logger logger = LoggerFactory.getLogger(SubscriptionServiceImplIntegrationTestCase.class);
 
    /** Comment for <code>_11</code>.
     * @member: _11 */

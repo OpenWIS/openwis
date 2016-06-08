@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * Explanation goes here. <P>
  */
 @RunWith(Arquillian.class)
-public class ExtractionTimerServiceImplTestCase extends ArquillianDBTestCase {
+public class ExtractionTimerServiceImplIntegrationTestCase extends ArquillianDBTestCase {
 
    /**
     * Comment for <code>TIME_ZONE</code>
@@ -48,7 +48,7 @@ public class ExtractionTimerServiceImplTestCase extends ArquillianDBTestCase {
    /**
     * The logger.
     */
-   private static Logger logger = LoggerFactory.getLogger(ExtractionTimerServiceImplTestCase.class);
+   private static Logger logger = LoggerFactory.getLogger(ExtractionTimerServiceImplIntegrationTestCase.class);
 
    /** The Constant METADATA_ID. */
    private static final String METADATA_ID = "FVXX01EGRR";

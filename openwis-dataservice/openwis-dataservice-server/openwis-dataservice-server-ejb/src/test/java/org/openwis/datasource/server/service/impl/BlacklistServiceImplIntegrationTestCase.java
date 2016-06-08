@@ -25,7 +25,7 @@ import org.openwis.management.JndiManagementServiceBeans;
 import org.openwis.management.ManagementServiceBeans;
 
 @RunWith(Arquillian.class)
-public class BlacklistServiceImplTestCase extends ArquillianDBTestCase {
+public class BlacklistServiceImplIntegrationTestCase extends ArquillianDBTestCase {
 
 	/** The Constant USER_TEST. */
 	private static final String USER_TEST = "USER_TEST";

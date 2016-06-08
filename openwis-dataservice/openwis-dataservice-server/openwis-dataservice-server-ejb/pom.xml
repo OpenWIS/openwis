@@ -169,11 +169,13 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<!-- 
 		<dependency>
 		  <groupId>org.wildfly</groupId>
 		  <artifactId>wildfly-cli</artifactId>
 		  <version>8.2.1.Final</version>
 		</dependency>
+		 -->
 
 		<dependency>
 			<groupId>io.openwis.management.service</groupId>
@@ -212,29 +214,34 @@
 
 	<build>
 		<plugins>
+		  <!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<!-- version 2.5 creates separate test suites per class -->
+				<!-+- version 2.5 creates separate test suites per class -+->
 				<version>2.17</version>
 				<configuration>
 					<includes>
 						<include>**/*TestCase.java</include>
 					</includes>
+					<!-+- Exclude integration tests by default -+->
+					<excludes>
+					    <exclude>**/*IntegrationTestCase.java</exclude>
+					</excludes>
 					
-                    <!-- Fork every test because it will launch a separate AS instance -->
+                    <!-+- Fork every test because it will launch a separate AS instance -+->
                     <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
-                    <forkMode>always</forkMode>
                     
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                          <!-- the maven dependency plugin will have already downloaded the server on /target -->
+                          <!-+- the maven dependency plugin will have already downloaded the server on /target -+->
                         <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
                         <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
                     </systemPropertyVariables>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>					
 				</configuration>
 			</plugin>
+			 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
@@ -256,6 +263,7 @@
                     </archive>
                 </configuration>
             </plugin>
+            <!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -282,6 +290,7 @@
                     </execution>
                 </executions>
             </plugin>
+             -->
             <!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -304,6 +313,77 @@
 	</build>
 
 	<profiles>
+	   <profile>
+	       <id>no-it</id>
+	       <activation>
+	           <activeByDefault>true</activeByDefault>
+	       </activation>
+	       <build>
+	           <plugins>
+	            <plugin>
+	               <!-- Unit tests only, no integration tests -->
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-surefire-plugin</artifactId>
+	                <!-- version 2.5 creates separate test suites per class -->
+	                <version>2.17</version>
+	                <configuration>
+	                    <includes>
+	                        <include>**/*TestCase.java</include>
+	                    </includes>
+	                    <!-- Exclude integration tests by default -->
+	                    <excludes>
+	                        <exclude>**/*IntegrationTestCase.java</exclude>
+	                    </excludes>
+	                    
+	                    <!-- Fork every test because it will launch a separate AS instance -->
+	                    <!-- <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine> -->
+	                    
+	                    <systemPropertyVariables>
+	                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+	                          <!-- the maven dependency plugin will have already downloaded the server on /target -->
+	                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
+	                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
+	                    </systemPropertyVariables>
+	                    <redirectTestOutputToFile>false</redirectTestOutputToFile>                  
+	                </configuration>
+	            </plugin>
+	           </plugins>
+	       </build>
+	   </profile>	   
+        <profile>
+            <id>it</id>
+            <activation>
+                <property>
+                    <name>it</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Unit and integration tests -->
+		            <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-surefire-plugin</artifactId>
+		                <!-- version 2.5 creates separate test suites per class -->
+		                <version>2.17</version>
+		                <configuration>
+		                    <includes>
+		                        <include>**/*TestCase.java</include>
+		                    </includes>
+		                    
+		                    <!-- Fork every test because it will launch a separate AS instance -->
+		                    <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
+		                    
+		                    <systemPropertyVariables>
+		                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+		                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
+		                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
+		                    </systemPropertyVariables>
+		                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+		                </configuration>
+		            </plugin>
+                </plugins>
+            </build>
+        </profile>	
 	   <!-- 
 		<profile>
 			<id>arq-openejb-embedded-hibernate</id>
