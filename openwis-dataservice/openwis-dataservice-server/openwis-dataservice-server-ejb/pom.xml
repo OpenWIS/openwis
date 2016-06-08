@@ -359,6 +359,123 @@
             </activation>
             <build>
                 <plugins>
+                    <!-- Download and uninstall a JBoss AS 7.1 instance -->
+                    <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-dependency-plugin</artifactId>
+		                <version>2.8</version>
+		                <executions>
+		                    <execution>
+		                        <id>unpack</id>
+		                        <phase>process-test-classes</phase>
+		                        <goals>
+		                            <goal>unpack</goal>
+		                        </goals>
+		                        <configuration>
+		                            <artifactItems>
+		                                <artifactItem>
+		                                    <groupId>org.jboss.as</groupId>
+		                                    <artifactId>jboss-as-dist</artifactId>
+		                                    <version>7.1.1.Final</version>
+		                                    <type>zip</type>
+		                                    <overWrite>false</overWrite>
+		                                    <outputDirectory>target</outputDirectory>
+		                                </artifactItem>
+		                            </artifactItems>
+		                        </configuration>
+		                    </execution>
+		                </executions>
+                    </plugin>
+                    <!-- Start the JBoss container -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <!-- Move this into the tests themselves so that we can properly handle shutdown regardless
+                                of test outcome -->
+                            <execution>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final"/>
+                                        
+                                        <echo file="/tmp/openwis-dataservice-server-ejb.cmds.cli">
+                                            jms-queue add --queue-address=CollectionQueue --entries=[queue/CollectionQueue]
+                                            jms-queue add --queue-address=IncomingDataQueue --entries=[queue/IncomingDataQueue]
+                                            jms-queue add --queue-address=RequestQueue --entries=[queue/RequestQueue]
+                                            jms-queue add --queue-address=DisseminationQueue --entries=[queue/DisseminationQueue]
+                                            jms-queue add --queue-address=PackedFeedingQueue --entries=[queue/PackedFeedingQueue]
+                                            jms-queue add --queue-address=UnpackedFeedingQueue --entries=[queue/UnpackedFeedingQueue]
+                                            jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
+                                        </echo>
+                                        
+                                        <echo message="Launching JBoss"/>
+	                                    <exec executable="/bin/bash" spawn="true" dir="${jboss.home}">
+	                                        <arg value="-c"/>
+	                                        <arg value="bin/standalone.sh -c standalone-full.xml >/tmp/jboss.log 2>&amp;1;"/>
+	                                        <env key="JBOSS_HOME" value="${jboss.home}"/>
+	                                    </exec>
+	                                    
+	                                    <sleep seconds="5"/>
+	                                    
+	                                    <!-- Configure the server -->
+	                                    <echo message="Configuring JBoss"/>
+                                        <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
+                                            <arg value="-c"/>
+                                            <arg value="--file=/tmp/openwis-dataservice-server-ejb.cmds.cli"/>
+                                            <env key="JBOSS_HOME" value="${jboss.home}"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                     <!-- 
+                        TODO - We should be using this plugin but I think it only supports Maven 3
+                    <plugin>
+		                <groupId>org.jboss.as.plugins</groupId>
+		                <artifactId>jboss-as-maven-plugin</artifactId>
+		                <version>7.8.Final</version>
+                        <executions>
+                            <execution>
+                                <id>start-jboss</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <jbossHome>${project.basedir}/target/jboss-as-7.1.1.Final</jbossHome>
+                                    <serverConfig>standalone-full.xml</serverConfig>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>setup-queues</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>execute-commands</goal>
+                                </goals>
+                                <configuration>
+                                    <jbossHome>${project.basedir}/target/jboss-as-7.1.1.Final</jbossHome>
+                                    <execute-commands>
+                                        <commands>
+                                            <command>jms-queue add -+-queue-address=CollectionQueue -+-entries=[queue/CollectionQueue]</command>
+                                            <command>jms-queue add -+-queue-address=IncomingDataQueue -+-entries=[queue/IncomingDataQueue]</command>
+                                            <command>jms-queue add -+-queue-address=RequestQueue -+-entries=[queue/RequestQueue]</command>
+                                            <command>jms-queue add -+-queue-address=DisseminationQueue -+-entries=[queue/DisseminationQueue]</command>
+                                            <command>jms-queue add -+-queue-address=PackedFeedingQueue -+-entries=[queue/PackedFeedingQueue]</command>
+                                            <command>jms-queue add -+-queue-address=UnpackedFeedingQueue -+-entries=[queue/UnpackedFeedingQueue]</command>
+                                            <command>jms-queue add -+-queue-address=StatisticsQueue -+-entries=[queue/StatisticsQueue]</command>
+                                        </commands>
+                                    </execute-commands>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                     -->
                     <!-- Unit and integration tests -->
 		            <plugin>
 		                <groupId>org.apache.maven.plugins</groupId>
