@@ -23,7 +23,7 @@ public abstract class ManagementServiceBeans {
          synchronized(ManagementServiceBeans.class) {
             if (instance == null) {
                try {
-                  instance = new JndiManagementServiceBeans(JndiManagementServiceBeans.REMOTE_JNDI_PREFIX);
+                  instance = JndiManagementServiceBeans.createInstance();
                } catch (NamingException e) {
                   throw new RuntimeException("Failed to get initial context", e);
                }
@@ -42,11 +42,11 @@ public abstract class ManagementServiceBeans {
     * 
     * @param newInstance
     */
-   public static void setInstance(ManagementServiceBeans newInstance) {
-      synchronized (ManagementServiceBeans.class) {
-         instance = newInstance;
-      }
-   }
+//   public static void setInstance(ManagementServiceBeans newInstance) {
+//      synchronized (ManagementServiceBeans.class) {
+//         instance = newInstance;
+//      }
+//   }
 
    /**
     * Returns the remote interface of the ControlService.

@@ -75,6 +75,7 @@ import org.openwis.datasource.server.service.impl.RequestServiceImpl;
 import org.openwis.datasource.server.service.impl.UserAlarmManagerImpl;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.openwis.datasource.server.utils.QueueUtils;
+import org.openwis.harness.dissemination.Diffusion;
 import org.openwis.management.service.DisseminatedDataStatisticsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,16 +143,21 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   ArquillianDBTestCase.class.getPackage(),
                   MockedFeederEjb.class.getPackage(),
                   RequestServiceImpl.class.getPackage(),
-                  GlobalDataCollectionUtils.class.getPackage()
+                  GlobalDataCollectionUtils.class.getPackage(),
+                  
+                  Diffusion.class.getPackage()
             )
             //.addAsManifestResource("test-persistence.xml", " /WEB-INF/classes/persistence.xml")
             .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+            .addAsResource("org/openwis/management/JndiManagementServiceBeans.properties", "org/openwis/management/JndiManagementServiceBeans.properties")
             .addAsLibraries(mavenResolver.resolve("io.openwis.harness:openwis-harness-localdatasource").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-common").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("io.openwis.management:openwis-management-client").withTransitivity().asFile())
             //.addAsLibraries(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-ejb").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.cache:openwis-dataservice-cache-core").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-timer:ejb:?").withTransitivity().asFile())
+//            .addAsLibraries(mavenResolver.resolve("io.openwis.harness:openwis-harness-dissemination").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("org.apache.commons:commons-lang3").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("commons-collections:commons-collections").withTransitivity().asFile())
             .addAsLibraries(mavenResolver.resolve("org.dbunit:dbunit").withTransitivity().asFile())
@@ -191,7 +197,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
 
       //List<> mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().asList(JavaArchive.class);
 
-      logger.info("Deployment/n{}", archive.toString(true));
+//      logger.info("Deployment/n{}", archive.toString(true));
       return archive;
    }
    

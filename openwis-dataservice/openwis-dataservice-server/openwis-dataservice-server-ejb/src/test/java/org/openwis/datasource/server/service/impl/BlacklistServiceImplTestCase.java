@@ -64,7 +64,7 @@ public class BlacklistServiceImplTestCase extends ArquillianDBTestCase {
 	 */
 	@Before
 	public void init() throws NamingException {
-      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+//      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
 	   
 		ProductMetadata productMetadata = metadaSrv
 				.getProductMetadataByUrn(URN_TEST);

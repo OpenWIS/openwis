@@ -1,5 +1,9 @@
 package org.openwis.management;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -29,7 +33,7 @@ public class JndiManagementServiceBeans extends ManagementServiceBeans {
    private final String jndiNamePrefix;
    private final InitialContext initialContext;
 
-   public JndiManagementServiceBeans(String jndiNamePrefix) throws NamingException {
+   private JndiManagementServiceBeans(String jndiNamePrefix) throws NamingException {
       this.initialContext = new InitialContext();
       this.jndiNamePrefix = jndiNamePrefix;
    }
@@ -109,5 +113,34 @@ public class JndiManagementServiceBeans extends ManagementServiceBeans {
             jndiNamePrefix, beanName,
             remoteInterfaceClass.getName());
       return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
+   }
+   
+   /**
+    * Create an instance of {@link JndiManagementServiceBeans}.  This will look for a resource with the same name
+    * as the class to determine whether to use the local client or the remote client.
+    * <p>
+    * @return
+    */
+   public static JndiManagementServiceBeans createInstance() throws NamingException {
+      InputStream classConfig = JndiManagementServiceBeans.class.getResourceAsStream("JndiManagementServiceBeans.properties");
+      
+      if (classConfig != null) {
+         try {
+            try {
+               Properties props = new Properties();
+               props.load(classConfig);
+               
+               if (props.getProperty("prefix", "remote").equals("local")) {
+                  return new JndiManagementServiceBeans(LOCAL_JNDI_PREFIX);               
+               }
+            } finally {
+               classConfig.close();
+            }
+         } catch (IOException e) {
+            // Cannot load the properties file.  Simply default to Remote
+         }
+      }
+      
+      return new JndiManagementServiceBeans(REMOTE_JNDI_PREFIX);
    }
 }

@@ -104,7 +104,7 @@ public class ExtractionDelegateTestCase extends ArquillianDBTestCase {
     */
    @Before
    public void init() throws Exception {
-      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+//      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
       
       //FIXME: This insert must be remove as soon as DBUnit integration is performed
       ProductMetadata productMetadata = metadaSrv.getProductMetadataByUrn(URN_TEST);

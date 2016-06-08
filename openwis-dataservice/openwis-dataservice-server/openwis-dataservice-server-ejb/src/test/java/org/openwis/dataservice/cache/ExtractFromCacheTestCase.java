@@ -75,7 +75,7 @@ public class ExtractFromCacheTestCase extends ArquillianDBTestCase {
    
    @Before
    public void setUp() throws Exception {
-      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
+//      ManagementServiceBeans.setInstance(new JndiManagementServiceBeans(JndiManagementServiceBeans.LOCAL_JNDI_PREFIX));
    }
 
    /**
