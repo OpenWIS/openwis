@@ -54,7 +54,7 @@ First, ssh to the vm you want to build and clone this repo. Git needs to be inst
     
      # Clone the Repo and pull develop
      git clone <REPO>
-     cd ukmo-openwis-puppet
+     cd resources/puppet
      git checkout -b develop
      git pull origin develop
     
