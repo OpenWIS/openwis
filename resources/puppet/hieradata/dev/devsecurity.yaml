@@ -1,0 +1,6 @@
+# devsecurity specific settings
+# Additional network configuration is in service/openwis.yaml
+---
+
+c_openwis::tomcat::enable_ajp: true
+c_openwis::tomcat::ajp_port:   8180
