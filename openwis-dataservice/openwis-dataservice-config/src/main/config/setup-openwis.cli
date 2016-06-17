@@ -2,6 +2,11 @@
 #
 
 connect
+
+# Deploy the postgres drivers
+#setup: deploy @postgresql.driver.path@
+
+
 batch
 
 # Set the HTTP port to 8180
@@ -17,12 +22,6 @@ batch
 /subsystem=logging/logger=org.openwis.dataservice.dissemination:add(use-parent-handlers=true,handlers=["RequestHandler"])
 /subsystem=logging/logger=org.openwis.datasource:add(use-parent-handlers=true,handlers=["RequestHandler"])
 /subsystem=logging/logger=org.openwis.management.service:add(use-parent-handlers=true,handlers=["AlertsHandler"])
-
-:reload
-
-
-# Deploy the postgres drivers
-#deploy @postgresql.path@
 
 
 # Setup the OpenDS data source 
@@ -41,10 +40,10 @@ jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
 
 
 # Install the configuration files
-/system-property=conf\/openwis-dataservice:add(value="@openwis.config.dir@/openwis-dataservice.properties")
-/system-property=ws\/localdatasourceservice:add(value="@openwis.config.dir@/localdatasourceservice.properties")
-/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
-/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
+/system-property="conf\/openwis-dataservice":add(value="@openwis.config.dir@/openwis-dataservice.properties")
+/system-property="ws\/localdatasourceservice":add(value="@openwis.config.dir@/localdatasourceservice.properties")
+/subsystem=naming/binding="conf\/openwis-dataservice":add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
+/subsystem=naming/binding="ws\/localdatasourceservice":add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
 
 :reload
 run-batch
