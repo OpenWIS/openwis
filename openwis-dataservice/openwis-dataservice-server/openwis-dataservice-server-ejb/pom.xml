@@ -214,34 +214,31 @@
 
 	<build>
 		<plugins>
-		  <!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<!-+- version 2.5 creates separate test suites per class -+->
 				<version>2.17</version>
-				<configuration>
-					<includes>
-						<include>**/*TestCase.java</include>
-					</includes>
-					<!-+- Exclude integration tests by default -+->
-					<excludes>
-					    <exclude>**/*IntegrationTestCase.java</exclude>
-					</excludes>
-					
-                    <!-+- Fork every test because it will launch a separate AS instance -+->
-                    <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
+				<executions>
+				    <execution>
+                        <id>unit-tests</id>
+				        <phase>test</phase>
+				        <goals>
+				            <goal>test</goal>
+				        </goals>
+                    </execution>
+				</executions>
+                <configuration>
+                    <includes>
+                        <include>**/*TestCase.java</include>
+                    </includes>
+                    <!-- Exclude integration tests by default -->
+                    <excludes>
+                        <exclude>**/*IntegrationTestCase.java</exclude>
+                    </excludes>
                     
-                    <systemPropertyVariables>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                          <!-+- the maven dependency plugin will have already downloaded the server on /target -+->
-                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
-                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
-                    </systemPropertyVariables>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>					
-				</configuration>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>                  
+                </configuration>
 			</plugin>
-			 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
@@ -313,6 +310,7 @@
 	</build>
 
 	<profiles>
+	   <!-- 
 	   <profile>
 	       <id>no-it</id>
 	       <activation>
@@ -321,26 +319,19 @@
 	       <build>
 	           <plugins>
 	            <plugin>
-	               <!-- Unit tests only, no integration tests -->
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-surefire-plugin</artifactId>
-	                <!-- version 2.5 creates separate test suites per class -->
 	                <version>2.17</version>
 	                <configuration>
 	                    <includes>
 	                        <include>**/*TestCase.java</include>
 	                    </includes>
-	                    <!-- Exclude integration tests by default -->
 	                    <excludes>
 	                        <exclude>**/*IntegrationTestCase.java</exclude>
 	                    </excludes>
 	                    
-	                    <!-- Fork every test because it will launch a separate AS instance -->
-	                    <!-- <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine> -->
-	                    
 	                    <systemPropertyVariables>
 	                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-	                          <!-- the maven dependency plugin will have already downloaded the server on /target -->
 	                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
 	                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
 	                    </systemPropertyVariables>
@@ -349,7 +340,8 @@
 	            </plugin>
 	           </plugins>
 	       </build>
-	   </profile>	   
+	   </profile>
+	    -->	   
         <profile>
             <id>it</id>
             <activation>
@@ -395,7 +387,8 @@
                             <!-- Move this into the tests themselves so that we can properly handle shutdown regardless
                                 of test outcome -->
                             <execution>
-                                <phase>process-test-classes</phase>
+                                <id>start-jboss-for-integration-tests</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
@@ -427,6 +420,26 @@
                                         <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
                                             <arg value="-c"/>
                                             <arg value="--file=/tmp/openwis-dataservice-server-ejb.cmds.cli"/>
+                                            <env key="JBOSS_HOME" value="${jboss.home}"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                            
+                            <execution>
+                                <id>stop-jboss</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo message="Shutting Down JBoss"/>
+                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final"/>
+                                        
+                                        <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
+                                            <arg value="-c"/>
+                                            <arg value="--command=:shutdown"/>
                                             <env key="JBOSS_HOME" value="${jboss.home}"/>
                                         </exec>
                                     </target>
@@ -479,24 +492,35 @@
                     <!-- Unit and integration tests -->
 		            <plugin>
 		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-		                <!-- version 2.5 creates separate test suites per class -->
-		                <version>2.17</version>
-		                <configuration>
-		                    <includes>
-		                        <include>**/*TestCase.java</include>
-		                    </includes>
-		                    
-		                    <!-- Fork every test because it will launch a separate AS instance -->
-		                    <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
-		                    
-		                    <systemPropertyVariables>
-		                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-		                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
-		                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
-		                    </systemPropertyVariables>
-		                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-		                </configuration>
+		                <artifactId>maven-failsafe-plugin</artifactId>
+		                <version>2.19.1</version>
+		                <executions>
+		                  <execution>
+		                      <id>run-integration-tests</id>
+		                      <phase>integration-test</phase>
+		                      <goals>
+		                          <goal>integration-test</goal>
+		                      </goals>
+		                      <configuration>
+	                            <includes>
+	                                <include>**/*IntegrationTestCase.java</include>
+	                            </includes>
+	                            <excludes>
+	                               <exclude>none</exclude>
+	                            </excludes>
+	                            
+	                            <!-- Fork every test because it will launch a separate AS instance -->
+	                            <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
+	                            
+	                            <systemPropertyVariables>
+	                                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+	                                <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
+	                                <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
+	                            </systemPropertyVariables>
+	                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+		                      </configuration>
+		                  </execution>
+		                </executions>
 		            </plugin>
                 </plugins>
             </build>
