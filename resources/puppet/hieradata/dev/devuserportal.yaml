@@ -1,0 +1,17 @@
+# devuserportal specific settings
+# Additional network configuration is in service/openwis.yaml
+#---
+c_apache::enable_httpd: true
+c_apache::fs_required:  false
+
+#==============================================================================
+# SSL - DEV doesn't use SSL yet
+#==============================================================================
+c_openwis::use_ssl: false
+
+#==============================================================================
+# Security Federation
+#==============================================================================
+c_openwis::portals::cot_name:        cot_openwis
+c_openwis::portals::federation_name: GISCExampleU
+c_openwis::portals::idp_name:        IDP1

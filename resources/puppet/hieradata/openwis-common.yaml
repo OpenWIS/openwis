@@ -1,0 +1,13 @@
+#==============================================================================
+# OpenWIS common config
+#==============================================================================
+c_openwis::gid:             502
+c_openwis::jdbc_driver_jar: postgresql-9.2-1004.jdbc41.jar
+
+
+#==============================================================================
+# Security Service
+#==============================================================================
+c_openwis::securityservice::opendj_root_password:     openwis
+c_openwis::securityservice::register_users_threshold: 10000
+c_openwis::securityservice::log_timer_period:         10000
