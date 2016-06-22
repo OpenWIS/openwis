@@ -25,7 +25,7 @@ This repository hosts the puppet scripts used to deploy OpenWIS 3.14.X
 * Auth
     *  RHEL/CENTOS 6.5 or 7 with Postgres 9.2  / OpenJDK7 / OpenDJ 2.6 Installed 
     
-> Note: There is some manual confirguration to do with OpenAM See [Manual Configuration] (docs/manual.config.md)
+> Note: There is some manual confirguration to do with OpenAM See [Manual Configuration] (docs/manual_config.md)
 
 * Admin Portal
     *  RHEL/CENTOS 6.5 or 7 
