@@ -23,7 +23,7 @@ Following either of these installs the next steps are to clone and open the git 
 
 * Select the Module Directory (**Note:** to navigate to the right folder where you have cloned your repo you will need to enter at least the beginning of it's path)
 
-* navigate until you can select **ukmo-openwis-project** as the **project name** in the dialog
+* navigate until you can select **the puppet folder** as the **project name** in the dialog
 
 * Select OK and this should close the dialog give the project enough time to build (you may need to set **Build Automatically** from the **Project** 
 Menu)
