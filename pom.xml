@@ -308,17 +308,25 @@
 		<url>http://repo1.maven.org/maven2</url>
 	  </repository>
 
+    <!-- ForgeRock Internal Project Repository -->
+        <repository>
+            <id>maven.forgerock.org</id>
+            <name>maven.forgerock.org-openam-dependencies</name>
+            <url>http://maven.forgerock.org/repo/openam-dependencies</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        
       <!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
       <repository>
         <id>codehaus-mule-repo</id>
         <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
         <layout>default</layout>
       </repository>
-
-    <repository>
-        <id>forgerock</id>
-        <url>http://maven.forgerock.org/repo/releases</url>
-    </repository>
 
 	</repositories>
   
