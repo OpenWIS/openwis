@@ -179,7 +179,7 @@
              * @throws SAML2Exception if error processing
              *          <code>LogoutRequest</code>.
              */
-            SPSingleLogout.processLogoutRequest(request,response,response.getWriter(), 
+            SPSingleLogout.processLogoutRequest(request,response,response.getWriter(),
                 samlRequest,relayState);
             } catch (SAML2Exception sse) {
                 SAML2Utils.debug.error("Error processing LogoutRequest :", sse);
