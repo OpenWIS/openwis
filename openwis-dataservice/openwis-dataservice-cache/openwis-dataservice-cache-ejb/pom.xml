@@ -154,45 +154,55 @@
         </resource>
     </resources>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-java2ws-plugin</artifactId>
-        <version>${cxf.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-simple</artifactId>
-            <version>${cxf.version}</version>
-          </dependency>
-        </dependencies>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-java2ws-plugin</artifactId>
+			<version>${cxf.version}</version>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-rt-frontend-jaxws</artifactId>
+					<version>${cxf.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-rt-frontend-simple</artifactId>
+					<version>${cxf.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>io.openwis.dataservice.cache</groupId>
+					<artifactId>openwis-dataservice-cache-core</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.ejb3</groupId>
+					<artifactId>jboss-ejb3-ext-api</artifactId>
+					<version>1.0.0</version>
+				</dependency>
+			</dependencies>
 
-        <!-- Generate Cache Index WSDL (mvn process-classes and copy in openwis-portal-client)-->
-        <executions>
-          <execution>
-            <id>cacheindex-service-wsdl</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>java2ws</goal>
-            </goals>
-            <configuration>
-              <className>org.openwis.dataservice.cache.CacheIndexImpl</className>
-              <targetNameSpace>http://cache.dataservice.openwis.org/</targetNameSpace>
-              <genWsdl>true</genWsdl>
-              <verbose>true</verbose>
-              <outputFile>${project.build.directory}/generated/wsdl/CacheIndex.wsdl</outputFile>
-              <argline>-createxsdimports</argline>
-            </configuration>
-          </execution>
+			<!-- Generate Cache Index WSDL (mvn process-classes and copy in openwis-portal-client) -->
+			<executions>
+				<execution>
+					<id>cacheindex-service-wsdl</id>
+					<phase>process-classes</phase>
+					<goals>
+						<goal>java2ws</goal>
+					</goals>
+					<configuration>
+						<className>org.openwis.dataservice.cache.CacheIndexImpl</className>
+						<targetNameSpace>http://cache.dataservice.openwis.org/</targetNameSpace>
+						<genWsdl>true</genWsdl>
+						<verbose>true</verbose>
+						<outputFile>${project.build.directory}/generated/wsdl/CacheIndex.wsdl</outputFile>
+						<argline>-createxsdimports</argline>
+					</configuration>
+				</execution>
 
-          </executions>
-        </plugin>
-    </plugins>
+			</executions>
+		</plugin>
+	</plugins>
 </build>  
   
 </project>
