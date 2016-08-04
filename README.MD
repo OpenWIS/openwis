@@ -7,7 +7,7 @@ OpenWIS is an implementation of WMO Information System (WIS) and aims to perform
 ##1. Requirements
 
 * Oracle JDK 1.7
-* Maven 2.2.1
+* Maven 3.1.1
 
 ###Environment variables:
 

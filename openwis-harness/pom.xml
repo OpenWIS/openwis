@@ -11,7 +11,6 @@
 	<packaging>pom</packaging>
 	<description>OpenWIS Harness Parent Project</description>
 	<name>openwis-harness</name>
-
 	
 	<modules>
 		<module>openwis-harness-subselectionparameters</module>
@@ -21,19 +20,50 @@
 		<module>openwis-harness-dissemination</module>
 	</modules>
 	
+    <dependencyManagement> 	
+	  <dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-core</artifactId>
+			<version>${cxf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-databinding-aegis</artifactId>
+			<version>${cxf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-management</artifactId>
+			<version>${cxf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	  </dependencies>
+	</dependencyManagement>
+	
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-
-					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+      <pluginManagement>
+		<plugins>
+          <plugin>
+		    <groupId>org.apache.cxf</groupId>
+		    <artifactId>cxf-codegen-plugin</artifactId>
+		    <version>${cxf.version}</version>
+          </plugin>  
+	    </plugins>
+	  </pluginManagement>
 	</build>
 </project>
