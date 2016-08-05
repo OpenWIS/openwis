@@ -37,7 +37,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
                 loadMask: true,
                 columns: [
                     {id:'disseminationTool', header: Openwis.i18n('Common.Dissemination.Favorites.FTP.Tool'), dataIndex:'disseminationTool', sortable: true, width: 200},
-                    {id:'host', header: Openwis.i18n('Common.Dissemination.Favorites.FTP.Destination'), dataIndex:'host', sortable: true, width: 200}
+                    {id:'host', header: Openwis.i18n('Common.Dissemination.Favorites.FTP.Destination'), dataIndex:'host', sortable: true, width: 200, renderer: Openwis.Common.Request.Utils.htmlSafeRenderer}
                 ],
                 sm: new Ext.grid.RowSelectionModel({
                     listeners: { 

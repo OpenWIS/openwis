@@ -44,12 +44,12 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
         
             /* Build columns table for metadata grid. */
             var columns = [];
-            columns.push(new Ext.grid.Column({id:'urn', header:Openwis.i18n('Metadata.CatalogContent.Header.MetadataIdentifier'), dataIndex:'urn', sortable: true, hideable:false}));
-            columns.push(new Ext.grid.Column({id:'title', header:Openwis.i18n('Metadata.CatalogContent.Header.MetadataTitle'), dataIndex:'title', sortable: true}));
+            columns.push(new Ext.grid.Column({id:'urn', header:Openwis.i18n('Metadata.CatalogContent.Header.MetadataIdentifier'), dataIndex:'urn', sortable: true, hideable:false, renderer: Openwis.Common.Request.Utils.htmlSafeRenderer}));
+            columns.push(new Ext.grid.Column({id:'title', header:Openwis.i18n('Metadata.CatalogContent.Header.MetadataTitle'), dataIndex:'title', sortable: true, renderer: Openwis.Common.Request.Utils.htmlSafeRenderer}));
             columns.push(new Ext.grid.Column({id:'category', header:Openwis.i18n('Metadata.CatalogContent.Header.MetadataCategory'), dataIndex:'category', sortable: true}));
             
             if(this.isAdmin) {
-                columns.push(new Ext.grid.Column({id:'originator', header:Openwis.i18n('Metadata.CatalogContent.Header.Originator'), dataIndex:'originator', sortable: true, width: 60}));
+                columns.push(new Ext.grid.Column({id:'originator', header:Openwis.i18n('Metadata.CatalogContent.Header.Originator'), dataIndex:'originator', sortable: true, width: 60, renderer: Openwis.Common.Request.Utils.htmlSafeRenderer}));
                 columns.push(new Ext.grid.Column({id:'process', header:Openwis.i18n('Metadata.CatalogContent.Header.Process'), dataIndex:'process', sortable:true, width: 50}));
             }
             
@@ -759,7 +759,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             value = overridenValue;
             metadata.attr = 'style="color:red;"'; // TODO use a css class...
         }
-        return value;
+        return Ext.util.Format.htmlEncode(value);
     },
     
     renderFncPattern: function(value, metadata, record) {
@@ -768,7 +768,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             value = overridenValue;
             metadata.attr = 'style="color:red;"'; // TODO use a css class...
         }
-        return value;
+        return Ext.util.Format.htmlEncode(value);
     },
     
     renderPriority: function(value, metadata, record) {
@@ -777,7 +777,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             value = overridenValue;
             metadata.attr = 'style="color:red;"'; // TODO use a css class...
         }
-        return value;
+        return Ext.util.Format.htmlEncode(value);
     }, 
 
     renderDataPolicy: function(value, metadata, record) {
@@ -786,7 +786,7 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             value = overridenValue;
             metadata.attr = 'style="color:red;"'; // TODO use a css class...
         }
-        return value;
+        return Ext.util.Format.htmlEncode(value);
     }, 
     
     renderFileExtension: function(value, metadata, record) {
@@ -795,6 +795,6 @@ Openwis.Common.Metadata.MonitorCatalog = Ext.extend(Ext.Container, {
             value = overridenValue;
             metadata.attr = 'style="color:red;"'; // TODO use a css class...
         }
-        return value;
+        return Ext.util.Format.htmlEncode(value);
     }
 });
