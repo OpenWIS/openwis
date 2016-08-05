@@ -12,10 +12,6 @@
 	<artifactId>openwis-portal-client</artifactId>
 	<description>Openwis Portal client</description>
   	<name>openwis-portal-client</name>
-	
-	<properties>
-		<cxf.version>2.2.12</cxf.version>
-	</properties>
 
 	<build>
 		<plugins>
@@ -212,7 +208,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.5</version>
 				<executions>
 					<execution>
 						<id>add-source</id>
@@ -233,12 +228,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
