@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	<parent>
+	  <artifactId>openwis-dataservice</artifactId>
+	  <groupId>io.openwis.dataservice</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
+	</parent>
+
+  <groupId>io.openwis.dataservice.cache</groupId>
+  <artifactId>openwis-dataservice-cache-webapp</artifactId>
+  <name>openwis-dataservice-cache-webapp</name>
+
+  <packaging>war</packaging>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>io.openwis.dataservice.common</groupId>
+      <artifactId>openwis-dataservice-common-utils</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>io.openwis.dataservice.cache</groupId>
+      <artifactId>openwis-dataservice-cache-core</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+      <exclusions>
+        <!-- This is excluded to avoid a duplicate persistence.xml file from appearing in the deployed EAR -->
+        <exclusion>
+            <groupId>io.openwis.dataservice.common</groupId>
+            <artifactId>openwis-dataservice-common-domain</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.openwis.management</groupId>
+      <artifactId>openwis-management-client</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>    
+    
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    
+    <!-- javax.ejb JKU -->
+    <dependency>
+      <groupId>com.sun.javaee</groupId>
+      <artifactId>javaee</artifactId>
+    </dependency>
+  
+  </dependencies>
+
+</project>

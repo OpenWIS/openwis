@@ -7,7 +7,7 @@ OpenWIS is an implementation of WMO Information System (WIS) and aims to perform
 ##1. Requirements
 
 * Oracle JDK 1.7
-* Maven 2.2.1
+* Maven 3.1.1
 
 ###Environment variables:
 
@@ -24,32 +24,32 @@ The "mvn" command should be available in the terminal, maybe you should add the 
       .
       +-- pom.xml
       |+--openwis-dataservice
-          |+--openwis-dataservice-cache
-             |+-- openwis-dataservice-cache-core
-             |+-- openwis-dataservice-cache-ejb
-             |+-- openwis-dataservice-cache-ftpreplication (not used)
-             |+-- openwis-dataservice-cache-test (not used)
-             |+-- openwis-dataservice-cache-webapp
-          |+--openwis-dataservice-common
-             |+-- openwis-dataservice-common-domain
-             |+-- openwis-dataservice-common-timer
-             |+-- openwis-dataservice-common-utils
-          |+--openwis-dataservice-server
-             |+-- openwis-dataservice-server-ear
-             |+-- openwis-dataservice-server-ejb
-             |+-- openwis-dataservice-server-test (not used)
-             |+-- openwis-dataservice-server-webapp
+      |+--openwis-dataservice
+          |+-- openwis-dataservice-cache-core
+          |+-- openwis-dataservice-cache-ejb
+          |+-- openwis-dataservice-cache-ftpreplication (not used)
+          |+-- openwis-dataservice-cache-test (not used)
+          |+-- openwis-dataservice-cache-webapp
+          |+-- openwis-dataservice-common-domain
+          |+-- openwis-dataservice-common-timer
+          |+-- openwis-dataservice-common-utils
+          |+-- openwis-dataservice-server-ear
+          |+-- openwis-dataservice-server-ejb
+          |+-- openwis-dataservice-server-test (not used)
+          |+-- openwis-dataservice-server-webapp
+      |+--openwis-dependencies
       |+--openwis-factorytests
       |+--openwis-harness 
           |+--openwis-harness-client
           |+--openwis-harness-dissemination
           |+--openwis-harness-localdatasource
           |+--openwis-harness-mssfss
-          |+--openwis-harness-samples (not used)
           |+--openwis-harness-subselectionparameters
       |+--openwis-management
           |+--openwis-management-client
-          |+--openwis-management-server
+          |+--openwis-management-service-common
+          |+--openwis-management-service-ear
+          |+--openwis-management-service-ejb		  
       |+--openwis-metadataportal
           |+--cachingxslt
           |+--jeeves
@@ -65,6 +65,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 			|+--GenerateSPConfFiles
 			|+--PopulateLDAP
       |+--openwis-stagingpost
+      |+--openwis-tools
       |+--resources
 
 * **openwis-dataservice:** contains the dataservice module (including the cache system)
@@ -91,63 +92,79 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 
 Javee is a library that is shipped with installations of GlassFish but is not available in any pulic Maven repository. In a terminal launch the command `mvn clean exec:exec`
 
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Building OpenWIS
+	[INFO]    task-segment: [install:install-file] (aggregator-style)
+	[INFO] ------------------------------------------------------------------------
+	[INFO] [install:install-file {execution: default-cli}]
+	[INFO] Installing C:\openwis\resources\javaee-5.0.jar to c:\Repository\com\sun\javaee\javaee\5.0\javaee-5.0.jar
+	[INFO] ------------------------------------------------------------------------
+	[INFO] BUILD SUCCESSFUL
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Total time: 28 seconds
+	[INFO] Finished at: Mon Aug 08 10:06:46 BST 2016
+	[INFO] Final Memory: 8M/247M
+	[INFO] ------------------------------------------------------------------------
+	[INFO] ------------------------------------------------------------------------
+	[INFO] BUILD SUCCESS
+	[INFO] ------------------------------------------------------------------------
+	[INFO] Total time: 47.077s
+	[INFO] Finished at: Mon Aug 08 10:06:47 BST 2016
+	[INFO] Final Memory: 12M/247M
+	[INFO] ------------------------------------------------------------------------
+
 **#2.Launch the Maven build**
 
  In a terminal, go into the root directory and launch the command: `mvn clean install -P openwis -DskipTests -Dfile.encoding=UTF-8`
 
 After few minutes the build should finished successfully like this:
 
+	[INFO] OpenWIS ........................................... SUCCESS [0.312s]
+	[INFO] openwis-harness ................................... SUCCESS [0.015s]
+	[INFO] openwis-harness-subselectionparameters ............ SUCCESS [6.020s]
+	[INFO] openwis-harness-localdatasource ................... SUCCESS [1.302s]
+	[INFO] openwis-harness-client ............................ SUCCESS [0.722s]
+	[INFO] openwis-harness-mssfss ............................ SUCCESS [2.292s]
+	[INFO] openwis-harness-dissemination ..................... SUCCESS [1.576s]
+	[INFO] openwis-management ................................ SUCCESS [0.016s]
+	[INFO] openwis-management-client ......................... SUCCESS [8.083s]
+	[INFO] openwis-management-service-common ................. SUCCESS [1.774s]
+	[INFO] openwis-management-service-ejb .................... SUCCESS [5.070s]
+	[INFO] openwis-management-service-ear .................... SUCCESS [1.179s]
+	[INFO] openwis-dataservice ............................... SUCCESS [0.012s]
+	[INFO] openwis-dataservice-common-utils .................. SUCCESS [1.344s]
+	[INFO] openwis-dataservice-common-domain ................. SUCCESS [6.183s]
+	[INFO] openwis-dataservice-common-timer .................. SUCCESS [1.762s]
+	[INFO] openwis-dataservice-cache-core .................... SUCCESS [1.514s]
+	[INFO] openwis-dataservice-cache-ejb ..................... SUCCESS [5.995s]
+	[INFO] openwis-dataservice-cache-webapp .................. SUCCESS [0.827s]
+	[INFO] openwis-dataservice-server-ejb .................... SUCCESS [5.413s]
+	[INFO] openwis-dataservice-server-webapp ................. SUCCESS [0.452s]
+	[INFO] openwis-dataservice-server-ear .................... SUCCESS [0.734s]
+	[INFO] openwis-dataservice-config ........................ SUCCESS [1.201s]
+	[INFO] openwis-portal-client ............................. SUCCESS [26.001s]
+	[INFO] GeoNetwork opensource ............................. SUCCESS [0.000s]
+	[INFO] Caching xslt module ............................... SUCCESS [0.421s]
+	[INFO] Jeeves modules .................................... SUCCESS [6.735s]
+	[INFO] Oaipmh modules .................................... SUCCESS [7.238s]
+	[INFO] ArcSDE module (dummy-api) ......................... SUCCESS [3.646s]
+	[INFO] openwis-portal-solr ............................... SUCCESS [10.071s]
+	[INFO] openwis-securityservice ........................... SUCCESS [0.013s]
+	[INFO] openwis-securityservice-war ....................... SUCCESS [4.812s]
+	[INFO] openwis-securityservice-utils ..................... SUCCESS [0.009s]
+	[INFO] openwis-securityservice-utils-populate-ldap ....... SUCCESS [15.238s]
+	[INFO] openwis-stagingpost ............................... SUCCESS [1.654s]
+	[INFO] OpenWIS module .................................... SUCCESS [5:25.570s]
+	[INFO] openwis-dependencies .............................. SUCCESS [3.557s]
+	[INFO] openwis-tools ..................................... SUCCESS [0.265s]
+	[INFO] load-test-data .................................... SUCCESS [14.825s]
 	[INFO] ------------------------------------------------------------------------
-	[INFO] Reactor Summary:
+	[INFO] BUILD SUCCESS
 	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWIS ............................................... SUCCESS [1.248s]
-	[INFO] openwis-harness ....................................... SUCCESS [0.000s]
-	[INFO] openwis-harness-subselectionparameters ................ SUCCESS [6.724s]
-	[INFO] openwis-harness-localdatasource ....................... SUCCESS [1.232s]
-	[INFO] openwis-harness-client ................................ SUCCESS [0.796s]
-	[INFO] openwis-harness-mssfss ................................ SUCCESS [1.560s]
-	[INFO] openwis-harness-dissemination ......................... SUCCESS [1.264s]
-	[INFO] openwis-management .................................... SUCCESS [0.046s]
-	[INFO] openwis-management-client ............................. SUCCESS [4.134s]
-	[INFO] openwis-management-service ............................ SUCCESS [0.016s]
-	[INFO] openwis-management-service-common ..................... SUCCESS [1.045s]
-	[INFO] openwis-management-service-ejb ........................ SUCCESS [6.740s]
-	[INFO] openwis-management-service-ear ........................ SUCCESS [4.118s]
-	[INFO] openwis-dataservice ................................... SUCCESS [0.016s]
-	[INFO] openwis-dataservice-common ............................ SUCCESS [0.015s]
-	[INFO] openwis-dataservice-common-utils ...................... SUCCESS [1.513s]
-	[INFO] openwis-dataservice-common-domain ..................... SUCCESS [2.762s]
-	[INFO] openwis-dataservice-common-timer ...................... SUCCESS [2.761s]
-	[INFO] openwis-dataservice-cache ............................. SUCCESS [0.016s]
-	[INFO] openwis-dataservice-cache-core ........................ SUCCESS [0.998s]
-	[INFO] openwis-dataservice-cache-ejb ......................... SUCCESS [3.354s]
-	[INFO] openwis-dataservice-cache-webapp ...................... SUCCESS [1.728s]
-	[INFO] openwis-dataservice-server ............................ SUCCESS [0.011s]
-	[INFO] openwis-dataservice-server-ejb ........................ SUCCESS [4.073s]
-	[INFO] openwis-dataservice-server-webapp ..................... SUCCESS [1.295s]
-	[INFO] openwis-dataservice-server-ear ........................ SUCCESS [0.515s]
-	[INFO] openwis-dataservice-config ............................ SUCCESS [2.621s]
-	[INFO] openwis-portal-client ................................. SUCCESS [17.862s]	
-	[INFO] GeoNetwork opensource ................................. SUCCESS [0.000s]
-	[INFO] Caching xslt module ................................... SUCCESS [0.514s]
-	[INFO] Jeeves modules ........................................ SUCCESS [4.181s]
-	[INFO] Oaipmh modules ........................................ SUCCESS [1.155s]
-	[INFO] ArcSDE module (dummy-api) ............................. SUCCESS [1.560s]
-	[INFO] openwis-portal-solr ................................... SUCCESS [7.301s]
-	[INFO] openwis-securityservice ............................... SUCCESS [0.015s]
-	[INFO] openwis-securityservice-utils ......................... SUCCESS [0.000s]
-	[INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [4.181s]
-	[INFO] openwis-securityservice-war ........................... SUCCESS [9.657s]
-	[INFO] openwis-stagingpost ................................... SUCCESS [0.327s]
-	[INFO] OpenWIS module ........................................ SUCCESS [36.687s]
+	[INFO] Total time: 7:54.691s
+	[INFO] Finished at: Mon Aug 08 10:52:18 BST 2016
+	[INFO] Final Memory: 94M/268M
 	[INFO] ------------------------------------------------------------------------
-	[INFO] ------------------------------------------------------------------------
-	[INFO] BUILD SUCCESSFUL
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 3 minutes 43 seconds
-	[INFO] Finished at: Tue Dec 01 13:24:46 GMT 2015
-	[INFO] Final Memory: 237M/416M
-	[INFO] ------------------------------------------------------------------------	
 	
 **#3. Generate the admin portal*	
 	
@@ -155,21 +172,20 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 
 	[INFO] ------------------------------------------------------------------------
 	[INFO] Reactor Summary:
+	[INFO]
+	[INFO] OpenWIS module .................................... SUCCESS [2:38.097s]
+	[INFO] OpenWIS ........................................... SUCCESS [0.011s]
 	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWIS module ........................................ SUCCESS [26.004s]
-	[INFO] OpenWis ............................................... SUCCESS [0.402s]
+	[INFO] BUILD SUCCESS
 	[INFO] ------------------------------------------------------------------------
-	[INFO] ------------------------------------------------------------------------
-	[INFO] BUILD SUCCESSFUL
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 26 seconds
-	[INFO] Finished at: Tue Dec 01 13:25:56 GMT 2015
-	[INFO] Final Memory: 42M/302M
+	[INFO] Total time: 2:38.345s
+	[INFO] Finished at: Mon Aug 08 10:55:58 BST 2016
+	[INFO] Final Memory: 49M/247M
 	[INFO] ------------------------------------------------------------------------
 
 **#4  Getting built artifacts**
 
-* **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
+* **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server-ear/target/openwis-dataservice.ear
 * **dataservice configs:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
 * **dataservice config module:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-module.zip
 * **harness client:** <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
@@ -178,7 +194,7 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 * **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-portal-admin.war
 * **SolR search WAR:** <rootdir>/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
-* **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
+* **Management Service:** <rootdir>/openwis-management/openwis-management-service-ear/target/openwis-management-service.ear
 
 **#5 Changing Verison Number**
 

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+	  <artifactId>openwis-dataservice</artifactId>
+	  <groupId>io.openwis.dataservice</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
+	</parent>
+
+  <groupId>io.openwis.dataservice.cache</groupId>
+  <artifactId>openwis-dataservice-cache-core</artifactId>
+  <name>openwis-dataservice-cache-core</name>
+  <packaging>jar</packaging>
+
+  <dependencies>        
+    <dependency>
+      <groupId>io.openwis.dataservice.common</groupId>
+      <artifactId>openwis-dataservice-common-domain</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>io.openwis.dataservice.common</groupId>
+      <artifactId>openwis-dataservice-common-utils</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>        
+    <dependency>
+      <groupId>org.jboss.ejb3</groupId>
+      <artifactId>jboss-ejb3-ext-api</artifactId>
+    </dependency> 
+  </dependencies>
+</project>

@@ -7,6 +7,9 @@ release.properties
 *.tag
 openwis-metadataportal/openwis-portal/openwis-admin-portal
 openwis-metadataportal/openwis-portal/openwis-user-portal
+*.tmp
+*.lck
+*.rej
 
 # Ignore eclipse files
 .project
@@ -15,3 +18,6 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 
 # Ignore vagrant working files
 .vagrant/
+
+# Ignore SonarQube working files
+.sonartmp/
