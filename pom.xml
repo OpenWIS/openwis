@@ -61,9 +61,9 @@
        <profile>
          <id>openwis</id>
 		 <properties>
-			 <admin.module>false</admin.module>	 
-			 <user.module>true</user.module>	 			 
-		 </properties>		 
+			 <admin.module>false</admin.module>
+			 <user.module>true</user.module>			 
+	     </properties>
 		 <modules>
 			<module>openwis-harness</module>
 			<module>openwis-management</module>
@@ -72,19 +72,9 @@
 			<module>openwis-metadataportal</module>
 			<module>openwis-securityservice</module>
 			<module>openwis-stagingpost</module>
-			<module>openwis-metadataportal/openwis-portal</module>
+            <module>openwis-metadataportal/openwis-portal</module>
             <module>openwis-dependencies</module>
             <module>openwis-tools</module>
-         </modules>
-      </profile>
-	  <profile>
-         <id>user</id>
-		 <properties>
-			 <admin.module>false</admin.module>
-			 <user.module>true</user.module>			 
-	     </properties>
-         <modules>
-            <module>openwis-metadataportal/openwis-portal</module>
          </modules>
       </profile>
       <profile>
