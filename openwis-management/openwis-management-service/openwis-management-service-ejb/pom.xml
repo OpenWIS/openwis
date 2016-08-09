@@ -124,18 +124,17 @@
 				<artifactId>cxf-java2ws-plugin</artifactId>
 				<version>${cxf.version}</version>
 				<dependencies>
-				<dependency>
-	<groupId>log4j</groupId>
-	<artifactId>log4j</artifactId>
-	<version>1.2.13</version>
-	<!-- Same as the dependency in commons-logging -->
-</dependency>
-	<dependency>
-		<groupId>com.sun.javaee</groupId>
-		<artifactId>javaee</artifactId>
-		<version>5.0</version>
-	</dependency>
-
+					<dependency>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+						<version>1.2.13</version>
+						<!-- Same as the dependency in commons-logging -->
+					</dependency>
+					<dependency>
+						<groupId>com.sun.javaee</groupId>
+						<artifactId>javaee</artifactId>
+						<version>5.0</version>
+					</dependency>
 					<dependency>
 						<groupId>org.apache.cxf</groupId>
 						<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -253,6 +252,7 @@
 		</plugins>
 	</build>
 
+    <!-- 
 	<profiles>
 		<profile>
 			<id>arq-openejb-embedded-hibernate</id>
@@ -316,5 +316,6 @@
 			</build>
 		</profile>
 	</profiles>
+	 -->
 
 </project>

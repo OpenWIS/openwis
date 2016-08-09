@@ -25,7 +25,7 @@ import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.timer.SubscriptionTimerService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.management.ManagementServiceBeans;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.service.ControlService;
 import org.openwis.management.service.ManagedServiceIdentifier;
 import org.openwis.management.utils.ManagementServiceProvider;
@@ -164,7 +164,7 @@ public class SubscriptionTimerServiceImpl implements SubscriptionTimerService {
    private void raiseAlarm(Throwable t) {
       String msg = MessageFormat.format("Cannot process recurrent subscription. Error: {0}", t);
       logger.error(msg, t);
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       alertService.raiseError("Data Service", "Subscription Timer", msg);
    }
 }

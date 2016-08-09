@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -21,11 +20,8 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
 import org.openwis.dataservice.util.FileInfo;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.FeedingMessage;
-import org.openwis.management.alert.AlertService;
-import org.openwis.management.control.ControlService;
-import org.openwis.management.control.FeedingFilter;
-import org.openwis.management.control.ManagedServiceIdentifier;
-import org.openwis.management.control.ManagedServiceStatus;
+import org.openwis.management.service.AlertService;
+import org.openwis.management.service.ControlService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;
@@ -133,28 +129,28 @@ public class FeederImpl implements Feeder, ConfigurationInfo {
    }
 
 	private List<Pattern> getFeedingFilters(){	
-		ControlService controlService = ManagementServiceProvider.getControlService();
+		ControlService controlService = ManagementServiceProvider.getInstance().getControlService();
 		if (controlService == null){
 			LOG.error("Could not find the ControlService.");
 			return null;
 		}
-		List<FeedingFilter> feedingFilters = controlService.getFeedingFilters();
+		List<org.openwis.management.entity.FeedingFilter> feedingFilters = controlService.getFeedingFilters();
 		List<Pattern> feedingFiltersPatterns = new ArrayList<Pattern>();
-		for (FeedingFilter filter : feedingFilters){
+		for (org.openwis.management.entity.FeedingFilter filter : feedingFilters){
 			feedingFiltersPatterns.add(Pattern.compile(filter.getRegex()));
 		}
 		return feedingFiltersPatterns;
 	}
 
 	private void setServiceDegradedAndRaiseError(String cause){
-		ControlService controlService = ManagementServiceProvider.getControlService();
+		ControlService controlService = ManagementServiceProvider.getInstance().getControlService();
 		if (controlService == null){
 			LOG.error("Could not find ControlSerivice.");
 		} else {
-			controlService.setServiceStatus(ManagedServiceIdentifier.FEEDING_SERVICE, ManagedServiceStatus.DEGRADED);
+			controlService.setServiceStatus(org.openwis.management.service.ManagedServiceIdentifier.FEEDING_SERVICE, org.openwis.management.service.ManagedServiceStatus.DEGRADED);
 			LOG.error("Set Feeding status to degraded. Cause: " + cause);
 			
-			AlertService alertService = ManagementServiceProvider.getAlertService();
+			AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
 			if (alertService == null){
 				LOG.error("Could not find the AlertService.");
 			} else {

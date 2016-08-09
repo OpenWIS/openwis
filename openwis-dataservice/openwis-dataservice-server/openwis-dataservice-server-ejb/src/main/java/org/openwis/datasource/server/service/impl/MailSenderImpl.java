@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openwis.dataservice.common.service.MailSender;
-import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +61,7 @@ public class MailSenderImpl implements MailSender {
    @Override
    public void sendMail(String from, String to, String subject, String content) {
       try {
-         if ("".equals(JndiUtils.getString(DataServiceConfiguration.MAIL_SMTP_HOST))) {
+         if ("".equals(ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_SMTP_HOST))) {
             return;
          }
          
@@ -117,9 +117,9 @@ public class MailSenderImpl implements MailSender {
       if (props == null) {
          props = new Properties();
          props.put("mail.transport.protocol",
-               JndiUtils.getString(DataServiceConfiguration.MAIL_TRANSPORT_PROTOCOL));
-         props.put("mail.smtp.host", JndiUtils.getString(DataServiceConfiguration.MAIL_SMTP_HOST));
-         props.put("mail.smtp.port", JndiUtils.getString(DataServiceConfiguration.MAIL_SMTP_PORT));
+               ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_TRANSPORT_PROTOCOL));
+         props.put("mail.smtp.host", ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_SMTP_HOST));
+         props.put("mail.smtp.port", ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_SMTP_PORT));
          props.put("mail.smtp.auth", "false");
       }
       return props;

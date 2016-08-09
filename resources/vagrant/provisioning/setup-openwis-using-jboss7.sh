@@ -64,7 +64,7 @@ export JBOSS_HOME="$jbossHome"
 # 5. Install the jndi-properties module.  This module allows for the injection of Property objects into JNDI,
 #    which is used to configure the data service.
 #
-( cd "$jbossHome/modules" ; unzip "$ARTEFACT_DATASERVICE_CONFIG_MODULE" )
+#( cd "$jbossHome/modules" ; unzip "$ARTEFACT_DATASERVICE_CONFIG_MODULE" )
 
 # 5. Configure standalone.conf to enable debugging
 sudo -iu openwis echo 'JAVA_OPTS="$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"' >> "$jbossHome"/bin/standalone.conf
@@ -188,10 +188,10 @@ owConf "$confDir/openwis-dataservice.properties" "managementServiceServer" "loca
 
 # 6. Setup the OpenWIS JNDI configuration values
 #
-jbossCli "/system-property=conf\/openwis-dataservice:add(value=\"/home/openwis/conf/openwis-dataservice.properties\")"
-jbossCli "/system-property=ws\/localdatasourceservice:add(value=\"/home/openwis/conf/localdatasourceservice.properties\")"
-jbossCli "/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
-jbossCli "/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
+#jbossCli "/system-property=conf\/openwis-dataservice:add(value=\"/home/openwis/conf/openwis-dataservice.properties\")"
+#jbossCli "/system-property=ws\/localdatasourceservice:add(value=\"/home/openwis/conf/localdatasourceservice.properties\")"
+#jbossCli "/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
+#jbossCli "/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
 
 
 
