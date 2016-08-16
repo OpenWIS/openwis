@@ -43,7 +43,8 @@ function owConf()
 
 # 1. As root, install the OpenJDK 1.7 Devel package from the Red Hat Repositories.
 #
-yum install -y java-1.7.0-openjdk-devel.x86_64
+#yum install -y java-1.7.0-openjdk-devel.x86_64
+yum install -y java-1.7.0-openjdk-1.7.0.101
 
 # 2. As openwis, download and install JBoss AS 7.1 community edition from jboss.org.
 #
