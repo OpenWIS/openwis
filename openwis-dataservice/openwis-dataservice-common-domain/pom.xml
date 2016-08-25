@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>openwis-dataservice-common</artifactId>
-		<groupId>io.openwis.dataservice.common</groupId>
-		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+	  <artifactId>openwis-dataservice</artifactId>
+	  <groupId>io.openwis.dataservice</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>io.openwis.dataservice.common</groupId>
@@ -19,130 +19,101 @@
 	</properties>
 
 	<dependencies>
-
          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
-            <scope>provided</scope>
             <exclusions>
-                <!-- lmika: The bundled version of slf4j-api (1.4.2) was clashing with the version of slf4j-api
-                     expected by slf4j-log4j12 (1.5.6).  This was causing IllegalAccessErrors when attempting to
-                     run the unit tests.
-                     
-                     See: http://stackoverflow.com/questions/9030476/java-lang-illegalaccesserror-tried-to-access-field-org-slf4j-impl-staticloggerb
-                -->
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
+            <!-- lmika: The bundled version of slf4j-api (1.4.2) was clashing with the version of slf4j-api
+                 expected by slf4j-log4j12 (1.5.6).  This was causing IllegalAccessErrors when attempting to
+                 run the unit tests.
+                 See: http://stackoverflow.com/questions/9030476/java-lang-illegalaccesserror-tried-to-access-field-org-slf4j-impl-staticloggerb
+            -->
+              <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+              </exclusion>
             </exclusions>
          </dependency>
-        
 		<dependency>
 			<groupId>com.sun.javaee</groupId>
 			<artifactId>javaee</artifactId>
-			<version>5.0</version>
-			<scope>provided</scope>
 		</dependency>
-
-        <!-- 
-		<dependency>
-			<groupId>org.jboss.jbossas</groupId>
-			<artifactId>jboss-as-client</artifactId>
-			<version>5.1.0.GA</version>
-			<type>pom</type>
-			<scope>test</scope>
-		</dependency>
-		 -->
-
-      <dependency>
-         <groupId>commons-io</groupId>
-         <artifactId>commons-io</artifactId>
-         <version>1.3.2</version>
-         <type>jar</type>
-         <scope>compile</scope>
-      </dependency>
-       
-		<dependency>
-			<groupId>io.openwis.dataservice.common</groupId>
-			<artifactId>openwis-dataservice-common-utils</artifactId>
-			<version>${project.version}</version>
-      		<type>jar</type>
-		</dependency>
-		
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.6</version>
-            <scope>test</scope>
+           <groupId>commons-io</groupId>
+           <artifactId>commons-io</artifactId>
+           <version>1.3.2</version>
+           <type>jar</type>
+           <scope>compile</scope>
+        </dependency>
+		<dependency>
+		  <groupId>io.openwis.dataservice.common</groupId>
+		  <artifactId>openwis-dataservice-common-utils</artifactId>
+		  <version>${project.version}</version>
+      	  <type>jar</type>
+		</dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
         </dependency>		
-
 		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-			<scope>test</scope>
+		  <groupId>dom4j</groupId>
+		  <artifactId>dom4j</artifactId>
+		  <version>1.6.1</version>
+		  <scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.4.0.GA</version>
-			<scope>test</scope>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-entitymanager</artifactId>
+		  <version>${hibernate.version}</version>
+		  <scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.7</version>
-			<scope>test</scope>
+		  <groupId>hsqldb</groupId>
+		  <artifactId>hsqldb</artifactId>
+		  <version>1.8.0.7</version>
+		  <scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>com.mycila.testing.plugins</groupId>
-			<artifactId>mycila-testing-dbunit</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
+		  <groupId>com.mycila.testing.plugins</groupId>
+		  <artifactId>mycila-testing-dbunit</artifactId>
+		  <version>2.4</version>
+		  <scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/AllServiceTests.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>hibernate3-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<components>
-						<component>
-							<name>hbm2ddl</name>
-							<implementation>jpaconfiguration</implementation>
-						</component>
-					</components>
-					<componentProperties>
-						<persistenceunit>DataServicePUnit</persistenceunit>
-						<outputfilename>schema.ddl</outputfilename>
-						<drop>true</drop>
-						<create>true</create>
-						<export>false</export>
-						<format>true</format>
-					</componentProperties>
-				</configuration>
-			</plugin>
-		</plugins>
+	  <plugins>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-surefire-plugin</artifactId>
+		  <configuration>
+			<excludes>
+			  <exclude>**/AllServiceTests.java</exclude>
+			</excludes>
+		  </configuration>
+		</plugin>
+		<plugin>
+		  <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
+		  <groupId>org.codehaus.mojo</groupId>
+		  <artifactId>hibernate3-maven-plugin</artifactId>
+		  <version>2.2</version>
+		  <configuration>
+			<components>
+			  <component>
+				<name>hbm2ddl</name>
+				<implementation>jpaconfiguration</implementation>
+			  </component>
+			</components>
+			<componentProperties>
+			  <persistenceunit>DataServicePUnit</persistenceunit>
+			  <outputfilename>schema.ddl</outputfilename>
+			  <drop>true</drop>
+			  <create>true</create>
+			  <export>false</export>
+			  <format>true</format>
+			</componentProperties>
+		  </configuration>
+		</plugin>
+	  </plugins>
 	</build>
-
 </project>

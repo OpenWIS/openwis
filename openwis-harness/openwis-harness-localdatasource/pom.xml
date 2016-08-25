@@ -9,42 +9,27 @@
   <groupId>io.openwis.harness</groupId>
   <artifactId>openwis-harness-localdatasource</artifactId>
   <name>openwis-harness-localdatasource</name>
-  
-  <properties>
-		<cxf.version>2.1.10</cxf.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-core</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-databinding-aegis</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-management</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
@@ -54,8 +39,6 @@
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
-
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.cxf</groupId>
@@ -63,7 +46,6 @@
 						<version>${cxf.version}</version>
 					</dependency>
 				</dependencies>
-
 				<executions>
 					<execution>
 						<id>generate-sources</id>
@@ -82,8 +64,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
 			<!--
 				Add generated sources - avoids having to copy generated sources to
 				build location

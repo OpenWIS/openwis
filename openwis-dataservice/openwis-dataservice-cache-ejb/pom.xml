@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>openwis-dataservice-cache</artifactId>
-    <groupId>io.openwis.dataservice.cache</groupId>
-	<version>develop-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
-  </parent>
-  <groupId>io.openwis.dataservice.cache</groupId>
-  <artifactId>openwis-dataservice-cache-ejb</artifactId>
-  <name>openwis-dataservice-cache-ejb</name>
-  <packaging>jar</packaging>
-  <properties>
-    <cxf.version>2.1.10</cxf.version>
-  </properties>
+  
+	<parent>
+	  <artifactId>openwis-dataservice</artifactId>
+	  <groupId>io.openwis.dataservice</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
+	</parent>
+	
+	<groupId>io.openwis.dataservice.cache</groupId>
+	<artifactId>openwis-dataservice-cache-ejb</artifactId>
+	<name>openwis-dataservice-cache-ejb</name>
+	<packaging>jar</packaging>
+	
   <dependencies>
 	<dependency>
 		<groupId>io.openwis.dataservice.common</groupId>
@@ -53,26 +53,18 @@
     <dependency>
       <groupId>com.sun.javaee</groupId>
       <artifactId>javaee</artifactId>
-      <version>5.0</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>1.3.2</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.5.6</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.7.1</version>
     </dependency>
     <dependency>
       <groupId>io.openwis.harness</groupId>
@@ -114,8 +106,6 @@
 	<dependency>
 		<groupId>org.jboss.ejb3</groupId>
 		<artifactId>jboss-ejb3-ext-api</artifactId>
-		<version>1.0.0</version>
-		<scope>provided</scope>
 	</dependency>
     <dependency>
       <groupId>jboss</groupId>
@@ -129,14 +119,17 @@
       <version>4.0.2</version>
       <scope>provided</scope>
     </dependency>
-    
     <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
-            <scope>provided</scope>
-         </dependency>
-    
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+	  <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+	  <version>${hibernate.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   
 <build>

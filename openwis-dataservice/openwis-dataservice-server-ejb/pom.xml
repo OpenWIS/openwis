@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>openwis-dataservice-server</artifactId>
-		<groupId>io.openwis.dataservice.server</groupId>
-		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+	  <artifactId>openwis-dataservice</artifactId>
+	  <groupId>io.openwis.dataservice</groupId>
+	  <version>develop-SNAPSHOT</version>
+	  <relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>io.openwis.dataservice.server</groupId>
@@ -14,29 +14,14 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<!-- <arquillian.version>1.0.3.Final</arquillian.version>
-		<shrinkwrap.version>1.1.0-alpha-3</shrinkwrap.version> -->
 		<version.org.apache.openejb_openejb.core>3.1.3</version.org.apache.openejb_openejb.core>
-		<cxf.version>2.2.10</cxf.version>
 	</properties>
-	
-	<dependencyManagement>
-	    <dependencies>
-	        <dependency>
-	            <groupId>org.jboss.arquillian</groupId>
-	            <artifactId>arquillian-bom</artifactId>
-	            <version>1.1.11.Final</version>
-	            <scope>import</scope>
-	            <type>pom</type>
-	        </dependency>
-	    </dependencies>
-	</dependencyManagement>	
 
 	<dependencies>
          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
          </dependency>
 		<dependency>
@@ -99,8 +84,6 @@
 		<dependency>
 			<groupId>com.sun.javaee</groupId>
 			<artifactId>javaee</artifactId>
-			<version>5.0</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -111,39 +94,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
-			<!-- <version>${arquillian.version}</version> -->
+			<groupId>org.jboss.arquillian</groupId>
+			<artifactId>arquillian-junit</artifactId>
+			<version>${arquillian.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>  
-		    <groupId>org.jboss.shrinkwrap.resolver</groupId>  
-		    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-		    <!-- <version>${shrinkwrap.versi  on}</version>   -->
-		    <scope>test</scope>  
-		</dependency>
-		
-		<!-- 
-        <dependency>
-          <groupId>org.jboss.shrinkwrap.resolver</groupId>
-          <artifactId>shrinkwrap-resolver-depchain</artifactId>
-          <version>2.2.2</version>
-          <scope>test</scope>
-          <type>pom</type>
-        </dependency>
-         -->		
-        <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-arquillian-container-remote</artifactId>
-            <version>7.1.0.Final</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.4.2</version>
-            <scope>test</scope>
-        </dependency>
 
 		<dependency>
 			<groupId>org.dbunit</groupId>
@@ -152,11 +107,6 @@
 			<scope>test</scope>
 		</dependency>
 
-        <dependency>
-            <groupId>io.openwis.dataservice.cache</groupId>
-            <artifactId>openwis-dataservice-cache-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 		<dependency>
 			<groupId>io.openwis.dataservice.cache</groupId>
 			<artifactId>openwis-dataservice-cache-ejb</artifactId>
@@ -169,13 +119,6 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-		<!-- 
-		<dependency>
-		  <groupId>org.wildfly</groupId>
-		  <artifactId>wildfly-cli</artifactId>
-		  <version>8.2.1.Final</version>
-		</dependency>
-		 -->
 
 		<dependency>
 			<groupId>io.openwis.management.service</groupId>
@@ -184,19 +127,7 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-		
-	    <dependency>
-	       <groupId>org.apache.commons</groupId>
-	       <artifactId>commons-lang3</artifactId>
-	       <version>3.1</version>
-	    </dependency>
-        <dependency>
-           <groupId>commons-collections</groupId>
-           <artifactId>commons-collections</artifactId>
-           <version>3.1</version>
-        </dependency>
 
-        <!-- 
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>openejb-core</artifactId>
@@ -209,7 +140,6 @@
 			</exclusions>
 			<scope>test</scope>
 		</dependency>
-		 -->
 	</dependencies>
 
 	<build>
@@ -217,32 +147,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.17</version>
-				<executions>
-				    <execution>
-                        <id>unit-tests</id>
-				        <phase>test</phase>
-				        <goals>
-				            <goal>test</goal>
-				        </goals>
-                    </execution>
-				</executions>
-                <configuration>
-                    <includes>
-                        <include>**/*TestCase.java</include>
-                    </includes>
-                    <!-- Exclude integration tests by default -->
-                    <excludes>
-                        <exclude>**/*IntegrationTestCase.java</exclude>
-                    </excludes>
-                    
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>                  
-                </configuration>
+				<configuration>
+					<includes>
+						<include>**/*TestCase.java</include>
+					</includes>
+				</configuration>
 			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
-                <version>2.5.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -260,478 +173,6 @@
                     </archive>
                 </configuration>
             </plugin>
-            <!-- 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
-                                    <version>8.1.0.Final</version>
-                                    <type>zip</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>target</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-             -->
-            <!-- 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.17</version>
-                <configuration>
-                    <!-+- Fork every test because it will launch a separate AS instance -+->
-                    <forkMode>always</forkMode>
-                    <systemPropertyVariables>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                          <!-+- the maven dependency plugin will have already downloaded the server on /target -+->
-                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
-                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
-                    </systemPropertyVariables>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                </configuration>
-            </plugin> 
-            -->
 		</plugins>
 	</build>
-
-	<profiles>
-	   <!-- 
-	   <profile>
-	       <id>no-it</id>
-	       <activation>
-	           <activeByDefault>true</activeByDefault>
-	       </activation>
-	       <build>
-	           <plugins>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-surefire-plugin</artifactId>
-	                <version>2.17</version>
-	                <configuration>
-	                    <includes>
-	                        <include>**/*TestCase.java</include>
-	                    </includes>
-	                    <excludes>
-	                        <exclude>**/*IntegrationTestCase.java</exclude>
-	                    </excludes>
-	                    
-	                    <systemPropertyVariables>
-	                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-	                        <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
-	                        <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
-	                    </systemPropertyVariables>
-	                    <redirectTestOutputToFile>false</redirectTestOutputToFile>                  
-	                </configuration>
-	            </plugin>
-	           </plugins>
-	       </build>
-	   </profile>
-	    -->	   
-        <profile>
-            <id>it</id>
-            <activation>
-                <property>
-                    <name>it</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <!-- Download and uninstall a JBoss AS 7.1 instance -->
-                    <plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-dependency-plugin</artifactId>
-		                <version>2.8</version>
-		                <executions>
-		                    <execution>
-		                        <id>unpack</id>
-		                        <phase>process-test-classes</phase>
-		                        <goals>
-		                            <goal>unpack</goal>
-		                        </goals>
-		                        <configuration>
-		                            <artifactItems>
-		                                <artifactItem>
-		                                    <groupId>org.jboss.as</groupId>
-		                                    <artifactId>jboss-as-dist</artifactId>
-		                                    <version>7.1.1.Final</version>
-		                                    <type>zip</type>
-		                                    <overWrite>false</overWrite>
-		                                    <outputDirectory>target</outputDirectory>
-		                                </artifactItem>
-		                            </artifactItems>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-                    </plugin>
-                    <!-- Start the JBoss container -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <!-- Move this into the tests themselves so that we can properly handle shutdown regardless
-                                of test outcome -->
-                            <execution>
-                                <id>start-jboss-for-integration-tests</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final"/>
-                                        
-                                        <echo file="/tmp/openwis-dataservice-server-ejb.cmds.cli">
-                                            jms-queue add --queue-address=CollectionQueue --entries=[queue/CollectionQueue]
-                                            jms-queue add --queue-address=IncomingDataQueue --entries=[queue/IncomingDataQueue]
-                                            jms-queue add --queue-address=RequestQueue --entries=[queue/RequestQueue]
-                                            jms-queue add --queue-address=DisseminationQueue --entries=[queue/DisseminationQueue]
-                                            jms-queue add --queue-address=PackedFeedingQueue --entries=[queue/PackedFeedingQueue]
-                                            jms-queue add --queue-address=UnpackedFeedingQueue --entries=[queue/UnpackedFeedingQueue]
-                                            jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
-                                        </echo>
-                                        
-                                        <echo message="Launching JBoss"/>
-	                                    <exec executable="/bin/bash" spawn="true" dir="${jboss.home}">
-	                                        <arg value="-c"/>
-	                                        <arg value="bin/standalone.sh -c standalone-full.xml >/tmp/jboss.log 2>&amp;1;"/>
-	                                        <env key="JBOSS_HOME" value="${jboss.home}"/>
-	                                    </exec>
-	                                    
-	                                    <sleep seconds="5"/>
-	                                    
-	                                    <!-- Configure the server -->
-	                                    <echo message="Configuring JBoss"/>
-                                        <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
-                                            <arg value="-c"/>
-                                            <arg value="--file=/tmp/openwis-dataservice-server-ejb.cmds.cli"/>
-                                            <env key="JBOSS_HOME" value="${jboss.home}"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            
-                            <execution>
-                                <id>stop-jboss</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo message="Shutting Down JBoss"/>
-                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final"/>
-                                        
-                                        <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
-                                            <arg value="-c"/>
-                                            <arg value="--command=:shutdown"/>
-                                            <env key="JBOSS_HOME" value="${jboss.home}"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                     <!-- 
-                        TODO - We should be using this plugin but I think it only supports Maven 3
-                    <plugin>
-		                <groupId>org.jboss.as.plugins</groupId>
-		                <artifactId>jboss-as-maven-plugin</artifactId>
-		                <version>7.8.Final</version>
-                        <executions>
-                            <execution>
-                                <id>start-jboss</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                                <configuration>
-                                    <jbossHome>${project.basedir}/target/jboss-as-7.1.1.Final</jbossHome>
-                                    <serverConfig>standalone-full.xml</serverConfig>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>setup-queues</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>execute-commands</goal>
-                                </goals>
-                                <configuration>
-                                    <jbossHome>${project.basedir}/target/jboss-as-7.1.1.Final</jbossHome>
-                                    <execute-commands>
-                                        <commands>
-                                            <command>jms-queue add -+-queue-address=CollectionQueue -+-entries=[queue/CollectionQueue]</command>
-                                            <command>jms-queue add -+-queue-address=IncomingDataQueue -+-entries=[queue/IncomingDataQueue]</command>
-                                            <command>jms-queue add -+-queue-address=RequestQueue -+-entries=[queue/RequestQueue]</command>
-                                            <command>jms-queue add -+-queue-address=DisseminationQueue -+-entries=[queue/DisseminationQueue]</command>
-                                            <command>jms-queue add -+-queue-address=PackedFeedingQueue -+-entries=[queue/PackedFeedingQueue]</command>
-                                            <command>jms-queue add -+-queue-address=UnpackedFeedingQueue -+-entries=[queue/UnpackedFeedingQueue]</command>
-                                            <command>jms-queue add -+-queue-address=StatisticsQueue -+-entries=[queue/StatisticsQueue]</command>
-                                        </commands>
-                                    </execute-commands>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                     -->
-                    <!-- Unit and integration tests -->
-		            <plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-failsafe-plugin</artifactId>
-		                <version>2.19.1</version>
-		                <executions>
-		                  <execution>
-		                      <id>run-integration-tests</id>
-		                      <phase>integration-test</phase>
-		                      <goals>
-		                          <goal>integration-test</goal>
-		                      </goals>
-		                      <configuration>
-	                            <includes>
-	                                <include>**/*IntegrationTestCase.java</include>
-	                            </includes>
-	                            <excludes>
-	                               <exclude>none</exclude>
-	                            </excludes>
-	                            
-	                            <!-- Fork every test because it will launch a separate AS instance -->
-	                            <argLine>-Xms128m -Xmx512m -XX:MaxPermSize=1024m</argLine>
-	                            
-	                            <systemPropertyVariables>
-	                                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-	                                <jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
-	                                <module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
-	                            </systemPropertyVariables>
-	                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
-		                      </configuration>
-		                  </execution>
-		                </executions>
-		            </plugin>
-                </plugins>
-            </build>
-        </profile>	
-	   <!-- 
-		<profile>
-			<id>arq-openejb-embedded-hibernate</id>
-
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.arquillian.container</groupId>
-					<artifactId>arquillian-openejb-embedded-3.1</artifactId>
-					<version>${arquillian.version}</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>javax.inject</groupId>
-					<artifactId>javax.inject</artifactId>
-					<version>1</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
-					<version>3.4.0.GA</version>
-					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>javax.persistence</groupId>
-							<artifactId>persistence-api</artifactId>
-						</exclusion>
-						<exclusion>
-							<groupId>javax.transaction</groupId>
-							<artifactId>jta</artifactId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-jdk14</artifactId>
-					<version>1.4.2</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-			<build>
-				<testResources>
-					<testResource>
-						<directory>src/test/resources</directory>
-					</testResource>
-					<testResource>
-						<directory>src/test/resources-openejb-embedded-shared</directory>
-					</testResource>
-					<testResource>
-						<directory>src/test/resources-openejb-embedded-hibernate</directory>
-					</testResource>
-				</testResources>
-			</build>
-		</profile>
-		 -->
-		<profile>
-			<id>generate-wsdl</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-java2ws-plugin</artifactId>
-						<version>${cxf.version}</version>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.cxf</groupId>
-								<artifactId>cxf-rt-frontend-jaxws</artifactId>
-								<version>${cxf.version}</version>
-								<scope>compile</scope>
-							</dependency>
-							<dependency>
-								<groupId>org.apache.cxf</groupId>
-								<artifactId>cxf-rt-frontend-simple</artifactId>
-								<version>${cxf.version}</version>
-								<scope>compile</scope>
-							</dependency>
-							<dependency>
-								<groupId>io.openwis.dataservice.common</groupId>
-								<artifactId>openwis-dataservice-common-domain</artifactId>
-								<version>${project.version}</version>
-								<scope>compile</scope>
-							</dependency>
-							<dependency>
-								<groupId>com.sun.javaee</groupId>
-								<artifactId>javaee</artifactId>
-								<version>5.0</version>
-								<scope>compile</scope>
-							</dependency>
-						</dependencies>
-
-						<executions>
-							<execution>
-								<id>request-service-to-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.RequestServiceImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl/RequestService.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-
-							<execution>
-								<id>subscription-service-to-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.SubscriptionServiceImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl/SubscriptionService.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-
-							<execution>
-								<id>productmetadata-service-to-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.ProductMetadataServiceImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl/ProductMetadataService.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-
-							<execution>
-								<id>processedrequest-service-to-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.ProcessedRequestServiceImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl/ProcessedRequestService.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-
-
-							<execution>
-								<id>blacklist-service-to-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.BlacklistServiceImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl/BlacklistService.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-
-							<execution>
-								<id>product-arrival-listener</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.ProductArrivalListenerImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl-harness/ProductArrivalListener.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-
-							<execution>
-								<id>user-alarm-service-to-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>io.openwis.datasource.server.service.impl.UserAlarmManagerImpl</className>
-									<genWsdl>true</genWsdl>
-									<argline>-createxsdimports</argline>
-									<verbose>true</verbose>
-									<outputFile>${basedir}/target/generated/wsdl/UserAlarmService.wsdl</outputFile>
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

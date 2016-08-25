@@ -5,7 +5,7 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-	  <version>develop-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	  <relativePath>../pom.xml</relativePath>
    </parent>
 
@@ -29,21 +29,19 @@
       <geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
       <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
       <minify.verbose>false</minify.verbose>
-      <solr.version>1.4.1</solr.version>
    </properties>
 
-    <!-- =========================================================== -->
+   <!-- =========================================================== -->
    <!-- Profiles allows to build User and Admin portal -->
    <!-- =========================================================== -->
    <profiles>
       <profile>
-         <id>user</id>
+         <id>openwis</id>
 		 <activation>
-			<activeByDefault>${user.module&gt;</activeByDefault>
+			<activeByDefault>${user.module}</activeByDefault>
 		 </activation>
          <properties>
 			<war.name>openwis-user-portal</war.name>
-			<profile-id>user</profile-id>
          </properties>
          <build>
 		 <directory>openwis-user-portal</directory>
@@ -96,11 +94,10 @@
       <profile>
          <id>admin</id>
 		 <activation>
-			<activeByDefault>${admin.module&gt;</activeByDefault>
+			<activeByDefault>${admin.module}</activeByDefault>
 		 </activation>
          <properties>
 		    <war.name>openwis-admin-portal</war.name>
-			<profile-id>admin</profile-id>
          </properties>
          <build>
 		 <directory>openwis-admin-portal</directory>
@@ -151,8 +148,6 @@
          </build>
       </profile>
    </profiles>
-
-   
    
    
    <build>
@@ -582,67 +577,29 @@
       </dependency>
 
       <!-- OPEN AM FEDERATION -->
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>activation</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>esapiport</artifactId>
-         <version>1.0</version>
+	<dependency>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-idpdiscovery</artifactId>
+         <version>12.0.0</version>
       </dependency>
 
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>mail</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-federation-library</artifactId>
+         <version>12.0.0</version>
       </dependency>
 
       <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>idpdiscovery</artifactId>
-         <version>1.0</version>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-shared</artifactId>
+         <version>12.0.0</version>
       </dependency>
 
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>openfedlib</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>opensso-sharedlib</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>relaxngDatatype</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>webservices-api</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>webservices-rt</artifactId>
-         <version>1.0</version>
-      </dependency>
-
-
-      <dependency>
-         <groupId>openam.fed</groupId>
-         <artifactId>xsdlib</artifactId>
-         <version>1.0</version>
-      </dependency>
+     <dependency>
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-rt</artifactId>
+        <version>2.1.4</version>
+     </dependency>
 
       <!-- Imported from GeoNetwork -->
       <dependency>
