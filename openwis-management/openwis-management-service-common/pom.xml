@@ -13,35 +13,59 @@
 	<name>openwis-management-service-common</name>
 
     <dependencies>
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-annotations</artifactId>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.2</version>
+            <scope>provided</scope>
+        </dependency>         
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.6</version>
+            <scope>provided</scope>
+		</dependency>
     </dependencies>
 
 	<build>
-	  <plugins>
-		<plugin>
-		  <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
-		  <groupId>org.codehaus.mojo</groupId>
-		  <artifactId>hibernate3-maven-plugin</artifactId>
-		  <configuration>
-		    <components>
-			  <component>
-				<name>hbm2ddl</name>
-				<implementation>jpaconfiguration</implementation>
-			  </component>
-			</components>
-			<componentProperties>
-			  <persistenceunit>ManagementPUnit</persistenceunit>
-			  <outputfilename>schema.ddl</outputfilename>
-			  <drop>true</drop>
-			  <create>true</create>
-			  <export>false</export>
-			  <format>true</format>
-			</componentProperties>
-		  </configuration>
-		</plugin>
-	  </plugins>
+		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <configuration>
+			        <archive>
+			            <manifestEntries>
+			                <Dependencies>org.apache.commons.configuration</Dependencies>
+			            </manifestEntries>
+			        </archive>
+			    </configuration>
+			</plugin>		
+			<plugin>
+				<!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<persistenceunit>ManagementPUnit</persistenceunit>
+						<outputfilename>schema.ddl</outputfilename>
+						<drop>true</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

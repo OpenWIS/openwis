@@ -22,6 +22,11 @@
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-api</artifactId>
 	  </dependency>
+	  <dependency>
+		<groupId>io.openwis.management.service</groupId>
+        <artifactId>openwis-management-service-common</artifactId>
+         <version>${project.version}</version>
+	  </dependency>
 	</dependencies>
 
 	<build>
