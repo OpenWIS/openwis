@@ -14,6 +14,8 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "sinergi/centos-65-x64"
 
+  config.ssh.insert_key = false
+
   # The DB services
   config.vm.define "db" do |db|
     db.vm.hostname = "owdev-db"
