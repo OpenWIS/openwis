@@ -313,10 +313,22 @@
 		  <organization>Met Office (UK)</organization>
 		</developer>
 		<developer>
+		  <name>Adrian Wood</name>
+		  <organization>Met Office (UK)</organization>
+		</developer>
+		<developer>
 		  <name>Alan Morbey</name>
 		  <organization>Met Office (UK)</organization>
 		</developer>
-		  <developer>
+		<developer>
+		  <name>Marc Giannoni</name>
+		  <organization>NOAA</organization>
+		</developer>
+		<developer>
+		  <name>Nassos A. Michas</name>
+		  <organization>European Dynamics</organization>
+		</developer>
+		 <developer>
 		  <name>Martin Gollogly</name>
 		  <organization>SciSys</organization>
 		</developer>
@@ -376,25 +388,15 @@
 		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
 	  </repository>
 	  <repository>
-		 <id>openqa-releases</id>
-		 <url>http://nexus.openqa.org/content/repositories/releases</url>
-	  </repository>
-	  <repository>
-		 <id>openqa-snapshots</id>
-		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
-	  </repository>
-	  <repository>
-		 <id>openqa-thirdparty</id>
-		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+		 <id>repo1-maven2</id>
+		 <url>http://repo1.maven.org/maven2</url>
 	  </repository>
 	  <repository>
 		 <id>jboss-maven2</id>
 		 <url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
 	  </repository>
-	  <repository>
-		 <id>repo1-maven2</id>
-		 <url>http://repo1.maven.org/maven2</url>
-	  </repository>
+	  
+	  <!-- Open Am Dependencies -->
       <repository>
          <id>forgerock-staging-repo</id>
          <name>ForgeRock Release Repository</name>
@@ -426,12 +428,29 @@
            <enabled>true</enabled>
          </snapshots>
       </repository>
-		<!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
+	  
+	  
+	<!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
 	  <repository>
 		 <id>codehaus-mule-repo</id>
 		 <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
 		 <layout>default</layout>
 	  </repository>
+	  <!-- The openqa.org repositories are ridiculously slow and causing builds to time out -->
+	  <!--
+	  <repository>
+		 <id>openqa-thirdparty</id>
+		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-releases</id>
+		 <url>http://nexus.openqa.org/content/repositories/releases</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-snapshots</id>
+		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+	  </repository>	  
+	  -->
 	</repositories>
   
 	<distributionManagement>
