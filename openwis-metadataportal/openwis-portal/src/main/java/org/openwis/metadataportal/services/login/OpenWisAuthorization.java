@@ -1,6 +1,7 @@
 package org.openwis.metadataportal.services.login;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import jeeves.server.UserSession;
 import jeeves.utils.Log;
 
+import org.apache.commons.io.output.NullWriter;
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Params;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
@@ -38,6 +40,13 @@ import com.sun.identity.saml2.profile.SPACSUtils;
  */
 @SuppressWarnings("serial")
 public class OpenWisAuthorization extends HttpServlet {
+
+   /**
+    * The "out" parameter of the call to {@link SPACSUtils#processResponseForFedlet()}.
+    * 
+    * lmika - no idea what is sent to this parameter so simply sent it to a null writer.
+    */
+   private static final PrintWriter FEDLET_PRINT_WRITER = new PrintWriter(new NullWriter());
 
    /**
     * {@inheritDoc}
@@ -223,7 +232,9 @@ public class OpenWisAuthorization extends HttpServlet {
       // necessary processing conforming to SAMLv2 specifications,
       // such as XML signature validation, Audience and Recipient
       // validation etc.  
-      return SPACSUtils.processResponseForFedlet(request, response);
+      
+      // XXX - lmika: The PrintWriter argument is a new argument from version 12.0.0.
+      return SPACSUtils.processResponseForFedlet(request, response, FEDLET_PRINT_WRITER);
    }
 
    /**
