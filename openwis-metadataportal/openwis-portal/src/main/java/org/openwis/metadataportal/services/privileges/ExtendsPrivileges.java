@@ -65,7 +65,7 @@ public class ExtendsPrivileges implements Service {
 
       String host = sm.getValue("system/feedback/mailServer/host");
       String port = sm.getValue("system/feedback/mailServer/port");
-      String from = sm.getValue("system/feedback/email");
+      String from = context.getUserSession().getMail();
       Log.debug(Geonet.PRIVILEGES, "host : " + host + " port: " + port + " from : " + from);
       
       MailUtilities mail = new MailUtilities();

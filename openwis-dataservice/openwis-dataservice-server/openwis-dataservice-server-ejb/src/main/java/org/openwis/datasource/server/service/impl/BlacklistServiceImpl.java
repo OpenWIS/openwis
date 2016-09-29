@@ -308,11 +308,11 @@ public class BlacklistServiceImpl implements BlacklistService {
          result.setNbDisseminationWarnThreshold(JndiUtils
                .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
          result.setNbDisseminationBlacklistThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
          result.setVolDisseminationWarnThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
          result.setVolDisseminationBlacklistThreshold(JndiUtils
-               .getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
 
       }
       return result;
