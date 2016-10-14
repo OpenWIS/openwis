@@ -200,4 +200,11 @@ In a terminal, go into the root directory and launch the command: `mvn sonar:son
 configured in you ~/.m2/settings.xml. 
 
 This does take a while given the number of modules that need to run.
+
+Copyright and License
+---------------------
+(C) Copyright OpenWIS Association AISBL.
+
+OpenWIS® is free software: you can redistribute it and/or modify it under the terms of the License specified for each OpenWIS® Project (see [LICENSE](./LICENSE)).
+
  
