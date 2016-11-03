@@ -223,7 +223,7 @@ public class OpenWisAuthorization extends HttpServlet {
       // necessary processing conforming to SAMLv2 specifications,
       // such as XML signature validation, Audience and Recipient
       // validation etc.  
-      return SPACSUtils.processResponseForFedlet(request, response);
+      return SPACSUtils.processResponseForFedlet(request, response, response.getWriter());
    }
 
    /**
