@@ -334,20 +334,6 @@
         </repository>
 
 
-
-    <!-- ForgeRock Internal Project Repository -->
-        <repository>
-            <id>maven.forgerock.org</id>
-            <name>maven.forgerock.org-openam-dependencies</name>
-            <url>http://maven.forgerock.org/repo/openam-dependencies</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        
         <repository>
            <id>forgerock</id>
            <url>http://maven.forgerock.org/repo/releases</url>
