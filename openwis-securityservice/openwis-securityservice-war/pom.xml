@@ -4,10 +4,11 @@
     <parent>
         <artifactId>openwis-securityservice</artifactId>
         <groupId>io.openwis.securityservice</groupId>
-        <version>3.14.4-SNAPSHOT</version>
+        <version>develop-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>io.openwis.securityservice</groupId>
     <artifactId>openwis-securityservice-war</artifactId>
     <name>openwis-securityservice-war</name>
     <packaging>war</packaging>

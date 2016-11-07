@@ -14,7 +14,7 @@ Openwis.MyAccount.TrackMyRequests.MyAdhocsGridPanel = Ext.extend(Ext.grid.GridPa
 			columns: [
 				{id: 'statusImg', header:'', dataIndex:'status', renderer: Openwis.Common.Request.Utils.statusRendererImg, width: 50, sortable: false},
 				{id: 'deployment', header: Openwis.i18n('TrackMyRequests.Deployment'), dataIndex: 'deployment', renderer: Openwis.Common.Request.Utils.backupRenderer, sortable: false, hidden: this.isLocal},
-                {id: 'title', header: Openwis.i18n('TrackMyRequests.ProductMetadata.Title'), dataIndex: 'title', sortable: true},
+                {id: 'title', header: Openwis.i18n('TrackMyRequests.ProductMetadata.Title'), dataIndex: 'title', renderer: Openwis.Common.Request.Utils.htmlSafeRenderer, sortable: true },
                 {id: 'creationDate', header: Openwis.i18n('TrackMyRequests.ProductMetadata.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true},
                 {id: 'id', header: Openwis.i18n('TrackMyRequests.Request.ID'), dataIndex: 'id', width: 100, sortable: true},
                 {id: 'status', header: Openwis.i18n('TrackMyRequests.Request.Status'), dataIndex: 'status', renderer: Openwis.Common.Request.Utils.statusRenderer, width: 100, sortable: true},

@@ -85,7 +85,7 @@ geonet.MetadataDialog = {
 
         if(self.window === null) {
             self.window = new Ext.Window({
-                title: title,
+                title: Ext.util.Format.htmlEncode(title),
                 items: {
                     html: "<div></div>",
                     id: geonet.Constants.DIALOG_CONTENT,

@@ -80,18 +80,18 @@ Openwis.Admin.MetaInfo.Manage = Ext.extend(Ext.Window, {
             var selectedProductMetadata = this.config.productsMetadata[0];
             
             this.metaInfoFormPanel.add(this.getSimpleContainer({html:Openwis.i18n('Metadata.MetaInfo.MetadataURN') + ':', colspan:2}));
-			this.metaInfoFormPanel.add(this.getSimpleContainer({html:selectedProductMetadata.urn, colspan:2}));
+			this.metaInfoFormPanel.add(this.getSimpleContainer({html:Ext.util.Format.htmlEncode(selectedProductMetadata.urn), colspan:2}));
 			
     		this.metaInfoFormPanel.add(this.getSimpleContainer({html:Openwis.i18n('Metadata.MetaInfo.Title') + ':', colspan:2}));
-			this.metaInfoFormPanel.add(this.getSimpleContainer({html:selectedProductMetadata.title, colspan:2}));
+			this.metaInfoFormPanel.add(this.getSimpleContainer({html:Ext.util.Format.htmlEncode(selectedProductMetadata.title), colspan:2}));
 			
 			this.metaInfoFormPanel.add(this.getSimpleContainer({html:Openwis.i18n('Metadata.MetaInfo.Originator') + ':', colspan:2}));
-            this.metaInfoFormPanel.add(this.getSimpleContainer({html:selectedProductMetadata.originator, colspan:2}));
+            this.metaInfoFormPanel.add(this.getSimpleContainer({html:Ext.util.Format.htmlEncode(selectedProductMetadata.originator), colspan:2}));
             
             this.metaInfoFormPanel.add(this.getSimpleContainer({html:'<br>', colspan:4}));
 
             this.metaInfoFormPanel.add(this.getSimpleContainer({html:Openwis.i18n('Metadata.MetaInfo.GTSCategory') + ':'}));
-            this.metaInfoFormPanel.add(this.getSimpleContainer({html:selectedProductMetadata.gtsCategory}));
+            this.metaInfoFormPanel.add(this.getSimpleContainer({html:Ext.util.Format.htmlEncode(selectedProductMetadata.gtsCategory)}));
             this.metaInfoFormPanel.add(this.getSimpleContainer({html:Openwis.i18n('Metadata.MetaInfo.OverriddenGtsCategory') + ':'}));
             this.metaInfoFormPanel.add(this.getOverGtsCategoryTextField());
             

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.io.FileUtils;
 import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultStatus;
-import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 
 /**
  * The request entity.
@@ -126,7 +126,8 @@ public class ProcessedRequest implements Serializable {
 	public void clearStagingPost() {
 		// clear the this.uri;
 		if (this.getUri()!= null) {
-			File file = new File(JndiUtils.getString("cache.dir.stagingPost"), this.getUri());
+		   // TODO: This might need to be fixed
+			File file = new File(ConfigServiceFacade.getInstance().getString("cache.dir.stagingPost"), this.getUri());
 			try {
             FileUtils.deleteDirectory(file);
          } catch (IOException e) {

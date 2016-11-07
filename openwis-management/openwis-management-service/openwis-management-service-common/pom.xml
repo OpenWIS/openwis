@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-	<artifactId>openwis-management-service</artifactId>
 	<groupId>io.openwis.management.service</groupId>
-	<version>3.14.4-SNAPSHOT</version>
+	<artifactId>openwis-management-service</artifactId>
+		<version>develop-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -18,10 +18,33 @@
       <artifactId>hibernate-annotations</artifactId>
       <scope>provided</scope>
     </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.2</version>
+            <scope>provided</scope>
+        </dependency>         
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.6</version>
+            <scope>provided</scope>
+        </dependency>	    
     </dependencies>
 
 	<build>
 	  <plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <configuration>
+			        <archive>
+			            <manifestEntries>
+			                <Dependencies>org.apache.commons.configuration</Dependencies>
+			            </manifestEntries>
+			        </archive>
+			    </configuration>
+			</plugin>		
 		<plugin>
 		  <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
 		  <groupId>org.codehaus.mojo</groupId>

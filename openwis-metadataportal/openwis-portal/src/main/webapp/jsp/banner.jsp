@@ -1,4 +1,5 @@
 <%@page import="java.util.List"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="org.openwis.metadataportal.common.configuration.ConfigurationConstants"%>
 <%@page import="org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -93,10 +94,12 @@ String serviceName = context.getService();
                             <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) { 
                             
                                String entityID = (String) context.getUserSession().getProperty("idpEntityID");
+                               String nameForHtml = StringEscapeUtils.escapeHtml(context.getUserSession().getName());
+                               String surnameForHtml = StringEscapeUtils.escapeHtml(context.getUserSession().getSurname());
                             %>
 
 								<form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
-									<%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %> (<%= entityID %>)
+									<%= nameForHtml %> <%= surnameForHtml %> (<%= entityID %>)
 									<button type="submit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout'))</script></button>
                                     <input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
 								</form>

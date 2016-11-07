@@ -1,0 +1,7 @@
+# devdata specific settings
+# Additional network configuration is in service/openwis.yaml
+---
+c_postgresql::extensions_present: 
+  - postgis2_94
+  - postgis2_94-docs
+

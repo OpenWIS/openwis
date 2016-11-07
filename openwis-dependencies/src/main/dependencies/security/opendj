@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# Startup script for the Open Directory Server
+#
+# chkconfig: - 85 15
+# description: This script starts your OpenDJ server
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+opendj=/home/openwis/opendj
+USERNAME=openwis
+
+RETVAL=0
+
+# See how we were called.
+case "$1" in
+  start)
+        echo -n "Starting OpenDJ: "
+        su - $USERNAME -c "$opendj/bin/start-ds --quiet"
+	RETVAL=$?
+        echo
+        ;;
+  stop)
+        echo -n "Shutting down OpenDJ: "
+	su - $USERNAME -c "$opendj/bin/stop-ds --quiet"
+	RETVAL=$?
+        echo
+        ;;
+  status)
+	su - $USERNAME $opendj/bin/status
+	RETVAL=$?
+	;;
+  restart)
+	su - $USERNAME -c "$opendj/bin/stop-ds --restart --quiet"
+	RETVAL=$?
+	;;
+  *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+esac
+
+exit $RETVAL

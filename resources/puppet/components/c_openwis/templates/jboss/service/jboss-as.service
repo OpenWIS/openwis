@@ -1,0 +1,16 @@
+# systemd unit file for OpenWIS JBoss AS
+#
+
+[Unit]
+Description=JBoss Application Server
+After=network.target
+
+[Service]
+Type=oneshot
+#Environment=JAVA_HOME=/opt/java JBOSS_HOME=/opt/jboss JAVA=/opt/java/bin/java JBOSS_LOG_DIR=/var/log/jboss "JAVA_OPTS=-Xms1024m -Xmx20480m -XX:MaxPermSize=768m"
+ExecStart=<%= @jboss_as_dir %>/bin/init.d/jboss-as-standalone.sh start
+ExecStop=<%= @jboss_as_dir %>/bin/init.d/jboss-as-standalone.sh stop
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.openwis</groupId>
 		<artifactId>openwis</artifactId>
-		<version>3.14.4-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
@@ -16,7 +16,7 @@
 	<description>OpenWIS Security Service project</description>	
   <modules>
     <module>openwis-securityservice-war</module>
-	<module>openwis-securityservice-utils\PopulateLDAP</module>
+	<module>openwis-securityservice-utils/PopulateLDAP</module>
   </modules>
   
   <build>

@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>openwis-management-service</artifactId>
 		<groupId>io.openwis.management.service</groupId>
-		<version>3.14.4-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>io.openwis.management.service</groupId>
 			<artifactId>openwis-management-service-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
