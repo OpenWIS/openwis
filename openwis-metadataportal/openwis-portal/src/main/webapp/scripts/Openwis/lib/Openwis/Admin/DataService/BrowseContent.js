@@ -327,7 +327,7 @@ Openwis.Admin.DataService.BrowseContent = Ext.extend(Ext.Container, {
 	 */
 	setBaseParams: function() {
 		this.getFileStore().setBaseParam('filename', this.getSearchFileNameField().getValue());
-		this.getFileStore().setBaseParam('metadataid', this.getSearchMetadataIdField().getValue());
+		this.getFileStore().setBaseParam('metadataUrn', this.getSearchMetadataIdField().getValue());
 	}
 
 });

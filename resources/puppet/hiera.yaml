@@ -1,0 +1,9 @@
+:backends:
+  - yaml
+:yaml:
+  :datadir: hieradata
+:hierarchy:
+  - '%{::openwis_env}/%{::hostname}'
+  - '%{::openwis_env}/openwis-%{::openwis_env}'
+  - openwis-common
+  - common

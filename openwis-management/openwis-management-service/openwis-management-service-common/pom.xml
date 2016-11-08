@@ -26,10 +26,33 @@
             <version>3.4.0.GA</version>
             <scope>provided</scope>
          </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.2</version>
+            <scope>provided</scope>
+        </dependency>         
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.6</version>
+            <scope>provided</scope>
+        </dependency>	    
     </dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <configuration>
+			        <archive>
+			            <manifestEntries>
+			                <Dependencies>org.apache.commons.configuration</Dependencies>
+			            </manifestEntries>
+			        </archive>
+			    </configuration>
+			</plugin>		
 			<plugin>
 				<!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
 				<groupId>org.codehaus.mojo</groupId>

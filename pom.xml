@@ -281,7 +281,7 @@
 		 <url>https://oss.sonatype.org/content/groups/public</url>
 	  </pluginRepository>
 	</pluginRepositories>
-	   
+	
     <repositories>
 	  <repository>
 		 <id>openwis-releases</id>
@@ -292,18 +292,6 @@
 		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
 	  </repository>
 	  <repository>
-		 <id>openqa-releases</id>
-		 <url>http://nexus.openqa.org/content/repositories/releases</url>
-	  </repository>
-	  <repository>
-		 <id>openqa-snapshots</id>
-		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
-	  </repository>
-	  <repository>
-		 <id>openqa-thirdparty</id>
-		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
-	  </repository>
-	  <repository>
 		<id>jboss-maven2</id>
 		<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
 	  </repository>
@@ -311,13 +299,26 @@
 		<id>repo1-maven2</id>
 		<url>http://repo1.maven.org/maven2</url>
 	  </repository>
-
       <!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
       <repository>
         <id>codehaus-mule-repo</id>
         <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
         <layout>default</layout>
       </repository>
+	  <!--
+	  <repository>
+		 <id>openqa-thirdparty</id>
+		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-releases</id>
+		 <url>http://nexus.openqa.org/content/repositories/releases</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-snapshots</id>
+		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+	  </repository>	  
+	  -->
 	</repositories>
   
 

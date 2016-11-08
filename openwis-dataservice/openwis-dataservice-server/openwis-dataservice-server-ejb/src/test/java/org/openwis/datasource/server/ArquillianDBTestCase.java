@@ -22,15 +22,23 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ArchiveFactory;
+import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 import org.openwis.dataservice.cache.CacheIndex;
 import org.openwis.dataservice.cache.CacheIndexImpl;
 import org.openwis.dataservice.common.domain.entity.blacklist.BlacklistInfo;
 import org.openwis.dataservice.common.domain.entity.cache.CachedFile;
 import org.openwis.dataservice.common.domain.entity.cache.PatternMetadataMapping;
+import org.openwis.dataservice.common.domain.entity.enumeration.BlacklistInfoColumn;
 import org.openwis.dataservice.common.domain.entity.enumeration.ExtractMode;
 import org.openwis.dataservice.common.domain.entity.enumeration.RecurrentScale;
 import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultStatus;
@@ -47,6 +55,7 @@ import org.openwis.dataservice.common.domain.entity.subscription.RecurrentFreque
 import org.openwis.dataservice.common.domain.entity.subscription.Subscription;
 import org.openwis.dataservice.common.domain.entity.useralarm.UserAlarm;
 import org.openwis.dataservice.common.hash.HashUtils;
+import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.extraction.ExtractFromCacheImpl;
@@ -56,12 +65,17 @@ import org.openwis.dataservice.util.GlobalDataCollectionUtils;
 import org.openwis.dataservice.util.WMOFNC;
 import org.openwis.datasource.server.dao.JpaDao;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
+import org.openwis.datasource.server.mdb.delegate.ExtractionDelegate;
+import org.openwis.datasource.server.mdb.delegate.impl.ExtractionDelegateImpl;
 import org.openwis.datasource.server.mdb.delegate.impl.SubscriptionDelegateImpl;
+import org.openwis.datasource.server.mocks.MockedFeederEjb;
 import org.openwis.datasource.server.service.impl.BlacklistServiceImpl;
-import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplTestCase;
+import org.openwis.datasource.server.service.impl.ProcessedRequestServiceImplIntegrationTestCase;
+import org.openwis.datasource.server.service.impl.RequestServiceImpl;
 import org.openwis.datasource.server.service.impl.UserAlarmManagerImpl;
 import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.openwis.datasource.server.utils.QueueUtils;
+import org.openwis.harness.dissemination.Diffusion;
 import org.openwis.management.service.DisseminatedDataStatisticsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +93,7 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
 
    /** The Constant JDBC_HSQLDB_URL. */
    private static final String JDBC_HSQLDB_URL = "jdbc:hsqldb:mem";
-
+   
    /**
     * Creates the deployment.
     *
@@ -91,13 +105,24 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
       if (dataFolder.exists() && dataFolder.isDirectory() && dataFolder.canWrite()) {
          dataFolder.delete();
       }
-      JavaArchive archive = ShrinkWrap
-            .create(JavaArchive.class)
-            .addResource("log4j.properties")
-            .addResource("jndi.properties")
-            .addResource("openwis-dataservice-cache.properties")
-            .addResource("conf-dataservice.properties")
-            .addResource("ws-localdatasources.properties")
+  
+      PomEquippedResolveStage mavenResolver = Maven.resolver().loadPomFromFile("pom.xml");
+      //PomEquippedResolveStage mavenResolver = Maven.resolver().loadPomFromFile("pom.xml");
+      //MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class)
+//            .loadMetadataFromPom("pom.xml");
+      
+//      mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain")
+//         .using(new AcceptScopesStrategy(ScopeType.TEST))
+
+      WebArchive archive = ShrinkWrap
+            //.create(JavaArchive.class)
+            .create(WebArchive.class)
+            .addAsResource("log4j.properties")
+            // .addAsResource("jndi.properties")
+            .addAsResource("openwis-dataservice-cache.properties")
+            .addAsResource("conf-dataservice.properties")
+            .addAsResource("ws-localdatasources.properties")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
             // Add a class from each package requested.
             // WARNING : Don't include MDB since "maxSession" and "DLQMaxResent" are not valid on OpenEJB
             .addPackages(true, JpaDao.class.getPackage(),
@@ -105,17 +130,88 @@ public abstract class ArquillianDBTestCase extends DatabaseTestCase {
                   ProcessedRequestMessage.class.getPackage(), BlacklistInfo.class.getPackage(),
                   ExtractFromCacheImpl.class.getPackage(), CacheIndex.class.getPackage(),
                   CacheIndexImpl.class.getPackage(), CachedFile.class.getPackage(),
-                  ProcessedRequestServiceImplTestCase.class.getPackage(),
+                  ProcessedRequestServiceImplIntegrationTestCase.class.getPackage(),
                   PatternMetadataMapping.class.getPackage(), QueueUtils.class.getPackage(),
+                  BlacklistService.class.getPackage(),
+                  BlacklistInfoColumn.class.getPackage(),
                   BlacklistServiceImpl.class.getPackage(),
-                  DisseminatedDataStatisticsImpl.class.getPackage(),
-                  UserAlarmManagerImpl.class.getPackage(), UserAlarm.class.getPackage())
-            .addManifestResource("test-persistence.xml", "persistence.xml");
+                  ExtractionDelegate.class.getPackage(),
+                  ExtractionDelegateImpl.class.getPackage(),
+                  ExtractFromCacheImpl.class.getPackage(),
+//                  DisseminatedDataStatisticsImpl.class.getPackage(),
+                  UserAlarmManagerImpl.class.getPackage(), UserAlarm.class.getPackage(),
+                  ArquillianDBTestCase.class.getPackage(),
+                  MockedFeederEjb.class.getPackage(),
+                  RequestServiceImpl.class.getPackage(),
+                  GlobalDataCollectionUtils.class.getPackage(),
+                  
+                  Diffusion.class.getPackage()
+            )
+            //.addAsManifestResource("test-persistence.xml", " /WEB-INF/classes/persistence.xml")
+            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+            .addAsResource("org/openwis/management/JndiManagementServiceBeans.properties", "org/openwis/management/JndiManagementServiceBeans.properties")
+            .addAsLibraries(mavenResolver.resolve("io.openwis.harness:openwis-harness-localdatasource").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-common").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("io.openwis.management:openwis-management-client").withTransitivity().asFile())
+            //.addAsLibraries(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-ejb").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.cache:openwis-dataservice-cache-core").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-timer:ejb:?").withTransitivity().asFile())
+//            .addAsLibraries(mavenResolver.resolve("io.openwis.harness:openwis-harness-dissemination").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("org.apache.commons:commons-lang3").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("commons-collections:commons-collections").withTransitivity().asFile())
+            .addAsLibraries(mavenResolver.resolve("org.dbunit:dbunit").withTransitivity().asFile())
+//            .addAsLibraries(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().asFile())
+            //.merge(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-common").withTransitivity().asSingleFile())
+            //.addAsDirectories(filesToFilenames(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-common").withTransitivity().asFile()))
+            ;
+      
 
+      // Need to remove persistence.xml from the management service ejb
+      File serviceEjb = mavenResolver.resolve("io.openwis.management.service:openwis-management-service-ejb").withoutTransitivity().asSingleFile();
+      JavaArchive serviceEjbArchive = ShrinkWrap.createFromZipFile(JavaArchive.class, serviceEjb);
+      serviceEjbArchive.delete("/META-INF/persistence.xml");
+      
+      archive.addAsLibrary(serviceEjbArchive);
+      
+//      JavaArchive mgmtEjb = new ArchiveFactory().createFromZipFile(JavaArchive.class, serviceEjb)
+//         .delete("/META-INF/persistence.xml")
+//         .getAsType(Java)
+      
+      
+//      JavaArchive domainArchive = ShrinkWrap.create(ZipImporter.class)
+//            .importFrom(mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withoutTransitivity().asSingleFile())
+//            .as(JavaArchive.class)
+//            ;
+      
+      // TEMP: Export
+      File testExport = new File("/home/accounts/lmika/tmp/domain.zip");
+      if (testExport.exists()) {
+         testExport.delete();
+      }
+      archive.as(ZipExporter.class).exportTo(testExport);
+      
+      //mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().
+        //    .addAsDirectories(filesToFilenames(mavenResolver.resolve("io.openwis.management.service:openwis-management-service-common").withTransitivity().asFile()));
+            //.merge(mavenResolver.resolve("").withTransitivity().asSingleFile())
 
-      logger.info("Deployment/n{}", archive.toString(true));
+      //List<> mavenResolver.resolve("io.openwis.dataservice.common:openwis-dataservice-common-domain").withTransitivity().asList(JavaArchive.class);
+
+//      logger.info("Deployment/n{}", archive.toString(true));
       return archive;
    }
+   
+   /*
+   private static String[] filesToFilenames(File[] files) {
+      String[] filenames = new String[files.length];
+      
+      for (int i = 0; i < files.length; i++) {
+         filenames[i] = files[i].getAbsolutePath();
+      }
+      
+      return filenames;
+   }
+   */
 
    /**
     * Put database in the initial state

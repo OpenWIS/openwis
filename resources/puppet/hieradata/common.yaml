@@ -1,0 +1,6 @@
+---
+c_minimal::puppet_runinterval: '6h'
+c_minimal::grub_password: ""
+c_network::resolv::searchpath:
+ - 'openwis.io'
+ - 'example.com'

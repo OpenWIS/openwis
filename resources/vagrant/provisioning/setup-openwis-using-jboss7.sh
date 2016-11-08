@@ -43,7 +43,12 @@ function owConf()
 
 # 1. As root, install the OpenJDK 1.7 Devel package from the Red Hat Repositories.
 #
-yum install -y java-1.7.0-openjdk-devel.x86_64
+# Install latest available JDK (seems to break installation after 1.7.0.101-2.6.6.4)
+# yum install -y java-1.7.0-openjdk-devel.x86_64
+
+# Install latest compatible JDK (still available in YUM).
+yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+
 
 # 2. As openwis, download and install JBoss AS 7.1 community edition from jboss.org.
 #
@@ -64,7 +69,7 @@ export JBOSS_HOME="$jbossHome"
 # 5. Install the jndi-properties module.  This module allows for the injection of Property objects into JNDI,
 #    which is used to configure the data service.
 #
-( cd "$jbossHome/modules" ; unzip "$ARTEFACT_DATASERVICE_CONFIG_MODULE" )
+#( cd "$jbossHome/modules" ; unzip "$ARTEFACT_DATASERVICE_CONFIG_MODULE" )
 
 # 5. Configure standalone.conf to enable debugging
 sudo -iu openwis echo 'JAVA_OPTS="$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"' >> "$jbossHome"/bin/standalone.conf
@@ -188,10 +193,10 @@ owConf "$confDir/openwis-dataservice.properties" "managementServiceServer" "loca
 
 # 6. Setup the OpenWIS JNDI configuration values
 #
-jbossCli "/system-property=conf\/openwis-dataservice:add(value=\"/home/openwis/conf/openwis-dataservice.properties\")"
-jbossCli "/system-property=ws\/localdatasourceservice:add(value=\"/home/openwis/conf/localdatasourceservice.properties\")"
-jbossCli "/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
-jbossCli "/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
+#jbossCli "/system-property=conf\/openwis-dataservice:add(value=\"/home/openwis/conf/openwis-dataservice.properties\")"
+#jbossCli "/system-property=ws\/localdatasourceservice:add(value=\"/home/openwis/conf/localdatasourceservice.properties\")"
+#jbossCli "/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
+#jbossCli "/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
 
 
 

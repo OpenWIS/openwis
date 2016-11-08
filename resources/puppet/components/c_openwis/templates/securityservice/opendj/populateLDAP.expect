@@ -1,0 +1,25 @@
+#!/usr/bin/expect -f
+
+# execute the scripts
+spawn ./populateLDAP.sh
+
+# input the required parameters
+expect "Choose one of the above values. (any other value to exit)" {send "1\r"}
+expect "Deployment Name:"                                          {send "<%= @deployment_name %>\r"}
+expect "Administrator Login:"                                      {send "<%= @admin_login %>\r"}
+expect "Administrator Password:"                                   {send "<%= @admin_password %>\r"}
+expect "Administrator Email:"                                      {send "<%= @admin_email %>\r"}
+expect "Administrator First name:"                                 {send "<%= @admin_first_name %>\r"}
+expect "Administrator Last name:"                                  {send "<%= @admin_last_name %>\r"}
+
+# this process can take a while, so disable expect timeout
+set timeout 60
+
+# catch any error that occurs
+expect {
+	"Fault occurred while processing."
+	{
+		send_user "PopulateLDAP (Initialize Deployment) FAILED\n"
+		exit 1
+	}
+}

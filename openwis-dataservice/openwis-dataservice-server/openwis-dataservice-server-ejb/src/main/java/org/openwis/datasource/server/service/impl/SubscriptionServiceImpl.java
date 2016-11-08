@@ -68,8 +68,8 @@ import org.openwis.dataservice.common.service.ProcessedRequestService;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.service.SubscriptionService;
 import org.openwis.dataservice.common.service.UserAlarmManagerLocal;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.DateTimeUtils;
-import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.dataservice.util.FileNameParser;
 import org.openwis.datasource.server.jaxb.serializer.Serializer;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
@@ -318,7 +318,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                   new Object[] {subscriptions.size(), calFrom.getTime()});
             processRecurrentSubscriptions(subscriptions, calFrom.getTime());
          }
-         calFrom.add(Calendar.MILLISECOND, JndiUtils
+         calFrom.add(Calendar.MILLISECOND, ConfigServiceFacade.getInstance()
                .getInt(DataServiceConfiguration.SUBSCRIPTION_RECURRENT_RETROPROCESS_INCREMENT));
       }
    }
