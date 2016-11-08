@@ -25,7 +25,6 @@
 		<geonetwork.webapp.dir>${basedir}/src/main/webapp</geonetwork.webapp.dir>
 		<geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
 		<minify.verbose>false</minify.verbose>
-		<solr.version>1.4.1</solr.version>
 	</properties>
 
 	<build>

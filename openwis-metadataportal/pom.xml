@@ -10,8 +10,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.geonetwork-opensource</groupId>
   <artifactId>geonetwork</artifactId>
-  <!--<version>2.7.0-SNAPSHOT</version>-->
-  <!-- 2.7.0 was never released, move to 2.8.0??-->
   <packaging>pom</packaging>
   
   <name>GeoNetwork opensource</name>
@@ -19,14 +17,6 @@
     Open Source catalog application to manage spatially referenced 
     resources through the web.</description>
   <url>http://geonetwork-opensource.org</url>
-  
-  <scm>
-    <connection>
-      scm:svn:https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk
-    </connection>
-    <url>https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk</url>
-    <tag>openwis-3.14.2-release</tag>
-  </scm>
   
   <!-- =========================================================== -->
   <!--     Modules for the build in approximate dependency order   -->
@@ -36,83 +26,11 @@
     <module>jeeves</module> 
     <module>oaipmh</module>
     <module>sde</module>
-	
-	<!-- this is now run from the profiles set in the "top" pom -->
-	<!--<module>openwis-portal</module>-->
 
 	<module>openwis-portal-solr</module>
   </modules>
   
-  
-  <inceptionYear>2003</inceptionYear>
-  
-  <issueManagement>
-    <system>trac</system>
-    <url>http://trac.osgeo.org/geonetwork/report</url>
-  </issueManagement>
-  
-  <mailingLists>
-    <mailingList>
-      <name>Users</name>
-      <post>geonetwork-users@lists.sourceforge.net</post>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/geonetwork-users</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/options/geonetwork-users</unsubscribe>
-      <archive>http://n2.nabble.com/GeoNetwork-users-f2013074.html</archive>
-    </mailingList>
-    <mailingList>
-      <name>Utilisateurs (fr)</name>
-      <post>geonetwork-users-fr@lists.sourceforge.net</post>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/geonetwork-users-fr</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/options/geonetwork-users-fr</unsubscribe>
-      <archive>http://n2.nabble.com/GeoNetwork-users-francophone-f3246912.html</archive>
-    </mailingList>
-    <mailingList>
-      <name>Usuarios (es)</name>
-      <post>geonetwork-usuarios-es@lists.sourceforge.net</post>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/geonetwork-usuarios-es</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/options/geonetwork-usuarios-es</unsubscribe>
-      <archive>http://n2.nabble.com/GeoNetwork-users-espa-ol-f3246989.html</archive>
-    </mailingList>
-    <mailingList>
-      <name>Dev</name>
-      <post>geonetwork-devel@lists.sourceforge.net</post>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/geonetwork-devel</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/options/geonetwork-devel</unsubscribe>
-      <archive>http://n2.nabble.com/GeoNetwork-developer-f2014756.html</archive>
-    </mailingList>
-    <mailingList>
-      <name>Commits</name>
-      <post>geonetwork-commit@lists.sourceforge.net</post>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/geonetwork-commit</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/options/geonetwork-commit</unsubscribe>
-      <archive>http://n2.nabble.com/GeoNetwork-commit-f2020497.html</archive>
-    </mailingList>
-  </mailingLists>
-  
-  <!-- TODO developer part-->
-  <developers>
-    <developer>
-      <name />
-      <id />
-      <organization />
-      <organizationUrl />
-      <email />
-      <roles>
-        <role />
-      </roles>
-      <timezone />
-    </developer>
-  </developers>
-  
-  <licenses>
-    <license>
-      <name>General Public License (GPL)</name>
-      <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
-    </license>
-  </licenses>
-  
-  <build>
-    
+    <build>
     <!-- =========================================================== -->
     <!--     Plugin Management                                       -->
     <!--     If a POM declares one of those plugins, then it         -->
@@ -129,7 +47,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>2.1.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -140,28 +57,17 @@
     </pluginManagement>
 
     <plugins>
-      
-      <!--     Compilation.                                        -->
+      <!--   Compilation -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
       </plugin>
 
       <!-- resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
       </plugin>
-
     </plugins>
   </build>
 
@@ -407,7 +313,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-annotations</artifactId>
-        <version>3.2.0.ga</version>
+        <version>${hibernate.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.media</groupId>
@@ -465,7 +371,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.6</version>
+        <version>${junit.version}</version>
         <!--<scope>test</scope>-->
       </dependency>
 
@@ -525,15 +431,5 @@
     </dependency>
 
   </dependencies>
-
-  <!-- ================================================================== -->
-  <!--     Repositories. This is where Maven looks for dependencies. The  -->
-  <!--     Maven repository is implicit and doesn't need to be specified. -->
-  <!-- ================================================================== -->
-  <repositories />
-  <pluginRepositories />
-
-
-  <distributionManagement />
 
 </project>

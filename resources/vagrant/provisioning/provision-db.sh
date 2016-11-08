@@ -22,7 +22,7 @@ source /vagrant/resources/vagrant/provisioning/provision-common.sh
 
 # Setup and install the database
 rpm -ivh https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-7.noarch.rpm
-yum -y install postgresql92 postgresql92-server postgresql92-contrib postgis2_92-2.1.5
+yum -y install postgresql92 postgresql92-server postgresql92-contrib postgis2_92-2.1.8
 
 # Configure the database
 cat > /etc/sysconfig/pgsql/postgresql-9.2 << .

@@ -15,9 +15,13 @@
 	<description>OpenWIS DataService project</description>
 	<name>openwis-dataservice</name>
   <modules>
-    <module>openwis-dataservice-common</module>
+    <module>openwis-dataservice-common/openwis-dataservice-common-utils</module>
+	<module>openwis-dataservice-common/openwis-dataservice-common-domain</module>
+    <module>openwis-dataservice-common/openwis-dataservice-common-timer</module>
 	<module>openwis-dataservice-cache</module>
-	<module>openwis-dataservice-server</module>
+	<module>openwis-dataservice-server/openwis-dataservice-server-ejb</module>
+	<module>openwis-dataservice-server/openwis-dataservice-server-webapp</module>
+	<module>openwis-dataservice-server/openwis-dataservice-server-ear</module>
 	<module>openwis-dataservice-config</module>
   </modules>
 
@@ -40,7 +44,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
     
@@ -48,7 +51,6 @@
    <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-annotations</artifactId>
-      <version>3.4.0.GA</version>
       <scope>provided</scope>
    </dependency>
    

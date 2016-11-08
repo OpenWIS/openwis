@@ -3,14 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>io.openwis.securityservice.utils</groupId>
-		<artifactId>openwis-securityservice-utils</artifactId>
+		<groupId>io.openwis.securityservice</groupId>
+		<artifactId>openwis-securityservice</artifactId>
 		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<groupId>io.openwis.securityservice.utils</groupId>
 	<artifactId>openwis-securityservice-utils-populate-ldap</artifactId>
+  <version>develop-SNAPSHOT</version>
 	<name>openwis-securityservice-utils-populate-ldap</name>
 	<packaging>jar</packaging>
 
