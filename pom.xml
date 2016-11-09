@@ -281,7 +281,7 @@
 		 <url>https://oss.sonatype.org/content/groups/public</url>
 	  </pluginRepository>
 	</pluginRepositories>
-	   
+	
     <repositories>
 	  <repository>
 		 <id>openwis-releases</id>
@@ -345,7 +345,20 @@
         <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
         <layout>default</layout>
       </repository>
-
+	  <!--
+	  <repository>
+		 <id>openqa-thirdparty</id>
+		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-releases</id>
+		 <url>http://nexus.openqa.org/content/repositories/releases</url>
+	  </repository>
+	  <repository>
+		 <id>openqa-snapshots</id>
+		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+	  </repository>	  
+	  -->
 	</repositories>
   
 
