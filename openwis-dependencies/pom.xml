@@ -21,6 +21,7 @@
       <groupId>io.openwis.dataservice</groupId>
       <artifactId>openwis-dataservice-config</artifactId>
       <version>${project.version}</version>
+      <type>pom</type>
     </dependency>
   </dependencies>
 

@@ -340,6 +340,35 @@
         <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
         <layout>default</layout>
       </repository>
+
+			<repository>
+      	<snapshots>
+        	<enabled>true</enabled>
+      	</snapshots>
+      	<releases>
+        	<enabled>true</enabled>
+      	</releases>
+      	<id>core-maven-repo</id>
+      	<name>GeoNetwork remote repository</name>
+      	<url>https://raw.githubusercontent.com/geonetwork/core-maven-repo/master</url>
+    	</repository>
+			<repository>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+      <id>geotools</id>
+      <name>Geotools repository</name>
+      <url>http://download.osgeo.org/webdav/geotools/</url>
+    </repository>
+		<repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>boundless</id>
+      <name>Boundless repository</name>
+      <url>http://repo.boundlessgeo.com/main/</url>
+    </repository>
+		
 	  <!--
 	  <repository>
 		 <id>openqa-thirdparty</id>
