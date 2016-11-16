@@ -23,7 +23,7 @@
          <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
+            <version>${hibernate.version}</version>
             <scope>provided</scope>
             <exclusions>
                 <!-- lmika: The bundled version of slf4j-api (1.4.2) was clashing with the version of slf4j-api
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.4.0.GA</version>
+			<version>${hibernate.version}</version>
 			<scope>test</scope>
 		</dependency>
 

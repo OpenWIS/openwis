@@ -129,12 +129,11 @@ public final class ServiceProvider {
     */
    private static <T> T getRemoteBean(String beanName, Class<T> remoteInterfaceClass)
          throws NamingException {
-      return null;
-//      InitialContext initialContext = new InitialContext();
-//      String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
-//            remoteInterfaceClass.getName());
-//      
-//      logger.info("*** Getting remote bean: " + jndiName);
-//      return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
+      InitialContext initialContext = new InitialContext();
+      String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
+            remoteInterfaceClass.getName());
+      
+      logger.info("*** Getting remote bean: " + jndiName);
+      return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
    }
 }

@@ -29,7 +29,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<attachClasses>true</attachClasses>
-					<warName>${openwis-portal-solr}</warName>
+					<warName>openwis-portal-solr</warName>
 				</configuration>
 			</plugin>
 			<plugin>

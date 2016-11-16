@@ -8,8 +8,7 @@
 	<version>develop-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
-  
-  
+    
   <!-- =========================================================== -->
   <!--     Module Description                                      -->
   <!-- =========================================================== -->
@@ -21,15 +20,6 @@
     Jeeves project.
   </description>
   
-  <licenses>
-    <license>
-      <name>Lesser General Public License (LGPL)</name>
-      <url>http://www.gnu.org/copyleft/lesser.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  
-
   <dependencies>
     <dependency>
       <groupId>commons-httpclient</groupId>
@@ -62,6 +52,7 @@
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>saxon</artifactId>
+<!--      <version>8.7</version>-->
     </dependency>
     <dependency>
       <groupId>globus</groupId>

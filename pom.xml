@@ -41,17 +41,23 @@
 		   <subscribe>openwis-tmc@meteo.fr</subscribe>
 		</mailingList>
 	</mailingLists>
-   
-    
 	
 	<properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <file.encoding>UTF-8</file.encoding>	  
+      <file.encoding>UTF-8</file.encoding>	 
+	  <cxf.version>2.2.12</cxf.version>	 
+	  <!--security service is using 3.0.0.-->
+	  <junit.version>4.8.1</junit.version>	  
+	  <hibernate.version>3.4.0.GA</hibernate.version>
+	  <solr.version>1.4.1</solr.version>
+	  <arquillian.version>1.0.0.Alpha4</arquillian.version> 	  
+	  <javaee.version>5.0</javaee.version> 
+      <spring.version>4.1.5.RELEASE</spring.version>	  
    </properties>
    
    <profiles>
        <profile>
-         <id>openwis</id>
+         <id>openwis</id> 
 		 <properties>
 			 <admin.module>false</admin.module>	 
 			 <user.module>true</user.module>	 			 
@@ -91,19 +97,61 @@
       </profile>
    </profiles>
    
-   <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.2</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
+   <!-- =========================================================== -->
+   <!--     Dependency Management                                   -->
+   <!--     If a POM declares one of those dependencies, then it    -->
+   <!--     will use the version specified here. Otherwise, those   -->
+   <!--     dependencies are ignored.                               -->
+   <!-- =========================================================== -->   
+   <dependencyManagement>   
+     <dependencies>
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>${junit.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-annotations</artifactId>
+          <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+		  <groupId>com.sun.javaee</groupId>
+		  <artifactId>javaee</artifactId>
+		  <version>${javaee.version}</version>
+        </dependency> 
+        <dependency>
+		  <groupId>org.owasp</groupId>
+		  <artifactId>dependency-check-maven</artifactId>
+		  <version>1.3.4</version>
+        </dependency>
+      </dependencies>
+    </dependencyManagement>
+    
+	<build>
+	<plugins>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-resources-plugin</artifactId>
+		<version>2.4.2</version>
+		<configuration>
+		  <encoding>UTF-8</encoding>
+		</configuration>
+	  </plugin>
+	  <!-- setting a "global version" of maven-compiler-plugin for all modules-->
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>3.1</version>
+		<configuration>
+		  <source>1.7</source>
+		  <target>1.7</target>
+		  <encoding>UTF-8</encoding>
+		</configuration>
+	  </plugin>
+	 </plugins>
 
-      <pluginManagement>
+    <pluginManagement>
          <plugins>
             <plugin>
                <groupId>org.codehaus.mojo</groupId>
@@ -151,10 +199,10 @@
 					<executable>mvn</executable>
 					<arguments>
 						<argument>install:install-file</argument>
-						<argument>-Dfile=${basedir}/resources/javaee-5.0.jar</argument>
+						<argument>-Dfile=${basedir}/resources/javaee-${javaee.version}.jar</argument>
 						<argument>-DgroupId=com.sun.javaee</argument>
 						<argument>-DartifactId=javaee</argument>
-						<argument>-Dversion=5.0</argument>
+						<argument>-Dversion=${javaee.version}</argument>
 						<argument>-Dpackaging=jar</argument>
 					</arguments>
 				</configuration>
@@ -170,6 +218,7 @@
 					<localCheckout>true</localCheckout>
 					<preparationGoals>clean install</preparationGoals>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<!--This is set so not to break Maven releasings in Jenkins-->
 					<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
 				</configuration>
                 <executions>
@@ -182,115 +231,61 @@
                 </executions>
 			</plugin>	
          </plugins>
-      </pluginManagement>
-   </build>
-
-    <dependencyManagement>
-     <dependencies>
-       <dependency>
-          <groupId>org.owasp</groupId>
-          <artifactId>dependency-check-maven</artifactId>
-          <version>1.3.4</version>
-       </dependency>
-     </dependencies>
-    </dependencyManagement>
+    </pluginManagement>
+	</build>
    
 	<developers>
 		<developer>
-			<name>Leon Mika</name>
-			<organization>Bureau of Meteorology</organization>
+		  <name>Leon Mika</name>
+		  <organization>Bureau of Meteorology</organization>
 		</developer>
 		<developer>
-			<name>Weiging Qu</name>
-			<organization>Bureau of Meteorology</organization>
+		  <name>Weiging Qu</name>
+		  <organization>Bureau of Meteorology</organization>
 		</developer>	
 		<developer>
-			<name>Y Wang</name>
-			<organization>Bureau of Meteorology</organization>
+		  <name>Y Wang</name>
+		  <organization>Bureau of Meteorology</organization>
 		</developer>
 		<developer>
-			<name>Francois Faugeron</name>
-			<organization>Météo France</organization>
+		  <name>Francois Faugeron</name>
+		  <organization>Météo France</organization>
 		</developer>
 		<developer>
-			<name>Remy Gibault</name>
-			<organization>Météo France</organization>
+		  <name>Remy Gibault</name>
+		  <organization>Météo France</organization>
 		</developer>
 		<developer>
-			<name>Yves Goupil</name>
-			<organization>Météo France</organization>
+		  <name>Yves Goupil</name>
+		  <organization>Météo France</organization>
 		</developer>
 		<developer>
-			<name>Shaun Adams</name>
-			<organization>Met Office (UK)</organization>
-		</developer>
-			<developer>
-			<name>Kirsty Burgess</name>
-			<organization>Met Office (UK)</organization>
+		  <name>Shaun Adams</name>
+		  <organization>Met Office (UK)</organization>
 		</developer>
 		<developer>
-			<name>Alan Morbey</name>
-			<organization>Met Office (UK)</organization>
-		</developer>
-			<developer>
-			<name>Martin Gollogly</name>
-			<organization>SciSys</organization>
+		  <name>Kirsty Burgess</name>
+		  <organization>Met Office (UK)</organization>
 		</developer>
 		<developer>
-			<name>Yannick Lizzi</name>
-			<organization>AKKA Technologies</organization>
+		  <name>Alan Morbey</name>
+		  <organization>Met Office (UK)</organization>
 		</developer>
-		<developer>
-			<name>Laurent Baresse</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Mathieu Coudert</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Nicolas Guerrier</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Florin Racaru</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Alexia Audevart</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Julien Baillagou</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Igor Laborie</name>
-			<organization>AKKA Technologies</organization>
-		</developer>
-		<developer>
-			<name>Nelly Sayer</name>
-			<organization>AKKA Technologies</organization>
+		  <developer>
+		  <name>Martin Gollogly</name>
+		  <organization>SciSys</organization>
 		</developer>
 	</developers>
    
 	<pluginRepositories>
 	  <pluginRepository>
-		 <name>oss.sonatype.org</name>
-		 <id>oss.sonatype.org</id>
-		 <url>https://oss.sonatype.org/content/groups/public</url>
+		<name>oss.sonatype.org</name>
+		<id>oss.sonatype.org</id>
+		<url>https://oss.sonatype.org/content/groups/public</url>
 	  </pluginRepository>
 	</pluginRepositories>
 	
     <repositories>
-	  <repository>
-		 <id>openwis-releases</id>
-		 <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
-	  </repository>
-	  <repository>
-		 <id>openwis-snapshot</id>
-		 <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
-	  </repository>
 	  <repository>
 		<id>jboss-maven2</id>
 		<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
@@ -345,6 +340,35 @@
         <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
         <layout>default</layout>
       </repository>
+
+			<repository>
+      	<snapshots>
+        	<enabled>true</enabled>
+      	</snapshots>
+      	<releases>
+        	<enabled>true</enabled>
+      	</releases>
+      	<id>core-maven-repo</id>
+      	<name>GeoNetwork remote repository</name>
+      	<url>https://raw.githubusercontent.com/geonetwork/core-maven-repo/master</url>
+    	</repository>
+			<repository>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+      <id>geotools</id>
+      <name>Geotools repository</name>
+      <url>http://download.osgeo.org/webdav/geotools/</url>
+    </repository>
+		<repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>boundless</id>
+      <name>Boundless repository</name>
+      <url>http://repo.boundlessgeo.com/main/</url>
+    </repository>
+		
 	  <!--
 	  <repository>
 		 <id>openqa-thirdparty</id>
@@ -361,28 +385,26 @@
 	  -->
 	</repositories>
   
-
 	<distributionManagement>
-		<repository>
-		  <id>openwis-release</id>
-		  <name>OpenWIS Release Repository</name>
-		  <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
-		</repository>
-		<snapshotRepository>
-		  <id>openwis-snapshot</id>
-		  <name>OpenWIS Snapshot Repository</name>
-		  <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
-		</snapshotRepository>
-	 </distributionManagement> 
+	  <repository>
+		<id>openwis-release</id>
+		<name>OpenWIS Release Repository</name>
+		<url>http://repository-openwis-association.forge.cloudbees.com/release</url>
+	  </repository>
+	  <snapshotRepository>
+		<id>openwis-snapshot</id>
+		<name>OpenWIS Snapshot Repository</name>
+		<url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+	  </snapshotRepository>
+	</distributionManagement>  
 
 	<reporting>
-     <plugins>
-       <plugin>
-         <groupId>org.owasp</groupId>
-         <artifactId>dependency-check-maven</artifactId>
-         <version>1.3.4</version>
-       </plugin>
- 
-     </plugins>
-   </reporting> 
+      <plugins>
+		<plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>1.3.4</version>
+		</plugin>
+      </plugins>
+    </reporting> 
 </project>

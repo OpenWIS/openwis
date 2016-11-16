@@ -21,15 +21,6 @@
     Oaipmh project.
   </description>
   
-  <licenses>
-    <license>
-      <name>General Public License (GPL)</name>
-      <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  
-
   <dependencies>
    <dependency>
       <groupId>org.geonetwork-opensource</groupId>

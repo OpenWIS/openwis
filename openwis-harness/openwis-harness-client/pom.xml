@@ -1,73 +1,71 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.openwis.harness</groupId>
-		<artifactId>openwis-harness</artifactId>
+	  <groupId>io.openwis.harness</groupId>
+	  <artifactId>openwis-harness</artifactId>
 		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+	  <relativePath>../pom.xml</relativePath>
 	</parent>
 	
 	<groupId>io.openwis.harness</groupId>
 	<artifactId>openwis-harness-client</artifactId>
 	<description>Openwis Harness client</description>
 	<name>openwis-harness-client</name>
+	
 	<build>
-		<finalName>openwis-harness-client</finalName>
-		<plugins>
-			<plugin>
+	  <finalName>openwis-harness-client</finalName>
+	  <plugins>
+		<plugin>
+		  <groupId>org.apache.cxf</groupId>
+		  <artifactId>cxf-codegen-plugin</artifactId>
+		  <version>${cxf.version}</version>
+			<dependencies>
+			  <dependency>
 				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>2.1.10</version>
+				<artifactId>cxf-xjc-ts</artifactId>
+				<version>${cxf.version}</version>
+			  </dependency>
+			</dependencies>
+		  <executions>
+		  <!-- Data Service -->
+			<execution>
+			  <id>wsdl-to-java-product-arrival-listener</id>
+			  <phase>generate-sources</phase>
+			  <configuration>
+				<sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>
+				<wsdlOptions>
+				  <wsdlOption>
+					<wsdl>${basedir}/src/wsdl/ProductArrivalListener.wsdl</wsdl>
+				  </wsdlOption>
+				</wsdlOptions>
+			  </configuration>
+			  <goals>
+				<goal>wsdl2java</goal>
+			  </goals>
+			</execution>
+		  </executions>
+		</plugin>
 
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-xjc-ts</artifactId>
-						<version>2.1.10</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<!-- Data Service -->
-					<execution>
-						<id>wsdl-to-java-product-arrival-listener</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>${basedir}/src/wsdl/ProductArrivalListener.wsdl</wsdl>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<!-- Add generated sources - avoids having to copy generated sources to 
-				build location -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${basedir}/target/generated/src/main/java</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
+		<!-- Add generated sources - avoids having to copy generated sources to 
+			 build location -->
+		<plugin>
+		  <groupId>org.codehaus.mojo</groupId>
+		  <artifactId>build-helper-maven-plugin</artifactId>
+		  <executions>
+			<execution>
+			  <id>add-source</id>
+			  <phase>generate-sources</phase>
+			  <goals>
+				<goal>add-source</goal>
+			  </goals>
+			  <configuration>
+				<sources>
+				  <source>${basedir}/target/generated/src/main/java</source>
+				</sources>
+			  </configuration>
+			</execution>
+		  </executions>
+		</plugin>
+	  </plugins>
 	</build>
 </project>
