@@ -1,226 +1,55 @@
-#OpenWis
+![OpenWIS](http://openwis.io/cms/images/openwis.jpg)
 
-From [about OpenWis](http://wis.bom.gov.au/openwis-user-portal/srv/en/about.home). 
+OpenWIS is an open source implementation of the WMO Information System (WIS) that aims to perform the three functions required by the WIS, i.e. GISC, DCPC and NC.
 
-OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)
-
-##1. Requirements
-
-* Open JDK 1.7
-* Maven 3.1.1
-
-###Environment variables:
-
-The JAVA_HOME  should be set with the valid JDK path.
-
-The MAVEN_OPTS should be set with "-Xms256m -Xmx512m -XX:MaxPermSize=256m" to avoid OutOfMemory issue during the build.
-
-The "mvn" command should be available in the terminal, maybe you should add the <maven home>/bin directory to the PATH
-
-##2. Sources Contents
-
-**Repository Contents :**
-
-      .
-      +-- pom.xml
-      |+--openwis-dataservice
-          |+--openwis-dataservice-cache
-             |+-- openwis-dataservice-cache-core
-             |+-- openwis-dataservice-cache-ejb
-             |+-- openwis-dataservice-cache-ftpreplication (not used)
-             |+-- openwis-dataservice-cache-test (not used)
-             |+-- openwis-dataservice-cache-webapp
-          |+--openwis-dataservice-common
-             |+-- openwis-dataservice-common-domain
-             |+-- openwis-dataservice-common-timer
-             |+-- openwis-dataservice-common-utils
-          |+--openwis-dataservice-server
-             |+-- openwis-dataservice-server-ear
-             |+-- openwis-dataservice-server-ejb
-             |+-- openwis-dataservice-server-test (not used)
-             |+-- openwis-dataservice-server-webapp
-      |+--openwis-factorytests
-      |+--openwis-harness 
-          |+--openwis-harness-client
-          |+--openwis-harness-dissemination
-          |+--openwis-harness-localdatasource
-          |+--openwis-harness-mssfss
-          |+--openwis-harness-samples (not used)
-          |+--openwis-harness-subselectionparameters
-      |+--openwis-management
-          |+--openwis-management-client
-          |+--openwis-management-server
-      |+--openwis-metadataportal
-          |+--cachingxslt
-          |+--jeeves
-          |+--oaipmh
-          |+--openwis-portal  
-          |+--openwis-portal-solr
-          |+--schematrons (not used)
-          |+--sde
-	  |+--openwis-portal-client
-      |+--openwis-securityservice
-          |+--openwis-securityservice-war
-          |+--openwis-securityservice-utils
-			|+--GenerateSPConfFiles
-			|+--PopulateLDAP
-      |+--openwis-stagingpost
-      |+--resources
-
-* **openwis-dataservice:** contains the dataservice module (including the cache system)
-* **openwis-factorytests:** contains selenium functional tests
-* **openwis-harness:** contains harness WSDL (dissemination, localdatasource) and samples harness implementations
-* **openwis-management:** contains management module (monitoring and control)
-* **openwis-metadataportal:** contains portals module
-* **openwis-release:** contains some binary (JBoss, PostgreSQL, ...)
-* **openwis-securityservice:** contains the security module
-* **openwis-stagingpost:** contains the staging post web application
-* **resources:** contains jars required for build but not available on Public Maven repositories
-
-**Harness WSDL**
- 
-* **The harness dissemination WSDL and WSD:** openwis-harness/openwis-harness-dissemination/src/wsdl/
-* **The harness localdatasource WSDL and WSD:** openwis-harness/openwis-harness-localdatasource/src/wsdl/
-* **The harness MSSFSS WSDL and WSD:** openwis-harness/openwis-harness-mssfss/src/wsdl/
-* **The harness subselectionparameters WSDL and WSD:** openwis-harness/openwis-harness-subselectionparameters/src/wsdl/
+OpenWIS is originally developed by AKKA Information System (France) on behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members).
+For more information on the OpenWIS project and OpenWIS association, please visit the [OpenWIS Project Website](http://openwis.github.io/openwis-documentation/).
 
 
-##3. Building OpenWIS
+## Getting Started
 
-**#1. Installing JavaEE**
+To try out OpenWIS on our PC, you will need:
 
-Javee is a library that is shipped with installations of GlassFish but is not available in any pulic Maven repository. In a terminal launch the command `mvn clean exec:exec`
+- [Java SE JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html): Oracle JDK 1.8
+- [Apache Maven 3](https://maven.apache.org/download.cgi): Latest version of Maven 3
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads): Latest version
+- [Vagrant](https://www.vagrantup.com/downloads.html): Latest version
 
-**#2.Launch the Maven build**
+Then, run the following commands:
 
- In a terminal, go into the root directory and launch the command: `mvn clean install -P openwis -DskipTests -Dfile.encoding=UTF-8`
+    $ export MAVEN_OPT="-Xms256m -Xmx512m -XX:MaxPermSize=256m"
+    $ git clone https://github.com/OpenWIS/openwis.git
+    $ cd openwis
+    $ mvn clean exec:exec
+    $ mvn clean install -P openwis -Dfile.encoding=UTF-8
+    $ mvn clean install -P user -Dfile.encoding=UTF-8
+    $ mvn clean install -P admin -Dfile.encoding=UTF-8
+    $ vagrant up
+    $ ( cd openwis-tools/load-test-data ; mvn -P openwis exec:java )
 
-After few minutes the build should finished successfully like this:
+Then, follow the link to the [User Portal](http://localhost:8060/openwis-user-portal/) to get a taste of OpenWIS.
 
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Reactor Summary:
-	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWIS ............................................... SUCCESS [1.248s]
-	[INFO] openwis-harness ....................................... SUCCESS [0.000s]
-	[INFO] openwis-harness-subselectionparameters ................ SUCCESS [6.724s]
-	[INFO] openwis-harness-localdatasource ....................... SUCCESS [1.232s]
-	[INFO] openwis-harness-client ................................ SUCCESS [0.796s]
-	[INFO] openwis-harness-mssfss ................................ SUCCESS [1.560s]
-	[INFO] openwis-harness-dissemination ......................... SUCCESS [1.264s]
-	[INFO] openwis-management .................................... SUCCESS [0.046s]
-	[INFO] openwis-management-client ............................. SUCCESS [4.134s]
-	[INFO] openwis-management-service ............................ SUCCESS [0.016s]
-	[INFO] openwis-management-service-common ..................... SUCCESS [1.045s]
-	[INFO] openwis-management-service-ejb ........................ SUCCESS [6.740s]
-	[INFO] openwis-management-service-ear ........................ SUCCESS [4.118s]
-	[INFO] openwis-dataservice ................................... SUCCESS [0.016s]
-	[INFO] openwis-dataservice-common ............................ SUCCESS [0.015s]
-	[INFO] openwis-dataservice-common-utils ...................... SUCCESS [1.513s]
-	[INFO] openwis-dataservice-common-domain ..................... SUCCESS [2.762s]
-	[INFO] openwis-dataservice-common-timer ...................... SUCCESS [2.761s]
-	[INFO] openwis-dataservice-cache ............................. SUCCESS [0.016s]
-	[INFO] openwis-dataservice-cache-core ........................ SUCCESS [0.998s]
-	[INFO] openwis-dataservice-cache-ejb ......................... SUCCESS [3.354s]
-	[INFO] openwis-dataservice-cache-webapp ...................... SUCCESS [1.728s]
-	[INFO] openwis-dataservice-server ............................ SUCCESS [0.011s]
-	[INFO] openwis-dataservice-server-ejb ........................ SUCCESS [4.073s]
-	[INFO] openwis-dataservice-server-webapp ..................... SUCCESS [1.295s]
-	[INFO] openwis-dataservice-server-ear ........................ SUCCESS [0.515s]
-	[INFO] openwis-dataservice-config ............................ SUCCESS [2.621s]
-	[INFO] openwis-portal-client ................................. SUCCESS [17.862s]	
-	[INFO] GeoNetwork opensource ................................. SUCCESS [0.000s]
-	[INFO] Caching xslt module ................................... SUCCESS [0.514s]
-	[INFO] Jeeves modules ........................................ SUCCESS [4.181s]
-	[INFO] Oaipmh modules ........................................ SUCCESS [1.155s]
-	[INFO] ArcSDE module (dummy-api) ............................. SUCCESS [1.560s]
-	[INFO] openwis-portal-solr ................................... SUCCESS [7.301s]
-	[INFO] openwis-securityservice ............................... SUCCESS [0.015s]
-	[INFO] openwis-securityservice-utils ......................... SUCCESS [0.000s]
-	[INFO] openwis-securityservice-utils-populate-ldap ........... SUCCESS [4.181s]
-	[INFO] openwis-securityservice-war ........................... SUCCESS [9.657s]
-	[INFO] openwis-stagingpost ................................... SUCCESS [0.327s]
-	[INFO] OpenWIS module ........................................ SUCCESS [36.687s]
-	[INFO] ------------------------------------------------------------------------
-	[INFO] ------------------------------------------------------------------------
-	[INFO] BUILD SUCCESSFUL
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 3 minutes 43 seconds
-	[INFO] Finished at: Tue Dec 01 13:24:46 GMT 2015
-	[INFO] Final Memory: 237M/416M
-	[INFO] ------------------------------------------------------------------------	
+## Installing
 
-**#3. Generate the user portal*	
-	
-Although the openwis profile builds the OpenWIS portal, its inclusion is to make releasing and versioning easier. You may find that generate the correct artifacts in the expected places, 
-you may need to rebuild the user portal.
+To install OpenWIS on your system, you can either [download a binary release](http://repository-openwis-association.forge.cloudbees.com/openwis/), or
+build from source. 
 
-Please note that the file produced is called openwis-user-portal-user.war and the name required for deployments is openwis-user-portal.war
+Once you have the OpenWIS artefacts, follow the instructions in the
+[Installation Guide](https://github.com/OpenWIS/openwis/blob/develop/docs/IG-OpenWIS-1-v02%209-MigrationOpenAM-v3.doc?raw=true).  OpenWIS can run in a
+variety of configurations so have a think about how you would like to install it before proceeding.
 
-In a terminal, go to the root directory and launch the command: `mvn clean install -P user -DskipTests -Dfile.encoding=UTF-8`
+OpenWIS can integrate in all sorts of possible ways through the use of *harnesses*.  For information on how to build these harnesses, please take
+a look at [Developing OpenWIS Harnesses](https://github.com/OpenWIS/openwis/wiki/Developing-OpenWIS-Harnesses).
 
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Reactor Summary:
-	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWIS module ........................................ SUCCESS [26.004s]
-	[INFO] OpenWis ............................................... SUCCESS [0.402s]
-	[INFO] ------------------------------------------------------------------------
-	[INFO] ------------------------------------------------------------------------
-	[INFO] BUILD SUCCESSFUL
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 26 seconds
-	[INFO] Finished at: Tue Dec 01 13:25:56 GMT 2015
-	[INFO] Final Memory: 42M/302M
-	[INFO] ------------------------------------------------------------------------	
-	
-**#4. Generate the admin portal*	
-	
-In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests -Dfile.encoding=UTF-8`
+## Contributing
 
-Please note that the file produced is called openwis-admin-portal-admin.war and the name required for deployments is openwis-admin-portal.war
+OpenWIS is continuously being improved by the joint effort of meteorological agencies around the world.  If you would like to help out, please
+take a look at our Contributor Agreement.
 
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Reactor Summary:
-	[INFO] ------------------------------------------------------------------------
-	[INFO] OpenWIS module ........................................ SUCCESS [26.004s]
-	[INFO] OpenWis ............................................... SUCCESS [0.402s]
-	[INFO] ------------------------------------------------------------------------
-	[INFO] ------------------------------------------------------------------------
-	[INFO] BUILD SUCCESSFUL
-	[INFO] ------------------------------------------------------------------------
-	[INFO] Total time: 26 seconds
-	[INFO] Finished at: Tue Dec 01 13:25:56 GMT 2015
-	[INFO] Final Memory: 42M/302M
-	[INFO] ------------------------------------------------------------------------
+If you would like to know more about developing for OpenWIS, take a look at the [OpenWIS wiki](https://github.com/OpenWIS/openwis/wiki).
 
-**#5  Getting built artifacts**
+If you are interested in joining the OpenWIS association, please get in touch with the association via the contact details on the [project web-page](http://openwis.github.io/openwis-documentation/).
 
-* **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
-* **dataservice configs:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
-* **dataservice config module:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-module.zip
-* **harness client:** <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
-* **security service:** <rootdir>/openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war
-* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-portal-user.war
-* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-portal-admin.war
-* **SolR search WAR:** <rootdir>/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
-* **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
-* **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
+## License
 
-**#6 Changing Verison Number**
-
-In a terminal, go into the root directory and launch the command: `mvn --batch-mode release:update-versions -DdevelopmentVersion=0.0.1-SNAPSHOT -P openwis` or whatever version you wish to change the project to.
-
-**#7 Maven Releasing **
-
-Maven releasing for OpenWIS is two step process as the portal requires the build to be run twice (once for admin portal and once for the user portal).
-
-In a terminal, go into the root directory and launch the command: `mvn -Dresume=false release:prepare -Popenwis"' this needs to be followed by a build of the admin and user portals as desribed in #3 and #4
-
-A 'maven release:perform' will not deploy to the CloudBees repos as there are currently permissions issues.
-
-**#8 Running SonarQube**
- 
-In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
-configured in you ~/.m2/settings.xml. 
-
-This does take a while given the number of modules that need to run.
- 
+OpenWIS is release under the GNU General Public License version 3.
