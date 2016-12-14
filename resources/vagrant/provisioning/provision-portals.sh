@@ -43,7 +43,8 @@ sudo -iu openwis mkdir "$openwisHome/staging"
 # yum install -y java-1.7.0-openjdk-devel.x86_64
 
 # Install latest compatible JDK (still available in YUM).
-yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+#yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+yum install -y java-1.7.0-openjdk-devel-1.7.0.121
 
 #echo "Unpacking Java"
 #sudo -iu openwis tar -xvz -C "$openwisOpt" -f /vagrant/dependencies/jdk-7u51-linux-x64.tar.gz
