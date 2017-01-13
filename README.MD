@@ -1,8 +1,16 @@
 #OpenWis
 
-From [about OpenWis](http://wis.bom.gov.au/openwis-user-portal/srv/en/about.home). 
+OpenWIS is an implementation of the WMO Information System.
 
-OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)
+The World Meteorological Organization (WMO) has been working for several years towards upgrading its global infrastructure to support all of its international programmes of work, both operational and research-based, to collect, share and disseminate information. The new infrastructure is called the WIS, the WMO Information System, and identifies three top-level functions. These are:
+
+- GISC: Global Information System Centre;
+- DCPC: Data Collection and Production Centre;
+- NC: National Centre.
+
+All three functions contribute to the circulation of priority data, system wide security, monitoring and implementation of WMO data policies. GISCs and DCPCs allow the Discovery Access and Retrieval of data, products and services offered by WIS Centres, but GISCs offer a global view of this information and provide distributed and resilient access to critical data and products.
+
+OpenWIS aims to perform all three functions required by the WMO Information System, that is: GISC, DCPC and NC.
 
 ##1. Requirements
 
