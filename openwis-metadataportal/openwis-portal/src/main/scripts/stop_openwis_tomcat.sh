@@ -4,7 +4,7 @@
 #
 
 # Settings
-export CATALINA_HOME=/home/openwis/apache-tomcat-6.0.29
+export CATALINA_HOME=/home/openwis/apache-tomcat-7.0.59
 export CATALINA_PID=$CATALINA_HOME/openwis-tomcat.pid
 
 # Stop Tomcat

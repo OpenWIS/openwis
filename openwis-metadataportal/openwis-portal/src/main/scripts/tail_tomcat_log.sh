@@ -1,4 +1,4 @@
 #!/bin/sh
 
-tail -f ~/apache-tomcat-6.0.29/logs/catalina.out 
+tail -f ~/apache-tomcat-7.0.59/logs/catalina.out 
 
