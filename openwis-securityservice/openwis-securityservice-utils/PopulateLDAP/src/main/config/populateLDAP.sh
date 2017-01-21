@@ -18,6 +18,9 @@ CLASSPATH=/home/openwis/openwis/openwis-securityservice/openwis-securityservice-
 userManagementServiceWsdl=http://@OPENWIS_SECURITY_HOST@:@PORT@/openwis-securityservice/services/UserManagementService?wsdl
 groupManagementServiceWsdl=http://@OPENWIS_SECURITY_HOST@:@PORT@/openwis-securityservice/services/GroupManagementService?wsdl
 
+userManagementServiceWsdl=http://openwis3145.eurodyn.com:8080/openwis-securityservice/services/UserManagementService?wsdl
+groupManagementServiceWsdl=http://openwis3145.eurodyn.com:8080/openwis-securityservice/services/GroupManagementService?wsdl
+
 
 
 java -classpath $CLASSPATH -DuserManagementServiceWsdl=$userManagementServiceWsdl -DgroupManagementServiceWsdl=$groupManagementServiceWsdl org.openwis.usermanagement.PopulateUser 
