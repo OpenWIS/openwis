@@ -331,7 +331,8 @@
 
         <repository>
            <id>forgerock</id>
-           <url>http://maven.forgerock.org/repo/releases</url>
+       <!--    <url>http://maven.forgerock.org/repo/releases</url> -->
+<url>http://maven.forgerock.org/repo/repo/org/forgerock/</url>
        </repository>
         
       <!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->

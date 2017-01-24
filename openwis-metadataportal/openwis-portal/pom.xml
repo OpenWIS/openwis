@@ -30,6 +30,8 @@
       <geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
       <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
       <minify.verbose>false</minify.verbose>
+	<!--test dimi-->
+      <war.name>openwis-user-portal</war.name>
    </properties>
 
     <!-- =========================================================== -->
@@ -42,8 +44,11 @@
 			<activeByDefault>${user.module}</activeByDefault>
 		 </activation>
          <properties>
-			<profile-id>user</profile-id>
+			 <!--<profile-id>user</profile-id> -->
 			<war.name>openwis-user-portal</war.name>
+                         <profile-id>user</profile-id> 
+
+
          </properties>
          <build>
 		 <directory>openwis-user-portal</directory>
@@ -879,6 +884,16 @@
          <groupId>xalan</groupId>
          <artifactId>serializer</artifactId>
       </dependency>
+
+    <!-- ADDED -->
+                 <dependency>
+                         <groupId>javax.servlet</groupId>
+                         <artifactId>servlet-api</artifactId>
+                         <!-- <version>2.5</version> -->
+                         <version>2.5</version>
+                        <scope>provided</scope>
+                </dependency>
+
 
    </dependencies>
 
