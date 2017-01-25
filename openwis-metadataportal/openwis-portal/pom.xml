@@ -587,7 +587,7 @@
       </dependency>
 
       <!-- OPEN AM FEDERATION -->
-	<dependency>
+	  <dependency>
          <groupId>org.forgerock.openam</groupId>
          <artifactId>openam-idpdiscovery</artifactId>
          <version>12.0.0</version>
@@ -604,6 +604,13 @@
          <artifactId>openam-shared</artifactId>
          <version>12.0.0</version>
       </dependency>
+
+	   <dependency>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-saml2-schema</artifactId>
+         <version>12.0.0</version>
+      </dependency>
+	  
 
      <dependency>
         <groupId>com.sun.xml.ws</groupId>
