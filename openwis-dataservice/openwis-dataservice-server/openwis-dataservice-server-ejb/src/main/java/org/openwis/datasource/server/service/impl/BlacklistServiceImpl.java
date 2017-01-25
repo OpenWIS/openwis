@@ -309,15 +309,14 @@ public class BlacklistServiceImpl implements BlacklistService {
          result = new BlacklistInfo();
          result.setUser(user);
          result.setStatus(BlacklistStatus.NOT_BLACKLISTED);
-         
-         result.setNbDisseminationWarnThreshold(
-               configServiceFacade.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
-         result.setNbDisseminationBlacklistThreshold(
-               configServiceFacade.getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
-         result.setVolDisseminationWarnThreshold(
-               configServiceFacade.getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
-         result.setVolDisseminationBlacklistThreshold(
-               configServiceFacade.getInt(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+         result.setNbDisseminationWarnThreshold(configServiceFacade
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
+         result.setNbDisseminationBlacklistThreshold(configServiceFacade
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+         result.setVolDisseminationWarnThreshold(configServiceFacade
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+         result.setVolDisseminationBlacklistThreshold(configServiceFacade
+               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
       }
       return result;
    }

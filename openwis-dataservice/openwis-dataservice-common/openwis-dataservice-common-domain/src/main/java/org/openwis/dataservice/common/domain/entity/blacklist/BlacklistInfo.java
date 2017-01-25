@@ -188,7 +188,7 @@ public class BlacklistInfo {
     *
     * @param nbDisseminationBlacklistThreshold the new number dissemination blacklist threshold
     */
-   public void setNbDisseminationBlacklistThreshold(int nbDisseminationBlacklistThreshold) {
+   public void setNbDisseminationBlacklistThreshold(long nbDisseminationBlacklistThreshold) {
       this.nbDisseminationBlacklistThreshold = nbDisseminationBlacklistThreshold;
    }
 
@@ -206,7 +206,7 @@ public class BlacklistInfo {
     *
     * @param volumeDisseminationWarnThreshold the new volume dissemination warn threshold
     */
-   public void setVolDisseminationWarnThreshold(int volDisseminationWarnThreshold) {
+   public void setVolDisseminationWarnThreshold(long volDisseminationWarnThreshold) {
       this.volDisseminationWarnThreshold = volDisseminationWarnThreshold;
    }
 
@@ -224,7 +224,7 @@ public class BlacklistInfo {
     *
     * @param volDisseminationBlacklistThreshold the new volume dissemination blacklist threshold
     */
-   public void setVolDisseminationBlacklistThreshold(int volDisseminationBlacklistThreshold) {
+   public void setVolDisseminationBlacklistThreshold(long volDisseminationBlacklistThreshold) {
       this.volDisseminationBlacklistThreshold = volDisseminationBlacklistThreshold;
    }
 

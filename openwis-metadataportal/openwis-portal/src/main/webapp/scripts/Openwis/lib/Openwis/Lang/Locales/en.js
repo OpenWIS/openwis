@@ -905,6 +905,7 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.User' : 'User',
     'MonitorCurrentRequests.ProductMetadata.Title' : 'Product',
     'MonitorCurrentRequests.Request.ID' : 'Request ID',
+    'MonitorCurrentRequests.ProcessRequest.ID' : 'Process ID',
     'MonitorCurrentRequests.Status' : 'Status',
     'MonitorCurrentRequests.Volume' : 'Volume',
     'MonitorCurrentRequests.CreationDate' : 'Creation Date', 
@@ -917,6 +918,7 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.PRFilter.ADHOC' : 'Adhoc Requests only',
     'MonitorCurrentRequests.PRFilter.SUBSCRIPTION': 'Events of Subscriptions only',
     'MonitorCurrentRequests.PRFilter.BOTH': 'All kind of Requests',
+    'MonitorCurrentRequests.Import.Label': 'Import Subscription',
     
     'TrackMyRequests.Title' : 'Track my requests',
     'TrackMyRequests.Local.Title' : 'Track my local requests',
@@ -1090,7 +1092,7 @@ Openwis.Lang.Dictionary = {
     'Choose.Domain.msg': 'Please, choose your domain.',
     
     //----------------------------------------------------------------- Register.
-    'RegistrationUser.info.msg' : 'Please enter your personal information to create an account:',
+    'RegistrationUser.info.msg' : 'Please enter your personal information to create an account (contact email will be your username):',
     'RegistrationUser.LastName.Label' : 'Last Name',
     'RegistrationUser.FirstName.Label' : 'First Name',
 	'RegistrationUser.ContactEmail.Label' : 'Contact Email',

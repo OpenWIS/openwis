@@ -36,6 +36,12 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 			}
 		}));
 		this.add(this.getMonitorCurrentSubscriptionsGrid());
+		this.add(new Ext.Panel({
+			items: [ this.getImportSubscriptionFormPanel() ],
+			style: {
+			    marginTop: '15px'
+			}
+		}));
 	},
 	
 	getHeader: function() {
@@ -173,15 +179,15 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
                 view: this.getCurrentProcessedRequestsGridView(),
                 loadMask: true,
                 columns: [
-                    {id:'statusImg', header:'', dataIndex:'status', renderer: Openwis.Common.Request.Utils.statusRendererImg, width: 50, sortable: false},
+                    {id:'statusImg', header:'', dataIndex:'status', renderer: Openwis.Common.Request.Utils.statusRendererImg, width: 30, sortable: false},
                     {id:'requestType', header:'', dataIndex:'requestType', renderer: Openwis.Common.Request.Utils.requestTypeRenderer, width: 20, sortable: false},
                     {id:'user', header: Openwis.i18n('MonitorCurrentRequests.User'), dataIndex:'user', sortable: true, hideable:false},
-                    {id:'title', header: Openwis.i18n('MonitorCurrentRequests.ProductMetadata.Title'), dataIndex:'title', sortable: true, hideable:false},
+                    {id:'title', header: Openwis.i18n('MonitorCurrentRequests.ProductMetadata.Title'), dataIndex:'title', sortable: true, hideable:false, width: 100},
                     {id:'id', header: Openwis.i18n('MonitorCurrentRequests.Request.ID'), dataIndex:'id', sortable: true, hideable:false, width: 80},
+                    {id:'processedRequestID', header: Openwis.i18n('MonitorCurrentRequests.ProcessRequest.ID'), dataIndex:'processedRequestID', sortable: true, hideable:false, width: 80},
                     {id:'status', header: Openwis.i18n('MonitorCurrentRequests.Status'), dataIndex: 'status', renderer: Openwis.Common.Request.Utils.statusRenderer, width: 50, sortable: true},
                     {id: 'size', header:  Openwis.i18n('MonitorCurrentRequests.Volume'), dataIndex: 'size', renderer: Openwis.Common.Request.Utils.sizeRenderer, width: 80, sortable: true},
-                    {id:'creationDate', header: Openwis.i18n('MonitorCurrentRequests.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true},
-                    {id:'dataSource', header: Openwis.i18n('MonitorCurrentRequests.DataSource'), dataIndex:'dataSource', sortable: true, hideable:false}
+                    {id:'creationDate', header: Openwis.i18n('MonitorCurrentRequests.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true}
                 ],
                 autoExpandColumn: 'title',
                 sm: new Ext.grid.RowSelectionModel({
@@ -243,7 +249,7 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 					{name: 'requestType', mapping: 'requestType'},
 					{name: 'processedRequestID', mapping: 'processedRequestDTO.id'},
                     {name: 'user', mapping: 'userName', sortType: Ext.data.SortTypes.asUCString},
-                    {name: 'title', mapping: 'productMetadataTitle', sortType: Ext.data.SortTypes.asUCString},
+                    {name: 'title', mapping: 'productMetadataURN', sortType: Ext.data.SortTypes.asUCString},
                     {name: 'creationDate', mapping:'processedRequestDTO.creationDate'},
                     {name: 'status', mapping:'processedRequestDTO.status'},
                     {name: 'size', mapping:'processedRequestDTO.size'},
@@ -325,7 +331,7 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
     			columns: [
     			    {id: 'statusImg', header:'', dataIndex:'state', renderer: Openwis.Common.Request.Utils.stateRendererImg, width: 50, sortable: false},
     				{id:'user', header: Openwis.i18n('MonitorCurrentRequests.User'), dataIndex:'user', sortable: true, hideable:false},
-                    {id: 'title', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Title'), dataIndex: 'title', sortable: true},
+                    {id: 'title', header: Openwis.i18n('TrackMySubscriptions.ProductMetadata.Title'), dataIndex: 'urn', sortable: true},
                     {id: 'id', header: Openwis.i18n('TrackMySubscriptions.Subscription.ID'), dataIndex: 'id', width: 100, sortable: true},
                     {id: 'creationDate', header: Openwis.i18n('TrackMySubscriptions.CreationDate'), dataIndex: 'creationDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: true},
                     {id: 'lastProcessingDate', header:  Openwis.i18n('TrackMySubscriptions.LastEventDate'), dataIndex: 'lastProcessingDate', renderer: Openwis.Utils.Date.formatDateTimeUTC, width: 100, sortable: false}
@@ -339,12 +345,14 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
                             sm.grid.ownerCt.getSuspendSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') || !(record.get('state')=='ACTIVE') );
                             sm.grid.ownerCt.getResumeSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') ||  !(record.get('state')=='SUSPENDED'));
                             sm.grid.ownerCt.getDiscardSubscriptionAction().setDisabled(sm.getCount() == 0);
+                            sm.grid.ownerCt.getExportSubscriptionAction().setDisabled(sm.getCount() == 0);
                         },
                         rowdeselect: function (sm, rowIndex, record) {
                             sm.grid.ownerCt.getViewSubscriptionAction().setDisabled(sm.getCount() != 1);
                             sm.grid.ownerCt.getSuspendSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') || !(record.get('state')=='ACTIVE'));
                             sm.grid.ownerCt.getResumeSubscriptionAction().setDisabled(sm.getCount() != 1 || !record.get('valid') || !(record.get('state')=='SUSPENDED'));
                             sm.grid.ownerCt.getDiscardSubscriptionAction().setDisabled(sm.getCount() == 0);
+                            sm.grid.ownerCt.getExportSubscriptionAction().setDisabled(sm.getCount() == 0);
                         }
                     }
                 }),
@@ -361,6 +369,7 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getSuspendSubscriptionAction()));
 			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getResumeSubscriptionAction()));
 			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getDiscardSubscriptionAction()));
+			this.monitorCurrentSubscriptionsGrid.addButton(new Ext.Button(this.getExportSubscriptionAction()));
         }
         return this.monitorCurrentSubscriptionsGrid;
 	},
@@ -506,6 +515,101 @@ Openwis.Admin.DataService.MonitorCurrentRequests = Ext.extend(Ext.Container, {
 	        });
 	    }
 	    return this.discardSubscriptionAction;
+	},
+	
+	getExportSubscriptionAction: function() {
+	    if(!this.exportSubscriptionAction) {
+	        this.exportSubscriptionAction = new Ext.Action({
+	            text: Openwis.i18n('Common.Btn.Export'),
+	            disabled: true,
+				scope: this,
+				handler: function() {
+					var selection = this.getMonitorCurrentSubscriptionsGrid().getSelectionModel().getSelections();
+					var params = {exportRequests: []};
+					Ext.each(selection, function(item, index, allItems) {
+						params.exportRequests.push({requestID: item.get('id'), typeRequest: 'SUBSCRIPTION'});
+					}, this);
+                	if (params.exportRequests.length > 0 ) {   		
+                        window.open(configOptions.locService + 
+                        		"/xml.monitor.current.subscriptions.export?subscriptionId=" + params.exportRequests[0].requestID,'_blank', '');
+                    }
+                	else
+            		{
+                		Ext.Msg.show({
+    					    title: Openwis.i18n('RequestsStatistics.NoDataToExport.WarnDlg.Title'),
+	    				    msg: Openwis.i18n('RequestsStatistics.NoDataToExport.WarnDlg.Msg'),
+		                    buttons: Ext.MessageBox.OK,
+		                    icon: Ext.MessageBox.WARNING
+		               });
+            		}
+                }
+	        });
+	    }
+	    return this.exportSubscriptionAction;
+	},
+	
+	getImportSubscriptionFormPanel: function() {
+	    if(!this.importSubscriptionFormPanel) {
+	        this.importSubscriptionFormPanel = new Ext.form.FormPanel({
+	            border: false,
+	            fileUpload : true,
+	        	bodyStyle : ' margin: 10px 10px 0px 10px; ',
+	        	errorReader: new Ext.data.XmlReader({
+                    record : 'field',
+                    success: '@success'
+                }, [
+                    'id', 'msg'
+                ])
+	        });
+	        
+	        var newFile = new Ext.ux.form.FileUploadField(
+	    		    {
+	        		    xtype: 'fileuploadfield',
+	                    allowBlank : false,
+	                    buttonCfg: {
+	                        text: Openwis.i18n('Common.Btn.Browse')
+	                    },
+	                    fieldLabel: Openwis.i18n('MonitorCurrentRequests.Import.Label'),
+	                    width: 360
+	                }
+			    );
+	        
+	        this.importSubscriptionFormPanel.add(newFile);
+	        this.importSubscriptionFormPanel.addButton(new Ext.Button(this.getImportSubscriptionAction()));
+	    }
+	    return this.importSubscriptionFormPanel;
+	},
+	
+	getImportSubscriptionAction: function() {
+	    if(!this.importSubscriptionAction) {
+	        this.importSubscriptionAction = new Ext.Action({
+	            text: Openwis.i18n('Common.Btn.Insert'),
+	            scope: this,
+				handler: function() {
+					if (this.importSubscriptionFormPanel.getForm().isValid()) {
+						this.importSubscriptionFormPanel.getForm().submit({
+ 	                        url : configOptions.locService+ '/xml.monitor.current.subscriptions.import',
+ 	                        scope : this,
+ 	                        params: {},
+ 	                        success : function(fp, action) {
+ 	                            var jsonData = fp.errorReader.xmlData.getElementsByTagName("message")[0].childNodes[0].nodeValue;
+ 	                            var result = Ext.decode(jsonData);
+ 	                            if (result.result){
+ 	 	                            Openwis.Utils.MessageBox.displaySaveSuccessful();
+ 	                            }else{
+ 	 	                            Openwis.Utils.MessageBox.displayErrorMsg(result.message);
+ 	                            }
+            					this.getMonitorCurrentSubscriptionsStore().reload();
+ 	                        },
+ 	                        failure : function(response) {
+ 	                            Openwis.Utils.MessageBox.displayInternalError();
+ 	                        }
+ 	                    });
+					}
+                }
+	        });
+	    }
+	    return this.importSubscriptionAction;
 	}
 	
 });

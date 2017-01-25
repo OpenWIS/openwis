@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.openwis</groupId>
 		<artifactId>openwis</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>3.14.6MF1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
@@ -17,6 +17,14 @@
     Open Source catalog application to manage spatially referenced 
     resources through the web.</description>
   <url>http://geonetwork-opensource.org</url>
+  
+  <scm>
+    <connection>
+      scm:svn:https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk
+    </connection>
+    <url>https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/trunk</url>
+    <tag>openwis-3.14.6-release</tag>
+  </scm>
   
   <!-- =========================================================== -->
   <!--     Modules for the build in approximate dependency order   -->

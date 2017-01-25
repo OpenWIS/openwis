@@ -5,8 +5,8 @@
    <parent>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>geonetwork</artifactId>
-	<version>develop-SNAPSHOT</version>
-	  <relativePath>../pom.xml</relativePath>
+      <version>develop-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath>
    </parent>
 
 
