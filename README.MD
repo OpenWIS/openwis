@@ -205,6 +205,4 @@ Copyright and License
 ---------------------
 (C) Copyright OpenWIS Association AISBL.
 
-OpenWIS® is free software: you can redistribute it and/or modify it under the terms of the License specified for each OpenWIS® Project (see [LICENSE](./LICENSE)).
-
- 
+OpenWIS® is free software: you can redistribute it and/or modify it under the terms of the License. In accordance with [TITLE 9: SOFTWARE LICENSING](http://openwis.github.io/openwis-documentation/rules/9-software-licensing.html) from the [Internal Rules of the OpenWIS Association AISBL](http://openwis.github.io/openwis-documentation/rules/), each OpenWIS® Project must specify a [license approved by the Open Source Initiative](https://opensource.org/licenses/). This Project is licensed under the [GNU General Public Licence, version 3.0](./LICENSE).  
