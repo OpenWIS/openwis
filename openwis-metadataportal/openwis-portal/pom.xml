@@ -890,16 +890,12 @@
          <groupId>xalan</groupId>
          <artifactId>serializer</artifactId>
       </dependency>
-
-    <!-- ADDED -->
-                 <dependency>
-                         <groupId>javax.servlet</groupId>
-                         <artifactId>servlet-api</artifactId>
-                         <!-- <version>2.5</version> -->
-                         <version>2.5</version>
-                        <scope>provided</scope>
-                </dependency>
-
+	<dependency>
+		 <groupId>javax.servlet</groupId>
+		 <artifactId>servlet-api</artifactId>
+		 <version>2.5</version>
+	<scope>provided</scope>
+	</dependency>
 
    </dependencies>
 
