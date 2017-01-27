@@ -30,6 +30,7 @@
       <geonetwork.build.dir>${project.build.directory}/${project.build.finalName}</geonetwork.build.dir>
       <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
       <minify.verbose>false</minify.verbose>
+      <war.name>openwis-user-portal</war.name>
    </properties>
 
     <!-- =========================================================== -->
@@ -42,8 +43,11 @@
 			<activeByDefault>${user.module}</activeByDefault>
 		 </activation>
          <properties>
-			<profile-id>user</profile-id>
+			 <profile-id>user</profile-id>
 			<war.name>openwis-user-portal</war.name>
+                         <profile-id>user</profile-id> 
+
+
          </properties>
          <build>
 		 <directory>openwis-user-portal</directory>
@@ -582,7 +586,7 @@
       </dependency>
 
       <!-- OPEN AM FEDERATION -->
-	<dependency>
+	  <dependency>
          <groupId>org.forgerock.openam</groupId>
          <artifactId>openam-idpdiscovery</artifactId>
          <version>12.0.0</version>
@@ -599,6 +603,13 @@
          <artifactId>openam-shared</artifactId>
          <version>12.0.0</version>
       </dependency>
+
+	   <dependency>
+         <groupId>org.forgerock.openam</groupId>
+         <artifactId>openam-saml2-schema</artifactId>
+         <version>12.0.0</version>
+      </dependency>
+	  
 
      <dependency>
         <groupId>com.sun.xml.ws</groupId>
@@ -879,6 +890,12 @@
          <groupId>xalan</groupId>
          <artifactId>serializer</artifactId>
       </dependency>
+	<dependency>
+		 <groupId>javax.servlet</groupId>
+		 <artifactId>servlet-api</artifactId>
+		 <version>2.5</version>
+	<scope>provided</scope>
+	</dependency>
 
    </dependencies>
 

@@ -328,10 +328,9 @@
             </snapshots>
         </repository>
 
-
         <repository>
-           <id>forgerock</id>
-           <url>http://maven.forgerock.org/repo/releases</url>
+           <id>forgerock-repo</id>
+			<url>http://maven.forgerock.org/repo/repo/org/forgerock/</url>
        </repository>
         
       <!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
@@ -359,16 +358,11 @@
       <id>geotools</id>
       <name>Geotools repository</name>
       <url>http://download.osgeo.org/webdav/geotools/</url>
-    </repository>
-		<repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>boundless</id>
-      <name>Boundless repository</name>
-      <url>http://repo.boundlessgeo.com/main/</url>
-    </repository>
-		
+	    </repository>
+            <repository>
+		  <id>ch.thus</id>
+		  <url>http://www.thus.ch/~patrick/maven/</url>
+	    </repository>
 	  <!--
 	  <repository>
 		 <id>openqa-thirdparty</id>

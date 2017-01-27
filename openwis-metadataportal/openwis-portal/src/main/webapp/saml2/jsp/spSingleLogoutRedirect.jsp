@@ -24,12 +24,9 @@
 
    $Id: spSingleLogoutRedirect.jsp,v 1.14 2009/06/17 03:10:28 exu Exp $
 
+   Portions Copyrighted 2013-2014 ForgeRock AS.
 --%>
 
-
-
-
-<%@ page import="com.sun.identity.shared.debug.Debug" %>
 <%@ page import="com.sun.identity.sae.api.SecureAttrs" %>
 <%@ page import="com.sun.identity.saml.common.SAMLUtils" %>
 <%@ page import="com.sun.identity.saml2.common.SAML2Utils" %>
@@ -42,14 +39,14 @@
 <%@ page import="com.sun.identity.saml2.profile.SPCache" %>
 <%@ page import="com.sun.identity.saml2.profile.SPSingleLogout" %>
 <%@ page import="com.sun.identity.saml2.profile.IDPCache" %>
-<%@ page import="com.sun.identity.saml2.profile.IDPSingleLogout" %>
 <%@ page import="com.sun.identity.saml2.protocol.LogoutRequest" %>
-<%@ page import="com.sun.identity.saml2.assertion.Issuer" %>
 <%@ page import="com.sun.identity.saml2.profile.IDPProxyUtil" %>
-<%@ page import="com.sun.identity.saml2.protocol.ProtocolFactory" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Properties" %>
+<%@ page import="org.owasp.esapi.ESAPI" %>
+<%@ page import="java.io.PrintWriter" %>
 
 
 <%--
@@ -91,9 +88,12 @@
             relayState = (String) tmpRs.getObject();
         }
     }
-    
+    if (!ESAPI.validator().isValidInput("HTTP Query String: " + relayState, relayState, "HTTPQueryString", 2000, true)) {
+        relayState = null;
+    }
     String samlResponse = request.getParameter(SAML2Constants.SAML_RESPONSE);
     if (samlResponse != null) {
+        boolean sloFailed = false;
         try {
         /**
          * Gets and processes the Single <code>LogoutResponse</code> from IDP,
@@ -118,18 +118,20 @@
           if (origLogoutRequest != null && !origLogoutRequest.equals("")) {
               IDPCache.proxySPLogoutReqCache.remove(inRes);
               IDPProxyUtil.sendProxyLogoutResponse(response, request,
-                  origLogoutRequest.getID(), infoMap,
+                      origLogoutRequest.getID(), infoMap,
                   origLogoutRequest.getIssuer().getValue(),
                   SAML2Constants.HTTP_REDIRECT); 
               return;        
           }          
         } catch (SAML2Exception sse) {
             SAML2Utils.debug.error("Error processing LogoutResponse :", sse);
-            SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
-                "LogoutResponseProcessingError",
-                SAML2Utils.bundle.getString("LogoutResponseProcessingError") +
-                " " + sse.getMessage());
-            return;
+            if ("sloFailed".equals(sse.getErrorCode())) {
+                sloFailed = true;
+            } else {
+                SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST, "LogoutResponseProcessingError",
+                        SAML2Utils.bundle.getString("LogoutResponseProcessingError") + " " + sse.getMessage());
+                return;
+            }
         } catch (Exception e) {
             SAML2Utils.debug.error("Error processing LogoutResponse ",e);
             SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
@@ -139,7 +141,32 @@
             return;
         }
 
-        if (relayState != null && relayState.length() != 0) {
+        boolean isRelayStateURLValid = false;
+        if (!SPCache.isFedlet) {
+            isRelayStateURLValid = relayState != null && !relayState.isEmpty()
+                    && SAML2Utils.isRelayStateURLValid(request, relayState, SAML2Constants.SP_ROLE)
+                    && ESAPI.validator().isValidInput("RelayState", relayState, "URL", 2000, true);
+        } else {
+            SAML2MetaManager manager = new SAML2MetaManager();
+            String metaAlias = null;
+            List<String> spMetaAliases = manager.getAllHostedServiceProviderMetaAliases("/");
+            if (spMetaAliases != null && !spMetaAliases.isEmpty()) {
+                // get first one
+                metaAlias = spMetaAliases.get(0);
+            }
+
+            isRelayStateURLValid = relayState != null && !relayState.isEmpty()
+                    && SAML2Utils.isRelayStateURLValid(metaAlias, relayState, SAML2Constants.SP_ROLE)
+                    && ESAPI.validator().isValidInput("RelayState", relayState, "URL", 2000, true);
+        }
+        if (sloFailed) {
+            if (isRelayStateURLValid) {
+                request.setAttribute(SAML2Constants.RELAY_STATE, relayState);
+            }
+            %>
+            <jsp:forward page="/saml2/jsp/default.jsp?message=sloFailed" />
+            <%
+        } else if (isRelayStateURLValid) {
             try {
                  response.sendRedirect(relayState);
             } catch (java.io.IOException ioe) {
@@ -151,7 +178,7 @@
             }
         } else {
             %>
-            <jsp:forward page="/index.html" />
+            <jsp:forward page="/saml2/jsp/default.jsp?message=spSloSuccess" />
             <%
         } 
     } else {
@@ -179,7 +206,7 @@
              * @throws SAML2Exception if error processing
              *          <code>LogoutRequest</code>.
              */
-            SPSingleLogout.processLogoutRequest(request,response,response.getWriter(),
+            SPSingleLogout.processLogoutRequest(request,response, new PrintWriter(out, true),
                 samlRequest,relayState);
             } catch (SAML2Exception sse) {
                 SAML2Utils.debug.error("Error processing LogoutRequest :", sse);

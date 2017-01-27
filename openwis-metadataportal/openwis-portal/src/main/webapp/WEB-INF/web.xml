@@ -84,7 +84,7 @@
     </servlet>
     <servlet>
         <servlet-name>openWisChooseDomain</servlet-name>
-        <jsp-file>/openWisChooseDomain.jsp</jsp-file>
+        <jsp-file>/jsp/openWisChooseDomain.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>openWisDomainSelected</servlet-name>
