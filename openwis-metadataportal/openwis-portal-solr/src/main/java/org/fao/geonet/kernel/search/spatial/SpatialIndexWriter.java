@@ -126,8 +126,15 @@ public class SpatialIndexWriter {
             features.add(SimpleFeatureBuilder.build(schema, data,
                   SimpleFeatureBuilder.createDefaultFeatureId()));
 
-            _featureStore.addFeatures(features);
+            // remove existing feature
+            FilterFactory2 factory = CommonFactoryFinder.getFilterFactory2(GeoTools.getDefaultHints());
+            Filter filter = factory.equals(factory.property(PostgisSpatial.SPATIAL_INDEX_COLUMN_UUID),
+                  factory.literal(uuid));
+            _featureStore.removeFeatures(filter);
+            _writes++;
 
+            // add new feature
+            _featureStore.addFeatures(features);
             _writes++;
 
             if (_writes > MAX_WRITES_IN_TRANSACTION) {

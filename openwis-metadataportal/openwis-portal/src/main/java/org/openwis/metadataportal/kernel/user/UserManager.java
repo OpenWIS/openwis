@@ -8,6 +8,7 @@ import java.util.List;
 
 import jeeves.resources.dbms.Dbms;
 
+import org.apache.commons.lang.StringUtils;
 import org.openwis.dataservice.BlacklistInfo;
 import org.openwis.dataservice.BlacklistService;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
@@ -124,7 +125,11 @@ public class UserManager extends AbstractManager {
    public void updateUser(User user) throws Exception {
       OpenWISUser openWISUser = buildOpenWisUserFromUser(user);
 
-      retrieveUserGroupsOfOtherCentres(openWISUser);
+      boolean updatePersoInfo = openWISUser.getBackUps().size() == 0 && openWISUser.getGroups().size() == 0
+            && StringUtils.isBlank(openWISUser.getProfile()) && openWISUser.getClassOfService() == null;
+      if (! updatePersoInfo) {
+         retrieveUserGroupsOfOtherCentres(openWISUser);
+      }
       
       //Check LDAP AND update LDAP.
       SecurityServiceProvider.getUserManagementService().updateUser(openWISUser);
