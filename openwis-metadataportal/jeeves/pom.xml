@@ -16,9 +16,7 @@
 	<artifactId>jeeves</artifactId>
 	<packaging>jar</packaging>
 	<name>Jeeves modules</name>
-	<description>
-    Jeeves project.
-	</description>
+	<description>Jeeves project.</description>
 
 	<dependencies>
 		<dependency>

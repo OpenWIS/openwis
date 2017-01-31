@@ -26,7 +26,6 @@
 		<module>jeeves</module> 
 		<module>oaipmh</module>
 		<module>sde</module>
-
 		<module>openwis-portal-solr</module>
 	</modules>
 

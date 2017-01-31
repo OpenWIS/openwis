@@ -51,7 +51,9 @@
 		<allow service="xml.get.request.subselectionparameters"/>
 		<allow service="xml.get.cache.subselectionparameters"/>
 		<allow service="xml.processed.requests.all"/>
-
+		<allow service="xml.monitor.current.subscriptions.export"/>
+		<allow service="xml.monitor.current.subscriptions.import"/>
+		
 		<!-- Requests Statistics-->
 		<allow service="xml.requestsStatistics.allDataDisseminated"/>
 		<allow service="xml.requestsStatistics.allDataExtracted"/>
