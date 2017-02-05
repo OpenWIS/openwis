@@ -26,6 +26,7 @@ package org.fao.oaipmh.requests;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.lang.Validate;
 import org.fao.oaipmh.OaiPmh;
 import org.fao.oaipmh.util.Xml;
 import org.jdom.Element;
@@ -54,6 +56,7 @@ import org.jdom.JDOMException;
 public class Transport
 {
 	public enum Method { GET, POST }
+	public enum Scheme { HTTP, HTTPS }
 
 	//---------------------------------------------------------------------------
 	//---
@@ -71,6 +74,7 @@ public class Transport
 
 	public Transport(String host, int port)
 	{
+	   this.scheme = Scheme.HTTP;
 		this.host = host;
 		this.port = port;
 
@@ -87,6 +91,7 @@ public class Transport
 	//---
 	//---------------------------------------------------------------------------
 
+	public Scheme getScheme()       { return scheme;       }
 	public String getHost()         { return host;         }
 	public int    getPort()         { return port;         }
 	public String getAddress()      { return address;      }
@@ -121,17 +126,31 @@ public class Transport
 	{
 		method = m;
 	}
+	
+	//---------------------------------------------------------------------------
+	
+	public void setScheme(Scheme scheme)
+	{
+	   Validate.notNull(scheme, "Scheme cannot be set to null");
+	   this.scheme = scheme;
+	}
 
 	//---------------------------------------------------------------------------
 
-	public void setUrl(URL url)
+	public void setUrl(URL url) throws MalformedURLException
 	{
 		host    = url.getHost();
 		port    = url.getPort();
 		address = url.getPath();
+		
+		try {
+		   scheme  = Scheme.valueOf(url.getProtocol().toUpperCase());
+		} catch (IllegalArgumentException e) {
+		   throw new MalformedURLException("Unsupported protocol scheme: " + url.getProtocol());
+		}
 
 		if (port == -1)
-			port = 80;
+			port = url.getDefaultPort();
 	}
 
 	//---------------------------------------------------------------------------
@@ -241,7 +260,7 @@ public class Transport
 
 	private Element doExecute(HttpMethodBase httpMethod) throws IOException, JDOMException
 	{
-		config.setHost(host, port, "http");
+		config.setHost(host, port, scheme.toString().toLowerCase());
 
 		if (useProxy)
 			config.setProxy(proxyHost, proxyPort);
@@ -322,6 +341,7 @@ public class Transport
 	//---
 	//---------------------------------------------------------------------------
 
+	private Scheme  scheme;
 	private String  host;
 	private int     port;
 	private String  address;
