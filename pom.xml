@@ -366,9 +366,9 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-			<id>boundless</id>
+			<id>ch.thus</id>
 			<name>Boundless repository</name>
-			<url>http://repo.boundlessgeo.com/main/</url>
+			<url>http://www.thus.ch/~patrick/maven/</url>
 		</repository>
 
 		<!--
