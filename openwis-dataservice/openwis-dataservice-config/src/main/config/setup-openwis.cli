@@ -41,10 +41,10 @@ jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
 
 
 # Install the configuration files
-/system-property=conf\/openwis-dataservice:add(value="@openwis.config.dir@/openwis-dataservice.properties")
-/system-property=ws\/localdatasourceservice:add(value="@openwis.config.dir@/localdatasourceservice.properties")
-/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
-/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
+/system-property=java\:\/conf\/openwis-dataservice:add(value="@openwis.config.dir@/openwis-dataservice.properties")
+/system-property=java\:\/ws\/localdatasourceservice:add(value="@openwis.config.dir@/localdatasourceservice.properties")
+/subsystem=naming/binding=java\:\/conf\/openwis-dataservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
+/subsystem=naming/binding=java\:\/ws\/localdatasourceservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
 
 :reload
 run-batch
