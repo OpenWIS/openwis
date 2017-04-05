@@ -294,6 +294,14 @@
 			<id>repo1-maven2</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
+		
+		<repository>
+		    <id>openwis-internal</id>
+			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
+			<!-- <url>https://nexus.eurodyn.com/repository/maven/</url> -->
+	    </repository>
+		
+		<!--
 		<repository>
 			<id>forgerock-staging-repo</id>
 			<name>ForgeRock Release Repository</name>
@@ -314,9 +322,9 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-
+ -->
 		<!-- ForgeRock Internal Project Repository -->
-		<repository>
+<!-- 		<repository>
 			<id>maven.forgerock.org</id>
 			<name>maven.forgerock.org-openam-dependencies</name>
 			<url>http://maven.forgerock.org/repo/openam-dependencies</url>
@@ -335,7 +343,7 @@
 			<id>forgerock-repo</id>
 			<url>http://maven.forgerock.org/repo/repo/org/forgerock/</url>
 		</repository>
-
+ -->
 		<!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
 		<repository>
 			<id>codehaus-mule-repo</id>
