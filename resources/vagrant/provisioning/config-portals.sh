@@ -15,6 +15,13 @@ echo "Configuring the portals"
 openwisHome="/home/openwis"
 tomcatHome="$openwisHome/`basename "$RESOURCE_TOMCAT" .tar.gz`"
 
+# setenv.sh
+cat << '_EOF_' > $tomcatHome/bin/setenv.sh
+export CATALINA_OPTS="$CATALINA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+_EOF_
+
+chmod u+x $tomcatHome/bin/setenv.sh
+
 # openwis-metadataportal.properties
 userProps="$tomcatHome/webapps/openwis-user-portal/WEB-INF/classes/openwis-metadataportal.properties"
 adminProps="$tomcatHome/webapps/openwis-admin-portal/WEB-INF/classes/openwis-metadataportal.properties"

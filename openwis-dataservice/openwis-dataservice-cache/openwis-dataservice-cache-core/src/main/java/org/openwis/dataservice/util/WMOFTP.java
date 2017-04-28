@@ -15,6 +15,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.openwis.dataservice.ConfigurationInfo;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +178,7 @@ public class WMOFTP {
       for (int i = 0; i < headerLength; i++) {
          headerArray[i] = buffer[bufferPosition + i];
       }
-      bufferPosition += headerLength + 3; // goto to start of text (skip header + CR CR LF [between header and text])
+      //bufferPosition += headerLength + 3; // goto to start of text (skip header + CR CR LF [between header and text])
 
       // extract AHL from header
       ahl = new String(headerArray);
@@ -300,7 +301,7 @@ public class WMOFTP {
 
    private int getNumberOfChecksumBytes() {
       if (numberOfChecksumBytes == 0) {
-         numberOfChecksumBytes = JndiUtils.getInt(ConfigurationInfo.NUMBER_OF_CHECKSUM_BYTES_KEY);
+         numberOfChecksumBytes = ConfigServiceFacade.getInstance().getInt(ConfigurationInfo.NUMBER_OF_CHECKSUM_BYTES_KEY);
       }
       return numberOfChecksumBytes;
    }

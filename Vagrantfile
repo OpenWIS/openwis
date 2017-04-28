@@ -12,7 +12,10 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "sinergi/centos-65-x64"
+#  config.vm.box = "sinergi/centos-65-x64"
+  config.vm.box = "lmika/centos-65-x64"
+
+  config.ssh.insert_key = false
 
   # The DB services
   config.vm.define "db" do |db|

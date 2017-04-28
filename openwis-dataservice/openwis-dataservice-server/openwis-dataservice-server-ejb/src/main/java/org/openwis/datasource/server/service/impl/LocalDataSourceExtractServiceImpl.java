@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -31,7 +32,8 @@ import org.openwis.datasource.server.utils.DataServiceConfiguration;
 import org.openwis.harness.localdatasource.LocalDataSource;
 import org.openwis.harness.localdatasource.LocalDataSourceService;
 import org.openwis.harness.localdatasource.MonitorStatus;
-import org.openwis.management.alert.AlertService;
+import org.openwis.management.config.PropertySource;
+import org.openwis.management.service.AlertService;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;
@@ -51,6 +53,8 @@ public class LocalDataSourceExtractServiceImpl implements LocalDataSourceExtract
 
    /** The local data source service map. */
    private static Map<String, LocalDataSourceService> localDataSourceServiceMap;
+   
+   private PropertySource localDataSourcePropertySource;
 
    /**
     * Default constructor.
@@ -61,6 +65,11 @@ public class LocalDataSourceExtractServiceImpl implements LocalDataSourceExtract
    public LocalDataSourceExtractServiceImpl() throws Exception {
       super();
    }
+   
+   @PostConstruct
+   public void initialized() {
+      localDataSourcePropertySource = new PropertySource(PropertySource.LOCAL_DATA_SOURCE);
+   }
 
    /**
     * Gets the local data source service map.
@@ -70,15 +79,15 @@ public class LocalDataSourceExtractServiceImpl implements LocalDataSourceExtract
    private Map<String, LocalDataSourceService> getLocalDataSourceServiceMap() {
       if (localDataSourceServiceMap == null) {
          localDataSourceServiceMap = new HashMap<String, LocalDataSourceService>();
-         InitialContext ctx;
-         try {
-            ctx = new InitialContext();
-            Properties properties = (Properties) ctx
-                  .lookup(DataServiceConfiguration.LOCA_DATA_SOURCE_CONFIGURATION_LOCATION);
-            initialize(properties);
-         } catch (NamingException e1) {
-            logger.error("Can not initialize the initial context JNDI.", e1);
-         }
+//         InitialContext ctx;
+//         try {
+//            ctx = new InitialContext();
+//            Properties properties = (Properties) ctx
+//                  .lookup(DataServiceConfiguration.LOCA_DATA_SOURCE_CONFIGURATION_LOCATION);
+            initialize(localDataSourcePropertySource.getProperties());
+//         } catch (NamingException e1) {
+//            logger.error("Can not initialize the initial context JNDI.", e1);
+//         }
       }
       return localDataSourceServiceMap;
    }
@@ -216,7 +225,7 @@ public class LocalDataSourceExtractServiceImpl implements LocalDataSourceExtract
    }
 
    private void raiseAlarm(String dataSourceName, Throwable t) {
-      AlertService alertService = ManagementServiceProvider.getAlertService();
+      AlertService alertService = ManagementServiceProvider.getInstance().getAlertService();
       List<Object> args = new ArrayList<Object>();
       args.add(dataSourceName);
       args.add(t.toString());

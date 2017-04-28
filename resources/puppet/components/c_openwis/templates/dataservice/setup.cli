@@ -1,0 +1,47 @@
+# CLI script to setup OpenWIS on JBoss AS 7.1
+#
+
+connect
+batch
+
+# Set the HTTP port to 8180
+#/socket-binding-group="standard-sockets"/socket-binding="http":write-attribute(name="port",value=8180)
+
+# Setup logging
+/subsystem=logging/periodic-rotating-file-handler=FILE:write-attribute(name="formatter", value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c [%t] %m%n")
+/subsystem=logging/periodic-rotating-file-handler="CollectionHandler":add(level=INFO, file={"path"=>"<%= @openwis_logs_dir %>/collection.log"}, formatter="%d %-5p [%c] %m%n", append=true, autoflush=true, suffix="yyyy-MM-dd")
+/subsystem=logging/periodic-rotating-file-handler="RequestHandler":add(level=INFO, file={"path"=>"<%= @openwis_logs_dir %>/request.log"}, formatter="%d %-5p [%c] %m%n", append=true, autoflush=true, suffix="yyyy-MM-dd")
+/subsystem=logging/periodic-rotating-file-handler="AlertsHandler":add(level=INFO, file={"path"=>"<%= @openwis_logs_dir %>/alerts.log"}, formatter="%d %-5p [%c] %m%n", append=true, autoflush=true, suffix="yyyy-MM-dd")
+
+/subsystem=logging/logger=org.openwis.dataservice.util.WMOFTP:add(use-parent-handlers=true,handlers=["CollectionHandler"])
+/subsystem=logging/logger=org.openwis.dataservice.gts.collection:add(use-parent-handlers=true,handlers=["CollectionHandler"])
+/subsystem=logging/logger=org.openwis.dataservice.dissemination:add(use-parent-handlers=true,handlers=["RequestHandler"])
+/subsystem=logging/logger=org.openwis.datasource:add(use-parent-handlers=true,handlers=["RequestHandler"])
+/subsystem=logging/logger=org.openwis.management.service:add(use-parent-handlers=true,handlers=["AlertsHandler"])
+
+:reload
+
+# Setup the OpenDS data source
+data-source add --name=OpenwisDS --jndi-name="java:/OpenwisDS" --connection-url="jdbc:postgresql://<%= @database_host %>:5432/OpenWIS?stringtype=unspecified" --user-name="openwis" --password="<%= @database_password %>" --driver-name="<%= @jdbc_driver_jar %>" --driver-class="org.postgresql.Driver" --min-pool-size=10 --max-pool-size=40 --idle-timeout-minutes=15 --blocking-timeout-wait-millis=15000 --background-validation-millis=50000 --check-valid-connection-sql="select count(*) from openwis_cache_configuration"
+data-source enable --name=OpenwisDS
+
+
+# Setup the JMS queues
+jms-queue add --queue-address=CollectionQueue --entries=[queue/CollectionQueue]
+jms-queue add --queue-address=IncomingDataQueue --entries=[queue/IncomingDataQueue]
+jms-queue add --queue-address=RequestQueue --entries=[queue/RequestQueue]
+jms-queue add --queue-address=DisseminationQueue --entries=[queue/DisseminationQueue]
+jms-queue add --queue-address=PackedFeedingQueue --entries=[queue/PackedFeedingQueue]
+jms-queue add --queue-address=UnpackedFeedingQueue --entries=[queue/UnpackedFeedingQueue]
+jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
+
+
+# Install the configuration files
+/system-property=conf\/openwis-dataservice:add(value="conf/openwis-dataservice.properties")
+/system-property=ws\/localdatasourceservice:add(value="conf/localdatasourceservice.properties")
+/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
+/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory, module="org.openwis.dataservice.config", class="org.openwis.dataservice.config.PropertiesFactory")
+
+:reload
+run-batch
+

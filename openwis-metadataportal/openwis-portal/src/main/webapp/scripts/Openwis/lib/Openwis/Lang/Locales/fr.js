@@ -697,7 +697,7 @@ Openwis.Lang.Dictionary = {
     'Metadata.Report.Error.Info' : 'Rapport d\'Erreur',
     'Metadata.Report.Error.Urn' : 'Métadonnée',
     'Metadata.Report.Error.Name' : 'Erreur',
-    'Metadata.Report.Download.Last.Report' : 'Rapport d�taill�',
+    'Metadata.Report.Download.Last.Report' : 'Rapport d�taill�',
     //----------------------------------------------------------------- Harvesting.
     'Harvesting.Administration.Title' : 'Configurer la collecte',
     'Harvesting.Administration.All.No.Task' : 'Pas de collecte à afficher',
@@ -900,6 +900,7 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.User' : 'Utilisateur',
     'MonitorCurrentRequests.ProductMetadata.Title' : 'Produit',
     'MonitorCurrentRequests.Request.ID' : 'Requête ID',
+    'MonitorCurrentRequests.ProcessRequest.ID' : 'Processus ID',
     'MonitorCurrentRequests.Status' : 'Statut',
     'MonitorCurrentRequests.Volume' : 'Volume',
     'MonitorCurrentRequests.CreationDate' : 'Date de création', 
@@ -1078,7 +1079,7 @@ Openwis.Lang.Dictionary = {
     'Choose.Domain.msg': 'SVP, choisissez votre domaine.',
     
     //----------------------------------------------------------------- Register.
-    'RegistrationUser.info.msg' : 'Merci de saisir vos données personnelles pour créer un compte:',
+    'RegistrationUser.info.msg' : 'Merci de saisir vos données personnelles pour créer un compte (votre email sera votre nom d\'utilisateur):',
     'RegistrationUser.LastName.Label' : 'Nom de famille',
     'RegistrationUser.FirstName.Label' : 'Prénom',
 	'RegistrationUser.ContactEmail.Label' : 'Email',

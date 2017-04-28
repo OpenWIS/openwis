@@ -214,27 +214,27 @@ OpenWIS configuration file for the Data Service.
                         </java:property>
                         <java:property>
                             <java:key>openwis.management.alertservice.wsdl</java:key>
-                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/AlertService?wsdl</java:value>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/AlertService?wsdl</java:value>
                         </java:property>
                         <java:property>
                             <java:key>openwis.management.controlservice.wsdl</java:key>
-                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/ControlService?wsdl</java:value>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/ControlService?wsdl</java:value>
                         </java:property>
                         <java:property>
                             <java:key>openwis.management.disseminateddatastatistics.wsdl</java:key>
-                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/DisseminatedDataStatistics?wsdl</java:value>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/DisseminatedDataStatistics?wsdl</java:value>
                         </java:property>
                         <java:property>
                             <java:key>openwis.management.exchangeddatastatistics.wsdl</java:key>
-                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/ExchangedDataStatistics?wsdl</java:value>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/ExchangedDataStatistics?wsdl</java:value>
                         </java:property>
                         <java:property>
                             <java:key>openwis.management.replicateddatastatistics.wsdl</java:key>
-                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/ReplicatedDataStatistics?wsdl</java:value>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/ReplicatedDataStatistics?wsdl</java:value>
                         </java:property>
                         <java:property>
                             <java:key>openwis.management.ingesteddatastatistics.wsdl</java:key>
-                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb-1.0-SNAPSHOT/IngestedDataStatistics?wsdl</java:value>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/IngestedDataStatistics?wsdl</java:value>
                         </java:property>
                        
 

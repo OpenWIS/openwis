@@ -14,7 +14,7 @@ import javax.naming.NamingException;
 import org.apache.tools.ant.util.FileUtils;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.openwis.dataservice.ConfigurationInfo;
-import org.openwis.dataservice.common.util.JndiUtils;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.FeedingMessage;
 import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.service.ControlService;
@@ -95,6 +95,6 @@ public class UnpackedFeedingServiceImpl implements ConfigurationInfo,UnpackedFee
 	}
 	
 	private String getOutgoingDirectory(){
-		return JndiUtils.getString(HARNESS_OUTGOING_DIRECTORY_KEY);
+		return ConfigServiceFacade.getInstance().getString(HARNESS_OUTGOING_DIRECTORY_KEY);
    }
 }

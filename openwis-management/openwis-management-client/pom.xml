@@ -1,50 +1,50 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>openwis-management</artifactId>
 		<groupId>io.openwis.management</groupId>
-		<version>3.14.6</version>
+		<version>3.14.8</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
 
   <groupId>io.openwis.management</groupId>
   <artifactId>openwis-management-client</artifactId>
 
   <description>OpenWIS Management Client</description>
   <name>openwis-management-client</name>
-  <properties>
-   <cxf.version>2.1.10</cxf.version>
-  </properties>
   
   <dependencies>
     <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.2</version>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.2</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.2</version>
-            <scope>provided</scope>
-        </dependency>
+            <groupId>io.openwis.management.service</groupId>
+            <artifactId>openwis-management-service-common</artifactId>
+            <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.5.2</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
-  
-  <resources>        
-        <resource>
-            <directory>src/wsdl</directory>
-        </resource>          
-    </resources>
+	<resources>        
+	  <resource>
+		<directory>src/wsdl</directory>
+	  </resource>          
+	</resources>
     
     <plugins>
       <!-- Generate Java sources from WSDL -->
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-codegen-plugin</artifactId>
-        <version>2.1.10</version>
-
+        <version>${cxf.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.cxf</groupId>

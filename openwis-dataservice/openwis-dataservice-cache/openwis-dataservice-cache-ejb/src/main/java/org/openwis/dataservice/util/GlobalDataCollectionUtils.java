@@ -66,13 +66,14 @@ public class GlobalDataCollectionUtils {
 	}
 	
 	/**
-	 * Returns an array of compiled regex.Patterns given an array of Strings.
+	 * Returns an array of compiled regex.Patterns given an array of Strings. 
+	 * Patterns are case insensitive
 	 */
 	public static Pattern[] getPatternsFromStrings(final String[] regexps){
 		Pattern[] patterns = new Pattern[regexps.length];
 		
 		for (int i = 0; i < regexps.length; i++) {
-			Pattern pattern = Pattern.compile(".*\\." + regexps[i]);
+			Pattern pattern = Pattern.compile(".*\\." + regexps[i],Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 			patterns[i] = pattern;
 			
 		}			

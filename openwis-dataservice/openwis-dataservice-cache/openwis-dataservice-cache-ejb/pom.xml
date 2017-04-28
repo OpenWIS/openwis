@@ -4,16 +4,18 @@
   <parent>
     <artifactId>openwis-dataservice-cache</artifactId>
     <groupId>io.openwis.dataservice.cache</groupId>
-	<version>3.14.6</version>
+	<version>3.14.8</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>io.openwis.dataservice.cache</groupId>
   <artifactId>openwis-dataservice-cache-ejb</artifactId>
   <name>openwis-dataservice-cache-ejb</name>
   <packaging>jar</packaging>
+
   <properties>
-    <cxf.version>2.1.10</cxf.version>
+    <cxf.version>2.2.12</cxf.version>
   </properties>
+
   <dependencies>
 	<dependency>
 		<groupId>io.openwis.dataservice.common</groupId>
@@ -80,7 +82,6 @@
 	  <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
-    <!-- -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -130,18 +131,16 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-	<groupId>org.apache.commons</groupId>
-	<artifactId>commons-lang3</artifactId>
-	<version>3.1</version>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+	  <version>3.1</version>
     </dependency>
     
     <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
-            <scope>provided</scope>
-         </dependency>
-    
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   
 <build>
@@ -182,7 +181,7 @@
             </goals>
             <configuration>
               <className>org.openwis.dataservice.cache.CacheIndexImpl</className>
-              <targetNameSpace>http://cache.dataservice.openwis.org/</targetNameSpace>
+              <targetNameSpace>http://cache.dataservice.openwis.io/</targetNameSpace>
               <genWsdl>true</genWsdl>
               <verbose>true</verbose>
               <outputFile>${project.build.directory}/generated/wsdl/CacheIndex.wsdl</outputFile>

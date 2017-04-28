@@ -6,6 +6,7 @@ package org.openwis.datasource.server.mdb.delegate.impl;
 import java.io.File;
 import java.text.MessageFormat;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -17,6 +18,7 @@ import org.openwis.dataservice.common.domain.entity.enumeration.RequestResultSta
 import org.openwis.dataservice.common.domain.entity.request.ProcessedRequest;
 import org.openwis.dataservice.common.exception.OpenWisException;
 import org.openwis.dataservice.common.service.ProcessedRequestService;
+import org.openwis.dataservice.common.util.ConfigServiceFacade;
 import org.openwis.dataservice.common.util.JndiUtils;
 import org.openwis.datasource.server.jaxb.serializer.incomingds.ProcessedRequestMessage;
 import org.openwis.datasource.server.mdb.delegate.ExtractionDelegate;
@@ -39,8 +41,9 @@ public class ExtractionDelegateImpl implements ExtractionDelegate {
    private static Logger logger = LoggerFactory.getLogger(ExtractionDelegateImpl.class);
 
    /** The Constant STAGING_POST_URI. */
-   private static final String STAGING_POST_URI = JndiUtils
-         .getString(DataServiceConfiguration.STAGING_POST_URI_KEY);
+//   private static final String STAGING_POST_URI = JndiUtils
+//         .getString(DataServiceConfiguration.STAGING_POST_URI_KEY);
+   private String stagingPostUri;
 
    /**
     * The entity manager.
@@ -51,6 +54,11 @@ public class ExtractionDelegateImpl implements ExtractionDelegate {
    /** The processed request service. */
    @EJB
    private ProcessedRequestService processedRequestService;
+   
+   @PostConstruct
+   public void initialize() {
+      stagingPostUri = ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.STAGING_POST_URI_KEY);
+   }
 
    /**
     * {@inheritDoc}
@@ -105,7 +113,7 @@ public class ExtractionDelegateImpl implements ExtractionDelegate {
     * @param uri the URI
     */
    private void createStagingPostDirectory(String uri) {
-      File stagingPost = new File(STAGING_POST_URI, uri);
+      File stagingPost = new File(stagingPostUri, uri);
       if (!stagingPost.exists() && !stagingPost.mkdirs()) {
          throw new OpenWisException(MessageFormat.format(
                "Could not create staging post directory : <{0}>", stagingPost.getAbsolutePath()));

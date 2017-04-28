@@ -1,0 +1,86 @@
+###############################
+##             FTP           ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISFTPs-oid NAME 'OpenWISFTPs' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+###############################
+##             EMAIL         ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISEmails-oid NAME 'OpenWISEmails' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+###############################
+##             ADRESS        ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISAddressState-oid NAME 'OpenWISAddressState' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISAddress-oid NAME 'OpenWISAddress' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISAddressCountry-oid NAME 'OpenWISAddressCountry' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISAddressZip-oid NAME 'OpenWISAddressZip' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISAddressCity-oid NAME 'OpenWISAddressCity' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+
+###############################
+##       CLASS OF SERVICE    ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISClassOfService-oid NAME 'OpenWISClassOfService' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+###############################
+##     NEED USER ACCOUNT     ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISNeedUserAccount-oid NAME 'OpenWISNeedUserAccount' DESC 'OpenWIS Need User Account' EQUALITY booleanMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 USAGE userApplications )
+
+###############################
+##          PROFILE          ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISProfile-oid NAME 'OpenWISProfile'  EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+###############################
+##             BACK UP         ##
+###############################
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( OpenWISBackUps-oid NAME 'OpenWISBackUps' EQUALITY caseIgnoreMatch ORDERING caseIgnoreOrderingMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 USAGE userApplications )
+
+###############################
+##            USER           ##
+###############################
+dn: cn=schema
+changetype: modify
+add: objectclasses
+objectClasses: ( OpenWisUser-oid NAME 'OpenWisUser' SUP inetOrgPerson STRUCTURAL MUST ( objectClass $ givenName $ cn $ sn $ userPassword $ OpenWISProfile ) MAY ( OpenWISEmails  $ OpenWISFTPs $ OpenWISAddress $ OpenWISAddressZip $ OpenWISAddressState $ OpenWISAddressCity $ OpenWISAddressCountry $ OpenWISClassOfService $ OpenWISNeedUserAccount $ OpenWISBackUps $description   $ telephoneNumber $ seeAlso   ) )
+
+

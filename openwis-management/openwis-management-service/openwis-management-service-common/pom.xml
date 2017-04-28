@@ -1,58 +1,72 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>openwis-management-service</artifactId>
-		<groupId>io.openwis.management.service</groupId>
-		<version>3.14.6</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
-
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
 	<groupId>io.openwis.management.service</groupId>
-	<artifactId>openwis-management-service-common</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>openwis-management-service</artifactId>
+		<version>3.14.8</version>
+	<relativePath>../pom.xml</relativePath>
+  </parent>
 
+  <groupId>io.openwis.management.service</groupId>
+  <artifactId>openwis-management-service-common</artifactId>
+  <packaging>jar</packaging>
+  <name>openwis-management-service-common</name>
 
-	<name>openwis-management-service-common</name>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
-
-    <dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.4.0.GA</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.2</version>
             <scope>provided</scope>
-         </dependency>
+        </dependency>         
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.6</version>
+            <scope>provided</scope>
+        </dependency>	    
     </dependencies>
 
 	<build>
-		<plugins>
+	  <plugins>
 			<plugin>
-				<!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>hibernate3-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<components>
-						<component>
-							<name>hbm2ddl</name>
-							<implementation>jpaconfiguration</implementation>
-						</component>
-					</components>
-					<componentProperties>
-						<persistenceunit>ManagementPUnit</persistenceunit>
-						<outputfilename>schema.ddl</outputfilename>
-						<drop>true</drop>
-						<create>true</create>
-						<export>false</export>
-						<format>true</format>
-					</componentProperties>
-				</configuration>
-			</plugin>
-		</plugins>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <configuration>
+			        <archive>
+			            <manifestEntries>
+			                <Dependencies>org.apache.commons.configuration</Dependencies>
+			            </manifestEntries>
+			        </archive>
+			    </configuration>
+			</plugin>		
+		<plugin>
+		  <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
+		  <groupId>org.codehaus.mojo</groupId>
+		  <artifactId>hibernate3-maven-plugin</artifactId>
+		  <version>2.2</version>
+		  <configuration>
+			<components>
+			  <component>
+				  <name>hbm2ddl</name>
+				  <implementation>jpaconfiguration</implementation>
+			  </component>
+			</components>
+			<componentProperties>
+			  <persistenceunit>ManagementPUnit</persistenceunit>
+			  <outputfilename>schema.ddl</outputfilename>
+			  <drop>true</drop>
+			  <create>true</create>
+			  <export>false</export>
+			  <format>true</format>
+			</componentProperties>
+		  </configuration>
+		</plugin>
+	  </plugins>
 	</build>
-
 </project>

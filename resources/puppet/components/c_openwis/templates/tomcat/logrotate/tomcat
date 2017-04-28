@@ -1,0 +1,12 @@
+# THIS FILE IS MANAGED BY PUPPET
+/var/log/tomcat/catalina.out {
+	su tomcat tomcat
+    copytruncate
+    compress
+    daily
+    missingok
+    notifempty
+    rotate <%= @log_retention_days %>
+    sharedscripts
+    size 50M
+}

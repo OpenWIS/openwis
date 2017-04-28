@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>openwis-dataservice-common</artifactId>
-		<groupId>io.openwis.dataservice.common</groupId>
-		<version>3.14.6</version>
-		<relativePath>../pom.xml</relativePath>
+		<artifactId>openwis-dataservice</artifactId>
+		<groupId>io.openwis.dataservice</groupId>
+		<version>3.14.8</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<groupId>io.openwis.dataservice.common</groupId>
@@ -24,6 +24,11 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.2</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>io.openwis.management.service</groupId>
+            <artifactId>openwis-management-service-common</artifactId>
+            <version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

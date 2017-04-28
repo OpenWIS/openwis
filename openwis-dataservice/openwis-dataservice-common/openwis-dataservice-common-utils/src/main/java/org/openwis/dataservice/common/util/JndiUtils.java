@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Short Description goes here. <P>
  * Explanation goes here. <P>
+ * 
+ * @deprecated Do not use for configuration values.  Please use ConfigServiceFacade.
  *
  */
 public final class JndiUtils {

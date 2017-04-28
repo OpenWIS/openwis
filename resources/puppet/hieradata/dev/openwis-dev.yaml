@@ -1,0 +1,83 @@
+#==============================================================================
+# General
+#==============================================================================
+c_openwis::gid:                502
+c_openwis::log_retention_days: 7
+
+#==============================================================================
+# Proxy settings for Admin Portal harvesting
+#==============================================================================
+c_openwis::web_proxy_host: webproxy.openwis.io
+c_openwis::web_proxy_port: 8080
+
+#==============================================================================
+# Database
+#==============================================================================
+c_openwis::database_password: openwis
+
+#==============================================================================
+# repositories
+#==============================================================================
+c_openwis::openwis_repo:          http://repository-openwis-association.forge.cloudbees.com/openwis/3.14.5
+c_openwis::binaries_repo:         http://repository-openwis-association.forge.cloudbees.com/private/binaries
+c_openwis::wget_use_proxy:        true
+c_openwis::wget_http_proxy:       http://webproxy.openwis.io:8080
+c_openwis::wget_https_proxy:      http://webproxy.openwis.io:8080
+
+#==============================================================================
+# Public service addresses
+#==============================================================================
+c_openwis::admin_portal_public_addr: http://devadminportal.openwis.io:8080
+c_openwis::user_portal_public_addr:  http://devuserportal.openwis.io:8080
+c_openwis::staging_post_public_addr: http://devdata.openwis.io:8080
+c_openwis::auth_service_public_addr: http://devsecurity.openwis.io:8080
+
+#==============================================================================
+# Hosts, addresses & URLs
+#==============================================================================
+c_openwis::admin_portal_host:        devadminportal
+c_openwis::user_portal_host:         devuserportal
+c_openwis::auth_service_host:        devsecurity
+c_openwis::staging_post_host:        devdata
+c_openwis::data_service_host:        devdata
+c_openwis::database_host:            devdata
+
+c_openwis::dissemination_wsdl_url:   
+c_openwis::user_portal_heartbeat_addr: http://devuserportal.openwis.io:8080
+
+
+#==============================================================================
+# Security Federations
+#==============================================================================
+c_openwis::idp_name:               IDP1
+c_openwis::federation_name_admin:  GISCExample
+c_openwis::federation_name_user:   GISCExampleU
+
+#==============================================================================
+# Security Service
+#==============================================================================
+c_openwis::securityservice::opendj_host:              devsecurity
+c_openwis::securityservice::opendj_root_password:     openwis
+c_openwis::securityservice::openam_admin_password:    openwis01
+c_openwis::securityservice::openam_url_password:      openwis02
+c_openwis::securityservice::openam_server_url:        http://devsecurity.openwis.io:8080
+c_openwis::securityservice::openam_cookie_domain:     .openwis.io
+c_openwis::securityservice::openam_locale:            en_GB
+c_openwis::securityservice::register_users_threshold: 2500
+c_openwis::securityservice::log_timer_period:         1000
+c_openwis::deployment_name:                           GISCExample
+c_openwis::securityservice::openwis_admin_login:      owadmin
+c_openwis::securityservice::openwis_admin_password:   adminpass
+c_openwis::admin_email:                               admin@openwis.io
+c_openwis::securityservice::openwis_admin_first_name: Admin
+c_openwis::securityservice::openwis_admin_last_name:  OpenWIS
+
+
+
+#==============================================================================
+# Host details
+#==============================================================================
+c_openwis_ukmo::hosts::auth_server_fqn:            devsecurity.openwis.io
+c_openwis_ukmo::hosts::auth_server_aliases:        devsecurity
+c_openwis_ukmo::hosts::auth_server_ip:             1.2.3.4
+
