@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>openwis-dataservice-server</artifactId>
-		<groupId>io.openwis.dataservice.server</groupId>
-		<version>develop-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<artifactId>openwis-dataservice</artifactId>
+		<groupId>io.openwis.dataservice</groupId>
+		<version>3.14.8-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	
 	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-ejb</artifactId>
-  <version>develop-SNAPSHOT</version>
+  <version>3.14.8-SNAPSHOT</version>
 	<name>openwis-dataservice-server-ejb</name>
 	<packaging>jar</packaging>
 
@@ -395,7 +395,7 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final"/>
+                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final" />
                                         
                                         <echo file="/tmp/openwis-dataservice-server-ejb.cmds.cli">
                                             jms-queue add --queue-address=CollectionQueue --entries=[queue/CollectionQueue]
@@ -407,21 +407,21 @@
                                             jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]
                                         </echo>
                                         
-                                        <echo message="Launching JBoss"/>
+                                        <echo message="Launching JBoss" />
 	                                    <exec executable="/bin/bash" spawn="true" dir="${jboss.home}">
-	                                        <arg value="-c"/>
-	                                        <arg value="bin/standalone.sh -c standalone-full.xml >/tmp/jboss.log 2>&amp;1;"/>
-	                                        <env key="JBOSS_HOME" value="${jboss.home}"/>
+	                                        <arg value="-c" />
+	                                        <arg value="bin/standalone.sh -c standalone-full.xml &gt;/tmp/jboss.log 2&gt;&amp;1;" />
+	                                        <env key="JBOSS_HOME" value="${jboss.home}" />
 	                                    </exec>
 	                                    
-	                                    <sleep seconds="5"/>
+	                                    <sleep seconds="5" />
 	                                    
 	                                    <!-- Configure the server -->
-	                                    <echo message="Configuring JBoss"/>
+	                                    <echo message="Configuring JBoss" />
                                         <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
-                                            <arg value="-c"/>
-                                            <arg value="--file=/tmp/openwis-dataservice-server-ejb.cmds.cli"/>
-                                            <env key="JBOSS_HOME" value="${jboss.home}"/>
+                                            <arg value="-c" />
+                                            <arg value="--file=/tmp/openwis-dataservice-server-ejb.cmds.cli" />
+                                            <env key="JBOSS_HOME" value="${jboss.home}" />
                                         </exec>
                                     </target>
                                 </configuration>
@@ -435,13 +435,13 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <echo message="Shutting Down JBoss"/>
-                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final"/>
+                                        <echo message="Shutting Down JBoss" />
+                                        <property name="jboss.home" value="${project.basedir}/target/jboss-as-7.1.1.Final" />
                                         
                                         <exec executable="${jboss.home}/bin/jboss-cli.sh" dir="${jboss.home}">
-                                            <arg value="-c"/>
-                                            <arg value="--command=:shutdown"/>
-                                            <env key="JBOSS_HOME" value="${jboss.home}"/>
+                                            <arg value="-c" />
+                                            <arg value="--command=:shutdown" />
+                                            <env key="JBOSS_HOME" value="${jboss.home}" />
                                         </exec>
                                     </target>
                                 </configuration>
