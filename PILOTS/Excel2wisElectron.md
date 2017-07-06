@@ -1,33 +1,29 @@
 
- Pilot title 
+Excel2wis Electron
 =========
 
 ## Description 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu nisl eget orci volutpat malesuada et eget leo. Nunc eget eros massa. Integer quis est in lacus faucibus malesuada. Ut et euismod odio, vel commodo nibh. Nunc sodales eros porta sem imperdiet ultricies. Pellentesque dapibus massa sed enim viverra mollis. Aenean risus risus, tempus ut scelerisque ac, tincidunt at sapien. Sed vitae nulla laoreet odio elementum mattis a in nisi.
 
+Excel2wisxml tool has been developed by Météo-France and allows the generation of large set of metadata WMO Core 1.3 profile issue from excel document. The software is under the free open source GNU license: GPL v3
+This pilot suggests upgrading Excel2wisxml into a more user friendly from build over Electron platform : 
+
+Electron is an open source library developed by GitHub for building cross-platform desktop applications with HTML, CSS, and JavaScript. Electron accomplishes this by combining Chromium and Node.js into a single runtime and apps can be packaged for Mac, Windows, and Linux.
 
 ## Features 
 
-- Integer rhoncus nisl sed erat aliquam egestas.
-- Etiam aliquam est vel justo blandit pretium.
-- Nam eget eros id lacus condimentum auctor a eu sapien.
-- Curabitur dictum nunc at nulla sodales, et laoreet lectus venenatis.
+- Electon UI
 
 
 ## Complexity / Effort Estimation 
 
 Complexity     | Effort
 -------- | ---
-Mauris | 30
-Praesent    | 30
-Nullam     | 20
-Ementum     | 20
-
+ Electon UI | 100 %
 
 
 
 ## WIS 2.0 relevance
-- Donec et purus vitae felis consectetur consequat vitae nec tortor.
-
-
+"WIS 2.0 will offer mechanisms to increase collaborative development, maintenance
+and support of services, promote the exchange of best practices and enable the uptake of new
+Technologies"
