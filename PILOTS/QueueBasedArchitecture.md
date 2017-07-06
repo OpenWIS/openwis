@@ -1,33 +1,35 @@
 
- Pilot title 
+Queue Based Architecture
 =========
 
 ## Description 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu nisl eget orci volutpat malesuada et eget leo. Nunc eget eros massa. Integer quis est in lacus faucibus malesuada. Ut et euismod odio, vel commodo nibh. Nunc sodales eros porta sem imperdiet ultricies. Pellentesque dapibus massa sed enim viverra mollis. Aenean risus risus, tempus ut scelerisque ac, tincidunt at sapien. Sed vitae nulla laoreet odio elementum mattis a in nisi.
+
+This pilot introduces a new way for parsing and  publishing Metadata through channels (Queues). There metadata will be available for categorized subscription.
 
 
 ## Features 
 
-- Integer rhoncus nisl sed erat aliquam egestas.
-- Etiam aliquam est vel justo blandit pretium.
-- Nam eget eros id lacus condimentum auctor a eu sapien.
-- Curabitur dictum nunc at nulla sodales, et laoreet lectus venenatis.
+- Usage of Queues
+- New subscription mechanism 
+- New Metadata element suggestion
+- Demonstration via UI
+
 
 
 ## Complexity / Effort Estimation 
 
 Complexity     | Effort
 -------- | ---
-Mauris | 30
-Praesent    | 30
-Nullam     | 20
-Ementum     | 20
-
+ Queues  | 50 %
+ Subscription mechanism  | 30 %
+Metadata element    | 10 %
+UI examples | 10 %
 
 
 
 ## WIS 2.0 relevance
-- Donec et purus vitae felis consectetur consequat vitae nec tortor.
-
+"WIS 2.0 will offer mechanisms to increase collaborative development, maintenance
+and support of services, promote the exchange of best practices and enable the uptake of new
+Technologies"
 
