@@ -1,33 +1,34 @@
 
- Pilot title 
+Modularity Demonstration
 =========
 
 ## Description 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu nisl eget orci volutpat malesuada et eget leo. Nunc eget eros massa. Integer quis est in lacus faucibus malesuada. Ut et euismod odio, vel commodo nibh. Nunc sodales eros porta sem imperdiet ultricies. Pellentesque dapibus massa sed enim viverra mollis. Aenean risus risus, tempus ut scelerisque ac, tincidunt at sapien. Sed vitae nulla laoreet odio elementum mattis a in nisi.
+This pilot demonstrates the possibilities of applying Modularity with OSGi. 
+OSGi is a set of specifications which, in its core specification, defines a component and a service model. The most important advantage of OSGi is that every component can define its API via a bundle of exported packages and that every component can specify its required dependencies. The components and services can be dynamically installed, activated, de-activated, updated and de-installed.
 
 
 ## Features 
 
-- Integer rhoncus nisl sed erat aliquam egestas.
-- Etiam aliquam est vel justo blandit pretium.
-- Nam eget eros id lacus condimentum auctor a eu sapien.
-- Curabitur dictum nunc at nulla sodales, et laoreet lectus venenatis.
+- Database
+- LDAP
+- SSO
+
 
 
 ## Complexity / Effort Estimation 
 
 Complexity     | Effort
 -------- | ---
-Mauris | 30
-Praesent    | 30
-Nullam     | 20
-Ementum     | 20
+Infrastracure | 30 %
+Database    | 20 %
+LDAP     | 25 %
+SSO    | 25 %
 
 
 
 
 ## WIS 2.0 relevance
-- Donec et purus vitae felis consectetur consequat vitae nec tortor.
-
-
+"WIS 2.0 will offer mechanisms to increase collaborative development, maintenance
+and support of services, promote the exchange of best practices and enable the uptake of new
+Technologies"
