@@ -19,11 +19,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu nisl eget 
 
 Complexity     | Effort
 -------- | ---
-Mauris | 30
-Praesent    | 30
-Nullam     | 20
-Ementum     | 20
-
+Mauris | 30 %
+Praesent    | 30 %
+Nullam     | 20 %
+Ementum     | 20 %
 
 
 
