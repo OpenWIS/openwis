@@ -52,7 +52,8 @@
 		<solr.version>1.4.1</solr.version>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version> 	  
 		<javaee.version>5.0</javaee.version> 
-		<spring.version>4.1.5.RELEASE</spring.version>	  
+		<spring.version>4.2.4.RELEASE</spring.version>	  
+		<spring.security.version>3.2.0.RELEASE</spring.security.version>
 	</properties>
 
 	<profiles>
@@ -142,10 +143,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.3</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -294,14 +295,6 @@
 			<id>repo1-maven2</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
-		
-		<repository>
-		    <id>openwis-internal</id>
-			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
-			<!-- <url>https://nexus.eurodyn.com/repository/maven/</url> -->
-	    </repository>
-		
-		<!--
 		<repository>
 			<id>forgerock-staging-repo</id>
 			<name>ForgeRock Release Repository</name>
@@ -322,9 +315,9 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
- -->
+
 		<!-- ForgeRock Internal Project Repository -->
-<!-- 		<repository>
+		<repository>
 			<id>maven.forgerock.org</id>
 			<name>maven.forgerock.org-openam-dependencies</name>
 			<url>http://maven.forgerock.org/repo/openam-dependencies</url>
@@ -343,7 +336,7 @@
 			<id>forgerock-repo</id>
 			<url>http://maven.forgerock.org/repo/repo/org/forgerock/</url>
 		</repository>
- -->
+
 		<!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
 		<repository>
 			<id>codehaus-mule-repo</id>

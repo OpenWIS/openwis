@@ -4,7 +4,7 @@
  * licensing@sencha.com
  * http://www.sencha.com/license
  */
-(function(){
+( function() {
 	var libFlyweight;
 	
 	function fly(el) {
@@ -14,5 +14,5 @@
         libFlyweight.dom = el;
         return libFlyweight;
     }
-    
-    
+}
+) 
