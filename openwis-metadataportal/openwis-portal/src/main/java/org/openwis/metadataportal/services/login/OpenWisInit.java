@@ -27,6 +27,25 @@ import com.sun.identity.saml2.profile.SPSSOFederate;
 
 /**
  * Class for initialize authorization and authentication.
+ * [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.3:compile (default-compile) on project openwis-portal: Compilation failure: Compilation failure:
+ * [ERROR] /home/openwis/OpenWIS-4.0/openwis/openwis-metadataportal/openwis-portal/src/main/java/org/openwis/metadataportal/services/login/OpenWisInit.java:[163,29] no suitable method found for:
+ * initiateAuthnRequest(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,java.lang.String,java.util.Map)
+ * [ERROR] method com.sun.identity.saml2.profile.SPSSOFederate....:
+ * initiateAuthnRequest(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,java.lang.String,java.util.Map,org.forgerock.openam.saml2.audit.SAML2EventLogger) is not 
+ * [ERROR] (actual and formal argument lists differ in length)
+ * [ERROR] method com.sun.identity.saml2.profile.SPSSOFederate....:
+ * initiateAuthnRequest(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,java.lang.String,java.lang.String,java.util.Map,org.forgerock.openam.saml2.audit.SAML2EventLogger) is not
+ * [ERROR] (actual and formal argument lists differ in length)
+ * [ERROR] /home/openwis/OpenWIS-4.0/openwis/openwis-metadataportal/openwis-portal/src/main/java/org/openwis/metadataportal/services/login/OpenWisInit.java:[177,19] no suitable method found for initiateAuthnRequest(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,java.lang.String,java.util.Map)
+ * [ERROR] method com.sun.identity.saml2.profile.SPSSOFederate....:
+ * initiateAuthnRequest(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,java.lang.String,java.util.Map,org.forgerock.openam.saml2.audit.SAML2EventLogger) is not applicable
+ * [ERROR] (actual and formal argument lists differ in length)
+ * [ERROR] method com.sun.identity.saml2.profile.SPSSOFederate....:
+ * initiateAuthnRequest(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,java.lang.String,java.lang.String,java.util.Map,org.forgerock.openam.saml2.audit.SAML2EventLogger) is not applicable
+ * [ERROR] (actual and formal argument lists differ in length)
+ * [ERROR] -> [Help 1]
+ * [ERROR] 
+ *
  */
 @SuppressWarnings("serial")
 public class OpenWisInit extends HttpServlet {
@@ -97,19 +116,19 @@ public class OpenWisInit extends HttpServlet {
             }
 
             // language
-            List<String> relayStates = new ArrayList<String>();
-            if (paramsMap.get(SAML2Constants.RELAY_STATE) != null) {
-               relayStates = (List<String>) paramsMap.get(SAML2Constants.RELAY_STATE);
-            }
+            // List<String> relayStates = new ArrayList<String>();
+            // if (paramsMap.get(SAML2Constants.RELAY_STATE) != null) {
+            //   relayStates = (List<String>) paramsMap.get(SAML2Constants.RELAY_STATE);
+            // }
             
-            if (Strings.isNullOrEmpty(request.getParameter(LoginConstants.LANG))) {
+            // if (Strings.isNullOrEmpty(request.getParameter(LoginConstants.LANG))) {
                // en by default, if not found in parameter
-               lang = "en";
-            } else {
-               lang = request.getParameter(LoginConstants.LANG);
-            }
-            relayStates.add(LoginConstants.LANG + ":" + lang);
-            paramsMap.put(SAML2Constants.RELAY_STATE, relayStates);
+            //   lang = "en";
+            //} else {
+            //   lang = request.getParameter(LoginConstants.LANG);
+            //}
+            //relayStates.add(LoginConstants.LANG + ":" + lang);
+            //paramsMap.put(SAML2Constants.RELAY_STATE, relayStates);
 
             // Connect to IdP discovery Service
             isConnectingToIDP = connectToIdpDiscoveryService(request, response, idpEntityID,
@@ -160,8 +179,7 @@ public class OpenWisInit extends HttpServlet {
             } else if (idpEntities.size() == 1) {
                // only one IDP, just use it
                idpEntityID = (String) idpEntities.get(0);
-               SPSSOFederate.initiateAuthnRequest(request, response, metaAlias, idpEntityID,
-                     paramsMap);
+               SPSSOFederate.initiateAuthnRequest(request, response, metaAlias, idpEntityID, paramsMap, null);
             } else {
                // redirect to choose domain pages.
                List relayState = (List) paramsMap.get(LoginConstants.RELAY_STATE);
@@ -173,8 +191,7 @@ public class OpenWisInit extends HttpServlet {
             }
 
          } else {
-            SPSSOFederate
-                  .initiateAuthnRequest(request, response, metaAlias, idpEntityID, paramsMap);
+            SPSSOFederate.initiateAuthnRequest(request, response, metaAlias, idpEntityID, paramsMap, null);
          }
       }
    }
