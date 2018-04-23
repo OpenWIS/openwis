@@ -25,8 +25,10 @@ public class TokenUtilities {
 
    /**
     * @member: REST_TOKEN_VALID
+    * Was: private static final String REST_TOKEN_VALID = "/identity/isTokenValid?tokenid=";
     */
-   private static final String REST_TOKEN_VALID = "/identity/isTokenValid?tokenid=";
+   private static final String REST_TOKEN_ENDPT = "/json/sessions/";
+   private static final String REST_TOKEN_VALID = "?action=validate";
 
    /**
     * @member: REST_TOKEN_EXPECTED_RESULT
@@ -68,7 +70,7 @@ public class TokenUtilities {
       HttpClient client = new HttpClient();
 
       // Create a method instance. Call an OpenSSO REST Service.
-      GetMethod method = new GetMethod(idpUrl + REST_TOKEN_VALID + token);
+      GetMethod method = new GetMethod(idpUrl + REST_TOKEN_ENDPT + token + REST_TOKEN_VALID);
 
       // Provide custom retry handler is necessary
       method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
