@@ -40,8 +40,10 @@ public class CheckAuthorization implements Service {
 
 	/**
 	 * @member: REST_TOKEN_VALID
+	 * Was: private static final String REST_TOKEN_VALID = "/identity/isTokenValid?tokenid=";
 	 */
-	private static final String REST_TOKEN_VALID = "/identity/isTokenValid?tokenid=";
+	private static final String REST_TOKEN_ENDPT = "/json/sessions/";
+	private static final String REST_TOKEN_VALID = "?action=validate";
 
 	/**
 	 * @member: REST_TOKEN_EXPECTED_RESULT
@@ -50,8 +52,9 @@ public class CheckAuthorization implements Service {
 
 	/**
 	 * @member: REST_USER_BY_TOKEN
+	 * Was: private static final String REST_USER_BY_TOKEN = "/identity/attributes?subjectid=";
 	 */
-	private static final String REST_USER_BY_TOKEN = "/identity/attributes?subjectid=";
+	private static final String REST_USER_BY_TOKEN = "/json/users?subjectid=";
 
 	/**
 	 * @member: UD_ATT_NAME_EQUAL_CN

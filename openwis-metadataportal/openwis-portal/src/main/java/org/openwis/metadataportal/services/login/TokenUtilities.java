@@ -37,8 +37,9 @@ public class TokenUtilities {
 
    /**
     * @member: REST_USER_BY_TOKEN
+    * Was: private static final String REST_USER_BY_TOKEN = "/identity/attributes?attributes_names=uid&subjectid=";
     */
-   private static final String REST_USER_BY_TOKEN = "/identity/attributes?attributes_names=uid&subjectid=";
+   private static final String REST_USER_BY_TOKEN = "/json/users?attributes_names=uid&subjectid=";
 
    /**
     * @member: UD_ATT_NAME_EQUAL_CN
