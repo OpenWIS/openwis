@@ -295,12 +295,12 @@
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
 		
-		<repository>
+		<!-- <repository>
 		    <id>openwis-internal</id>
 			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
-			<!-- <url>https://nexus.eurodyn.com/repository/maven/</url> -->
+			<url>https://nexus.eurodyn.com/repository/maven/</url> 
 	    </repository>
-		
+		-->
 		<!--
 		<repository>
 			<id>forgerock-staging-repo</id>
