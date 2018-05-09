@@ -412,11 +412,21 @@ public class AlertServiceImpl implements AlertService {
          sql.append(DEFAULT_SORT_ORDER);
       }
 
-      sql.append(" LIMIT '");
-      sql.append(maxCount);
-      sql.append("' OFFSET '");
-      sql.append(index);
-      sql.append("'");
+      //Zhan
+      //solution for openwis issue #282
+      //The following two statements will generate an error because HQL 3 does not support "LIMIT" anymore
+      //we need to comment them out
+      //the calling method needs to adjust to fulfill this component when using this method
+      //sql.append(" LIMIT '");
+      //sql.append(maxCount);
+      
+      //Zhan
+      //solution for openwis issue #282
+      //the following statement will generate error because HQL 3 does not support "OFFSET". we need to comment it out
+      //the calling method needs to adjust to fulfill this component when using this method
+      //sql.append("' OFFSET '");
+     // sql.append(index);
+      //sql.append("'");
 
       return sql.toString();
    }
