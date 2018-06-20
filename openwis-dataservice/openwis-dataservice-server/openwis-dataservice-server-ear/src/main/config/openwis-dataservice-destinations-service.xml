@@ -45,7 +45,7 @@
       xmbean-dd="xmdesc/Queue-xmbean.xml">
       <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
       <depends>jboss.messaging:service=PostOffice</depends>
-      <attribute name="JNDIName">queue/PackedFeedingQueue</attribute>
+      <attribute name="JNDIName">java:/jms/queue/PackedFeedingQueue</attribute>
    </mbean>
    
    <!-- UNPACKED FEEDING QUEUE -->
@@ -54,7 +54,7 @@
       xmbean-dd="xmdesc/Queue-xmbean.xml">
       <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
       <depends>jboss.messaging:service=PostOffice</depends>
-      <attribute name="JNDIName">queue/UnpackedFeedingQueue</attribute>
+      <attribute name="JNDIName">java:/jms/queue/UnpackedFeedingQueue</attribute>
    </mbean>
    
     <!-- STATISTICS QUEUE -->
@@ -63,6 +63,6 @@
       xmbean-dd="xmdesc/Queue-xmbean.xml">
       <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
       <depends>jboss.messaging:service=PostOffice</depends>
-      <attribute name="JNDIName">queue/StatisticsQueue</attribute>
+      <attribute name="JNDIName">java:/jms/queue/StatisticsQueue</attribute>
    </mbean>
 </server>

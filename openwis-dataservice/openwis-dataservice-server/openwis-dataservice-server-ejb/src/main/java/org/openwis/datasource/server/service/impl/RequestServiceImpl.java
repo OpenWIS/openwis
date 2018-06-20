@@ -87,7 +87,7 @@ public class RequestServiceImpl implements RequestService {
    private ConnectionFactory connectionFactory;
 
    /** injection queue. */
-   @Resource(mappedName = "java:/queue/RequestQueue")
+   @Resource(mappedName = "java:/jms/queue/RequestQueue")
    private Queue queue;
 
    /** The blacklist service. */
