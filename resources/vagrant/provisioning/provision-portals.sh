@@ -32,19 +32,14 @@ sudo -iu openwis mkdir /data/openwis/solr/spatial
 
 openwisHome="/home/openwis"
 openwisOpt="/home/openwis/opt"
-#jdkHome="$openwisOpt/jdk1.7.0_51"
-#tomcatHome="$openwisHome/apache-tomcat-6.0.29"
 tomcatHome="$openwisHome/`basename "$RESOURCE_TOMCAT" .tar.gz`"
 
 sudo -iu openwis mkdir "$openwisOpt"
 sudo -iu openwis mkdir "$openwisHome/staging"
 
-# Install latest available JDK (seems to break installation after 1.7.0.101-2.6.6.4)
-# yum install -y java-1.7.0-openjdk-devel.x86_64
 
 # Install latest compatible JDK (still available in YUM).
-#yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
-yum install -y java-1.7.0-openjdk-devel-1.7.0.121
+yum install -y java-1.8.0-openjdk-devel
 
 #echo "Unpacking Java"
 #sudo -iu openwis tar -xvz -C "$openwisOpt" -f /vagrant/dependencies/jdk-7u51-linux-x64.tar.gz

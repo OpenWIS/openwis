@@ -1,3 +1,4 @@
+# @Depricated
 #!/bin/bash
 #
 #   Install and configure OpenWIS using JBoss 7 and OpenJDK
@@ -11,14 +12,15 @@
 #
 
 openwisHome="/home/openwis"
-jbossHome="$openwisHome"/jboss-as-7.1.1.Final
+jbossHome="$openwisHome"/wildfly-8.2.1.Final
 
 function jbossCli()
 {
     local cmd="$1"
 
     echo "[jboss-cli] $cmd"
-    sudo -iu openwis "$jbossHome"/bin/jboss-cli.sh -c --command="$cmd"
+     sudo -iu openwis "$jbossHome"/bin/jboss-cli.sh  --connect --controller=localhost --command="$cmd"
+
 }
 
 # Configures an XML file by replacing all '@<name>@' placeholders with a value.
@@ -47,19 +49,20 @@ function owConf()
 # yum install -y java-1.7.0-openjdk-devel.x86_64
 
 # Install latest compatible JDK (still available in YUM).
-yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+#yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+yum install -y java-1.8.0-openjdk-devel
 
 
 # 2. As openwis, download and install JBoss AS 7.1 community edition from jboss.org.
 #
-sudo -iu openwis wget -q -O /tmp/jboss-as-7.1.1.Final.tar.gz "$RESOURCE_JBOSS"
+sudo -iu openwis wget -q -O /tmp/wildfly-8.2.1.Final.tar.gz "$RESOURCE_JBOSS"
 
 # 3. Unpack it in the home directory of openwis.
 #
-sudo -iu openwis tar -xvzf /tmp/jboss-as-7.1.1.Final.tar.gz
+sudo -iu openwis tar -xvzf /tmp/wildfly-8.2.1.Final.tar.gz
 
 # 4. Add the JBOSS_HOME environment variable to `~/.bashrc`.  If unpacking it in the home directory of
-#    openwis, this should be '/home/openwis/jboss-as-7.1.1.Final'.  After modifying `~/.bashrc`, reload
+#    openwis, this should be '/home/openwis/wildfly-8.2.1.Final'.  After modifying `~/.bashrc`, reload
 #    it by typing `source ~/.bashrc`.
 #
 sudo -iu openwis cat >> "$openwisHome"/.bashrc << .
@@ -76,6 +79,10 @@ sudo -iu openwis echo 'JAVA_OPTS="$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_sock
 
 # 5. !!IMPORTANT!! Set the Time Zone of JBoss to UTC
 sudo -iu openwis echo 'JAVA_OPTS="$JAVA_OPTS -Duser.timezone=UTC"' >> "$jbossHome"/bin/standalone.conf
+
+sed -i -e 's/<inet-address value="${jboss.bind.address.management:127.0.0.1}"/<inet-address value="${jboss.bind.address.management:192.168.91.43}"/' "$jbossHome"/bin/standalone.conf
+sed -i -e 's/<inet-address value="${jboss.bind.address:127.0.0.1}"/<inet-address value="${jboss.bind.address:192.168.91.43}"/'  "$jbossHome"/bin/standalone.conf
+
 
 # 5. Start JBoss using the `standalone-full.xml` configuration.  The rest of the setup requires JBoss to
 #    be running.
@@ -97,8 +104,8 @@ echo "Wating for JBoss to startup"
 sleep 10
 
 # Turn on debugging logs and restart JBoss (I think that's required to get the logs working)
-jbossCli "/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level,value=DEBUG)"
-jbossCli "/subsystem=logging/root-logger=ROOT:write-attribute(name=level,value=DEBUG)"
+jbossCli "/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level,value=INFO)"
+jbossCli "/subsystem=logging/root-logger=ROOT:write-attribute(name=level,value=INFO)"
 
 # Set the HTTP socket to 8180 -- this requires a reload
 jbossCli '/socket-binding-group="standard-sockets"/socket-binding="http":write-attribute(name="port",value=8180)'
@@ -132,6 +139,9 @@ jbossCli "/subsystem=logging/periodic-rotating-file-handler=\"AlertsHandler\":ad
     suffix=\"yyyy-MM-dd\" \
 )"
 
+
+
+
 jbossCli '/subsystem=logging/logger=org.openwis.dataservice.util.WMOFTP:add(use-parent-handlers=true,handlers=["CollectionHandler"])'
 jbossCli '/subsystem=logging/logger=org.openwis.dataservice.gts.collection:add(use-parent-handlers=true,handlers=["CollectionHandler"])'
 jbossCli '/subsystem=logging/logger=org.openwis.dataservice.dissemination:add(use-parent-handlers=true,handlers=["RequestHandler"])'
@@ -160,56 +170,108 @@ jbossCli "data-source add --name=OpenwisDS --jndi-name=\"java:/OpenwisDS\" \
     --min-pool-size=10 --max-pool-size=40 \
     --idle-timeout-minutes=15 --blocking-timeout-wait-millis=15000 \
     --background-validation-millis=50000 --check-valid-connection-sql=\"select count(*) from openwis_cache_configuration\""
+	
+echo "Enable the OpenDS data source" 
+
 jbossCli "data-source enable --name=OpenwisDS"
+sleep 5
 
 # 4. Setup the OpenWIS JMS queues
-#
-jbossCli "jms-queue add --queue-address=CollectionQueue --entries=[queue/CollectionQueue]"
-jbossCli "jms-queue add --queue-address=IncomingDataQueue --entries=[queue/IncomingDataQueue]"
-jbossCli "jms-queue add --queue-address=RequestQueue --entries=[queue/RequestQueue]"
-jbossCli "jms-queue add --queue-address=DisseminationQueue --entries=[queue/DisseminationQueue]"
-jbossCli "jms-queue add --queue-address=PackedFeedingQueue --entries=[queue/PackedFeedingQueue]"
-jbossCli "jms-queue add --queue-address=UnpackedFeedingQueue --entries=[queue/UnpackedFeedingQueue]"
-jbossCli "jms-queue add --queue-address=StatisticsQueue --entries=[queue/StatisticsQueue]"
+# dimi test added `java:/jms/`
+jbossCli "jms-queue add --queue-address=CollectionQueue --entries=[java:/jms/queue/CollectionQueue]"
+jbossCli "jms-queue add --queue-address=IncomingDataQueue --entries=[java:/jms/queue/IncomingDataQueue]"
+jbossCli "jms-queue add --queue-address=RequestQueue --entries=[java:/jms/queue/RequestQueue]"
+jbossCli "jms-queue add --queue-address=DisseminationQueue --entries=[java:/jms/queue/DisseminationQueue]"
+jbossCli "jms-queue add --queue-address=PackedFeedingQueue --entries=[java:/jms/queue/PackedFeedingQueue]"
+jbossCli "jms-queue add --queue-address=UnpackedFeedingQueue --entries=[java:/jms/queue/UnpackedFeedingQueue]"
+jbossCli "jms-queue add --queue-address=StatisticsQueue --entries=[java:/jms/queue/StatisticsQueue]"
 
 # 5. Install the configuration
 #
 #   TODO: Work out appropriate directories
 #
+
 confDir=$openwisHome/conf
+#sudo -iu openwis mkdir $confDir
 
-sudo -iu openwis mkdir $confDir
-sudo -iu openwis unzip -d /tmp/openwis-config-files "$ARTEFACT_DATASERVICE_CONFIG_FILES"
-#sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/localdatasourceservice.properties $confDir/.
-#sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/openwis-dataservice.properties $confDir/.
-sudo -iu openwis cp /tmp/openwis-config-files/openwis-dataservice-config/config/*.properties $confDir/.
+# openwis-dataservice-config
 
-owConf "$confDir/openwis-dataservice.properties" "dataService.baseLocation" "$DS_DIR"
-owConf "$confDir/openwis-dataservice.properties" "harnessDisseminationPublicServer" "http://localhost:8180/client-openwis-ejbs/DisseminationImplService/DisseminationServiceImpl?wsdl"
-owConf "$confDir/openwis-dataservice.properties" "stagingPost.url" "http://localhost:8180/todo"
-owConf "$confDir/openwis-dataservice.properties" "dataService.mail.from" "root"
-owConf "$confDir/openwis-dataservice.properties" "dataService.mail.smtp.host" "localhost"
-owConf "$confDir/openwis-dataservice.properties" "managementServiceServer" "localhost:8180"
+# sudo -iu openwis unzip -d /tmp/openwis-config-files "$ARTEFACT_DATASERVICE_CONFIG_FILES"
+
+# sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/localdatasourceservice.properties $confDir/.
+# sudo -iu openwis cp /vagrant/artefacts/dataservices/conf/openwis-dataservice.properties $confDir/.
+# sudo -iu openwis cp /tmp/openwis-config-files/openwis-dataservice-config/config/*.properties $confDir/.
+
+# owConf "$confDir/openwis-dataservice.properties" "dataService.baseLocation" "$DS_DIR"
+# owConf "$confDir/openwis-dataservice.properties" "harnessDisseminationPublicServer" "http://localhost:8180/client-openwis-ejbs/DisseminationImplService/DisseminationServiceImpl?wsdl"
+# owConf "$confDir/openwis-dataservice.properties" "stagingPost.url" "http://localhost:8180/todo"
+# owConf "$confDir/openwis-dataservice.properties" "dataService.mail.from" "root"
+# owConf "$confDir/openwis-dataservice.properties" "dataService.mail.smtp.host" "localhost"
+# owConf "$confDir/openwis-dataservice.properties" "managementServiceServer" "localhost:8180"
+
+
+
+# echo "Creating conf files... " 
+
+# mkdir /home/openwis/openwis-dataservice-config
+# chown -R openwis:openwis /home/openwis/openwis-dataservice-config
+# unzip -d $JBOSS_HOME/modules 	openwis-dataservice-config-module.zip
+# chown -R openwis:openwis $JBOSS_HOME/modules
+
+
+
 
 # 6. Setup the OpenWIS JNDI configuration values
 #
-#jbossCli "/system-property=conf\/openwis-dataservice:add(value=\"/home/openwis/conf/openwis-dataservice.properties\")"
-#jbossCli "/system-property=ws\/localdatasourceservice:add(value=\"/home/openwis/conf/localdatasourceservice.properties\")"
-#jbossCli "/subsystem=naming/binding=conf\/openwis-dataservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
-#jbossCli "/subsystem=naming/binding=ws\/localdatasourceservice:add(binding-type=object-factory,module=\"org.openwis.dataservice.config\",class=\"org.openwis.dataservice.config.PropertiesFactory\")"
 
+#  fixed url 
+jbossCli "/system-property=conf\/openwis-dataservice:add(value=\"/home/openwis/conf/openwis-dataservice.properties\")"
+jbossCli "/system-property=ws\/localdatasourceservice:add(value=\"/home/openwis/conf/localdatasourceservice.properties\")"
+
+
+
+# RESTART 
+echo "Restarting WildFly..."
+
+#/jboss-cli.sh --connect command=:shutdown
+sleep 1
+#Linux: $ ./jboss-cli.sh --connect command=:reload
+echo "Stoping WildFly..."
+jbossCli "shutdown"
+
+sleep 10
+
+echo "Starting WildFly..."
+sudo -iu openwis nohup "$jbossHome"/bin/standalone.sh -b 0.0.0.0 -c standalone-full.xml > "$openwisHome"/jboss.log 2>&1 &
+
+sleep 10
 
 
 # 7. Deploy the application
 #
+echo "Deploying ear files"
 jbossCli "deploy $ARTEFACT_MANAGEMENT_SERVICE_EAR"
+sleep 8
+
 jbossCli "deploy $ARTEFACT_DATA_SERVICE_EAR"
+
+sleep 8
 
 
 # 8. Deploy the staging post as an external WAR file
 #
-sudo -iu openwis unzip -d "$DS_DIR/stagingPost" "$ARTEFACT_STAGINGPOST_WAR"
+ sudo -iu openwis unzip -d "$DS_DIR/stagingPost" "$ARTEFACT_STAGINGPOST_WAR"
+ sudo -iu openwis ln -s "$DS_DIR/stagingPost" "$jbossHome"/standalone/deployments/stagingPost.war
+# sudo -iu openwis touch "$jbossHome"/standalone/deployments/stagingPost.war.dodeploy
+#echo "Deploy Hack for StagingPost"
+#su -c "cp $ARTEFACT_STAGINGPOST_WAR $DS_DIR/stagingPost" openwis
+#su -c "(cd $DS_DIR/stagingPost/; jar -xvf stagingPost.war)" openwis
+#su -c "ln -s $DS_DIR/stagingPost $JBOSS_HOME/standalone/deployments/stagingPost.war" openwis
+#su -c "touch $JBOSS_HOME/standalone/deployments/stagingPost.war.dodeploy" openwis 
+#echo "Installation complete"
+#sleep 5
+#echo "Deploy SolR"
+#su -c "cp $ARTEFACT_SOLR  $JBOSS_HOME/standalone/deployments/" openwis
 
-sudo -iu openwis ln -s "$DS_DIR/stagingPost" "$jbossHome"/standalone/deployments/stagingPost.war
-sudo -iu openwis touch "$jbossHome"/standalone/deployments/stagingPost.war.dodeploy
+
 

@@ -23,6 +23,8 @@ source /vagrant/resources/vagrant/provisioning/provision-common.sh
 # Setup and install the database
 rpm -ivh https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-7.noarch.rpm
 yum -y install postgresql92 postgresql92-server postgresql92-contrib postgis2_92-2.1.8
+# --skip-broken 
+ 
 
 # Configure the database
 cat > /etc/sysconfig/pgsql/postgresql-9.2 << .
@@ -50,6 +52,9 @@ sudo -iu postgres createdb -O "$OPENWIS_DB_USER" harnesses
 # Install extensions
 sudo -iu postgres createlang -d "$OPENWIS_DB_NAME" plpgsql
 sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/postgis.sql  >/dev/null
+
+#/usr/pgsql-9.2/share/contrib/postgis-2.1/postgis.sql: No such file or directory 
+
 sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/postgis_comments.sql  >/dev/null
 sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/spatial_ref_sys.sql  >/dev/null
 sudo -iu postgres psql -d "$OPENWIS_DB_NAME" -f /usr/pgsql-9.2/share/contrib/postgis-2.1/legacy.sql  >/dev/null
@@ -107,12 +112,12 @@ tomcatHome="$openwisHome/`basename "$RESOURCE_TOMCAT" .tar.gz`"
 sudo -iu openwis mkdir "$openwisOpt"
 sudo -iu openwis mkdir "$openwisHome/staging"
 
-#echo "Unpacking Java"
-# Install latest available JDK (seems to break installation after 1.7.0.101-2.6.6.4)
-# yum install -y java-1.7.0-openjdk-devel.x86_64
 
 # Install latest compatible JDK (still available in YUM).
-yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+#yum install -y java-1.7.0-openjdk-devel-1.7.0.101-2.6.6.4.el6_8
+# 
+yum install -y java-1.8.0-openjdk-devel
+
 
 echo "Unpacking Tomcat"
 sudo -iu openwis wget -q -O /tmp/apache-tomcat.tar.gz "$RESOURCE_TOMCAT"
