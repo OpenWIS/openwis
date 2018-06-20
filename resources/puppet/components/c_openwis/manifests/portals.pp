@@ -45,7 +45,7 @@ class c_openwis::portals (
   $federation_name)
 #
 {
-  require c_openwis::java7_portal
+  require c_openwis::java8_portal
 
   include c_openwis
   include c_openwis::tomcat
