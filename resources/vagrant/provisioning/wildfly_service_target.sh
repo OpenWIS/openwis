@@ -262,14 +262,29 @@ sleep 20
 $JBOSS_HOME/bin/jboss-cli.sh --connect --controller=owdev-data:9990  --command="deploy /vagrant/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear"
 sleep 10
 
-#echo "Deploy Hack for StagingPost"
-#su -c "cp stagingPost.war /var/opt/openwis/stagingPost" openwis
-#su -c "cp /home/openwis/openwis/openwis-stagingpost/target/stagingPost.war /var/opt/openwis/stagingPost" openwis
+echo "Deploy Hack for StagingPost"
+
+
+
+#sudo -iu openwis mkdir  $DS_DIR/stagingPost
+#sudo -iu openwis cp /vagrant/openwis-stagingpost/target/stagingPost.war $DS_DIR/stagingPost
+#su -c "(cd $DS_DIR/stagingPost/; jar -xvf stagingPost.war)" openwis
+#sudo -iu openwis ln -s "$DS_DIR/stagingPost" /opt/wildfly/standalone/deployments/stagingPost.war
+# sudo -iu openwis touch /opt/wildfly/standalone/deployments/stagingPost.war.dodeploy
+
+
+# su -c "cp  /var/opt/openwis/stagingPost" openwis
+# su -c "cp /home/openwis/openwis/openwis-stagingpost/target/stagingPost.war /var/opt/openwis/stagingPost" openwis
+
+#$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=owdev-data:9990  --command="deploy /vagrant/openwis-stagingpost/target/stagingPost.war "
+
 #su -c "(cd /var/opt/openwis/stagingPost/; jar -xvf stagingPost.war)" openwis
 #su -c "ln -s /var/opt/openwis/stagingPost $JBOSS_HOME/standalone/deployments/stagingPost.war" openwis
 #su -c "touch $JBOSS_HOME/standalone/deployments/stagingPost.war.dodeploy" openwis 
-echo "Installation complete"
 sleep 5
-#echo "Deploy SolR"
+echo "Deploy SolR"
 #su -c "cp openwis-portal-solr.war $JBOSS_HOME/standalone/deployments/" openwis
 #su -c "cp /home/openwis/openwis/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war $JBOSS_HOME/standalone/deployments/" openwis
+$JBOSS_HOME/bin/jboss-cli.sh --connect --controller=owdev-data:9990  --command="deploy /vagrant/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war"
+
+echo "Installation complete"
