@@ -82,7 +82,12 @@ sudo -iu openwis dos2unix "$openwisHome"/*.sh
 #sudo -iu openwis cp /vagrant/artefacts/portals/openwis-admin-portal.war "$openwisHome"/staging/.
 #sudo -iu openwis "$openwisHome"/deploy-portals.sh -nobackup
 sudo -iu openwis unzip -d "$tomcatHome"/webapps/openwis-user-portal "$ARTEFACT_USER_PORTAL"
+
 sudo -iu openwis unzip -d "$tomcatHome"/webapps/openwis-admin-portal "$ARTEFACT_ADMIN_PORTAL"
+sudo -iu openwis unzip -d "$tomcatHome"/webapps/stagingPost "/vagrant/openwis-stagingpost/target/stagingPost.war"
+
+
+
 
 #sudo -iu openwis cp /vagrant/artefacts/portals/conf/user-portal/openwis-metadataportal.properties "$tomcatHome"/webapps/openwis-user-portal/WEB-INF/classes/.
 #sudo -iu openwis cp /vagrant/artefacts/portals/conf/admin-portal/openwis-metadataportal.properties "$tomcatHome"/webapps/openwis-admin-portal/WEB-INF/classes/.
