@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<server xmlns="urn:jboss:domain:2.1">
+<server xmlns="urn:jboss:domain:2.2">
 
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
@@ -30,6 +30,11 @@
         <extension module="org.wildfly.extension.io"/>
         <extension module="org.wildfly.extension.undertow"/>
     </extensions>
+
+    <system-properties>
+        <property name="java:/conf/openwis-dataservice" value="openwis-dataservice-config/openwis-dataservice.properties"/>
+        <property name="java:/ws/localdatasourceservice" value="openwis-dataservice-config/localdatasourceservice.properties"/>
+    </system-properties>
 
 
     <management>
@@ -98,6 +103,24 @@
                 <suffix value=".yyyy-MM-dd"/>
                 <append value="true"/>
             </periodic-rotating-file-handler>
+            <periodic-rotating-file-handler name="CollectionHandler" autoflush="true">
+                <level name="INFO"/>
+                <file relative-to="jboss.server.log.dir" path="collection.log"/>
+                <suffix value="yyyy-MM-dd"/>
+                <append value="true"/>
+            </periodic-rotating-file-handler>
+            <periodic-rotating-file-handler name="RequestHandler" autoflush="true">
+                <level name="INFO"/>
+                <file relative-to="jboss.server.log.dir" path="request.log"/>
+                <suffix value="yyyy-MM-dd"/>
+                <append value="true"/>
+            </periodic-rotating-file-handler>
+            <periodic-rotating-file-handler name="AlertsHandler" autoflush="true">
+                <level name="INFO"/>
+                <file relative-to="jboss.server.log.dir" path="alerts.log"/>
+                <suffix value="yyyy-MM-dd"/>
+                <append value="true"/>
+            </periodic-rotating-file-handler>
             <logger category="com.arjuna">
                 <level name="WARN"/>
             </logger>
@@ -115,6 +138,31 @@
             </logger>
             <logger category="jacorb.config">
                 <level name="ERROR"/>
+            </logger>
+            <logger category="org.openwis.dataservice.util.WMOFTP" use-parent-handlers="true">
+                <handlers>
+                    <handler name="CollectionHandler"/>
+                </handlers>
+            </logger>
+            <logger category="org.openwis.dataservice.gts.collection" use-parent-handlers="true">
+                <handlers>
+                    <handler name="CollectionHandler"/>
+                </handlers>
+            </logger>
+            <logger category="org.openwis.dataservice.dissemination" use-parent-handlers="true">
+                <handlers>
+                    <handler name="RequestHandler"/>
+                </handlers>
+            </logger>
+            <logger category="org.openwis.datasource" use-parent-handlers="true">
+                <handlers>
+                    <handler name="RequestHandler"/>
+                </handlers>
+            </logger>
+            <logger category="org.openwis.management.service" use-parent-handlers="true">
+                <handlers>
+                    <handler name="AlertsHandler"/>
+                </handlers>
             </logger>
             <root-logger>
                 <level name="INFO"/>
@@ -149,6 +197,26 @@
                         <password>sa</password>
                     </security>
                 </datasource>
+                <datasource jndi-name="java:/OpenwisDS" pool-name="OpenwisDS" enabled="true">
+                    <connection-url>jdbc:postgresql://192.168.91.52:5432/openwis?stringtype=unspecified</connection-url>
+                    <driver-class>org.postgresql.Driver</driver-class>
+                    <driver>postgresql-9.2-1004.jdbc4.jar</driver>
+                    <pool>
+                        <min-pool-size>10</min-pool-size>
+                        <max-pool-size>40</max-pool-size>
+                    </pool>
+                    <security>
+                        <user-name>openwis</user-name>
+                        <password>*******</password>
+                    </security>
+                    <validation>
+                        <background-validation-millis>50000</background-validation-millis>
+                    </validation>
+                    <timeout>
+                        <blocking-timeout-millis>15000</blocking-timeout-millis>
+                        <idle-timeout-minutes>15</idle-timeout-minutes>
+                    </timeout>
+                </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
@@ -157,7 +225,7 @@
             </datasources>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
-            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000"/>
+            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="500" auto-deploy-exploded="true"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:ee:2.0">
             <spec-descriptor-property-replacement>false</spec-descriptor-property-replacement>
@@ -375,30 +443,34 @@
                         <entry name="java:/jms/queue/DLQ"/>
                     </jms-queue>
                     <jms-queue name="CollectionQueue">
-                        <entry name="queue/CollectionQueue"/>
+                        <entry name="java:/jms/CollectionQueue"/>
                     </jms-queue>
                     <jms-queue name="IncomingDataQueue">
-                        <entry name="queue/IncomingDataQueue"/>
+                        <entry name="java:/jms/IncomingDataQueue"/>
                     </jms-queue>
                     <jms-queue name="RequestQueue">
-                        <entry name="queue/RequestQueue"/>
+                        <entry name="java:/jms/RequestQueue"/>
                     </jms-queue>
                     <jms-queue name="DisseminationQueue">
-                        <entry name="queue/DisseminationQueue"/>
+                        <entry name="java:/jms/DisseminationQueue"/>
                     </jms-queue>
                     <jms-queue name="PackedFeedingQueue">
-                        <entry name="queue/PackedFeedingQueue"/>
+                        <entry name="java:/jms/PackedFeedingQueue"/>
                     </jms-queue>
                     <jms-queue name="UnpackedFeedingQueue">
-                        <entry name="queue/UnpackedFeedingQueue"/>
+                        <entry name="java:/jms/UnpackedFeedingQueue"/>
                     </jms-queue>
                     <jms-queue name="StatisticsQueue">
-                        <entry name="queue/StatisticsQueue"/>
+                        <entry name="java:/jms/StatisticsQueue"/>
                     </jms-queue>
                 </jms-destinations>
             </hornetq-server>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
+            <bindings>
+                <object-factory name="java:/conf/openwis-dataservice" module="org.openwis.dataservice.config" class="org.openwis.dataservice.config.PropertiesFactory"/>
+                <object-factory name="java:/ws/localdatasourceservice" module="org.openwis.dataservice.config" class="org.openwis.dataservice.config.PropertiesFactory"/>
+            </bindings>
             <remote-naming/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:pojo:1.0"/>
@@ -440,7 +512,7 @@
             </core-environment>
             <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:undertow:1.1">
+        <subsystem xmlns="urn:jboss:domain:undertow:1.2">
             <buffer-cache name="default"/>
             <server name="default-server">
                 <http-listener name="default" socket-binding="http"/>
@@ -452,6 +524,7 @@
             </server>
             <servlet-container name="default">
                 <jsp-config/>
+                <websockets/>
             </servlet-container>
             <handlers>
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
@@ -462,7 +535,8 @@
             </filters>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:1.2">
-            <wsdl-host>${jboss.bind.address:127.0.0.1}</wsdl-host>
+            <wsdl-host>${jboss.bind.address:192.168.54.102}</wsdl-host>
+            <wsdl-port>8180</wsdl-port>
             <endpoint-config name="Standard-Endpoint-Config"/>
             <endpoint-config name="Recording-Endpoint-Config">
                 <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
@@ -476,13 +550,13 @@
 
     <interfaces>
         <interface name="management">
-            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address.management:192.168.54.102}"/>
         </interface>
         <interface name="public">
-            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address:192.168.54.102}"/>
         </interface>
         <interface name="unsecure">
-            <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address.unsecure:192.168.54.102}"/>
         </interface>
     </interfaces>
 
@@ -490,7 +564,7 @@
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
-        <socket-binding name="http" port="${jboss.http.port:8080}"/>
+        <socket-binding name="http" port="8180"/>
         <socket-binding name="https" port="${jboss.https.port:8443}"/>
         <socket-binding name="jacorb" interface="unsecure" port="3528"/>
         <socket-binding name="jacorb-ssl" interface="unsecure" port="3529"/>

@@ -4,15 +4,17 @@
 #
 
 export DATA_DIR=/data
+
 export DB_DIR="$DATA_DIR/datadb"
 export DS_DIR="$DATA_DIR/openwis"
 
 export OPENWIS_DB_HOST=owdev-db
+
 export OPENWIS_DB_USER=openwis
-export OPENWIS_DB_PASSWD=openwis1
+export OPENWIS_DB_PASSWD=openwis
 export OPENWIS_DB_NAME=OpenWIS
 
-export OPENWIS_PASSWD=openwis1
+export OPENWIS_PASSWD=openwis
 
 # Artefacts
 export ARTEFACT_SOLR="/vagrant/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war"
@@ -31,5 +33,6 @@ export ARTEFACT_SPACIAL_INDEX_DDL=/vagrant/openwis-database/spacialindex.ddl
 
 # Resources
 export RESOURCE_TOMCAT="http://repository-openwis-association.forge.cloudbees.com/private/binaries/apache-tomcat-7.0.59.tar.gz"
-export RESOURCE_JBOSS="https://repository-openwis-association.forge.cloudbees.com/private/binaries/jboss-as-7.1.1.Final.tar.gz"
+#export RESOURCE_JBOSS="https://repository-openwis-association.forge.cloudbees.com/private/binaries/jboss-as-7.1.1.Final.tar.gz"
+export RESOURCE_JBOSS="http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz"
 export RESOURCE_POSTGRESQL_JAR="https://repository-openwis-association.forge.cloudbees.com/private/binaries/postgresql-9.2-1004.jdbc41.jar"

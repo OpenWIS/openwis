@@ -30,6 +30,6 @@ echo "192.168.54.103    owdev-portals" >> /etc/hosts
 
 useradd -m -s /bin/bash openwis
 echo "$OPENWIS_PASSWD" | passwd --stdin openwis
-
+sudo chmod +w /etc/sudoers && echo "openwis ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers && chmod -w /etc/sudoers
 
 # ---------------------------------------------------------------------------

@@ -25,7 +25,7 @@ class c_openwis::stagingpost (
 ) inherits c_openwis::stagingpost::folder
 #
 {
-  require c_openwis::java7
+  require c_openwis::java8
 
   include c_openwis
   include c_openwis::tomcat
