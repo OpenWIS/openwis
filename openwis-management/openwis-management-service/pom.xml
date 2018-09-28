@@ -38,11 +38,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>com.sun.javaee</groupId>
-      <artifactId>javaee</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
 
