@@ -15,7 +15,7 @@ mvn help:effective-settings
 
 function build() {
 
-    mvn clean package install -Dmaven.repo.local=local-repo
+    mvn clean package install
  
 	if [ $? -ne 0 ] ; then
 		exit 1;
