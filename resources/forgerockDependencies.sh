@@ -98,22 +98,22 @@ cd openam-public
 git checkout 12.0.0
 
 #############################################################################
-mvn clean install -pl openam-shared -am -Dmaven.repo.local=$WORKSPACE/local-repo
-mvn clean install -pl openam-schema -am -Dmaven.repo.local=$WORKSPACE/local-repo
+mvn clean install -pl openam-shared -am
+mvn clean install -pl openam-schema -am
 
 cd  openam-schema
-mvn clean install -pl openam-liberty-schema -am -Dmaven.repo.local=$WORKSPACE/local-repo
-mvn clean install -pl openam-saml2-schema -am -Dmaven.repo.local=$WORKSPACE/local-repo
-mvn clean install -pl openam-xacml3-schema -am -Dmaven.repo.local=$WORKSPACE/local-repo
-mvn clean install -pl openam-wsfederation-schema -am -Dmaven.repo.local=$WORKSPACE/local-repo
+mvn clean install -pl openam-liberty-schema -am
+mvn clean install -pl openam-saml2-schema -am 
+mvn clean install -pl openam-xacml3-schema -am
+mvn clean install -pl openam-wsfederation-schema -am
 cd ..
 
-mvn clean install -pl openam-federation -am -Dmaven.repo.local=$WORKSPACE/local-repo
+mvn clean install -pl openam-federation -am
 cd openam-federation
 
-mvn clean install -pl openam-federation-library -am -Dmaven.repo.local=$WORKSPACE/local-repo
-mvn clean install -pl openam-idpdiscovery -am -Dmaven.repo.local=$WORKSPACE/local-repo
+mvn clean install -pl openam-federation-library -am
+mvn clean install -pl openam-idpdiscovery -am
 cd ..
 
-mvn clean install -pl openam-shared -am -Dmaven.repo.local=$WORKSPACE/local-repo
+mvn clean install -pl openam-shared -am
 cd ..
