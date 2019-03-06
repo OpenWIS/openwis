@@ -7,7 +7,6 @@ set +x
 #  ***
 #Following global variables declaration may not needed in a non Jenkins environment.
 #  ***
-export M2_HOME=/home/jenkins/apache-maven-3.2.1
 export PATH=$M2_HOME/bin:$PATH
 
 
