@@ -4,10 +4,11 @@ jdk: openjdk8
 cache:
   directories:
   - $HOME/.m2
-stages:
-  - name: build
-    script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDependencies.sh && mvn clean exec:exec && mvn clean install -P openwis -fae -DskipTests -Dfile.encoding=UTF-8 --fail-at-end
-  - name: deploy
+jobs:
+  include:
+  - stage: build
+  - script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDependencies.sh && mvn clean exec:exec && mvn clean install -P openwis -fae -DskipTests -Dfile.encoding=UTF-8 --fail-at-end
+  - stage: deploy
     # require the branch name to be master (note for PRs this is the base branch name)
     if: branch = travis-ci
       deploy:
