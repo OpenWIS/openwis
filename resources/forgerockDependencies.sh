@@ -95,7 +95,7 @@ mkdir openam
 cd  openam
 git clone https://stash.forgerock.org/scm/openam/openam-public.git
 cd openam-public
-git checkout 12.0.0
+git checkout 13.0.0
 
 #############################################################################
 mvn clean install -pl openam-shared -am
