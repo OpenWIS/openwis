@@ -1,16 +1,7 @@
 language: java
 install: true
 jdk: openjdk8
+script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDependencies.sh && mvn clean exec:exec && mvn clean install -P openwis -fae -DskipTests -Dfile.encoding=UTF-8 --fail-at-end
 cache:
   directories:
   - $HOME/.m2
-stages:
-  - name: deploy
-    # require the branch name to be master (note for PRs this is the base branch name)
-    if: branch = master
-       deploy:
-        provider: releases
-        api_key: $GITHUBOAUTH
-        file: "openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear"
-        skip_cleanup: true
-        draft: true
