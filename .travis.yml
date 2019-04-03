@@ -5,11 +5,3 @@ script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDepen
 cache:
   directories:
   - $HOME/.m2
-stages:
-  - name: deploy
-    # require the branch name to be master (note for PRs this is the base branch name)
-    if: branch = master
-       deploy:
-        provider: releases
-        api_key: $GITHUBOAUTH
-        file: "openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear"
