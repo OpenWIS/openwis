@@ -41,17 +41,33 @@ import org.openwis.dataservice.common.util.ConfigServiceFacade;
 @Table(name = "OPENWIS_PROCESSED_REQUEST")
 @SequenceGenerator(name = "PROCESSED_REQUEST_GEN", sequenceName = "PROCESSED_REQUEST_SEQ", initialValue = 1, allocationSize = 1)
 @NamedQueries({
+		/*changed by zhan 6/5/19
 		@NamedQuery(name = "ProcessedRequest.FindByRequestResult", //
 		query = "SELECT processedrequest FROM ProcessedRequest processedrequest WHERE processedrequest.requestResultStatus = :requestresult)"),
 		@NamedQuery(name = "ProcessedRequest.FindLastByDate", //
 		query = "SELECT processedrequest FROM ProcessedRequest processedrequest JOIN processedrequest.request request WHERE request.id = :id "
 				+ "AND processedrequest.creationDate = "
+
 				+ "(SELECT MAX(processedreq.creationDate) FROM ProcessedRequest processedreq JOIN processedreq.request req WHERE req.id = :id))"),
 		@NamedQuery(name = "ProcessedRequest.FindLastRequests", //
 		query = "SELECT DISTINCT processedrequest FROM ProcessedRequest processedrequest LEFT JOIN FETCH "
 				+ "processedrequest.request request LEFT JOIN FETCH request.productMetadata "
 				+ "WHERE request.user = :user AND processedrequest.completedDate IS NOT NULL "
 				+ "ORDER BY processedrequest.completedDate DESC))"), //
+		*/
+                @NamedQuery(name = "ProcessedRequest.FindByRequestResult", //
+                query = "SELECT processedrequest FROM ProcessedRequest processedrequest WHERE processedrequest.requestResultStatus = :requestresult"),
+                @NamedQuery(name = "ProcessedRequest.FindLastByDate", //
+                query = "SELECT processedrequest FROM ProcessedRequest processedrequest JOIN processedrequest.request request WHERE request.id = :id "
+                                + "AND processedrequest.creationDate = "
+
+                                + "(SELECT MAX(processedreq.creationDate) FROM ProcessedRequest processedreq JOIN processedreq.request req WHERE req.id = :id)"),
+                @NamedQuery(name = "ProcessedRequest.FindLastRequests", //
+                query = "SELECT DISTINCT processedrequest FROM ProcessedRequest processedrequest LEFT JOIN FETCH "
+                                + "processedrequest.request request LEFT JOIN FETCH request.productMetadata "
+                                + "WHERE request.user = :user AND processedrequest.completedDate IS NOT NULL "
+                                + "ORDER BY processedrequest.completedDate DESC"), //
+
 		@NamedQuery(name = "ProcessedRequest.deleteByRequest", query = "DELETE FROM ProcessedRequest pr WHERE pr.request = :request"),
 		@NamedQuery(name = "ProcessedRequest.clearStagingPost", query = "UPDATE FROM ProcessedRequest pr SET pr.uri = NULL"),
 		@NamedQuery(name = "ProcessedRequest.clearStagingPostByUri", query = "DELETE FROM ProcessedRequest pr WHERE pr.uri = :uri") })

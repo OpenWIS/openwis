@@ -28,7 +28,9 @@ public class JndiManagementServiceBeans extends ManagementServiceBeans {
    /**
     * JNDI name prefix for referencing beans from openwis-management-service.ear artifact.
     */
-   public static final String REMOTE_JNDI_PREFIX = "ejb:openwis-management-service/openwis-management-service-ejb/";
+   //changed by Zhan 6/23/2017 
+  // public static final String REMOTE_JNDI_PREFIX = "ejb:openwis-management-service/openwis-management-service-ejb/";
+   public static final String REMOTE_JNDI_PREFIX = "java:global/openwis-management-service/openwis-management-service-ejb/";
 
    private final String jndiNamePrefix;
    private final InitialContext initialContext;
