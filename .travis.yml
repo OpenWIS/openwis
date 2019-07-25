@@ -1,7 +1,7 @@
 language: java
 install: true
 jdk: openjdk8
-script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDependencies.sh && mvn clean exec:exec && mvn clean install -P openwis -fae -DskipTests -Dfile.encoding=UTF-8 --fail-at-end
+script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDependencies.sh && mvn clean exec:exec && mvn clean install -qP openwis -fae -DskipTests -Dfile.encoding=UTF-8 --fail-at-end
 cache:
   directories:
   - $HOME/.m2
