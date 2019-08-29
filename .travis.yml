@@ -11,3 +11,5 @@ deploy:
   file: openwis-harness-dissemination-develop-SNAPSHOT.jar
   skip_cleanup: true
   draft: true
+  on:
+    branch: travis-ci
