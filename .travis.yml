@@ -5,10 +5,13 @@ script: chmod 777 resources/forgerockDependencies.sh && resources/forgerockDepen
 cache:
   directories:
   - $HOME/.m2
+before_deploy:
+- cd ..
+- tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz /home/travis/build/OpenWIS/openwis/*
 deploy:
   provider: releases
   api_key: $GITHUBOAUTH
-  file: /home/travis/.m2/repository/io/openwis/harness/openwis-harness-dissemination/develop-SNAPSHOT/openwis-harness-dissemination-develop-SNAPSHOT.jar
+  file: ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz
   skip_cleanup: true
   draft: true
   on:
