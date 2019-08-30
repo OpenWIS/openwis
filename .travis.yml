@@ -8,7 +8,7 @@ cache:
 deploy:
   provider: releases
   api_key: $GITHUBOAUTH
-  file: openwis-harness-dissemination-develop-SNAPSHOT.jar
+  file: openwis/openwis-harness/openwis-harness-dissemination/target/openwis-harness-dissemination-develop-SNAPSHOT.jar
   skip_cleanup: true
   draft: true
   on:
