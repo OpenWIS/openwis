@@ -7,7 +7,7 @@ cache:
   - $HOME/.m2
 before_deploy:
 - cd ..
-- tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz -C /home/travis/build/OpenWIS/openwis/* --exclude='/home/travis/build/OpenWIS/openwis/openam'
+- tar -zcf ${TRAVIS_BUILD_DIR}${REPO}-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz -C **/*.jar
 deploy:
   provider: releases
   api_key: $GITHUBOAUTH
