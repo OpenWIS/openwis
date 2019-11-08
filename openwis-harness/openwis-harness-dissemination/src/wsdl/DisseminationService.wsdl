@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="DisseminationImplService" targetNamespace="http://dissemination.harness.openwis.org/" xmlns:ns1="http://schemas.xmlsoap.org/wsdl/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://dissemination.harness.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema>
+      <xsd:import namespace="http://dissemination.harness.openwis.org/" schemaLocation="DisseminationService.xsd"/>
+    </xsd:schema>
+
+  </wsdl:types>
+  <wsdl:message name="monitorDisseminationResponse">
+    <wsdl:part element="tns:monitorDisseminationResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disseminateResponse">
+    <wsdl:part element="tns:disseminateResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disseminate">
+    <wsdl:part element="tns:disseminate" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="monitorDissemination">
+    <wsdl:part element="tns:monitorDissemination" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Dissemination">
+    <wsdl:operation name="monitorDissemination">
+      <wsdl:input message="tns:monitorDissemination" name="monitorDissemination">
+    </wsdl:input>
+      <wsdl:output message="tns:monitorDisseminationResponse" name="monitorDisseminationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disseminate">
+      <wsdl:input message="tns:disseminate" name="disseminate">
+    </wsdl:input>
+      <wsdl:output message="tns:disseminateResponse" name="disseminateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DisseminationImplServiceSoapBinding" type="tns:Dissemination">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="monitorDissemination">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="monitorDissemination">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="monitorDisseminationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disseminate">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="disseminate">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="disseminateResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DisseminationImplService">
+    <wsdl:port binding="tns:DisseminationImplServiceSoapBinding" name="DisseminationImplPort">
+      <soap:address location="http://openwis-02.vcsnt.local:8080/openwis-harness-dissemination-1.0-SNAPSHOT/diss" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

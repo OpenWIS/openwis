@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProductArrivalListener" targetNamespace="http://dataservice.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://dataservice.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://dataservice.openwis.org/" schemaLocation="ProductArrivalListener_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="onProductArrival">
+    <wsdl:part name="parameters" element="tns:onProductArrival">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onProductArrivalResponse">
+    <wsdl:part name="parameters" element="tns:onProductArrivalResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ProductArrivalListener">
+    <wsdl:operation name="onProductArrival">
+      <wsdl:input name="onProductArrival" message="tns:onProductArrival">
+    </wsdl:input>
+      <wsdl:output name="onProductArrivalResponse" message="tns:onProductArrivalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProductArrivalListenerSoapBinding" type="tns:ProductArrivalListener">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="onProductArrival">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onProductArrival">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onProductArrivalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProductArrivalListener">
+    <wsdl:port name="ProductArrivalListenerPort" binding="tns:ProductArrivalListenerSoapBinding">
+      <soap:address location="http://localhost:9090/ProductArrivalListenerPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

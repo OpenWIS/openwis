@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DisseminationParametersService" targetNamespace="http://securityservice.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://securityservice.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://securityservice.openwis.org/" schemaLocation="DisseminationParametersService_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getEmailForDisseminationParametersResponse">
+    <wsdl:part name="parameters" element="tns:getEmailForDisseminationParametersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeEmailForDisseminationParameters">
+    <wsdl:part name="parameters" element="tns:removeEmailForDisseminationParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrUpdateFTPForDisseminationParameters">
+    <wsdl:part name="parameters" element="tns:addOrUpdateFTPForDisseminationParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFTPForDisseminationParameters">
+    <wsdl:part name="parameters" element="tns:getFTPForDisseminationParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrUpdateEmailForDisseminationParametersResponse">
+    <wsdl:part name="parameters" element="tns:addOrUpdateEmailForDisseminationParametersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrUpdateFTPForDisseminationParametersResponse">
+    <wsdl:part name="parameters" element="tns:addOrUpdateFTPForDisseminationParametersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeFTPForDisseminationParametersResponse">
+    <wsdl:part name="parameters" element="tns:removeFTPForDisseminationParametersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFTPForDisseminationParametersResponse">
+    <wsdl:part name="parameters" element="tns:getFTPForDisseminationParametersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEmailForDisseminationParameters">
+    <wsdl:part name="parameters" element="tns:getEmailForDisseminationParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UserManagementException">
+    <wsdl:part name="UserManagementException" element="tns:UserManagementException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeEmailForDisseminationParametersResponse">
+    <wsdl:part name="parameters" element="tns:removeEmailForDisseminationParametersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrUpdateEmailForDisseminationParameters">
+    <wsdl:part name="parameters" element="tns:addOrUpdateEmailForDisseminationParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeFTPForDisseminationParameters">
+    <wsdl:part name="parameters" element="tns:removeFTPForDisseminationParameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DisseminationParametersService">
+    <wsdl:operation name="getFTPForDisseminationParameters">
+      <wsdl:input name="getFTPForDisseminationParameters" message="tns:getFTPForDisseminationParameters">
+    </wsdl:input>
+      <wsdl:output name="getFTPForDisseminationParametersResponse" message="tns:getFTPForDisseminationParametersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeEmailForDisseminationParameters">
+      <wsdl:input name="removeEmailForDisseminationParameters" message="tns:removeEmailForDisseminationParameters">
+    </wsdl:input>
+      <wsdl:output name="removeEmailForDisseminationParametersResponse" message="tns:removeEmailForDisseminationParametersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addOrUpdateFTPForDisseminationParameters">
+      <wsdl:input name="addOrUpdateFTPForDisseminationParameters" message="tns:addOrUpdateFTPForDisseminationParameters">
+    </wsdl:input>
+      <wsdl:output name="addOrUpdateFTPForDisseminationParametersResponse" message="tns:addOrUpdateFTPForDisseminationParametersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeFTPForDisseminationParameters">
+      <wsdl:input name="removeFTPForDisseminationParameters" message="tns:removeFTPForDisseminationParameters">
+    </wsdl:input>
+      <wsdl:output name="removeFTPForDisseminationParametersResponse" message="tns:removeFTPForDisseminationParametersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addOrUpdateEmailForDisseminationParameters">
+      <wsdl:input name="addOrUpdateEmailForDisseminationParameters" message="tns:addOrUpdateEmailForDisseminationParameters">
+    </wsdl:input>
+      <wsdl:output name="addOrUpdateEmailForDisseminationParametersResponse" message="tns:addOrUpdateEmailForDisseminationParametersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEmailForDisseminationParameters">
+      <wsdl:input name="getEmailForDisseminationParameters" message="tns:getEmailForDisseminationParameters">
+    </wsdl:input>
+      <wsdl:output name="getEmailForDisseminationParametersResponse" message="tns:getEmailForDisseminationParametersResponse">
+    </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DisseminationParametersServiceSoapBinding" type="tns:DisseminationParametersService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getFTPForDisseminationParameters">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFTPForDisseminationParameters">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFTPForDisseminationParametersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeEmailForDisseminationParameters">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeEmailForDisseminationParameters">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeEmailForDisseminationParametersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addOrUpdateFTPForDisseminationParameters">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addOrUpdateFTPForDisseminationParameters">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addOrUpdateFTPForDisseminationParametersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeFTPForDisseminationParameters">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeFTPForDisseminationParameters">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeFTPForDisseminationParametersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addOrUpdateEmailForDisseminationParameters">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addOrUpdateEmailForDisseminationParameters">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addOrUpdateEmailForDisseminationParametersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEmailForDisseminationParameters">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEmailForDisseminationParameters">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEmailForDisseminationParametersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DisseminationParametersService">
+    <wsdl:port name="DisseminationParametersServicePort" binding="tns:DisseminationParametersServiceSoapBinding">
+      <soap:address location="http://localhost:9090/DisseminationParametersServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

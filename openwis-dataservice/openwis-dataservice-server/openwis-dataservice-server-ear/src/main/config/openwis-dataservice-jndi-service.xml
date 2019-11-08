@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server PUBLIC "-//JBoss//DTD MBean Service 4.0//EN"
+          "http://www.jboss.org/j2ee/dtd/jboss-service_4_0.dtd">
+<!--
+
+OpenWIS configuration file for the Data Service.
+
+-->
+<server>
+    <mbean code="org.jboss.naming.JNDIBindingServiceMgr" name="openwis:service=openwis-dataservice-jndi-service">
+        <attribute name="BindingsConfig" serialDataType="jbxb">
+            <jndi:bindings xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:jndi="urn:jboss:jndi-binding-service:1.0"
+                xs:schemaLocation="urn:jboss:jndi-binding-service:1.0 resource:jndi-binding-service_1_0.xsd">
+                
+                <!-- 
+                    Local DataSource configuration 
+                -->
+                <jndi:binding name="ws/localdatasourceservice">
+                    <java:properties xmlns:java="urn:jboss:java-properties"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+                        xs:schemaLocation="urn:jboss:java-properties resource:java-properties_1_0.xsd">
+                    <!--  Uncomment the following lines to enable local data source communication -->    
+                    <!-- 
+                        <java:property>
+                            <java:key>localDataSource1</java:key>
+                            <java:value>http://localhost:8180/Mock-LocalDataSource-1.0-SNAPSHOT/dataSource?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>localDataSource1.polling</java:key>
+                            <java:value>true</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>localDataSource2</java:key>
+                            <java:value>http://localhost:8180/Mock-LocalDataSource-1.0-SNAPSHOT/dataSource?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>localDataSource2.polling</java:key>
+                            <java:value>false</java:value>
+                        </java:property>
+                    -->
+                    </java:properties>
+                </jndi:binding>
+
+                <!-- 
+                    DataService internal configuration 
+                -->
+                <jndi:binding name="conf/openwis-dataservice">
+                    <java:properties xmlns:java="urn:jboss:java-properties"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+                        xs:schemaLocation="urn:jboss:java-properties resource:java-properties_1_0.xsd">
+                        
+                        <!-- ********* Basic settings ********* -->
+
+                        <!-- 
+                        Data Service Locations: set of folders used by the Data Service
+                            - staging post: files are dropped here once extracted
+                            - temp: files being not ingested are temporarily moved in temp folder
+                            - cache: base folder for the Cache
+                            - incoming: folder on which GTS flow is dropped
+                            - ingesting: folder containing files to ingest (after dispatch)
+                            - working: batch files being ingested are split in this folder (after ingesting)
+                            - outgoing: outgoing folder for feeding
+                            - status: folder containing service status files
+                        -->
+                        <java:property>
+                            <java:key>cache.dir.stagingPost</java:key>
+                            <java:value>@dataService.baseLocation@/stagingPost</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dir.temp</java:key>
+                            <java:value>@dataService.baseLocation@/temp</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dir.cache</java:key>
+                            <java:value>@dataService.baseLocation@/cache</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dir.harness.incoming</java:key>
+                            <java:value>@dataService.baseLocation@/harness/incoming</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dir.harness.ingesting</java:key>
+                            <java:value>@dataService.baseLocation@/harness/ingesting</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dir.harness.working</java:key>
+                            <java:value>@dataService.baseLocation@/harness/working</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dir.harness.outgoing</java:key>
+                            <java:value>@dataService.baseLocation@/harness/outgoing</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>dataservice.service.status.folder</java:key>
+                            <java:value>@dataService.baseLocation@/status</java:value>
+                        </java:property>
+                        <!-- 
+                        Locations for Replication:
+                            - replication: folder containing replication sub-folders (sending / receiving)
+                            - fromReplication: name of sub-folder of ingesting and working folders where files are dropped
+                            when received from replication.
+                        -->
+                        <java:property>
+                            <java:key>cache.replication.config.folder</java:key>
+                            <java:value>@dataService.baseLocation@/replication</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.replication.config.fromReplication.folder</java:key>
+                            <java:value>fromReplication</java:value>
+                        </java:property> 
+                        
+                        <!-- Feeding configuration  -->                        
+                        <java:property>
+                            <java:key>cache.config.numberOfChecksumBytes</java:key>
+                            <java:value>100</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.gts.feeding.config.maximumMessageCount</java:key>
+                            <java:value>100</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.config.location.sendingCentre</java:key>
+                            <!-- test location code -->
+                            <java:value>DEBO</java:value>
+                        </java:property>
+                        
+                        
+                        <!-- Dissemination Harness configuration  -->                        
+                        <java:property>
+                            <java:key>cache.dissemination.disseminationHarness.public.url</java:key>
+                            <java:value>@harnessDisseminationPublicServer@</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dissemination.disseminationHarness.rmdcn.url</java:key>
+                            <java:value>@harnessDisseminationRMDCNServer@</java:value>
+                        </java:property>
+                        
+                        <java:property>
+                            <java:key>cache.dissemination.threshold.mail</java:key>
+                            <!-- the maximum number of bytes to send via email -->
+                            <java:value>8000000</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>cache.dissemination.threshold.ftp</java:key>
+                            <!-- the maximum number of bytes to send via ftp -->
+                            <java:value>1000000000</java:value>
+                        </java:property>
+                        
+                        <!-- Base of Staging Post external URL (for email notification) -->
+                        <java:property>
+                            <java:key>stagingPost.url</java:key>
+                            <java:value>@stagingPost.url@</java:value>
+                        </java:property>
+                        <!-- Staging Post purge time in minutes -->
+                        <java:property>
+                            <java:key>cache.dissemination.stagingPost.purgeTime</java:key>
+                            <java:value>7200</java:value>
+                        </java:property>
+                        <!-- Max staging post size for each user before sending an alarm -->
+                        <java:property>
+                             <java:key>cache.config.stagingPostMaximumSize</java:key>
+                             <!-- value in bytes -->
+                             <java:value>1000000000000</java:value>
+                        </java:property>
+                        
+                        <!-- Max cache size before sending an alarm -->
+                        <java:property>
+                             <java:key>cache.config.cacheMaximumSize</java:key>
+                             <!-- value in bytes -->
+                             <java:value>1000000000000</java:value>
+                        </java:property>
+
+                        <!-- Send Mail properties -->
+                        <java:property>
+                           <java:key>mail.from</java:key>
+                           <java:value>@dataService.mail.from@</java:value>
+                        </java:property>
+                        <java:property>
+                           <java:key>mail.transport.protocol</java:key>
+                           <java:value>smtp</java:value>
+                        </java:property>
+                        <java:property>
+                           <java:key>mail.smtp.host</java:key>
+                           <java:value>@dataService.mail.smtp.host@</java:value>
+                        </java:property>
+                        <java:property>
+                           <java:key>mail.smtp.port</java:key>
+                           <java:value>25</java:value>
+                        </java:property>
+         
+                        <!-- Blacklist default thresholds -->
+                         <java:property>
+                             <java:key>blacklist.default.nb.warn</java:key>
+                             <java:value>50</java:value>
+                         </java:property>
+                         <java:property>
+                             <java:key>blacklist.default.nb.blacklist</java:key>
+                             <java:value>100</java:value>
+                         </java:property>
+                         <java:property>
+                             <java:key>blacklist.default.vol.warn</java:key>
+                             <java:value>50000000</java:value>
+                         </java:property>
+                         <java:property>
+                             <java:key>blacklist.default.vol.blacklist</java:key>
+                             <java:value>100000000</java:value>
+                         </java:property>
+                         
+                        <!-- Management configuration (WebService URLs)-->
+                        <java:property>
+                            <java:key>openwis.management.controlservice.defaultFeedingFilterLocation</java:key>
+                            <java:value>@dataService.baseLocation@/defaultFeedingFilters.config</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>openwis.management.alertservice.wsdl</java:key>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/AlertService?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>openwis.management.controlservice.wsdl</java:key>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/ControlService?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>openwis.management.disseminateddatastatistics.wsdl</java:key>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/DisseminatedDataStatistics?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>openwis.management.exchangeddatastatistics.wsdl</java:key>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/ExchangedDataStatistics?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>openwis.management.replicateddatastatistics.wsdl</java:key>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/ReplicatedDataStatistics?wsdl</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>openwis.management.ingesteddatastatistics.wsdl</java:key>
+                            <java:value>http://@managementServiceServer@/openwis-management-service-openwis-management-service-ejb/IngestedDataStatistics?wsdl</java:value>
+                        </java:property>
+                       
+
+
+                        <!-- ********* Advanced settings ********* -->
+                        
+                        <!--  Properties for extraction timer-->
+                        <java:property>
+                            <java:key>extraction.timer.url</java:key>
+                            <java:value>openwis-dataservice/ExtractionTimerService/local</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>extraction.timer.period</java:key>
+                            <java:value>10000</java:value>
+                        </java:property>
+
+                        <!--  Properties for subscription timer-->
+                        <java:property>
+                            <java:key>subscription.timer.url</java:key>
+                            <java:value>openwis-dataservice/SubscriptionTimerService/remote</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>subscription.timer.period</java:key>
+                            <java:value>60000</java:value> <!-- 1min -->
+                        </java:property>
+
+                        <!-- Properties for LocalDataSource Polling timer -->
+                        <java:property>
+                            <java:key>localDataSource.polling.timer.url</java:key>
+                            <java:value>openwis-dataservice/LocalDataSourcePollingTimerService/remote</java:value>
+                        </java:property>
+                        <java:property>
+                            <java:key>localDataSource.polling.timer.period</java:key>
+                            <java:value>600000</java:value> <!-- 10 min -->
+                        </java:property>
+
+                        <!--  Properties for cache location -->
+                        <java:property>
+                            <java:key>cache.service.url</java:key>
+                            <java:value>openwis-dataservice/ExtractFromCache/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>processedRequest.service.url</java:key>
+                            <java:value>openwis-dataservice/ProcessedRequestService/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>extractionDelegate.url</java:key>
+                            <java:value>openwis-dataservice/ExtractionDelegate/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.collectionTimerService.url</java:key>
+                            <java:value>openwis-dataservice/CollectionTimerService/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.splittingTimerService.url</java:key>
+                            <java:value>openwis-dataservice/SplittingTimerService/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>metadata.service.url</java:key>
+                            <java:value>openwis-dataservice/ProductMetadataService/remote</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.url</java:key>
+                            <java:value>openwis-dataservice/CacheManager/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheIndex.url</java:key>
+                            <java:value>openwis-dataservice/CacheIndex/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.feeder.url</java:key>
+                            <java:value>openwis-dataservice/Feeder/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.mailSender.url</java:key>
+                            <java:value>openwis-dataservice/MailSender/remote</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.collectionTimer.initialDelay</java:key>
+                            <java:value>10000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.housekeepingTimer.initialDelay</java:key>
+                            <java:value>30000</java:value>
+                        </java:property>
+                        
+                        <java:property>
+                            <java:key>cache.cacheManager.alertCleanerTimer.initialDelay</java:key>
+                            <!-- value in milliseconds -->
+                            <java:value>30000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.purgeTimer.initialDelay</java:key>
+                            <java:value>30000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.collectionTimer.period</java:key>
+                            <java:value>2000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.splittingTimer.initialDelay</java:key>
+                            <java:value>10000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.splittingTimer.period</java:key>
+                            <java:value>2000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.purgeTimer.period</java:key>
+                            <java:value>60000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.housekeepingTimer.period</java:key>
+                            <java:value>60000</java:value>
+                        </java:property>
+                        
+                        <java:property>
+                            <java:key>cache.cacheManager.alertCleanerTimer.period</java:key>
+                            <!-- value in milliseconds -->
+                            <java:value>300000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.housekeepingTimer.expirationWindow</java:key>
+                            <!-- test java:value>10000</java:value -->
+                            <!-- value in days -->
+                            <java:value>1</java:value>
+                        </java:property>
+                        
+                        <java:property>
+                            <java:key>cache.cacheManager.alertCleanerTimer.expirationWindow</java:key>                            
+                            <!-- value in days -->
+                            <java:value>7</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.cacheManager.purgingTimer.expirationWindow</java:key>
+                            <!-- value in milliseconds -->
+                            <java:value>3600000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.feeding.packedFeedingTimer.initialDelay</java:key>
+                            <java:value>10000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.feeding.packedFeedingTimer.period</java:key>
+                            <java:value>60000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.feeding.packedFeedingTimerService.url</java:key>
+                            <java:value>openwis-dataservice/PackedFeedingTimerService/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.util.databaseAccessor.url</java:key>
+                            <java:value>openwis-dataservice/FilePackerDatabaseAccessor/local</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.exclude.patterns</java:key>
+                            <java:value>tmp;</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.include.patterns</java:key>
+                            <java:value>tiff; xml; Z; met; tif; gif; png; jpg; ps; mpg; txt; htm; bin; doc; wpd; ua; ub; a; b; f;</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.gts.collection.include.max</java:key>
+                            <java:value>100</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.dissemination.disseminationTimer.initialDelay</java:key>
+                            <java:value>10000</java:value>
+                        </java:property>
+
+                        <java:property>
+                            <java:key>cache.dissemination.disseminationTimer.period</java:key>
+                            <java:value>5000</java:value>
+                        </java:property>
+
+                        <!-- 
+                        GTS Category regexp to recognize WMOEssential/WMOAdditional data
+                        Uncomment to override default regexp WMO\\s*Essential and WMO\\s*Additional
+                        
+                        <java:property>
+                             <java:key>metadata.gtsCategoryEssentialRegexp</java:key>
+                             <java:value>WMO\\s*Essential</java:value>
+                        </java:property>
+                        <java:property>
+                             <java:key>metadata.gtsCategoryAdditionalRegexp</java:key>
+                             <java:value>WMO\\s*Additional</java:value>
+                        </java:property>
+                        -->
+
+                    </java:properties>
+                </jndi:binding>
+
+            </jndi:bindings>
+        </attribute>
+        <depends>jboss:service=Naming</depends>
+    </mbean>
+</server>

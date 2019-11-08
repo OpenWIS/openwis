@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://dataservice.openwis.org/" version="1.0">
+<xs:complexType name="subscription">
+    <xs:complexContent>
+      <xs:extension base="tns:request">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="active" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="frequency" type="tns:frequency"/>
+          <xs:element minOccurs="0" name="startingDate" type="xs:dateTime"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="processedRequests" nillable="true" type="tns:processedRequest"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType abstract="true" name="request">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="extractMode" type="tns:extractMode"/>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="parameters" nillable="true" type="tns:parameter"/>
+      <xs:element minOccurs="0" name="primaryDissemination" type="tns:dissemination"/>
+      <xs:element minOccurs="0" name="productMetadata" type="tns:productMetadata"/>
+      <xs:element minOccurs="0" name="secondaryDissemination" type="tns:dissemination"/>
+      <xs:element minOccurs="0" name="user" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType abstract="true" name="frequency">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="zipped" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="parameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="values" nillable="true" type="tns:value"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType abstract="true" name="dissemination">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="productMetadata">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ahlPattern" type="xs:string"/>
+      <xs:element minOccurs="0" name="dataPolicy" type="xs:string"/>
+      <xs:element minOccurs="0" name="fed" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="fncPattern" type="xs:string"/>
+      <xs:element minOccurs="0" name="gtsCategory" type="xs:string"/>
+      <xs:element minOccurs="0" name="ingested" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="localDataSource" type="xs:string"/>
+      <xs:element minOccurs="0" name="originator" type="xs:string"/>
+      <xs:element minOccurs="0" name="overridenDataPolicy" type="xs:string"/>
+      <xs:element minOccurs="0" name="overridenGtsCategory" type="xs:string"/>
+      <xs:element minOccurs="0" name="overridenFncPattern" type="xs:string"/>
+      <xs:element minOccurs="0" name="overridenPriority" type="xs:int"/>
+      <xs:element minOccurs="0" name="priority" type="xs:int"/>
+      <xs:element minOccurs="0" name="process" type="xs:string"/>
+      <xs:element minOccurs="0" name="title" type="xs:string"/>
+      <xs:element minOccurs="0" name="updateFrequency" type="tns:updateFrequency"/>
+      <xs:element minOccurs="0" name="urn" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType abstract="true" name="updateFrequency">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="adHoc">
+    <xs:complexContent>
+      <xs:extension base="tns:request">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="processedRequest" type="tns:processedRequest"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="processedRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="completedDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="creationDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="request" type="tns:request"/>
+      <xs:element minOccurs="0" name="requestResultStatus" type="tns:requestResultStatus"/>
+      <xs:element name="size" type="xs:long"/>
+      <xs:element minOccurs="0" name="submittedDisseminationDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="uri" type="xs:string"/>
+      <xs:element name="version" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="value">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="recurrentUpdateFrequency">
+    <xs:complexContent>
+      <xs:extension base="tns:updateFrequency">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reccurentScale" type="tns:recurrentScale"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="temporal">
+    <xs:complexContent>
+      <xs:extension base="tns:updateFrequency">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="from" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="to" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="mssfssDissemination">
+    <xs:complexContent>
+      <xs:extension base="tns:dissemination">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="channel" type="tns:mssfssChannel"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="mssfssChannel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="channel" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="shoppingCartDissemination">
+    <xs:complexContent>
+      <xs:extension base="tns:dissemination">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="activated" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="rmdcnDissemination">
+    <xs:complexContent>
+      <xs:extension base="tns:dissemination">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="diffusion" type="tns:diffusion"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType abstract="true" name="diffusion">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="publicDissemination">
+    <xs:complexContent>
+      <xs:extension base="tns:dissemination">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="diffusion" type="tns:diffusion"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="ftpDiffusion">
+    <xs:complexContent>
+      <xs:extension base="tns:diffusion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="checkFileSize" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+          <xs:element minOccurs="0" name="host" type="xs:string"/>
+          <xs:element minOccurs="0" name="passive" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="password" type="xs:string"/>
+          <xs:element minOccurs="0" name="path" type="xs:string"/>
+          <xs:element minOccurs="0" name="port" type="xs:string"/>
+          <xs:element minOccurs="0" name="user" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="mailDiffusion">
+    <xs:complexContent>
+      <xs:extension base="tns:diffusion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="address" type="xs:string"/>
+          <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+          <xs:element minOccurs="0" name="headerLine" type="xs:string"/>
+          <xs:element minOccurs="0" name="mailAttachmentMode" type="tns:mailAttachmentMode"/>
+          <xs:element minOccurs="0" name="mailDispatchMode" type="tns:mailDispatchMode"/>
+          <xs:element minOccurs="0" name="subject" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="eventBasedFrequency">
+    <xs:complexContent>
+      <xs:extension base="tns:frequency">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="recurrentFrequency">
+    <xs:complexContent>
+      <xs:extension base="tns:frequency">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reccurencePeriod" type="xs:int"/>
+          <xs:element minOccurs="0" name="reccurentScale" type="tns:recurrentScale"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:simpleType name="extractMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NOT_IN_LOCAL_CACHE"/>
+      <xs:enumeration value="GLOBAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="requestResultStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INITIAL"/>
+      <xs:enumeration value="CREATED"/>
+      <xs:enumeration value="EXTRACTED"/>
+      <xs:enumeration value="ONGOING_DISSEMINATION"/>
+      <xs:enumeration value="ONGOING_EXTRACTION"/>
+      <xs:enumeration value="DISSEMINATED"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="WAITING_FOR_DISSEMINATION"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="recurrentScale">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HOUR"/>
+      <xs:enumeration value="DAY"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="mailAttachmentMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EMBEDDED_IN_BODY"/>
+      <xs:enumeration value="AS_ATTACHMENT"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="mailDispatchMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TO"/>
+      <xs:enumeration value="CC"/>
+      <xs:enumeration value="BCC"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

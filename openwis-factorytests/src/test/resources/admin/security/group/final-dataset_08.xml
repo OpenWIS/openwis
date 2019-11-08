@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<groups name="DEFAULT" isglobal="n" />
+	<groups name="mygroup" isglobal="y" />
+	<groups name="Institutional" isglobal="y" />
+
+</dataset>

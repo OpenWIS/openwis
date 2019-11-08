@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://replication.cache.dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://replication.cache.dataservice.openwis.org/" version="1.0">
+<xs:element name="disableReplication" type="tns:disableReplication"/>
+<xs:element name="disableReplicationResponse" type="tns:disableReplicationResponse"/>
+<xs:element name="enableReplication" type="tns:enableReplication"/>
+<xs:element name="enableReplicationResponse" type="tns:enableReplicationResponse"/>
+<xs:element name="informOfNewFile" type="tns:informOfNewFile"/>
+<xs:element name="informOfNewFileResponse" type="tns:informOfNewFileResponse"/>
+<xs:element name="makeFileObsolete" type="tns:makeFileObsolete"/>
+<xs:element name="makeFileObsoleteResponse" type="tns:makeFileObsoleteResponse"/>
+<xs:element name="rememberFilteredFile" type="tns:rememberFilteredFile"/>
+<xs:element name="rememberFilteredFileResponse" type="tns:rememberFilteredFileResponse"/>
+<xs:element name="shareFile" type="tns:shareFile"/>
+<xs:element name="shareFileResponse" type="tns:shareFileResponse"/>
+<xs:element name="unshareAndDeleteFile" type="tns:unshareAndDeleteFile"/>
+<xs:element name="unshareAndDeleteFileResponse" type="tns:unshareAndDeleteFileResponse"/>
+<xs:complexType name="rememberFilteredFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg4" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="rememberFilteredFileResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="makeFileObsolete">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element name="arg2" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="makeFileObsoleteResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="disableReplication">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="disableReplicationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="enableReplication">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="enableReplicationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="unshareAndDeleteFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="unshareAndDeleteFileResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="shareFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="shareFileResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="informOfNewFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:replicationFileInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="replicationFileInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="checksum" type="xs:string"/>
+      <xs:element minOccurs="0" name="filename" type="xs:string"/>
+      <xs:element minOccurs="0" name="internalFilenamePath" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="metadataUrnList" nillable="true" type="xs:string"/>
+      <xs:element name="numberOfChecksumBytes" type="xs:int"/>
+      <xs:element name="priority" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="informOfNewFileResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>

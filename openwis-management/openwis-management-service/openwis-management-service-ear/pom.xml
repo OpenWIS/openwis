@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openwis-management-service</artifactId>
+		<groupId>io.openwis.management.service</groupId>
+		<version>3.14.8</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>io.openwis.management.service</groupId>
+	<artifactId>openwis-management-service-ear</artifactId>
+	<packaging>ear</packaging>
+	<name>openwis-management-service-ear</name>
+
+	<properties>
+		<openwis-alerts-logging>openwis-alerts-logging.xml</openwis-alerts-logging>
+	</properties>
+
+	<build>
+		<finalName>openwis-management-service</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+                    <version>6</version>
+                    <initializeInOrder>true</initializeInOrder>
+                    <fileNameMapping>no-version-for-ejb</fileNameMapping>
+
+					<!-- Permet de generer le fichier de configuration jboss-app.xml -->
+					<jboss>
+						<version>5</version>
+						<loader-repository>openwis-management-service:archive=openwis-management-service.ear</loader-repository>
+					</jboss>
+					<!--
+						Permet de mettre tous les JAR autres que modules dans le
+						repertoire lib
+					-->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+			        <packagingExcludes>lib/openwis-management-service-common-*.jar</packagingExcludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.openwis.management.service</groupId>
+			<artifactId>openwis-management-service-common</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>io.openwis.management.service</groupId>
+			<artifactId>openwis-management-service-ejb</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+</project>

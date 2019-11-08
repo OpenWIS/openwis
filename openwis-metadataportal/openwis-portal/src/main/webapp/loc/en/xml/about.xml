@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<help>
+	<title>About OpenWIS</title>
+	<content>
+		<p>
+			<span lang="EN-US">OpenWIS is an implementation of the WMO Information
+				System.</span>
+		</p>
+		<p>
+			<span lang="EN-US">The World Meteorological Organization (WMO) has been
+				working for several years towards upgrading its global
+				infrastructure to support all of its international programmes of
+				work, both operational and research-based, to collect, share and
+				disseminate information. The new infrastructure is called the WIS,
+				the WMO Information System, and identifies three top-level
+				functions. These are:</span>
+		</p>
+		<ul type="disc" style="margin-top: 0cm;">
+			<li>GISC: Global Information System Centre;</li>
+			<li>DCPC: Data Collection and Production Centre;</li>
+			<li>NC: National Centre.</li>
+		</ul>
+		<p>
+			<span lang="EN-US">
+				All three functions contribute to the circulation of
+				priority data,
+				system wide security, monitoring and implementation of
+				WMO data
+				policies. GISCs and DCPCs allow the Discovery Access and
+				Retrieval
+				of data, products and services offered by WIS Centres, but
+				GISCs
+				offer a global view of this information and provide distributed
+				and
+				resilient access to critical data and products.</span>
+		</p>
+		<p>
+			<span lang="EN-US">
+				OpenWIS aims to
+				perform the three functions required
+				by the WMO Information
+				System
+				that is, GISC, DCPC and NC.</span>
+		</p>
+		<p>
+			This site is based on
+			<a href="http://geonetwork-opensource.org" target="_blank">GeoNetwork
+				opensource</a>
+			.
+		</p>
+		<p>
+			<strong>GeoNetwork opensource</strong>
+			is a standardized and decentralized spatial information management
+			environment, designed to enable access to geo-referenced databases,
+			cartographic products and related metadata from a variety of sources,
+			enhancing the spatial information exchange and sharing between
+			organizations and their audience, using the capacities of the
+			internet. This approach of geographic information management aims at
+			facilitating a wide community of spatial information users to have
+			easy and timely access to available spatial data and to existing
+			thematic maps that might support informed decision making.
+		</p>
+		<p>
+			<a href="http://geonetwork-opensource.org" target="_blank">Read more ...</a>
+		</p>
+	</content>
+</help>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<datapolicy name="public" />
+    <datapolicy name="additional-default" />
+    <datapolicy name="unknown" />
+    <datapolicy name="mydp" />
+
+</dataset>

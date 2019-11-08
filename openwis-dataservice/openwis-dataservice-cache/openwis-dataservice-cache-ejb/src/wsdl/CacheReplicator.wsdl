@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CacheReplicatorImplService" targetNamespace="http://replication.cache.dataservice.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://replication.cache.dataservice.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://replication.cache.dataservice.openwis.org/" schemaLocation="CacheReplicator_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="rememberFilteredFile">
+    <wsdl:part name="parameters" element="tns:rememberFilteredFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unshareAndDeleteFile">
+    <wsdl:part name="parameters" element="tns:unshareAndDeleteFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="enableReplication">
+    <wsdl:part name="parameters" element="tns:enableReplication">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="shareFileResponse">
+    <wsdl:part name="parameters" element="tns:shareFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="informOfNewFile">
+    <wsdl:part name="parameters" element="tns:informOfNewFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="enableReplicationResponse">
+    <wsdl:part name="parameters" element="tns:enableReplicationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="shareFile">
+    <wsdl:part name="parameters" element="tns:shareFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rememberFilteredFileResponse">
+    <wsdl:part name="parameters" element="tns:rememberFilteredFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableReplication">
+    <wsdl:part name="parameters" element="tns:disableReplication">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="informOfNewFileResponse">
+    <wsdl:part name="parameters" element="tns:informOfNewFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unshareAndDeleteFileResponse">
+    <wsdl:part name="parameters" element="tns:unshareAndDeleteFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="makeFileObsolete">
+    <wsdl:part name="parameters" element="tns:makeFileObsolete">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="makeFileObsoleteResponse">
+    <wsdl:part name="parameters" element="tns:makeFileObsoleteResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableReplicationResponse">
+    <wsdl:part name="parameters" element="tns:disableReplicationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CacheReplicatorImplService">
+    <wsdl:operation name="rememberFilteredFile">
+      <wsdl:input name="rememberFilteredFile" message="tns:rememberFilteredFile">
+    </wsdl:input>
+      <wsdl:output name="rememberFilteredFileResponse" message="tns:rememberFilteredFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="makeFileObsolete">
+      <wsdl:input name="makeFileObsolete" message="tns:makeFileObsolete">
+    </wsdl:input>
+      <wsdl:output name="makeFileObsoleteResponse" message="tns:makeFileObsoleteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disableReplication">
+      <wsdl:input name="disableReplication" message="tns:disableReplication">
+    </wsdl:input>
+      <wsdl:output name="disableReplicationResponse" message="tns:disableReplicationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="enableReplication">
+      <wsdl:input name="enableReplication" message="tns:enableReplication">
+    </wsdl:input>
+      <wsdl:output name="enableReplicationResponse" message="tns:enableReplicationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unshareAndDeleteFile">
+      <wsdl:input name="unshareAndDeleteFile" message="tns:unshareAndDeleteFile">
+    </wsdl:input>
+      <wsdl:output name="unshareAndDeleteFileResponse" message="tns:unshareAndDeleteFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="shareFile">
+      <wsdl:input name="shareFile" message="tns:shareFile">
+    </wsdl:input>
+      <wsdl:output name="shareFileResponse" message="tns:shareFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="informOfNewFile">
+      <wsdl:input name="informOfNewFile" message="tns:informOfNewFile">
+    </wsdl:input>
+      <wsdl:output name="informOfNewFileResponse" message="tns:informOfNewFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CacheReplicatorImplServiceSoapBinding" type="tns:CacheReplicatorImplService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="rememberFilteredFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rememberFilteredFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rememberFilteredFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disableReplication">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="disableReplication">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="disableReplicationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="makeFileObsolete">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="makeFileObsolete">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="makeFileObsoleteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="enableReplication">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="enableReplication">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="enableReplicationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unshareAndDeleteFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="unshareAndDeleteFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="unshareAndDeleteFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="shareFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="shareFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="shareFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="informOfNewFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="informOfNewFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="informOfNewFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CacheReplicatorImplService">
+    <wsdl:port name="CacheReplicatorImplPort" binding="tns:CacheReplicatorImplServiceSoapBinding">
+      <soap:address location="http://localhost:9090/CacheReplicatorImplPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

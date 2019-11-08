@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://dataservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://dataservice.openwis.org/" version="1.0">
+<xs:element name="acknowledgeAlarmsForUser" type="tns:acknowledgeAlarmsForUser"/>
+<xs:element name="acknowledgeAlarmsForUserResponse" type="tns:acknowledgeAlarmsForUserResponse"/>
+<xs:element name="acknowledgeAllAlarmsForUserAndRequestType" type="tns:acknowledgeAllAlarmsForUserAndRequestType"/>
+<xs:element name="acknowledgeAllAlarmsForUserAndRequestTypeResponse" type="tns:acknowledgeAllAlarmsForUserAndRequestTypeResponse"/>
+<xs:element name="countUserAlarms" type="tns:countUserAlarms"/>
+<xs:element name="countUserAlarmsResponse" type="tns:countUserAlarmsResponse"/>
+<xs:element name="deleteAlarms" type="tns:deleteAlarms"/>
+<xs:element name="deleteAlarmsOfRequest" type="tns:deleteAlarmsOfRequest"/>
+<xs:element name="deleteAlarmsOfRequestResponse" type="tns:deleteAlarmsOfRequestResponse"/>
+<xs:element name="deleteAlarmsOfUser" type="tns:deleteAlarmsOfUser"/>
+<xs:element name="deleteAlarmsOfUserResponse" type="tns:deleteAlarmsOfUserResponse"/>
+<xs:element name="deleteAlarmsResponse" type="tns:deleteAlarmsResponse"/>
+<xs:element name="deleteAllAlarms" type="tns:deleteAllAlarms"/>
+<xs:element name="deleteAllAlarmsResponse" type="tns:deleteAllAlarmsResponse"/>
+<xs:element name="getDistinctNumberOfUsersWithUserAlarms" type="tns:getDistinctNumberOfUsersWithUserAlarms"/>
+<xs:element name="getDistinctNumberOfUsersWithUserAlarmsResponse" type="tns:getDistinctNumberOfUsersWithUserAlarmsResponse"/>
+<xs:element name="getUserAlarms" type="tns:getUserAlarms"/>
+<xs:element name="getUserAlarmsResponse" type="tns:getUserAlarmsResponse"/>
+<xs:element name="raiseUserAlarm" type="tns:raiseUserAlarm"/>
+<xs:element name="raiseUserAlarmResponse" type="tns:raiseUserAlarmResponse"/>
+<xs:element name="reportOnUserAlarms" type="tns:reportOnUserAlarms"/>
+<xs:element name="reportOnUserAlarmsResponse" type="tns:reportOnUserAlarmsResponse"/>
+<xs:complexType name="deleteAlarms">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDistinctNumberOfUsersWithUserAlarms">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getDistinctNumberOfUsersWithUserAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfRequest">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfRequestResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseUserAlarm">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:userAlarm"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="userAlarm">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dateRaised" type="xs:dateTime"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element name="processedRequestId" type="xs:long"/>
+      <xs:element name="requestId" type="xs:long"/>
+      <xs:element minOccurs="0" name="requestType" type="tns:userAlarmRequestType"/>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseUserAlarmResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="reportOnUserAlarms">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="criteria" type="tns:userAlarmReportCriteriaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="userAlarmReportCriteriaDTO">
+    <xs:sequence>
+      <xs:element name="limit" type="xs:int"/>
+      <xs:element name="offset" type="xs:int"/>
+      <xs:element name="sortAsc" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="sortBy" type="tns:userAlarmReportSort"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="reportOnUserAlarmsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userAlarmReportDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="userAlarmReportDTO">
+    <xs:sequence>
+      <xs:element name="requestCount" type="xs:int"/>
+      <xs:element name="subscriptionCount" type="xs:int"/>
+      <xs:element name="totalCount" type="xs:int"/>
+      <xs:element minOccurs="0" name="userId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAlarmsForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="alarmIds" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAlarmsForUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserAlarms">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="criteria" type="tns:getUserAlarmCriteriaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserAlarmCriteriaDTO">
+    <xs:sequence>
+      <xs:element name="limit" type="xs:int"/>
+      <xs:element name="offset" type="xs:int"/>
+      <xs:element minOccurs="0" name="requestType" type="tns:userAlarmRequestType"/>
+      <xs:element name="sortAscending" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="sortColumn" type="tns:getUserAlarmSort"/>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUserAlarmsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:userAlarm"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAllAlarms">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="deleteAllAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAllAlarmsForUserAndRequestType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element minOccurs="0" name="requestType" type="tns:userAlarmRequestType"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="acknowledgeAllAlarmsForUserAndRequestTypeResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="countUserAlarms">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:getUserAlarmCriteriaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="countUserAlarmsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteAlarmsOfUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:simpleType name="userAlarmRequestType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="REQUEST"/>
+      <xs:enumeration value="SUBSCRIPTION"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="userAlarmReportSort">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="USER_ID"/>
+      <xs:enumeration value="REQUEST_COUNT"/>
+      <xs:enumeration value="SUBSCRIPTION_COUNT"/>
+      <xs:enumeration value="TOTAL_COUNT"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="getUserAlarmSort">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DATE"/>
+      <xs:enumeration value="CATEGORY"/>
+      <xs:enumeration value="USER_ID"/>
+      <xs:enumeration value="ALARM_TYPE"/>
+      <xs:enumeration value="REQUEST_ID"/>
+      <xs:enumeration value="MESSAGE"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

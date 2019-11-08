@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# Startup script for OpenWIS FTP Replication
+#
+# chkconfig:   - 81 19
+# description: This scripts start/stop FTP Replication
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+lockfile=/var/lock/subsys/ftp-replication
+
+start(){
+        echo "Starting FTP Replication..."
+        runuser - openwis -c './start_ftp_replication.sh &'
+        RETVAL=$?
+        [ $RETVAL = 0 ] && touch ${lockfile}
+        return $RETVAL
+}
+
+stop(){
+        echo "Stopping FTP Replication..."
+        runuser - openwis -c './stop_ftp_replication.sh'
+        RETVAL=$?
+        [ $RETVAL = 0 ] && rm -f ${lockfile}
+}
+
+restart(){
+        stop
+        start
+}
+
+status() {
+    ps -ef |grep "FtpReplication" |grep -v "grep" &> /dev/null
+    RETVAL=$?
+    if [ $RETVAL = 0 ]
+    then
+        echo "Ftp Replication is running"
+    else
+        echo "Ftp Replication is NOT running"
+    fi
+    
+    return $RETVAL
+}
+
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo "Usage: ftp-replication {start|stop|restart|status}"
+        exit 1
+esac
+
+exit $? 
+

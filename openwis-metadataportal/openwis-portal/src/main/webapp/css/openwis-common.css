@@ -1,0 +1,259 @@
+/** the buttons **/
+
+/* Buttons. */
+
+.openwisAction {
+	background-image:url("../images/openwis/btn.png");
+	height: 32px;
+}
+
+.openwisAction .x-btn-over{
+	background-image:url("../images/openwis/btn_over.png");
+}
+
+.openwisAction .x-btn-tl, .openwisAction .x-btn-tr, 
+.openwisAction .x-btn-tc, .openwisAction .x-btn-ml, 
+.openwisAction .x-btn-mr, .openwisAction .x-btn-mc, 
+.openwisAction .x-btn-bl, .openwisAction .x-btn-br, .openwisAction .x-btn-bc {
+	background-image: none !important;
+}
+
+/***********/
+/*top left*/
+.openwisAction .x-btn-tl {
+	background:url("../images/openwis/button/btn-tl.png") no-repeat 0 0 !important;
+	width: 9px;
+	height: 7px;
+}
+.openwisAction  .x-btn-over .x-btn-tl{ background:url("../images/openwis/button/btn-over-tl.png") no-repeat 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-tl{ background:url("../images/openwis/button/btn-click-tl.png") no-repeat 0 0 !important; }
+
+/*************/
+/*top center*/
+.openwisAction  .x-btn-tc {
+	background:url("../images/openwis/button/btn-tc.png") repeat-x 0 0 !important;
+}
+.openwisAction  .x-btn-over .x-btn-tc{ background:url("../images/openwis/button/btn-over-tc.png") repeat-x 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-tc{ background:url("../images/openwis/button/btn-click-tc.png") repeat-x 0 0 !important; }
+
+/************/
+/*top right*/
+.openwisAction  .x-btn-tr {
+	background:url("../images/openwis/button/btn-tr.png") no-repeat 0 0 !important;
+	width: 9px;
+	height: 7px;
+}
+.openwisAction  .x-btn-over .x-btn-tr{ background:url("../images/openwis/button/btn-over-tr.png") no-repeat 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-tr{ background:url("../images/openwis/button/btn-click-tr.png") no-repeat 0 0 !important; }
+
+/**************/
+/*middle left*/
+.openwisAction  .x-btn-ml {
+	background:url("../images/openwis/button/btn-ml.png") repeat-y 0 0 !important;
+	padding: 0px;
+}
+.openwisAction  .x-btn-over .x-btn-ml{ background:url("../images/openwis/button/btn-over-ml.png") repeat-y 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-ml{ background:url("../images/openwis/button/btn-click-ml.png") repeat-y 0 0 !important; }
+
+/****************/	
+/*middle center*/ 
+.openwisAction  .x-btn-mc {
+	background:url("../images/openwis/button/btn-mc.png") repeat-x 0 0 !important;
+}
+.openwisAction  .x-btn-over .x-btn-mc{ background:url("../images/openwis/button/btn-over-mc.png") repeat-x 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-mc{ background:url("../images/openwis/button/btn-click-mc.png") repeat-x 0 0 !important; }
+
+/***************/
+/*middle right*/
+.openwisAction  .x-btn-mr {
+	background:url("../images/openwis/button/btn-mr.png") repeat-y 0 0 !important;
+}
+.openwisAction  .x-btn-over .x-btn-mr{ background:url("../images/openwis/button/btn-over-mr.png") repeat-y 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-mr{ background:url("../images/openwis/button/btn-click-mr.png") repeat-y 0 0 !important; }
+
+/**************/
+/*bottom left*/
+.openwisAction  .x-btn-bl {
+	background:url("../images/openwis/button/btn-bl.png") no-repeat 0 0 !important;
+	width: 9px;
+	height: 11px;
+}
+.openwisAction  .x-btn-over .x-btn-bl{ background:url("../images/openwis/button/btn-over-bl.png") no-repeat 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-bl{ background:url("../images/openwis/button/btn-click-bl.png") no-repeat 0 0 !important; }
+
+/****************/
+/*bottom center*/
+.openwisAction  .x-btn-bc {
+	background:url("../images/openwis/button/btn-bc.png") repeat-x 0 0 !important;
+}
+.openwisAction  .x-btn-over .x-btn-bc{ background:url("../images/openwis/button/btn-over-bc.png") repeat-x 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-bc{ background:url("../images/openwis/button/btn-click-bc.png") repeat-x 0 0 !important; }
+
+/***************/ 
+/*bottom right*/
+.openwisAction  .x-btn-br {
+	background:url("../images/openwis/button/btn-br.png") no-repeat 0 0 !important;
+	width: 9px;
+	height: 11px;
+}
+.openwisAction  .x-btn-over .x-btn-br{ background:url("../images/openwis/button/btn-over-br.png") no-repeat 0 0 !important; }
+.openwisAction  .x-btn-click .x-btn-br{ background:url("../images/openwis/button/btn-click-br.png") no-repeat 0 0 !important; }
+
+/** Misc **/
+.infoMsg {
+    color: blue;
+    font-style: italic;
+}
+
+.errorMsg {
+    color: red;
+    font-weight: bold;
+}
+
+/** MAP **/
+
+.mapCtrlDrawRectangleExtent {
+	background-image: url("../images/openwis/icon_selextent.png") !important;
+	height: 26px !important;
+	width: 29px!important;
+}
+
+.mapCtrlDrawPolygonExtent {
+	background-image: url("../images/openwis/icon_selextent.png") !important;
+	height: 26px !important;
+	width: 29px!important;
+}
+		
+.mapCtrlDrag {
+	background-image: url("../images/openwis/icon_pan.png") !important;
+	height: 26px !important;
+	width: 25px!important;
+}
+
+.mapCtrlZoomOut {
+	background-image: url("../images/openwis/icon_zoomout.png") !important;
+	height: 26px !important;
+	width: 29px!important;
+}
+
+.mapCtrlZoomIn {
+	background-image: url("../images/openwis/icon_zoomin.png") !important;
+	height: 26px !important;
+	width: 29px!important;
+}
+
+.mapCtrlZoomFull {
+	background-image: url("../images/openwis/icon_zoomfull.png") !important;
+	height: 26px !important;
+	width: 29px!important;
+}
+
+.mapCtrlToolbar .x-toolbar {
+    background: transparent !important;
+    border: 0px !important;
+}
+
+/** SSP **/
+.SSPPanel {
+    background-color: white;
+}
+
+.SSPPanel .SSPItemsPanel {
+	/* OWT-202 - BEGIN */
+	background-color: white;
+	/* OWT-202 - END */
+	border-top:0px !important;
+	background-image:url("../images/openwis/popup/separations.gif") ; 
+	background-repeat: repeat-x ; 
+	overflow: visible !important;
+}
+
+.SSPPanel .SSPItemsPanel .x-list-body {
+	width: auto;
+	overflow: visible;
+}
+
+
+/** Availability **/
+.availabilityLevelUp {
+    color: green;
+    font-weight: bold;
+}
+
+.availabilityLevelWarn {
+    color: orange;
+    font-weight: bold;
+}
+
+.availabilityLevelDown {
+    color: red;
+    font-weight: bold;
+}
+
+.availabilityLevelUnknown {
+    color: blue;
+    font-weight: bold;
+}
+
+.availabilityLevelStopped {
+    color: black;
+    font-weight: bold;
+}
+
+.availabilityLevelNone {
+    color: black;
+    font-weight: bold;
+}
+
+.availabilityLevelAllSuspended {
+    color: black;
+    font-weight: bold;
+}
+
+/** Availability **/
+.backupModeOn {
+    color: red;
+    font-weight: bold;
+}
+
+.backupModeOff {
+    color: blue;
+    font-weight: bold;
+}
+
+.treeForceVisible {
+	overflow : auto !important;
+	background-color: white !important;
+}
+
+.multiSelectFsKeywords {
+    height: 340px !important;
+    padding: 10px !important;
+    width: 275px !important;
+    margin-bottom: 0px !important;
+    border-width: 0;
+}
+
+.multiSelectFsBodyKeywords {
+    background-color: white !important;
+    border: 1px solid #99BBE8 !important;
+    display: block !important;
+    height: 300px !important;
+    margin-bottom: 10px !important;
+    width: 250px !important;
+}
+
+.multiSelectViewKeywords {
+	overflow : auto !important;
+}
+
+/*********************/
+/*Grid Panel Row Color*/
+
+.eventErrorGridRow {
+	background-color: #FF8C7D !important;
+}
+
+.subscriptionRequestGridRow {
+    background-color: #F2F2F2 !important;
+}

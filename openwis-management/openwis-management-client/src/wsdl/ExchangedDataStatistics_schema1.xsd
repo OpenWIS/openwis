@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://monitoring.management.openwis.org/" version="1.0">
+<xs:element name="getExchangedData" type="tns:getExchangedData"/>
+<xs:element name="getExchangedDataInIntervalBySources" type="tns:getExchangedDataInIntervalBySources"/>
+<xs:element name="getExchangedDataInIntervalBySourcesResponse" type="tns:getExchangedDataInIntervalBySourcesResponse"/>
+<xs:element name="getExchangedDataInIntervalForAllSources" type="tns:getExchangedDataInIntervalForAllSources"/>
+<xs:element name="getExchangedDataInIntervalForAllSourcesResponse" type="tns:getExchangedDataInIntervalForAllSourcesResponse"/>
+<xs:element name="getExchangedDataResponse" type="tns:getExchangedDataResponse"/>
+<xs:element name="getExchangedDataStatistics" type="tns:getExchangedDataStatistics"/>
+<xs:element name="getExchangedDataStatisticsResponse" type="tns:getExchangedDataStatisticsResponse"/>
+<xs:element name="getTotalExchangedDataInInterval" type="tns:getTotalExchangedDataInInterval"/>
+<xs:element name="getTotalExchangedDataInIntervalResponse" type="tns:getTotalExchangedDataInIntervalResponse"/>
+<xs:element name="updateExchangedData" type="tns:updateExchangedData"/>
+<xs:element name="updateExchangedDataResponse" type="tns:updateExchangedDataResponse"/>
+<xs:complexType name="updateExchangedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element name="nbMetadata" type="xs:long"/>
+      <xs:element name="totalSize" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateExchangedDataResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataInIntervalForAllSources">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:string"/>
+      <xs:element minOccurs="0" name="to" type="xs:string"/>
+      <xs:element name="firstResult" type="xs:int"/>
+      <xs:element name="maxCount" type="xs:int"/>
+      <xs:element minOccurs="0" name="column" type="tns:ExchangedDataColumn "/>
+      <xs:element minOccurs="0" name="dir" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataInIntervalForAllSourcesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:exchangedDataResult"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="exchangedDataResult">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="list" nillable="true" type="tns:exchangedData"/>
+      <xs:element name="count" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="exchangedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="totalSize" type="xs:long"/>
+      <xs:element minOccurs="0" name="nbMetadata" type="xs:long"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getTotalExchangedDataInInterval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:string"/>
+      <xs:element minOccurs="0" name="to" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getTotalExchangedDataInIntervalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:exchangedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataInIntervalBySources">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element name="firstResult" type="xs:int"/>
+      <xs:element name="maxCount" type="xs:int"/>
+      <xs:element minOccurs="0" name="column" type="tns:ExchangedDataColumn "/>
+      <xs:element minOccurs="0" name="dir" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataInIntervalBySourcesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:exchangedDataResult"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:exchangedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataStatistics">
+    <xs:sequence>
+      <xs:element name="maxItemsCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getExchangedDataStatisticsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:exchangedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:simpleType name="ExchangedDataColumn ">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DATE"/>
+      <xs:enumeration value="TOTAL_SIZE"/>
+      <xs:enumeration value="METADATA_NUMBER"/>
+      <xs:enumeration value="SOURCE"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="SortDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC"/>
+      <xs:enumeration value="DESC"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

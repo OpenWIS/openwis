@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/openwis-factorytests/src/test/java/org/openwis/factorytests/admin/metadata/Test_VT_OPENWIS_ADM_MDS_10_CategoryManagement.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
+<booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
+<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
+<stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.openwis.factorytests.admin.metadata.Test_VT_OPENWIS_ADM_MDS_10_CategoryManagement"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="openwis-factorytests"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DseleniumServer=10.211.55.3 -Dbrowser=*firefox -DbrowserUrl=&quot;http://192.168.1.108:8080/&quot;"/>
+</launchConfiguration>

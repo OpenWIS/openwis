@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    <harvestingtask name="MyHarvesting2" harvestingtype="oaipmh" />
+    <harvestingtaskconfiguration attr="url" val="http://localhost:8080/oai2" />
+    <harvestingtaskconfiguration attr="authorUserName" val="myadmin" />
+
+</dataset>

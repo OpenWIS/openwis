@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="OpenWIS SOLR Test Suite" verbose="5" data-provider-thread-count="1">
+
+    <!-- SOLR Tests -->
+    <test name="SolrTests">
+        <classes>
+            <class name="io.openwis.solr.SolrTests"/>
+            <class name="io.openwis.solr.SolrXMLTests"/>
+        </classes>
+    </test>
+    
+    <!-- OpenwisLucenceQParser Tests -->
+    <test name="OpenWisLuceneQParserTests">
+        <classes>
+            <class name="org.openwis.metadataportal.search.solr.spatial.parser.OpenwisLuceneQParserTests"/>
+        </classes>
+    </test>
+
+</suite>

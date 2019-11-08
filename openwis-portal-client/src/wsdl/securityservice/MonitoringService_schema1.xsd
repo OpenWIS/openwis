@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://securityservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://securityservice.openwis.org/" version="1.0">
+<xs:element name="isSecurityServiceAvailable" type="tns:isSecurityServiceAvailable"/>
+<xs:element name="isSecurityServiceAvailableResponse" type="tns:isSecurityServiceAvailableResponse"/>
+<xs:complexType name="isSecurityServiceAvailable">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="isSecurityServiceAvailableResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

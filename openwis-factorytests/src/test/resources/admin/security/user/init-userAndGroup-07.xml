@@ -1,0 +1,97 @@
+<org.openwis.usermanagement.ldap.model.UserAndGroup>
+	<users>
+		<org.openwis.securityservice.OpenWISUser>
+			<name>User1</name>
+			<userName>user1</userName>
+			<surName>Surname1</surName>
+			<password>openwis</password>
+			<emailContact>user1@akka.eu</emailContact>
+			<emails />
+			<ftps />
+			<address>
+				<address>6 rue Leon</address>
+				<city>Toulouse</city>
+				<country>France</country>
+				<state>Fr</state>
+				<zip>31000</zip>
+			</address>
+			<needUserAccount>true</needUserAccount>
+			<profile>Editor</profile>
+			<classOfService>BRONZE</classOfService>
+			<backUps />
+			<groups>
+				<org.openwis.securityservice.OpenWISGroup>
+					<isGlobal>true</isGlobal>
+					<groupIds>
+						<string>Institutional</string>
+					</groupIds>
+				</org.openwis.securityservice.OpenWISGroup>
+				<org.openwis.securityservice.OpenWISGroup>
+					<isGlobal>false</isGlobal>
+					<centreName>GiscA</centreName>
+					<groupIds>
+						<string>local1</string>
+					</groupIds>
+				</org.openwis.securityservice.OpenWISGroup>
+			</groups>
+		</org.openwis.securityservice.OpenWISUser>
+		<org.openwis.securityservice.OpenWISUser>
+			<name>User2</name>
+			<userName>user2</userName>
+			<surName>Surname2</surName>
+			<password>openwis</password>
+			<emailContact>user2@akka.eu</emailContact>
+			<emails />
+			<ftps />
+			<address>
+				<address>6 rue Leon</address>
+				<city>Toulouse</city>
+				<country>France</country>
+				<state>Fr</state>
+				<zip>31000</zip>
+			</address>
+			<needUserAccount>true</needUserAccount>
+			<profile>Editor</profile>
+			<classOfService>BRONZE</classOfService>
+			<backUps />
+			<groups>
+				<org.openwis.securityservice.OpenWISGroup>
+					<isGlobal>true</isGlobal>
+					<groupIds>
+						<string>Institutional</string>
+					</groupIds>
+				</org.openwis.securityservice.OpenWISGroup>
+				<org.openwis.securityservice.OpenWISGroup>
+					<isGlobal>false</isGlobal>
+					<centreName>GiscA</centreName>
+					<groupIds>
+						<string>local1</string>
+					</groupIds>
+				</org.openwis.securityservice.OpenWISGroup>
+			</groups>
+		</org.openwis.securityservice.OpenWISUser>
+	</users>
+	<groups>
+		<org.openwis.securityservice.OpenWISGroup>
+			<isGlobal>true</isGlobal>
+			<groupIds>
+				<string>Institutional</string>
+			</groupIds>
+		</org.openwis.securityservice.OpenWISGroup>
+		<org.openwis.securityservice.OpenWISGroup>
+			<isGlobal>false</isGlobal>
+			<centreName>GiscA</centreName>
+			<groupIds>
+				<string>local1</string>
+				<string>local2</string>
+			</groupIds>
+		</org.openwis.securityservice.OpenWISGroup>
+        <org.openwis.securityservice.OpenWISGroup>
+            <isGlobal>false</isGlobal>
+            <centreName>DcpcA</centreName>
+            <groupIds>
+                <string>local3</string>
+            </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+	</groups>
+</org.openwis.usermanagement.ldap.model.UserAndGroup>

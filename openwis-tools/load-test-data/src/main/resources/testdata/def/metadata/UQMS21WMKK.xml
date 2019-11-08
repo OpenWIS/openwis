@@ -1,0 +1,451 @@
+
+        <gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://wis.wmo.int/2011/schemata/iso19139_2007/schema/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://wis.wmo.int/2011/schemata/iso19139_2007/schema/gmx/gmx.xsd">
+          <gmd:fileIdentifier>
+            <gco:CharacterString>urn:x-wmo:md:int.wmo.wis::UQMS21WMKK</gco:CharacterString>
+          </gmd:fileIdentifier>
+          <gmd:language>
+            <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+          </gmd:language>
+          <gmd:characterSet>
+            <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+          </gmd:characterSet>
+          <gmd:hierarchyLevel>
+            <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+          </gmd:hierarchyLevel>
+          <gmd:hierarchyLevelName>
+            <gco:CharacterString>Series of WMO GTS bulletins</gco:CharacterString>
+          </gmd:hierarchyLevelName>
+          <gmd:contact>
+            <gmd:CI_ResponsibleParty id="publisher">
+              <gmd:organisationName>
+                <gco:CharacterString>NMC MALAYSIA - Malaysian Meteorological Department</gco:CharacterString>
+              </gmd:organisationName>
+              <gmd:contactInfo>
+                <gmd:CI_Contact>
+                  <gmd:phone>
+                    <gmd:CI_Telephone>
+                      <gmd:voice>
+                        <gco:CharacterString>T+60 379678000</gco:CharacterString>
+                      </gmd:voice>
+                      <gmd:facsimile>
+                        <gco:CharacterString>F+60 379550964</gco:CharacterString>
+                      </gmd:facsimile>
+                    </gmd:CI_Telephone>
+                  </gmd:phone>
+                  <gmd:address>
+                    <gmd:CI_Address>
+                      <gmd:deliveryPoint>
+                        <gco:CharacterString>Jalan Sultan, Petaling Jaya</gco:CharacterString>
+                      </gmd:deliveryPoint>
+                      <gmd:city>
+                        <gco:CharacterString>SELANGOR DARUL EHSAN</gco:CharacterString>
+                      </gmd:city>
+                      <gmd:postalCode>
+                        <gco:CharacterString>46667</gco:CharacterString>
+                      </gmd:postalCode>
+                      <gmd:country>
+                        <gco:CharacterString>MALAYSIA</gco:CharacterString>
+                      </gmd:country>
+                      <gmd:electronicMailAddress>
+                        <gco:CharacterString>mmd@met.gov.my</gco:CharacterString>
+                      </gmd:electronicMailAddress>
+                    </gmd:CI_Address>
+                  </gmd:address>
+                  <gmd:onlineResource>
+                    <gmd:CI_OnlineResource>
+                      <gmd:linkage>
+                        <gmd:URL>http://www.met.gov.my/</gmd:URL>
+                      </gmd:linkage>
+                    </gmd:CI_OnlineResource>
+                  </gmd:onlineResource>
+                </gmd:CI_Contact>
+              </gmd:contactInfo>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+              </gmd:role>
+            </gmd:CI_ResponsibleParty>
+          </gmd:contact>
+          <gmd:dateStamp>
+            <gco:DateTime>2012-01-20T16:00:00</gco:DateTime>
+          </gmd:dateStamp>
+          <gmd:metadataStandardName>
+            <gco:CharacterString>WMO Core Profile of ISO 19115</gco:CharacterString>
+          </gmd:metadataStandardName>
+          <gmd:metadataStandardVersion>
+            <gco:CharacterString>1.2 (WMO Core), 2003/Cor.1:2006 (ISO 19115), 2007 (ISO/TS 19139)</gco:CharacterString>
+          </gmd:metadataStandardVersion>
+          <gmd:metadataExtensionInfo gco:nilReason="missing" />
+          <gmd:identificationInfo>
+            <gmd:MD_DataIdentification>
+              <gmd:citation>
+                <gmd:CI_Citation>
+                  <gmd:title>
+                    <gco:CharacterString>UQMS21 collection of PILOT reports available from WMKK (KUALA LUMPUR/SUBANG) at 00 and 12 UTC</gco:CharacterString>
+                  </gmd:title>
+                  <gmd:date>
+                    <gmd:CI_Date>
+                      <gmd:date>
+                        <gco:Date>2000-03-01</gco:Date>
+                      </gmd:date>
+                      <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                      </gmd:dateType>
+                    </gmd:CI_Date>
+                  </gmd:date>
+                  <gmd:presentationForm>
+                    <gmd:CI_PresentationFormCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</gmd:CI_PresentationFormCode>
+                  </gmd:presentationForm>
+                </gmd:CI_Citation>
+              </gmd:citation>
+              <gmd:abstract>
+                <gco:CharacterString>---- The bulletin collects PILOT reports:
+FM 32 (PILOT, Upper-wind report from a fixed land station).
+
+
+(Refer to WMO No.306 - Manual on Codes for the definition of WMO international codes)
+
+---- The UQMS21 TTAAii Data Designators decode (2) as:
+T1 (U): Upper air data.
+T2 (Q): Upper wind (Part D).
+A1A2 (MS): Malaysia.
+
+(2: Refer to WMO No.386 - Manual on the GTS - Attachment II.5)
+
+---- The bulletin collects reports from stations:
+Kuching, Bintulu, Kota kinabalu and Tawau</gco:CharacterString>
+              </gmd:abstract>
+              <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty id="NC-MY-1">
+                  <gmd:organisationName>
+                    <gco:CharacterString>NMC MALAYSIA - Malaysian Meteorological Department</gco:CharacterString>
+                  </gmd:organisationName>
+                  <gmd:contactInfo>
+                    <gmd:CI_Contact>
+                      <gmd:phone>
+                        <gmd:CI_Telephone>
+                          <gmd:voice>
+                            <gco:CharacterString>T+60 379678000</gco:CharacterString>
+                          </gmd:voice>
+                          <gmd:facsimile>
+                            <gco:CharacterString>F+60 379550964</gco:CharacterString>
+                          </gmd:facsimile>
+                        </gmd:CI_Telephone>
+                      </gmd:phone>
+                      <gmd:address>
+                        <gmd:CI_Address>
+                          <gmd:deliveryPoint>
+                            <gco:CharacterString>Jalan Sultan, Petaling Jaya</gco:CharacterString>
+                          </gmd:deliveryPoint>
+                          <gmd:city>
+                            <gco:CharacterString>SELANGOR DARUL EHSAN</gco:CharacterString>
+                          </gmd:city>
+                          <gmd:postalCode>
+                            <gco:CharacterString>46667</gco:CharacterString>
+                          </gmd:postalCode>
+                          <gmd:country>
+                            <gco:CharacterString>MALAYSIA</gco:CharacterString>
+                          </gmd:country>
+                          <gmd:electronicMailAddress>
+                            <gco:CharacterString>mmd@met.gov.my</gco:CharacterString>
+                          </gmd:electronicMailAddress>
+                        </gmd:CI_Address>
+                      </gmd:address>
+                      <gmd:onlineResource>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>http://www.met.gov.my/</gmd:URL>
+                          </gmd:linkage>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onlineResource>
+                    </gmd:CI_Contact>
+                  </gmd:contactInfo>
+                  <gmd:role>
+                    <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:pointOfContact>
+              <gmd:resourceMaintenance>
+                <gmd:MD_MaintenanceInformation>
+                  <gmd:maintenanceAndUpdateFrequency gco:nilReason="inapplicable" />
+                  <gmd:userDefinedMaintenanceFrequency>
+                    <gts:TM_PeriodDuration>P0Y0M0DT12H0M0S</gts:TM_PeriodDuration>
+                  </gmd:userDefinedMaintenanceFrequency>
+                  <gmd:updateScope>
+                    <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+                  </gmd:updateScope>
+                  <gmd:updateScopeDescription>
+                    <gmd:MD_ScopeDescription>
+                      <gmd:dataset>
+                        <gco:CharacterString>Instances of bulletin UQMS21WMKK are available every 12 hours starting at 0 UTC</gco:CharacterString>
+                      </gmd:dataset>
+                    </gmd:MD_ScopeDescription>
+                  </gmd:updateScopeDescription>
+                </gmd:MD_MaintenanceInformation>
+              </gmd:resourceMaintenance>
+              <gmd:resourceFormat>
+                <gmd:MD_Format>
+                  <gmd:name>
+                    <gco:CharacterString>PILOT</gco:CharacterString>
+                  </gmd:name>
+                  <gmd:version>
+                    <gco:CharacterString>IX</gco:CharacterString>
+                  </gmd:version>
+                  <gmd:specification>
+                    <gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString>
+                  </gmd:specification>
+                </gmd:MD_Format>
+              </gmd:resourceFormat>
+              <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="WMOCodeListKeywords">
+                  <gmd:keyword gco:nilReason="unknown" />
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                  <gmd:thesaurusName>
+                    <gmd:CI_Citation id="WMOCodelist">
+                      <gmd:title>
+                        <gco:CharacterString>WMO_CodeList dictionary [http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#WMO_CategoryCode]</gco:CharacterString>
+                      </gmd:title>
+                      <gmd:date>
+                        <gmd:CI_Date>
+                          <gmd:date>
+                            <gco:Date>2010-11-13</gco:Date>
+                          </gmd:date>
+                          <gmd:dateType>
+                            <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                          </gmd:dateType>
+                        </gmd:CI_Date>
+                      </gmd:date>
+                      <gmd:identifier>
+                        <gmd:MD_Identifier>
+                          <gmd:authority>
+                            <gmd:CI_Citation>
+                              <gmd:title>
+                                <gco:CharacterString>Codelists for description of metadata datasets compliant with the WMO Core Metadata Profile version 1.2 [http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml]</gco:CharacterString>
+                              </gmd:title>
+                              <gmd:date>
+                                <gmd:CI_Date>
+                                  <gmd:date>
+                                    <gco:Date>2010-11-13</gco:Date>
+                                  </gmd:date>
+                                  <gmd:dateType>
+                                    <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                                  </gmd:dateType>
+                                </gmd:CI_Date>
+                              </gmd:date>
+                            </gmd:CI_Citation>
+                          </gmd:authority>
+                          <gmd:code>
+                            <gco:CharacterString>WMO_CategoryCode</gco:CharacterString>
+                          </gmd:code>
+                        </gmd:MD_Identifier>
+                      </gmd:identifier>
+                      <gmd:citedResponsibleParty>
+                        <gmd:CI_ResponsibleParty>
+                          <gmd:organisationName>
+                            <gco:CharacterString>WMO Secretariat</gco:CharacterString>
+                          </gmd:organisationName>
+                          <gmd:role>
+                            <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                          </gmd:role>
+                        </gmd:CI_ResponsibleParty>
+                      </gmd:citedResponsibleParty>
+                    </gmd:CI_Citation>
+                  </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="WMONo9VolAKeywords">
+                  <gmd:keyword>
+                    <gco:CharacterString>96413</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:keyword>
+                    <gco:CharacterString>96441</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:keyword>
+                    <gco:CharacterString>96471</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:keyword>
+                    <gco:CharacterString>96481</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                  <gmd:thesaurusName>
+                    <gmd:CI_Citation id="WMONo9VolA">
+                      <gmd:title>
+                        <gco:CharacterString>WMO Publication No. 9, Volume A, Observing Stations and WMO Catalogue of Radiosondes [http://www.wmo.int/pages/prog/www/ois/volume-a/vola-home.htm]</gco:CharacterString>
+                      </gmd:title>
+                      <gmd:date>
+                        <gmd:CI_Date>
+                          <gmd:date>
+                            <gco:Date>2010-10-19</gco:Date>
+                          </gmd:date>
+                          <gmd:dateType>
+                            <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                          </gmd:dateType>
+                        </gmd:CI_Date>
+                      </gmd:date>
+                      <gmd:citedResponsibleParty>
+                        <gmd:CI_ResponsibleParty>
+                          <gmd:organisationName>
+                            <gco:CharacterString>WMO Secretariat</gco:CharacterString>
+                          </gmd:organisationName>
+                          <gmd:role>
+                            <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                          </gmd:role>
+                        </gmd:CI_ResponsibleParty>
+                      </gmd:citedResponsibleParty>
+                    </gmd:CI_Citation>
+                  </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:resourceConstraints>
+                <gmd:MD_LegalConstraints>
+                  <gmd:accessConstraints>
+                    <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                  </gmd:accessConstraints>
+                  <gmd:useConstraints>
+                    <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                  </gmd:useConstraints>
+                  <gmd:otherConstraints>
+                    <gco:CharacterString>WMOEssential</gco:CharacterString>
+                  </gmd:otherConstraints>
+                  <gmd:otherConstraints>
+                    <gco:CharacterString>GTSPriority2</gco:CharacterString>
+                  </gmd:otherConstraints>
+                </gmd:MD_LegalConstraints>
+              </gmd:resourceConstraints>
+              <gmd:spatialRepresentationType>
+                <gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="vector">vector</gmd:MD_SpatialRepresentationTypeCode>
+              </gmd:spatialRepresentationType>
+              <gmd:language>
+                <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+              </gmd:language>
+              <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</gmd:MD_TopicCategoryCode>
+              </gmd:topicCategory>
+              <gmd:extent>
+                <gmd:EX_Extent id="boundingExtent">
+                  <gmd:geographicElement>
+                    <gmd:EX_GeographicBoundingBox>
+                      <gmd:westBoundLongitude>
+                        <gco:Decimal>99.64</gco:Decimal>
+                      </gmd:westBoundLongitude>
+                      <gmd:eastBoundLongitude>
+                        <gco:Decimal>119.27</gco:Decimal>
+                      </gmd:eastBoundLongitude>
+                      <gmd:southBoundLatitude>
+                        <gco:Decimal>0.85</gco:Decimal>
+                      </gmd:southBoundLatitude>
+                      <gmd:northBoundLatitude>
+                        <gco:Decimal>7.35</gco:Decimal>
+                      </gmd:northBoundLatitude>
+                    </gmd:EX_GeographicBoundingBox>
+                  </gmd:geographicElement>
+                  <gmd:temporalElement>
+                    <gmd:EX_TemporalExtent id="boundingTemporalExtent">
+                      <gmd:extent>
+                        <gml:TimePeriod gml:id="boundingTemporalExtentTP">
+                          <gml:beginPosition>2000-03-01</gml:beginPosition>
+                          <gml:endPosition indeterminatePosition="now" />
+                        </gml:TimePeriod>
+                      </gmd:extent>
+                    </gmd:EX_TemporalExtent>
+                  </gmd:temporalElement>
+                </gmd:EX_Extent>
+              </gmd:extent>
+            </gmd:MD_DataIdentification>
+          </gmd:identificationInfo>
+          <gmd:distributionInfo>
+            <gmd:MD_Distribution>
+              <gmd:distributionFormat>
+                <gmd:MD_Format>
+                  <gmd:name>
+                    <gco:CharacterString>PILOT</gco:CharacterString>
+                  </gmd:name>
+                  <gmd:version>
+                    <gco:CharacterString>IX</gco:CharacterString>
+                  </gmd:version>
+                  <gmd:specification>
+                    <gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString>
+                  </gmd:specification>
+                </gmd:MD_Format>
+              </gmd:distributionFormat>
+              <gmd:distributor>
+                <gmd:MD_Distributor>
+                  <gmd:distributorContact>
+                    <gmd:CI_ResponsibleParty>
+                      <gmd:individualName>
+                        <gco:CharacterString>Weiqing QU, Kelvin WONG (RTH Focal Point)</gco:CharacterString>
+                      </gmd:individualName>
+                      <gmd:organisationName>
+                        <gco:CharacterString>RTH Melbourne - Bureau of Meteorology (BOM)</gco:CharacterString>
+                      </gmd:organisationName>
+                      <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                          <gmd:address>
+                            <gmd:CI_Address>
+                              <gmd:deliveryPoint>
+                                <gco:CharacterString>GPO Box 1289, 700 Collins Street Docklands</gco:CharacterString>
+                              </gmd:deliveryPoint>
+                              <gmd:city>
+                                <gco:CharacterString>MELBOURNE</gco:CharacterString>
+                              </gmd:city>
+                              <gmd:postalCode>
+                                <gco:CharacterString>VIC 3001</gco:CharacterString>
+                              </gmd:postalCode>
+                              <gmd:country>
+                                <gco:CharacterString>AUSTRALIA</gco:CharacterString>
+                              </gmd:country>
+                              <gmd:electronicMailAddress>
+                                <gco:CharacterString>k.wong@bom.gov.au</gco:CharacterString>
+                              </gmd:electronicMailAddress>
+                              <gmd:electronicMailAddress>
+                                <gco:CharacterString>W.Qu@bom.gov.au</gco:CharacterString>
+                              </gmd:electronicMailAddress>
+                            </gmd:CI_Address>
+                          </gmd:address>
+                        </gmd:CI_Contact>
+                      </gmd:contactInfo>
+                      <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                      </gmd:role>
+                    </gmd:CI_ResponsibleParty>
+                  </gmd:distributorContact>
+                  <gmd:distributorTransferOptions>
+                    <gmd:MD_DigitalTransferOptions>
+                      <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>UPDATE: http://PROVIDER_HOSTNAME/PROVIDER_PATH/urn%3Ax-wmo%3Aint.wmo.wis%3Amd%3A%3AUQMS21WMKK</gmd:URL>
+                          </gmd:linkage>
+                          <gmd:protocol>
+                            <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                          </gmd:protocol>
+                          <gmd:name>
+                            <gco:CharacterString>RTH Melbourne</gco:CharacterString>
+                          </gmd:name>
+                          <gmd:description>
+                            <gco:CharacterString>UQMS21 collection of PILOT reports available from WMKK (KUALA LUMPUR/SUBANG) at 00 and 12 UTC at RTH Melbourne</gco:CharacterString>
+                          </gmd:description>
+                          <gmd:function>
+                            <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+                          </gmd:function>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onLine>
+                    </gmd:MD_DigitalTransferOptions>
+                  </gmd:distributorTransferOptions>
+                </gmd:MD_Distributor>
+              </gmd:distributor>
+            </gmd:MD_Distribution>
+          </gmd:distributionInfo>
+          <gmd:metadataConstraints>
+            <gmd:MD_Constraints>
+              <gmd:useLimitation>
+                <gco:CharacterString>This metadata record was created automatically based on the WMO No.9 Volume C1 declaration for bulletin UQMS21WMKK. Other references were used in the process, including WMO No.9 Volume A, WMO No.386 Manual on the GTS and WMO No.306 Manual on Codes. This work was done by Météo-France on a "best effort" basis. The current metadata record is therefore provided more for information than for reference.</gco:CharacterString>
+              </gmd:useLimitation>
+            </gmd:MD_Constraints>
+          </gmd:metadataConstraints>
+        </gmd:MD_Metadata>
+      

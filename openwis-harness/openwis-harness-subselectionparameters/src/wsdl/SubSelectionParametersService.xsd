@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://subselectionparameters.harness.openwis.org/" xmlns:tns="http://subselectionparameters.harness.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="getSubSelectionParametersForRequest" type="tns:getSubSelectionParametersForRequest"/>
+
+  <xs:element name="getSubSelectionParametersForRequestResponse" type="tns:getSubSelectionParametersForRequestResponse"/>
+
+  <xs:element name="getSubSelectionParametersForSubscription" type="tns:getSubSelectionParametersForSubscription"/>
+
+  <xs:element name="getSubSelectionParametersForSubscriptionResponse" type="tns:getSubSelectionParametersForSubscriptionResponse"/>
+
+  <xs:complexType name="getSubSelectionParametersForSubscription">
+    <xs:sequence>
+      <xs:element name="productMetadataURN" type="xs:string" minOccurs="0"/>
+      <xs:element name="lang" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSubSelectionParametersForSubscriptionResponse">
+    <xs:sequence>
+      <xs:element name="subselectionParameters" type="tns:parameters" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parameters">
+    <xs:sequence>
+      <xs:element name="parameters" type="tns:abstractParameter" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="startParameter" type="tns:abstractParameter" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="abstractParameter" abstract="true">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="nextParameter" type="tns:abstractParameter" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="abstractPeriodSelection" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractParameter">
+        <xs:sequence>
+          <xs:element name="periodMaxExtent" type="xs:string" minOccurs="0"/>
+          <xs:element name="periodMinExtent" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="geographicalAreaSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractParameter">
+        <xs:sequence>
+          <xs:element name="geoConfig" type="tns:geoConfig" minOccurs="0"/>
+          <xs:element name="geoExtentType" type="tns:geoExtentType" minOccurs="0"/>
+          <xs:element name="geoWKTMaxExtent" type="xs:string" minOccurs="0"/>
+          <xs:element name="geoWKTSelection" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="geoConfig">
+    <xs:sequence>
+      <xs:element name="layerName" type="xs:string" minOccurs="0"/>
+      <xs:element name="srs" type="xs:string" minOccurs="0"/>
+      <xs:element name="wmsUrl" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sourceSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractParameter">
+        <xs:sequence>
+          <xs:element name="geoConfig" type="tns:geoConfig" minOccurs="0"/>
+          <xs:element name="geoExtentType" type="tns:geoExtentType" minOccurs="0"/>
+          <xs:element name="geoWKTMaxExtent" type="xs:string" minOccurs="0"/>
+          <xs:element name="geoWKTSelection" type="xs:string" minOccurs="0"/>
+          <xs:element name="values" type="tns:value" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="value">
+    <xs:sequence>
+      <xs:element name="availableFor" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
+      <xs:element name="selected" type="xs:boolean"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="singleSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractParameter">
+        <xs:sequence>
+          <xs:element name="type" type="tns:singleSelectionType" minOccurs="0"/>
+          <xs:element name="values" type="tns:value" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="multipleSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractParameter">
+        <xs:sequence>
+          <xs:element name="type" type="tns:multipleSelectionType" minOccurs="0"/>
+          <xs:element name="values" type="tns:value" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="datePeriodSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractPeriodSelection">
+        <xs:sequence>
+          <xs:element name="excludedDates" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="from" type="xs:string" minOccurs="0"/>
+          <xs:element name="to" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="timePeriodSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractPeriodSelection">
+        <xs:sequence>
+          <xs:element name="from" type="xs:string" minOccurs="0"/>
+          <xs:element name="to" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="dayPeriodSelection">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractPeriodSelection">
+        <xs:sequence>
+          <xs:element name="date" type="xs:string" minOccurs="0"/>
+          <xs:element name="excludedDates" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="temporal">
+    <xs:complexContent>
+      <xs:extension base="tns:updateFrequency">
+        <xs:sequence>
+          <xs:element name="from" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="to" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateFrequency">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="recurrentUpdateFrequency">
+    <xs:complexContent>
+      <xs:extension base="tns:updateFrequency">
+        <xs:sequence>
+          <xs:element name="frequencyReccurentScale" type="tns:reccurentScale" minOccurs="0"/>
+          <xs:element name="reccurentScale" type="tns:reccurentScale" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="productMetadata">
+    <xs:sequence>
+      <xs:element name="metadataUpdateFrequency" type="tns:updateFrequency" minOccurs="0"/>
+      <xs:element name="ahlPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="dataPolicy" type="xs:string" minOccurs="0"/>
+      <xs:element name="fed" type="xs:boolean"/>
+      <xs:element name="fncPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="gtsCategory" type="xs:string" minOccurs="0"/>
+      <xs:element name="ingested" type="xs:boolean"/>
+      <xs:element name="localDataSource" type="xs:string" minOccurs="0"/>
+      <xs:element name="originator" type="xs:string" minOccurs="0"/>
+      <xs:element name="overridenAhlPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="overridenDataPolicy" type="xs:string" minOccurs="0"/>
+      <xs:element name="overridenFncPattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="overridenPriority" type="xs:int"/>
+      <xs:element name="priority" type="xs:int"/>
+      <xs:element name="process" type="xs:string" minOccurs="0"/>
+      <xs:element name="title" type="xs:string" minOccurs="0"/>
+      <xs:element name="URN" type="xs:string" minOccurs="0"/>
+      <xs:element name="updateFrequency" type="tns:updateFrequency" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSubSelectionParametersForRequest">
+    <xs:sequence>
+      <xs:element name="productMetadataURN" type="xs:string" minOccurs="0"/>
+      <xs:element name="lang" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSubSelectionParametersForRequestResponse">
+    <xs:sequence>
+      <xs:element name="subselectionParameters" type="tns:parameters" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="geoExtentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RECTANGLE"/>
+      <xs:enumeration value="POLYGON"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="singleSelectionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RADIO"/>
+      <xs:enumeration value="DROPDOWNLIST"/>
+      <xs:enumeration value="LISTBOX"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="multipleSelectionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CHECKBOX"/>
+      <xs:enumeration value="LISTBOX"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="reccurentScale">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HOUR"/>
+      <xs:enumeration value="DAY"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+

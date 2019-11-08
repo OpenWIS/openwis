@@ -1,0 +1,19 @@
+<org.openwis.usermanagement.ldap.model.UserAndGroup>
+	<users />
+	<groups>
+		<org.openwis.securityservice.OpenWISGroup>
+			<isGlobal>true</isGlobal>
+			<groupIds>
+				<string>Institutional</string>
+			</groupIds>
+		</org.openwis.securityservice.OpenWISGroup>
+		<org.openwis.securityservice.OpenWISGroup>
+			<isGlobal>false</isGlobal>
+			<centreName>GiscA</centreName>
+			<groupIds>
+				<string>local1</string>
+				<string>local2</string>
+			</groupIds>
+		</org.openwis.securityservice.OpenWISGroup>
+	</groups>
+</org.openwis.usermanagement.ldap.model.UserAndGroup>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<geonet>
+	<services package="org.openwis.metadataportal">
+		
+		<service name="main.home">
+            <output sheet="/jsp/homepage.jsp">
+                <call name="services" class="org.openwis.metadataportal.services.access.Get" >
+                    <param name="portal"    value="user"/>
+                </call>
+            </output>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+        
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Home Page                                       -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.get.home.page.region.all" type="xml">
+			<class name=".services.homepage.RegionAll"/>
+		</service>
+		
+		<service name="xml.get.home.page.category.all" type="xml">
+			<class name=".services.homepage.CategoryAll"/>
+		</service>
+		
+		<service name="xml.get.home.page.site.all" type="xml">
+			<class name=".services.homepage.SiteAll"/>
+		</service>
+		
+		<service name="xml.get.home.page.last.products" type="xml">
+			<class name=".services.homepage.LastProducts"/>
+		</service>
+		
+		<service name="xml.get.home.page.whats.new" type="xml">
+			<class name=".services.homepage.WhatsNew"/>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Request / Subscription parameters                             -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<service name="xml.get.request.subselectionparameters" type="xml">
+			<class name=".services.request.GetAllSubSelectionParameters"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.get.cache.subselectionparameters" type="xml">
+			<class name=".services.request.GetCacheSubSelectionParameters"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.create.request.subscription" type="xml">
+			<class name=".services.request.CreateRequestSubscription"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.update.request.subscription" type="xml">
+			<class name=".services.request.UpdateRequestSubscription"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Dissemination                                                 -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.save.favorite.dissemination.parameter" type="xml">
+			<class name=".services.dissemination.SaveFavoriteDisseminationParameter"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- My Account services                                       	   -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<service name="myaccount">
+            <output sheet="/jsp/myaccount.jsp">
+                <call name="services" class="org.openwis.metadataportal.services.access.Get" >
+                    <param name="portal"    value="user"/>
+                </call>
+            </output>
+        </service>
+		
+		<service name="xml.follow.my.adhocs" type="xml">
+			<class name=".services.request.FollowMyAdhocs"/>
+		</service>
+		
+		<service name="xml.follow.my.remote.adhocs" type="xml">
+			<class name=".services.request.FollowMyRemoteAdhocs"/>
+		</service>
+		
+		<service name="xml.follow.my.external.adhocs" type="xml">
+			<class name=".services.request.FollowMyAdhocs"/>
+		</service>
+		
+		<service name="xml.follow.my.subscriptions" type="xml">
+			<class name=".services.request.FollowMySubscriptions"/>
+		</service>
+		
+		<service name="xml.follow.my.remote.subscriptions" type="xml">
+			<class name=".services.request.FollowMyRemoteSubscriptions"/>
+		</service>
+		
+		<service name="xml.follow.my.external.subscriptions" type="xml">
+			<class name=".services.request.FollowMySubscriptions"/>
+		</service>
+		
+		<service name="xml.follow.my.mssfss.subscriptions" type="xml">
+			<class name=".services.request.FollowMyMSSFSSSubscriptions"/>
+		</service>
+		
+		<service name="xml.follow.my.external.mssfss.subscriptions" type="xml">
+			<class name=".services.request.FollowMyMSSFSSSubscriptions"/>
+		</service>
+		
+		<service name="xml.follow.my.remote.mssfss.subscriptions" type="xml">
+			<class name=".services.request.FollowMyRemoteMSSFSSSubscriptions"/>
+		</service>
+
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- User self-registration services                               -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<service name="user.register.get">
+			<output sheet="/jsp/register.jsp">
+				<call name="services" class="org.openwis.metadataportal.services.access.Get" >
+					<param name="portal"    value="user"/>
+				</call>
+			</output>
+		</service>
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<service name="user.register.submit">
+			<class name=".services.register.SelfRegister" />
+		</service>
+		
+		
+		<service name="xml.relatedservices.search" type="xml">
+			<class name=".services.search.RelatedServicesSearch"/>
+		</service>
+		
+	</services>
+</geonet>
+

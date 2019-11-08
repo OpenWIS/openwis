@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gmd:MD_Metadata
+      xmlns:gmd="http://www.isotc211.org/2005/gmd"
+      xmlns:gmx="http://www.isotc211.org/2005/gmx"
+      xmlns:gco="http://www.isotc211.org/2005/gco"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:gts="http://www.isotc211.org/2005/gts"
+      xmlns:gml="http://www.opengis.net/gml/3.2"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://wis.wmo.int/2011/schemata/iso19139_2007/schema/gmd/gmd.xsd
+                                      http://www.isotc211.org/2005/gmx http://wis.wmo.int/2011/schemata/iso19139_2007/schema/gmx/gmx.xsd">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>urn:x-wmo:md:int.wmo.wis::template</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:language>
+        <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+    </gmd:language>
+    <gmd:characterSet>
+        <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+    </gmd:characterSet>
+    <gmd:hierarchyLevel>
+        <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+    </gmd:hierarchyLevel>
+    <gmd:hierarchyLevelName><gco:CharacterString>DESCRIBE SERIES (e.g. "Series of WMO GTS bulletins")</gco:CharacterString></gmd:hierarchyLevelName>
+    <gmd:contact>
+        <gmd:CI_ResponsibleParty id="publisher">
+            <gmd:individualName><gco:CharacterString>ENTER INDIVIDUAL NAME, ELSE REMOVE WHOLE gmd:individualName</gco:CharacterString></gmd:individualName>
+            <gmd:organisationName><gco:CharacterString>ENTER ORGANISATION NAME (POINT OF CONTACT FOR THE METADATA RECORD)</gco:CharacterString></gmd:organisationName>
+            <gmd:contactInfo>
+                <gmd:CI_Contact>
+                    <gmd:phone>
+                        <gmd:CI_Telephone>
+                            <gmd:voice><gco:CharacterString>ENTER TELEPHONE NUMBER, ELSE REMOVE WHOLE gmd:voice</gco:CharacterString></gmd:voice>
+                            <gmd:facsimile><gco:CharacterString>ENTER FAX NUMBER, ELSE REMOVE WHOLE gmd:facsimile</gco:CharacterString></gmd:facsimile>
+                        </gmd:CI_Telephone>
+                    </gmd:phone>
+                    <gmd:address>
+                        <gmd:CI_Address>
+                            <gmd:deliveryPoint><gco:CharacterString>ENTER STREET ADDRESS</gco:CharacterString></gmd:deliveryPoint>
+                            <gmd:city><gco:CharacterString>ENTER CITY</gco:CharacterString></gmd:city>
+                            <gmd:postalCode><gco:CharacterString>ENTER POSTAL CODE</gco:CharacterString></gmd:postalCode>
+                            <gmd:country><gco:CharacterString>ENTER COUNTRY (BEST IF ISO 3166 [http://www.iso.org/iso/fr/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm])</gco:CharacterString></gmd:country>
+                            <gmd:electronicMailAddress><gco:CharacterString>ENTER EMAIL ADDRESS</gco:CharacterString></gmd:electronicMailAddress>
+                        </gmd:CI_Address>
+                    </gmd:address>
+                    <gmd:onlineResource>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage><gmd:URL>ENTER URL FOR FURTHER INFO ON THE POINT OF CONTACT FOR THE METADATA, ELSE REMOVE WHOLE gmd:onlineResource</gmd:URL></gmd:linkage>
+                            <gmd:protocol><gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString></gmd:protocol>
+                            <gmd:name><gco:CharacterString>ENTER TITLE FOR THE ONLINE INFO, ELSE REMOVE WHOLE gmd:name</gco:CharacterString></gmd:name>
+                            <gmd:description><gco:CharacterString>ENTER DESCRIPTION FOR THE ONLINE INFO, ELSE REMOVE WHOLE gmd:description</gco:CharacterString></gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode></gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onlineResource>
+                </gmd:CI_Contact>
+            </gmd:contactInfo>
+            <gmd:role>
+                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+            </gmd:role>
+        </gmd:CI_ResponsibleParty>
+    </gmd:contact>
+    <gmd:dateStamp><gco:DateTime>2011-09-09T12:00:00.000</gco:DateTime></gmd:dateStamp>
+    <gmd:metadataStandardName><gco:CharacterString>WMO Core Profile of ISO 19115</gco:CharacterString></gmd:metadataStandardName>
+    <gmd:metadataStandardVersion><gco:CharacterString>1.2 (WMO Core), 2003/Cor.1:2006 (ISO 19115), 2007 (ISO/TS 19139)</gco:CharacterString></gmd:metadataStandardVersion>
+    <gmd:metadataExtensionInfo gco:nilReason="missing"/>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title><gco:CharacterString>Temlate for OpenWIS</gco:CharacterString></gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date><gco:DateTime>2011-09-09T12:00:00.000</gco:DateTime></gmd:date>
+                            <gmd:dateType>
+                               <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode></gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:identifier>
+                        <gmd:MD_Identifier>
+                            <gmd:authority>
+                               <gmd:CI_Citation>
+                                  <gmd:title><gco:CharacterString>WMO Information System (WIS)</gco:CharacterString></gmd:title>
+                                  <gmd:date gco:nilReason="inapplicable"/>
+                               </gmd:CI_Citation>
+                            </gmd:authority>
+                            <gmd:code><gco:CharacterString>RE-ENTER URN (e.g. "urn:x-wmo:md:int.wmo.wis::TTAAiiCCCC" for AHL GTS bulletins)</gco:CharacterString></gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmd:identifier>
+                    <gmd:presentationForm>
+                        <gmd:CI_PresentationFormCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</gmd:CI_PresentationFormCode>
+                    </gmd:presentationForm>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>ENTER ABSTRACT</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:pointOfContact>
+                        <gmd:CI_ResponsibleParty id="pointOfContact">
+                            <gmd:individualName><gco:CharacterString>ENTER INDIVIDUAL NAME, ELSE REMOVE WHOLE gmd:individualName</gco:CharacterString></gmd:individualName>
+                            <gmd:organisationName><gco:CharacterString>ENTER ORGANISATION NAME (POINT OF CONTACT FOR THE DATASET)</gco:CharacterString></gmd:organisationName>
+                            <gmd:contactInfo>
+                                <gmd:CI_Contact>
+                                    <gmd:phone>
+                                        <gmd:CI_Telephone>
+                                            <gmd:voice><gco:CharacterString>ENTER TELEPHONE NUMBER, ELSE REMOVE WHOLE gmd:voice</gco:CharacterString></gmd:voice>
+                                            <gmd:facsimile><gco:CharacterString>ENTER FAX NUMBER, ELSE REMOVE WHOLE gmd:facsimile</gco:CharacterString></gmd:facsimile>
+                                        </gmd:CI_Telephone>
+                                    </gmd:phone>
+                                    <gmd:address>
+                                        <gmd:CI_Address>
+                                            <gmd:deliveryPoint><gco:CharacterString>ENTER STREET ADDRESS</gco:CharacterString></gmd:deliveryPoint>
+                                            <gmd:city><gco:CharacterString>ENTER CITY</gco:CharacterString></gmd:city>
+                                            <gmd:postalCode><gco:CharacterString>ENTER POSTAL CODE</gco:CharacterString></gmd:postalCode>
+                                            <gmd:country><gco:CharacterString>ENTER COUNTRY (BEST IF ISO 3166 [http://www.iso.org/iso/fr/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm])</gco:CharacterString></gmd:country>
+                                            <gmd:electronicMailAddress><gco:CharacterString>ENTER EMAIL ADDRESS</gco:CharacterString></gmd:electronicMailAddress>
+                                        </gmd:CI_Address>
+                                    </gmd:address>
+                                    <gmd:onlineResource>
+                                        <gmd:CI_OnlineResource>
+                                            <gmd:linkage><gmd:URL>ENTER URL FOR FURTHER INFO ON THE POINT OF CONTACT FOR THE DATASET, ELSE REMOVE WHOLE gmd:onlineResource</gmd:URL></gmd:linkage>
+                                            <gmd:protocol><gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString></gmd:protocol>
+                                            <gmd:name><gco:CharacterString>ENTER TITLE FOR THE ONLINE INFO, ELSE REMOVE WHOLE gmd:name</gco:CharacterString></gmd:name>
+                                            <gmd:description><gco:CharacterString>ENTER DESCRIPTION FOR THE ONLINE INFO, ELSE REMOVE WHOLE gmd:description</gco:CharacterString></gmd:description>
+                                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode></gmd:function>
+                                        </gmd:CI_OnlineResource>
+                                    </gmd:onlineResource>
+                                </gmd:CI_Contact>
+                            </gmd:contactInfo>
+                            <gmd:role>
+                                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                            </gmd:role>
+                        </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:resourceFormat>
+                <gmd:MD_Format>
+                    <gmd:name><gco:CharacterString>ENTER FORMAT NAME (e.g. "jpg")</gco:CharacterString></gmd:name>
+                    <gmd:version><gco:CharacterString>ENTER FORMAT VERSION</gco:CharacterString></gmd:version>
+                    <gmd:specification><gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString></gmd:specification>
+                </gmd:MD_Format>
+            </gmd:resourceFormat>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="WMOCodeListKeywords">
+                    <gmd:keyword><gco:CharacterString>ENTER AT LEAST ONE KEYWORD FROM THE WMO_Codelist DICTIONARY [TBD]</gco:CharacterString></gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                                                 <gmd:CI_Citation id="WMOCodelist">
+                                                         <gmd:title><gco:CharacterString>WMO_CodeList dictionary [http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#WMO_CategoryCode]</gco:CharacterString></gmd:title>
+                                                         <gmd:date>
+                                                                 <gmd:CI_Date>
+                                                                         <gmd:date><gco:Date>2010-11-13</gco:Date></gmd:date>
+                                                                         <gmd:dateType><gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode></gmd:dateType>
+                                                                 </gmd:CI_Date>
+                                                         </gmd:date>
+                                                         <gmd:identifier>
+                                                                 <gmd:MD_Identifier>
+                                                                         <gmd:authority>
+                                                                                 <gmd:CI_Citation>
+                                                                                         <gmd:title><gco:CharacterString>Codelists for description of metadata datasets compliant with the WMO Core Metadata Profile version 1.2 [http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml]</gco:CharacterString></gmd:title>
+                                                                                         <gmd:date>
+                                                                                                 <gmd:CI_Date>
+                                                                                                         <gmd:date><gco:Date>2010-11-13</gco:Date></gmd:date>
+                                                                                                         <gmd:dateType><gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode></gmd:dateType>
+                                                                                                 </gmd:CI_Date>
+                                                                                         </gmd:date>
+                                                                                 </gmd:CI_Citation>
+                                                                         </gmd:authority>
+                                                                         <gmd:code><gco:CharacterString>WMO_CategoryCode</gco:CharacterString></gmd:code>
+                                                                 </gmd:MD_Identifier>
+                                                         </gmd:identifier>
+                            <gmd:citedResponsibleParty>
+                                                                 <gmd:CI_ResponsibleParty id="CH-WMOSec">
+                                                                         <gmd:organisationName><gco:CharacterString>WMO Secretariat</gco:CharacterString></gmd:organisationName>
+                                                                         <gmd:role><gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode></gmd:role>
+                                                                 </gmd:CI_ResponsibleParty>
+                                                         </gmd:citedResponsibleParty>
+                                                 </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="GEMETKeywords">
+                    <gmd:keyword>
+                        <gco:CharacterString>ENTER AT LEAST ONE KEYWORD FROM THE GEMET THESAURUS [http://www.eionet.europa.eu/gemet], ELSE REMOVE WHOLE gmd:descriptiveKeywords</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation id="GEMET">
+                                                         <gmd:title><gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString></gmd:title>
+                                                         <gmd:date>
+                                                                 <gmd:CI_Date>
+                                                                         <gmd:date><gco:Date>2008-06-01</gco:Date></gmd:date>
+                                                                         <gmd:dateType><gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2010/metadata/version_1-2/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode></gmd:dateType>
+                                                                 </gmd:CI_Date>
+                                                         </gmd:date>
+                                                         <gmd:citedResponsibleParty>
+                                                                 <gmd:CI_ResponsibleParty>
+                                                                         <gmd:organisationName><gco:CharacterString>GEneral Multilingual Environmental Thesaurus from the European Agency for Environment</gco:CharacterString>
+                                                                         </gmd:organisationName>
+                                                                         <gmd:contactInfo>
+                                                                                 <gmd:CI_Contact>
+                                                                                         <gmd:onlineResource>
+                                                                                                 <gmd:CI_OnlineResource>
+                                                                                                         <gmd:linkage><gmd:URL>http://www.eionet.europa.eu/gemet</gmd:URL></gmd:linkage>
+                                                                                                 </gmd:CI_OnlineResource>
+                                                                                         </gmd:onlineResource>
+                                                                                 </gmd:CI_Contact>
+                                                                         </gmd:contactInfo>
+                                                                         <gmd:role>
+                                                                                 <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                                                                         </gmd:role>
+                                                                 </gmd:CI_ResponsibleParty>
+                                                         </gmd:citedResponsibleParty>
+                                                 </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            
+            <gmd:resourceConstraints>
+                <gmd:MD_LegalConstraints>
+                    <gmd:accessConstraints>
+                        <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PublicallyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                    </gmd:accessConstraints>
+                    <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PublicallyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                    </gmd:useConstraints>
+                    <gmd:otherConstraints>
+                        <gco:CharacterString>ENTER DATA POLICY, RESPECT WMO_DataLicenseCode DICTIONARY FOR GLOBAL DATA  (e.g. "WMOEssential")</gco:CharacterString>
+                    </gmd:otherConstraints>
+                                        <gmd:otherConstraints>
+                        <gco:CharacterString>ENTER GTS PRIORITY, RESPECT WMO_DataLicenseCode DICTIONARY  (e.g. "GTSPriority3")</gco:CharacterString>
+                    </gmd:otherConstraints>
+                </gmd:MD_LegalConstraints>
+            </gmd:resourceConstraints>
+
+            <gmd:spatialRepresentationType>
+                <gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="vector">vector</gmd:MD_SpatialRepresentationTypeCode>
+            </gmd:spatialRepresentationType>
+            
+            <gmd:language>
+                <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+            </gmd:language>
+            
+            <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</gmd:MD_TopicCategoryCode>
+            </gmd:topicCategory>
+            
+            <gmd:extent>
+                <gmd:EX_Extent id="boundingExtent">
+                    <gmd:geographicElement>
+                        <gmd:EX_GeographicBoundingBox>
+                            <gmd:westBoundLongitude><gco:Decimal>-180.00</gco:Decimal></gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude><gco:Decimal>-180.00</gco:Decimal></gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude><gco:Decimal>180.00</gco:Decimal></gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude><gco:Decimal>180.00</gco:Decimal></gmd:northBoundLatitude>
+                        </gmd:EX_GeographicBoundingBox>
+                    </gmd:geographicElement>
+                    <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent id="boundingTemporalExtent">
+                            <gmd:extent>
+                                <gml:TimePeriod gml:id="boundingTemporalExtentTP">
+                                    <gml:beginPosition>2011-09-09</gml:beginPosition>
+                                    <gml:endPosition indeterminatePosition="now"/>
+                                </gml:TimePeriod>
+                            </gmd:extent>
+                        </gmd:EX_TemporalExtent>
+                    </gmd:temporalElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+    
+    <gmd:distributionInfo>
+        <gmd:MD_Distribution>
+            <gmd:distributionFormat>
+                <gmd:MD_Format>
+                    <gmd:name><gco:CharacterString>ENTER DISTRIBUTION FORMAT (e.g. "jpg")</gco:CharacterString></gmd:name>
+                    <gmd:version><gco:CharacterString>ENTER DISTRIBUTION FORMAT VERSION</gco:CharacterString></gmd:version>
+                    <gmd:specification>
+                        <gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString>
+                    </gmd:specification>
+                </gmd:MD_Format>
+            </gmd:distributionFormat>
+            <gmd:distributor>
+                <gmd:MD_Distributor>
+                    <gmd:distributorContact>
+                         <gmd:CI_ResponsibleParty>
+                             <gmd:contactInfo>
+                                <gmd:CI_Contact>
+                            <gmd:phone>
+                                 <gmd:CI_Telephone>
+                                     <gmd:voice><gco:CharacterString>ENTER TELEPHONE NUMBER, ELSE REMOVE WHOLE gmd:voice</gco:CharacterString></gmd:voice>
+                                     <gmd:facsimile><gco:CharacterString>ENTER FAX NUMBER, ELSE REMOVE WHOLE gmd:facsimile</gco:CharacterString></gmd:facsimile>
+                                 </gmd:CI_Telephone>
+                             </gmd:phone>
+                             <gmd:address>
+                                 <gmd:CI_Address>
+                                     <gmd:deliveryPoint><gco:CharacterString>ENTER STREET ADDRESS</gco:CharacterString></gmd:deliveryPoint>
+                                     <gmd:city><gco:CharacterString>ENTER CITY</gco:CharacterString></gmd:city>
+                                     <gmd:postalCode><gco:CharacterString>ENTER POSTAL CODE</gco:CharacterString></gmd:postalCode>
+                                     <gmd:country><gco:CharacterString>ENTER COUNTRY (BEST IF ISO 3166 [http://www.iso.org/iso/fr/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm])</gco:CharacterString></gmd:country>
+                                     <gmd:electronicMailAddress><gco:CharacterString>ENTER EMAIL ADDRESS</gco:CharacterString></gmd:electronicMailAddress>
+                                 </gmd:CI_Address>
+                             </gmd:address>
+                             <gmd:onlineResource>
+                                 <gmd:CI_OnlineResource>
+                                     <gmd:linkage><gmd:URL>ENTER URL FOR FURTHER INFO ON THE DISTRIBUTOR, ELSE REMOVE WHOLE gmd:onlineResource</gmd:URL></gmd:linkage>
+                                     <gmd:protocol><gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString></gmd:protocol>
+                                     <gmd:name><gco:CharacterString>ENTER TITLE FOR THE ONLINE INFO, ELSE REMOVE WHOLE gmd:name</gco:CharacterString></gmd:name>
+                                     <gmd:description><gco:CharacterString>ENTER DESCRIPTION FOR THE ONLINE INFO, ELSE REMOVE WHOLE gmd:description</gco:CharacterString></gmd:description>
+                                     <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode></gmd:function>
+                                 </gmd:CI_OnlineResource>
+                             </gmd:onlineResource>
+                         </gmd:CI_Contact>
+                         </gmd:contactInfo>
+                                                  <gmd:role><gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">distributor</gmd:CI_RoleCode></gmd:role>
+                                             </gmd:CI_ResponsibleParty>
+                    </gmd:distributorContact>
+                    <gmd:distributorTransferOptions>
+                        <gmd:MD_DigitalTransferOptions>
+                            <gmd:onLine>
+                                <gmd:CI_OnlineResource>
+                                    <gmd:linkage><gmd:URL>UPDATE URL FOR ONLINE DISTRIBUTION: (e.g. "http://PROVIDER_HOSTNAME/PROVIDER_PATH/urn%3Ax-wmo%3Aint.wmo.wis%3Amd%3A%3TTAAiiCCCC")</gmd:URL></gmd:linkage>
+                                    <gmd:protocol><gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString></gmd:protocol>
+                                    <gmd:name><gco:CharacterString>ENTER NAME OF DISTRIBUTOR (e.g. "RTH Melbourne")</gco:CharacterString></gmd:name>
+                                    <gmd:description><gco:CharacterString>DECRIBE DISTRIBUTION (e.g. "TTAAii collection of JPG reports available from CCCC at RTH Melbourne")</gco:CharacterString></gmd:description>
+                                    <gmd:function><gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode></gmd:function>
+                                </gmd:CI_OnlineResource>
+                            </gmd:onLine>
+                        </gmd:MD_DigitalTransferOptions>
+                    </gmd:distributorTransferOptions>
+                </gmd:MD_Distributor>
+            </gmd:distributor>
+
+        </gmd:MD_Distribution>
+    </gmd:distributionInfo>
+        
+    <gmd:metadataConstraints>
+        <gmd:MD_Constraints>
+            <gmd:useLimitation><gco:CharacterString>ENTER RESTRICTIONS ON THE METADATA, OR DISCLAIMER ON ITS CONTENT, ELSE DISCARD WHOLE gmd:metadataConstraints</gco:CharacterString></gmd:useLimitation>
+        </gmd:MD_Constraints>
+    </gmd:metadataConstraints>
+</gmd:MD_Metadata>

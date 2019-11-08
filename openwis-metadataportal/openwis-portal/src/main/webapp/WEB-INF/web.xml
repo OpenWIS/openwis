@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
+            version="2.4">
+            
+    <display-name>geonetwork</display-name>
+
+    <!-- shut down java cache used for xlinks and spatial index -->
+    <listener>
+        <listener-class>
+            org.apache.jcs.utils.servlet.JCSServletContextListener
+        </listener-class>
+    </listener>
+
+
+    <listener>
+        <listener-class>
+            org.openwis.metadataportal.services.login.SessionCounter
+        </listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>gn-servlet</servlet-name>
+        <servlet-class>jeeves.server.sources.http.JeevesServlet</servlet-class>
+
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+        <!-- Servlet proxy -->
+    <servlet>
+        <servlet-name>HttpProxy</servlet-name>
+        <servlet-class>org.geonetwork.http.proxy.HttpProxyServlet</servlet-class>
+        
+        <!-- List of allowed content types -->
+    <init-param>
+      <param-name>AllowedContentTypes</param-name>
+      <param-value>
+          application/xml,text/xml,
+          text/html,
+          text/plain,
+          application/vnd.ogc.se_xml,
+          application/vnd.ogc.se+xml,
+          application/vnd.ogc.success+xml,
+          application/vnd.ogc.wms_xml,
+          application/vnd.ogc.context+xml,
+          application/vnd.ogc.gml,
+          application/vnd.ogc.sld+xml,
+          application/vnd.google-earth.kml+xml,
+          application/json
+      </param-value>
+    </init-param>
+
+    <!-- List of host alloed to be accesed by the proxy: If not specified or empty, any hosts is allowed -->
+    <init-param>
+        <param-name>AllowedHosts</param-name>
+        <param-value />
+    </init-param>
+
+    <!-- Default proxy url if none is provided -->
+    <init-param>
+        <param-name>DefaultProxyUrl</param-name>
+        <param-value>http://www.openlayers.org</param-value>
+    </init-param>
+
+    <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <!-- Print servlet -->
+    <servlet>
+        <servlet-name>mapfish.print</servlet-name>
+        <servlet-class>org.mapfish.print.servlet.MapPrinterServlet</servlet-class>
+        <init-param>
+              <param-name>config</param-name>
+              <param-value>print-config.yaml</param-value>
+        </init-param>
+    </servlet>
+    
+    
+    <!-- Login Servlet -->
+    <servlet>
+        <servlet-name>openWisInit</servlet-name>
+		<servlet-class>org.openwis.metadataportal.services.login.OpenWisInit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>openWisChooseDomain</servlet-name>
+        <jsp-file>/jsp/openWisChooseDomain.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>openWisDomainSelected</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.OpenWisDomainSelected</servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>openWisAuthorization</servlet-name>
+       	<servlet-class>org.openwis.metadataportal.services.login.OpenWisAuthorization</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>openWisGetToken</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.OpenWisGetToken</servlet-class>
+    </servlet>
+
+    <!-- Logout Servlet -->
+    <servlet>
+        <servlet-name>openWisLogout</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.Logout</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>fedletSloInit</servlet-name>
+        <jsp-file>/saml2/jsp/spSingleLogoutInit.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>fedletSloSoap</servlet-name>
+        <servlet-class>com.sun.identity.saml2.servlet.SPSingleLogoutServiceSOAP</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>fedletSloRedirect</servlet-name>
+        <jsp-file>/saml2/jsp/spSingleLogoutRedirect.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>fedletSloPOST</servlet-name>
+        <jsp-file>/saml2/jsp/spSingleLogoutPOST.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>openWisLoginException</servlet-name>
+        <jsp-file>/openWisLoginException.jsp</jsp-file>
+    </servlet>
+    
+    <!-- Retrieve Subscription/Request Servlet -->
+    <servlet>
+        <servlet-name>openWisRemoteSearch</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.search.RemoteSearch</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>fedletSloInit</servlet-name>
+        <url-pattern>/fedletSloInit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fedletSloSoap</servlet-name>
+        <url-pattern>/fedletSloSoap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fedletSloPOST</servlet-name>
+        <url-pattern>/fedletSloPOST</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fedletSloRedirect</servlet-name>
+        <url-pattern>/fedletSloRedirect</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>openWisInit</servlet-name>
+        <url-pattern>/openWisInit</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>openWisDomainSelected</servlet-name>
+        <url-pattern>/openWisDomainSelected</url-pattern>
+    </servlet-mapping>
+    
+	<servlet-mapping>
+        <servlet-name>openWisAuthorization</servlet-name>
+        <url-pattern>/openWisAuthorization</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>openWisGetToken</servlet-name>
+        <url-pattern>/openWisGetToken</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>openWisLogout</servlet-name>
+        <url-pattern>/openWisLogout</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>openWisRemoteSearch</servlet-name>
+        <url-pattern>/openWisRemoteSearch</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>openWisLoginException</servlet-name>
+        <url-pattern>/openWisLoginException</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>mapfish.print</servlet-name>
+        <url-pattern>/pdf/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>HttpProxy</servlet-name>
+        <url-pattern>/proxy</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>gn-servlet</servlet-name>
+        <url-pattern>/srv/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Web map context servlet -->
+    <servlet>
+        <servlet-name>wmc</servlet-name>
+        <servlet-class>org.geonetwork.map.wmc.WmcServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>openWisRemoteSearch</servlet-name>
+        <url-pattern>/retrieve/request/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>openWisRemoteSearch</servlet-name>
+        <url-pattern>/retrieve/subscribe/*</url-pattern>
+    </servlet-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <session-config>
+        <!-- 3 hours -->
+        <session-timeout>180</session-timeout>
+    </session-config>
+    
+    <error-page>
+        <error-code>500</error-code> 
+        <location>/error.jsp</location>
+    </error-page> 
+</web-app>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema version="1.2" name="openwis">
+	<types>
+		<fieldType omitNorms="true" sortMissingLast="true" class="solr.BoolField" name="boolean" />
+		<fieldtype class="solr.BinaryField" name="binary" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="0" class="solr.TrieIntField" name="int" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="0" class="solr.TrieFloatField" name="float" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="0" class="solr.TrieLongField" name="long" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="0" class="solr.TrieDoubleField" name="double" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="8" class="solr.TrieIntField" name="tint" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="8" class="solr.TrieFloatField" name="tfloat" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="8" class="solr.TrieLongField" name="tlong" />
+		<fieldType positionIncrementGap="0" omitNorms="true" precisionStep="8" class="solr.TrieDoubleField" name="tdouble" />
+		<fieldType positionIncrementGap="0" precisionStep="0" omitNorms="true" class="solr.TrieDateField" name="date" />
+		<fieldType positionIncrementGap="0" precisionStep="6" omitNorms="true" class="solr.TrieDateField" name="tdate" />
+		<fieldType indexed="true" class="solr.RandomSortField" name="random" />
+		<!-- string -->
+		<fieldType omitNorms="true" sortMissingLast="true" class="solr.StrField" name="string" />
+		<!-- text -->
+		<fieldType positionIncrementGap="100" class="solr.TextField" name="text">
+			<analyzer type="index">
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter enablePositionIncrements="true" words="stopwords.txt" ignoreCase="true" class="solr.StopFilterFactory" />
+				<filter splitOnCaseChange="1" catenateAll="0" catenateNumbers="1" catenateWords="1" generateNumberParts="1" generateWordParts="1"
+					class="solr.WordDelimiterFilterFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+				<filter protected="protwords.txt" language="English" class="solr.SnowballPorterFilterFactory" />
+			</analyzer>
+			<analyzer type="query">
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter expand="true" ignoreCase="true" synonyms="synonyms.txt" class="solr.SynonymFilterFactory" />
+				<filter enablePositionIncrements="true" words="stopwords.txt" ignoreCase="true" class="solr.StopFilterFactory" />
+				<filter splitOnCaseChange="1" catenateAll="0" catenateNumbers="0" catenateWords="0" generateNumberParts="1" generateWordParts="1"
+					class="solr.WordDelimiterFilterFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+				<filter protected="protwords.txt" language="English" class="solr.SnowballPorterFilterFactory" />
+			</analyzer>
+		</fieldType>
+		<!-- uuid -->
+		<fieldType positionIncrementGap="100" class="solr.TextField" name="uuid">
+			<!-- urn:x-wmo:md:int.wmo.wis::ECEU82LFRO => int.wmo.wis ECEU82LFRO -->
+			<analyzer>
+				<tokenizer class="solr.StandardTokenizerFactory" /> <!-- remove ':' -->
+				<filter class="solr.LowerCaseFilterFactory" />
+				<filter enablePositionIncrements="true" words="stopwords-uuid.txt" ignoreCase="true" class="solr.StopFilterFactory" />
+				<!-- remove 'urn' 'x-wmo' -->
+			</analyzer>
+		</fieldType>
+		<!-- Others types -->
+		<fieldType positionIncrementGap="100" class="solr.TextField" name="text_rev">
+			<analyzer type="index">
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter enablePositionIncrements="true" words="stopwords.txt" ignoreCase="true" class="solr.StopFilterFactory" />
+				<filter splitOnCaseChange="0" catenateAll="0" catenateNumbers="1" catenateWords="1" generateNumberParts="1" generateWordParts="1"
+					class="solr.WordDelimiterFilterFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+				<filter maxFractionAsterisk="0.33" maxPosQuestion="2" maxPosAsterisk="3" withOriginal="true" class="solr.ReversedWildcardFilterFactory" />
+			</analyzer>
+			<analyzer type="query">
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter expand="true" ignoreCase="true" synonyms="synonyms.txt" class="solr.SynonymFilterFactory" />
+				<filter enablePositionIncrements="true" words="stopwords.txt" ignoreCase="true" class="solr.StopFilterFactory" />
+				<filter splitOnCaseChange="0" catenateAll="0" catenateNumbers="0" catenateWords="0" generateNumberParts="1" generateWordParts="1"
+					class="solr.WordDelimiterFilterFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+			</analyzer>
+		</fieldType>
+		<fieldType omitNorms="true" sortMissingLast="true" class="solr.TextField" name="alphaOnlySort">
+			<analyzer>
+				<tokenizer class="solr.KeywordTokenizerFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+				<filter class="solr.TrimFilterFactory" />
+				<filter replace="all" replacement="" pattern="([^a-z])" class="solr.PatternReplaceFilterFactory" />
+			</analyzer>
+		</fieldType>
+		<fieldType multiValued="true" stored="false" positionIncrementGap="100" class="solr.TextField" name="phonetic">
+			<analyzer>
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+				<filter catenateAll="0" catenateNumbers="0" catenateWords="1" generateNumberParts="0" generateWordParts="1"
+					class="solr.WordDelimiterFilterFactory" />
+				<filter maxCodeLength="8" inject="false" class="solr.DoubleMetaphoneFilterFactory" />
+			</analyzer>
+		</fieldType>
+		<fieldType positionIncrementGap="100" class="solr.TextField" name="lowercase">
+			<analyzer>
+				<tokenizer class="solr.KeywordTokenizerFactory" />
+				<filter class="solr.LowerCaseFilterFactory" />
+			</analyzer>
+		</fieldType>
+		<fieldType positionIncrementGap="100" class="solr.TextField" name="text_ws">
+			<analyzer>
+				<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			</analyzer>
+		</fieldType>
+	</types>
+	<fields>
+		<!-- Generated Elements -->
+		<field name="accessConstr" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="authority" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="changeDate" type="date" indexed="true" stored="true" multiValued="false" />
+		<field name="classif" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="conditionApplyingToAccessAndUse" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="couplingType" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="createDate" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="creationDate" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="crs" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="crsCode" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="crsVersion" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="datasetLang" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="degree" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="denominator" type="int" indexed="true" stored="true" multiValued="true" />
+		<field name="digital" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="distanceUom" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="distanceVal" type="double" indexed="true" stored="true" multiValued="true" />
+		<field name="eastBL" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="fileId" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="format" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="geoDescCode" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="identifier" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="inspireannex" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="inspirecat" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="keyword" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="language" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="lineage" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="metadataPOC" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="mimetype" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="northBL" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="operatesOn" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="operatesOnIdentifier" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="operatesOnName" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="operation" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="otherConstr" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="paper" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="parentUuid" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="protocol" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="publicationDate" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="relation" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="revisionDate" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="secConstr" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="serviceType" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="serviceTypeVersion" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="southBL" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="spatial" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="spatialRepresenation" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="specificationDate" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="specificationDateType" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="subject" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="tempExtentBegin" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="tempExtentEnd" type="date" indexed="true" stored="true" multiValued="true" />
+		<field name="topicCat" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="type" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="westBL" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="description" type="string" indexed="true" stored="true" multiValued="true" />
+		<field name="_stopGap" type="string" indexed="true" stored="true" multiValued="false"/>
+
+		<field name="any" type="text" indexed="true" stored="false" multiValued="false" />
+
+		<field name="_abstract" type="text" indexed="true" stored="true" multiValued="false" />
+		<field name="_altTitle" type="text" indexed="true" stored="true" multiValued="false" />
+		<field name="inspiretheme" type="text" indexed="true" stored="true" multiValued="true" />
+		<field name="_keywordType" type="text" indexed="true" stored="true" multiValued="false" />
+		<field name="_levelName" type="text" indexed="true" stored="true" multiValued="false" />
+		<field name="_orgName" type="text" indexed="true" stored="true" multiValued="false" />
+		<field name="_specificationTitle" type="text" indexed="true" stored="true" multiValued="false" />
+		<field name="_title" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_defaultTitle" type="string" indexed="true" stored="true" multiValued="false" />
+
+		<field name="abstract" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_abstract" dest="abstract" />
+		<field name="altTitle" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_altTitle" dest="altTitle" />
+		<field name="keywordType" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_keywordType" dest="keywordType" />
+		<field name="levelName" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_levelName" dest="levelName" />
+		<field name="orgName" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_orgName" dest="orgName" />
+		<field name="specificationTitle" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_specificationTitle" dest="specificationTitle" />
+		<field name="title" type="text" indexed="true" stored="true" multiValued="true" />
+		<copyField source="_title" dest="title" />
+
+		<!-- UUIDs are converted to lower-case before they are stored in the index. -->
+		<field name="_uuid" type="lowercase" indexed="true" stored="true" multiValued="false" />
+		<field name="uuid" type="uuid" indexed="true" stored="true" multiValued="true" />
+		<field name="uuid_original" type="string" indexed="false" stored="true" multiValued="false" />
+		<copyField source="_uuid" dest="uuid" />		
+
+		<field name="_root" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_schema" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_createDate" type="date" indexed="true" stored="true" multiValued="false" />
+		<field name="_changeDate" type="date" indexed="true" stored="true" multiValued="false" />
+		<field name="_localImportDate" type="date" indexed="true" stored="true" multiValued="false" />
+		<field name="_source" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_isTemplate" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_id" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_isHarvested" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_owner" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_dummy" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_popularity" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_rating" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_hasxlinks" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_xlinks" type="string" indexed="true" stored="true" multiValued="false" />
+
+		<field name="_categoryId" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_categoryName" type="string" indexed="true" stored="true" multiValued="false" />
+
+		<field name="_isGlobal" type="string" indexed="false" stored="true" multiValued="true" />
+		<field name="_linkOpenwisRequestUrl" type="string" indexed="false" stored="true" multiValued="true" />
+		<field name="_linkOpenwisSubscribeUrl" type="string" indexed="false" stored="true" multiValued="true" />
+		<field name="_linkOtherActions" type="string" indexed="false" stored="true" multiValued="true" />
+
+		<field name="_geometry" type="string" indexed="false" stored="true" multiValued="false" />
+
+		<field name="_effectiveDatapolicy" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_datapolicy" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_overriddenDatapolicy" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_isFed" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_isIngested" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_fileExtension" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_overriddenFileExtension" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_fncPattern" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_overriddenFncPattern" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_gtsCategory" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="_overriddenGtsCategory" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_localDataSource" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_originator" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_priority" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_overriddenPriority" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_process" type="string" indexed="true" stored="true" multiValued="false" />
+		<field name="_displayOrder" type="string" indexed="false" stored="true" multiValued="false" />
+
+		<field name="anytext" type="text" indexed="true" stored="false" multiValued="true" />
+
+		<copyField source="any" dest="anytext" />
+		<copyField source="_process" dest="anytext" />
+		<copyField source="_categoryName" dest="anytext" />
+
+		<copyField source="_uuid" dest="anytext" />
+		<copyField source="uuid" dest="anytext" />
+		<copyField source="_abstract" dest="anytext" />
+		<copyField source="_altTitle" dest="anytext" />
+		<copyField source="inspiretheme" dest="anytext" />
+		<copyField source="_keywordType" dest="anytext" />
+		<copyField source="_levelName" dest="anytext" />
+		<copyField source="_orgName" dest="anytext" />
+		<copyField source="_specificationTitle" dest="anytext" />
+		<copyField source="_title" dest="anytext" />
+		<copyField source="_gtsCategory" dest="anytext" />
+		<copyField source="_overriddenGtsCategory" dest="anytext" />
+		<copyField source="_fileExtension" dest="anytext" />
+		<copyField source="_overriddenFileExtension" dest="anytext" />
+		<copyField source="_originator" dest="anytext"/>
+		<copyField source="_fncPattern" dest="anytext"/>
+		<copyField source="_overriddenFncPattern" dest="anytext"/>
+		<copyField source="_datapolicy" dest="anytext"/>
+		<copyField source="_overriddenDatapolicy" dest="anytext"/>
+	</fields>
+	<uniqueKey>_uuid</uniqueKey>
+	<defaultSearchField>anytext</defaultSearchField>
+	<solrQueryParser defaultOperator="OR" />
+</schema>

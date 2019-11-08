@@ -1,0 +1,19 @@
+{
+  "name": "community-c_openwis",
+  "version": "0.1.0",
+  "author": "UK Met Office",
+  "summary": "Installs and configures OpenWIS",
+  "license": "Crown Copyright",
+  "source": "ssh://examplepuppet.openwis.io/var/git/repos/community-c_openwis.git",
+  "project_page": "https://examplepuppet.openwis.io/repos/community-c_openwis.git",
+  "operatingsystem_support": [
+    { "operatingsystem": "RedHat", "operatingsystemrelease": ["6"] },
+    { "operatingsystem": "RedHat", "operatingsystemrelease": ["7"] }
+  ],
+  "dependencies": [
+    { "name": "puppetlabs-stdlib", "version_requirement": ">= 4.6.0" },
+    { "name": "puppetlabs-firewall", "version_requirement": ">= 1.4.0" },
+    { "name": "AlexCline-dirtree", "version_requirement": ">= 0.2.1" }
+  ]
+}
+

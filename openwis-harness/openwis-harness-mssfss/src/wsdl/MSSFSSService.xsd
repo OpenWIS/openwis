@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="unqualified"
+	targetNamespace="http://mssfss.harness.openwis.org/" version="1.0"
+	xmlns:tns="http://mssfss.harness.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="changeRouting" type="tns:changeRouting" />
+	<xs:element name="changeRoutingResponse" type="tns:changeRoutingResponse" />
+	<xs:element name="getChannelsForUser" type="tns:getChannelsForUser" />
+	<xs:element name="getChannelsForUserResponse" type="tns:getChannelsForUserResponse" />
+	<xs:element name="createRouting" type="tns:createRouting" />
+	<xs:element name="createRoutingResponse" type="tns:createRoutingResponse" />
+	<xs:element name="listRouting" type="tns:listRouting" />
+	<xs:element name="listRoutingResponse" type="tns:listRoutingResponse" />
+	<xs:element name="deleteRouting" type="tns:deleteRouting" />
+	<xs:element name="deleteRoutingResponse" type="tns:deleteRoutingResponse" />
+	<xs:element name="getRecentEventsForARoutingResponse" type="tns:getRecentEventsForARoutingResponse" />
+
+
+	<xs:complexType name="getChannelsForUser">
+		<xs:sequence>
+			<xs:element name="user" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getChannelsForUserResponse">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="channelList"
+				type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="createRouting">
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="user" type="xs:string">
+				<xs:annotation></xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="1" maxOccurs="1" name="urn_md"
+				type="xs:string">
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="subSelectionParams" type="tns:parameter"/>
+			<xs:element minOccurs="1" maxOccurs="1" name="frequency"
+				type="tns:Frequency">
+				<xs:annotation></xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="1" maxOccurs="1" name="channel"
+				type="xs:string">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CreateRoutingResponseType">
+		<xs:sequence>
+			<xs:element name="id_request" type="xs:string"></xs:element>
+			<xs:element name="message" type="xs:string"></xs:element>
+			<xs:element name="status" type="tns:requestStatus"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="createRoutingResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:CreateRoutingResponseType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="changeRouting">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="id_request" type="xs:string" />
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="subSelectionParams" type="tns:parameter"/>
+			<xs:element name="frequency" type="tns:Frequency"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>complex type</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="1" name="channel" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="changeRoutingResponseType">
+		<xs:sequence>
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="result_status" type="tns:requestStatus"
+				maxOccurs="1" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="changeRoutingResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:changeRoutingResponseType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="result">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="requestStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UNKNOWN_REQUEST" />
+			<xs:enumeration value="REQUEST_REJECTED" />
+			<xs:enumeration value="REQUEST_IMPLEMENTED" />
+			<xs:enumeration value="REQUEST_PENDING" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="deleteRouting">
+		<xs:sequence>
+			<xs:element name="id_request" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="deleteRoutingResponseType">
+		<xs:sequence>
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="result_status" type="tns:requestStatus"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="deleteRoutingResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:deleteRoutingResponseType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="listRouting">
+		<xs:sequence>
+			<xs:element name="user" type="xs:string"></xs:element>
+			<xs:element name="page" type="xs:int">
+			</xs:element>
+			<xs:element name="pageSize" type="xs:int">
+			</xs:element>
+			<xs:element name="sortColumn" type="tns:RoutingSortColumn">
+			</xs:element>
+			<xs:element name="revert" type="xs:boolean">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="listRoutingResponseType">
+		<xs:sequence>
+			<xs:element name="routings" type="tns:Routing" maxOccurs="unbounded"
+				minOccurs="0">
+			</xs:element>
+			<xs:element name="numberOfResults" type="xs:int">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="listRoutingResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:listRoutingResponseType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="getRecentEventsForARouting">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id_request" type="xs:string">
+				</xs:element>
+				<xs:element name="page" type="xs:int">
+				</xs:element>
+				<xs:element name="pageSize" type="xs:int">
+				</xs:element>
+				<xs:element name="sortColumn" type="xs:string">
+				</xs:element>
+				<xs:element name="revert" type="xs:boolean">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="getRecentEventsForARoutingResponseType">
+		<xs:sequence>
+			<xs:element name="routingEvents" type="tns:RoutingEvent"
+				maxOccurs="unbounded" minOccurs="0">
+			</xs:element>
+			<xs:element name="routing" type="tns:Routing">
+			</xs:element>
+			<xs:element name="numberOfResults" type="xs:int">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="getRecentEventsForARoutingResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:getRecentEventsForARoutingResponseType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Routing">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"></xs:element>
+			<xs:element name="mdURN" type="xs:string"></xs:element>
+			<xs:element name="user" type="xs:string"></xs:element>
+			<xs:element name="channel" type="xs:string"></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="subSelectionParams" type="tns:parameter"/>
+			<xs:element name="frequency" type="tns:Frequency">
+			</xs:element>
+			<xs:element name="creationDate" type="xs:string"></xs:element>
+			<xs:element name="state" type="tns:RoutingState"></xs:element>
+			<xs:element name="lastEventDate" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="RoutingState">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PENDING"></xs:enumeration>
+			<xs:enumeration value="ACTIVE"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="RoutingEvent">
+		<xs:sequence>
+			<xs:element name="creationDate" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>date of event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="message" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>free text that can contain:
+						- identifier
+						-
+						instance date</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="Frequency" abstract="true"></xs:complexType>
+
+	<xs:complexType name="EventBasedFrequency">
+		<xs:complexContent>
+			<xs:extension base="tns:Frequency"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RecurrentFrequency">
+		<xs:complexContent>
+			<xs:extension base="tns:Frequency">
+				<xs:sequence>
+					<xs:element name="reccurencePeriod" type="xs:int">
+					</xs:element>
+					<xs:element name="recurrentScale" type="tns:recurrentScaleType">
+					</xs:element>
+					<xs:element name="nextDate" type="xs:string">
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:simpleType name="recurrentScaleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HOUR"></xs:enumeration>
+			<xs:enumeration value="DAY"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="RoutingSortColumn">
+		<xs:restriction base="xs:string">
+		  <xs:enumeration value="ID"/>
+		  <xs:enumeration value="METADATA_URN"/>
+		  <xs:enumeration value="CHANNEL"/>
+		  <xs:enumeration value="CREATION_DATE"/>
+		  <xs:enumeration value="STATE"/>
+		  <xs:enumeration value="LAST_EVENT_DATE"/>
+		</xs:restriction>
+	  </xs:simpleType>
+	
+	<xs:complexType name="parameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="values" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

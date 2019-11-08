@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openwis-dataservice</artifactId>
+		<groupId>io.openwis.dataservice</groupId>
+		<version>3.14.8-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>io.openwis.dataservice.server</groupId>
+	<artifactId>openwis-dataservice-server-test</artifactId>
+	<name>openwis-dataservice-server-test</name>
+	<packaging>jar</packaging>
+
+	<build>
+		<testSourceDirectory>src/it/java</testSourceDirectory>
+
+		<plugins>
+			<!--
+				<plugin> <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId> <version>2.2.1</version>
+				<configuration> <ejbVersion>3.0</ejbVersion> </configuration>
+				</plugin>
+			-->
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.openwis.dataservice.common</groupId>
+			<artifactId>openwis-dataservice-common-domain</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.openwis.dataservice.common</groupId>
+			<artifactId>openwis-dataservice-common-utils</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.openwis.dataservice.common</groupId>
+			<artifactId>openwis-dataservice-common-timer</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.javaee</groupId>
+			<artifactId>javaee</artifactId>
+			<version>5.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--
+			<dependency> <groupId>eu.akka.openwis.dataservice.server</groupId>
+			<artifactId>openwis-dataservice-server-ejb</artifactId>
+			<version>${pom.parent.version}</version> <type>ejb</type>
+			</dependency>
+		-->
+		<!--
+			<dependency> <groupId>com.sun.javaee</groupId>
+			<artifactId>javaee</artifactId> <version>5.0</version>
+			<scope>provided</scope> </dependency> - <dependency>
+		-->
+		<dependency>
+			<groupId>org.jboss.jbossas</groupId>
+			<artifactId>jboss-as-client</artifactId>
+			<version>5.1.0.GA</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.4.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.4-701.jdbc4</version>
+		</dependency>
+
+	</dependencies>
+</project>

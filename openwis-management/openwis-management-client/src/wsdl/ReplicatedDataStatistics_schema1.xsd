@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://monitoring.management.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://monitoring.management.openwis.org/" version="1.0">
+<xs:element name="getReplicatedData" type="tns:getReplicatedData"/>
+<xs:element name="getReplicatedDataFromSource" type="tns:getReplicatedDataFromSource"/>
+<xs:element name="getReplicatedDataFromSourceInInterval" type="tns:getReplicatedDataFromSourceInInterval"/>
+<xs:element name="getReplicatedDataFromSourceInIntervalResponse" type="tns:getReplicatedDataFromSourceInIntervalResponse"/>
+<xs:element name="getReplicatedDataFromSourceResponse" type="tns:getReplicatedDataFromSourceResponse"/>
+<xs:element name="getReplicatedDataInInterval" type="tns:getReplicatedDataInInterval"/>
+<xs:element name="getReplicatedDataInIntervalResponse" type="tns:getReplicatedDataInIntervalResponse"/>
+<xs:element name="getReplicatedDataResponse" type="tns:getReplicatedDataResponse"/>
+<xs:element name="getReplicatedDataStatistics" type="tns:getReplicatedDataStatistics"/>
+<xs:element name="getReplicatedDataStatisticsResponse" type="tns:getReplicatedDataStatisticsResponse"/>
+<xs:element name="updateReplicatedData" type="tns:updateReplicatedData"/>
+<xs:element name="updateReplicatedDataResponse" type="tns:updateReplicatedDataResponse"/>
+<xs:complexType name="getReplicatedDataStatistics">
+    <xs:sequence>
+      <xs:element name="firstResult" type="xs:int"/>
+      <xs:element name="maxItemsCount" type="xs:int"/>
+      <xs:element minOccurs="0" name="column" type="tns:ReplicatedDataColumn "/>
+      <xs:element minOccurs="0" name="dir" type="tns:SortDirection"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataStatisticsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:replicatedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="replicatedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="size" type="xs:long"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataFromSource">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataFromSourceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:replicatedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataInInterval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:string"/>
+      <xs:element minOccurs="0" name="to" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataInIntervalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:replicatedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:replicatedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateReplicatedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="date" type="xs:string"/>
+      <xs:element name="size" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="updateReplicatedDataResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataFromSourceInInterval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="from" type="xs:string"/>
+      <xs:element minOccurs="0" name="to" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getReplicatedDataFromSourceInIntervalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:replicatedData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:simpleType name="ReplicatedDataColumn ">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DATE"/>
+      <xs:enumeration value="SIZE"/>
+      <xs:enumeration value="SOURCE"/>
+    </xs:restriction>
+  </xs:simpleType>
+<xs:simpleType name="SortDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC"/>
+      <xs:enumeration value="DESC"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

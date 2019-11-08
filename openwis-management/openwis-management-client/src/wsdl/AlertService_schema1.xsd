@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://alert.management.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://alert.management.openwis.org/" version="1.0">
+<xs:element name="getFilteredEvents" type="tns:getFilteredEvents"/>
+<xs:element name="getFilteredEventsCount" type="tns:getFilteredEventsCount"/>
+<xs:element name="getFilteredEventsCountResponse" type="tns:getFilteredEventsCountResponse"/>
+<xs:element name="getFilteredEventsResponse" type="tns:getFilteredEventsResponse"/>
+<xs:element name="getFilteredEventsSorted" type="tns:getFilteredEventsSorted"/>
+<xs:element name="getFilteredEventsSortedResponse" type="tns:getFilteredEventsSortedResponse"/>
+<xs:element name="getRecentEvents" type="tns:getRecentEvents"/>
+<xs:element name="getRecentEventsCount" type="tns:getRecentEventsCount"/>
+<xs:element name="getRecentEventsCountResponse" type="tns:getRecentEventsCountResponse"/>
+<xs:element name="getRecentEventsResponse" type="tns:getRecentEventsResponse"/>
+<xs:element name="getRecentEventsSorted" type="tns:getRecentEventsSorted"/>
+<xs:element name="getRecentEventsSortedResponse" type="tns:getRecentEventsSortedResponse"/>
+<xs:element name="raiseError" type="tns:raiseError"/>
+<xs:element name="raiseErrorResponse" type="tns:raiseErrorResponse"/>
+<xs:element name="raiseEvent" type="tns:raiseEvent"/>
+<xs:element name="raiseEventResponse" type="tns:raiseEventResponse"/>
+<xs:element name="raiseInformation" type="tns:raiseInformation"/>
+<xs:element name="raiseInformationResponse" type="tns:raiseInformationResponse"/>
+<xs:element name="raiseWarning" type="tns:raiseWarning"/>
+<xs:element name="raiseWarningResponse" type="tns:raiseWarningResponse"/>
+<xs:complexType name="getFilteredEventsSorted">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="filterExp" type="xs:string"/>
+      <xs:element minOccurs="0" name="sortField" type="xs:string"/>
+      <xs:element minOccurs="0" name="sortOrder" type="xs:string"/>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="maxCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getFilteredEventsSortedResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:alarmEvent"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="alarmEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element minOccurs="0" name="module" type="xs:string"/>
+      <xs:element minOccurs="0" name="severity" type="xs:string"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getFilteredEvents">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="filterExp" type="xs:string"/>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="maxCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getFilteredEventsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:alarmEvent"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseInformationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="raiseError">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseErrorResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getRecentEventsSorted">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="to" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="sortField" type="xs:string"/>
+      <xs:element minOccurs="0" name="sortOrder" type="xs:string"/>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="maxCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getRecentEventsSortedResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:alarmEvent"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getRecentEventsCount">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="to" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getRecentEventsCountResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getRecentEvents">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="from" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="to" type="xs:dateTime"/>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="maxCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getRecentEventsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:alarmEvent"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="severity" type="xs:string"/>
+      <xs:element minOccurs="0" name="eventId" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arguments" type="xs:anyType"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseEventResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="getFilteredEventsCount">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="filterExp" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getFilteredEventsCountResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseWarning">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="raiseWarningResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,2 @@
+# Maintain LF line endings for .sh scripts for Vagrant
+*.sh text eol=lf

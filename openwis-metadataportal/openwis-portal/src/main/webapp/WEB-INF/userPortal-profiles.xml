@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<profiles>
+
+	<!-- FIXME: check for unused services -->
+
+	<!-- External system services are still missing-->
+	<!-- ====================================================================== -->
+
+	<profile name="Administrator" extends="Operator, AccessAdmin, Editor">
+	</profile>
+
+	<!-- ====================================================================== -->
+
+	<profile name="AccessAdmin" extends="User">
+	</profile>
+
+	<!-- ====================================================================== -->
+
+	<profile name="Operator" extends="Editor">
+		<!-- Index -->
+		<allow service="metadata.admin.index.rebuild"/>
+		<allow service="metadata.admin.index.rebuildxlinks"/>
+		<allow service="metadata.admin.index.optimize"/>
+
+	</profile>
+	
+	<!-- ====================================================================== -->
+	
+	<profile name="Editor" extends="User">
+
+		<!-- Allow to edit a metadata record -->
+		<allow service="metadata.edit"/>
+		<allow service="metadata.edit.embedded"/>
+		<allow service="metadata.elem.add"/>
+		<allow service="metadata.elem.delete"/>
+		<allow service="metadata.elem.down"/>
+		<allow service="metadata.elem.up"/>
+		<allow service="metadata.attr.delete"/>
+		<allow service="metadata.update"/>
+		<allow service="metadata.update.embedded"/>
+		<allow service="metadata.update.finish"/>
+		<allow service="metadata.update.forget"/>
+		<allow service="metadata.update.forgetandfinish"/>
+		<allow service="metadata.validate"/>
+		<allow service="metadata.processing"/>
+		
+		<!-- OpenWIS -->
+		<allow service="xml.metadata.processing"/>
+		<allow service="xml.metadata.create.form"/>
+		<allow service="xml.metadata.create"/>
+		<allow service="xml.metadata.all"/>
+		<allow service="xml.metadata.remove"/>
+		<allow service="xml.metadata.duplicate"/>
+		<allow service="xml.metadata.insert.form"/>
+		<allow service="xml.metadata.insert.upload"/>
+		<allow service="xml.metadata.batchimport.form"/>
+		<allow service="xml.metadata.batchimport"/>
+		<allow service="xml.metadata.export"/>
+		<!-- MEF facilities -->
+		<allow service="mef.import"/>
+		
+		
+		<!-- Relation services -->
+		<allow service="xml.relation.insert"/>
+		<allow service="xml.relation.delete"/>
+	</profile>
+
+	<profile name="User" extends="Guest">
+		
+		<!-- OpenWIS -->
+		<allow service="myaccount"/>
+		
+		<!-- Massive New Owner services -->
+		<allow service="xml.usergroups.list"/>
+
+		<!-- Manage Personal Information -->
+		<allow service="xml.user.getSelf"/>
+		<allow service="xml.user.saveSelf"/>
+		<allow service="xml.user.changePassword"/>
+		
+		<!-- Allow thumbnail services -->
+		<allow service="metadata.thumbnail.form"/>
+		<allow service="metadata.thumbnail.set"/>
+		<allow service="metadata.thumbnail.unset"/>
+
+		<!-- Get User List -->
+		<allow service="xml.user.list"/>
+
+		<!-- OPENWIS -->
+		<allow service="xml.get.request.subselectionparameters"/>
+		<allow service="xml.get.cache.subselectionparameters"/>
+		<allow service="xml.create.request.subscription"/>
+		<allow service="xml.update.request.subscription"/>
+		<allow service="xml.get.user.dissemination.parameters"/>
+		<allow service="xml.save.favorite.dissemination.parameter"/>
+		<allow service="follow.my.requests"/>
+		<allow service="xml.follow.my.adhocs"/>
+		<allow service="xml.follow.my.remote.adhocs"/>
+		<allow service="xml.follow.my.subscriptions"/>
+		<allow service="xml.follow.my.remote.subscriptions"/>
+		<allow service="xml.follow.my.mssfss.subscriptions"/>
+		<allow service="xml.follow.my.remote.mssfss.subscriptions"/>
+		<allow service="xml.discard.request"/>
+		<allow service="xml.adhoc.get" />
+		<allow service="xml.processed.requests.all"/>
+		<allow service="xml.subscription.get" />
+		<allow service="xml.mssfss.processed.requests.all"/>
+		<allow service="xml.mssfss.subscription.get" />
+		<allow service="xml.set.subscription.state"/>
+		<allow service="xml.deployment.cot.all"/>
+		<allow service="xml.get.all.backup.centres"/>
+		<allow service="xml.processed.requests.delete"/>
+		<allow service="xml.monitor.current.subscriptions.export"/>
+		<allow service="xml.monitor.current.subscriptions.import"/>
+		
+		<!-- Download a file -->
+		<allow service="file.download"/>
+		<allow service="file.disclaimer"/>
+		<allow service="feedback.download.insert"/>
+		<allow service="resources.get"/>
+		<allow service="resources.get.archive"/>
+		<allow service="prepare.file.download"/>
+		
+		<!-- CRS get -->
+		<allow service="crs.search"/>
+		<allow service="crs.types"/>
+		<allow service="crs.get"/>
+		
+		<!-- Categories -->
+        <allow service="xml.category.all"/>
+
+		<!-- OpenWIS -->
+		<allow service="xml.get.user.backup.centres"/>
+
+		<!-- Utilities  -->
+		<allow service="util.ping"/>
+		<allow service="util.empty"/>
+		<allow service="util.select"/>
+		
+		<!-- Allow to upload a file -->
+		<allow service="file.upload"/>
+		<allow service="resources.upload"/>
+		<allow service="resources.prepare.upload"/>
+		<allow service="resources.del"/>
+
+		<!-- Allow to view their user alarms -->
+		<allow service="xml.useralarms.getrequests"/>
+		<allow service="xml.useralarms.getsubscriptions"/>
+		<allow service="xml.useralarms.acknowledge"/>
+		<allow service="xml.useralarms.acknowledgeall"/>
+
+	</profile>
+
+	<!-- ====================================================================== -->
+
+	<profile name="Guest">
+
+		<!-- Basic services to search and display the results -->
+		<allow service="main.home"/>
+		<allow service="main.searchform.simple.embedded"/>
+		<allow service="main.searchform.advanced.embedded"/>
+		<allow service="main.search.embedded"/>
+		<allow service="main.search"/> <!-- Enables OpenSearch HTML responses -->
+		<allow service="main.search.suggest"/>
+		<allow service="main.present"/>
+		<allow service="main.present.embedded"/>
+		<allow service="metadata.show"/>
+		<allow service="metadata.show.embedded"/>
+		<allow service="remote.show"/>
+		
+		<allow service="xml.get.home.page.region.all"/>
+		<allow service="xml.get.home.page.category.all"/>
+		<allow service="xml.get.home.page.site.all"/>
+		<allow service="xml.get.home.page.last.products"/>
+		<allow service="xml.get.home.page.whats.new"/>
+
+		<!-- Login and logout services -->
+		<allow service="user.login"/>
+		<allow service="user.logout"/>
+        <!-- XML Login (allowing admin/admin authentication)
+        <allow service="xml.user.login"/>
+        <allow service="xml.user.logout"/>
+        -->
+        <allow service="user.choose.domain"/>
+		
+		<!-- User privileges -->
+		<allow service="user.privileges.error"/>
+
+		<!-- Get help -->
+		<allow service="help.home"/>
+		<allow service="about.home"/>
+
+
+		<!-- Get metadata from external application -->
+		<allow service="external.getmetadata"/>
+		<allow service="resources.getgraphover"/>
+		<allow service="graphover.show"/>
+
+		<!-- Select metadata -->
+		<allow service="metadata.select"/>
+		<allow service="selection.search"/>
+		<allow service="pdf.selection.search"/>
+		<allow service="pdf.present"/>
+		
+		<!-- WMC -->
+		<allow service="intermap.wmc.setWmcContext"/>
+
+		<!-- XML services -->
+		
+		<allow service="xml.search"/>
+		<allow service="xml.search.keywords"/>
+		<allow service="xml.metadata.get"/>
+		<allow service="xml.metadocument.get"/>
+		<allow service="xml.metadocument.snippet"/>
+		<allow service="xml.info"/>
+		<allow service="xml.forward"/>
+		<allow service="xml.region.get"/>
+		<allow service="xml.keyword.get"/>
+		<allow service="xml.file.disclaimer"/>
+		<allow service="xml.file.download"/>
+
+		<!-- Portal XML services -->
+		<allow service="portal.search"/>
+		<allow service="portal.opensearch"/>
+		<allow service="portal.search.keywords"/>
+		<allow service="portal.search.present"/>
+		<allow service="portal.present"/>
+		<allow service="portal.full"/>
+		<allow service="portal.get"/>
+		<allow service="portal.latest.updated"/>
+		<allow service="portal.featured"/>
+		<allow service="portal.categories"/>
+		<allow service="portal.sources"/>
+        <allow service="portal.sitemap"/>
+
+		<!-- Metadata export services -->
+		<allow service="pdf.search"/>
+		<allow service="dc.xml"/>
+		<allow service="fgdc.xml"/>
+		<allow service="iso19115to19139.xml"/>
+		<allow service="iso19139.xml"/>
+        <allow service="iso19110.xml"/>
+		<allow service="iso_arccatalog8.xml"/>
+
+		<!-- RSS services -->
+		<allow service="rss.latest"/>
+		<allow service="rss.search"/>
+		<allow service="rss.present"/>
+		<allow service="metadata.latest.updated"/>
+
+		<!-- CSV Service -->
+		<allow service="csv.search"/>
+		<allow service="csv.present"/>		
+
+		<!-- Allow GeoNetwork Mapping services -->
+		<allow service="xml.group.list"/>
+
+		<!-- Catalogue Services for the Web -->
+		<allow service="csw"/>
+
+		<!-- Open Archive Initiative, Protocol for Metadata Harvesting -->
+		<allow service="oaipmh"/>
+		
+		<!-- MEF facilities -->
+		<allow service="mef.export"/>
+
+		<!-- Relation services -->
+		<allow service="xml.relation.get"/>
+
+		<!-- Metadata schema related -->
+		<allow service="xml.schema.info"/>
+		
+		<!-- Thesaurus services -->
+	 	<allow service="keywords.search"/>
+	 	<allow service="keywords.sort"/>
+	 	<allow service="keywords.select"/>
+	 	<allow service="keywords.editsearch"/>
+		<allow service="keywords.getselected"/>
+	 	<allow service="thesaurus.list"/>
+		<allow service="thesaurus.view"/><!-- FIXME : Check if needed -->
+		<allow service="xml.thesaurus.getList"/>
+		<allow service="xml.thesaurus.getKeywordsNode"/>
+		<allow service="xml.thesaurus.getKeywordsXml"/>
+
+		<!-- SRU (Z3950) portal search service -->
+		<allow service="portal.sru"/>
+
+		<!-- Test CSW ISO server -->
+		<allow service="test.csw"/>
+
+		<allow service="show.error"/>
+		
+		<!-- User self registration -->
+		<allow service="user.register.get"/>
+		<allow service="user.register.submit"/>
+		
+		<!-- Extends user privileges -->
+		<allow service="user.extends.privileges.submit"/>
+		
+		<!-- Availability -->
+		<allow service="xml.availability.external.get"/>
+
+        <!-- Follow adhocs and subscriptions -->
+        <allow service="xml.follow.my.external.adhocs"/>
+        <allow service="xml.follow.my.external.subscriptions"/>
+        <allow service="xml.follow.my.external.mssfss.subscriptions"/>
+        
+        <!-- Inspire -->
+        <allow service="xml.CheckAuthorization"/>
+
+	</profile>
+
+	<!-- ====================================================================== -->
+</profiles>
+

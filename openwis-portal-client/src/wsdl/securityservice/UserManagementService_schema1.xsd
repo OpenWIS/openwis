@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://securityservice.openwis.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://securityservice.openwis.org/">
+    <xs:element name="addUserToGlobalGroup" type="tns:addUserToGlobalGroup"/>
+    <xs:element name="addUserToGlobalGroupResponse" type="tns:addUserToGlobalGroupResponse"/>
+    <xs:element name="addUserToLocalGroup" type="tns:addUserToLocalGroup"/>
+    <xs:element name="addUserToLocalGroupResponse" type="tns:addUserToLocalGroupResponse"/>
+    <xs:element name="changePassword" type="tns:changePassword"/>
+    <xs:element name="changePasswordResponse" type="tns:changePasswordResponse"/>
+    <xs:element name="checkUserNameExists" type="tns:checkUserNameExists"/>
+    <xs:element name="checkUserNameExistsResponse" type="tns:checkUserNameExistsResponse"/>
+    <xs:element name="createUser" type="tns:createUser"/>
+    <xs:element name="createUserResponse" type="tns:createUserResponse"/>
+    <xs:element name="getAllUserByUserNameAndGroupsFilter" type="tns:getAllUserByUserNameAndGroupsFilter"/>
+    <xs:element name="getAllUserByUserNameAndGroupsFilterResponse" type="tns:getAllUserByUserNameAndGroupsFilterResponse"/>
+    <xs:element name="getAllUserByUserNameFilter" type="tns:getAllUserByUserNameFilter"/>
+    <xs:element name="getAllUserByUserNameFilterResponse" type="tns:getAllUserByUserNameFilterResponse"/>
+    <xs:element name="getImportUserList" type="tns:getImportUserList"/>
+    <xs:element name="getImportUserListFilter" type="tns:getImportUserListFilter"/>
+    <xs:element name="getImportUserListFilterResponse" type="tns:getImportUserListFilterResponse"/>
+    <xs:element name="getImportUserListResponse" type="tns:getImportUserListResponse"/>
+    <xs:element name="getUserGroups" type="tns:getUserGroups"/>
+    <xs:element name="getUserGroupsResponse" type="tns:getUserGroupsResponse"/>
+    <xs:element name="getUserInfo" type="tns:getUserInfo"/>
+    <xs:element name="getUserInfoResponse" type="tns:getUserInfoResponse"/>
+    <xs:element name="importUser" type="tns:importUser"/>
+    <xs:element name="importUserResponse" type="tns:importUserResponse"/>
+    <xs:element name="initialize" type="tns:initialize"/>
+    <xs:element name="initializeResponse" type="tns:initializeResponse"/>
+    <xs:element name="removeUser" type="tns:removeUser"/>
+    <xs:element name="removeUserResponse" type="tns:removeUserResponse"/>
+    <xs:element name="removeUserToGroup" type="tns:removeUserToGroup"/>
+    <xs:element name="removeUserToGroupResponse" type="tns:removeUserToGroupResponse"/>
+    <xs:element name="resetUsers" type="tns:resetUsers"/>
+    <xs:element name="resetUsersResponse" type="tns:resetUsersResponse"/>
+    <xs:element name="updateUser" type="tns:updateUser"/>
+    <xs:element name="updateUserProfile" type="tns:updateUserProfile"/>
+    <xs:element name="updateUserProfileResponse" type="tns:updateUserProfileResponse"/>
+    <xs:element name="updateUserResponse" type="tns:updateUserResponse"/>
+    <xs:element name="userIsMemberOfGroup" type="tns:userIsMemberOfGroup"/>
+    <xs:element name="userIsMemberOfGroupResponse" type="tns:userIsMemberOfGroupResponse"/>
+    <xs:complexType name="importUser">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="userNames" type="xs:string"/>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="importUserResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="changePassword">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="changePasswordResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="updateUserProfile">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+            <xs:element minOccurs="0" name="profile" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateUserProfileResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="createUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="user" type="tns:openWISUser"/>
+            <xs:element minOccurs="0" name="centreName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+            <xs:element minOccurs="0" name="surName" type="xs:string"/>
+            <xs:element minOccurs="0" name="password" type="xs:string"/>
+            <xs:element minOccurs="0" name="emailContact" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="emails" nillable="true" type="tns:openWISEmail"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="ftps" nillable="true" type="tns:openWISFTP"/>
+            <xs:element minOccurs="0" name="address" type="tns:openWISAddress"/>
+            <xs:element name="needUserAccount" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="profile" type="xs:string"/>
+            <xs:element minOccurs="0" name="classOfService" type="tns:classOfService"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="backUps" nillable="true" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="groups" nillable="true" type="tns:openWISGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISEmail">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="address" type="xs:string"/>
+            <xs:element minOccurs="0" name="headerLine" type="xs:string"/>
+            <xs:element minOccurs="0" name="mailAttachmentMode" type="xs:string"/>
+            <xs:element minOccurs="0" name="subject" type="xs:string"/>
+            <xs:element minOccurs="0" name="mailDispatchMode" type="xs:string"/>
+            <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+            <xs:element minOccurs="0" name="disseminationTool" type="tns:disseminationTool"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISFTP">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="host" type="xs:string"/>
+            <xs:element minOccurs="0" name="path" type="xs:string"/>
+            <xs:element minOccurs="0" name="user" type="xs:string"/>
+            <xs:element minOccurs="0" name="password" type="xs:string"/>
+            <xs:element minOccurs="0" name="port" type="xs:string"/>
+            <xs:element name="passive" type="xs:boolean"/>
+            <xs:element name="encrypted" type="xs:boolean"/>
+            <xs:element name="checkFileSize" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+            <xs:element minOccurs="0" name="disseminationTool" type="tns:disseminationTool"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISAddress">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="address" type="xs:string"/>
+            <xs:element minOccurs="0" name="city" type="xs:string"/>
+            <xs:element minOccurs="0" name="country" type="xs:string"/>
+            <xs:element minOccurs="0" name="state" type="xs:string"/>
+            <xs:element minOccurs="0" name="zip" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISGroup">
+        <xs:sequence>
+            <xs:element name="isGlobal" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="centreName" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="groupIds" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createUserResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="addUserToLocalGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+            <xs:element minOccurs="0" name="groupId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addUserToLocalGroupResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="checkUserNameExists">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="checkUserNameExistsResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="resetUsers">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="resetUsersResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getAllUserByUserNameFilter">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userNameFilter" type="xs:string"/>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getAllUserByUserNameFilterResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISUser"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getUserGroups">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getUserGroupsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addUserToGlobalGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+            <xs:element minOccurs="0" name="groupId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addUserToGlobalGroupResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="removeUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="centre" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeUserResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getImportUserListFilter">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userFilter" type="xs:string"/>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getImportUserListFilterResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISUser"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="user" type="tns:openWISUser"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateUserResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="initialize">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="adminName" type="xs:string"/>
+            <xs:element minOccurs="0" name="adminPassword" type="xs:string"/>
+            <xs:element minOccurs="0" name="emailContact" type="xs:string"/>
+            <xs:element minOccurs="0" name="centreName" type="xs:string"/>
+            <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+            <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="initializeResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="removeUserToGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+            <xs:element minOccurs="0" name="groupId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeUserToGroupResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getImportUserList">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getImportUserListResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISUser"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="userIsMemberOfGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="centreGroupName" type="xs:string"/>
+            <xs:element minOccurs="0" name="groupId" type="xs:string"/>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="userIsMemberOfGroupResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getUserInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getUserInfoResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:openWISUser"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getAllUserByUserNameAndGroupsFilter">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="userNameFilter" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="groups" type="tns:openWISGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getAllUserByUserNameAndGroupsFilterResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:openWISUser"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="disseminationTool">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RMDCN"/>
+            <xs:enumeration value="PUBLIC"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="classOfService">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SILVER"/>
+            <xs:enumeration value="GOLD"/>
+            <xs:enumeration value="BRONZE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="UserManagementException" type="tns:UserManagementException"/>
+    <xs:complexType name="UserManagementException">
+        <xs:sequence>
+            <xs:element name="message" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

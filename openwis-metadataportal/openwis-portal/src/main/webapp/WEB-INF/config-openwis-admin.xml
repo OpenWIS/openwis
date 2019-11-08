@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<geonet>
+	<services package="org.openwis.metadataportal">
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Administration portal                                         -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="main.home">
+			<output sheet="/jsp/admin.jsp">
+				<call name="services" class="org.openwis.metadataportal.services.access.Get">
+					<param name="portal" value="admin"/>
+				</call>
+			</output>
+
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Data Policies                                                 -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.datapolicy.all" type="xml">
+			<class name=".services.datapolicy.All"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.datapolicy.remove" type="xml">
+			<class name=".services.datapolicy.Remove"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.datapolicy.get" type="xml">
+			<class name=".services.datapolicy.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.datapolicy.save" type="xml">
+			<class name=".services.datapolicy.Save"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="datapolicy.export" >
+            <output sheet="/jsp/exportDataPolicies.jsp" >
+            	<call  name="services" class="org.openwis.metadataportal.services.datapolicy.Export" />
+            </output>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+        </service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Groups                                                        -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.group.all" type="xml">
+			<class name=".services.group.All"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.group.synchronize" type="xml">
+			<class name=".services.group.Synchronize"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.group.get" type="xml">
+			<class name=".services.group.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.group.save" type="xml">
+			<class name=".services.group.Save"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.group.remove" type="xml">
+			<class name=".services.group.Remove"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Categories                                                    -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.category.get" type="xml">
+			<class name=".services.category.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.category.save" type="xml">
+			<class name=".services.category.Save"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.category.remove" type="xml">
+			<class name=".services.category.Remove"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.category.edit" type="xml">
+			<class name=".services.category.Edit"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Requests Statistics                                           -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.requestsStatistics.allDataDisseminated" type="xml">
+			<class name=".services.requestsStatistics.AllDataDisseminated"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+        <service name="xml.requestsStatistics.allDataDisseminated.export">
+            <class name=".services.requestsStatistics.AllDataDisseminated"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+            <output file="true"/>
+        </service>
+
+		<service name="xml.requestsStatistics.allDataExtracted" type="xml">
+			<class name=".services.requestsStatistics.AllDataExtracted"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+      
+        <service name="xml.requestsStatistics.allDataExtracted.export">
+            <class name=".services.requestsStatistics.AllDataExtracted"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+            <output file="true"/>
+        </service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Blacklist                                                     -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.blacklist.all" type="xml">
+			<class name=".services.blacklist.All"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.editBlacklist.save" type="xml">
+			<class name=".services.blacklist.Save"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- THESAURUS                                                     -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.thesaurus.list" type="xml">
+			<class name=".services.thesaurus.List"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.add" type="xml">
+			<class name=".services.thesaurus.Add"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.delete" type="xml">
+			<class name=".services.thesaurus.Delete"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.upload" type="xml">
+			<class name=".services.thesaurus.Upload"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.download">
+			<class name=".services.thesaurus.Download"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+			<output file="true" />
+		</service>
+
+		<service name="xml.thesaurus.viewEdit.search" type="xml">
+			<class name=".services.thesaurus.GetKeywords"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.editElement" type="xml">
+			<class name=".services.thesaurus.EditElement"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.addElement" type="xml">
+			<class name=".services.thesaurus.AddElement"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.thesaurus.updateElement" type="xml">
+			<class name=".services.thesaurus.UpdateElement"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.thesaurus.deleteElement" type="xml">
+			<class name=".services.thesaurus.DeleteElement"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Catalog statistics                                                    -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.catalogstatistics.all" type="xml">
+			<class name=".services.catalog.All"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+      
+        <service name="xml.catalogstatistics.export">
+            <class name=".services.catalog.All"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+            <output file="true"/>
+        </service>
+		
+		<service name="xml.catalogstatistics.get" type="xml">
+			<class name=".services.catalog.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Templates                                                    -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.template.all" type="xml">
+			<class name=".services.template.All"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+
+		<service name="xml.template.allShema" type="xml">
+			<class name=".services.schema.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+				
+		<service name="xml.template.addDefault" type="xml">
+			<class name=".services.template.AddDefault"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+
+		<service name="xml.template.remove" type="xml">
+			<class name=".services.template.Remove"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.template.saveOrder" type="xml">
+			<class name=".services.template.SaveOrder"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.template.duplicate" type="xml">
+			<class name=".services.template.Duplicate"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.category.edit" type="xml">
+			<class name=".services.category.Edit"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Users                                                         -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.user.all" type="xml">
+			<class name=".services.user.All"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+        <service name="xml.user.get" type="xml">
+            <class name=".services.user.Get"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+        </service>		
+
+		<service name="xml.user.remove" type="xml">
+			<class name=".services.user.Remove"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.user.allImport" type="xml">
+			<class name=".services.user.AllImport"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.user.import" type="xml">
+			<class name=".services.user.Import"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+        <service name="xml.user.save" type="xml">
+            <class name=".services.user.Save"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml"/>
+            </error>
+        </service>
+		
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- SSO management                                                -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.sso.management" type="xml">
+			<class name=".services.sso.SSOManagement"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- MetaInfo                                                      -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.metainfo.get" type="xml">
+			<class name=".services.metainfo.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.metainfo.save" type="xml">
+			<class name=".services.metainfo.Save"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- System configuration                                          -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.system.configuration.form" type="xml">
+			<class name=".services.system.SystemConfigurationForm"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.system.configuration" type="xml">
+			<class name=".services.system.SystemConfiguration"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Harvest                                                       -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.harvest.all" type="xml">
+			<class name=".services.harvest.All"/>
+		</service>
+
+		<service name="xml.harvest.save" type="xml">
+			<class name=".services.harvest.Save"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.harvest.run" type="xml">
+			<class name=".services.harvest.Run"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.harvest.remove" type="xml">
+			<class name=".services.harvest.Remove"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.harvest.activation" type="xml">
+			<class name=".services.harvest.Activation"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.harvest.get" type="xml">
+			<class name=".services.harvest.Get"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.harvest.oaipmh.info" type="xml">
+			<class name=".services.harvest.oaipmh.Info"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.get.geonetwork.sources.info" type="xml">
+			<class name=".services.harvest.geonet20.GetGeonetworkSourcesInfo"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.harvesting.last.report.file">
+			<class name=".services.harvest.LastReportFile" />
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+			<output file="true" />
+		</service>
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Request / Subscription                                        -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.monitor.current.requests" type="xml">
+			<class name=".services.request.MonitorCurrentRequests"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		<service name="xml.monitor.current.subscriptions" type="xml">
+			<class name=".services.request.MonitorCurrentSubscriptions"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.get.request.subselectionparameters" type="xml">
+			<class name=".services.request.GetAllSubSelectionParameters"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.get.cache.subselectionparameters" type="xml">
+			<class name=".services.request.GetCacheSubSelectionParameters"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+		
+		<service name="xml.create.request.subscription" type="xml">
+			<class name=".services.request.CreateRequestSubscription"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<service name="xml.update.request.subscription" type="xml">
+			<class name=".services.request.UpdateRequestSubscription"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml" />
+			</error>
+		</service>
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Metadata		                                               -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.stylesheet.all" type="xml">
+			<class name=".services.metadata.StyleSheetAll"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Management - Alarms                                           -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.management.alarms.events" type="xml">
+            <class name=".services.management.RecentEvents"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+			<param name="maxEventCount" value="500"/>
+        </service>
+        
+        <service name="xml.management.alarms.reports.disseminated" type="xml">
+            <class name=".services.management.GlobalDisseminatedReports"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.management.alarms.reports.extracted" type="xml">
+            <class name=".services.management.GlobalExtractedReports"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Management - User Alarms                                      -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.useralarms.getalluseralarms" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetAllUserAlarms"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.useralarms.getuseralarmreport" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.GetUserAlarmReport"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.useralarms.delete" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.Delete"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.useralarms.deleteall" type="xml">
+		<class name="org.openwis.metadataportal.services.useralarms.DeleteAll"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+         
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Management - Cache                                            -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="xml.management.cache.browse" type="xml">
+            <class name=".services.management.BrowseCache"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+		
+        <service name="xml.management.cache.configure.ingest" type="xml">
+            <class name=".services.management.ConfigureCacheIngest"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.management.cache.configure.feed" type="xml">
+            <class name=".services.management.ConfigureCacheFeed"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.management.cache.configure.replic" type="xml">
+            <class name=".services.management.ConfigureCacheReplic"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+        
+        <service name="xml.management.cache.configure.diss" type="xml">
+            <class name=".services.management.ConfigureCacheDiss"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+		
+        <service name="xml.management.cache.statistics.ingest" type="xml">
+            <class name=".services.management.CacheStatisticsIngest"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.management.cache.statistics.ingest.export">
+            <class name=".services.management.CacheStatisticsIngest"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+            <output file="true"/>
+        </service>
+
+        <service name="xml.management.cache.statistics.replic" type="xml">
+            <class name=".services.management.CacheStatisticsReplic"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+        </service>
+
+        <service name="xml.management.cache.statistics.replic.export">
+            <class name=".services.management.CacheStatisticsReplic"/>
+            <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+                <xml name="error" file="xml/privileges-error.xml" />
+            </error>
+            <output file="true"/>
+        </service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Availability                                    		       -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<service name="xml.avalaibility.get" type="xml">
+			<class name=".services.availability.Get"/>
+		</service>
+		
+		<service name="xml.avalaibility.remote.get" type="xml">
+			<class name=".services.availability.GetRemote"/>
+		</service>
+		
+		<service name="xml.avalaibility.switch.to.backup" type="xml">
+			<class name=".services.availability.SwitchToBackup"/>
+		</service>
+		
+		<service name="xml.backup.start.stop.metadata.service" type="xml">
+			<class name=".services.availability.StartStopMetadaService"/>
+		</service>
+		
+		<service name="xml.backup.start.stop.data.service" type="xml">
+			<class name=".services.availability.StartStopDataService"/>
+		</service>
+		
+        <service name="xml.availability.getstatistics" type="xml">
+            <class name=".services.availability.GetStatistics"/>
+        </service>
+		
+	</services>
+</geonet>

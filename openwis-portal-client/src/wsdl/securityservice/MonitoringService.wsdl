@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="MonitoringService" targetNamespace="http://securityservice.openwis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://securityservice.openwis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://securityservice.openwis.org/" schemaLocation="MonitoringService_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="isSecurityServiceAvailableResponse">
+    <wsdl:part name="parameters" element="tns:isSecurityServiceAvailableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isSecurityServiceAvailable">
+    <wsdl:part name="parameters" element="tns:isSecurityServiceAvailable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MonitoringService">
+    <wsdl:operation name="isSecurityServiceAvailable">
+      <wsdl:input name="isSecurityServiceAvailable" message="tns:isSecurityServiceAvailable">
+    </wsdl:input>
+      <wsdl:output name="isSecurityServiceAvailableResponse" message="tns:isSecurityServiceAvailableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MonitoringServiceSoapBinding" type="tns:MonitoringService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="isSecurityServiceAvailable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isSecurityServiceAvailable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isSecurityServiceAvailableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MonitoringService">
+    <wsdl:port name="MonitoringServicePort" binding="tns:MonitoringServiceSoapBinding">
+      <soap:address location="http://localhost:9090/MonitoringServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

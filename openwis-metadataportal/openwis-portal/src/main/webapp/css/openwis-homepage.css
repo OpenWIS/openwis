@@ -1,0 +1,324 @@
+/** Home page main content */
+.homePageMainContent {
+    padding-left: 5px;
+}
+
+.homePageMainContent p {
+    margin: 5px;
+}
+
+.homePageMainContent h1 {
+    font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    margin-top: 8px;
+}
+
+.homePageMainContent ul {
+    list-style: disc outside none;
+}
+
+.homePageMainContent .homePageMainContentHeader {
+    border-bottom: 1px solid #2A628F;
+    margin-bottom: 20px;
+}
+
+/** Search results **/
+.hit{
+	border: 1px solid #8CB2B6;
+	margin: 2px;
+	padding: 10px;
+	background-color: #f8fbfb;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+div.hittext_top {
+    margin-bottom: 30px;
+}
+
+
+div.hittitle {
+    margin-left: 0;
+    padding-left: 0;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+div.hittitle span {
+	text-transform: capitalize;
+	margin-right: 0.5em;
+	color: red;
+	font-style: normal;
+}
+
+div.attributionlogo {
+    padding: 0 0 3px;
+    float: left;
+}
+
+div.action_buttons {
+    margin-left: 65px;
+    margin-top: 5px;
+}
+
+div.hittext_middle {
+    clear: left;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+div.hittext_middle, div.hittext_keywords {
+    background-color: #E6EDF5;
+    margin: 0;
+    padding: 5px;
+}
+
+div.caption {
+    text-align: left;
+    width: 100px;
+    color: #26559D;
+    font-size: 11px;
+}
+
+div.abstract1 {
+    text-align: left;
+    color: #000000;
+    float: none;
+    font-size: 10px;
+    margin: 0;
+}
+
+#search-results-content {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 10px;
+}
+
+.results_header {
+	margin-top: 5px; 
+	margin-bottom: 5px; 
+    overflow-x: hidden;	
+	overflow-y: auto;	
+	width: 100%;
+}
+
+div.ownership{
+	 text-align:right;
+	 clear:both;
+}
+
+div.thumbnail_results {
+    margin-right: 10px;
+    text-align: right;
+    float: right;
+    height: auto !important;
+    vertical-align: middle;
+    width: 100px !important;
+}
+
+div.metadatabuttons {
+    display: inline;
+}
+
+
+a.content, button.content {
+    background-color: #E7E7E7;
+    border: 1px solid #266397;
+    color: #064377;
+    cursor: pointer;
+    font-family: Verdana;
+    font-size: 9pt;
+    max-width: 400px;
+    text-shadow: 2px 2px 3px gray;
+}
+
+.metadatabuttons button {
+    background-color: transparent;
+    border: 0 none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+div.hitexport {
+    display: inline;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+div.icones {
+    margin-bottom: 15px;
+    margin-right: -10px;
+    margin-top: -10px;
+}
+
+div.btnSearchResultsActions {
+    float: left;
+    margin-right: 5px;
+}
+
+div.btnXXLFixedSize {
+    background: url("../images/openwis/btn_gd.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 24px;
+    padding-top: 8px;
+    text-align: center;
+    width: 100px;
+}
+
+div.otherActionTarget {
+	background: url("../images/openwis/puce.gif") no-repeat scroll left top transparent;
+    cursor: pointer;
+    height: 18px;
+    text-align: left;
+    width: 280px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 1px 0 3px 7px;
+}
+
+div.pageList {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+/** Button Search and Reset */
+.homePageSearchAction button {
+    font-weight: bold !important;
+}
+
+.iconBtnSearch {
+    background-image: url("../images/openwis/fleche_suivant.png");
+    background-position: 40px 3px !important;
+    background-repeat: no-repeat !important;
+    padding-left: 0 !important;
+    padding-right: 18px !important;
+}
+
+.iconBtnReset {
+    background-image: url("../images/openwis/fleche_precedent.png");
+    background-position: 0px 3px !important;
+    background-repeat: no-repeat !important;
+}
+
+/** Search Panel **/
+.tabSearchType {
+    background: url("../images/openwis/fond-panel-gauche.png") no-repeat scroll left top transparent;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.tabSearchType .mainLabelCls, .tabSearchType .mainLabelCls legend {
+    font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
+    text-transform: uppercase;
+    color: black;
+}
+
+.tabSearchType .critLabelCls {
+    font-size: 0.9em;
+    color: black;
+    font-family: Arial,Helvetica,FreeSans,sans-serif;
+    text-transform: none;
+}
+
+.tabSearchType label {
+    font-size: 0.9em;
+}
+
+/** Skinning the tabs. **/
+.tabSearchType .x-tab-strip-active span.x-tab-strip-text {
+    font-weight: bold;
+    color: #E22A20 !important;
+    font-size: 12px;
+}
+
+.tabSearchType .x-tab-strip span.x-tab-strip-text {
+    color: #F3ABA7;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    font-family: Arial,Helvetica,FreeSans,sans-serif;
+}
+
+.tabSearchType ul.x-tab-strip-top li {
+    border-left: solid 1px #95B3BB; 
+}
+
+.tabSearchType .x-tab-panel-body, .tabSearchType .x-tab-panel-header, 
+.tabSearchType .x-tab-panel-footer, .tabSearchType ul.x-tab-strip-top,
+.tabSearchType .x-tab-strip-top .x-tab-right, .tabSearchType .x-tab-strip-top .x-tab-left, 
+.tabSearchType .x-tab-strip-top .x-tab-strip-inner {
+    background-color: transparent !important;
+    background-image: none !important;
+    border-width: 0px !important;
+}
+
+.searchLoadingMessage {
+    text-align: center;
+    width: 100%;
+    font: bold 10px Verdana,Arial,Geneva,Helvetica,sans-serif;
+    text-transform: uppercase;
+}
+
+/* For the Menu under the search : What's New and Last Products  */
+.homePageMenuPanelCls .top {
+    background: url("../images/openwis/fond_carte.png") no-repeat scroll left top transparent;
+}
+
+.homePageMenuPanelCls .title {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.homePageMenuPanelCls .content {
+    background: url("../images/openwis/fin_fond_titre.png") no-repeat scroll center 5px transparent;
+    padding-top: 10px;
+}
+
+.homePageMenuPanelCls .content .line {
+    margin-left: 5px;
+    margin-right: 5px;
+    background: url("../images/openwis/puce.gif") no-repeat scroll left top transparent;
+    padding: 0 0 3px 7px;
+}
+
+.homePageMenuPanelCls .bottom {
+    background: url("../images/openwis/fond_carte_bas.png") no-repeat scroll left bottom transparent;
+}
+
+/** Other Actions. */
+/*******************************************************************************
+Other action buttons
+*******************************************************************************/
+
+.oAcEle {
+    background-color: #D7E2E3;
+    border: 1px solid #A4BBC4;
+    position: absolute;
+    z-index:1;
+    -moz-border-radius: 10px;
+	border-radius: 10px;
+	width: 280px !important;
+	display: none;
+}
+
+.oAcEle button {
+    text-align:left;
+    font-family: Verdana;
+    color: #064377;
+    font-size: 8pt;
+    cursor: pointer;
+    width:98%;
+    border-width: 0px;
+}
+.oAcEle button:hover {
+	text-decoration: underline;
+}

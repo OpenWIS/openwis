@@ -1,0 +1,398 @@
+
+        <gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://localhost:8080/openwis-user-portal/xml/schemas/iso19139/schema.xsd">
+          <gmd:fileIdentifier>
+            <gco:CharacterString>urn:x-wmo:md:int.wmo.wis::IUPK14AMMC</gco:CharacterString>
+          </gmd:fileIdentifier>
+          <gmd:language>
+            <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+          </gmd:language>
+          <gmd:characterSet>
+            <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+          </gmd:characterSet>
+          <gmd:hierarchyLevel>
+            <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+          </gmd:hierarchyLevel>
+          <gmd:hierarchyLevelName>
+            <gco:CharacterString>Series of WMO GTS bulletins</gco:CharacterString>
+          </gmd:hierarchyLevelName>
+          <gmd:contact>
+            <gmd:CI_ResponsibleParty>
+              <gmd:organisationName>
+                <gco:CharacterString>NMC AUSTRALIA - Bureau of Meteorology</gco:CharacterString>
+              </gmd:organisationName>
+              <gmd:contactInfo>
+                <gmd:CI_Contact>
+                  <gmd:phone>
+                    <gmd:CI_Telephone>
+                      <gmd:voice>
+                        <gco:CharacterString>T+61 396694000</gco:CharacterString>
+                      </gmd:voice>
+                      <gmd:facsimile>
+                        <gco:CharacterString>F+61 396694699</gco:CharacterString>
+                      </gmd:facsimile>
+                    </gmd:CI_Telephone>
+                  </gmd:phone>
+                  <gmd:address>
+                    <gmd:CI_Address>
+                      <gmd:deliveryPoint>
+                        <gco:CharacterString>GPO Box 1289, 700 Collins Street Docklands</gco:CharacterString>
+                      </gmd:deliveryPoint>
+                      <gmd:city>
+                        <gco:CharacterString>MELBOURNE</gco:CharacterString>
+                      </gmd:city>
+                      <gmd:postalCode>
+                        <gco:CharacterString>VIC 3001</gco:CharacterString>
+                      </gmd:postalCode>
+                      <gmd:country>
+                        <gco:CharacterString>AUSTRALIA</gco:CharacterString>
+                      </gmd:country>
+                      <gmd:electronicMailAddress>
+                        <gco:CharacterString>gisc-md@bom.gov.au</gco:CharacterString>
+                      </gmd:electronicMailAddress>
+                    </gmd:CI_Address>
+                  </gmd:address>
+                  <gmd:onlineResource>
+                    <gmd:CI_OnlineResource>
+                      <gmd:linkage>
+                        <gmd:URL>http://wis.bom.gov.au/</gmd:URL>
+                      </gmd:linkage>
+                    </gmd:CI_OnlineResource>
+                  </gmd:onlineResource>
+                </gmd:CI_Contact>
+              </gmd:contactInfo>
+              <gmd:role>
+                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+              </gmd:role>
+            </gmd:CI_ResponsibleParty>
+          </gmd:contact>
+          <gmd:dateStamp>
+            <gco:DateTime>2015-01-16T02:02:46Z</gco:DateTime>
+          </gmd:dateStamp>
+          <gmd:metadataStandardName>
+            <gco:CharacterString>WMO Core Metadata Profile of ISO 19115 (WMO Core), 2003/Cor.1:2006 (ISO 19115), 2007 (ISO/TS 19139)</gco:CharacterString>
+          </gmd:metadataStandardName>
+          <gmd:metadataStandardVersion>
+            <gco:CharacterString>1.3</gco:CharacterString>
+          </gmd:metadataStandardVersion>
+          <gmd:identificationInfo>
+            <gmd:MD_DataIdentification>
+              <gmd:citation>
+                <gmd:CI_Citation>
+                  <gmd:title>
+                    <gco:CharacterString>IUPK14 collection of Observational data (Binary coded) - BUFR (Upper air) available from AMMC as BUFR (FM 94) at Time HALF-HOURLY</gco:CharacterString>
+                  </gmd:title>
+                  <gmd:date>
+                    <gmd:CI_Date>
+                      <gmd:date>
+                        <gco:Date>2013-07-10</gco:Date>
+                      </gmd:date>
+                      <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2012/codelists/WMOCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+                      </gmd:dateType>
+                    </gmd:CI_Date>
+                  </gmd:date>
+                  <gmd:date>
+                    <gmd:CI_Date>
+                      <gmd:date>
+                        <gco:Date>2013-07-10</gco:Date>
+                      </gmd:date>
+                      <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2012/codelists/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                      </gmd:dateType>
+                    </gmd:CI_Date>
+                  </gmd:date>
+                  <gmd:date>
+                    <gmd:CI_Date>
+                      <gmd:date>
+                        <gco:Date>2013-07-10</gco:Date>
+                      </gmd:date>
+                      <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2012/codelists/WMOCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                      </gmd:dateType>
+                    </gmd:CI_Date>
+                  </gmd:date>
+                  <gmd:presentationForm>
+                    <gmd:CI_PresentationFormCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="documentDigital">documentDigital</gmd:CI_PresentationFormCode>
+                  </gmd:presentationForm>
+                </gmd:CI_Citation>
+              </gmd:citation>
+              <gmd:abstract>
+                <gco:CharacterString>This bulletin collects Observational data (Binary coded) - BUFR (Upper air) with code form BUFR (FM 94):
+T1(I)
+    Data Type: Observational data (Binary coded) - BUFR
+    Priority: 2
+T2(U)
+    Data Type: Upper air
+A1(P)
+    Data Type: Profilers
+    TAC correspondence: PILOT
+    Data Category Sub Category (Common Table C13): 002/010
+A2(K)
+    Geographical Area Designator: 180° - 90°E southern hemisphere
+ii(14)
+    Note: See WMO-No.386 paragraph 2.3.2.2 for definition and use.
+CCCC(AMMC)
+    Location Name: Melbourne/World Met. Centre
+    Country Name: Australia
+The bulletin collects reports from stations: Mildura airport</gco:CharacterString>
+              </gmd:abstract>
+              <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                  <gmd:organisationName>
+                    <gco:CharacterString>NMC AUSTRALIA - Bureau of Meteorology</gco:CharacterString>
+                  </gmd:organisationName>
+                  <gmd:contactInfo>
+                    <gmd:CI_Contact>
+                      <gmd:phone>
+                        <gmd:CI_Telephone>
+                          <gmd:voice>
+                            <gco:CharacterString>T+61 396694000</gco:CharacterString>
+                          </gmd:voice>
+                          <gmd:facsimile>
+                            <gco:CharacterString>F+61 396694699</gco:CharacterString>
+                          </gmd:facsimile>
+                        </gmd:CI_Telephone>
+                      </gmd:phone>
+                      <gmd:address>
+                        <gmd:CI_Address>
+                          <gmd:deliveryPoint>
+                            <gco:CharacterString>GPO Box 1289, 700 Collins Street Docklands</gco:CharacterString>
+                          </gmd:deliveryPoint>
+                          <gmd:city>
+                            <gco:CharacterString>MELBOURNE</gco:CharacterString>
+                          </gmd:city>
+                          <gmd:postalCode>
+                            <gco:CharacterString>VIC 3001</gco:CharacterString>
+                          </gmd:postalCode>
+                          <gmd:country>
+                            <gco:CharacterString>AUSTRALIA</gco:CharacterString>
+                          </gmd:country>
+                          <gmd:electronicMailAddress>
+                            <gco:CharacterString>gisc-op@bom.gov.au</gco:CharacterString>
+                          </gmd:electronicMailAddress>
+                        </gmd:CI_Address>
+                      </gmd:address>
+                      <gmd:onlineResource>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>http://wis.bom.gov.au/</gmd:URL>
+                          </gmd:linkage>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onlineResource>
+                    </gmd:CI_Contact>
+                  </gmd:contactInfo>
+                  <gmd:role>
+                    <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:pointOfContact>
+              <gmd:resourceFormat>
+                <gmd:MD_Format>
+                  <gmd:name>
+                    <gco:CharacterString>BUFR (FM 94)</gco:CharacterString>
+                  </gmd:name>
+                  <gmd:version>
+                    <gco:CharacterString>XIII</gco:CharacterString>
+                  </gmd:version>
+                  <gmd:specification>
+                    <gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString>
+                  </gmd:specification>
+                </gmd:MD_Format>
+              </gmd:resourceFormat>
+              <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="WMOCodeListKeywords">
+                  <gmd:keyword>
+                    <gco:CharacterString>meteorology</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords id="WMONo9VolAKeywords">
+                  <gmd:keyword>
+                    <gco:CharacterString>94693</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:descriptiveKeywords uuidref="globalexchange">
+                <gmd:MD_Keywords>
+                  <gmd:keyword>
+                    <gco:CharacterString>GlobalExchange</gco:CharacterString>
+                  </gmd:keyword>
+                  <gmd:type>
+                    <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="dataCentre">dataCentre</gmd:MD_KeywordTypeCode>
+                  </gmd:type>
+                  <gmd:thesaurusName>
+                    <gmd:CI_Citation>
+                      <gmd:title>
+                        <gco:CharacterString>WMO_DistributionScopeCode</gco:CharacterString>
+                      </gmd:title>
+                      <gmd:date>
+                        <gmd:CI_Date>
+                          <gmd:date>
+                            <gco:Date>2012-06-27</gco:Date>
+                          </gmd:date>
+                          <gmd:dateType>
+                            <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2012/codelists/WMOCodelists.xml#CI_DateTypeCode" codeListValue="revision">revision</gmd:CI_DateTypeCode>
+                          </gmd:dateType>
+                        </gmd:CI_Date>
+                      </gmd:date>
+                    </gmd:CI_Citation>
+                  </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+              </gmd:descriptiveKeywords>
+              <gmd:resourceConstraints>
+                <gmd:MD_LegalConstraints>
+                  <gmd:accessConstraints>
+                    <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                  </gmd:accessConstraints>
+                  <gmd:useConstraints>
+                    <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+                  </gmd:useConstraints>
+                  <gmd:otherConstraints>
+                    <gco:CharacterString>WMOEssential</gco:CharacterString>
+                  </gmd:otherConstraints>
+                  <gmd:otherConstraints>
+                    <gco:CharacterString>GTSPriority2</gco:CharacterString>
+                  </gmd:otherConstraints>
+                </gmd:MD_LegalConstraints>
+              </gmd:resourceConstraints>
+              <gmd:spatialRepresentationType>
+                <gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="vector">vector</gmd:MD_SpatialRepresentationTypeCode>
+              </gmd:spatialRepresentationType>
+              <gmd:language>
+                <gmd:LanguageCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+              </gmd:language>
+              <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>climatologyMeteorologyAtmosphere</gmd:MD_TopicCategoryCode>
+              </gmd:topicCategory>
+              <gmd:extent>
+                <gmd:EX_Extent id="boundingExtent">
+                  <gmd:geographicElement>
+                    <gmd:EX_GeographicBoundingBox>
+                      <gmd:westBoundLongitude>
+                        <gco:Decimal>90.0</gco:Decimal>
+                      </gmd:westBoundLongitude>
+                      <gmd:eastBoundLongitude>
+                        <gco:Decimal>180.0</gco:Decimal>
+                      </gmd:eastBoundLongitude>
+                      <gmd:southBoundLatitude>
+                        <gco:Decimal>-90.0</gco:Decimal>
+                      </gmd:southBoundLatitude>
+                      <gmd:northBoundLatitude>
+                        <gco:Decimal>0.0</gco:Decimal>
+                      </gmd:northBoundLatitude>
+                    </gmd:EX_GeographicBoundingBox>
+                  </gmd:geographicElement>
+                  <gmd:temporalElement>
+                    <gmd:EX_TemporalExtent>
+                      <gmd:extent>
+                        <gml:TimePeriod gml:id="boundingTemporalExtentTP">
+                          <gml:beginPosition>2013-07-10</gml:beginPosition>
+                          <gml:endPosition indeterminatePosition="now" />
+                        </gml:TimePeriod>
+                      </gmd:extent>
+                    </gmd:EX_TemporalExtent>
+                  </gmd:temporalElement>
+                </gmd:EX_Extent>
+              </gmd:extent>
+            </gmd:MD_DataIdentification>
+          </gmd:identificationInfo>
+          <gmd:distributionInfo>
+            <gmd:MD_Distribution>
+              <gmd:distributionFormat>
+                <gmd:MD_Format>
+                  <gmd:name>
+                    <gco:CharacterString>BUFR (FM 94)</gco:CharacterString>
+                  </gmd:name>
+                  <gmd:version>
+                    <gco:CharacterString>XIII</gco:CharacterString>
+                  </gmd:version>
+                  <gmd:specification>
+                    <gco:CharacterString>http://www.wmo.int/pages/prog/www/WMOCodes.html</gco:CharacterString>
+                  </gmd:specification>
+                </gmd:MD_Format>
+              </gmd:distributionFormat>
+              <gmd:distributor>
+                <gmd:MD_Distributor>
+                  <gmd:distributorContact>
+                    <gmd:CI_ResponsibleParty>
+                      <gmd:organisationName>
+                        <gco:CharacterString>RTH Melbourne - Bureau of Meteorology (BOM)</gco:CharacterString>
+                      </gmd:organisationName>
+                      <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                          <gmd:address>
+                            <gmd:CI_Address>
+                              <gmd:deliveryPoint>
+                                <gco:CharacterString>GPO Box 1289, 700 Collins Street Docklands</gco:CharacterString>
+                              </gmd:deliveryPoint>
+                              <gmd:city>
+                                <gco:CharacterString>MELBOURNE</gco:CharacterString>
+                              </gmd:city>
+                              <gmd:postalCode>
+                                <gco:CharacterString>VIC 3001</gco:CharacterString>
+                              </gmd:postalCode>
+                              <gmd:country>
+                                <gco:CharacterString>AUSTRALIA</gco:CharacterString>
+                              </gmd:country>
+                              <gmd:electronicMailAddress>
+                                <gco:CharacterString>gisc-op@bom.gov.au</gco:CharacterString>
+                              </gmd:electronicMailAddress>
+                            </gmd:CI_Address>
+                          </gmd:address>
+                          <gmd:onlineResource>
+                            <gmd:CI_OnlineResource>
+                              <gmd:linkage>
+                                <gmd:URL>http://wis.bom.gov.au/</gmd:URL>
+                              </gmd:linkage>
+                            </gmd:CI_OnlineResource>
+                          </gmd:onlineResource>
+                        </gmd:CI_Contact>
+                      </gmd:contactInfo>
+                      <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+                      </gmd:role>
+                    </gmd:CI_ResponsibleParty>
+                  </gmd:distributorContact>
+                  <gmd:distributorTransferOptions>
+                    <gmd:MD_DigitalTransferOptions>
+                      <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>http://wis.bom.gov.au</gmd:URL>
+                          </gmd:linkage>
+                          <gmd:protocol>
+                            <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
+                          </gmd:protocol>
+                          <gmd:name>
+                            <gco:CharacterString>GISC Melbourne</gco:CharacterString>
+                          </gmd:name>
+                          <gmd:description>
+                            <gco:CharacterString>IUPK14 collection of Observational data (Binary coded) - BUFR (Upper air) available from AMMC as BUFR (FM 94) at Time HALF-HOURLY</gco:CharacterString>
+                          </gmd:description>
+                          <gmd:function>
+                            <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="search">search</gmd:CI_OnLineFunctionCode>
+                          </gmd:function>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onLine>
+                    </gmd:MD_DigitalTransferOptions>
+                  </gmd:distributorTransferOptions>
+                </gmd:MD_Distributor>
+              </gmd:distributor>
+            </gmd:MD_Distribution>
+          </gmd:distributionInfo>
+          <gmd:metadataConstraints>
+            <gmd:MD_Constraints>
+              <gmd:useLimitation>
+                <gco:CharacterString>This metadata record is updated from an OpenWIS system generated draft metadata. The content of this record is based on the TTAAiiCCCC code of the product and its Volume C1 registry.</gco:CharacterString>
+              </gmd:useLimitation>
+            </gmd:MD_Constraints>
+          </gmd:metadataConstraints>
+        </gmd:MD_Metadata>
+      

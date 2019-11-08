@@ -1,0 +1,271 @@
+<org.openwis.usermanagement.ldap.model.UserAndGroup>
+  <users>
+    <org.openwis.securityservice.OpenWISUser>
+      <name>Caobs</name>
+      <userName>icaobs</userName>
+      <surName>Ida</surName>
+      <password>openwis</password>
+      <emailContact>i.caobs@oaci.fr</emailContact>
+      <emails>
+        <org.openwis.securityservice.OpenWISEmail>
+          <address>i.caobs@oaci.fr</address>
+          <headerLine>Header</headerLine>
+          <mailAttachmentMode>TO</mailAttachmentMode>
+          <subject>Subject</subject>
+          <mailDispatchMode>As Attachment</mailDispatchMode>
+          <fileName>the file name</fileName>
+          <disseminationTool>PUBLIC</disseminationTool>
+        </org.openwis.securityservice.OpenWISEmail>
+      </emails>
+      <ftps>
+        <org.openwis.securityservice.OpenWISFTP>
+          <host>ftp://meteo-france.fr</host>
+          <path>./path/</path>
+          <user>ftpUser</user>
+          <password>openwis</password>
+          <port>2145</port>
+          <passive>true</passive>
+          <checkFileSize>false</checkFileSize>
+          <fileName>file name</fileName>
+          <disseminationTool>RMDCN</disseminationTool>
+        </org.openwis.securityservice.OpenWISFTP>
+      </ftps>
+      <address>
+        <address>6 rue Leon</address>
+        <city>Toulouse</city>
+        <country>France</country>
+        <state>Fr</state>
+        <zip>31000</zip>
+      </address>
+      <needUserAccount>true</needUserAccount>
+      <profile>Editor</profile>
+      <classOfService>GOLD</classOfService>
+      <backUps>
+        <string>DCPC1</string>
+        <string>GISC1</string>
+      </backUps>
+      <groups>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>true</isGlobal>
+          <groupIds>
+            <string>OACI</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+      </groups>
+    </org.openwis.securityservice.OpenWISUser>
+    <org.openwis.securityservice.OpenWISUser>
+      <name>Aubagnac</name>
+      <userName>jpaubagnac</userName>
+      <surName>Jean-Pierre</surName>
+      <password>openwis</password>
+      <emailContact>jean-pierre.aubagnac@meteo.fr</emailContact>
+      <emails>
+        <org.openwis.securityservice.OpenWISEmail>
+          <address>jean-pierre.aubagnac@meteo.fr</address>
+          <headerLine>Header</headerLine>
+          <mailAttachmentMode>TO</mailAttachmentMode>
+          <subject>Subject</subject>
+          <mailDispatchMode>As Attachment</mailDispatchMode>
+          <fileName>the file name</fileName>
+          <disseminationTool>PUBLIC</disseminationTool>
+        </org.openwis.securityservice.OpenWISEmail>
+      </emails>
+      <ftps>
+        <org.openwis.securityservice.OpenWISFTP reference="../../../org.openwis.securityservice.OpenWISUser/ftps/org.openwis.securityservice.OpenWISFTP"/>
+      </ftps>
+      <address reference="../../org.openwis.securityservice.OpenWISUser/address"/>
+      <needUserAccount>false</needUserAccount>
+      <profile>Editor</profile>
+      <classOfService>SILVER</classOfService>
+      <backUps>
+        <string>GISC1</string>
+      </backUps>
+      <groups>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>false</isGlobal>
+          <centreName>DcpcDemo</centreName>
+          <groupIds>
+            <string>local1</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>true</isGlobal>
+          <groupIds>
+            <string>institutional</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+      </groups>
+    </org.openwis.securityservice.OpenWISUser>
+    <org.openwis.securityservice.OpenWISUser>
+      <name>Benchimol</name>
+      <userName>sbenchimol</userName>
+      <surName>Stephane</surName>
+      <password>openwis</password>
+      <emailContact>stephane.benchimol@mfi.fr</emailContact>
+      <emails>
+        <org.openwis.securityservice.OpenWISEmail>
+          <address>stephane.benchimol@mfi.fr</address>
+          <headerLine>Header</headerLine>
+          <mailAttachmentMode>TO</mailAttachmentMode>
+          <subject>Subject</subject>
+          <mailDispatchMode>As Attachment</mailDispatchMode>
+          <fileName>the file name</fileName>
+          <disseminationTool>PUBLIC</disseminationTool>
+        </org.openwis.securityservice.OpenWISEmail>
+      </emails>
+      <ftps>
+        <org.openwis.securityservice.OpenWISFTP reference="../../../org.openwis.securityservice.OpenWISUser/ftps/org.openwis.securityservice.OpenWISFTP"/>
+      </ftps>
+      <address reference="../../org.openwis.securityservice.OpenWISUser/address"/>
+      <needUserAccount>false</needUserAccount>
+      <profile>Editor</profile>
+      <classOfService>GOLD</classOfService>
+      <backUps>
+        <string>DcpcDemo</string>
+      </backUps>
+      <groups>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>true</isGlobal>
+          <groupIds>
+            <string>institutional</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>false</isGlobal>
+          <centreName>DcpcDemo</centreName>
+          <groupIds>
+            <string>local2</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+      </groups>
+    </org.openwis.securityservice.OpenWISUser>
+    <org.openwis.securityservice.OpenWISUser>
+      <name>Kent</name>
+      <userName>ckent</userName>
+      <surName>Clark</surName>
+      <password>openwis</password>
+      <emailContact>c.kent@lemonde.fr</emailContact>
+      <emails>
+        <org.openwis.securityservice.OpenWISEmail>
+          <address>c.kent@lemonde.fr</address>
+          <headerLine>Header</headerLine>
+          <mailAttachmentMode>TO</mailAttachmentMode>
+          <subject>Subject</subject>
+          <mailDispatchMode>As Attachment</mailDispatchMode>
+          <fileName>the file name</fileName>
+          <disseminationTool>PUBLIC</disseminationTool>
+        </org.openwis.securityservice.OpenWISEmail>
+      </emails>
+      <ftps>
+        <org.openwis.securityservice.OpenWISFTP reference="../../../org.openwis.securityservice.OpenWISUser/ftps/org.openwis.securityservice.OpenWISFTP"/>
+      </ftps>
+      <address reference="../../org.openwis.securityservice.OpenWISUser/address"/>
+      <needUserAccount>true</needUserAccount>
+      <profile>Editor</profile>
+      <classOfService>BRONZE</classOfService>
+      <backUps>
+        <string>DCPC2</string>
+      </backUps>
+      <groups>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>true</isGlobal>
+          <groupIds>
+            <string>Public</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+      </groups>
+    </org.openwis.securityservice.OpenWISUser>
+    <org.openwis.securityservice.OpenWISUser>
+      <name>Administrator</name>
+      <userName>administrator</userName>
+      <surName>Administrator</surName>
+      <password>openwis</password>
+      <emailContact>administrator@openwis.fr</emailContact>
+      <emails>
+        <org.openwis.securityservice.OpenWISEmail>
+          <address>jean-pierre.aubagnac@meteo.fr</address>
+          <headerLine>Header</headerLine>
+          <mailAttachmentMode>TO</mailAttachmentMode>
+          <subject>Subject</subject>
+          <mailDispatchMode>As Attachment</mailDispatchMode>
+          <fileName>the file name</fileName>
+          <disseminationTool>PUBLIC</disseminationTool>
+        </org.openwis.securityservice.OpenWISEmail>
+      </emails>
+      <ftps>
+        <org.openwis.securityservice.OpenWISFTP reference="../../../org.openwis.securityservice.OpenWISUser/ftps/org.openwis.securityservice.OpenWISFTP"/>
+      </ftps>
+      <address reference="../../org.openwis.securityservice.OpenWISUser/address"/>
+      <needUserAccount>true</needUserAccount>
+      <profile>Administrator</profile>
+      <classOfService>BRONZE</classOfService>
+      <backUps>
+        <string>DCPC1</string>
+        <string>DCPC2</string>
+      </backUps>
+      <groups>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>true</isGlobal>
+          <groupIds>
+            <string>institutional</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+      </groups>
+    </org.openwis.securityservice.OpenWISUser>
+    <org.openwis.securityservice.OpenWISUser>
+      <name>Doe</name>
+      <userName>jdoe</userName>
+      <surName>John</surName>
+      <password>openwis</password>
+      <emailContact>j.doe@metservice.fr</emailContact>
+      <emails>
+        <org.openwis.securityservice.OpenWISEmail>
+          <address>j.doe@metservice.fr</address>
+          <headerLine>Header</headerLine>
+          <mailAttachmentMode>TO</mailAttachmentMode>
+          <subject>Subject</subject>
+          <mailDispatchMode>As Attachment</mailDispatchMode>
+          <fileName>the file name</fileName>
+          <disseminationTool>PUBLIC</disseminationTool>
+        </org.openwis.securityservice.OpenWISEmail>
+      </emails>
+      <ftps>
+        <org.openwis.securityservice.OpenWISFTP reference="../../../org.openwis.securityservice.OpenWISUser/ftps/org.openwis.securityservice.OpenWISFTP"/>
+      </ftps>
+      <address reference="../../org.openwis.securityservice.OpenWISUser/address"/>
+      <needUserAccount>false</needUserAccount>
+      <profile>RegisteredUser</profile>
+      <classOfService>BRONZE</classOfService>
+      <backUps>
+        <string>DcpcDemo</string>
+        <string>DCPC1</string>
+      </backUps>
+      <groups>
+        <org.openwis.securityservice.OpenWISGroup>
+          <isGlobal>true</isGlobal>
+          <groupIds>
+            <string>institutional</string>
+          </groupIds>
+        </org.openwis.securityservice.OpenWISGroup>
+      </groups>
+    </org.openwis.securityservice.OpenWISUser>
+  </users>
+  <groups>
+    <org.openwis.securityservice.OpenWISGroup>
+      <isGlobal>true</isGlobal>
+      <groupIds>
+        <string>institutional</string>
+        <string>OACI</string>
+        <string>Public</string>
+      </groupIds>
+    </org.openwis.securityservice.OpenWISGroup>
+    <org.openwis.securityservice.OpenWISGroup>
+      <isGlobal>false</isGlobal>
+      <centreName>DcpcDemo</centreName>
+      <groupIds>
+        <string>local1</string>
+        <string>local2</string>
+      </groupIds>
+    </org.openwis.securityservice.OpenWISGroup>
+  </groups>
+</org.openwis.usermanagement.ldap.model.UserAndGroup>
