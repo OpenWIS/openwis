@@ -19,7 +19,7 @@
 	<packaging>war</packaging>
 	<name>wisMon</name>
 	<description>
-        mdl wisMon tool
+        MDL wisMon tool
     </description>
   
 	<properties>
