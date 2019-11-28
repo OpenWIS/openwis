@@ -5,20 +5,28 @@ body {
 	font-size: 11px;
 	line-height: 1.4;
 	color: black;
+	background:#EDEDED;
+}
+
+select {
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .body-west-panel {
-	background: url("../images/openwis/body-border-left.gif") repeat-y right top
-		#F2F2F2;
+	background: url("../images/openwis/body-border-left.gif") repeat-y left top
+		#EDEDED;
 }
 
 .body-east-panel {
-	background: url("../images/openwis/body-border-right.gif") repeat-y left top
-		#F2F2F2;
+	/* background: url("../images/openwis/body-border-right.gif") repeat-y left top
+		#F2F2F2; */
 }
 
 .body-center-panel {
-	background: url("../images/openwis/fond.png") repeat-x scroll 0 70px white !important;
+	/*background: url("../images/openwis/fond.png") repeat-x scroll 0 70px white !important;*/
+	background: #ffffff;
+	opacity:0.9;
 }
 
 #loginFormEl {
@@ -34,7 +42,8 @@ body {
 }
 
 #menu .centerEl {
-	background: url("../images/openwis/menu-c.png") repeat-x;
+	/*background: url("../images/openwis/menu-c.png") repeat-x;*/
+	background: url("../images/openwis/menu-c.png") repeat-x #307d14; 
 }
 
 #menu .rightEl {
@@ -54,11 +63,11 @@ body {
 
 #banner-logo {
 	height: 70px;
-	background-color: white;
+	background-color: #EDEDED;
 }
 
 #banner-logo img {
-	padding: 5px;
+	margin-left: 15px; 
 }
 
 #menu .centerEl .menu-active {
@@ -249,7 +258,7 @@ font: 11px Arial,Helvetica,FreeSans,sans-serif;
 #pagination-flickr li{
 	border:0; margin:0; padding:0;
 	display: inline;
-	font-size:11px;
+	font-size:13px;
 	list-style:none;
 }
 #pagination-flickr a{
