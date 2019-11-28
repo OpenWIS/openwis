@@ -230,6 +230,63 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>admin-dev</id>
+            <activation>
+                <activeByDefault>${admin.module}</activeByDefault>
+            </activation>
+            <properties>
+                <war.name>openwis-admin-portal</war.name>
+                <profile-id>admin-dev</profile-id>
+            </properties>
+            <build>
+                <directory>openwis-admin-portal</directory>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.4.3</version>
+                        <executions>
+                            <execution>
+                                <id>copy-adminPortal-resources</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <overwrite>true</overwrite>
+                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/resources/admin-dev</directory>
+                                            <filtering>true</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-opensso-resources</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <overwrite>true</overwrite>
+                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/resources/admin-dev/properties</directory>
+                                            <includes>
+                                                <include> **/*.properties </include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 
