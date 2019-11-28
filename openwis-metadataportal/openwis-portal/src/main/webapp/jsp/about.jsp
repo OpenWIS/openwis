@@ -8,5 +8,6 @@ String title = "OpenWIS About";
 String pageName = "about.html";
 String message = null;
 String needLogout = null;
+String pageId = "About";
 %>
 <%@include file="html-content.jsp" %>

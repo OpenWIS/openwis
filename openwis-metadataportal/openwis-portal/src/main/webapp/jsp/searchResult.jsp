@@ -1,4 +1,3 @@
-<%@page import="org.openwis.metadataportal.services.search.dto.RelatedMetadataDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.io.File"%>
@@ -20,10 +19,11 @@
 	String locService = context.getBaseUrl() + "/srv/" + context.getLanguage();
 	SearchResult sr = (SearchResult) request.getAttribute("searchResult");
 	Map<String, Set<OperationEnum>> operationsAllowed = (Map<String, Set<OperationEnum>>) request.getAttribute("operationsAllowed");
-	Map<String, List<RelatedMetadataDTO>> relatedMetadata = (Map<String, List<RelatedMetadataDTO>>) request.getAttribute("relatedMetadata");
 	String username = (String) request.getAttribute("username");
 	boolean editorProfile = "Editor".equalsIgnoreCase(context.getUserSession().getProfile());
 	boolean isCacheEnable = Boolean.TRUE.equals((Boolean) request.getAttribute("isCacheEnable"));  
+	
+	boolean isGraphicOverviewEnable = Boolean.TRUE.equals((Boolean) request.getAttribute("isGraphicOverviewEnable"));  
 %>
 <div id="search-results-content">
 <% if (sr==null) {
@@ -56,30 +56,25 @@
 	   String id;
 	   String uuid;
 	   Set<OperationEnum> ops;
-	   List<RelatedMetadataDTO> relatedMds;
 	   String title;
-	   String titleForHtml;
 	   String titleForJs;
 	   String abst;
 	   String source;
+	   String graphicOverview;
 	   List<String> keywords;
 	   boolean isGlobal;
 	   for (SearchResultDocument doc : sr) {
 	     pageContext.setAttribute("doc",doc);
 	     id = doc.getId();
 	     title = doc.getFieldAsString(IndexField._TITLE);
-	     titleForHtml = StringEscapeUtils.escapeHtml(title);
 	     titleForJs = StringEscapeUtils.escapeJavaScript(title);
 	     keywords = doc.getFieldAsListOfString(IndexField.KEYWORD);
 	     abst = doc.getFieldAsString(IndexField.ABSTRACT);
+	     graphicOverview = doc.getFieldAsString(IndexField.GRAPHIC_OVERVIEW);
 	     source =  doc.getFieldAsString(IndexField.SOURCE);
 	     isGlobal = "true".equals(doc.getField(IndexField.IS_GLOBAL));
 	     uuid = doc.getFieldAsString(IndexField.UUID);
-	     ops = operationsAllowed.get(uuid.toLowerCase());
-	     
-	     // Get the list of related metadata for the current hit
-	     relatedMds = relatedMetadata.get(uuid);
-
+	     ops = operationsAllowed.get(uuid);
 	     pageContext.setAttribute("ops",ops);
 	     boolean editable = "n".equals(doc.getField(IndexField.IS_HARVESTED)) 
 	       && (ops!=null && ops.contains(OperationEnum.EDITING))
@@ -88,6 +83,24 @@
 	<div class="hit">
 <%-- 		<a name="<%=uuid%>"/> --%>
 		<div class="hittext">
+		
+			
+			<!-- Preview image -->
+			<% if (isGraphicOverviewEnable) {%>
+			<div class="graphicOverview">
+				<% if (graphicOverview!=null) {%>
+				
+					<ul class="hoverbox">
+						<li>
+							<a href="#"><img src="<%=graphicOverview%>" alt="description" /><img src="<%=graphicOverview%>" alt="description" class="preview" /></a>
+						</li>
+					</ul>
+					
+				<% } else { %>
+					<img src="/openwis-user-portal/images/openwis/default_graphicOverview.jpg" width="100%"/>
+				<% } %>
+			</div>
+			<% } %>
 			<div class="thumbnail_results">
 				<div class="icones">
 					<%-- View --%>
@@ -96,9 +109,7 @@
 						<button id="gn_showmd_<%=id%>" class="content"
 							title='<openwis:i18n key="HomePage.Search.Result.Show"/>'
 							onclick="doShowMetadataById(<%=id%>, '<%=titleForJs%>', <%= editable %>)" >
-							<img
-								src="<%= context.getBaseUrl() %>/images/openwis/icone_voir_detail.png"
-								alt='<openwis:i18n key="HomePage.Search.Result.ShowMetadata"/>' />
+							<i class="iconIOS7-bt_searchM_on"></i>
 						</button>
 						<button id="gn_loadmd_<%=id%>" class="content"
 							title='<openwis:i18n key="HomePage.Search.Result.Show"/>'
@@ -111,14 +122,13 @@
 					
 					<%-- Edit --%>
 					<% if (editable) { %>
-					<span class="metadatabuttons">								
+					<div class="metadatabuttons">								
 						<button id="gn_editmd_<%=id%>"  
 							class="content" onclick="doEditMetadataById(<%=id%>, '<%=titleForJs%>')"
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Edit"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_editer.png"
-							 alt="<openwis:i18n key="HomePage.Search.Result.Btn.EditMetadata"/>"/>
+							<i class="iconIOS7-bt_searchRedit_on"></i>
 						</button>
-					</span>
+					</div>
 					<% } %>
 					
 					<%-- Delete 
@@ -139,9 +149,7 @@
 						<% if ("dublin-core".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/dc.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.DublinCore"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
-							alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.DublinCore.Alt"/>' 
-							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.DublinCore.Title"/>' border="0"/>
+							<i class="iconIOS7-bt_searchX_on"></i>
 						</a>
 						<% } else if ("fgdc-std".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/fgdc.xml?id=<%=id%>" target="_blank" 
@@ -153,16 +161,12 @@
 						<% } else if ("iso19115".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/iso19115to19139.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19115"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
-								alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19115.Alt"/>' 
-								title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19115.Title"/>' border="0"/>
+							<i class="iconIOS7-bt_searchX_on"></i>
 						</a>
 						<% } else if ("iso19139".equals(doc.getField(IndexField.SCHEMA))) { %>
 						<a href="<%=locService%>/iso19139.xml?id=<%=id%>" target="_blank" 
 							title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19139"/>'>
-							<img src="<%= context.getBaseUrl() %>/images/openwis/icone_export_XML.png" 
-								alt='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19139.Alt"/>' 
-									title='<openwis:i18n key="HomePage.Search.Result.Btn.Download.Iso19139.Title"/>' border="0"/>
+							<i class="iconIOS7-bt_searchX_on"></i>
 						</a>
 						<% } else if ("iso19110".equals(doc.getField(IndexField.SCHEMA))) { %>
                         <a href="<%=locService%>/iso19110.xml?id=<%=id%>" target="_blank" 
@@ -185,7 +189,7 @@
 					<% if ("true".equals(doc.getField(IndexField.STOP_GAP))) { %>
 					<span><openwis:i18n key="HomePage.Search.Result.Draft"/></span>
 					<% } %>
-					<%=titleForHtml%>
+					<%=title%>
 				</div>
 				<% } else { %>
 				<div class="hittitle" style="font-style: italic;">
@@ -234,20 +238,19 @@
 	                     linkOpenwisSubscribeUrl = subUrl;
 	                  }
 					}
-					pageContext.setAttribute("localDataSource", localDataSource);
 					pageContext.setAttribute("linkOpenwisRequestUrl", linkOpenwisRequestUrl);
 					pageContext.setAttribute("linkOpenwisSubscribeUrl", linkOpenwisSubscribeUrl);
 				%>
 				<%  if((isCacheEnable && isGlobal) || (isCacheEnable && !isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) 
 				      || (localDataSource != null && !localDataSource.equals(""))) { %>
 					<div style="cursor:pointer;" class="btnXXLFixedSize btnSearchResultsActions"
-						onClick='<openwis:requestAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisRequestUrl}"/>'>
+						onClick='<openwis:requestAction doc="${doc}" ops="${ops}" url="${linkOpenwisRequestUrl}"/>'>
 						<a style="padding-right:10px; padding-left:10px;">
 							<openwis:i18n key="HomePage.Search.Result.Btn.Request"/>
 						</a>
 					</div>
 					<div style="cursor:pointer;" class="btnXXLFixedSize btnSearchResultsActions"
-						onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisSubscribeUrl}"/>'>
+						onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" url="${linkOpenwisSubscribeUrl}"/>'>
 						<a style="padding-right:10px; padding-left:10px;">
 							<openwis:i18n key="HomePage.Search.Result.Btn.Subscribe"/>
 						</a>
@@ -264,13 +267,13 @@
 					<div id="oAcEle<%=id%>" class="oAcEle" style="display: none;" onClick="oActions('oAc',<%=id%>);">
 						<% if (isCacheEnable && isGlobal && !linkOpenwisRequestUrl.equals("") && !linkOpenwisSubscribeUrl.equals("")) { %>
 						<div style="cursor:pointer;" class="otherActionTarget"
-							onClick='<openwis:requestAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisRequestUrl}" forceUrl="true"/>'>
+							onClick='<openwis:requestAction doc="${doc}" ops="${ops}" url="${linkOpenwisRequestUrl}" forceUrl="true"/>'>
 							<a style="font-size: 10px;">
 								<openwis:i18n key="HomePage.Search.Result.Btn.RequestProducer"/>
 							</a>
 						</div>
 						<div style="cursor:pointer;" class="otherActionTarget"
-							onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" localDataSource="${localDataSource}" url="${linkOpenwisSubscribeUrl}" forceUrl="true"/>'>
+							onClick='<openwis:subscribeAction doc="${doc}" ops="${ops}" url="${linkOpenwisSubscribeUrl}" forceUrl="true"/>'>
 							<a style="font-size: 10px;">
 								<openwis:i18n key="HomePage.Search.Result.Btn.SubscribeProducer"/>
 							</a>
@@ -304,14 +307,10 @@
 										if(otherActionInfo.length > 2) {
 										   otherActionTooltip += " " + otherActionInfo[2];
 										}
-										
-										String otherActionNameForHtml = StringEscapeUtils.escapeHtml(otherActionName);
-										String otherActionTooltipForHtml = StringEscapeUtils.escapeHtml(otherActionTooltip);
-										String otherActionUrlForHtml = StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(otherActionUrl));
 								   %>
-								 		<div style="cursor:pointer;" class="otherActionTarget" onClick='window.open("<%=otherActionUrlForHtml%>")'>
-											<a style="font-size: 10px;" title="<%= otherActionTooltipForHtml %>">
-												<%= otherActionNameForHtml %>
+								 		<div style="cursor:pointer;" class="otherActionTarget" onClick='window.open("<%=otherActionUrl%>")'>
+											<a style="font-size: 10px;" title="<%= otherActionTooltip %>">
+												<%=otherActionName %>
 											</a>
 										</div>
 							   
@@ -322,34 +321,11 @@
 						
 						
 					</div>
-					<% } %> 
-					
-					<!-- Buttons for related services -->
-					<% if (relatedMds != null && relatedMds.size() > 0) { %>
-					<div id="services<%=id%>" name="services" class="btnXXLFixedSize btnSearchResultsActions" onclick="doShowRelatedServices('<%=id%>', '<%= uuid %>');" style="cursor:pointer;">
-						<img src="<%= context.getBaseUrl() %>/images/plus.gif" style="padding-right:3px;"/>
-						<a style="padding-right:10px; padding-left:5px;">Services</a>
-					</div>
-					<div id="serviceElt<%=id%>" class="oAcEle" style="display: none;" onClick="">
-					
-					<% 
-						for (RelatedMetadataDTO md : relatedMds) {
-						   String relatedMdTitle = (md.getTitle().length()) > 50 ? md.getTitle().substring(0, 50) : md.getTitle();
-						   String relatedMdTitleForJS = StringEscapeUtils.escapeJavaScript(md.getTitle());
-					%>
-					
-						<div class="otherActionTarget" onclick="doShowMetadataById(<%=md.getId()%>, '<%=relatedMdTitleForJS%>', <%= editable %>);">
-							<a href="#"><%= relatedMdTitle %></a>
-						</div>
-					
 					<% } %>
-					
-					</div>
-					
-					<% } %>
-				</div> <!-- End of Action buttons -->
+				</div>
+			
+				
 			</div>
-
 			<!-- abstract -->
 			<% if (abst != null) { %>
 			<div class="hittext_middle">
@@ -359,7 +335,7 @@
 				</div>
 
 				<div class="abstract1">
-					<%=StringEscapeUtils.escapeHtml(StringUtils.abbreviate(abst,200)) %>
+					<%=StringUtils.abbreviate(abst,200) %>
 				</div>
 			</div>
 			<% } %>
@@ -373,7 +349,7 @@
 				</div>
 				<div class="keywords">
 					<% for (String kw : keywords) { %>
-					<%=StringEscapeUtils.escapeHtml(kw)%>
+					<%=kw%>
 					<% } %>
 				</div>
 			</div>
@@ -390,8 +366,8 @@
 			<img src="<%= context.getBaseUrl() %>/images/owner.png"
 				title="<openwis:i18n key="HomePage.Search.Result.OwnerRights"/>" />
 			<% } else { %>
-			<img src="<%= context.getBaseUrl() %>/images/notowner.png"
-				title="<openwis:i18n key="HomePage.Search.Result.NotOwnerRights"/>" />
+			<i class="iconIOS7-bt_padlock_on"
+				title="<openwis:i18n key="HomePage.Search.Result.NotOwnerRights"/>" ></i>
 			<% } %>
 		</div>
 	</div>

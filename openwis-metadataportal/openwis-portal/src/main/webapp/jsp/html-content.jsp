@@ -1,6 +1,6 @@
 <%@page import="jeeves.server.context.ServiceContext"%>
-<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@page import="jeeves.server.context.ServiceContext"%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -30,14 +30,41 @@
 		%>  
 
       </div>
-      <div id="contentElement">
-      <%
-      if (pageName != null) {
+	  <%
+		    String pId = (String)session.getAttribute("pId");
+			if (pId == null)
+		  		session.setAttribute("pId", "Search");
+		
+	  %>
+      <div id="contentElement" class="<%= pId %>Page">
+      	<div class="header_img">
+				<div id="urlTitleCont">
+					<div id="urlTitle">
+						<%if (pId=="About"){ %>
+							About <strong>OpenWIS</strong>
+						<% } %>
+						<%if (pId=="Help"){ %>
+							Help <strong>and contact</strong>
+						<% } %>
+					</div>
+					<div id="urlSubTitle">
+						<%if (pId=="About"){ %>
+							OpenWIS is an implementation of the WMO Information System.
+						<% } %>
+						<%if (pId=="Help"){ %>
+							Help section
+						<% } %>
+						
+					</div>
+				</div>
+			</div>
+	  <%
+      if (pId != null) {
          String contentPage = "/loc/" +context.getLanguage() + "/xml/" + pageName;
       %>
         <jsp:include page="<%= contentPage %>"></jsp:include>
       <% } else { %>
-        <div class="errorMsg">ERROR: <%= StringEscapeUtils.escapeHtml(message) %>
+        <div class="errorMsg">ERROR: <%= message %>
         	<br><br><br>
 	        <%
 	        if (needLogout != null) {

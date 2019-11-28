@@ -13,6 +13,7 @@ String title = "OpenWIS Home";
 	<%@include file="header-homepage.jsp" %>
     
     <%@include file="header-remotesearch.jsp" %>
+	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
    </head>
    <body>
       <div id="header">
