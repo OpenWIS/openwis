@@ -36,7 +36,8 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
             this.whatTextField = new Ext.form.TextField({
                 name: 'what',
 				allowBlank: true,
-				width: 210,
+				width: 278,
+				cls: "textField",
                 listeners: {
                   specialkey: function(f,e){
                     if (e.getKey() == e.ENTER) {
@@ -80,7 +81,7 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
 		params.similarity = '0.8';
 		
 		if(this.getRegionsCombobox().getValue() != 'Any') {
-		    params.relation = 'overlaps';
+		    params.relation = 'within';
 		    
 		    var geometry = this.getMapPanel().getRawValue();
 		    if(geometry) {
@@ -103,7 +104,7 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
 		// Reset Advanced SearchParams
 		params.all = '';
 		params.region = '';
-		params.kind = '';
+		params.kind = 'metadata';
 		params.or = '';
 		params.without = '';
 		params.phrase = '';
@@ -127,9 +128,6 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
 		//params.inspireSourceType = '';
 		params.protocol = '';
 		
-		// Indicates that this search should reset the default parameters
-		params.useSessionDefaults = 'false';
-
 		return params;
     },
     

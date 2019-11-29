@@ -107,7 +107,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.eitherTextField = new Ext.form.TextField({
                 name: 'or',
 				allowBlank: true,
-				width: 190
+				width: 280
             });
         }
         return this.eitherTextField;
@@ -118,7 +118,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.titleTextField = new Ext.form.TextField({
                 name: 'title',
 				allowBlank: true,
-				width: 210
+				width: 280
             });
         }
         return this.titleTextField;
@@ -129,7 +129,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.abstractTextField = new Ext.form.TextField({
                 name: 'abstract',
 				allowBlank: true,
-				width: 210
+				width: 280
             });
         }
         return this.abstractTextField;
@@ -140,7 +140,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.keywordsTextField = new Ext.form.TriggerField({
                 name: 'themekey',
 				allowBlank: true,
-				width: 210,
+				width: 280,
 				onTriggerClick: function(e) {
 					new Openwis.Common.Search.KeywordsSearch({
 						keywordsFromTf: this.getValue(),
@@ -163,7 +163,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.exactPhraseTextField = new Ext.form.TextField({
                 name: 'phrase',
 				allowBlank: true,
-				width: 190
+				width: 278
             });
         }
         return this.exactPhraseTextField;
@@ -174,7 +174,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whatTextField = new Ext.form.TextField({
                 name: 'all',
 				allowBlank: true,
-				width: 190
+				width: 278
             });
         }
         return this.whatTextField;
@@ -185,7 +185,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.withoutPhraseTextField = new Ext.form.TextField({
                 name: 'without',
 				allowBlank: true,
-				width: 190
+				width: 278
             });
         }
         return this.withoutPhraseTextField;
@@ -254,7 +254,9 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
                 },
 				autoHeight:true,
 				collapsed: true,
-				collapsible: true
+				collapsible: true,
+				cls: "searchSliderCont"
+				
             });
             this.whatSearchAccuracyFieldSet.addListener('collapse', this.onGuiChanged, this);
             this.whatSearchAccuracyFieldSet.addListener('expand', this.onGuiChanged, this);
@@ -267,7 +269,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.whatSearchAccuracyRadioGroup2 = new Ext.form.SliderField({
                 name: 'similarity',
                 value: 80,
-                width: 120
+                width: 150,
+				cls: 'searchSlider'
             });
             // Prevent the slider from displaying on top of md viewer/editor
             this.whatSearchAccuracyRadioGroup2.slider.topThumbZIndex = 8000;
@@ -417,14 +420,15 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				}),
 				valueField: 'id',
 				displayField:'value',
-				value: 'overlaps',
+				value: 'within',
                 name: 'relation',
                 typeAhead: true,
 				mode: 'local',
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 225
+				width: 280,
+				cls: "withinField"
             });
         }
         return this.whereTypeCombobox;
@@ -547,16 +551,16 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
     
     getWhenFieldSet: function() {
         if(!this.whenFieldSet) {
-            this.whenFieldSet = new Ext.form.FieldSet({
-                title: Openwis.i18n('HomePage.Search.Criteria.When'),
-                layout: 'table',
+        	this.whenFieldSet = new Ext.form.FieldSet({
+                title: "<i class='iconIOS7-bt_history_off'></i>"+Openwis.i18n("HomePage.Search.Criteria.When"),
+                layout: "table",
                 layoutConfig: {
-                     columns: 2  
+                    columns: 2
                 },
-                cls: 'mainLabelCls',
-				autoHeight:true,
-				collapsed: true,
-				collapsible: true
+                cls: "mainLabelCls whenFieldSet",
+                autoHeight: true,
+                collapsed: true,
+                collapsible: true
             });
             this.whenFieldSet.addListener('collapse', this.onGuiChanged, this);
             this.whenFieldSet.addListener('expand', this.onGuiChanged, this);
@@ -617,7 +621,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 200
+				width: 280
             });
         }
         return this.restrictToCatalogComboBox;
@@ -655,7 +659,7 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 200
+				width: 280
             });
         }
         return this.restrictToCategoryComboBox;
@@ -681,9 +685,9 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 200
+				width: 280
             });
-            this.restrictToKindComboBox.setValue('');
+            this.restrictToKindComboBox.setValue('metadata');
         }
         return this.restrictToKindComboBox;
     },
@@ -700,7 +704,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
                 },
 				autoHeight:true,
 				collapsed: true,
-				collapsible: true
+				collapsible: true,
+				cls: "OInspCont"
             });
             this.inspireFieldSet.addListener('collapse', this.onGuiChanged, this);
             this.inspireFieldSet.addListener('expand', this.onGuiChanged, this);
@@ -713,7 +718,8 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
             this.onlyInspireMetadataCheckbox = new Ext.form.Checkbox({
     			name: 'onlyInspireMetadata',
     			checked: false,
-    			boxLabel: Openwis.i18n('HomePage.Search.Criteria.Inspire.InspireMetadataOnly')
+    			boxLabel: Openwis.i18n("HomePage.Search.Criteria.Inspire.InspireMetadataOnly"),
+				ctCls: "OInspCHeck"
     		});
     	}
     	return this.onlyInspireMetadataCheckbox;
@@ -939,10 +945,6 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 		params.paper = '';
 		params.intermap = '';
 		params.themekey = '';
-
-		// Indicates that this search should reset the default parameters
-		params.useSessionDefaults = 'false';
-
         
         
 		params.sortBy = this.getSortDirectionCombobox().getValue();

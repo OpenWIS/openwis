@@ -301,7 +301,7 @@
 				<div class="spacer"></div>
 				
 				<div>
-					<label for="email">Business Email Address:</label>
+					<label for="email">Email Address:</label>
 					<input name="email" id="email" type="email" required="required" data-validation="isEmail"/>
 					
 					<div class="hint">Your account details will be sent to this email address.</div>

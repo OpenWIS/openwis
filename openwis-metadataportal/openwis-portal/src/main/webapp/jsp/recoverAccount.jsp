@@ -26,7 +26,7 @@
 			<!--  <form action="<%= context.getBaseUrl() %>/srv/en/user.accountRequest.submit" method="post">  -->
 			<form action="<%= context.getBaseUrl() %>/openWisRecoverAccount" method="post">
 				<div>
-					<label for="email">Business Email Address:</label>
+					<label for="email">Email Address:</label>
 					<input name="email" id="email" type="email" required="required" data-validation="isEmail"/>
 				</div>
 				

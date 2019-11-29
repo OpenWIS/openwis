@@ -227,20 +227,67 @@ Openwis.Lang.Dictionary = {
    
     
     //----------------------------------------------------------------- Home page.
-	'HomePage.Main.Header' : '<h1>Find Interactive Maps, GIS datasets, Satellite Imagery and Related Applications</h1>',
+	'HomePage.Main.Header' : '<h1></h1>',
 	
     'HomePage.Main.Content' : '<p>\
-                                      <h1>OpenWIS purpose is:</h1>\
-                                	  <ul>\
-                                	   	<li>To improve access to and integrated use of spatial data and information</li>\
-                                	  		<li>To support decision making</li>\
-                                	  		<li>To promote multidisciplinary approaches to sustainable development</li>\
-                                	  		<li>To enhance understanding of the benefits of geographic information</li>\
-                                	  </ul>\
-                            	  </p>\
-                            	  <p>\
-    		                          OpenWIS allows to easily share geographically referenced thematic information between different organizations. For more information please contact\
-    		                      </p>',
+<p>\
+<span lang="EN-US"><h6>This portal provides operational information and products on the weather and smoke haze situation in the ASEAN region.</h6></span>\
+</p>\
+<br>\
+<br/>\
+<p>\
+<h1>ASMC Products</h1>\
+</p>\
+<p>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/JPSS_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/noaa20_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/NPP_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/npp_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/AQUA_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/aqua_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/TERRA_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/terra_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/haze_map"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/haze_map_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/JPSS_hotspot_location"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_noaa20_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/NPP_hotspot_location"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_npp_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/TERRA_hotspot_location_terra"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_terra_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/AQUA_hotspot_location_aqua"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_aqua_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/dispersion_model"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/dispersion_model_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+</p>\
+<br>\
+<br/>\
+<p>\
+<br/>\
+</p>\
+<p>\
+<h2>To receive the above products via email/ftp</h2>\
+</p>\
+<p>\
+Login to your account and follow the instructions given in the pdf <a href="http://wis.weather.gov.sg/openwis-user-portal/onlineHelp/en/WIS_User_Guide.pdf">User Guide.</a>\
+</p>\
+<br>\
+<br/>\
+<p>\
+<h2>To sign up for an account</h2>\
+<p></p>\
+<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
+\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a><img src="/accountRequest/images/new-window.png">\
+If your registration is successful, an email containing your login credentials will be sent to you within 3-5 working days.</p>\
+<br>\
+<br>\
+<p></p>\
+<h2>To recover a lost account</h2>\
+</p>\
+<p>\
+Complete the Account Recovery form.\
+</p>\
+<br>\
+<br/>\
+<p>\
+<h2>Some of the products above can also be accessed at</h2>\
+</p>\
+<p>\
+<a href="http://asmc.asean.org/">http://asmc.asean.org/</a>\
+</p>\
+<br/>\
+<br/>\
+',
     'HomePage.Search.Loading' : '<div class="searchLoadingMessage">:: Searching for Metadata ::</div>',
     'HomePage.Search.WhatsNew.Title' : "What's New",
     'HomePage.Search.LastProducts.Title' : 'Last Products',
@@ -520,7 +567,7 @@ Openwis.Lang.Dictionary = {
 	'Security.User.ChangePswdDlg.success.title' : 'Change my Password',
 	'Security.User.ChangePswdDlg.success.msg' : 'Password changed successfully',
 	'Security.User.ChangePswdDlg.failed.title' : 'Change my Password',
-	'Security.User.ChangePswdDlg.failed.msg' : 'Check if the two password fields are filled. <br> And check if the two password fields have the same value.',
+	'Security.User.ChangePswdDlg.failed.msg' : 'Check if the two password fields are filled. <br> check if the two password fields have the same value. <br> Password must be made up of a minimum of 8 alphanumeric characters containing at least one letter and one numeral',
        
     'Security.SSOManagement.title' : 'SSO management',
     'Security.SSOManagement.msg' :'Click here for access to OpenAM',
@@ -905,7 +952,6 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.User' : 'User',
     'MonitorCurrentRequests.ProductMetadata.Title' : 'Product',
     'MonitorCurrentRequests.Request.ID' : 'Request ID',
-    'MonitorCurrentRequests.ProcessRequest.ID' : 'Process ID',
     'MonitorCurrentRequests.Status' : 'Status',
     'MonitorCurrentRequests.Volume' : 'Volume',
     'MonitorCurrentRequests.CreationDate' : 'Creation Date', 
@@ -918,7 +964,6 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.PRFilter.ADHOC' : 'Adhoc Requests only',
     'MonitorCurrentRequests.PRFilter.SUBSCRIPTION': 'Events of Subscriptions only',
     'MonitorCurrentRequests.PRFilter.BOTH': 'All kind of Requests',
-    'MonitorCurrentRequests.Import.Label': 'Import Subscription',
     
     'TrackMyRequests.Title' : 'Track my requests',
     'TrackMyRequests.Local.Title' : 'Track my local requests',
@@ -930,13 +975,6 @@ Openwis.Lang.Dictionary = {
     'TrackMyRequests.Request.ID': 'Request ID',
     'TrackMyRequests.Request.Status': 'Status',
     'TrackMyRequests.Request.Volume': 'Volume',
-    'TrackMyRequests.UserAlarms.Title': 'User alarms',
-    'TrackMyRequests.UserAlarms.Display.Range': 'Displaying alarm {0} - {1} of {2}',
-    'TrackMyRequests.UserAlarms.No.Alarms': 'No alarms to display',
-    'TrackMyRequests.UserAlarms.Action.Acknowledge': 'Acknowledge',
-    'TrackMyRequests.UserAlarms.Action.AcknowledgeAll': 'Acknowledge All',
-    'TrackMyRequests.UserAlarms.Date': 'Raised on',
-    'TrackMyRequests.UserAlarms.Message': 'Message',
     
     'TrackMyRequests.ViewRequest.SubSelParam': 'Sub-selection parameters',
     'TrackMyRequests.ViewRequest.Temperature': 'Temperature',
@@ -1092,7 +1130,7 @@ Openwis.Lang.Dictionary = {
     'Choose.Domain.msg': 'Please, choose your domain.',
     
     //----------------------------------------------------------------- Register.
-    'RegistrationUser.info.msg' : 'Please enter your personal information to create an account (contact email will be your username):',
+    'RegistrationUser.info.msg' : 'Please enter your personal information to create an account:',
     'RegistrationUser.LastName.Label' : 'Last Name',
     'RegistrationUser.FirstName.Label' : 'First Name',
 	'RegistrationUser.ContactEmail.Label' : 'Contact Email',

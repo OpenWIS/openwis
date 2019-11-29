@@ -4,20 +4,19 @@ Openwis.HomePage.Search.SearchPanel = Ext.extend(Ext.TabPanel, {
 	
 	initComponent: function() {
 		Ext.apply(this, {
-		    border:false,
-            width: 250,
-        	activeTab: ((showAdvancedSearchFirst) ? 1 : 0),
-			bodyStyle: 'padding:5px',
-			cls: 'tabSearchType',
-			listeners: {
-			    afterrender: function() {
-			        this.addListener('tabchange',function() {
-			            this.fireEvent('guiChanged', false, true);
-			        }, this);
-			         
-			    },
-			    scope: this
-			}
+			border: false,
+            width: 320,
+            activeTab: ((showAdvancedSearchFirst) ? 1 : 0),
+            bodyStyle: "padding:20px",
+            cls: "tabSearchType",
+            listeners: {
+                afterrender: function() {
+                    this.addListener("tabchange", function() {
+                        this.fireEvent("guiChanged", false, true)
+                    }, this)
+                },
+                scope: this
+            }
 		});
 		Openwis.HomePage.Search.SearchPanel.superclass.initComponent.apply(this, arguments);
 		

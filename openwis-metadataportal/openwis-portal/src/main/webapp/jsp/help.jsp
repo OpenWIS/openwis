@@ -4,7 +4,7 @@
 <%@page import="jeeves.server.context.ServiceContext"%>
 
 <%
-String title = "OpenWIS Help";
+String title = "Help";
 String pageName = "help.html";
 String message = null;
 String needLogout = null;

@@ -25,7 +25,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 		
 		// Center Panel for the main content.
 		this.getCenterPanel().add(this.getHeaderPanel());
-		
+		this.getCenterPanel().add(this.getHeaderImage());
 		this.getContentPanel().add(this.getContentWestPanel());
 		this.getContentPanel().add(this.getContentCenterPanel());
 		
@@ -96,7 +96,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         params.hitsPerPage = 10;
         params.from = 0;
         params.to = 9;
-        params.relation = 'overlaps';
+        params.relation = 'within';
         var url = configOptions.locService + '/main.search.embedded';
         this.getSearchResultsPanel().load(url, params);
 	},
@@ -138,7 +138,8 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
     				    this.relayoutViewport(true, true);
     				},
 	                scope: this
-	            }
+	            },
+				cls: "searchResPan"
 	        });
 	    }
 	    return this.searchResultsPanel;
@@ -163,7 +164,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 	        this.contentWestPanel = new Ext.Panel({
         		region:'west',
         		layout: 'table',
-            	width: 300,
+            	width: 322,
             	border: false,
             	cls: 'westContentPanel',
         		layoutConfig: {
@@ -171,10 +172,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
         		},
         		defaults: {
             		style: {
-                        marginLeft: '25px',
-                        marginRight: '25px',
-                        marginBottom: '25px',
-                        width: '250px'
+                        width: '322px'
         	        }
                 },
         		items:
@@ -194,6 +192,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 	            region:'center',
         		border: false,
         		cls: 'homePageMainContent',
+        		bodyCls: "homePageMainContentB",
         		items:
         		[
         		    this.getContentCenterHeaderPanel(),
@@ -224,20 +223,28 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 				region: 'north',
 				border: false,
 				contentEl: 'header',
-				cls: 'headerCtCls'
+				cls: 'headerCtCls',
+				height: "auto"
 			});
 		}
 		return this.headerPanel;
 	},
-	
+	getHeaderImage: function(){
+		if(!this.headerImage) {
+			this.headerImage = {tag:'div', cls:'header_img SearchPage', id:'header_img', 
+			html: "<div id='urlTitleCont'><div id='urlTitle'>SEARCH <strong>RESULTS</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div>"}
+		}
+		return this.headerImage;
+	},
 	getCenterPanel: function() {
 		if(!this.centerPanel) {
 			this.centerPanel = new Ext.Panel({
 				cls: 'body-center-panel',
 				region: 'center',
 				border: false,
-				width: 993,
-				layout: 'border'
+				width: 992,
+				layout: 'border',
+				id: "bodyCenPan"
 			});
 		}
 		return this.centerPanel;
@@ -300,7 +307,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
             
             var contentPanelHeight = this.getSearchResultsPanel().getHeight() + 350;
             var compMinHeight = (leftPanelHeight > contentPanelHeight) ? leftPanelHeight : contentPanelHeight;
-            compMinHeight += 115;
+            compMinHeight += 475;
             
         	this.getViewportPanel().boxMinHeight = compMinHeight;
         	

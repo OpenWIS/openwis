@@ -7,7 +7,7 @@ Openwis.HomePage.Search.SearchResultsPanel = Ext.extend(Ext.Panel, {
 				region:'center',
         		border: false,
         		boxMinHeight: 400,
-        		html: Openwis.i18n('HomePage.Main.Content')
+        		html: "<div class='mainContentText'>" + Openwis.i18n("HomePage.Main.Content") + "</div>"
 		});
 		Openwis.HomePage.Search.SearchResultsPanel.superclass.initComponent.apply(this, arguments);
 	},
