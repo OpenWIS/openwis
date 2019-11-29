@@ -1,4 +1,4 @@
-/** Home page main content */
+ /** Home page main content */
 .homePageMainContent {
     padding-left: 5px;
 }
@@ -25,12 +25,19 @@
 
 /** Search results **/
 .hit{
-	border: 1px solid #8CB2B6;
+	border: 1px solid #BFBFBF;
 	margin: 2px;
 	padding: 10px;
-	background-color: #f8fbfb;
+	background-color: #FFFFFF;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+}
+
+
+div.graphicOverview {
+   float: left;
+   margin-right: 20px;
+   width: 100px;
 }
 
 div.hittext_top {
@@ -39,6 +46,8 @@ div.hittext_top {
 
 
 div.hittitle {
+	color:#30698A;
+    font-size: 13px;
     margin-left: 0;
     padding-left: 0;
     font-weight: bold;
@@ -56,6 +65,7 @@ div.hittitle span {
 div.attributionlogo {
     padding: 0 0 3px;
     float: left;
+    display: none;
 }
 
 div.action_buttons {
@@ -71,7 +81,7 @@ div.hittext_middle {
 }
 
 div.hittext_middle, div.hittext_keywords {
-    background-color: #E6EDF5;
+    background-color: #EDEDED;
     margin: 0;
     padding: 5px;
 }
@@ -87,8 +97,9 @@ div.abstract1 {
     text-align: left;
     color: #000000;
     float: none;
-    font-size: 10px;
+    font-size: 12px;
     margin: 0;
+    font-weight: bold;
 }
 
 #search-results-content {
@@ -116,7 +127,7 @@ div.thumbnail_results {
     float: right;
     height: auto !important;
     vertical-align: middle;
-    width: 100px !important;
+    width: 200px !important;
 }
 
 div.metadatabuttons {
@@ -209,9 +220,12 @@ div.pageList {
 
 /** Search Panel **/
 .tabSearchType {
-    background: url("../images/openwis/fond-panel-gauche.png") no-repeat scroll left top transparent;
-    padding-left: 10px;
+    /*background: url("../images/openwis/fond-panel-gauche.png") repeat-y scroll left top transparent;*/
+    background: #EDEDED;
+    border: 1px solid #D1D3D9;
+    padding-left: 6px;
     padding-top: 10px;
+   	opacity:1;
 }
 
 .tabSearchType .mainLabelCls, .tabSearchType .mainLabelCls legend {
@@ -234,12 +248,12 @@ div.pageList {
 /** Skinning the tabs. **/
 .tabSearchType .x-tab-strip-active span.x-tab-strip-text {
     font-weight: bold;
-    color: #E22A20 !important;
+    color: #30698A !important;
     font-size: 12px;
 }
 
 .tabSearchType .x-tab-strip span.x-tab-strip-text {
-    color: #F3ABA7;
+    color: #73ACCD;
     font-weight: bold;
     font-size: 12px;
     text-align: center;
@@ -247,7 +261,7 @@ div.pageList {
 }
 
 .tabSearchType ul.x-tab-strip-top li {
-    border-left: solid 1px #95B3BB; 
+    /* border-left: solid 1px #95B3BB; */ 
 }
 
 .tabSearchType .x-tab-panel-body, .tabSearchType .x-tab-panel-header, 
@@ -268,7 +282,12 @@ div.pageList {
 
 /* For the Menu under the search : What's New and Last Products  */
 .homePageMenuPanelCls .top {
-    background: url("../images/openwis/fond_carte.png") no-repeat scroll left top transparent;
+    /*background: url("../images/openwis/fond_carte.png") no-repeat scroll left top transparent; */
+    border-bottom: 2px solid #636B6E;
+    color: #3280B5;
+    height: 21px !important;
+    text-align: left !important;
+    vertical-align:top;
 }
 
 .homePageMenuPanelCls .title {
@@ -279,7 +298,8 @@ div.pageList {
 }
 
 .homePageMenuPanelCls .content {
-    background: url("../images/openwis/fin_fond_titre.png") no-repeat scroll center 5px transparent;
+    /*background: url("../images/openwis/fond_carte_bas.png") no-repeat scroll transparent;*/
+    background-size: 230px 10px;	
     padding-top: 10px;
 }
 
@@ -291,7 +311,7 @@ div.pageList {
 }
 
 .homePageMenuPanelCls .bottom {
-    background: url("../images/openwis/fond_carte_bas.png") no-repeat scroll left bottom transparent;
+    /*background: url("../images/openwis/fond_carte_bas.png") no-repeat scroll left bottom transparent;*/
 }
 
 /** Other Actions. */
@@ -321,4 +341,70 @@ Other action buttons
 }
 .oAcEle button:hover {
 	text-decoration: underline;
+}
+
+
+/******************************************************************************* 
+Hoverbox Code
+*******************************************************************************/
+
+.hoverbox
+{
+	cursor: default;
+	list-style: none;
+}
+
+.hoverbox a
+{
+	cursor: default;
+}
+
+.hoverbox a .preview
+{
+	display: none;
+}
+
+.hoverbox a:hover .preview
+{
+	display: block;
+	position: absolute;
+	top: -33px;
+	left: -45px;
+	z-index: 1;
+}
+
+.hoverbox img
+{
+	//background: #fff;
+	//border-color: #aaa #ccc #ddd #bbb;
+	//border-style: solid;
+	//border-width: 1px;
+	color: inherit;
+	//padding: 2px;
+	vertical-align: top;
+	width: 100px;
+	height: 75px;
+}
+
+.hoverbox li
+{
+	
+	color: inherit;
+	display: inline;
+	float: left;
+	margin: 3px;
+	padding: 5px;
+	position: relative;
+}
+
+.hoverbox .preview
+{
+	background: #eee;
+	border-color: #ddd #bbb #aaa #ccc;
+	border-style: solid;
+	border-width: 2px;
+	padding: 2px;
+	//border-color: #000;
+	width: 200px;
+	height: 150px;
 }

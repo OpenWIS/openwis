@@ -5,7 +5,7 @@
 <html>
 <head>
 <%
-String title = "OpenWIS Home";
+String title = "MSS WIS Portal Home Page";
 %>
 
 	<%@include file="header-common.jsp" %>
@@ -13,11 +13,13 @@ String title = "OpenWIS Home";
 	<%@include file="header-homepage.jsp" %>
     
     <%@include file="header-remotesearch.jsp" %>
+	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
    </head>
    <body>
       <div id="header">
         <%@include file="banner.jsp" %>
          
       </div>
+<%@include file="footer-common.jsp" %>      
    </body>
 </html>

@@ -6,6 +6,7 @@
 <%
 String title = "OpenWIS Error";
 String pageName = null;
+String pageId = null;
 String message = String.valueOf(request.getAttribute("errorMsg"));
 String needLogout = null;
 if (request.getAttribute("needLogout") != null) {

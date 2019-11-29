@@ -34,10 +34,10 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
         if(!this.whatlabel) {
             this.whatlabel = new Ext.Container({
                 border: false, 
-                cls: 'mainLabelCls', 
-                html: Openwis.i18n('HomePage.Search.Criteria.What'),
+                cls: "mainLabelCls whatLabel",
+                html: "<i class='iconIOS7-bt_quetion_off'></i>"+Openwis.i18n("HomePage.Search.Criteria.What"),
                 style: {
-                    padding: '2px'
+                    padding: "2px"
                 }
             });       
         }
@@ -45,15 +45,12 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     },
     
     getWhereLabel: function() {
-        if(!this.wherelabel) {
+    	if (!this.wherelabel) {
             this.wherelabel = new Ext.Container({
-                border: false, 
-                cls: 'mainLabelCls', 
-                html: Openwis.i18n('HomePage.Search.Criteria.Where'),
-                style: {
-                    padding: '2px'
-                }
-            });       
+                border: false,
+                cls: "mainLabelCls whereLabel",
+                html: "<i class='iconIOS7-bt_mark_off'></i>"+Openwis.i18n("HomePage.Search.Criteria.Where")
+            })
         }
         return this.wherelabel;
     },
@@ -62,13 +59,11 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     
     getOptionsPanel: function() {
         if(!this.optionsPanel) {
-            this.optionsPanel = new Ext.Panel({
-                layout: 'form',
+        	this.optionsPanel = new Ext.Panel({
+                layout: "form",
                 border: false,
-                style: {
-                    padding: '2px'
-                }
-            });
+				cls: "optionsPanel"
+            })
         }
         return this.optionsPanel;
     },
@@ -76,7 +71,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
     getOptionsFieldSet: function() {
         if(!this.optionsFieldSet) {
             this.optionsFieldSet = new Ext.form.FieldSet({
-                title: Openwis.i18n('HomePage.Search.Criteria.Options'),
+            	title: "<i class='iconIOS7-bt_tool_off'></i>"+Openwis.i18n("HomePage.Search.Criteria.Options"),
 				autoHeight:true,
 				collapsed: true,
 				collapsible: true,
@@ -87,7 +82,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                         this.optionsFieldSet.addListener('expand', this.onGuiChanged, this);
 				    },
 				    scope: this
-				}
+				},
+				baseCls: "optFieldSet"
             });
             
         }
@@ -127,7 +123,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 95,
+				width: 194,
 				fieldLabel: Openwis.i18n('HomePage.Search.Criteria.Options.SortDirection')
             });
         }
@@ -156,7 +152,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 95,
+				width: 194,
 				fieldLabel: Openwis.i18n('HomePage.Search.Criteria.Options.HitsPerPage')
             });
         }
@@ -170,8 +166,8 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
                 wmsUrl: "http://vmap0.tiles.osgeo.org/wms/vmap0?",
                 layerName: 'basic',
                 maxExtent: new OpenLayers.Bounds(-180,-90,180,90),
-                width: 225,
-			    height: 200,
+                width: 280,
+			    height: 250,
                 listeners: {
                     valueChanged: function(bounds) {
                     	var latMin = bounds.bottom;
@@ -238,7 +234,9 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 				triggerAction: 'all',
 				editable: false,
 				selectOnFocus:true,
-				width: 225,
+				width: 280,
+				cls: "regionsSel",
+				triggerClass: "regionsSel",
     			listeners : {
     				select: function(combobox, rec, index) {
     				    if(rec.get('id') != 'UserDefined') {

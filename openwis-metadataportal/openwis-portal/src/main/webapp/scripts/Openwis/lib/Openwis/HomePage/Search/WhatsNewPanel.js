@@ -7,9 +7,10 @@ Openwis.HomePage.Search.WhatsNewPanel = Ext.extend(Ext.Panel, {
 	
 	initComponent: function() {
 		Ext.apply(this, {
-		    border: false,
-			bodyStyle: 'padding:10px',
-			cls: 'homePageMenuPanelCls'
+			border: false,
+            bodyStyle: "padding:20px",
+            cls: "homePageMenuPanelCls",
+			width: 320
 		});
 		Openwis.HomePage.Search.WhatsNewPanel.superclass.initComponent.apply(this, arguments);
 		
@@ -24,7 +25,7 @@ Openwis.HomePage.Search.WhatsNewPanel = Ext.extend(Ext.Panel, {
 	    this.add(new Ext.Container({
 	        cls: 'top title', 
 	        height: 19, 
-	        html: Openwis.i18n('HomePage.Search.WhatsNew.Title')
+	        html: "<i class='iconIOS7-bt_news_off'></i>"+Openwis.i18n("HomePage.Search.WhatsNew.Title")
 	    }));
 	    
 	    this.add(this.getContentPanel());
@@ -62,7 +63,7 @@ Openwis.HomePage.Search.WhatsNewPanel = Ext.extend(Ext.Panel, {
 	    for(var i = 0; i < productMetadatas.length; i++) {
 	        var id = 'whats-new-' + productMetadatas[i].id;
 	        if(!this.getContentPanel().findById(id)) {
-	            var htmlContent = '<a>' + Ext.util.Format.htmlEncode(productMetadatas[i].title) + '</a>';
+	            var htmlContent = '<a>' + productMetadatas[i].title + '</a>';
 	        	var container = new Ext.Container({cls: 'line', style: 'cursor:pointer;', id: id, html: htmlContent});
 	        	this.getContentPanel().insert(i, container);
 	        } else {

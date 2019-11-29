@@ -7,9 +7,10 @@ Openwis.HomePage.Search.LastProductsPanel = Ext.extend(Ext.Panel, {
 	
 	initComponent: function() {
 		Ext.apply(this, {
-		    border: false,
-			bodyStyle: 'padding:10px',
-			cls: 'homePageMenuPanelCls'
+			border: false,
+            bodyStyle: "padding:20px",
+            cls: "homePageMenuPanelCls",
+			width: 320
 		});
 		Openwis.HomePage.Search.LastProductsPanel.superclass.initComponent.apply(this, arguments);
 		
@@ -54,7 +55,7 @@ Openwis.HomePage.Search.LastProductsPanel = Ext.extend(Ext.Panel, {
 	    	var lastProductDto = processedRequests[i];
 	        var id = 'last-product-' + lastProductDto.id;
 	        if(!this.getContentPanel().findById(id)) {
-	        	var content = Openwis.Utils.Date.formatDateTimeUTC(lastProductDto.date) + ' - ' + Ext.util.Format.htmlEncode(lastProductDto.name);
+	        	var content = Openwis.Utils.Date.formatDateTimeUTC(lastProductDto.date) + ' - ' + lastProductDto.name;
 	            this.getContentPanel().insert(i, new Ext.Container({cls: 'line', style: 'cursor:pointer;', id: id, html: content}));
 	        } else {
 	            existingLastProducts.remove(id);

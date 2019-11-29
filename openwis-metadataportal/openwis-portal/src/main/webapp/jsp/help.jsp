@@ -4,10 +4,11 @@
 <%@page import="jeeves.server.context.ServiceContext"%>
 
 <%
-String title = "OpenWIS Help";
+String title = "Help";
 String pageName = "help.html";
 String message = null;
 String needLogout = null;
+String pageId = "Help";
 %>
 <%@include file="html-content.jsp" %>
 	

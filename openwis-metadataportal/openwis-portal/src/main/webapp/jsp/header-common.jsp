@@ -35,7 +35,7 @@ boolean devMode = context.isDebug();
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-metadataeditor.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/fileuploadfield.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/MultiSelect.css">
-        
+	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
 <%
 if (devMode) {
 %>  
@@ -150,3 +150,4 @@ if (devMode) {
 	</script>
 
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/core/kernel/kernel.js"></script>
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/mfi.js"></script>
