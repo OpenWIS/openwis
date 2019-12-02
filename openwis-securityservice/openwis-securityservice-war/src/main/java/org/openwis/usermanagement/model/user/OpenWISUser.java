@@ -80,6 +80,12 @@ public class OpenWISUser implements Serializable {
    private List<OpenWISGroup> groups;
 
    /**
+    * Key for two factor authentication. This key is encoded in Base16 (LDAP requirement)
+    * @member: secret key
+    */
+   private String secretKey;
+
+   /**
     * Gets the name.
     * @return the name.
     */
@@ -285,6 +291,14 @@ public class OpenWISUser implements Serializable {
     */
    public void setBackUps(List<String> backUps) {
       this.backUps = backUps;
+   }
+
+   public String getSecretKey() {
+      return secretKey;
+   }
+
+   public void setSecretKey(String secretKey) {
+      this.secretKey = secretKey;
    }
 
 }

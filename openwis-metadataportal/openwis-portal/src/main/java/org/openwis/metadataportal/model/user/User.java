@@ -3,13 +3,13 @@
  */
 package org.openwis.metadataportal.model.user;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openwis.metadataportal.model.group.Group;
 import org.openwis.securityservice.ClassOfService;
 import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Short Description goes here. <P>
@@ -90,6 +90,11 @@ public class User {
     * @member: groups The user's groups.
     */
    private List<Group> groups =  new ArrayList<Group>();
+
+   /**
+    * Two factor authentication key
+    */
+   private TwoFactorAuthenticationKey twoFactorAuthenticationKey = new TwoFactorAuthenticationKey();
 
    /**
     * Gets the id.
@@ -313,5 +318,13 @@ public class User {
     */
    public void setGroups(List<Group> groups) {
       this.groups = groups;
+   }
+
+   public TwoFactorAuthenticationKey getTwoFactorAuthenticationKey() {
+      return twoFactorAuthenticationKey;
+   }
+
+   public void setTwoFactorAuthenticationKey(TwoFactorAuthenticationKey twoFactorAuthenticationKey) {
+      this.twoFactorAuthenticationKey = twoFactorAuthenticationKey;
    }
 }
