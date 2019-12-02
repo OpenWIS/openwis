@@ -1,10 +1,10 @@
 package org.fao.geonet.kernel.search;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.openwis.metadataportal.kernel.search.index.solr.DateUtil;
+
 import java.text.ParseException;
 import java.util.Date;
-
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.solr.common.util.DateUtil;
 
 /**
  * Names of fields in the index.
@@ -416,7 +416,7 @@ public enum IndexField {
       if (String.class.equals(clazz)) {
          result = value;
       } else if (Date.class.equals(clazz)) {
-         result = DateUtil.parseDate(value);
+         result = DateUtil.convertToDate(DateUtil.parseDate(value));
       } else if (Double.class.equals(clazz)) {
          result = Double.valueOf(value);
       } else if (Integer.class.equals(clazz)) {
@@ -439,7 +439,7 @@ public enum IndexField {
       if (String.class.equals(clazz)) {
          result = (String) value;
       } else if (Date.class.equals(clazz)) {
-         result = DateUtil.getThreadLocalDateFormat().format((Date) value);
+            result = DateUtil.format(DateUtil.convertToLocalDateTime((Date) value));
       } else if (Double.class.equals(clazz)) {
          result = String.valueOf(value);
       } else {

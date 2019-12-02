@@ -1,14 +1,10 @@
 package org.openwis.metadataportal.kernel.search;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jeeves.server.ServiceConfig;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
 import jeeves.utils.Xml;
-
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Geonet.SearchResult.SortBy;
@@ -21,13 +17,10 @@ import org.fao.geonet.services.util.SearchDefaults;
 import org.jdom.Element;
 import org.openwis.metadataportal.common.configuration.OpenwisSearchConfig;
 import org.openwis.metadataportal.common.search.SortDir;
-import org.openwis.metadataportal.kernel.search.query.IQueryManager;
-import org.openwis.metadataportal.kernel.search.query.SearchException;
-import org.openwis.metadataportal.kernel.search.query.SearchQuery;
-import org.openwis.metadataportal.kernel.search.query.SearchQueryFactory;
-import org.openwis.metadataportal.kernel.search.query.SearchQueryManagerFactory;
-import org.openwis.metadataportal.kernel.search.query.SearchResult;
-import org.openwis.metadataportal.kernel.search.query.SearchResultDocument;
+import org.openwis.metadataportal.kernel.search.query.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Class GenericMetaSearcher. <P>
@@ -53,7 +46,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
 
    /**
     * {@inheritDoc}
-    * @see org.fao.geonet.kernel.search.MetaSearcher#search(jeeves.server.context.ServiceContext, org.jdom.Element, jeeves.server.ServiceConfig)
+    * @see org.fao.geonet.kernel.search.MetaSearcher#search(jeeves.server.context.ServiceContext, Element, jeeves.server.ServiceConfig)
     */
    @Override
    public void search(ServiceContext srvContext, Element request, ServiceConfig config)
@@ -75,9 +68,6 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       if (Log.isInfo(Geonet.SEARCH_ENGINE)) {
          Log.info(Geonet.SEARCH_ENGINE, "Search query: " + query);
       }
-
-      // spatial
-      query = queryFactory.addSpatialQuery(query, request, null);
 
       // Sorting
       SortingInfo sort = new SortingInfoImpl();
@@ -224,7 +214,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
          query = queryFactory.and(query, queryFactory.buildQuery(IndexField.UUID, value));
       }
       // !!!
-      
+
       // Category
       query = queryFactory.and(query,
             this.buildQuery(queryFactory, IndexField.CATEGORY_ID, "category", request, 1.0F));
@@ -356,9 +346,23 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
             addTemporalExtendDateRangeQuery(queryFactory, request.getChildText("extFrom"),
                   request.getChildText("extTo")));
 
+      query = queryFactory.and(
+              query,
+              addSpatialQuery(queryFactory, request.getChildText("relation"),
+                      request.getChildText("geometry"), IndexField.GEOMETRY)
+      );
+
       return query;
    }
 
+   private T addSpatialQuery(SearchQueryFactory<T> queryFactory, String verb, String geometry, IndexField field) {
+      T spatialQuery = null;
+      if (StringUtils.isNotBlank(verb) && StringUtils.isNotBlank(geometry)) {
+         spatialQuery = queryFactory.buildSpatialQuery(field, verb, geometry);
+      }
+
+      return spatialQuery;
+   }
    /**
     * Adds the temporal extend date range query.
     *
@@ -368,7 +372,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the t
     */
    private T addTemporalExtendDateRangeQuery(SearchQueryFactory<T> queryFactory, String start,
-         String stop) {
+                                             String stop) {
       T tempQuery = null;
       IndexField from = IndexField.TEMPORALEXTENT_BEGIN;
       IndexField to = IndexField.TEMPORALEXTENT_END;
@@ -398,7 +402,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the date query
     */
    private T addDateRangeQuery(SearchQueryFactory<T> queryFactory, String from, String to,
-         IndexField field) {
+                               IndexField field) {
       T dateQuery = null;
 
       if (StringUtils.isNotBlank(from) && StringUtils.isNotBlank(to)) {
@@ -422,7 +426,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the t
     */
    private T buildProtocolQueries(SearchQueryFactory<T> queryFactory, Element request, T q,
-         float similarity) {
+                                  float similarity) {
       T query = q;
       // Protocol
       query = queryFactory.and(query,
@@ -477,7 +481,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the t
     */
    private T buildAnyQueries(SearchQueryFactory<T> queryFactory, Element request, T q,
-         float similarity) {
+                             float similarity) {
       T query = q;
       query = queryFactory.and(query,
             this.buildQuery(queryFactory, IndexField.ANYTEXT, "any", request, similarity));
@@ -492,7 +496,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
             request, similarity, true, OpenwisSearchConfig.getAbstractWeight()));
       query = queryFactory.or(query, this.buildQuery(queryFactory, IndexField.KEYWORD, "any",
             request, similarity, true, OpenwisSearchConfig.getKeywordsWeight()));
-      
+
       // or
       query = queryFactory.or(query,
             this.buildOrQuery(queryFactory, IndexField.ANYTEXT, "or", request, similarity));
@@ -517,7 +521,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the t
     */
    private T buildQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
-         Element request, float similarity) {
+                        Element request, float similarity) {
       return buildQuery(queryFactory, field, xmlElement, request, similarity, true);
    }
 
@@ -531,7 +535,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the t
     */
    private T buildInspireQuery(SearchQueryFactory<T> queryFactory, Element request, T query,
-         float similarity) {
+                               float similarity) {
       T result = query;
 
       // inspire only
@@ -606,7 +610,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
 
    //on rajoute une methode buildQuery avec le parametre de boost
    private T buildQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
-         Element request, float similarity, boolean splitText, int boostFactor) {
+                        Element request, float similarity, boolean splitText, int boostFactor) {
       T query = null;
       T fuzzy;
       String value = request.getChildText(xmlElement);
@@ -632,7 +636,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
                query = queryFactory.and(query, query2);
             }
          }
-         
+
          // gestion du parametre de boost et fabrication de la query
          if (boostFactor > 0) {
             query = queryFactory.boost(query, boostFactor);
@@ -651,7 +655,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the built query
     */
    private T buildQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
-         Element request, float similarity, boolean splitText) {
+                        Element request, float similarity, boolean splitText) {
       return this.buildQuery(queryFactory, field, xmlElement, request, similarity, splitText, -1);
    }
 
@@ -666,12 +670,12 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
     * @return the t
     */
    private T buildOrQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
-         Element request, float similarity) {
+                          Element request, float similarity) {
       return this.buildOrQuery(queryFactory, field, xmlElement, request, similarity, -1);
    }
    // la methode qui suit prend desormais le boost en parametre mais n est pas appelee par buildAnyQueries lors qu'on rajoute les boost
    private T buildOrQuery(SearchQueryFactory<T> queryFactory, IndexField field, String xmlElement,
-         Element request, float similarity, int boostFactor) {
+                          Element request, float similarity, int boostFactor) {
       T query = null;
       T fuzzy;
       String value = request.getChildText(xmlElement);
@@ -696,7 +700,7 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
                query = queryFactory.or(query, query2);
             }
          }
-         
+
          // gestion du parametre de boost et fabrication de la query
          if (boostFactor > 0) {
             query = queryFactory.boost(query, boostFactor);
@@ -704,10 +708,10 @@ public class GenericMetaSearcher<T extends SearchQuery> extends MetaSearcher {
       }
       return query;
    }
-   
+
    /**
     * {@inheritDoc}
-    * @see org.fao.geonet.kernel.search.MetaSearcher#present(jeeves.server.context.ServiceContext, org.jdom.Element, jeeves.server.ServiceConfig)
+    * @see org.fao.geonet.kernel.search.MetaSearcher#present(jeeves.server.context.ServiceContext, Element, jeeves.server.ServiceConfig)
     */
    @Override
    public Element present(ServiceContext srvContext, Element request, ServiceConfig config)

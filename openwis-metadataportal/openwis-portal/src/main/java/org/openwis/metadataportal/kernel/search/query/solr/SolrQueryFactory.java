@@ -1,29 +1,31 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.Date;
-
+import com.vividsolutions.jts.algorithm.CGAlgorithms;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.WKTReader;
 import jeeves.utils.Log;
 import jeeves.utils.Xml;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.TermsParams;
-import org.apache.solr.common.util.DateUtil;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.search.IndexField;
 import org.jdom.Element;
+import org.openwis.metadataportal.kernel.search.index.solr.DateUtil;
 import org.openwis.metadataportal.kernel.search.query.AbstractSearchQueryFactory;
 import org.openwis.metadataportal.kernel.search.query.SearchQueryFactory;
+
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.time.LocalDateTime;
 
 /**
  * A factory for creating SolrQuery objects.
  */
 public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery> implements
-      SearchQueryFactory<SolrSearchQuery> {
+        SearchQueryFactory<SolrSearchQuery> {
 
    /**
     * Instantiates a new solr query factory.
@@ -56,7 +58,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
    public SolrSearchQuery buildTermQuery(IndexField field) {
       SolrQuery query = new SolrQuery();
       query.set(TermsParams.TERMS, true);
-      query.setQueryType("/" + CommonParams.TERMS);
+//      query.setQueryType("/" + CommonParams.TERMS);
       query.add(TermsParams.TERMS_FIELD, field.getField());
       SolrSearchQuery result = new SolrSearchQuery(query);
       result.setTermQuery(true);
@@ -70,7 +72,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
     */
    @Override
    public SolrSearchQuery buildTermQuery(IndexField field, String start, int maxResult,
-         int countThreshold) {
+                                         int countThreshold) {
       SolrSearchQuery result = this.buildTermQuery(field);
 
       SolrQuery query = result.getSolrQuery();
@@ -94,7 +96,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
    public SolrSearchQuery buildTermRangeQuery(IndexField field) {
       SolrQuery query = new SolrQuery();
       query.set(TermsParams.TERMS, true);
-      query.setQueryType("/range");
+//      query.setQueryType("/range");
       query.add(TermsParams.TERMS_FIELD, field.getField());
       SolrSearchQuery result = new SolrSearchQuery(query);
       result.setTermQuery(true);
@@ -104,7 +106,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryChars(java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryChars(String)
     */
    @Override
    public String escapeQueryChars(String value) {
@@ -113,7 +115,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryCharsOmitWildCards(java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryCharsOmitWildCards(String)
     */
    @Override
    public String escapeQueryCharsOmitWildCards(String s) {
@@ -138,7 +140,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
     * @param value the value
     * @return the search query
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAnyQuery(java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAnyQuery(String)
     */
    @Override
    public SolrSearchQuery buildAnyQuery(String value) {
@@ -153,11 +155,16 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
     * @param value the value
     * @return the search query
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildQuery(java.lang.String, java.lang.Object)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildQuery(String, Object)
     */
    @Override
    public SolrSearchQuery buildQuery(IndexField field, Object value) {
-      String q = MessageFormat.format("{0}:{1}", field.getField(), String.valueOf(value));
+      String q;
+      if (!field.getField().equals(IndexField._CHANGE_DATE.getField())) {
+         q = MessageFormat.format("{0}:\"{1}\"", field.getField(), String.valueOf(value));
+      } else {
+         q = MessageFormat.format("{0}:{1}", field.getField(), String.valueOf(value));
+      }
       SolrQuery solrQuery = buildSolrQuery(q);
       return new SolrSearchQuery(solrQuery);
    }
@@ -186,16 +193,16 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBetweenQuery(java.lang.String, java.lang.String, java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBetweenQuery(String, String, String)
     */
    @Override
    public SolrSearchQuery buildBetweenQuery(IndexField field, String from, String to) {
       SolrSearchQuery result = null;
       try {
-         Date fromDate = DateUtil.parseDate(from);
-         String sFromDate = DateUtil.getThreadLocalDateFormat().format(fromDate);
-         Date toDate = DateUtil.parseDate(to);
-         String sToDate = DateUtil.getThreadLocalDateFormat().format(toDate);
+         LocalDateTime fromDate = DateUtil.parseDate(from);
+         String sFromDate = DateUtil.format(fromDate);
+         LocalDateTime toDate = DateUtil.parseDate(to);
+         String sToDate = DateUtil.format(toDate);
          String q = MessageFormat.format("{0}:[{1} TO {2}]", field.getField(), sFromDate, sToDate);
          SolrQuery solrQuery = buildSolrQuery(q);
          result = new SolrSearchQuery(solrQuery);
@@ -210,7 +217,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, String)
     */
    @Override
    public SolrSearchQuery buildAfterQuery(IndexField dateField, String date) {
@@ -219,15 +226,15 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String, boolean)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, String, boolean)
     */
    @Override
    public SolrSearchQuery buildAfterQuery(IndexField dateField, String date, boolean inclusive) {
       // FIXME Igor: handle inclusive flag
       SolrSearchQuery result = null;
       try {
-         Date theDate = DateUtil.parseDate(date);
-         String sDate = DateUtil.getThreadLocalDateFormat().format(theDate);
+         LocalDateTime theDate = DateUtil.parseDate(date);
+         String sDate = DateUtil.format(theDate);
          String q = MessageFormat.format("{0}:[{1} TO *]", dateField.getField(), sDate);
          SolrQuery solrQuery = buildSolrQuery(q);
          result = new SolrSearchQuery(solrQuery);
@@ -242,7 +249,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, String)
     */
    @Override
    public SolrSearchQuery buildBeforeQuery(IndexField dateField, String date) {
@@ -251,15 +258,15 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String, boolean)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, String, boolean)
     */
    @Override
    public SolrSearchQuery buildBeforeQuery(IndexField dateField, String date, boolean inclusive) {
       // FIXME Igor: handle inclusive flag
       SolrSearchQuery result = null;
       try {
-         Date theDate = DateUtil.parseDate(date);
-         String sDate = DateUtil.getThreadLocalDateFormat().format(theDate);
+         LocalDateTime theDate = DateUtil.parseDate(date);
+         String sDate = DateUtil.format(theDate);
          String q = MessageFormat.format("{0}:[* TO {1}]", dateField.getField(), sDate);
          SolrQuery solrQuery = buildSolrQuery(q);
          result = new SolrSearchQuery(solrQuery);
@@ -366,7 +373,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
       result.setTermQuery(query.isTermQuery());
       return result;
    }
-   
+
    // Implémentation de la methode boost
    @Override
    public SolrSearchQuery boost(SolrSearchQuery query, int boostFactor) {
@@ -384,7 +391,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#addSpatialQuery(org.openwis.metadataportal.kernel.search.query.SearchQuery, org.jdom.Element)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#addSpatialQuery(org.openwis.metadataportal.kernel.search.query.SearchQuery, Element)
     */
    @Override
    public SolrSearchQuery addSpatialQuery(SolrSearchQuery query, Element xml, String filterVersion) {
@@ -393,12 +400,34 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
          result = query;
          // use special Openwis searcher
          result.getSolrQuery().set("openwisRequest", Xml.getString(xml));
-         result.getSolrQuery().set("defType", "OpenwisSearch");
+//         result.getSolrQuery().set("defType", "OpenwisSearch");
          if (filterVersion != null) {
             result.getSolrQuery().set("filterVersion", filterVersion);
          }
          result.setSpatialQuery(true);
       }
       return result;
+   }
+
+   public SolrSearchQuery buildSpatialQuery(IndexField field, String verb, String geometry) {
+      SolrSearchQuery result = null;
+      try {
+         WKTReader wktReader = new WKTReader();
+         Polygon polygon = (Polygon) wktReader.read(geometry);
+         Coordinate[] coords = polygon.getCoordinates();
+         if (!CGAlgorithms.isCCW(coords)) {
+            polygon = (Polygon) polygon.reverse();
+         }
+
+         String q = MessageFormat.format("{0}:\"{1}({2})\"",
+                 field.getField(), verb, polygon.toString());
+         SolrQuery solrQuery = buildSolrQuery(q);
+         result = new SolrSearchQuery(solrQuery);
+      } catch (com.vividsolutions.jts.io.ParseException e) {
+         Log.error(Geonet.SEARCH_ENGINE, "Failed to convert geometry to jts object: " + geometry, e);
+      }
+
+      return result;
+
    }
 }

@@ -1,35 +1,17 @@
 package org.openwis.metadataportal.kernel.search.index.solr;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.regex.Pattern;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.vividsolutions.jts.algorithm.CGAlgorithms;
+import com.vividsolutions.jts.geom.*;
+import com.vividsolutions.jts.io.WKTWriter;
 import jeeves.server.ServiceConfig;
 import jeeves.utils.Log;
 import jeeves.utils.Xml;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
-import org.apache.solr.common.util.DateUtil;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.search.IndexEvent;
 import org.fao.geonet.kernel.search.IndexField;
@@ -51,11 +33,15 @@ import org.openwis.metadataportal.kernel.search.index.IndexException;
 import org.openwis.metadataportal.kernel.search.index.IndexableElement;
 import org.xml.sax.SAXException;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.WKTWriter;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.regex.Pattern;
 
 /**
  * The Class SolrIndexManager. <P>
@@ -100,7 +86,7 @@ public class SolrIndexManager implements IIndexManager {
       solrUrl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.SOLR_URL);
 
       // Configuration of Date pattern for SolR
-      DateUtil.DEFAULT_DATE_FORMATS.add("yyyy-MM-dd'Z'");
+    //  DateUtil.DEFAULT_DATE_FORMATS.add("yyyy-MM-dd'Z'");
    }
 
    /**
@@ -168,7 +154,7 @@ public class SolrIndexManager implements IIndexManager {
    public void clear() throws IndexException {
       // delete everything!
       try {
-         SolrServer server = SolRUtils.getSolRServer(solrUrl, this);
+         SolrClient server = SolRUtils.getSolRServer(solrUrl, this);
          if (server == null) {
             throw new IndexException("Unavailable SolR Server");
          }
@@ -198,7 +184,7 @@ public class SolrIndexManager implements IIndexManager {
       boolean result = false;
       // Optimize!
       try {
-         SolrServer server = SolRUtils.getSolRServer(solrUrl, this);
+         SolrClient server = SolRUtils.getSolRServer(solrUrl, this);
          if (server == null) {
             throw new IndexException("Unavailable SolR Server");
          }
@@ -229,7 +215,7 @@ public class SolrIndexManager implements IIndexManager {
    public void commit() throws IndexException {
       UpdateResponse response;
       try {
-         SolrServer server = SolRUtils.getSolRServer(solrUrl, this);
+         SolrClient server = SolRUtils.getSolRServer(solrUrl, this);
          if (server == null) {
             throw new IndexException("Unavailable SolR Server");
          }
@@ -255,7 +241,7 @@ public class SolrIndexManager implements IIndexManager {
    public boolean isAvailable() throws IndexException {
       boolean isAvailable = false;
       try {
-         SolrServer server = SolRUtils.getSolRServer(solrUrl, this);
+         SolrClient server = SolRUtils.getSolRServer(solrUrl, this);
          isAvailable = (server != null);
       } catch (Exception e) {
          throw new IndexException(e);
@@ -284,7 +270,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param elements the elements
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(java.util.Collection)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(Collection)
     */
    @Override
    public void add(Collection<IndexableElement> elements) throws IndexException {
@@ -316,7 +302,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param commit the commit
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(java.util.Collection, boolean)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(Collection, boolean)
     */
    @Override
    public void add(Collection<IndexableElement> elements, boolean commit) throws IndexException {
@@ -324,7 +310,7 @@ public class SolrIndexManager implements IIndexManager {
          Collection<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
          long before, after;
          try {
-            SolrServer server = SolRUtils.getSolRServer(solrUrl, this);
+            SolrClient server = SolRUtils.getSolRServer(solrUrl, this);
             if (server == null) {
                throw new IndexException("Unavailable SolR Server");
             }
@@ -381,7 +367,7 @@ public class SolrIndexManager implements IIndexManager {
       }
    }
 
-   private void addToServer(Collection<SolrInputDocument> documents, SolrServer server,
+   private void addToServer(Collection<SolrInputDocument> documents, SolrClient server,
          Set<String> ids) throws SolrServerException, IOException {
       long before = System.currentTimeMillis();
       if (Log.isInfo(Geonet.INDEX_ENGINE)) {
@@ -461,7 +447,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param elements the elements
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(java.util.Collection)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(Collection)
     */
    @Override
    public void remove(Collection<IndexableElement> elements) throws IndexException {
@@ -491,7 +477,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param commit the commit
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(java.util.Collection, boolean)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(Collection, boolean)
     */
    @Override
    public void remove(Collection<IndexableElement> elements, boolean commit) throws IndexException {
@@ -505,7 +491,7 @@ public class SolrIndexManager implements IIndexManager {
             }
          }
          try {
-            SolrServer server = SolRUtils.getSolRServer(solrUrl, this);
+            SolrClient server = SolRUtils.getSolRServer(solrUrl, this);
             if (server == null) {
                throw new IndexException("Unavailable SolR Server");
             }
@@ -704,9 +690,9 @@ public class SolrIndexManager implements IIndexManager {
    public Date parseDate(String sDate) {
       Date result = null;
       try {
-         result = DateUtil.parseDate(sDate);
+         result = DateUtil.convertToDate(DateUtil.parseDate(sDate));
       } catch (ParseException e) {
-         Log.error(Geonet.INDEX_ENGINE, "Could not parse date: " + sDate, e);
+         Log.error(Geonet.INDEX_ENGINE, e.getMessage());
       }
       return result;
    }
@@ -720,6 +706,7 @@ public class SolrIndexManager implements IIndexManager {
     */
    @SuppressWarnings("unchecked")
    private Geometry extractGeometry(DbmsIndexableElement elt) throws IndexException {
+      final double LIMIT_OFFSET = 0.1;
       File schemaDir = new File(schemasDir, elt.getSchema());
       String sSheet = new File(schemaDir, "extract-gml.xsl").getAbsolutePath();
       Element transform;
@@ -743,38 +730,89 @@ public class SolrIndexManager implements IIndexManager {
             if (srs != null && !(srs.equals("")))
                sourceCRS = CRS.decode(srs);
             Parser parser = new Parser(new GMLConfiguration());
-            MultiPolygon jts = parseGml(parser, gml);
+            Polygon jts = parseGmlPolygon(parser, gml);
 
             // if we have an srs and its not WGS84 then transform to WGS84
             if (!CRS.equalsIgnoreMetadata(sourceCRS, DefaultGeographicCRS.WGS84)) {
                MathTransform tform = CRS.findMathTransform(sourceCRS, DefaultGeographicCRS.WGS84);
-               jts = (MultiPolygon) JTS.transform(jts, tform);
+               jts = (Polygon) JTS.transform(jts, tform);
             }
 
-            for (int i = 0; i < jts.getNumGeometries(); i++) {
-               allPolygons.add((Polygon) jts.getGeometryN(i));
+            Coordinate[] coords = jts.getCoordinates();
+            // substract the LIMIT OFFSET from polygon 180,90. Solr crashes if the limit of the polygon touch themselves.
+            for (Coordinate coordinate : coords) {
+               coordinate.x = Math.abs(coordinate.x) == 180 ? coordinate.x - Math.copySign(LIMIT_OFFSET, coordinate.x) : coordinate.x;
+               coordinate.y = Math.abs(coordinate.y) == 90 ? coordinate.y - Math.copySign(LIMIT_OFFSET, coordinate.y) : coordinate.y;
+
             }
+
+            // if the length of polygon is 0 (one point) create a small polygon by adding the LIMIT_OFFSET.
+            // Solr doesn't accept points
+            if (jts.getLength() == 0) {
+               for (int i = 0; i < coords.length; i++) {
+                  double x_offset = 0.0, y_offset = 0.0;
+                  switch (i) {
+                     case 4:
+                     case 0:
+                        x_offset = -LIMIT_OFFSET;
+                        y_offset = LIMIT_OFFSET;
+                        break;
+                     case 1:
+                        x_offset = -LIMIT_OFFSET;
+                        y_offset = -LIMIT_OFFSET;
+                        break;
+                     case 2:
+                        x_offset = LIMIT_OFFSET;
+                        y_offset = -LIMIT_OFFSET;
+                        break;
+                     case 3:
+                        x_offset = LIMIT_OFFSET;
+                        y_offset = LIMIT_OFFSET;
+                        break;
+                  }
+                  Coordinate coordinate = coords[i];
+                  coordinate.x = coordinate.x + x_offset;
+                  coordinate.y = coordinate.y - y_offset;
+               }
+            }
+
+            // make sure the polygon is in counter clockwise
+            if (!CGAlgorithms.isCCW(coords)) {
+               jts = (Polygon) jts.reverse();
+            }
+            return jts;
+//            for (int i = 0; i < jts.getNumGeometries(); i++) {
+//               allPolygons.add((Polygon) jts.getGeometryN(i));
+//            }
          } catch (Exception e) {
             Log.error(Geonet.INDEX_ENGINE, "Failed to convert gml to jts object: " + gml, e);
          }
       }
-
-      if (allPolygons.isEmpty()) {
          return null;
-      } else {
-         try {
-            Polygon[] array = new Polygon[allPolygons.size()];
-            GeometryFactory geometryFactory = allPolygons.get(0).getFactory();
-            return geometryFactory.createMultiPolygon(allPolygons.toArray(array));
-
-         } catch (Exception e) {
-            Log.error(Geonet.INDEX_ENGINE, "Failed to create a MultiPolygon from: " + allPolygons,
-                  e);
-            return null;
-         }
-      }
+//      if (allPolygons.isEmpty()) {
+//         return null;
+//      } else {
+//         try {
+//            Polygon[] array = new Polygon[allPolygons.size()];
+//            GeometryFactory geometryFactory = allPolygons.get(0).getFactory();
+//            return geometryFactory.createMultiPolygon(allPolygons.toArray(array));
+//
+//         } catch (Exception e) {
+//            Log.error(Geonet.INDEX_ENGINE, "Failed to create a MultiPolygon from: " + allPolygons,
+//                  e);
+//            return null;
+//         }
+//      }
    }
 
+   public static Polygon parseGmlPolygon(Parser parser, String gml) throws IOException, SAXException,ParserConfigurationException {
+      Object value = parser.parse(new StringReader(gml));
+      if (value instanceof Polygon) {
+        return (Polygon) value;
+      }
+
+      return null;
+   }
    /**
     * Parses the GML.
     *

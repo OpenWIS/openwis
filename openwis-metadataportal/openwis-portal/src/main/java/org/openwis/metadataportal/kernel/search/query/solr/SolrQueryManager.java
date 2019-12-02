@@ -1,12 +1,9 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
-import java.net.MalformedURLException;
-
 import jeeves.server.ServiceConfig;
 import jeeves.utils.Log;
-
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
@@ -22,6 +19,9 @@ import org.openwis.metadataportal.kernel.search.query.SearchException;
 import org.openwis.metadataportal.kernel.search.query.SearchQueryFactory;
 import org.openwis.metadataportal.kernel.search.query.SearchResult;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 /**
  * The Class SolrQueryManager. <P>
  * Explanation goes here. <P>
@@ -36,6 +36,8 @@ public class SolrQueryManager implements IQueryManager<SolrSearchQuery> {
 
    /** The index manager. */
    private final SolrIndexManager indexManager;
+
+   private final String OPENWIS_CORE="core1";
 
    /**
     * Instantiates a new solr query manager.
@@ -66,8 +68,8 @@ public class SolrQueryManager implements IQueryManager<SolrSearchQuery> {
    public SearchResult search(SolrSearchQuery query) throws SearchException {
       SearchResult result;
       try {
-         SolrServer solRServer = SolRUtils.getSolRServer(solrUrl, indexManager);
-         if (solRServer == null) {
+         SolrClient solrClient = SolRUtils.getSolRServer(solrUrl, indexManager);
+         if (solrClient == null) {
             throw new SearchException("SolR not available");
          }
          SolrQuery solrQuery = query.getSolrQuery();
@@ -75,7 +77,7 @@ public class SolrQueryManager implements IQueryManager<SolrSearchQuery> {
          if (rows == null) {
             solrQuery.setRows(Integer.MAX_VALUE);
          }
-         QueryResponse qr = solRServer.query(solrQuery);
+         QueryResponse qr = solrClient.query(solrQuery);
          if (query.isTermQuery()) {
             @SuppressWarnings("unchecked")
             NamedList<NamedList<Integer>> nl = (NamedList<NamedList<Integer>>) qr.getResponse()
@@ -90,6 +92,8 @@ public class SolrQueryManager implements IQueryManager<SolrSearchQuery> {
          Log.error(Geonet.SEARCH_ENGINE, "Error when searching with SolR", e);
          throw new SearchException(e);
       } catch (MalformedURLException e) {
+         throw new SearchException(e);
+      } catch (IOException e) {
          throw new SearchException(e);
       }
    }
