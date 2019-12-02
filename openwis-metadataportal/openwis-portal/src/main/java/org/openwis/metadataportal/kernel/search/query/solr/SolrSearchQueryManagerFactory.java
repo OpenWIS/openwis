@@ -1,7 +1,6 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
 import jeeves.server.ServiceConfig;
-
 import org.openwis.metadataportal.kernel.search.index.solr.SolrIndexManager;
 import org.openwis.metadataportal.kernel.search.query.IQueryManager;
 import org.openwis.metadataportal.kernel.search.query.SearchException;
@@ -22,7 +21,7 @@ public class SolrSearchQueryManagerFactory implements SearchQueryManagerFactory<
     * @param appPath the application path
     */
    public SolrSearchQueryManagerFactory(ServiceConfig config, String appPath,
-         SolrIndexManager indexManager) {
+                                        SolrIndexManager indexManager) {
       super();
       qm = new SolrQueryManager(config, indexManager);
    }

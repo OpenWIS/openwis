@@ -1,5 +1,7 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
+import java.text.MessageFormat;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.fao.geonet.kernel.search.IndexField;
@@ -8,8 +10,6 @@ import org.fao.geonet.kernel.search.SortingInfo;
 import org.openwis.metadataportal.common.search.SortDir;
 import org.openwis.metadataportal.kernel.search.query.AbstractSearchQuery;
 import org.openwis.metadataportal.kernel.search.query.SearchQuery;
-
-import java.text.MessageFormat;
 
 /**
  * The Class SolrSearchQuery. <P>
@@ -39,7 +39,7 @@ public class SolrSearchQuery extends AbstractSearchQuery implements SearchQuery 
 
    /**
     * {@inheritDoc}
-    * @see Object#toString()
+    * @see java.lang.Object#toString()
     */
    @Override
    public String toString() {
@@ -60,7 +60,7 @@ public class SolrSearchQuery extends AbstractSearchQuery implements SearchQuery 
     *
     * @param fields the new return fields
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQuery#setReturnFields(String[])
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQuery#setReturnFields(java.lang.String[])
     */
    @Override
    public void setReturnFields(IndexField... fields) {
@@ -71,7 +71,7 @@ public class SolrSearchQuery extends AbstractSearchQuery implements SearchQuery 
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQuery#setSortFields(org.openwis.metadataportal.common.search.SortDir, String[])
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQuery#setSortFields(org.openwis.metadataportal.common.search.SortDir, java.lang.String[])
     */
    @Override
    public void setSortFields(SortingInfo sort) {

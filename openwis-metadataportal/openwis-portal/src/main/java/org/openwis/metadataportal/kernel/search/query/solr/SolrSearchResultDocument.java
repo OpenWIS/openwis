@@ -1,9 +1,5 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
@@ -11,6 +7,10 @@ import org.fao.geonet.constants.Edit;
 import org.fao.geonet.kernel.search.IndexField;
 import org.jdom.Element;
 import org.openwis.metadataportal.kernel.search.query.SearchResultDocument;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The Class SolrSearchResultDocument. <P>
@@ -36,7 +36,7 @@ public class SolrSearchResultDocument implements SearchResultDocument {
 
    /**
     * {@inheritDoc}
-    * @see java.lang.Object#toString()
+    * @see Object#toString()
     */
    @Override
    public String toString() {
@@ -63,7 +63,7 @@ public class SolrSearchResultDocument implements SearchResultDocument {
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchResultDocument#getField(java.lang.String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchResultDocument#getField(String)
     */
    @Override
    public Object getField(IndexField field) {

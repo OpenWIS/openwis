@@ -1,11 +1,30 @@
 package org.openwis.metadataportal.kernel.search.index.solr;
 
-import com.vividsolutions.jts.algorithm.CGAlgorithms;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.io.WKTWriter;
 import jeeves.server.ServiceConfig;
 import jeeves.utils.Log;
 import jeeves.utils.Xml;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -33,15 +52,9 @@ import org.openwis.metadataportal.kernel.search.index.IndexException;
 import org.openwis.metadataportal.kernel.search.index.IndexableElement;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.regex.Pattern;
+import com.vividsolutions.jts.algorithm.CGAlgorithms;
+import com.vividsolutions.jts.io.WKTWriter;
+import ucar.ma2.Index;
 
 /**
  * The Class SolrIndexManager. <P>
@@ -270,7 +283,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param elements the elements
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(Collection)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(java.util.Collection)
     */
    @Override
    public void add(Collection<IndexableElement> elements) throws IndexException {
@@ -302,7 +315,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param commit the commit
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(Collection, boolean)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#add(java.util.Collection, boolean)
     */
    @Override
    public void add(Collection<IndexableElement> elements, boolean commit) throws IndexException {
@@ -447,7 +460,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param elements the elements
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(Collection)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(java.util.Collection)
     */
    @Override
    public void remove(Collection<IndexableElement> elements) throws IndexException {
@@ -477,7 +490,7 @@ public class SolrIndexManager implements IIndexManager {
     * @param commit the commit
     * @throws IndexException the index exception
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(Collection, boolean)
+    * @see org.openwis.metadataportal.kernel.search.index.IIndexManager#remove(java.util.Collection, boolean)
     */
    @Override
    public void remove(Collection<IndexableElement> elements, boolean commit) throws IndexException {

@@ -1,7 +1,11 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 import jeeves.server.ServiceConfig;
 import jeeves.utils.Log;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -18,9 +22,6 @@ import org.openwis.metadataportal.kernel.search.query.IQueryManager;
 import org.openwis.metadataportal.kernel.search.query.SearchException;
 import org.openwis.metadataportal.kernel.search.query.SearchQueryFactory;
 import org.openwis.metadataportal.kernel.search.query.SearchResult;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 
 /**
  * The Class SolrQueryManager. <P>

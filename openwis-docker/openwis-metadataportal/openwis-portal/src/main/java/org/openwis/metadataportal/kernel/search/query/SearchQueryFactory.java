@@ -2,6 +2,7 @@ package org.openwis.metadataportal.kernel.search.query;
 
 import org.fao.geonet.kernel.search.IndexField;
 import org.jdom.Element;
+import org.openwis.metadataportal.kernel.search.query.solr.SolrSearchQuery;
 
 /**
  * A factory for creating SearchQuery objects.

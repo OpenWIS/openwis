@@ -1,11 +1,5 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.common.util.NamedList;
 import org.fao.geonet.csw.common.ResultType;
@@ -14,6 +8,12 @@ import org.jdom.Element;
 import org.openwis.metadataportal.kernel.search.query.AbstractSearchResult;
 import org.openwis.metadataportal.kernel.search.query.SearchResult;
 import org.openwis.metadataportal.kernel.search.query.SearchResultDocument;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * The Class SolrSearchTermResult. <P>

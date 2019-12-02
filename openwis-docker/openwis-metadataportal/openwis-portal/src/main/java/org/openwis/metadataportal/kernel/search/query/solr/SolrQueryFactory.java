@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
  * A factory for creating SolrQuery objects.
  */
 public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery> implements
-        SearchQueryFactory<SolrSearchQuery> {
+      SearchQueryFactory<SolrSearchQuery> {
 
    /**
     * Instantiates a new solr query factory.
@@ -72,7 +72,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
     */
    @Override
    public SolrSearchQuery buildTermQuery(IndexField field, String start, int maxResult,
-                                         int countThreshold) {
+         int countThreshold) {
       SolrSearchQuery result = this.buildTermQuery(field);
 
       SolrQuery query = result.getSolrQuery();
@@ -106,7 +106,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryChars(String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryChars(java.lang.String)
     */
    @Override
    public String escapeQueryChars(String value) {
@@ -115,7 +115,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryCharsOmitWildCards(String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#escapeQueryCharsOmitWildCards(java.lang.String)
     */
    @Override
    public String escapeQueryCharsOmitWildCards(String s) {
@@ -140,7 +140,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
     * @param value the value
     * @return the search query
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAnyQuery(String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAnyQuery(java.lang.String)
     */
    @Override
    public SolrSearchQuery buildAnyQuery(String value) {
@@ -155,7 +155,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
     * @param value the value
     * @return the search query
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildQuery(String, Object)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildQuery(java.lang.String, java.lang.Object)
     */
    @Override
    public SolrSearchQuery buildQuery(IndexField field, Object value) {
@@ -193,7 +193,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBetweenQuery(String, String, String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBetweenQuery(java.lang.String, java.lang.String, java.lang.String)
     */
    @Override
    public SolrSearchQuery buildBetweenQuery(IndexField field, String from, String to) {
@@ -217,7 +217,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String)
     */
    @Override
    public SolrSearchQuery buildAfterQuery(IndexField dateField, String date) {
@@ -226,7 +226,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, String, boolean)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildAfterQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String, boolean)
     */
    @Override
    public SolrSearchQuery buildAfterQuery(IndexField dateField, String date, boolean inclusive) {
@@ -249,7 +249,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, String)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String)
     */
    @Override
    public SolrSearchQuery buildBeforeQuery(IndexField dateField, String date) {
@@ -258,7 +258,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, String, boolean)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#buildBeforeQuery(org.fao.geonet.kernel.search.IndexField, java.lang.String, boolean)
     */
    @Override
    public SolrSearchQuery buildBeforeQuery(IndexField dateField, String date, boolean inclusive) {
@@ -373,7 +373,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
       result.setTermQuery(query.isTermQuery());
       return result;
    }
-
+   
    // Implémentation de la methode boost
    @Override
    public SolrSearchQuery boost(SolrSearchQuery query, int boostFactor) {
@@ -391,7 +391,7 @@ public class SolrQueryFactory extends AbstractSearchQueryFactory<SolrSearchQuery
 
    /**
     * {@inheritDoc}
-    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#addSpatialQuery(org.openwis.metadataportal.kernel.search.query.SearchQuery, Element)
+    * @see org.openwis.metadataportal.kernel.search.query.SearchQueryFactory#addSpatialQuery(org.openwis.metadataportal.kernel.search.query.SearchQuery, org.jdom.Element)
     */
    @Override
    public SolrSearchQuery addSpatialQuery(SolrSearchQuery query, Element xml, String filterVersion) {

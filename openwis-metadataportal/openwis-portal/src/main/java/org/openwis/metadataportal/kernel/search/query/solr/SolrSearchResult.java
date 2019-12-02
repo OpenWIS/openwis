@@ -1,15 +1,7 @@
 package org.openwis.metadataportal.kernel.search.query.solr;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import jeeves.constants.Jeeves;
 import jeeves.utils.Log;
-
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.fao.geonet.constants.Geonet;
@@ -20,6 +12,9 @@ import org.jdom.Element;
 import org.openwis.metadataportal.kernel.search.query.AbstractSearchResult;
 import org.openwis.metadataportal.kernel.search.query.SearchResult;
 import org.openwis.metadataportal.kernel.search.query.SearchResultDocument;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * The Class SolrSearchResult. <P>
@@ -57,7 +52,7 @@ public class SolrSearchResult extends AbstractSearchResult implements SearchResu
 
    /**
     * {@inheritDoc}
-    * @see java.lang.Object#toString()
+    * @see Object#toString()
     */
    @Override
    public String toString() {
@@ -164,7 +159,7 @@ public class SolrSearchResult extends AbstractSearchResult implements SearchResu
          Comparator<Entry<String, Integer>> comparator;
          if (sumItem.isSortByCount()) {
             // Sort by value
-            comparator = new Comparator<Map.Entry<String, Integer>>() {
+            comparator = new Comparator<Entry<String, Integer>>() {
                @Override
                public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
                   return o1.getValue().compareTo(o2.getValue());
@@ -172,7 +167,7 @@ public class SolrSearchResult extends AbstractSearchResult implements SearchResu
             };
          } else {
             // Sort by key
-            comparator = new Comparator<Map.Entry<String, Integer>>() {
+            comparator = new Comparator<Entry<String, Integer>>() {
                @Override
                public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
                   return o1.getKey().compareTo(o2.getKey());

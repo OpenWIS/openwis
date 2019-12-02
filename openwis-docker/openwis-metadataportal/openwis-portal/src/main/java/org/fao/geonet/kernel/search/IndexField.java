@@ -1,10 +1,10 @@
 package org.fao.geonet.kernel.search;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.openwis.metadataportal.kernel.search.index.solr.DateUtil;
-
 import java.text.ParseException;
 import java.util.Date;
+
+import org.apache.commons.lang.ObjectUtils;
+import org.openwis.metadataportal.kernel.search.index.solr.DateUtil;
 
 /**
  * Names of fields in the index.

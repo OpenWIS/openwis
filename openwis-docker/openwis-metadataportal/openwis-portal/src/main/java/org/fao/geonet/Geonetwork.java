@@ -169,8 +169,8 @@ public class Geonetwork implements ApplicationHandler {
       logger.info(MessageFormat.format("Initializing GeoNetwork {0}.{1} ...", version, subVersion));
 
       JeevesJCS.setConfigFilename(path + "WEB-INF/classes/cache.ccf");
-      logger.info("Starting ServiceConfig...");
       // force cache to be config'd so shutdown hook works correctly
+      logger.info("Starting ServiceConfig...");
       JeevesJCS.getInstance(Processor.XLINK_JCS);
 
       ServiceConfig handlerConfig = new ServiceConfig(config.getChildren());

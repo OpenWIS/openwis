@@ -39,7 +39,7 @@ public class DateUtil {
    }
 
     public static Date convertToDate(LocalDateTime dateToConvert) {
-        return Date
+        return java.util.Date
                 .from(dateToConvert.atZone(ZoneId.systemDefault())
                         .toInstant());
     }
