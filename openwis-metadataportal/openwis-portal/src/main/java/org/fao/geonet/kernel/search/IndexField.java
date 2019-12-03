@@ -367,7 +367,10 @@ public enum IndexField {
    TERM_COUNT("count"),
 
    /** The stop gap. */
-   STOP_GAP("_stopGap");
+   STOP_GAP("_stopGap"),
+
+   /** Graphic overview */
+   GRAPHIC_OVERVIEW("graphicOverview");
 
    /** The field. */
    private final String field;

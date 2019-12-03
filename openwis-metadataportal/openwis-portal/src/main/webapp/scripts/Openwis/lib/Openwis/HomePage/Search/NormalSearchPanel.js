@@ -81,7 +81,7 @@ Openwis.HomePage.Search.NormalSearchPanel = Ext.extend(Openwis.HomePage.Search.A
 		params.similarity = '0.8';
 		
 		if(this.getRegionsCombobox().getValue() != 'Any') {
-		    params.relation = 'within';
+		    params.relation = 'iswithin';
 		    
 		    var geometry = this.getMapPanel().getRawValue();
 		    if(geometry) {
