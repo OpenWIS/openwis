@@ -409,18 +409,14 @@ Openwis.HomePage.Search.AdvancedSearchPanel = Ext.extend(Openwis.HomePage.Search
 					id: 0,
 					fields: ['id', 'value'],
 					data: [
-					    ['intersection',  Openwis.i18n('HomePage.Search.Criteria.Where.Type.Intersection')], 
-					    ['overlaps',      Openwis.i18n('HomePage.Search.Criteria.Where.Type.Overlaps')], 
-					    ['encloses',      Openwis.i18n('HomePage.Search.Criteria.Where.Type.Encloses')], 
-					    ['fullyOutsideOf',Openwis.i18n('HomePage.Search.Criteria.Where.Type.FullyOutsideOf')], 
-					    ['crosses',         Openwis.i18n('HomePage.Search.Criteria.Where.Type.Crosses')], 
-					    ['touches',         Openwis.i18n('HomePage.Search.Criteria.Where.Type.Touches')], 
-					    ['within',         Openwis.i18n('HomePage.Search.Criteria.Where.Type.Within')]
-					]
+                            ['intersects',  Openwis.i18n('HomePage.Search.Criteria.Where.Type.Intersection')],
+                    		['contains',    Openwis.i18n('HomePage.Search.Criteria.Where.Type.Contains')],
+                    		['iswithin',    Openwis.i18n('HomePage.Search.Criteria.Where.Type.Within')]
+                    	]
 				}),
 				valueField: 'id',
 				displayField:'value',
-				value: 'within',
+				value: 'iswithin',
                 name: 'relation',
                 typeAhead: true,
 				mode: 'local',
