@@ -132,6 +132,36 @@
         <servlet-name>openWisRemoteSearch</servlet-name>
         <servlet-class>org.openwis.metadataportal.services.search.RemoteSearch</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>openWisRequestAccountCaptcha</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.OpenWisImageCaptchaServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>openWisRequestAccount</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.OpenWisRequestAccount</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>openWisRecoverAccount</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.OpenWisRecoverAccount</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>openWisRequestAccountCaptcha</servlet-name>
+        <url-pattern>/openWisRequestAccountCaptcha</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>openWisRequestAccount</servlet-name>
+        <url-pattern>/openWisRequestAccount</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>openWisRecoverAccount</servlet-name>
+        <url-pattern>/openWisRecoverAccount</url-pattern>
+    </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>fedletSloInit</servlet-name>
