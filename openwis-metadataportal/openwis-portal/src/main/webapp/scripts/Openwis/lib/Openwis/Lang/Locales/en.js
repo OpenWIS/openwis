@@ -227,67 +227,41 @@ Openwis.Lang.Dictionary = {
    
     
     //----------------------------------------------------------------- Home page.
-	'HomePage.Main.Header' : '<h1></h1>',
+	'HomePage.Main.Header' : '<h1>Find Interactive Maps, GIS datasets, Satellite Imagery and Related Applications</h1>',
 	
     'HomePage.Main.Content' : '<p>\
-<p>\
-<span lang="EN-US"><h6>This portal provides operational information and products on the weather and smoke haze situation in the ASEAN region.</h6></span>\
-</p>\
-<br>\
-<br/>\
-<p>\
-<h1>ASMC Products</h1>\
-</p>\
-<p>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/JPSS_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/noaa20_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/NPP_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/npp_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/AQUA_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/aqua_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/TERRA_satellite"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/terra_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/haze_map"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/haze_map_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/JPSS_hotspot_location"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_noaa20_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/NPP_hotspot_location"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_npp_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/TERRA_hotspot_location_terra"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_terra_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/AQUA_hotspot_location_aqua"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/hotspot_report_aqua_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-<a href="http://wis.weather.gov.sg/openwis-user-portal/retrieve/display/dispersion_model"><img src="http://wis.weather.gov.sg/openwis-user-portal/thumbnail/dispersion_model_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-</p>\
-<br>\
-<br/>\
-<p>\
-<br/>\
-</p>\
-<p>\
-<h2>To receive the above products via email/ftp</h2>\
-</p>\
-<p>\
-Login to your account and follow the instructions given in the pdf <a href="http://wis.weather.gov.sg/openwis-user-portal/onlineHelp/en/WIS_User_Guide.pdf">User Guide.</a>\
-</p>\
-<br>\
-<br/>\
-<p>\
-<h2>To sign up for an account</h2>\
-<p></p>\
-<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
-\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a><img src="/accountRequest/images/new-window.png">\
-If your registration is successful, an email containing your login credentials will be sent to you within 3-5 working days.</p>\
-<br>\
-<br>\
-<p></p>\
-<h2>To recover a lost account</h2>\
-</p>\
-<p>\
-Complete the Account Recovery form.\
-</p>\
-<br>\
-<br/>\
-<p>\
-<h2>Some of the products above can also be accessed at</h2>\
-</p>\
-<p>\
-<a href="http://asmc.asean.org/">http://asmc.asean.org/</a>\
-</p>\
-<br/>\
-<br/>\
-',
+                                      <h1>OpenWIS purpose is:</h1>\
+                                	  <ul>\
+                                	   	<li>To improve access to and integrated use of spatial data and information</li>\
+                                	  		<li>To support decision making</li>\
+                                	  		<li>To promote multidisciplinary approaches to sustainable development</li>\
+                                	  		<li>To enhance understanding of the benefits of geographic information</li>\
+                                	  </ul>\
+                            	  </p>\
+    	<h2>To receive the above products via email/ftp</h2>\
+    	<p></p>\
+    	<p>\
+    	Login to your account and follow the instructions given in the \
+    	<a href="http://dsrcc.sadc.int/openwis-user-portal/onlineHelp/en/index.htm">Online Help</a>\
+    	</p>\
+    	<br>\
+    	<br>\
+    	<p></p>\
+    	<h2>To sign up for an account</h2>\
+    	<p></p>\
+    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
+    	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a><img src="/accountRequest/images/new-window.png">\
+    	If your registration is successful, an email containing your login credentials will be sent to you within 3-5 working days.</p>\
+    	<br>\
+    	<br>\
+    	<p></p>\
+    	<h2>To recover a lost account</h2>\
+    	<p></p>\
+    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRecovery.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRecovery.get\', \'_blank\',\
+    	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Recovery form</a><img src="/accountRequest/images/new-window.png"></p>\
+    	<br>\
+    	<br>\
+    	<p></p>',
     'HomePage.Search.Loading' : '<div class="searchLoadingMessage">:: Searching for Metadata ::</div>',
     'HomePage.Search.WhatsNew.Title' : "What's New",
     'HomePage.Search.LastProducts.Title' : 'Last Products',
@@ -517,6 +491,7 @@ Complete the Account Recovery form.\
 	
 	'Security.User.Manage.ErrorDlg.Title' : 'Manage User Validation Form',
 	'Security.User.Manage.ErrorDlg.Msg' : 'Check if all form fields are filled in the personal information and privileges tabs.',
+	'Security.User.Manage.ErrorDlg.PasswordMsg' : 'Password must be made up of a minimum of 8 alphanumeric characters containing at least one letter and one numeral.',
 	'Security.User.Manage.Title' : 'Manage User',
 	
 	'Security.User.Title' : 'User management',
@@ -525,8 +500,12 @@ Complete the Account Recovery form.\
 	'Security.User.LastName.Column' : 'Last name',
 	'Security.User.FirstName.Column' : 'First name',
 	'Security.User.Profile.Column': 'Profile',
+	'Security.User.PasswordExpired.Column': 'Password Expired',
+	'Security.User.PasswordExpiredTime.Column': 'Password Expired Time',
+	'Security.User.PasswordChangedTime.Column': 'Password Changed Time',
 	'Security.User.Import.Button': 'Import User...',
 	'Security.User.Import.Title': 'Import User',
+	'Security.User.Export.Button': 'Export',
 	'Security.User.Import.Validate.Button': 'Import',
 	'Security.User.Filter.User' : 'Filter on (username, lastname, firstname)',
 	'Security.User.Grid.Label' : 'The list shows only the first 1000 users, you may need to refine the filters',
