@@ -129,6 +129,10 @@
 
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Register services                                       	   -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- User self-registration services                               -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		
@@ -147,9 +151,27 @@
 		</service>
 		
 		
-		<service name="xml.relatedservices.search" type="xml">
-			<class name=".services.search.RelatedServicesSearch"/>
-		</service>
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Account Request                                                     -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="user.accountRequest.get">
+            <output sheet="/jsp/requestAccount.jsp">
+	            <call name="services" class="org.openwis.metadataportal.services.register.RequestAccount" >
+						<param name="portal"    value="user"/>
+				</call>
+			</output>
+        </service>
+        
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Account Request                                                     -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <service name="user.accountRecovery.get">
+            <output sheet="/jsp/recoverAccount.jsp">
+	            <call name="services" class="org.openwis.metadataportal.services.register.RecoverAccount" >
+						<param name="portal"    value="user"/>
+				</call>
+			</output>
+        </service>
 		
 	</services>
 </geonet>
