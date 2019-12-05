@@ -13,75 +13,66 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class OpenWisImageCaptchaServlet extends HttpServlet
-{
-  public static ImageCaptchaService service = new DefaultManageableImageCaptchaService();
+public class OpenWisImageCaptchaServlet extends HttpServlet {
+    public static ImageCaptchaService service = new DefaultManageableImageCaptchaService();
 
-  protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
-    throws ServletException, IOException
-  {
-    httpServletResponse.setDateHeader("Expires", 0L);
+    protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+            throws ServletException, IOException {
+        httpServletResponse.setDateHeader("Expires", 0L);
 
-    httpServletResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+        httpServletResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
 
-    httpServletResponse.addHeader("Cache-Control", "post-check=0, pre-check=0");
+        httpServletResponse.addHeader("Cache-Control", "post-check=0, pre-check=0");
 
-    httpServletResponse.setHeader("Pragma", "no-cache");
+        httpServletResponse.setHeader("Pragma", "no-cache");
 
-    httpServletResponse.setContentType("image/jpeg");
+        httpServletResponse.setContentType("image/jpeg");
 
-    BufferedImage bi = service.getImageChallengeForID(httpServletRequest.getSession(true).getId());
+        BufferedImage bi = service.getImageChallengeForID(httpServletRequest.getSession(true).getId());
 
-    ServletOutputStream out = httpServletResponse.getOutputStream();
+        ServletOutputStream out = httpServletResponse.getOutputStream();
 
-    ImageIO.write(bi, "jpg", out);
-    try
-    {
-      out.flush();
+        ImageIO.write(bi, "jpg", out);
+        try {
+            out.flush();
+        } finally {
+            out.close();
+        }
     }
-    finally
-    {
-      out.close();
+
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+            throws ServletException, IOException {
+        httpServletResponse.setDateHeader("Expires", 0L);
+
+        httpServletResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+
+        httpServletResponse.addHeader("Cache-Control", "post-check=0, pre-check=0");
+
+        httpServletResponse.setHeader("Pragma", "no-cache");
+
+        httpServletResponse.setContentType("image/jpeg");
+
+        BufferedImage bi = service.getImageChallengeForID(httpServletRequest.getSession(true).getId());
+
+        ServletOutputStream out = httpServletResponse.getOutputStream();
+
+        ImageIO.write(bi, "jpg", out);
+        try {
+            out.flush();
+        } finally {
+            out.close();
+        }
     }
-  }
-  protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
-		    throws ServletException, IOException
-		  {
-		    httpServletResponse.setDateHeader("Expires", 0L);
 
-		    httpServletResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    public static boolean validateResponse(HttpServletRequest request, String userCaptchaResponse) {
+        if (request.getSession(false) == null) return false;
 
-		    httpServletResponse.addHeader("Cache-Control", "post-check=0, pre-check=0");
-
-		    httpServletResponse.setHeader("Pragma", "no-cache");
-
-		    httpServletResponse.setContentType("image/jpeg");
-
-		    BufferedImage bi = service.getImageChallengeForID(httpServletRequest.getSession(true).getId());
-
-		    ServletOutputStream out = httpServletResponse.getOutputStream();
-
-		    ImageIO.write(bi, "jpg", out);
-		    try
-		    {
-		      out.flush();
-		    }
-		    finally
-		    {
-		      out.close();
-		    }
-		  }
-
-  public static boolean validateResponse(HttpServletRequest request, String userCaptchaResponse)
-  {
-    if (request.getSession(false) == null) return false;
-
-    boolean validated = false;
-    try {
-      validated = service.validateResponseForID(request.getSession().getId(), userCaptchaResponse).booleanValue();
-    } catch (Exception e) {
-      e.printStackTrace();
+        boolean validated = false;
+        try {
+            validated = service.validateResponseForID(request.getSession().getId(), userCaptchaResponse).booleanValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return validated;
     }
-    return validated;
-  }
 }

@@ -35,7 +35,7 @@ public class OpenWisRequestAccount extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException
 		  {
-		handleRequest(request,response);
+		      handleRequest(request,response);
 		  }	
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
