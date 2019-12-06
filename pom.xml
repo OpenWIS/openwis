@@ -294,12 +294,19 @@
 			<id>repo1-maven2</id>
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
-		
 		<repository>
-		    <id>openwis-internal</id>
-			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
-			<!-- <url>https://nexus.eurodyn.com/repository/maven/</url> -->
-	    </repository>
+			<id>ICM</id>
+			<url>http://maven.icm.edu.pl/artifactory/repo/</url>
+		</repository>
+		<repository>
+			<id>Spring repo </id>
+			<url>https://repo.spring.io/libs-milestone/</url>
+		</repository>
+<!--		<repository>-->
+<!--		    <id>openwis-internal</id>-->
+<!--			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>-->
+<!--			&lt;!&ndash; <url>https://nexus.eurodyn.com/repository/maven/</url> &ndash;&gt;-->
+<!--	    </repository>-->
 		
 		<!--
 		<repository>
