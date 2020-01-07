@@ -1,5 +1,7 @@
 #OpenWis
 
+### This is a branch for integrating the project in a CI/CD environment using Travis CI and SonarCloud.
+
 From [about OpenWis](http://wis.bom.gov.au/openwis-user-portal/srv/en/about.home). 
 
 OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)
