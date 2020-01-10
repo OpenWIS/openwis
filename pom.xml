@@ -63,6 +63,7 @@
 				<user.module>true</user.module>	 			 
 			</properties>		 
 			<modules>
+				<module>openwis-libs</module>
 				<module>openwis-harness</module>
 				<module>openwis-management</module>
 				<module>openwis-dataservice</module>
@@ -295,12 +296,10 @@
 			<url>http://repo1.maven.org/maven2</url>
 		</repository>
 		
-		<repository>
+	<!--	<repository>
 		    <id>openwis-internal</id>
 			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
-			<!-- <url>https://nexus.eurodyn.com/repository/maven/</url> -->
-	    </repository>
-		
+	    </repository> -->
 		<!--
 		<repository>
 			<id>forgerock-staging-repo</id>

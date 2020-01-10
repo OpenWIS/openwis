@@ -1,0 +1,58 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.openwis</groupId>
+    <artifactId>openwis</artifactId>
+    <version>3.14.8</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <groupId>io.openwis.libs</groupId>
+  <artifactId>openwis-libs</artifactId>
+  <name>openwis-libs</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+        <executions>
+          <!-- javaee 5.0 -->
+          <execution>
+            <id>javaee-install</id>
+            <configuration>
+              <groupId>com.sun.javaee</groupId>
+              <artifactId>javaee</artifactId>
+              <version>5.0</version>
+              <packaging>jar</packaging>
+              <file>libs/javaee-5.0.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <!-- gt-epsg-extension 2.6.2 -->
+          <execution>
+            <id>gt-epsg-extension-install</id>
+            <configuration>
+              <groupId>org.geotools</groupId>
+              <artifactId>gt-epsg-extension</artifactId>
+              <version>2.6.2</version>
+              <packaging>jar</packaging>
+              <file>libs/gt-epsg-extension-2.6.2.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
