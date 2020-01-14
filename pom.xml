@@ -52,10 +52,17 @@
 		<solr.version>1.4.1</solr.version>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version> 	  
 		<javaee.version>5.0</javaee.version> 
-		<spring.version>4.1.5.RELEASE</spring.version>	  
+		<spring.version>4.1.5.RELEASE</spring.version>
+
 	</properties>
 
 	<profiles>
+    <profile>
+      <id>dependencies</id>
+      <modules>
+        <module>openwis-libs</module>
+      </modules>
+    </profile>
 		<profile>
 			<id>openwis</id> 
 			<properties>
@@ -63,7 +70,6 @@
 				<user.module>true</user.module>	 			 
 			</properties>		 
 			<modules>
-				<module>openwis-libs</module>
 				<module>openwis-harness</module>
 				<module>openwis-management</module>
 				<module>openwis-dataservice</module>
@@ -177,37 +183,6 @@
 					<version>1.3.4</version>
 				</plugin>
 
-
-				<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
-				<!-- 02/07/14 Shaun Adams UK Met Office-->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.2.1</version>
-					<inherited>false</inherited>
-					<executions>
-						<execution>
-							<id>install-javaee-jar</id>
-							<!--
-					<phase>install</phase>
-					<goals>
-						<goal>exec</goal>
-					</goals>
-                    -->
-						</execution>
-					</executions>
-					<configuration>
-						<executable>mvn</executable>
-						<arguments>
-							<argument>install:install-file</argument>
-							<argument>-Dfile=${basedir}/resources/javaee-${javaee.version}.jar</argument>
-							<argument>-DgroupId=com.sun.javaee</argument>
-							<argument>-DartifactId=javaee</argument>
-							<argument>-Dversion=${javaee.version}</argument>
-							<argument>-Dpackaging=jar</argument>
-						</arguments>
-					</configuration>
-				</plugin>	
 				<!-- this plugin is required to maven release the build -->
 				<!-- 23/01/15 Kirsty Burgess UK Met Office -->
 				<plugin>
@@ -375,8 +350,16 @@
 			</snapshots>
 			<id>ch.thus</id>
 			<name>Boundless repository</name>
-			<url>http://www.thus.ch/~patrick/maven/</url>
+			<url>https://www.thus.ch/~patrick/maven/</url>
 		</repository>
+    <repository>
+      <id>geomajas</id>
+      <name>geomajas</name>
+      <url>http://maven.geomajas.org/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
 
 		<!--
 	  <repository>
