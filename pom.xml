@@ -344,14 +344,6 @@
 			<name>Geotools repository</name>
 			<url>http://download.osgeo.org/webdav/geotools/</url>
 		</repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>ch.thus</id>
-			<name>Boundless repository</name>
-			<url>https://www.thus.ch/~patrick/maven/</url>
-		</repository>
     <repository>
       <id>geomajas</id>
       <name>geomajas</name>

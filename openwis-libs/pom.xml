@@ -562,6 +562,35 @@
               <goal>install-file</goal>
             </goals>
           </execution>
+          <!-- pvalsecc 0.9.2 -->
+          <execution>
+            <id>pvalsecc-pom-install</id>
+            <configuration>
+              <groupId>ch.thus</groupId>
+              <artifactId>pvalsecc</artifactId>
+              <version>0.9.2</version>
+              <packaging>pom</packaging>
+              <file>libs/pvalsecc-0.9.2.pom</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>pvalsecc-jar-install</id>
+            <configuration>
+              <groupId>ch.thus</groupId>
+              <artifactId>pvalsecc</artifactId>
+              <version>0.9.2</version>
+              <packaging>jar</packaging>
+              <file>libs/pvalsecc-0.9.2.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
     </plugins>
