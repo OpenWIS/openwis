@@ -5,12 +5,12 @@ language: java
 jdk: openjdk8
 
 script:
-  - mvn clean install -Pdependencies,openwis,admin -DskipTests=true
-  - mvn clean install -Popenwis,user
+  - mvn clean install -Pdependencies,openwis,admin
+  - mvn clean install -Puser
 
 notifications:
   email:
     recipients:
       - openwis-travis@meteo.fr
-    on_success: always
-    on_failure: always
+    on_success: change
+    on_failure: change
