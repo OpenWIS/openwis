@@ -89,7 +89,7 @@ Openwis.Utils.MessageMustLogin = Ext.extend(Ext.Window, {
 					textAlign: 'center'
 				},
 				handler: function() {					
-				    window.location.href= configOptions.url +  "/openWisInit?lang=" + Env.lang;
+				    window.location.href= configOptions.locService +  "/user.loginCaptcha.get";
 				}
 			});
 		}
