@@ -1,4 +1,4 @@
-#OpenWis
+# OpenWis
 
 ### This is a branch for integrating the project in a CI/CD environment using Travis CI and SonarCloud.
 
@@ -6,12 +6,12 @@ From [about OpenWis](http://wis.bom.gov.au/openwis-user-portal/srv/en/about.home
 
 OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)
 
-##1. Requirements
+## 1. Requirements
 
 * Oracle JDK 1.7
 * Maven 2.2.1
 
-###Environment variables:
+### Environment variables:
 
 The JAVA_HOME  should be set with the valid JDK path.
 
@@ -19,9 +19,9 @@ The MAVEN_OPTS should be set with "-Xms256m -Xmx512m -XX:MaxPermSize=256m" to av
 
 The "mvn" command should be available in the terminal, maybe you should add the <maven home>/bin directory to the PATH
 
-##2. Sources Contents
+## 2. Sources Contents
 
-**Repository Contents :**
+**Repository Contents:**
 
       .
       +-- pom.xml
@@ -68,6 +68,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 			|+--PopulateLDAP
       |+--openwis-stagingpost
       |+--resources
+      |+--openwis-libs
 
 * **openwis-dataservice:** contains the dataservice module (including the cache system)
 * **openwis-factorytests:** contains selenium functional tests
@@ -78,6 +79,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 * **openwis-securityservice:** contains the security module
 * **openwis-stagingpost:** contains the staging post web application
 * **resources:** contains jars required for build but not available on Public Maven repositories
+* **openwis-libs:** module which makes use of the maven install-file plugin in ordet to install openam and forgerock dependencies and must be built in the beginning with the profile 'dependencies'
 
 **Harness WSDL**
  
@@ -87,7 +89,7 @@ The "mvn" command should be available in the terminal, maybe you should add the 
 * **The harness subselectionparameters WSDL and WSD:** openwis-harness/openwis-harness-subselectionparameters/src/wsdl/
 
 
-##3. Building OpenWIS
+## 3. Building OpenWIS
 
 **#1. Installing JavaEE**
 
@@ -95,7 +97,7 @@ Javee is a library that is shipped with installations of GlassFish but is not av
 
 **#2.Launch the Maven build**
 
- In a terminal, go into the root directory and launch the command: `mvn clean install -P openwis -DskipTests -Dfile.encoding=UTF-8`
+ In a terminal, go into the root directory and launch the command: `mvn clean install -Pdependencies,openwis -DskipTests -Dfile.encoding=UTF-8`
 
 After few minutes the build should finished successfully like this:
 
@@ -103,6 +105,7 @@ After few minutes the build should finished successfully like this:
 	[INFO] Reactor Summary:
 	[INFO] ------------------------------------------------------------------------
 	[INFO] OpenWIS ............................................... SUCCESS [1.248s]
+	[INFO] openwis-libs .......................................... SUCCESS [2.572s]
 	[INFO] openwis-harness ....................................... SUCCESS [0.000s]
 	[INFO] openwis-harness-subselectionparameters ................ SUCCESS [6.724s]
 	[INFO] openwis-harness-localdatasource ....................... SUCCESS [1.232s]
@@ -151,7 +154,7 @@ After few minutes the build should finished successfully like this:
 	[INFO] Final Memory: 237M/416M
 	[INFO] ------------------------------------------------------------------------	
 	
-**#3. Generate the admin portal*	
+**#3. Generate the admin portal**	
 	
 In a terminal, go to the root directory and launch the command: `mvn clean install -P admin -DskipTests -Dfile.encoding=UTF-8`
 
@@ -173,21 +176,20 @@ In a terminal, go to the root directory and launch the command: `mvn clean insta
 
 * **dataservice EAR:** <rootdir>/openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
 * **dataservice configs:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
-* **dataservice config module:** <rootdir>/openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-module.zip
 * **harness client:** <sources>/openwis-harness/openwis-harness-client/target/openwis-harness-client.jar
 * **security service:** <rootdir>/openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war
-* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-portal-user.war
-* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-portal-admin.war
+* **user portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-user-portal-user.war
+* **admin portal WAR:** <rootdir>/openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-admin-portal-admin.war
 * **SolR search WAR:** <rootdir>/openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war
 * **staging post WAR:** <rootdir>/openwis-stagingpost/target/stagingPost.war 
 * **Management Service:** <rootdir>/openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
-**#5 Changing Verison Number**
+**#5 Changing Version Number**
 
 In a terminal, go into the root directory and launch the command: `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P openwis` or whatever version you wish to change the project to.
 In some cases, you may find that OpenWIS complains about missing dependencies, should this happen try running 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P openwis' followed by 'mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -P admin'
 
-**#6 Maven Releasing **
+**#6 Maven Releasing**
 
 Maven releasing for OpenWIS is two step process as the portal requires the build to be run twice (once for admin portal and once for the user portal).
 
