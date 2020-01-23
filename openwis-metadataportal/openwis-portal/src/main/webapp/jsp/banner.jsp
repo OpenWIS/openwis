@@ -114,16 +114,13 @@ String serviceName = context.getService();
                             	<table>
                             	<tr>
                             	<td  width="55%" align="right">
-								<form name="login" action="<%= context.getBaseUrl() %>/openWisInit" method="post">
-									<button type="submit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></button>
-									<i class="iconIOS7-bt_link_on"></i>
-									<input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
-								</form><!--  
+                            	    <div class="loginDiv">
+                            	   		<a class="banner" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+		    						</div>
 								<td>
 									<a class="banner" href="<%= locService %>/user.choose.domain" id="loginFormEl"><script type="text/javascript">document.write(Openwis.i18n('Banner.Choose.Domain'))</script></a>                          	
 									<i class="iconIOS7-bt_choose_off"></i>
 								</td>
-								-->
 								</tr>
                             	</table>
                             <% } %>
