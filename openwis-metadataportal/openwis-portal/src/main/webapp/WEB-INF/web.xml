@@ -82,6 +82,12 @@
         <servlet-name>openWisInit</servlet-name>
 		<servlet-class>org.openwis.metadataportal.services.login.OpenWisInit</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>loginCaptcha</servlet-name>
+        <servlet-class>org.openwis.metadataportal.services.login.OpenWisLoginCaptcha</servlet-class>
+    </servlet>
+
     <servlet>
         <servlet-name>openWisChooseDomain</servlet-name>
         <jsp-file>/jsp/openWisChooseDomain.jsp</jsp-file>
@@ -184,7 +190,12 @@
         <servlet-name>openWisInit</servlet-name>
         <url-pattern>/openWisInit</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet-mapping>
+        <servlet-name>loginCaptcha</servlet-name>
+        <url-pattern>/loginCaptcha</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>openWisDomainSelected</servlet-name>
         <url-pattern>/openWisDomainSelected</url-pattern>

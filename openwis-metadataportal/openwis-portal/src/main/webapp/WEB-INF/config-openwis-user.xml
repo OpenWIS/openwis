@@ -129,9 +129,14 @@
 
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<!-- Register services                                       	   -->
+		<!-- Login captcha                                           	   -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		
+
+		<service name="user.loginCaptcha.get">
+			<output sheet="/jsp/login-captcha.jsp">
+				<call name="services" class="org.openwis.metadataportal.services.login.OpenWisLoginCaptchaGet" />
+			</output>
+		</service>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- User self-registration services                               -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
