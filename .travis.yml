@@ -6,7 +6,7 @@ jdk: openjdk8
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_62b1a583e357_key -iv $encrypted_62b1a583e357_iv
-  -in travis_copy_artifacts_rsa.enc -out /tmp/travis_copy_artifacts_rsa -d
+  -in resources/travis_copy_artifacts_rsa.enc -out /tmp/travis_copy_artifacts_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/travis_copy_artifacts_rsa
 - ssh-add /tmp/travis_copy_artifacts_rsa
@@ -16,7 +16,7 @@ script:
 - mvn clean install -Pdependencies,openwis,admin
 - mvn clean install -Puser
 
-after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip openwis-harness/openwis-harness-client/target/openwis-harness-client.jar openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-portal-user.war openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-portal-admin.war openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war openwis-stagingpost/target/stagingPost.war openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
+after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip openwis-harness/openwis-harness-client/target/openwis-harness-client.jar openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-user-portal-user.war openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-admin-portal-admin.war openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war openwis-stagingpost/target/stagingPost.war openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
 deploy:
   provider: script
