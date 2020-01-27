@@ -297,6 +297,7 @@
 		<allow service="user.accountRecovery.get"/>
 
 		<allow service="user.loginCaptcha.get"/>
+		<allow service="user.loginCaptcha.submit"/>
 		<!-- Extends user privileges -->
 		<allow service="user.extends.privileges.submit"/>
 		
