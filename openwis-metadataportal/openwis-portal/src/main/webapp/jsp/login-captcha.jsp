@@ -29,18 +29,18 @@ String title = "Login captcha verification";
         %>
       <div class="form-container">
             <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="post">
-                <div class="captcha">
+                <div>
                     <label for="captcha" class="for-captcha">Type the letters and numbers exactly as they appear in this image:</label>
 
-                    <div>
+                    <div class="captcha captcha-image">
                         <img src="<%= context.getBaseUrl() %>/openWisRequestAccountCaptcha" />
                     </div>
-                    <div>
+                    <div class="captcha">
                         <input name="jcaptcha" type="text" autocomplete="off" required="required" value="" data-validation="required"/>
                     </div>
                 </div>
 
-                <div class="button">
+                <div class="button captcha">
                     <input id="submit" type="submit" value="Submit"/>
                     <img src="<%= context.getBaseUrl() %>/images/openwis/ajax-loader.gif" id="ajax-loader" class="ajax-loader" style="display:none"/>
                 </div>

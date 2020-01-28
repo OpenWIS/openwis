@@ -3,51 +3,16 @@
     display: flex;
     justify-content:center;
 }
-div.form-field
-{
-	margin-top: 4px;
-	margin-bottom: 4px;
-	margin-left: 32px;
+.for-captcha {
+    margin-bottom: 15px;
 }
 
-div.form-field.button
-{
-	margin-top: 12px;
-	padding-left: 120px;
+.captcha {
+    display: flex;
+    justify-content:center;
 }
 
-div.spacer
-{
-	height: 14px;
-}
-
-div.form-field
-{
-}
-
-div.form-field.captcha
-{
-	padding-left: 120px;
-}
-
-input[type='text'],
-select
-{
-	width: 250px;
-}
-
-input#captcha
-{
-	width: 150px;
-}
-
-iv.captcha
-{
-	margin-top: 2px;
-	margin-left: 122px;
-}
-div.button
-{
-	margin-top: 2px;
-	margin-left: 122px;
+.captcha-image {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
