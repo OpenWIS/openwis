@@ -59,8 +59,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
 			    
 
                 //If captcha passed, send mail to end user
-			    if (captchaPassed)
-			    {
+			    if (captchaPassed) {
 			    	processRequest(context, request, response);
 			    }
 			    else {
