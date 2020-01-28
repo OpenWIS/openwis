@@ -51,7 +51,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
                 response.addHeader("Location", redirect);
             }
             else {
-                String errorMessage= OpenWISMessages.format("LoginCaptcha.captchaFailed", context.getLanguage());
+                String errorMessage= OpenWISMessages.format("LoginCaptcha.captchaFailed", "en");
                 forwardError(request, response, errorMessage);
             }
 
