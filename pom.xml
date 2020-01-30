@@ -54,13 +54,13 @@
 		<javaee.version>5.0</javaee.version> 
 		<spring.version>4.1.5.RELEASE</spring.version>
 		<jacoco.version>0.8.5</jacoco.version>
+		<dependency-check-maven.version>5.3.0</dependency-check-maven.version>
 
 		<sonar.version>3.7.0.1746</sonar.version>
 		<sonar.c.file.suffixes>-</sonar.c.file.suffixes>
 		<sonar.cpp.file.suffixes>-</sonar.cpp.file.suffixes>
 		<sonar.objc.file.suffixes>-</sonar.objc.file.suffixes>
 		<sonar.sourceEncoding>utf-8</sonar.sourceEncoding>
-		<sonar.exclusions>openwis-metadataportal/openwis-portal/src/main/webapp/scripts/ext/src/ext-core/**</sonar.exclusions>
 	</properties>
 
 	<profiles>
@@ -242,10 +242,14 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.owasp</groupId>
-					<artifactId>dependency-check-maven</artifactId>
-					<version>1.3.4</version>
-				</plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>${dependency-check-maven.version}</version>
+                    <configuration>
+                        <format>ALL</format>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
 
 				<!-- this plugin is required to maven release the build -->
 				<!-- 23/01/15 Kirsty Burgess UK Met Office -->
