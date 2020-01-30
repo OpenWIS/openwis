@@ -8,7 +8,7 @@ addons:
   sonarcloud:
     organization: "openwis"
     token:
-      secure: ${sonar_token}
+      secure: "jmh8aZuixDth97KM1a6iSpBxSdjppfaKv6AETYHaCaroHG9aIVM0Zd558PnOA0duOy5kG8Eke7FHiXU2uzt5h6iIejch3lUVjYb8rPdRXwnXxkttIVMuHlEfMn+QKY1q0E/octyybqzN3+dUh8EapvBrGzzuLQjSm9nF+nHwdtdImSDnd9CDN6Gza1vsnsYjtSjfSb5S3jb5La5wKaBRxASZNX6Pk1n1g7pDttTsDRYR5u8YadCYatjGETEYcnwmICUyi/0BWWA6uhtF64XViygI+HywIq9q5XGdxXVP+DS/C6dPrN5T0iamOs13ASG/YxHSKY+hEO5VcDREwgWaHu7VSMhQUx0max1VIBTbQjA0ODNjsgkfHIYh9DKCUcSxshCupzxdiWE1PeSxzZ0ZxF4KGHNvHwwx2nXXjTQz52o3kAgNoIOdIWrJvXIt7uVZ16ciNPUhnwrHtF/sOCkZ4Scx9MicwJyiiMW1WbL0By7ms3AzDZN6acTzt0mQDMMJjdPQxqIh+bF4IEhVxWy2Q1LDXGzJS1pzlPrf8YMt4FtttIN8jWG4BxvggC+AefWB7ZSLDAIglL6bfp+TtqYgjMIgAxPQL645lfSfAc5lcO0j7yGKPKGGKNb/4LpYWSVD34JQMmaA/0UvQX7CLtQyg+zXNx8z3E0UJX8PGic/zW0="
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_62b1a583e357_key -iv $encrypted_62b1a583e357_iv
