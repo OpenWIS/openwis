@@ -342,7 +342,7 @@ public class ServiceManager
 	//---
 	//---------------------------------------------------------------------------
 
-	public void dispatch(ServiceRequest req, UserSession session)
+	public void dispatch(ServiceRequest req, final UserSession session)
 	{
 		//--- create the corresponding service request
       long startDispatch = System.currentTimeMillis();
@@ -372,7 +372,11 @@ public class ServiceManager
 		connectedUser = new ThreadLocal<String>() {
 			@Override
 			protected String initialValue() {
-				return "toto";
+				if (session.getUsername() != null) {
+					return session.getUsername();
+				}
+
+				return "";
 			}
 		};
 
