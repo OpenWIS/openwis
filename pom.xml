@@ -54,6 +54,13 @@
 		<javaee.version>5.0</javaee.version> 
 		<spring.version>4.1.5.RELEASE</spring.version>
 		<jacoco.version>0.8.5</jacoco.version>
+
+		<sonar.version>3.7.0.1746</sonar.version>
+		<sonar.c.file.suffixes>-</sonar.c.file.suffixes>
+		<sonar.cpp.file.suffixes>-</sonar.cpp.file.suffixes>
+		<sonar.objc.file.suffixes>-</sonar.objc.file.suffixes>
+		<sonar.sourceEncoding>utf-8</sonar.sourceEncoding>
+		<sonar.exclusions>openwis-metadataportal/openwis-portal/src/main/webapp/scripts/ext/src/ext-core/**</sonar.exclusions>
 	</properties>
 
 	<profiles>
@@ -263,6 +270,12 @@
 						</execution>
 					</executions>
 				</plugin>	
+
+				<plugin>
+		          <groupId>org.sonarsource.scanner.maven</groupId>
+		          <artifactId>sonar-maven-plugin</artifactId>
+		          <version>${sonar.version}</version>
+		        </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
