@@ -39,8 +39,6 @@ public class OpenWisLoginCaptcha extends HttpServlet {
             String userCaptchaResponse = request.getParameter("jcaptcha");
             //Check whether the captcha passed or not
             boolean captchaPassed = OpenWisImageCaptchaServlet.validateResponse(request, userCaptchaResponse);
-            ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
-
 
             //If captcha passed, send mail to end user
             if (captchaPassed)

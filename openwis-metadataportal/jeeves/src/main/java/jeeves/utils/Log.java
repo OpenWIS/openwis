@@ -23,6 +23,7 @@
 
 package jeeves.utils;
 
+import jeeves.server.dispatchers.ServiceManager;
 import org.apache.log4j.Logger;
 
 //=============================================================================
@@ -51,7 +52,7 @@ public final class Log
 	public static final String DBMS      = JEEVES+ ".dbms";
 	public static final String DBMSPOOL	 = JEEVES+ ".dbmspool";
 	public static final String XLINK_PROCESSOR = JEEVES+ ".xlinkprocessor";
-   public static final String STATISTICS   = "statistics";
+    public static final String STATISTICS   = "statistics";
 
 	public final class Dbms
 	{
@@ -80,7 +81,12 @@ public final class Log
 
 	public static void info(String module, Object message)
 	{
-		Logger.getLogger(module).info(message);
+		String username = ServiceManager.connectedUser.get();
+		String wrapMessage = String.format("%s", message);
+		if (!username.isEmpty()) {
+			wrapMessage = String.format("User: %s. %s", username, wrapMessage);
+		}
+		Logger.getLogger(module).info(wrapMessage);
 	}
 
 	//---------------------------------------------------------------------------

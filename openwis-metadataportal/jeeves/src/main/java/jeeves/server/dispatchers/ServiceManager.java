@@ -73,6 +73,8 @@ public class ServiceManager
 	private final Vector<ErrorPage> vErrorPipe = new Vector<ErrorPage>();
 	private final Vector<GuiService> vDefaultGui = new Vector<GuiService>();
 
+	public static ThreadLocal<String> connectedUser  = null;
+
 	private ProviderManager providMan;
 	private ProfileManager  profilMan;
 	private SerialFactory   serialFact;
@@ -353,18 +355,26 @@ public class ServiceManager
 		context.setIpAddress(req.getAddress());
 		context.setAppPath(appPath);
 		context.setUploadDir(uploadDir);
-      context.setMaxUploadSize(maxUploadSize);
+		context.setMaxUploadSize(maxUploadSize);
 		context.setInputMethod(req.getInputMethod());
 		context.setOutputMethod(req.getOutputMethod());
 		context.setHeaders(req.getHeaders());
 		context.setServlet(servlet);
-      context.setPortalType(portalType);
-      context.setDebug(req.hasDebug());
+		context.setPortalType(portalType);
+		context.setDebug(req.hasDebug());
 
       long contextCreated = System.currentTimeMillis();
       if (Log.isStatEnabled()) {
          Log.statTime(req.getService(), "ServiceManager.dispatch", "Context creation", contextCreated - startDispatch);
       }
+
+      // init user connected
+		connectedUser = new ThreadLocal<String>() {
+			@Override
+			protected String initialValue() {
+				return "toto";
+			}
+		};
 
 		//--- invoke service and build result
 
