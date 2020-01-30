@@ -8,8 +8,8 @@ addons:
   sonarcloud:
     organization: "openwis"
     token:
-      secure: "dhWyt6LDgiDNiMeJT9M0+FjvyVH4RXfiBOKZFYv2/SqYuEcs5LR5oSAZB3W/5TzyGPRsKhLhaQSZULimx3CJ8Qdg+Di6FjXwcH+bGfTEQT1fTSZj0NvcRWuU+7dDBXfXdYSMAOCUcWHhMiyLHf9QrbT7UlBw51HUFQ2WrsLzFfCBnxEE06JPhUzA2TxMglCJy1m5sW3LDRGhzXEsG9KOCWn1CXH76CGdaDqVYAceZua5SA+R47CKKcenW9I+Ze/TKjr/6nhDAyN9EUO2xBuQSTPVuigJh0KgwaDbzK/A122CoblT3lExvIyjkVbknqL4ffvtNaugzAvDwwpa2fAeKUfB6iJWnTc6OQ/GZ0Dtq/7PnWZ/kj0STZTerE6crFCUcAInXL2+vVM4qncPOyHA6BHCompjC0ZQYhsX3xi0v/kavPgB6XG6IWS2Us4HPmYSWy4LSphEzQ0lfYR7F3Q0VETKF3lG00bj8NTksF+rjLNgf/Lou0+OJZ8yWSjpgjy/V48Dg3ti2vsVTjsBOZHFOrGZCTwz2Cl/CN8t3DvEFm5xCRf8D3jzZIKtTfNw3qh+yyRN/wPw89GvzX4JJoUnZlOGtxEOstSqSNNlQYTEtM5xkv5utN1BysUl72J7e1UosMRIQZC1u3sST5prnNKcwAX87Hu1t6u1br2XyNSpLGE="
-      
+      secure: "gIgurHDH37AeFt27+xXfvTABDqjPemAxQnPFEL1hXnsE29Ka2AUz3+E102MbBxfnIA9/x7JrFyqijqhv3qZVZGqS2LVeDW0sqbqZDdH7o/ltG9acUpVuzfvuw0E0wQkfNFHwcwKl53CzQnnMZYm8cARyAjzbFGDAXWLPor6TJ+I+ZJ7nPJEHQzH2JzvjaCWfme8WHgQbiplECeeIIjjC//ATlDtQsz0d1Z90fHz/4PQRFV13Ewm1vZjrugQakDmHv021ufmifTw2zABbEN2A8GZFskn0JOwAOJBra4wvCUti1Oe1DREH0FS5nyKs5QO8SNN+Shdbnp9skB2txJSvymapT27CWm06c/nWjxvHSAHaa7Zju/PYb3QYd5+8EB9xloqwZZaFTvDVVfSThWkWAKVTEMKf63vS2TDhz1C91hLaoG/FyKw0JXWJDMxVVqtFeJLwB7u6kXsERXIdGzRiHES+wdWorpM++xdHedajwAY419spS1/caohhsMO7O3zk7v2b+dUDnrz/XyLGaaXB5+/Byi5Uxa2X9RPMJaBkCx2yZXdrDAHRBPsmoZrucbnhME2YRNXn1h0XqGr1m0xehDb+wGg+YXbVJEvCZ9X7kZ/7U3GpmTCrbSLvhz2EEzkpUaLTT54pPnOOeR3Mwchz+lpqPIgil8Komu9FC7LR5js="
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_62b1a583e357_key -iv $encrypted_62b1a583e357_iv
   -in resources/travis_copy_artifacts_rsa.enc -out /tmp/travis_copy_artifacts_rsa -d
@@ -21,7 +21,7 @@ before_install:
 script:
 - mvn clean install -Pdependencies,openwis,admin -Pjacoco-coverage -q
 - mvn clean install -Puser -Pjacoco-coverage -q
-- mvn sonar:sonar -Popenwis,admin,user
+- mvn sonar:sonar -Dsonar.projectKey=OpenWIS_openwis -Popenwis,admin,user
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip openwis-harness/openwis-harness-client/target/openwis-harness-client.jar openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-user-portal-user.war openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-admin-portal-admin.war openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war openwis-stagingpost/target/stagingPost.war openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
