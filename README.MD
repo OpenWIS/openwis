@@ -198,12 +198,35 @@ In a terminal, go into the root directory and launch the command: `mvn -Dresume=
 This will not deploy to the CloudBees repo as there are currentl permissions issues
 
  
-**#7 Running SonarQube**
+**#6 Running SonarCloud**
+
+Update OpenWIS pom.xml to include the following plugin under the PluginManagement section:
+```
+<plugin>	
+    <groupId>org.sonarsource.scanner.maven</groupId>	
+    <artifactId>sonar-maven-plugin</artifactId>	
+    <version>3.7.0.1746</version>
+</plugin>
+```
+
  
-In a terminal, go into the root directory and launch the command: `mvn sonar:sonar`. Because there is currently no central SonarQube via CloudBees, you need to have your local SonarQube settings
-configured in you ~/.m2/settings.xml. 
+In a terminal, execute the analysis with the command:
+
+`mvn sonar:sonar -Popenwis,admin,user -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_KEY}`
 
 This does take a while given the number of modules that need to run.
+
+Please contact OpenWIS-TC team for the values needed in the command above.
+
+
+**#7 Running OWASP Dependency Check**
+
+In order to run the OWASP Dependency Check, the following command must be run:
+
+`mvn -Popenwis,user,admin org.owasp:dependency-check-maven:aggregate`
+
+SonarQube supports the integration of the report in the analysis results, but unfortunately SonarCloud does not support this feature.
+
 
 Copyright and License
 ---------------------
