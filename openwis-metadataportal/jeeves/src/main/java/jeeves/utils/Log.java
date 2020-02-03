@@ -183,8 +183,8 @@ public final class Log
 	private static String wrapMessageUsername(Object message) {
 		String wrapMessage = String.format("%s", message);
 
-		if (ServiceManager.connectedUser != null) {
-			String username = ServiceManager.connectedUser.get();
+		if (ServiceManager.getConnectedUser() != null) {
+			String username = ServiceManager.getConnectedUser().get();
 			if (!username.isEmpty()) {
 				wrapMessage = String.format("User: %s. %s", username, wrapMessage);
 			}
