@@ -74,53 +74,48 @@ public final class Log
 
 	public static void debug(String module, Object message)
 	{
-		Logger.getLogger(module).debug(message);
+		Logger.getLogger(module).debug(wrapMessageUsername(message));
 	}
 
 	//---------------------------------------------------------------------------
 
 	public static void info(String module, Object message)
 	{
-		String username = ServiceManager.connectedUser.get();
-		String wrapMessage = String.format("%s", message);
-		if (!username.isEmpty()) {
-			wrapMessage = String.format("User: %s. %s", username, wrapMessage);
-		}
-		Logger.getLogger(module).info(wrapMessage);
+		Logger.getLogger(module).info(wrapMessageUsername(message));
 	}
 
 	//---------------------------------------------------------------------------
 
 	public static void warning(String module, Object message)
 	{
-		Logger.getLogger(module).warn(message);
+		Logger.getLogger(module).warn(wrapMessageUsername(message));
 	}
 
    public static void warning(String module, Object message, Throwable t)
    {
-      Logger.getLogger(module).warn(message, t);
+      Logger.getLogger(module).warn(wrapMessageUsername(message), t);
    }
 	//---------------------------------------------------------------------------
 
 	public static void error(String module, Object message)
 	{
-		Logger.getLogger(module).error(message);
+		Logger.getLogger(module).error(wrapMessageUsername(message));
 	}
 
 	public static void error(String module, Object message, Throwable t)
 	{
-	   Logger.getLogger(module).error(message, t);
+	   Logger.getLogger(module).error(wrapMessageUsername(message), t);
 	}
 	//---------------------------------------------------------------------------
 
 	public static void fatal(String module, Object message)
 	{
-		Logger.getLogger(module).fatal(message);
+		Logger.getLogger(module).fatal(wrapMessageUsername(message));
 	}
 
 	public static void fatal(String module, Object message, Throwable t)
 	{
-	   Logger.getLogger(module).fatal(message, t);
+	   Logger.getLogger(module).fatal(wrapMessageUsername(message), t);
 	}
 
    //
@@ -177,6 +172,25 @@ public final class Log
 			@Override
          public void fatal  (String message) { Log.fatal  (module, message); }
 		};
+	}
+
+	/**
+	 * Add the username to the message to be logged.
+	 * If the username is empty, it returns the original message
+	 * @param message original message
+	 * @return message containing the username
+	 */
+	private static String wrapMessageUsername(Object message) {
+		String wrapMessage = String.format("%s", message);
+
+		if (ServiceManager.connectedUser != null) {
+			String username = ServiceManager.connectedUser.get();
+			if (!username.isEmpty()) {
+				wrapMessage = String.format("User: %s. %s", username, wrapMessage);
+			}
+		}
+
+		return wrapMessage;
 	}
 }
 
