@@ -73,7 +73,7 @@ public class ServiceManager
 	private final Vector<ErrorPage> vErrorPipe = new Vector<ErrorPage>();
 	private final Vector<GuiService> vDefaultGui = new Vector<GuiService>();
 
-	public static ThreadLocal<String> connectedUser  = null;
+	private static ThreadLocal<String> connectedUser  = null;
 
 	private ProviderManager providMan;
 	private ProfileManager  profilMan;
@@ -191,6 +191,9 @@ public class ServiceManager
 		}
 	}
 
+	public static ThreadLocal<String> getConnectedUser() {
+		return connectedUser;
+	}
 	//---------------------------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
