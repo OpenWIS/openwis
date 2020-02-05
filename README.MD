@@ -1,7 +1,5 @@
 # OpenWis
 
-### This is a branch for integrating the project in a CI/CD environment using Travis CI and SonarCloud.
-
 From [about OpenWis](http://wis.bom.gov.au/openwis-user-portal/srv/en/about.home). 
 
 OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)
@@ -226,6 +224,12 @@ In order to run the OWASP Dependency Check, the following command must be run:
 `mvn -Popenwis,user,admin org.owasp:dependency-check-maven:aggregate`
 
 SonarQube supports the integration of the report in the analysis results, but unfortunately SonarCloud does not support this feature.
+
+**#7 Travis-CI Integration** 
+
+![alt text](https://travis-ci.org/OpenWIS/openwis.svg?branch=master "Travis-CI status")
+
+OpenWIS project is integrated with Travis-CI and the build history can be accesses from [here](https://travis-ci.org/OpenWIS/openwis/builds).
 
 
 Copyright and License
