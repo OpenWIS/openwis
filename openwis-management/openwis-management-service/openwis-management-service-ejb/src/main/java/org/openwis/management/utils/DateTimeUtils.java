@@ -85,6 +85,7 @@ public final class DateTimeUtils {
     * @return the thread local date format
     */
    private static DateFormat getThreadLocalDateFormat() {
+      //comment out test
       DateFormat result = new SimpleDateFormat(DATE_TIME_PATTERN);
       result.setTimeZone(UTC_TIME_ZONE);
       return result;
