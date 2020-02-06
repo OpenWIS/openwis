@@ -16,7 +16,7 @@ before_install:
 script:
 - mvn clean install -Pdependencies,openwis,admin -Pjacoco-coverage -q
 - mvn clean install -Puser -Pjacoco-coverage -q
-- mvn sonar:sonar -Popenwis,admin,user -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_KEY}
+- mvn sonar:sonar -Dsonar.projectKey=OpenWIS_openwis
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
   openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
