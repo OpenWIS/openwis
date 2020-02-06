@@ -22,7 +22,7 @@ before_install:
 script:
 - mvn clean install -Pdependencies,openwis,admin -Pjacoco-coverage -q
 - mvn clean install -Puser -Pjacoco-coverage -q
-- mvn sonar:sonar -Dsonar.projectKey=OpenWIS_openwis
+- mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
   openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
@@ -38,7 +38,7 @@ deploy:
   script: rsync -r --quiet --delete-after ${TRAVIS_BUILD_DIR}/openwis_artifacts.tar.gz
     ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
   on:
-    branch: cicd_integration
+    branch: master
 
 notifications:
   email:
