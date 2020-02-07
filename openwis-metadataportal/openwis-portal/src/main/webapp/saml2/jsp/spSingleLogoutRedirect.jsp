@@ -93,95 +93,10 @@
     }
     String samlResponse = request.getParameter(SAML2Constants.SAML_RESPONSE);
     if (samlResponse != null) {
-        boolean sloFailed = false;
-        try {
-        /**
-         * Gets and processes the Single <code>LogoutResponse</code> from IDP,
-         * destroys the local session, checks response's issuer
-         * and inResponseTo.
-         *
-         * @param request the HttpServletRequest.
-         * @param response the HttpServletResponse.
-         * @param samlResponse <code>LogoutResponse</code> in the
-         *          XML string format.
-         * @param relayState the target URL on successful
-         * <code>LogoutResponse</code>.
-         * @throws SAML2Exception if error processing
-         *          <code>LogoutResponse</code>.
-         */
-          Map infoMap = 
-              SPSingleLogout.processLogoutResponse(request,response,
-              samlResponse, relayState);
-          String inRes = (String) infoMap.get("inResponseTo"); 
-          LogoutRequest origLogoutRequest = (LogoutRequest) 
-              IDPCache.proxySPLogoutReqCache.get(inRes); 
-          if (origLogoutRequest != null && !origLogoutRequest.equals("")) {
-              IDPCache.proxySPLogoutReqCache.remove(inRes);
-              IDPProxyUtil.sendProxyLogoutResponse(response, request,
-                      origLogoutRequest.getID(), infoMap,
-                  origLogoutRequest.getIssuer().getValue(),
-                  SAML2Constants.HTTP_REDIRECT); 
-              return;        
-          }          
-        } catch (SAML2Exception sse) {
-            SAML2Utils.debug.error("Error processing LogoutResponse :", sse);
-            if ("sloFailed".equals(sse.getErrorCode())) {
-                sloFailed = true;
-            } else {
-                SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST, "LogoutResponseProcessingError",
-                        SAML2Utils.bundle.getString("LogoutResponseProcessingError") + " " + sse.getMessage());
-                return;
-            }
-        } catch (Exception e) {
-            SAML2Utils.debug.error("Error processing LogoutResponse ",e);
-            SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
-                "LogoutResponseProcessingError",
-                SAML2Utils.bundle.getString("LogoutResponseProcessingError") +
-                " " + e.getMessage());
-            return;
-        }
-
-        boolean isRelayStateURLValid = false;
-        if (!SPCache.isFedlet) {
-            isRelayStateURLValid = relayState != null && !relayState.isEmpty()
-                    && SAML2Utils.isRelayStateURLValid(request, relayState, SAML2Constants.SP_ROLE)
-                    && ESAPI.validator().isValidInput("RelayState", relayState, "URL", 2000, true);
-        } else {
-            SAML2MetaManager manager = new SAML2MetaManager();
-            String metaAlias = null;
-            List<String> spMetaAliases = manager.getAllHostedServiceProviderMetaAliases("/");
-            if (spMetaAliases != null && !spMetaAliases.isEmpty()) {
-                // get first one
-                metaAlias = spMetaAliases.get(0);
-            }
-
-            isRelayStateURLValid = relayState != null && !relayState.isEmpty()
-                    && SAML2Utils.isRelayStateURLValid(metaAlias, relayState, SAML2Constants.SP_ROLE)
-                    && ESAPI.validator().isValidInput("RelayState", relayState, "URL", 2000, true);
-        }
-        if (sloFailed) {
-            if (isRelayStateURLValid) {
-                request.setAttribute(SAML2Constants.RELAY_STATE, relayState);
-            }
-            %>
-            <jsp:forward page="/saml2/jsp/default.jsp?message=sloFailed" />
-            <%
-        } else if (isRelayStateURLValid) {
-            try {
-                 response.sendRedirect(relayState);
-            } catch (java.io.IOException ioe) {
-                if (SAML2Utils.debug.messageEnabled()) {
-                    SAML2Utils.debug.message(
-                    "Exception when redirecting to " +
-                    relayState, ioe);
-                }
-            }
-        } else {
-            %>
-            <jsp:forward page="/saml2/jsp/default.jsp?message=spSloSuccess" />
-            <%
-        } 
+        relayState = "srv/en/main.home"
+        response.sendRedirect(relayState);
     } else {
+        SAML2Utils.debug.message("SAML2 redirect back to logout");
         String samlRequest = request.getParameter(SAML2Constants.SAML_REQUEST);
         if (samlRequest != null) {
             // Logout SP app via SAE first. App is obligated to redirect back
