@@ -138,7 +138,6 @@ public class JeevesServlet extends HttpServlet {
          //--- create session
 
          session = new UserSession();
-         session.setsHttpSession(httpSession);
 
          httpSession.setAttribute("session", session);
          Log.debug(Log.REQUEST, "Session created for client : " + ip);
