@@ -5,6 +5,7 @@ package org.openwis.metadataportal.services.login;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import jeeves.utils.Log;
 import org.apache.commons.lang.StringUtils;
 
 import com.sun.identity.saml2.common.SAML2Constants;
+import org.openwis.metadataportal.kernel.user.UserSessionManager;
 
 /**
  * Logout the user
@@ -57,8 +59,12 @@ public class Logout extends HttpServlet {
 
       try {
          String lang = request.getParameter(LoginConstants.LANG);
-         
+
          UserSession userSession = (UserSession) request.getSession().getAttribute("session");
+
+         ServletContext servletContext = request.getSession().getServletContext();
+         UserSessionManager userSessionManager = (UserSessionManager) servletContext.getAttribute("userSessionManager");
+
          if (userSession != null) {
 
             //Get User token
@@ -78,6 +84,8 @@ public class Logout extends HttpServlet {
             userSession.removeProperty(LoginConstants.SESSION_INDEX);
             userSession.removeProperty(LoginConstants.NAME_ID);
             userSession.removeProperty(LoginConstants.MAIN_SEARCH);
+
+            userSessionManager.unregisterUser(userSession.getUsername());
 
             request.getSession().setAttribute("session", userSession);
             
