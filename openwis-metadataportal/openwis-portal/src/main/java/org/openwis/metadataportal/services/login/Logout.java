@@ -85,7 +85,7 @@ public class Logout extends HttpServlet {
 
             //Check if token is valid
             TokenUtilities tokenUtilities = new TokenUtilities();
-            String redirectURL = new String();
+            String redirectURL;
             if (tokenUtilities.isTokenValid(idpUrl, token)) {
                redirectURL = FEDLET_SLO_SP_ENTITY_ID + spEntityID + FEDLET_SLO_IDP_ENTITY_ID
                      + entityID + FEDLET_SLO_NAME_ID_VALUE + nameId + FEDLET_SLO_SESSION_INDEX
