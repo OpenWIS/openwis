@@ -18,7 +18,11 @@ import jeeves.utils.SerialFactory;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
 import org.jdom.Element;
+import org.openwis.metadataportal.kernel.user.UserAlreadyLoggedException;
+import org.openwis.metadataportal.kernel.user.UserSessionManager;
 import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
+
+import javax.servlet.ServletContext;
 
 /**
  * Class for authorization.
@@ -41,10 +45,22 @@ public class OpenWisLogin implements Service {
     */
    public Element exec(Element params, ServiceContext context) throws Exception {
 	  Log.debug(LoginConstants.LOG, "User login: " + context.getUserSession());
+
+      ServletContext servletContext = context.getUserSession().getsHttpSession().getServletContext();
+      UserSessionManager userSessionManager = (UserSessionManager) servletContext.getAttribute("userSessionManager");
 	  
       Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
       try {
+
+         // check if user is already logged in from other session
+         String sessionId = userSessionManager.getUserSessionId(context.getUserSession().getUsername());
+         if (sessionId.isEmpty()) {
+            //add user to user session manager
+            userSessionManager.registerUser(context.getUserSession().getUsername(), context.getUserSession().getsHttpSession().getId());
+         } else if (!sessionId.equals(context.getUserSession().getsHttpSession().getId())) {
+            throw  new UserAlreadyLoggedException(context.getUserSession().getName() + " " + context.getUserSession().getSurname());
+         }
 
          // update or insert user in database.
          updateUser(context, dbms, context.getUserSession());
@@ -78,6 +94,9 @@ public class OpenWisLogin implements Service {
          context.getUserSession().authenticate(null, null, null, null, null, null);
          Log.error(LoginConstants.LOG, "Error during sql requests  : " + e.getMessage());
          throw new OpenWisLoginEx();
+      } catch (UserAlreadyLoggedException e) {
+         Log.error(LoginConstants.LOG, e.getMessage(), e);
+         throw new OpenWisLoginEx(e.getMessage());
       }
 
       return new Element("ok");
