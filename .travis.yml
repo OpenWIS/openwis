@@ -1,5 +1,3 @@
-sudo: false
-
 language: java
 
 jdk: openjdk8
@@ -34,7 +32,6 @@ after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-data
 
 deploy:
   provider: script
-  skip-cleanup: true
   script: rsync -r --quiet --delete-after ${TRAVIS_BUILD_DIR}/openwis_artifacts.tar.gz
     ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
   on:
