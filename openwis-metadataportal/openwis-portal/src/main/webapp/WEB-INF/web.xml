@@ -14,6 +14,12 @@
         </listener-class>
     </listener>
 
+    <listener>
+        <listener-class>
+            org.openwis.metadataportal.kernel.user.UserServletContextListener
+        </listener-class>
+    </listener>
+
 
     <listener>
         <listener-class>

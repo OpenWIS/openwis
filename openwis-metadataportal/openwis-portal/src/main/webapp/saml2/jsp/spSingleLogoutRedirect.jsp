@@ -93,7 +93,7 @@
     }
     String samlResponse = request.getParameter(SAML2Constants.SAML_RESPONSE);
     if (samlResponse != null) {
-        relayState = "srv/en/main.home"
+        relayState = "srv/en/main.home";
         response.sendRedirect(relayState);
     } else {
         SAML2Utils.debug.message("SAML2 redirect back to logout");
