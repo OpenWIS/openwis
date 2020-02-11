@@ -218,8 +218,18 @@
 				<!-- Action buttons -->
 				<div class="action_buttons">
 				<%
-					String reqUrl = (String) doc.getField(IndexField.REQUEST_URL);
-					String subUrl = (String) doc.getField(IndexField.SUBSCRIBE_URL);
+				   List<String> reqUrls = doc.getFieldAsListOfString(IndexField.REQUEST_URL);
+                   String reqUrl = "";
+                   if (reqUrls != null) {
+                         reqUrl = reqUrls.get(0);
+                    }
+
+                    List<String> subUrls = doc.getFieldAsListOfString(IndexField.SUBSCRIBE_URL);
+                    String subUrl = "";
+                    if (subUrls != null) {
+                         subUrl = subUrls.get(0);
+                    }
+
 					String localDataSource = (String) doc.getField(IndexField.LOCAL_DATA_SOURCE);
 					List<String> otherActions = doc.getFieldAsListOfString(IndexField.OTHER_ACTIONS_URL);
 					String linkOpenwisRequestUrl = "";
