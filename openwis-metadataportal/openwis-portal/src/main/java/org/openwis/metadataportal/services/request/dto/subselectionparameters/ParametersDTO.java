@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.openwis.metadataportal.services.request.dto.subselectionparameters;
 
@@ -34,6 +34,25 @@ public class ParametersDTO {
     * A list of parameters.
     */
    private List<ParameterDTO> parameters;
+
+   /**
+    * Flag indicating the mode (dynamic or static) of communication between OpenWIS and the subselection parameters WS
+    */
+   private boolean interactive;
+   /**
+    * Get flag indicating the mode (dynamic or static) of communication between OpenWIS and the subselection parameters WS
+    * @return flag value
+    */
+   public boolean isInteractive() {
+      return interactive;
+   }
+   /**
+    * Set flag indicating the mode (dynamic or static) of communication between OpenWIS and the subselection parameters WS
+    * @param interactive flag value
+    */
+   public void setInteractive(boolean interactive) {
+      this.interactive = interactive;
+   }
 
    /**
     * Converts a list of parameters to DTO objects.
@@ -115,19 +134,19 @@ public class ParametersDTO {
       if (abstractParameter instanceof GeographicalAreaSelection) {
          paramDTO.setGeoConfig(((GeographicalAreaSelection) abstractParameter).getGeoConfig());
          paramDTO.setGeoWKTSelection(((GeographicalAreaSelection) abstractParameter)
-               .getGeoWKTSelection());
+                 .getGeoWKTSelection());
          paramDTO.setGeoWKTMaxExtent(((GeographicalAreaSelection) abstractParameter)
-               .getGeoWKTMaxExtent());
+                 .getGeoWKTMaxExtent());
          paramDTO.setGeoExtentType(((GeographicalAreaSelection) abstractParameter)
-               .getGeoExtentType());
+                 .getGeoExtentType());
       }
 
       // Set properties for DatePeriodSelection
       if (abstractParameter instanceof DatePeriodSelection) {
          paramDTO
-               .setPeriodMinExtent(((DatePeriodSelection) abstractParameter).getPeriodMinExtent());
+                 .setPeriodMinExtent(((DatePeriodSelection) abstractParameter).getPeriodMinExtent());
          paramDTO
-               .setPeriodMaxExtent(((DatePeriodSelection) abstractParameter).getPeriodMaxExtent());
+                 .setPeriodMaxExtent(((DatePeriodSelection) abstractParameter).getPeriodMaxExtent());
          paramDTO.setFrom(((DatePeriodSelection) abstractParameter).getFrom());
          paramDTO.setTo(((DatePeriodSelection) abstractParameter).getTo());
          paramDTO.setExcludedDates(((DatePeriodSelection) abstractParameter).getExcludedDates());
@@ -144,9 +163,9 @@ public class ParametersDTO {
       // Set properties for TimePeriodSelection
       if (abstractParameter instanceof TimePeriodSelection) {
          paramDTO
-               .setPeriodMinExtent(((TimePeriodSelection) abstractParameter).getPeriodMinExtent());
+                 .setPeriodMinExtent(((TimePeriodSelection) abstractParameter).getPeriodMinExtent());
          paramDTO
-               .setPeriodMaxExtent(((TimePeriodSelection) abstractParameter).getPeriodMaxExtent());
+                 .setPeriodMaxExtent(((TimePeriodSelection) abstractParameter).getPeriodMaxExtent());
          paramDTO.setFrom(((TimePeriodSelection) abstractParameter).getFrom());
          paramDTO.setTo(((TimePeriodSelection) abstractParameter).getTo());
       }

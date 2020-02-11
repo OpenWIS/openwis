@@ -101,6 +101,11 @@ public interface ConfigurationConstants {
    String SECURITYSERVICE_MONITORING_SERVICE_WSDL = "openwis.metadataportal.securityservice.monitoringservice.wsdl";
 
    /**
+   * The URL of the WSDL of the dynamic sub selection parameters harness.
+   */
+   String HARNESS_DYNAMIC_SUBSELECTIONPARAMETERS_WSDL = "openwis.metadataportal.harness.dynamicsubselectionparameters.wsdl";
+
+   /**
     * The URL of the WSDL of the MSS/FSS harness.
     */
    String HARNESS_MSSFSS_WSDL = "openwis.metadataportal.harness.mssfss.wsdl";

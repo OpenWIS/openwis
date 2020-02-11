@@ -69,6 +69,21 @@
 				  <goal>wsdl2java</goal>
 				</goals>
 			  </execution>
+				<execution>
+					<id>generate-sources2</id>
+					<phase>generate-sources</phase>
+					<configuration>
+						<sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>
+						<wsdlOptions>
+							<wsdlOption>
+								<wsdl>${basedir}/src/wsdl/DynamicParametersService.wsdl</wsdl>
+							</wsdlOption>
+						</wsdlOptions>
+					</configuration>
+					<goals>
+						<goal>wsdl2java</goal>
+					</goals>
+				</execution>
 			</executions>
 		</plugin>
 		<!--
