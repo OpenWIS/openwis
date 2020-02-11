@@ -70,7 +70,7 @@
   </binding>
   <service name="LocalDataSourceService">
     <port name="LocalDataSourcePort" binding="tns:LocalDataSourcePortBinding">
-      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+      <soap:address location="http://and-mf-openwis-02:8070/ws-server/dataSource?wsdl"/>
     </port>
   </service>
 </definitions>
