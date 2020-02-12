@@ -41,7 +41,7 @@ deploy:
 notifications:
   email:
     recipients:
-    - ${openwis_email}
+      secure: "KlPjq3ro9+SsrGIW1LhPGfXkE/q2jIjzxLdboDJ3oZlCytFR1l8OpajzEoCt5AQBbs/46p+zPVY84IQ4k3/Ca1BjLKs2sK+r4QxYMcIbkcRo+q2unY8Fa2BrcRRXCwO6A3ti6UrfcwsX45SuFYIBAWcJsyR5IXJIGJT5yYFEcpYXQw6IU+zk0DUE6Ry98H0797NqWTBNscO1yOj0cVt368vbMO470vV+SvEQR1kvuczqJgSSkGyzn224SwgdHWvMP0A/9C1y8XHkQNlmOoYqpkJaiZ0NBT/8oc821PEvjGf93wK2BGOySqwgQei51/39YnKcMnejtmS1+FRKMBHKmESCwSkLkPXcsXAOWJ0hKDdFZzjhmvmVnUcOBOl4bTbORj1vELN9G4pWYTdaIVqG6dCxWugzlrRE0vpiGcmfxamod8potEbX63Nlq6VCZ1h3FjBpt1RMpAuPEhhYdh3yy/3CJ+DazLlIh6waDeKS9riDD9BYK8tEUFaFQHTDo/UNB00TozlbrWuIZfG3fTGBXbIpn8UTY3bSxxC3PHYZ8US6S3gYkkJZwFS3umSQpsFLYkBWdUU78Qv/4c/1kq3ik6Ka5kYXUQHXjz4vgIsFhKqqPDZij1ApLjzuK/h2KiC+Sbigzey61c3EuIaklWJqAzhIlt16aoEnpZy1qKKahGE="
     on_success: change
     on_failure: change
 
