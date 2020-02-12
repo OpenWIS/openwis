@@ -41,7 +41,7 @@ deploy:
 notifications:
   email:
     recipients:
-    - openwis-travis@meteo.fr
+    - ${openwis_email}
     on_success: change
     on_failure: change
 
