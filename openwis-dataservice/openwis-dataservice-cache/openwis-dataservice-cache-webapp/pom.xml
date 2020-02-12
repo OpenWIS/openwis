@@ -28,6 +28,7 @@
       <artifactId>openwis-dataservice-cache-core</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
+      <scope>provided</scope>
       <exclusions>
         <!-- This is excluded to avoid a duplicate persistence.xml file from appearing in the deployed EAR -->
         <exclusion>
@@ -53,7 +54,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.10</version>
+      <version>1.5.6</version>
       <scope>provided</scope>
     </dependency>
     

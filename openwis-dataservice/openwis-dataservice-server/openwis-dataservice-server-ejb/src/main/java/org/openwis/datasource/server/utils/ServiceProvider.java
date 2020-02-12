@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class ServiceProvider {
 	
-   private static final String CACHE_SERVICE_JNDI_PREFIX = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb";
+   private static final String CACHE_SERVICE_JNDI_PREFIX = "java:global/openwis-dataservice/openwis-dataservice-cache-ejb";
 	
 
    /** The logger. */

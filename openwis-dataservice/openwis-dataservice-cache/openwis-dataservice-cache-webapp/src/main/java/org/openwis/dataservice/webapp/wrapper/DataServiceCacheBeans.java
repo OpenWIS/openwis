@@ -19,8 +19,8 @@ import org.openwis.dataservice.gts.feeding.PackedFeedingTimerService;
  */
 public class DataServiceCacheBeans {
    
-   private static final String DISSEMINATION_MANAGER_TIMER_SERVICE_JNDI_NAME = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationManagerTimerService!org.openwis.dataservice.dissemination.DisseminationManagerTimerService";
-   private static final String DISSEMINATION_STATUS_MONITOR_JNDI_NAME = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationStatusMonitor!org.openwis.dataservice.dissemination.DisseminationStatusMonitor";
+   private static final String DISSEMINATION_MANAGER_TIMER_SERVICE_JNDI_NAME = "java:global/openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationManagerTimerService!org.openwis.dataservice.dissemination.DisseminationManagerTimerService";
+   private static final String DISSEMINATION_STATUS_MONITOR_JNDI_NAME = "java:global/openwis-dataservice/openwis-dataservice-cache-ejb/DisseminationStatusMonitor!org.openwis.dataservice.dissemination.DisseminationStatusMonitor";
    
    public DisseminationManagerTimerService getDisseminationManagerTimerService() throws NamingException {
       return (DisseminationManagerTimerService) lookupBean(DISSEMINATION_MANAGER_TIMER_SERVICE_JNDI_NAME);
