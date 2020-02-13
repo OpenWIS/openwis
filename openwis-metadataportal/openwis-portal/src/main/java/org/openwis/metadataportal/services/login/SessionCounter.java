@@ -6,6 +6,7 @@ package org.openwis.metadataportal.services.login;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -18,6 +19,7 @@ import org.openwis.management.utils.SecurityServiceAlerts;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 import org.openwis.metadataportal.kernel.external.ManagementServiceProvider;
+import org.openwis.metadataportal.kernel.user.UserSessionManager;
 
 /**
  * Session Counter: used to check activity thresholds and statistics.
@@ -67,6 +69,11 @@ public class SessionCounter implements HttpSessionListener {
       if (activeSessions > 0) {
          activeSessions--;
       }
+
+      // remove any users associated with this sessionID from UserSessionManager
+      ServletContext servletContext = se.getSession().getServletContext();
+      UserSessionManager userSessionManager = (UserSessionManager) servletContext.getAttribute("userSessionManager");
+      userSessionManager.unregisterSession(se.getSession().getId());
    }
    
    public synchronized static void sessionAuthenticatedCreated() {
