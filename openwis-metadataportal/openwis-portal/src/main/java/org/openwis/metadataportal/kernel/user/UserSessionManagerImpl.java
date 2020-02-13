@@ -34,4 +34,20 @@ public class UserSessionManagerImpl implements UserSessionManager {
     public synchronized void unregisterUser(String username) {
             userSessions.remove(username);
     }
+
+    @Override
+    public void unregisterSession(String sessionId) {
+
+        String username = "";
+        for(Map.Entry<String,String> entry: userSessions.entrySet()) {
+            if (entry.getValue().equals(sessionId)) {
+                username = entry.getKey();
+                break;
+            }
+        }
+
+        if (!username.isEmpty()) {
+            userSessions.remove(username);
+        }
+    }
 }

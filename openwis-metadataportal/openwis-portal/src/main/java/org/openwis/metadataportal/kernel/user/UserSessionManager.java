@@ -28,5 +28,11 @@ public interface UserSessionManager {
      */
     public void unregisterUser(String username);
 
+    /**
+     * Remove entry when session is destroyed
+     * @param sessionId
+     */
+    public void unregisterSession(String sessionId);
+
 
 }
