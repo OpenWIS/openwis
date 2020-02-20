@@ -1,4 +1,6 @@
 <%@page import="jeeves.server.context.ServiceContext"%>
+<%@page import="org.openwis.metadataportal.common.configuration.ConfigurationConstants"%>
+<%@page import="org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="jeeves.server.context.ServiceContext"%>
@@ -6,6 +8,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript">
+      var onloadCallback = function() {
+        grecaptcha.render('html_element', {
+          'sitekey' : '<%=OpenwisMetadataPortalConfig.getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SITE_KEY)%>'
+        });
+      };
+</script>
+
 <%
 String title = "Login captcha verification";
 %>
@@ -28,23 +38,14 @@ String title = "Login captcha verification";
         }
         %>
       <div class="form-container">
-            <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="post">
-                <div>
-                    <label for="captcha" class="for-captcha">Type the letters and numbers exactly as they appear in this image:</label>
-
-                    <div class="captcha captcha-image">
-                        <img src="<%= context.getBaseUrl() %>/openWisRequestAccountCaptcha" />
-                    </div>
-                    <div class="captcha">
-                        <input name="jcaptcha" type="text" autocomplete="off" required="required" value="" data-validation="required"/>
-                    </div>
-                </div>
-
-                <div class="button captcha">
-                    <input id="submit" type="submit" value="Submit"/>
-                    <img src="<%= context.getBaseUrl() %>/images/openwis/ajax-loader.gif" id="ajax-loader" class="ajax-loader" style="display:none"/>
-                </div>
-            </form>
+        <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="POST">
+              <div id="html_element"></div>
+              <br>
+              <input type="submit" value="Submit">
+        </form>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+             async defer>
+        </script>
         <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-homepage.css">
         <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-login-captcha.css">
       </div>
