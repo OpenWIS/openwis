@@ -93,12 +93,9 @@ String serviceName = context.getService();
 				</td>
 				<td>
 					<div id="login">
-
-                            <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) { 
-                            
+                            <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {
                                String entityID = (String) context.getUserSession().getProperty("idpEntityID");
                             %>
-
 								<form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
 									<div class="logoutDiv">
 									<%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %><br/> (<%= entityID %>)
@@ -114,9 +111,15 @@ String serviceName = context.getService();
                             	<table>
                             	<tr>
                             	<td  width="55%" align="right">
-                            	    <div class="loginDiv">
-                            	   		<a class="banner" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
-		    						</div>
+                            	    <% if ("user".equals(portalType)) { %>
+                            	        <div class="loginDiv">
+                            	   		    <a class="banner" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+		    						    </div>
+		    						 <%} else {%>
+                                        <div class="loginDiv">
+                                           <a class="banner" href="<%= context.getBaseUrl() %>/openWisInit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+                                        </div>
+                                    <% } %>
 								<td>
 									<a class="banner" href="<%= locService %>/user.choose.domain" id="loginFormEl"><script type="text/javascript">document.write(Openwis.i18n('Banner.Choose.Domain'))</script></a>                          	
 									<i class="iconIOS7-bt_choose_off"></i>
