@@ -33,7 +33,33 @@ String serviceName = context.getService();
 			</tr>
 			<tr style="background-color:#ECF0F1; font-weight: bold;">
 			  <td>&nbsp;&nbsp;&nbsp;&nbsp;ASMC /</td>
-			  <td>&nbsp;DATA CATALOG /</td>
+			  <td>
+				  <ul>
+					  <li class="dropdown">
+					     <a href="javascript:void(0)">&nbsp;DATA CATALOG /</a>
+					    <div class="dropdown-content">
+					       <a class="prod" id="prod1" onclick="showItem('prod1')" href="#">Satellite Images (JPSS 1/NOAA-20)</a>
+					       <a class="prod" id="prod2" onclick="showItem('prod2')" href="#">Satellite Images (Suomi-NPP)</a>
+					       <a class="prod" id="prod3" onclick="showItem('prod3')" href="#">Satellite Images (AQUA)</a>
+					       <a class="prod" id="prod4" onclick="showItem('prod4')" href="#">Satellite Images (TERRA)</a>
+					       <a class="prod" id="prod5" onclick="showItem('prod5')" href="#">Regional Haze Situation</a>
+					       <a class="prod" id="prod6" onclick="showItem('prod6')" href="#">Hotspot Reports (JPSS 1/NOAA-20)</a>
+					       <a class="prod" id="prod7" onclick="showItem('prod7')" href="#">Hotspot Reports (AQUA)</a>
+					       <a class="prod" id="prod8" onclick="showItem('prod8')" href="#">Hotspot Reports (TERRA)</a>
+					       <a class="prod" id="prod9" onclick="showItem('prod9')" href="#">Smoke Haze Dispersion Model</a>
+					    </div>
+					  </li>
+				  </ul>
+			  </td>
+			  <td id="produit">
+				<script type="text/javascript">
+					/* document.write(produit) */
+					function showItem(id){
+						document.getElementById("produit").innerHTML=document.getElementById(id).innerHTML;
+					}
+					
+				</script>
+			  </td>
 			</tr>
 
 			<!-- buttons -->
@@ -151,3 +177,6 @@ String serviceName = context.getService();
 				</td>
 			</tr>
 		</table>
+		
+		
+
