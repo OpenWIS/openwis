@@ -24,7 +24,7 @@
 				<version>2.10.1</version>
 				<configuration>
                     <version>6</version>
-                    <initializeInOrder>true</initializeInOrder>
+                    <initializeInOrder>false</initializeInOrder>
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
 
 					<!-- Permet de generer le fichier de configuration jboss-app.xml -->

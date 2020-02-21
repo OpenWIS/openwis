@@ -28,8 +28,13 @@ import org.openwis.dataservice.common.domain.entity.enumeration.BlacklistStatus;
 @Table(name = "OPENWIS_BLACKLIST_INFO")
 @SequenceGenerator(name = "BLACKLIST_INFO_GEN", sequenceName = "BLACKLIST_INFO_SEQ", initialValue = 1, allocationSize = 1)
 @NamedQueries({
-      @NamedQuery(name = "BlacklistInfo.FindByUser", query = "FROM BlacklistInfo bi WHERE bi.user = :user)"),
+      /*changed by zhan 6/5/19
+	@NamedQuery(name = "BlacklistInfo.FindByUser", query = "FROM BlacklistInfo bi WHERE bi.user = :user)"),
       @NamedQuery(name = "BlacklistInfo.countByUser", query = "SELECT COUNT(bi) FROM BlacklistInfo bi WHERE bi.user LIKE :user)"),
+	*/
+        @NamedQuery(name = "BlacklistInfo.FindByUser", query = "FROM BlacklistInfo bi WHERE bi.user = :user"),
+      @NamedQuery(name = "BlacklistInfo.countByUser", query = "SELECT COUNT(bi) FROM BlacklistInfo bi WHERE bi.user LIKE :user"),
+
       @NamedQuery(name = "BlacklistInfo.count", query = "SELECT COUNT(bi) FROM BlacklistInfo bi")})
 public class BlacklistInfo {
 

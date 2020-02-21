@@ -46,6 +46,8 @@ import org.openwis.management.service.DisseminatedDataStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.Exception;
+
 /**
  * The BlacklistService implementation.
  */
@@ -303,21 +305,37 @@ public class BlacklistServiceImpl implements BlacklistService {
          result = (BlacklistInfo) query.getSingleResult();
       } catch (NoResultException e) {
          logger.info("No blacklist information found for user: {}", user);
-         
-         ConfigServiceFacade configServiceFacade = ConfigServiceFacade.getInstance();
+
+         try {         
+             ConfigServiceFacade BlacklistDefault = ConfigServiceFacade.getInstance();
+
+
+//      String from = ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_FROM);
+
          // Build default result
          result = new BlacklistInfo();
          result.setUser(user);
          result.setStatus(BlacklistStatus.NOT_BLACKLISTED);
-         result.setNbDisseminationWarnThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
-         result.setNbDisseminationBlacklistThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
-         result.setVolDisseminationWarnThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
-         result.setVolDisseminationBlacklistThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+//         result.setNbDisseminationWarnThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
+         result.setNbDisseminationWarnThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
+//         result.setNbDisseminationWarnThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
 
+//         result.setNbDisseminationBlacklistThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+         result.setNbDisseminationBlacklistThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+//         result.setNbDisseminationBlacklistThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+
+//         result.setVolDisseminationWarnThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+         result.setVolDisseminationWarnThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+//         result.setVolDisseminationWarnThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+
+//         result.setVolDisseminationBlacklistThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+         result.setVolDisseminationBlacklistThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+//         result.setVolDisseminationBlacklistThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+//
+         logger.info("New Blacklist record created for user: {}", user);
+         } catch (Exception e_Zhan) {
+             logger.info("ConfigServiceFacade.getInstance() failed: {}", e_Zhan.getMessage());
+         }
       }
       return result;
    }
@@ -331,6 +349,7 @@ public class BlacklistServiceImpl implements BlacklistService {
       BlacklistInfo result = getUserBlackListInfoIfExists(user);
       if (create && result.getId() == null) {
          entityManager.persist(result);
+         logger.info("New Blacklist record persistence update for user: {}", user);
       }
       return result;
    }
