@@ -57,6 +57,7 @@ String serviceName = context.getService();
 					function showItem(id){
 						document.getElementById("produit").innerHTML=document.getElementById(id).innerHTML;
 						document.getElementById("ext-comp-1019").value=document.getElementById(id).innerHTML;
+						document.getElementById("ext-gen105").click();
 					}
 					
 				</script>
