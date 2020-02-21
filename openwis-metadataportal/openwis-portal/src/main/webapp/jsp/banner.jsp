@@ -44,9 +44,10 @@ String serviceName = context.getService();
 					       <a class="prod" id="prod4" onclick="showItem('prod4')" href="#">Satellite Images (TERRA)</a>
 					       <a class="prod" id="prod5" onclick="showItem('prod5')" href="#">Regional Haze Situation</a>
 					       <a class="prod" id="prod6" onclick="showItem('prod6')" href="#">Hotspot Reports (JPSS 1/NOAA-20)</a>
-					       <a class="prod" id="prod7" onclick="showItem('prod7')" href="#">Hotspot Reports (AQUA)</a>
-					       <a class="prod" id="prod8" onclick="showItem('prod8')" href="#">Hotspot Reports (TERRA)</a>
-					       <a class="prod" id="prod9" onclick="showItem('prod9')" href="#">Smoke Haze Dispersion Model</a>
+					       <a class="prod" id="prod7" onclick="showItem('prod7')" href="#">Hotspot Reports (Suomi-NPP)</a>
+					       <a class="prod" id="prod8" onclick="showItem('prod8')" href="#">Hotspot Reports (AQUA)</a>
+					       <a class="prod" id="prod9" onclick="showItem('prod9')" href="#">Hotspot Reports (TERRA)</a>
+					       <a class="prod" id="prod10" onclick="showItem('prod10')" href="#">Smoke Haze Dispersion Model</a>
 					    </div>
 					  </li>
 				  </ul>
