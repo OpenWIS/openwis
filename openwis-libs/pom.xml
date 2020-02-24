@@ -36,6 +36,64 @@
               <goal>install-file</goal>
             </goals>
           </execution>
+          <!-- xercesImpl 2.11.0 -->
+          <execution>
+            <id>xercesImpl-pom-install</id>
+            <configuration>
+              <groupId>xerces-J</groupId>
+              <artifactId>xercesImpl</artifactId>
+              <version>2.11.0</version>
+              <packaging>pom</packaging>
+              <file>libs/xercesImpl-2.11.0.pom</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>xercesImpl-jar-install</id>
+            <configuration>
+              <groupId>xerces-J</groupId>
+              <artifactId>xercesImpl</artifactId>
+              <version>2.11.0</version>
+              <packaging>jar</packaging>
+              <file>libs/xercesImpl-2.11.0.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <!-- webservices-rt 2009-29-07 -->
+          <execution>
+            <id>webservices-rt-pom-install</id>
+            <configuration>
+              <groupId>external</groupId>
+              <artifactId>webservices-rt</artifactId>
+              <version>2009-29-07</version>
+              <packaging>pom</packaging>
+              <file>libs/webservices-rt-2009-29-07.pom</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>webservices-rt-jar-install</id>
+            <configuration>
+              <groupId>external</groupId>
+              <artifactId>webservices-rt</artifactId>
+              <version>2009-29-07</version>
+              <packaging>jar</packaging>
+              <file>libs/webservices-rt-2009-29-07.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
           <!-- wstx-asl 3.2.7 -->
           <execution>
             <id>wstx-asl-install</id>

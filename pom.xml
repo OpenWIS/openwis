@@ -342,9 +342,13 @@
 		</repository>
 		<repository>
 			<id>repo1-maven2</id>
-			<url>http://repo1.maven.org/maven2</url>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
-		
+    <repository>
+      <id>jboss-repository</id>
+      <url>https://repository.jboss.org/maven2</url>
+    </repository>
+
 	<!--	<repository>
 		    <id>openwis-internal</id>
 			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
@@ -416,16 +420,8 @@
 			</snapshots>
 			<id>geotools</id>
 			<name>Geotools repository</name>
-			<url>http://download.osgeo.org/webdav/geotools/</url>
+			<url>https://download.osgeo.org/webdav/geotools/</url>
 		</repository>
-    <repository>
-      <id>geomajas</id>
-      <name>geomajas</name>
-      <url>http://maven.geomajas.org/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
 
 		<!--
 	  <repository>
