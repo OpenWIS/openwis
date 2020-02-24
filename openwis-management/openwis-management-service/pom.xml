@@ -42,7 +42,7 @@
       <groupId>com.sun.javaee</groupId>
       <artifactId>javaee</artifactId>
       <scope>provided</scope>
-    </dependency>
+    </dependency>	  
   </dependencies>
 
 

@@ -52,11 +52,28 @@
 		<solr.version>1.4.1</solr.version>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version> 	  
 		<javaee.version>5.0</javaee.version> 
+
 		<spring.version>4.2.4.RELEASE</spring.version>	  
 		<spring.security.version>3.2.0.RELEASE</spring.security.version>
+
+		<jacoco.version>0.8.5</jacoco.version>
+		<dependency-check-maven.version>5.3.0</dependency-check-maven.version>
+
+		<sonar.version>3.7.0.1746</sonar.version>
+		<sonar.c.file.suffixes>-</sonar.c.file.suffixes>
+		<sonar.cpp.file.suffixes>-</sonar.cpp.file.suffixes>
+		<sonar.objc.file.suffixes>-</sonar.objc.file.suffixes>
+		<sonar.sourceEncoding>utf-8</sonar.sourceEncoding>
+
 	</properties>
 
 	<profiles>
+	    <profile>
+	      <id>dependencies</id>
+	      <modules>
+	        <module>openwis-libs</module>
+	      </modules>
+	    </profile>
 		<profile>
 			<id>openwis</id> 
 			<properties>
@@ -96,6 +113,63 @@
 				<module>openwis-metadataportal/openwis-portal</module>
 			</modules>
 		</profile>
+		<profile>
+	      <id>jacoco-coverage</id>
+	      <activation>
+	        <property>
+	          <name>jacoco-coverage</name>
+	        </property>
+	      </activation>
+	      <dependencies>
+	        <!-- JaCoCo runtime must be in classpath for offline mode -->
+	        <dependency>
+	          <groupId>org.jacoco</groupId>
+	          <artifactId>org.jacoco.agent</artifactId>
+	          <version>${jacoco.version}</version>
+	          <classifier>runtime</classifier>
+	          <scope>test</scope>
+	        </dependency>
+	      </dependencies>
+	      <build>
+	        <plugins>
+	          <plugin>
+	            <groupId>org.jacoco</groupId>
+	            <artifactId>jacoco-maven-plugin</artifactId>
+	            <version>${jacoco.version}</version>
+	            <executions>
+	              <execution>
+	                <id>default-instrument</id>
+	                <goals>
+	                  <goal>instrument</goal>
+	                </goals>
+	              </execution>
+	              <execution>
+	                <id>default-restore-instrumented-classes</id>
+	                <goals>
+	                  <goal>restore-instrumented-classes</goal>
+	                </goals>
+	              </execution>
+	              <execution>
+	                <id>default-report</id>
+	                <goals>
+	                  <goal>report</goal>
+	                </goals>
+	              </execution>
+	            </executions>
+	          </plugin>
+	          <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <version>2.12.2</version>
+	            <configuration>
+	              <systemPropertyVariables>
+	                <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+	              </systemPropertyVariables>
+	            </configuration>
+	          </plugin>
+	        </plugins>
+	      </build>
+	    </profile>
 	</profiles>
 
 	<!-- =========================================================== -->
@@ -172,42 +246,15 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.owasp</groupId>
-					<artifactId>dependency-check-maven</artifactId>
-					<version>1.3.4</version>
-				</plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>${dependency-check-maven.version}</version>
+                    <configuration>
+                        <format>ALL</format>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
 
-
-				<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
-				<!-- 02/07/14 Shaun Adams UK Met Office-->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.6.0</version>
-					<inherited>false</inherited>
-					<executions>
-						<execution>
-							<id>install-javaee-jar</id>
-							<!--
-					<phase>install</phase>
-					<goals>
-						<goal>exec</goal>
-					</goals>
-                    -->
-						</execution>
-					</executions>
-					<configuration>
-						<executable>mvn</executable>
-						<arguments>
-							<argument>install:install-file</argument>
-							<argument>-Dfile=${basedir}/resources/javaee-${javaee.version}.jar</argument>
-							<argument>-DgroupId=com.sun.javaee</argument>
-							<argument>-DartifactId=javaee</argument>
-							<argument>-Dversion=${javaee.version}</argument>
-							<argument>-Dpackaging=jar</argument>
-						</arguments>
-					</configuration>
-				</plugin>	
 				<!-- this plugin is required to maven release the build -->
 				<!-- 23/01/15 Kirsty Burgess UK Met Office -->
 				<plugin>
@@ -231,6 +278,12 @@
 						</execution>
 					</executions>
 				</plugin>	
+
+				<plugin>
+		          <groupId>org.sonarsource.scanner.maven</groupId>
+		          <artifactId>sonar-maven-plugin</artifactId>
+		          <version>${sonar.version}</version>
+		        </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -293,9 +346,26 @@
 		</repository>
 		<repository>
 			<id>repo1-maven2</id>
-			<url>http://repo1.maven.org/maven2</url>
+			<url>https://repo1.maven.org/maven2</url>
+		</repository>	
+    <repository>
+      <id>jboss-repository</id>
+      <url>https://repository.jboss.org/maven2</url>
+    </repository>
+
+	<!--	<repository>
+		    <id>openwis-internal</id>
+			<url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
+	    </repository> -->
+		<!--
+		<repository>
+			<id>forgerock-staging-repo</id>
+			<name>ForgeRock Release Repository</name>
+			<url>http://maven.forgerock.org/repo/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
-		
 
 		<!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
 		<repository>
@@ -321,15 +391,7 @@
 			</snapshots>
 			<id>geotools</id>
 			<name>Geotools repository</name>
-			<url>http://download.osgeo.org/webdav/geotools/</url>
-		</repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>ch.thus</id>
-			<name>Boundless repository</name>
-			<url>http://www.thus.ch/~patrick/maven/</url>
+			<url>https://download.osgeo.org/webdav/geotools/</url>
 		</repository>
 
 		<!--

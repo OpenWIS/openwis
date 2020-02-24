@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ch.thus</groupId>
+    <artifactId>pvalsecc</artifactId>
+    <packaging>jar</packaging>
+    <version>0.9.2</version>
+    <name>Patrick Valsecchi's toolbox</name>
+    <description>A few classes I got tired to write again and again.
+    </description>
+    <url>http://www.thus.ch/~patrick/projects/pvalsecc</url>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0-alpha-5</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <scm>
+        <connection>scm:svn:http://www.thus.ch/~patrick/svn/pvalsecc
+        </connection>
+        <developerConnection>
+            scm:svn:svn+ssh://www.thus.ch/home/patrick/svn/pvalsecc
+        </developerConnection>
+        <tag>HEAD</tag>
+        <url>http://www.thus.ch/~patrick/svn/pvalsecc</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>LGPL, version 2.1</name>
+            <url>http://www.opensource.org/licenses/lgpl-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>patrick</id>
+            <name>Patrick Valsecchi</name>
+            <email>patrick@thus.ch</email>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>ch.thus</id>
+            <url>scpexe://www.thus.ch/home/patrick/public_html/maven</url>
+        </repository>
+        <site>
+            <id>ch.thus</id>
+            <name>pvalsecc's site</name>
+            <url>scpexe://www.thus.ch/home/patrick/public_html/projects/pvalsecc
+            </url>
+        </site>
+        <downloadUrl>http://www.thus.ch/~patrick/maven</downloadUrl>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

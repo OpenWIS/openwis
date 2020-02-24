@@ -13,5 +13,9 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 .classpath
 .settings/
 
+# Ignore intellij files
+*.iml
+.idea/
+
 # Ignore vagrant working files
 .vagrant/
