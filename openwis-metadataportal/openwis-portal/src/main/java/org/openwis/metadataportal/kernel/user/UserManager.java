@@ -3,17 +3,7 @@
  */
 package org.openwis.metadataportal.kernel.user;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import jeeves.exceptions.UserLoginEx;
 import jeeves.resources.dbms.Dbms;
-
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
@@ -34,6 +24,14 @@ import org.openwis.securityservice.OpenWISAddress;
 import org.openwis.securityservice.OpenWISGroup;
 import org.openwis.securityservice.OpenWISUser;
 import org.openwis.securityservice.UserManagementException_Exception;
+
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Short Description goes here. <P>
@@ -405,7 +403,7 @@ public class UserManager extends AbstractManager {
 
             // set active profile
             if (!userE.getChildText(Geonet.Elem.ACTIVE).isEmpty()) {
-                user.setActive(Boolean.valueOf(userE.getChildText(Geonet.Elem.ACTIVE)));
+                user.setActive(userE.getChildText(Geonet.Elem.ACTIVE).equals("t"));
             }
         } catch (SQLException e) {
             return user;
