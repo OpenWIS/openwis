@@ -97,6 +97,9 @@ String serviceName = context.getService();
                                String entityID = (String) context.getUserSession().getProperty("idpEntityID");
                             %>
 								<form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
+								    <%if (request.getAttribute("userLastLogin") !=  null) {%>
+								        <div><%=request.getAttribute("userLastLogin")%></div>
+								     <%}%>
 									<div class="logoutDiv">
 									<%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %><br/> (<%= entityID %>)
 									</div>
@@ -111,7 +114,7 @@ String serviceName = context.getService();
                             	<table>
                             	<tr>
                             	<td  width="55%" align="right">
-                            	    <% if ("user".equals(portalType)) { %>
+                            	    <% if ("user".equals(portalType) && !context.isDebug() ) { %>
                             	        <div class="loginDiv">
                             	   		    <a class="banner" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
 		    						    </div>
