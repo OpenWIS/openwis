@@ -18,8 +18,8 @@ before_install:
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 script:
-- mvn clean install -Pdependencies,openwis,admin -Pjacoco-coverage -q
-- mvn clean install -Puser -Pjacoco-coverage -q
+- mvn clean install -Pdependencies,openwis,admin -q
+- mvn clean install -Puser -q
 - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
