@@ -3,12 +3,20 @@
  */
 package org.openwis.metadataportal.kernel.user;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jeeves.exceptions.UserLoginEx;
 import jeeves.resources.dbms.Dbms;
 
 import org.apache.commons.lang.StringUtils;
+import org.fao.geonet.constants.Geonet;
+import org.jdom.Element;
 import org.openwis.dataservice.BlacklistInfo;
 import org.openwis.dataservice.BlacklistService;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
@@ -180,7 +188,8 @@ public class UserManager extends AbstractManager {
         }
 
         for (OpenWISUser openWISUser : openWISUsers) {
-            allUsers.add(buildUserFromOpenWisUser(openWISUser));
+            User user = buildUserFromOpenWisUser(openWISUser);
+            allUsers.add(updateUserAttributesFromDb(user));
         }
 
         return allUsers;
@@ -321,7 +330,8 @@ public class UserManager extends AbstractManager {
                         OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
         List<User> users = new ArrayList<User>();
         for (OpenWISUser openWISUser : openWISUsers) {
-            users.add(buildUserFromOpenWisUser(openWISUser));
+            User user = buildUserFromOpenWisUser(openWISUser);
+            users.add(updateUserAttributesFromDb(user));
         }
         return users;
     }
@@ -364,5 +374,44 @@ public class UserManager extends AbstractManager {
     public List<String> getAllUserNames() throws UserManagementException_Exception {
         return SecurityServiceProvider.getGroupManagementService().getAllUserNameByCentre(
                 OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
+    }
+
+    /**
+     * Update user with values from DB like: last login time and active
+     * @param user user created from OpenWISUser
+     * @return user with lastLogin and active members set. If the user do not exists in DB
+     * return the initial User.
+     */
+    private User updateUserAttributesFromDb(User user) {
+        String query = "SELECT * FROM Users WHERE username = ?";
+
+        // if no user in database => throw exception.
+        @SuppressWarnings("unchecked")
+        List<Element> list = null;
+        try {
+            list = getDbms().select(query, user.getUsername()).getChildren();
+            if (list.size() == 0) {
+                return user;
+            }
+            Element userE = list.get(0);
+
+            // set last login timestamp
+            if (!userE.getChildText(Geonet.Elem.LAST_LOGIN).isEmpty()) {
+                String sLastLogin = userE.getChildText(Geonet.Elem.LAST_LOGIN);
+                ZoneId zoneId = ZoneId.systemDefault();
+                ZonedDateTime zdt = LocalDateTime.parse(sLastLogin).atZone(zoneId);
+                user.setLastLogin(Timestamp.valueOf(zdt.toLocalDateTime()));
+            }
+
+            // set active profile
+            if (!userE.getChildText(Geonet.Elem.ACTIVE).isEmpty()) {
+                user.setActive(Boolean.valueOf(userE.getChildText(Geonet.Elem.ACTIVE)));
+            }
+        } catch (SQLException e) {
+            return user;
+        }
+
+        return user;
+
     }
 }
