@@ -500,6 +500,8 @@ Openwis.Lang.Dictionary = {
 	'Security.User.LastName.Column' : 'Last name',
 	'Security.User.FirstName.Column' : 'First name',
 	'Security.User.Profile.Column': 'Profile',
+	'Security.User.LastLogin.Column': 'Last login',
+	'Security.User.Active.Column': 'Active',
 	'Security.User.PasswordExpired.Column': 'Password Expired',
 	'Security.User.PasswordExpiredTime.Column': 'Password Expired Time',
 	'Security.User.PasswordChangedTime.Column': 'Password Changed Time',
