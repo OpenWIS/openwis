@@ -8,6 +8,7 @@ import org.openwis.securityservice.ClassOfService;
 import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,16 @@ public class User {
     * Two factor authentication key
     */
    private TwoFactorAuthenticationKey twoFactorAuthenticationKey = new TwoFactorAuthenticationKey();
+
+   /**
+    * last login time
+    */
+   private Timestamp lastLogin;
+
+   /**
+    * Active account
+    */
+   private Boolean active;
 
    /**
     * Gets the id.
@@ -326,5 +337,21 @@ public class User {
 
    public void setTwoFactorAuthenticationKey(TwoFactorAuthenticationKey twoFactorAuthenticationKey) {
       this.twoFactorAuthenticationKey = twoFactorAuthenticationKey;
+   }
+
+   public Timestamp getLastLogin() {
+      return lastLogin;
+   }
+
+   public void setLastLogin(Timestamp lastLogin) {
+      this.lastLogin = lastLogin;
+   }
+
+   public Boolean getActive() {
+      return active;
+   }
+
+   public void setActive(Boolean active) {
+      this.active = active;
    }
 }
