@@ -3,12 +3,18 @@
  */
 package org.openwis.metadataportal.model.user;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.openwis.metadataportal.model.group.Group;
 import org.openwis.securityservice.ClassOfService;
 import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
 
 import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +101,7 @@ public class User {
    /**
     * Two factor authentication key
     */
+   @JsonIgnore
    private TwoFactorAuthenticationKey twoFactorAuthenticationKey = new TwoFactorAuthenticationKey();
 
    /**
@@ -331,6 +338,7 @@ public class User {
       this.groups = groups;
    }
 
+   @JsonIgnore
    public TwoFactorAuthenticationKey getTwoFactorAuthenticationKey() {
       return twoFactorAuthenticationKey;
    }
@@ -339,6 +347,7 @@ public class User {
       this.twoFactorAuthenticationKey = twoFactorAuthenticationKey;
    }
 
+   @JsonIgnore
    public Timestamp getLastLogin() {
       return lastLogin;
    }
@@ -353,5 +362,15 @@ public class User {
 
    public void setActive(Boolean active) {
       this.active = active;
+   }
+
+   @JsonProperty("lastLogin")
+   public String getLastLoginAsString() {
+      if (lastLogin == null) {
+         return "";
+      }
+      ZoneId zoneId = ZoneId.systemDefault();
+      ZonedDateTime zdt = ZonedDateTime.ofInstant(this.lastLogin.toInstant(), zoneId);
+      return zdt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL));
    }
 }
