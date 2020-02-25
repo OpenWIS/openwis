@@ -127,7 +127,7 @@ public class Get implements Service, ServiceWithJsp {
 
             String sLastLogin = user.getChildText(Geonet.Elem.LAST_LOGIN);
             if (!sLastLogin.isEmpty()) {
-              ZoneId zoneId = ZoneId.systemDefault();
+               ZoneId zoneId = ZoneId.systemDefault();
                ZonedDateTime zdt = LocalDateTime.parse(sLastLogin).atZone(zoneId);
                attrMap.put("userLastLogin", zdt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
             }
