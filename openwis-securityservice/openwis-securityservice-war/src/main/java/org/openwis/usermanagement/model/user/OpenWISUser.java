@@ -69,6 +69,11 @@ public class OpenWISUser implements Serializable {
    private ClassOfService classOfService;
 
    /**
+    * inetUserStatus Active if account active. Inactive if account locked
+    */
+   private InetUserStatus inetUserStatus;
+
+   /**
     * List of deployments on which the user can be backed up.
     * @member: backUps
     */
@@ -301,4 +306,11 @@ public class OpenWISUser implements Serializable {
       this.secretKey = secretKey;
    }
 
+   public InetUserStatus getInetUserStatus() {
+      return inetUserStatus;
+   }
+
+   public void setInetUserStatus(InetUserStatus inetUserStatus) {
+      this.inetUserStatus = inetUserStatus;
+   }
 }
