@@ -31,6 +31,22 @@
 		<geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
 		<minify.verbose>false</minify.verbose>
 		<war.name>openwis-user-portal</war.name>
+
+		<sonar.exclusions>src/main/webapp/scripts/*.js,
+			src/main/webapp/scripts/core/**,
+			src/main/webapp/scripts/editor/**,
+			src/main/webapp/scripts/ext/**,
+			src/main/webapp/scripts/ext-ux/**,
+			src/main/webapp/scripts/geo/**,
+			src/main/webapp/scripts/geoext/**,
+			src/main/webapp/scripts/lib/**,
+			src/main/webapp/scripts/localization/**,
+			src/main/webapp/scripts/map/**,
+			src/main/webapp/scripts/mapfish/**,
+			src/main/webapp/scripts/openlayers/**,
+			src/main/webapp/scripts/ownership/**,
+			src/main/webapp/scripts/scriptaculous/**
+		</sonar.exclusions>
 	</properties>
 
 	<!-- =========================================================== -->
