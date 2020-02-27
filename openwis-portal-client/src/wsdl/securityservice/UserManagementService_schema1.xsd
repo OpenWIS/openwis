@@ -84,6 +84,7 @@
             <xs:element name="needUserAccount" type="xs:boolean"/>
             <xs:element minOccurs="0" name="profile" type="xs:string"/>
             <xs:element minOccurs="0" name="classOfService" type="tns:classOfService"/>
+            <xs:element minOccurs="0" name="inetUserStatus" type="tns:inetUserStatus"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="backUps" nillable="true" type="xs:string"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="groups" nillable="true" type="tns:openWISGroup"/>
         </xs:sequence>
@@ -293,6 +294,12 @@
             <xs:enumeration value="SILVER"/>
             <xs:enumeration value="GOLD"/>
             <xs:enumeration value="BRONZE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="inetUserStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Active"/>
+            <xs:enumeration value="Inactive"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:element name="UserManagementException" type="tns:UserManagementException"/>
