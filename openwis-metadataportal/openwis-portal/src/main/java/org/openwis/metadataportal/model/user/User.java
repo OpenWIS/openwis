@@ -9,6 +9,7 @@ import org.openwis.metadataportal.model.group.Group;
 import org.openwis.securityservice.ClassOfService;
 import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
+import org.openwis.securityservice.InetUserStatus;
 
 import java.sql.Timestamp;
 import java.time.ZoneId;
@@ -99,20 +100,14 @@ public class User {
    private List<Group> groups =  new ArrayList<Group>();
 
    /**
-    * Two factor authentication key
-    */
-   @JsonIgnore
-   private TwoFactorAuthenticationKey twoFactorAuthenticationKey = new TwoFactorAuthenticationKey();
-
-   /**
     * last login time
     */
    private Timestamp lastLogin;
 
    /**
-    * Active account
+    * Account status: Active or Inactive
     */
-   private Boolean active;
+   private InetUserStatus inetUserStatus;
 
    /**
     * Gets the id.
@@ -339,29 +334,12 @@ public class User {
    }
 
    @JsonIgnore
-   public TwoFactorAuthenticationKey getTwoFactorAuthenticationKey() {
-      return twoFactorAuthenticationKey;
-   }
-
-   public void setTwoFactorAuthenticationKey(TwoFactorAuthenticationKey twoFactorAuthenticationKey) {
-      this.twoFactorAuthenticationKey = twoFactorAuthenticationKey;
-   }
-
-   @JsonIgnore
    public Timestamp getLastLogin() {
       return lastLogin;
    }
 
    public void setLastLogin(Timestamp lastLogin) {
       this.lastLogin = lastLogin;
-   }
-
-   public Boolean getActive() {
-      return active;
-   }
-
-   public void setActive(Boolean active) {
-      this.active = active;
    }
 
    @JsonProperty("lastLogin")
@@ -372,5 +350,13 @@ public class User {
       ZoneId zoneId = ZoneId.systemDefault();
       ZonedDateTime zdt = ZonedDateTime.ofInstant(this.lastLogin.toInstant(), zoneId);
       return zdt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL));
+   }
+
+   public InetUserStatus getInetUserStatus() {
+      return inetUserStatus;
+   }
+
+   public void setInetUserStatus(InetUserStatus inetUserStatus) {
+      this.inetUserStatus = inetUserStatus;
    }
 }

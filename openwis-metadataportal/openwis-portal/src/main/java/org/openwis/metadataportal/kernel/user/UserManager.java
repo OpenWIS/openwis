@@ -187,7 +187,7 @@ public class UserManager extends AbstractManager {
 
         for (OpenWISUser openWISUser : openWISUsers) {
             User user = buildUserFromOpenWisUser(openWISUser);
-            allUsers.add(updateUserAttributesFromDb(user));
+            allUsers.add(setLastLoginTime(user));
         }
 
         return allUsers;
@@ -222,6 +222,7 @@ public class UserManager extends AbstractManager {
             user.getGroups().addAll(GroupManager.buildGroupFromOpenWisGroup(openWISGroup));
         }
         user.setClassOfService(openWISUser.getClassOfService());
+        user.setInetUserStatus(openWISUser.getInetUserStatus());
         user.setNeedUserAccount(openWISUser.isNeedUserAccount());
         for (String backUpName : openWISUser.getBackUps()) {
             BackUp backUp = new BackUp();
@@ -329,7 +330,7 @@ public class UserManager extends AbstractManager {
         List<User> users = new ArrayList<User>();
         for (OpenWISUser openWISUser : openWISUsers) {
             User user = buildUserFromOpenWisUser(openWISUser);
-            users.add(updateUserAttributesFromDb(user));
+            users.add(setLastLoginTime(user));
         }
         return users;
     }
@@ -375,12 +376,12 @@ public class UserManager extends AbstractManager {
     }
 
     /**
-     * Update user with values from DB like: last login time and active
+     * Update user with values from DB: last login
      * @param user user created from OpenWISUser
-     * @return user with lastLogin and active members set. If the user do not exists in DB
+     * @return user with lastLogin. If the user do not exists in DB
      * return the initial User.
      */
-    private User updateUserAttributesFromDb(User user) {
+    private User setLastLoginTime(User user) {
         String query = "SELECT * FROM Users WHERE username = ?";
 
         // if no user in database => throw exception.
@@ -399,11 +400,6 @@ public class UserManager extends AbstractManager {
                 ZoneId zoneId = ZoneId.systemDefault();
                 ZonedDateTime zdt = LocalDateTime.parse(sLastLogin).atZone(zoneId);
                 user.setLastLogin(Timestamp.valueOf(zdt.toLocalDateTime()));
-            }
-
-            // set active profile
-            if (!userE.getChildText(Geonet.Elem.ACTIVE).isEmpty()) {
-                user.setActive(userE.getChildText(Geonet.Elem.ACTIVE).equals("t"));
             }
         } catch (SQLException e) {
             return user;

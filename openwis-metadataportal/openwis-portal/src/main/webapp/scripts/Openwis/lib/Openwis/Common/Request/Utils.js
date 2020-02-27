@@ -74,3 +74,11 @@ Openwis.Common.Request.Utils.requestTypeRenderer = function(val) {
 Openwis.Common.Request.Utils.htmlSafeRenderer = function(val) {
 	return Ext.util.Format.htmlEncode(val);
 };
+
+Openwis.Common.Request.Utils.accountStatusRendererImg = function(val) {
+	if(val == "INACTIVE") {
+		return '<img src="' + configOptions.url + '/images/openwis/icons/status_failed.png"/>';
+	} else if(val == "ACTIVE") {
+		return '<img src="' + configOptions.url + '/images/openwis/icons/status_complete.png"/>';
+	}
+};
