@@ -79,6 +79,7 @@
             "Openwis/Utils/Xml.js",
             "Openwis/Handler/Save.js",
             "Openwis/Handler/Remove.js",
+            "Openwis/Handler/Lock.js",
             "Openwis/Handler/Get.js",
             "Openwis/Handler/Index.js",
             "Openwis/Handler/GetNoJson.js",

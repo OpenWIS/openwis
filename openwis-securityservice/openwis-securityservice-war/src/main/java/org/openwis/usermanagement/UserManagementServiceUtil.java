@@ -292,6 +292,11 @@ public class UserManagementServiceUtil {
                .toString());
          modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
       }
+
+      if (ldapUser.getInetUserStatus() != user.getInetUserStatus()) {
+         attribute = new LDAPAttribute(INET_USER_STATUS, user.getInetUserStatus().name());
+         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+      }
       // backups
       updateField(OpenWiSBackupUtils.convertBackUpListToString(ldapUser.getBackUps()),
             OpenWiSBackupUtils.convertBackUpListToString(user.getBackUps()), BACKUPS, modList);
