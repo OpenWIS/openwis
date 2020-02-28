@@ -42,6 +42,7 @@
     <xs:element name="updateUserResponse" type="tns:updateUserResponse"/>
     <xs:element name="userIsMemberOfGroup" type="tns:userIsMemberOfGroup"/>
     <xs:element name="userIsMemberOfGroupResponse" type="tns:userIsMemberOfGroupResponse"/>
+    <xs:element name="openWISUserUpdateLog" type="tns:openWISUserUpdateLog"/>
     <xs:complexType name="importUser">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="userNames" type="xs:string"/>
@@ -235,7 +236,9 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="updateUserResponse">
-        <xs:sequence/>
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:openWISUserUpdateLog"/>
+        </xs:sequence>
     </xs:complexType>
     <xs:complexType name="initialize">
         <xs:sequence>
@@ -326,6 +329,13 @@
     <xs:complexType name="UserManagementException">
         <xs:sequence>
             <xs:element name="message" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISUserUpdateLog">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="action" type="xs:string"/>
+            <xs:element minOccurs="0" name="attributeName" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
