@@ -166,6 +166,14 @@ public class UserManager extends AbstractManager {
                 OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
     }
 
+    public void lockUser(String username, Boolean lock) throws Exception {
+       if (lock) {
+           SecurityServiceProvider.getUserManagementService().lockUser(username);
+       } else {
+           SecurityServiceProvider.getUserManagementService().unlockUser(username);
+       }
+    }
+
     /**
      * Gets all users of the given group.
      * @param group the group name.
@@ -263,6 +271,7 @@ public class UserManager extends AbstractManager {
         }
 
         openWisUser.setClassOfService(user.getClassOfService());
+        openWisUser.setInetUserStatus(user.getInetUserStatus());
         openWisUser.setNeedUserAccount(user.isNeedUserAccount());
         for (BackUp backUp : user.getBackUps()) {
             openWisUser.getBackUps().add(backUp.getName());
