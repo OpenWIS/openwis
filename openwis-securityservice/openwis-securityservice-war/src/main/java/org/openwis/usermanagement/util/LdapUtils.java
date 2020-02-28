@@ -118,6 +118,8 @@ public final class LdapUtils {
     * @member: INET_USER_STATUS_ACTIVE
     */
    public static final String INET_USER_STATUS_ACTIVE = "Active";
+
+   public static final String INET_USER_STATUS_INACTIVE = "Inactive";
    
    /**
     * @member: OPEN_WIS_USER

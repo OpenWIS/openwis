@@ -39,7 +39,22 @@ public interface UserManagementService {
     * @param user The user to update.
     * @throws UserManagementException if an error occurs 
     */
-   public void updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException;
+   public void updateUser(@WebParam(name = "username") OpenWISUser user) throws UserManagementException;
+
+
+   /**
+    * Lock user
+    * @param username
+    * @throws UserManagementException
+    */
+   public void lockUser(@WebParam(name="username") String username) throws UserManagementException;
+
+   /**
+    * Unlock user
+    * @param username
+    * @throws UserManagementException
+    */
+   public void unlockUser(@WebParam(name="username") String username) throws UserManagementException;
 
    /**
     * Get User Groups
