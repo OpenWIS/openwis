@@ -53,6 +53,8 @@ Openwis.Lang.Dictionary = {
     'Common.Btn.Add' : 'Ajouter',
     'Common.Btn.Submit' : 'Soumettre',
     'Common.Btn.Browse' : 'Choisir...',
+    'Common.Btn.Lock': 'Verrouiller',
+    'Common.Btn.Unlock': 'Déverrouiller',
     
     'Common.Extent.Temporal.From' : 'De',
     'Common.Extent.Temporal.To' : 'Jusqu\'�',

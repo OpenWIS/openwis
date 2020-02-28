@@ -45,6 +45,7 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 	//-- Grid and Store.
 	
 	getUserGrid: function() {
+	    var that = this;
 		if(!this.userGrid) {
 			this.userGrid = new Ext.grid.GridPanel({
 				id: 'userGrid',
@@ -70,12 +71,24 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 				sm: new Ext.grid.RowSelectionModel({
 					listeners: { 
 						rowselect: function (sm, rowIndex, record) {
-							sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount() != 1 );
+						    sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount() != 1);
 							sm.grid.ownerCt.getRemoveAction().setDisabled(sm.getCount() == 0);
+							if (sm.getCount() == 1) {
+							    sm.grid.ownerCt.getLockAccountAction().setDisabled(!that.canLockAccount(record.get('profile')));
+							    sm.grid.ownerCt.getLockAccountAction().setText(that.getLockAccountActionText(record.get('inetUserStatus')));
+                            } else {
+                            	sm.grid.ownerCt.getLockAccountAction().setDisabled(true);
+                            }
 						},
 						rowdeselect: function (sm, rowIndex, record) {
 							sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount() != 1);
 							sm.grid.ownerCt.getRemoveAction().setDisabled(sm.getCount() == 0);
+							if (sm.getCount() == 1) {
+                                sm.grid.ownerCt.getLockAccountAction().setDisabled(!that.canLockAccount(record.get('profile')));
+                                sm.grid.ownerCt.getLockAccountAction().setText(that.getLockAccountActionText(record.get('inetUserStatus')));
+                            } else {
+                                sm.grid.ownerCt.getLockAccountAction().setDisabled(true);
+                            }
 						}
 					}
 				})
@@ -83,6 +96,7 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 			this.userGrid.addButton(new Ext.Button(this.getNewAction()));
 			this.userGrid.addButton(new Ext.Button(this.getEditAction()));
 			this.userGrid.addButton(new Ext.Button(this.getRemoveAction()));
+			this.userGrid.addButton(new Ext.Button(this.getLockAccountAction()));
 			this.userGrid.addButton(new Ext.Button(this.getImportUserAction()));
 		}
 		return this.userGrid;
@@ -264,7 +278,37 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 		}
 		return this.removeAction;
 	},
-	
+
+	getLockAccountAction: function() {
+    		if(!this.lockAction) {
+    			this.lockAction = new Ext.Action({
+    				disabled: true,
+    				text: Openwis.i18n('Common.Btn.Lock'),
+    				scope: this,
+    				handler: function() {
+                        //Get the username to delete.
+                        var selectedRec = this.getUserGrid().getSelectionModel().getSelected();
+                        var msg = null;
+
+                        //Invoke the Save handler to remove the elements by an ajax request.
+                        var removeHandler = new Openwis.Handler.Remove({
+                            url: configOptions.locService+ '/xml.user.remove',
+                            params: params,
+                            confirmMsg: msg,
+                            listeners: {
+                                success: function() {
+                                    this.getUserGrid().getStore().reload();
+                                },
+                                scope: this
+                            }
+                        });
+                        removeHandler.proceed();
+                    }
+    			});
+    		}
+    		return this.lockAction;
+    	},
+
 	getImportUserAction: function() {
 		if(!this.importUserAction) {
 			this.importUserAction = new Ext.Action({
@@ -311,5 +355,17 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 			});
 		}
 		return this.searchAction;
-	}
+	},
+
+     getLockAccountActionText: function(inetUserStatus) {
+        if (inetUserStatus === 'ACTIVE') {
+            return Openwis.i18n('Common.Btn.Lock');
+        } else {
+            return Openwis.i18n('Common.Btn.Unlock');
+        }
+     },
+
+     canLockAccount: function(userProfile) {
+        return userProfile !== 'Administrator';
+     }
 });
