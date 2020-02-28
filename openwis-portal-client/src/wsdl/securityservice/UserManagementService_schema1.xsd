@@ -6,6 +6,10 @@
     <xs:element name="addUserToLocalGroupResponse" type="tns:addUserToLocalGroupResponse"/>
     <xs:element name="changePassword" type="tns:changePassword"/>
     <xs:element name="changePasswordResponse" type="tns:changePasswordResponse"/>
+    <xs:element name="lockUser" type="tns:lockUser"/>
+    <xs:element name="lockUserResponse" type="tns:lockUserResponse"/>
+    <xs:element name="unlockUser" type="tns:unlockUser"/>
+    <xs:element name="unlockUserResponse" type="tns:unlockUserResponse"/>
     <xs:element name="checkUserNameExists" type="tns:checkUserNameExists"/>
     <xs:element name="checkUserNameExistsResponse" type="tns:checkUserNameExistsResponse"/>
     <xs:element name="createUser" type="tns:createUser"/>
@@ -52,6 +56,22 @@
             <xs:element minOccurs="0" name="arg0" type="xs:string"/>
             <xs:element minOccurs="0" name="arg1" type="xs:string"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="lockUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="unlockUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="lockUserResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="unlockUserResponse">
+        <xs:sequence/>
     </xs:complexType>
     <xs:complexType name="changePasswordResponse">
         <xs:sequence/>
