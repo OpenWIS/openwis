@@ -286,13 +286,15 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
     				text: Openwis.i18n('Common.Btn.Lock'),
     				scope: this,
     				handler: function() {
-                        //Get the username to delete.
                         var selectedRec = this.getUserGrid().getSelectionModel().getSelected();
+		                var params = {};
+                		params.user = {};
+                        params.user.username= selectedRec.get('username');
                         var msg = null;
 
-                        //Invoke the Save handler to remove the elements by an ajax request.
-                        var removeHandler = new Openwis.Handler.Remove({
-                            url: configOptions.locService+ '/xml.user.remove',
+                        //Invoke the Lock handler to lock user.
+                        var lockHandler = new Openwis.Handler.Lock({
+                            url: configOptions.locService+ '/xml.user.lock',
                             params: params,
                             confirmMsg: msg,
                             listeners: {
@@ -302,7 +304,7 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
                                 scope: this
                             }
                         });
-                        removeHandler.proceed();
+                        lockHandler.proceed();
                     }
     			});
     		}
