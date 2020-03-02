@@ -12,11 +12,11 @@ public class OpenWISUserUpdateLog implements Serializable {
     /**
      * @member name of the attribute changed
      */
-    private String attributeName;
+    private String attribute;
     private String username;
 
-    public String getAttributeName() {
-        return attributeName;
+    public String getAttribute() {
+        return attribute;
     }
 
     public String getAction() {
@@ -27,8 +27,8 @@ public class OpenWISUserUpdateLog implements Serializable {
         this.action = action;
     }
 
-    public void setAttributeName(String attributeName) {
-        this.attributeName = attributeName;
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 
     public void setUsername(String userName) {

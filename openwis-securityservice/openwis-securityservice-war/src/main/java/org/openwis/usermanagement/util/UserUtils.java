@@ -10,7 +10,6 @@ import static org.openwis.usermanagement.util.LdapUtils.UID;
 
 import com.novell.ldap.LDAPModification;
 import org.openwis.usermanagement.exception.UserManagementException;
-import org.openwis.usermanagement.model.user.OpenWISUser;
 import org.openwis.usermanagement.model.user.OpenWISUserUpdateLog;
 
 /**
@@ -70,13 +69,13 @@ public final class UserUtils {
             action = "delete";
             break;
          case LDAPModification.REPLACE:
-            action = "replace";
+            action = "update";
             break;
       }
 
       OpenWISUserUpdateLog log = new OpenWISUserUpdateLog();
       log.setAction(action);
-      log.setAttributeName(mod.getAttribute().getName());
+      log.setAttribute(mod.getAttribute().getName());
       log.setUsername(username);
       return log;
 

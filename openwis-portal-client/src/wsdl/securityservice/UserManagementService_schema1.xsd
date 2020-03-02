@@ -335,7 +335,7 @@
         <xs:sequence>
             <xs:element minOccurs="0" name="username" type="xs:string"/>
             <xs:element minOccurs="0" name="action" type="xs:string"/>
-            <xs:element minOccurs="0" name="attributeName" type="xs:string" />
+            <xs:element minOccurs="0" name="attribute" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

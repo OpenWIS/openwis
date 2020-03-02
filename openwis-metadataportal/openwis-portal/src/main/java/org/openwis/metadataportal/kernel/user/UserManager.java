@@ -130,7 +130,7 @@ public class UserManager extends AbstractManager {
      * @param user the user to update.
      * @throws Exception  if an error occurs.
      */
-    public void updateUser(User user) throws Exception {
+    public List<OpenWISUserUpdateLog> updateUser(User user) throws Exception {
         OpenWISUser openWISUser = buildOpenWisUserFromUser(user);
 
         boolean updatePersoInfo = openWISUser.getBackUps().size() == 0 && openWISUser.getGroups().size() == 0
@@ -140,8 +140,7 @@ public class UserManager extends AbstractManager {
         }
 
         //Check LDAP AND update LDAP.
-        List<OpenWISUserUpdateLog> logs =  SecurityServiceProvider.getUserManagementService().updateUser(openWISUser);
-        System.out.println(logs);
+        return SecurityServiceProvider.getUserManagementService().updateUser(openWISUser);
     }
 
     private void retrieveUserGroupsOfOtherCentres(OpenWISUser openWISUser) throws Exception {
@@ -416,8 +415,6 @@ public class UserManager extends AbstractManager {
         } catch (SQLException e) {
             return user;
         }
-
         return user;
-
     }
 }
