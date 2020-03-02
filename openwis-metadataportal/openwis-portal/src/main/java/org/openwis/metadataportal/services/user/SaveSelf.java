@@ -1,7 +1,6 @@
 package org.openwis.metadataportal.services.user;
 
-import java.util.Collections;
-
+import java.util.List;
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
@@ -15,9 +14,12 @@ import org.openwis.metadataportal.model.group.Group;
 import org.openwis.metadataportal.model.user.BackUp;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
+import org.openwis.metadataportal.services.user.dto.UserActionLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 
+import org.openwis.securityservice.OpenWISUserUpdateLog;
 import com.google.common.collect.Lists;
+import org.openwis.metadataportal.services.util.UserActionLogUtils;
 
 /**
  * Saves the details of the current user.  Similar to ".Save" apart from the following
@@ -52,10 +54,14 @@ public class SaveSelf implements Service {
 	   user.getUser().setGroups(Lists.<Group>newArrayList());
 	   user.getUser().setBackUps(Lists.<BackUp>newArrayList());
 	   
-	   um.updateUser(user.getUser());
-      
-      // call method checkSubscription on RequestManager service.
-      // (not sure if this is necessary).
+		List<OpenWISUserUpdateLog> updateLogs = um.updateUser(user.getUser());
+		for (OpenWISUserUpdateLog updateLog: updateLogs) {
+		    UserActionLogDTO userActionLogDTO = UserActionLogUtils.buildLog(updateLog);
+		    userActionLogDTO.setActionerUsername(context.getUserSession().getUsername());
+			UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+		}
+		// call method checkSubscription on RequestManager service.
+		// (not sure if this is necessary).
       RequestManager requestManager = new RequestManager();
       requestManager.checkUserSubscription(user.getUser().getUsername(), dbms);	   
 		

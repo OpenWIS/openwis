@@ -16,7 +16,11 @@ import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
+import org.openwis.metadataportal.services.user.dto.ActionLog;
 import org.openwis.metadataportal.services.user.dto.PasswordDTO;
+import org.openwis.metadataportal.services.user.dto.UserActionLogDTO;
+import org.openwis.metadataportal.services.util.DateTimeUtils;
+import org.openwis.metadataportal.services.util.UserActionLogUtils;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -50,18 +54,28 @@ public class ChangePassword implements Service {
       PasswordDTO password = JeevesJsonWrapper.read(params, PasswordDTO.class);
 
       AcknowledgementDTO acknowledgementDTO = new AcknowledgementDTO(true);
-      
+      UserActionLogDTO userActionLogDTO = null;
+
       UserManager um = new UserManager(dbms);
       String username = context.getUserSession().getUsername();
       um.changePassword(username, password.getPassword());
 
       try {
          updateLastPasswordChangeTimestamp(dbms, username);
+
+         // save log
+          userActionLogDTO = new UserActionLogDTO();
+          userActionLogDTO.setAction(ActionLog.PASSWORD_CHANGE);
+          userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+          userActionLogDTO.setUsername(username);
+          userActionLogDTO.setActionerUsername(username);
+          userActionLogDTO.setActionerUsername(username);
+          UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+
       } catch (SQLException e) {
          Log.error(LoginConstants.LOG, "Error during sql requests  : " + e.getMessage());
       }
-
-      //Send Acknowledgement
+       //Send Acknowledgement
       return JeevesJsonWrapper.send(acknowledgementDTO);
    }
 
