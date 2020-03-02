@@ -463,9 +463,11 @@ CREATE INDEX request_id_index
 
      CREATE TABLE user_log (
        id SERIAL NOT NULL,
-       date timestamp without time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
-       username varchar(30) NOT NULL,
-       action varchar(255) NOT NULL,
+       DATE timestamp without time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
+       USERNAME varchar(30) NOT NULL,
+       ACTION varchar(255) NOT NULL,
+       ATTRIBUTE_NAME varchar(255),
+       ACTIONER varchar(30 NOT NULL,
        PRIMARY KEY (id)
      );
 
