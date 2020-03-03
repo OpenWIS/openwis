@@ -42,15 +42,18 @@ color: #3C4751;
 <div id="mss-footer">
     <div style="margin:10px;">
       <div>
-        <div align="left" width="33%">
-          <h5 style="font-weight: bold;">DATA CATALOG</h5><hr>
-          <p>Satellite Images (JPSS 1/NOAA-20)<br>Satellite Images (Suomi-NPP)<br>Satellite Images (AQUA)<br>Satellite Images (TERRA)<br>Regional Haze Situation<br>Hotspot Reports (JPSS 1/NOAA-20)<br>Hotspot Reports (Suomi-NPP)<br>Hotspot Reports (AQUA)<br>Hotspot Reports (TERRA)<br>Smoke Haze Dispersion Model</p>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+	        <div style="margin-left: 10px;">
+	          <h5 style="font-weight: bold;">DATA CATALOG</h5><hr>
+	          <p>Satellite Images (JPSS 1/NOAA-20)<br>Satellite Images (Suomi-NPP)<br>Satellite Images (AQUA)<br>Satellite Images (TERRA)<br>Regional Haze Situation<br>Hotspot Reports (JPSS 1/NOAA-20)<br>Hotspot Reports (Suomi-NPP)<br>Hotspot Reports (AQUA)<br>Hotspot Reports (TERRA)<br>Smoke Haze Dispersion Model</p>
+	        </div>
+	        <div align="left"  style="margin-right: 10px;">
+	          <h5 style="font-weight: bold;">ABOUT</h5>
+			  <h5 style="font-weight: bold;">CONTACT US</h5>
+			  <h5 style="font-weight: bold;">FOLLOW US ON</h5>
+	        </div>
         </div>
-        <div align="left" width="33%" style="margin-left:900px;">
-          <h5 style="font-weight: bold;">ABOUT</h5>
-		  <h5 style="font-weight: bold;">CONTACT US</h5>
-		  <h5 style="font-weight: bold;">FOLLOW US ON</h5>
-        </div>
+
         <div width="66%" align="left" style=" margin:auto;">
 		  <p>Best viewed using IE 11, Firefox 52, Chrome 52, Safari 8, Opera 43 and above</p>
 	    </div>
