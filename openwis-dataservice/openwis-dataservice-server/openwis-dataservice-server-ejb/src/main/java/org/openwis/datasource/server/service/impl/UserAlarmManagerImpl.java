@@ -140,7 +140,7 @@ public class UserAlarmManagerImpl implements UserAlarmManagerLocal {
       int deletedAlarms = 0;
 
       for (Long alarmId : alarmIds) {
-         UserAlarm userAlarm = (UserAlarm) entityManager.find(UserAlarm.class, new Long(alarmId));
+         UserAlarm userAlarm = (UserAlarm) entityManager.find(UserAlarm.class, alarmId);
          if (StringUtils.equals(userAlarm.getUserId(), username)) {
             entityManager.remove(userAlarm);
             deletedAlarms++;
