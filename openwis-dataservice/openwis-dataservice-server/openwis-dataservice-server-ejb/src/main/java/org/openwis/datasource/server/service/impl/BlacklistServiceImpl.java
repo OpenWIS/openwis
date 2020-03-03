@@ -46,8 +46,6 @@ import org.openwis.management.service.DisseminatedDataStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.Exception;
-
 /**
  * The BlacklistService implementation.
  */
@@ -67,7 +65,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    /** The mail sender. */
    @EJB
    private MailSender mailSender;
-   
+
    /**
     * injection ConnectionFactory
     */
@@ -103,7 +101,7 @@ public class BlacklistServiceImpl implements BlacklistService {
             dataStatistics = null;
          }
       }
-      
+
       return dataStatistics;
    }
 
@@ -128,7 +126,7 @@ public class BlacklistServiceImpl implements BlacklistService {
       message.setTotalSize(totalSize);
       message.setCommand(StatisticsMessage.CMD_UPDATE_USER_EXTRACTED_DATA);
       sendStatisticsUpdate(message);
-      
+
       // as the statistics are updated asynchronously, the blacklisting check
       // is done with last available values in db + current ones
       if (data == null) {
@@ -183,7 +181,7 @@ public class BlacklistServiceImpl implements BlacklistService {
          }
       }
    }
-   
+
    /**
     * Check blacklist status.
     *
@@ -306,7 +304,7 @@ public class BlacklistServiceImpl implements BlacklistService {
       } catch (NoResultException e) {
          logger.info("No blacklist information found for user: {}", user);
 
-         try {         
+         try {
              ConfigServiceFacade BlacklistDefault = ConfigServiceFacade.getInstance();
 
 
