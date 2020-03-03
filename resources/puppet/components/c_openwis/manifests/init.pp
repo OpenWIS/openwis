@@ -39,7 +39,7 @@ class c_openwis (
   $database_password,
   $jdbc_driver_jar        = "postgresql-9.2-1004.jdbc41.jar",
   # JBoss installer
-  $jboss_installer_file   = "jboss-as-7.1.1.Final.tar.gz",
+  $jboss_installer_file   = "wildfly-8.2.1.Final.tar.gz",
   # global deployment name
   $deployment_name,
   # public addresses

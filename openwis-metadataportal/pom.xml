@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.openwis</groupId>
 		<artifactId>openwis</artifactId>
-		<version>3.14.8</version>
+		<version>3.14.8-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -253,7 +253,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-				<version>2.5.3</version>
+				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>

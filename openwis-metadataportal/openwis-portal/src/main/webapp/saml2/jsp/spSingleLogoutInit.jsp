@@ -24,9 +24,7 @@
 
    $Id: spSingleLogoutInit.jsp,v 1.13 2009/10/15 00:01:11 exu Exp $
 
---%>
-<%--
-   Portions Copyrighted 2012-2014 ForgeRock AS
+   Portions Copyrighted 2012-2016 ForgeRock AS.
 --%>
 
 <%@ page import="com.sun.identity.plugin.session.SessionManager" %>
@@ -44,8 +42,11 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.owasp.esapi.ESAPI" %>
-
-
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="org.forgerock.guice.core.InjectorHolder" %>
+<%@ page import="org.forgerock.openam.audit.AuditEventPublisher" %>
+<%@ page import="org.forgerock.openam.saml2.audit.SAML2Auditor" %>
+<%@ page import="org.forgerock.openam.audit.AuditEventFactory" %>
 
 <%--
     spSingleLogoutInit.jsp
@@ -76,6 +77,15 @@
 --%>
 
 <%
+    AuditEventPublisher aep = InjectorHolder.getInstance(AuditEventPublisher.class);
+    AuditEventFactory aef = InjectorHolder.getInstance(AuditEventFactory.class);
+    SAML2Auditor saml2Auditor = new SAML2Auditor(aep, aef, request);
+
+    saml2Auditor.setMethod("spSingleLogoutInit");
+    saml2Auditor.setRealm(SAML2Utils.getRealm(request.getParameterMap()));
+    saml2Auditor.setSessionTrackingId(session.getId());
+    saml2Auditor.auditAccessAttempt();
+
     // Retrieves the Request Query Parameters
     // Binding are the required query parameters
     // binding - binding used for this request
@@ -94,6 +104,7 @@
         Object ssoToken = null;
         try {
             ssoToken = SessionManager.getProvider().getSession(request);
+            saml2Auditor.setSSOTokenId(ssoToken);
         } catch (SessionException se) {
             if (SAML2Utils.debug.messageEnabled()) {
                 SAML2Utils.debug.message("No session.");
@@ -110,8 +121,10 @@
                 if (RelayState != null && !RelayState.isEmpty()
                         && SAML2Utils.isRelayStateURLValid(request, RelayState, SAML2Constants.SP_ROLE)
                         && ESAPI.validator().isValidInput("RelayState", RelayState, "URL", 2000, true)) {
+                    saml2Auditor.auditAccessSuccess();
                     response.sendRedirect(RelayState);
                 } else {
+                    saml2Auditor.auditAccessSuccess();
                     %>
                         <jsp:forward page="/saml2/jsp/default.jsp?message=spSloSuccess"/>
                     <%
@@ -124,6 +137,8 @@
                 metaAlias = values[0];
             }
         } else {
+            saml2Auditor.setSSOTokenId(ssoToken);
+
             spEntityID = request.getParameter("spEntityID");
             if ((spEntityID == null) || (spEntityID.length() == 0)) {
                 List spMetaAliases =
@@ -142,8 +157,7 @@
         }
         if (metaAlias == null) {
             try {
-                SessionManager.getProvider().invalidateSession(
-                    ssoToken, request, response);
+                SessionManager.getProvider().invalidateSession(ssoToken, request, response);
             } catch (SessionException se) {
                 if (SAML2Utils.debug.messageEnabled()) {
                     SAML2Utils.debug.message("No session.");
@@ -151,8 +165,10 @@
             }
             if (RelayState != null && SAML2Utils.isRelayStateURLValid(request, RelayState, SAML2Constants.SP_ROLE)
                     && ESAPI.validator().isValidInput("RelayState", RelayState, "URL", 2000, true)) {
+                saml2Auditor.auditAccessSuccess();
                 response.sendRedirect(RelayState);
             } else {
+                saml2Auditor.auditAccessSuccess();
                 %>
                 <jsp:forward page="/saml2/jsp/default.jsp?message=spSloSuccess"/>
                 <%
@@ -196,6 +212,8 @@
                 SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
                     "nullSessionIndex",
                     SAML2Utils.bundle.getString("nullSessionIndex"));
+                saml2Auditor.auditAccessFailure(String.valueOf(response.SC_BAD_REQUEST),
+                        SAML2Utils.bundle.getString("nullSessionIndex"));
                 return;
             } else {
                 paramsMap.put("SessionIndex", sessionIndex);
@@ -205,6 +223,8 @@
                 SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
                     "nullNameID",
                     SAML2Utils.bundle.getString("nullNameID"));
+                saml2Auditor.auditAccessFailure(String.valueOf(response.SC_BAD_REQUEST),
+                        SAML2Utils.bundle.getString("nullNameID"));
                 return;
             } else {
                 if (spEntityID == null) {
@@ -218,6 +238,8 @@
                         response.SC_BAD_REQUEST,
                         "nullIDPEntityID",
                         SAML2Utils.bundle.getString("nullIDPEntityID"));
+                    saml2Auditor.auditAccessFailure(String.valueOf(response.SC_BAD_REQUEST),
+                            SAML2Utils.bundle.getString("nullIDPEntityID"));
                     return;
                 }
                 paramsMap.put(
@@ -241,10 +263,10 @@
             paramsMap.put(SAML2Constants.RELAY_STATE, RelayState);
         }
 
-        String sessionIndex = request.getParameter("sessionIndex");
-        SPSingleLogout.initiateLogoutRequest( request,response,
-            binding,paramsMap);
-        
+        SPSingleLogout.initiateLogoutRequest(
+                request, response, new PrintWriter(out, true), binding, paramsMap, saml2Auditor);
+        saml2Auditor.auditAccessSuccess();
+
         if (binding.equalsIgnoreCase(SAML2Constants.SOAP)) {
             if (RelayState != null && !RelayState.isEmpty()
                     && SAML2Utils.isRelayStateURLValid(metaAlias, RelayState, SAML2Constants.SP_ROLE)
@@ -258,17 +280,17 @@
         }
     } catch (SAML2Exception sse) {
         SAML2Utils.debug.error("Error sending Logout Request " , sse);
-        SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
-            "LogoutRequestCreationError",
-            SAML2Utils.bundle.getString("LogoutRequestCreationError") + " " +
-            sse.getMessage());
+        SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST, "LogoutRequestCreationError",
+                SAML2Utils.bundle.getString("LogoutRequestCreationError") + " " + sse.getMessage());
+        saml2Auditor.auditAccessFailure(String.valueOf(response.SC_BAD_REQUEST),
+                SAML2Utils.bundle.getString("LogoutRequestCreationError"));
         return;
     } catch (Exception e) {
         SAML2Utils.debug.error("Error initializing Request ",e);
-        SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST,
-            "LogoutRequestCreationError",
-            SAML2Utils.bundle.getString("LogoutRequestCreationError") + " " +
-            e.getMessage());
+        SAMLUtils.sendError(request, response, response.SC_BAD_REQUEST, "LogoutRequestCreationError",
+                SAML2Utils.bundle.getString("LogoutRequestCreationError") + " " + e.getMessage());
+        saml2Auditor.auditAccessFailure(String.valueOf(response.SC_BAD_REQUEST),
+                SAML2Utils.bundle.getString("LogoutRequestCreationError"));
         return;
     }
 %>

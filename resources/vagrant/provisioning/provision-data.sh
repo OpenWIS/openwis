@@ -25,7 +25,7 @@ mkdir -p "$DS_DIR"
 chown openwis: "$DS_DIR"
 
 openwisHome="/home/openwis"
-jbossHome="$openwisHome"/jboss-as-7.1.1.Final
+jbossHome="$openwisHome"/wildfly-8.2.1.Final
 
 # ------------------------------------------------------------------------------------
 # Environment setup
@@ -53,5 +53,7 @@ sudo -iu openwis mkdir "$DS_DIR/status"
 
 
 # JBoss and OpenWIS is installed and configured in setup-openwis-using-jboss7.sh
-/vagrant/resources/vagrant/provisioning/setup-openwis-using-jboss7.sh
+#/vagrant/resources/vagrant/provisioning/setup-openwis-using-jboss7.sh
 
+/vagrant/resources/vagrant/provisioning/wildfly-install.sh
+/vagrant/resources/vagrant/provisioning/wildfly_service_target.sh

@@ -23,7 +23,7 @@ class c_openwis::solr (
 )
 #
 {
-  require c_openwis::java7
+  require c_openwis::java8
 
   include c_openwis
   include c_openwis::tomcat

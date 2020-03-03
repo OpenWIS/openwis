@@ -27,9 +27,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class ServiceProvider {
 	
-   private static final String CACHE_SERVICE_JNDI_PREFIX = "ejb:openwis-dataservice/openwis-dataservice-cache-ejb";
+   private static final String CACHE_SERVICE_JNDI_PREFIX = "java:global/openwis-dataservice/openwis-dataservice-cache-ejb/";
 	
-
    /** The logger. */
    private static Logger logger = LoggerFactory.getLogger(ServiceProvider.class);
 
@@ -97,7 +96,7 @@ public final class ServiceProvider {
       try {
          return getRemoteBean("ExtractFromCache", ExtractFromCache.class);
       } catch (NamingException e) {
-         logger.error("Unable to locate the CacheExtraService", e);
+         logger.error("Unable to locate the ExtractFromCache", e);
       }
       return result;
    }
@@ -130,10 +129,12 @@ public final class ServiceProvider {
    private static <T> T getRemoteBean(String beanName, Class<T> remoteInterfaceClass)
          throws NamingException {
       InitialContext initialContext = new InitialContext();
-      String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
+      String jndiName = String.format("%s%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
             remoteInterfaceClass.getName());
       
-      logger.info("*** Getting remote bean: " + jndiName);
+      logger.info("getRemoteBean Bean Name: {}", beanName);
+      logger.info("getRemoteBean JNDI Name: {}", jndiName);
+
       return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
    }
 }

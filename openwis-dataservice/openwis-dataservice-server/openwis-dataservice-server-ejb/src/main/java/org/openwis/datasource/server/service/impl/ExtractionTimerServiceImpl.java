@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
@@ -38,7 +39,10 @@ import org.slf4j.LoggerFactory;
  * Short Description goes here. <P>
  * Explanation goes here. <P>
  */
-@Local(ExtractionTimerService.class)
+//Zhan
+//@Local(ExtractionTimerService.class)
+@Remote(ExtractionTimerService.class)
+
 @Stateless(name = "ExtractionTimerService")
 public class ExtractionTimerServiceImpl implements ExtractionTimerService {
 
@@ -67,7 +71,7 @@ public class ExtractionTimerServiceImpl implements ExtractionTimerService {
    private ConnectionFactory connectionFactory;
 
    /** injection queue. */
-   @Resource(mappedName = "java:/queue/DisseminationQueue")
+   @Resource(mappedName = "java:/jms/queue/DisseminationQueue")
    private Queue queue;
 
    /**

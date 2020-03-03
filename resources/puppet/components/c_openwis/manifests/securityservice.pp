@@ -53,7 +53,7 @@ class c_openwis::securityservice (
   $openwis_admin_last_name)
 #
 {
-  require c_openwis::java7
+  require c_openwis::java8
 
   include c_openwis
 
