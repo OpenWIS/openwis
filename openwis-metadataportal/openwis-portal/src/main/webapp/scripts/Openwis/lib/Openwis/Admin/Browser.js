@@ -571,8 +571,10 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 			var securityServiceUserManagement = this.isServiceAccessible("xml.user.all");
 			var securityServiceGroupManagement = this.isServiceAccessible("xml.group.remove");
 			var securityServiceDataPolicyManagement = this.isServiceAccessible("xml.datapolicy.all");
+			var securityServiceReport = this.isServiceAccessible("xml.user.report");
 			
-			if (securityServiceSSOManagement || securityServiceUserManagement || securityServiceGroupManagement || securityServiceDataPolicyManagement) {
+			if (securityServiceSSOManagement || securityServiceUserManagement
+			    || securityServiceGroupManagement || securityServiceDataPolicyManagement || securityServiceReport) {
 			    this.securityServiceMenu = new Ext.ux.GroupTab({
     				expanded: true,
     				items: 
@@ -598,6 +600,10 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
     			
     			if (securityServiceDataPolicyManagement) {
     			    this.securityServiceMenu.add(this.getSecurityServiceDataPolicyManagementMenu());
+    			}
+
+    			if (securityServiceReport) {
+    			    this.securityServiceMenu.add(this.getSecurityServiceReportMenu());
     			}
 			}
 		}
@@ -674,6 +680,24 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 			});
 		}
 		return this.securityServiceDataPolicyManagementMenu;
+	},
+
+	getSecurityServiceReportMenu: function() {
+	    if (!this.securityServiceReportMenu) {
+	        this.securityServiceReportMenu = new Ext.Panel({
+	            title: Openwis.i18n('Admin.Browser.SecurityService.Report'),
+	            listeners: {
+	                activate: function(ct) {
+	                    ct.add(new Openwis.Admin.User.Report());
+	                    ct.doLayout();
+	                },
+	                deactivate: function(ct) {
+	                    ct.remove(ct.items.first(), true);
+	                }
+	            }
+	        });
+	    }
+	    return this.securityServiceReportMenu;
 	},
 	
 	/**
