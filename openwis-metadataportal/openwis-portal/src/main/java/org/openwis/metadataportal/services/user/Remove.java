@@ -19,7 +19,7 @@ import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UsersDTO;
 import org.openwis.metadataportal.services.util.DateTimeUtils;
-import org.openwis.metadataportal.services.util.UserActionLogUtils;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 
 import java.sql.Timestamp;
 
@@ -70,7 +70,7 @@ public class Remove implements Service {
          userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
          userActionLogDTO.setUsername(user.getUsername());
          userActionLogDTO.setActioner(context.getUserSession().getUsername());
-         UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+         UserLogUtils.saveLog(dbms, userActionLogDTO);
       }
 
       //Send Acknowledgement

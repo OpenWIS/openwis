@@ -19,7 +19,7 @@ import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.PasswordDTO;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.DateTimeUtils;
-import org.openwis.metadataportal.services.util.UserActionLogUtils;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -69,7 +69,7 @@ public class ChangePassword implements Service {
           userActionLogDTO.setUsername(username);
           userActionLogDTO.setActioner(username);
           userActionLogDTO.setActioner(username);
-          UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+          UserLogUtils.saveLog(dbms, userActionLogDTO);
 
       } catch (SQLException e) {
          Log.error(LoginConstants.LOG, "Error during sql requests  : " + e.getMessage());

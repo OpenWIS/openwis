@@ -19,7 +19,7 @@ import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.metadataportal.services.util.DateTimeUtils;
-import org.openwis.metadataportal.services.util.UserActionLogUtils;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.securityservice.OpenWISUserUpdateLog;
 import java.util.List;
 import java.sql.Timestamp;
@@ -64,14 +64,14 @@ public class Save implements Service {
             userActionLogDTO.setAction(UserActions.CREATE);
             userActionLogDTO.setUsername(user.getUser().getUsername());
             userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
-            UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+            UserLogUtils.saveLog(dbms, userActionLogDTO);
 
          } else {
             List<OpenWISUserUpdateLog> updateLogs = um.updateUser(user.getUser());
             for (OpenWISUserUpdateLog updateLog: updateLogs) {
-               userActionLogDTO = UserActionLogUtils.buildLog(updateLog);
+               userActionLogDTO = UserLogUtils.buildLog(updateLog);
                userActionLogDTO.setActioner(context.getUserSession().getUsername());
-               UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+               UserLogUtils.saveLog(dbms, userActionLogDTO);
             }
             // call method checkSubscription on RequestManager service.
             RequestManager requestManager = new RequestManager();

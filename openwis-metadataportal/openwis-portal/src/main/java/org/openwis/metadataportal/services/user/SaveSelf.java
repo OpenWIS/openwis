@@ -19,7 +19,7 @@ import org.openwis.metadataportal.services.user.dto.UserDTO;
 
 import org.openwis.securityservice.OpenWISUserUpdateLog;
 import com.google.common.collect.Lists;
-import org.openwis.metadataportal.services.util.UserActionLogUtils;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 
 /**
  * Saves the details of the current user.  Similar to ".Save" apart from the following
@@ -56,9 +56,9 @@ public class SaveSelf implements Service {
 	   
 		List<OpenWISUserUpdateLog> updateLogs = um.updateUser(user.getUser());
 		for (OpenWISUserUpdateLog updateLog: updateLogs) {
-		    UserLogDTO userActionLogDTO = UserActionLogUtils.buildLog(updateLog);
+		    UserLogDTO userActionLogDTO = UserLogUtils.buildLog(updateLog);
 		    userActionLogDTO.setActioner(context.getUserSession().getUsername());
-			UserActionLogUtils.saveLog(dbms, userActionLogDTO);
+			UserLogUtils.saveLog(dbms, userActionLogDTO);
 		}
 		// call method checkSubscription on RequestManager service.
 		// (not sure if this is necessary).
