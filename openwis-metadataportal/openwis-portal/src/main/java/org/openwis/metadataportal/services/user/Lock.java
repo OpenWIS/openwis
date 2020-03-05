@@ -11,8 +11,8 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.user.dto.ActionLog;
-import org.openwis.metadataportal.services.user.dto.UserActionLogDTO;
+import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserActionLogUtils;
@@ -32,7 +32,7 @@ public class Lock implements Service {
         String username = getUsernameFromRequest(context, userDTO);
 
         AcknowledgementDTO acknowledgementDTO = null;
-        UserActionLogDTO userActionLogDTO = null;
+        UserLogDTO userActionLogDTO = null;
         if (StringUtils.isEmpty(username)) {
             acknowledgementDTO = new AcknowledgementDTO(false, "Username is not provided");
             return JeevesJsonWrapper.send(acknowledgementDTO);
@@ -48,16 +48,16 @@ public class Lock implements Service {
             return JeevesJsonWrapper.send(acknowledgementDTO);
         }
 
-        ActionLog lockAction = user.getInetUserStatus() == InetUserStatus.ACTIVE ? ActionLog.LOCK : ActionLog.UNLOCK;
+        UserActions lockAction = user.getInetUserStatus() == InetUserStatus.ACTIVE ? UserActions.LOCK : UserActions.UNLOCK;
         um.lockUser(user.getUsername(), user.getInetUserStatus() == InetUserStatus.ACTIVE);
         acknowledgementDTO = new AcknowledgementDTO(true, lockAction.name());
 
         // save log
-        userActionLogDTO = new UserActionLogDTO();
+        userActionLogDTO = new UserLogDTO();
         userActionLogDTO.setAction(lockAction);
         userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
         userActionLogDTO.setUsername(user.getUsername());
-        userActionLogDTO.setActionerUsername(context.getUserSession().getUsername());
+        userActionLogDTO.setActioner(context.getUserSession().getUsername());
         UserActionLogUtils.saveLog(dbms, userActionLogDTO);
 
         return JeevesJsonWrapper.send(acknowledgementDTO);

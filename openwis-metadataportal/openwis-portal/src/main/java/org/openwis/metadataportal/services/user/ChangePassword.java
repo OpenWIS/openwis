@@ -15,10 +15,9 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
-import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
-import org.openwis.metadataportal.services.user.dto.ActionLog;
+import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.PasswordDTO;
-import org.openwis.metadataportal.services.user.dto.UserActionLogDTO;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserActionLogUtils;
 
@@ -54,7 +53,7 @@ public class ChangePassword implements Service {
       PasswordDTO password = JeevesJsonWrapper.read(params, PasswordDTO.class);
 
       AcknowledgementDTO acknowledgementDTO = new AcknowledgementDTO(true);
-      UserActionLogDTO userActionLogDTO = null;
+      UserLogDTO userActionLogDTO = null;
 
       UserManager um = new UserManager(dbms);
       String username = context.getUserSession().getUsername();
@@ -64,12 +63,12 @@ public class ChangePassword implements Service {
          updateLastPasswordChangeTimestamp(dbms, username);
 
          // save log
-          userActionLogDTO = new UserActionLogDTO();
-          userActionLogDTO.setAction(ActionLog.PASSWORD_CHANGE);
+          userActionLogDTO = new UserLogDTO();
+          userActionLogDTO.setAction(UserActions.PASSWORD_CHANGE);
           userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
           userActionLogDTO.setUsername(username);
-          userActionLogDTO.setActionerUsername(username);
-          userActionLogDTO.setActionerUsername(username);
+          userActionLogDTO.setActioner(username);
+          userActionLogDTO.setActioner(username);
           UserActionLogUtils.saveLog(dbms, userActionLogDTO);
 
       } catch (SQLException e) {

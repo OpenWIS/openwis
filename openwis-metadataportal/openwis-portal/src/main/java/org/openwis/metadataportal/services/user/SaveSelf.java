@@ -14,7 +14,7 @@ import org.openwis.metadataportal.model.group.Group;
 import org.openwis.metadataportal.model.user.BackUp;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.user.dto.UserActionLogDTO;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 
 import org.openwis.securityservice.OpenWISUserUpdateLog;
@@ -56,8 +56,8 @@ public class SaveSelf implements Service {
 	   
 		List<OpenWISUserUpdateLog> updateLogs = um.updateUser(user.getUser());
 		for (OpenWISUserUpdateLog updateLog: updateLogs) {
-		    UserActionLogDTO userActionLogDTO = UserActionLogUtils.buildLog(updateLog);
-		    userActionLogDTO.setActionerUsername(context.getUserSession().getUsername());
+		    UserLogDTO userActionLogDTO = UserActionLogUtils.buildLog(updateLog);
+		    userActionLogDTO.setActioner(context.getUserSession().getUsername());
 			UserActionLogUtils.saveLog(dbms, userActionLogDTO);
 		}
 		// call method checkSubscription on RequestManager service.
