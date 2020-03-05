@@ -1,6 +1,6 @@
 package org.openwis.metadataportal.services.user.dto;
 
-public enum ActionLog {
+public enum UserActions {
     CREATE,
     UPDATE,
     REMOVE,
