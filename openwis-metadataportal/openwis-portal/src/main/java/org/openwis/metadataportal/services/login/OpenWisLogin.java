@@ -4,6 +4,8 @@
 package org.openwis.metadataportal.services.login;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import jeeves.exceptions.UserLoginEx;
@@ -111,9 +113,10 @@ public class OpenWisLogin implements Service {
     */
    private void updateUser(ServiceContext context, Dbms dbms, UserSession info) throws SQLException {
       //--- update user information into the database
-      String query = "UPDATE Users SET name=?, surname=?, profile=? WHERE username=?";
+      String query = "UPDATE Users SET name=?, surname=?, profile=?, lastLogin=? WHERE username=?";
 
-      int res = dbms.execute(query, info.getName(), info.getSurname(), info.getProfile(), info.getUsername());
+      Timestamp timestamp = new Timestamp(new Date().getTime());
+      int res = dbms.execute(query, info.getName(), info.getSurname(), info.getProfile(), timestamp, info.getUsername());
       Log.debug(LoginConstants.LOG, "Update Users " + info.getUsername());
 
       //--- if the user was not found --> add it

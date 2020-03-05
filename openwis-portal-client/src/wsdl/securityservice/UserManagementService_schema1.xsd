@@ -6,6 +6,10 @@
     <xs:element name="addUserToLocalGroupResponse" type="tns:addUserToLocalGroupResponse"/>
     <xs:element name="changePassword" type="tns:changePassword"/>
     <xs:element name="changePasswordResponse" type="tns:changePasswordResponse"/>
+    <xs:element name="lockUser" type="tns:lockUser"/>
+    <xs:element name="lockUserResponse" type="tns:lockUserResponse"/>
+    <xs:element name="unlockUser" type="tns:unlockUser"/>
+    <xs:element name="unlockUserResponse" type="tns:unlockUserResponse"/>
     <xs:element name="checkUserNameExists" type="tns:checkUserNameExists"/>
     <xs:element name="checkUserNameExistsResponse" type="tns:checkUserNameExistsResponse"/>
     <xs:element name="createUser" type="tns:createUser"/>
@@ -38,6 +42,7 @@
     <xs:element name="updateUserResponse" type="tns:updateUserResponse"/>
     <xs:element name="userIsMemberOfGroup" type="tns:userIsMemberOfGroup"/>
     <xs:element name="userIsMemberOfGroupResponse" type="tns:userIsMemberOfGroupResponse"/>
+    <xs:element name="openWISUserUpdateLog" type="tns:openWISUserUpdateLog"/>
     <xs:complexType name="importUser">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="userNames" type="xs:string"/>
@@ -52,6 +57,22 @@
             <xs:element minOccurs="0" name="arg0" type="xs:string"/>
             <xs:element minOccurs="0" name="arg1" type="xs:string"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="lockUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="unlockUser">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="lockUserResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="unlockUserResponse">
+        <xs:sequence/>
     </xs:complexType>
     <xs:complexType name="changePasswordResponse">
         <xs:sequence/>
@@ -84,6 +105,7 @@
             <xs:element name="needUserAccount" type="xs:boolean"/>
             <xs:element minOccurs="0" name="profile" type="xs:string"/>
             <xs:element minOccurs="0" name="classOfService" type="tns:classOfService"/>
+            <xs:element minOccurs="0" name="inetUserStatus" type="tns:inetUserStatus"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="backUps" nillable="true" type="xs:string"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="groups" nillable="true" type="tns:openWISGroup"/>
         </xs:sequence>
@@ -214,7 +236,9 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="updateUserResponse">
-        <xs:sequence/>
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:openWISUserUpdateLog"/>
+        </xs:sequence>
     </xs:complexType>
     <xs:complexType name="initialize">
         <xs:sequence>
@@ -295,10 +319,23 @@
             <xs:enumeration value="BRONZE"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="inetUserStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Active"/>
+            <xs:enumeration value="Inactive"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:element name="UserManagementException" type="tns:UserManagementException"/>
     <xs:complexType name="UserManagementException">
         <xs:sequence>
             <xs:element name="message" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="openWISUserUpdateLog">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="action" type="xs:string"/>
+            <xs:element minOccurs="0" name="attribute" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

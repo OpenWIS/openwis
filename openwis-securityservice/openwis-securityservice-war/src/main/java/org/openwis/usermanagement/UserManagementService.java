@@ -9,6 +9,7 @@ import javax.jws.soap.SOAPBinding;
 import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.model.group.OpenWISGroup;
 import org.openwis.usermanagement.model.user.OpenWISUser;
+import org.openwis.usermanagement.model.user.OpenWISUserUpdateLog;
 
 /**
  * The User Management Component is used for managed users and groups. <P>
@@ -37,9 +38,25 @@ public interface UserManagementService {
    /**
     * Update a user.
     * @param user The user to update.
-    * @throws UserManagementException if an error occurs 
+    * @throws UserManagementException if an error occurs
+    * @return
     */
-   public void updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException;
+   public List<OpenWISUserUpdateLog> updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException;
+
+
+   /**
+    * Lock user
+    * @param username
+    * @throws UserManagementException
+    */
+   public void lockUser(@WebParam(name="username") String username) throws UserManagementException;
+
+   /**
+    * Unlock user
+    * @param username
+    * @throws UserManagementException
+    */
+   public void unlockUser(@WebParam(name="username") String username) throws UserManagementException;
 
    /**
     * Get User Groups

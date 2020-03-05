@@ -3,6 +3,7 @@ package org.openwis.metadataportal.services.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -50,6 +51,7 @@ public class DateTimeUtils {
       return getUTCCalendar().getTime();
    }
 
+   public static Instant getUTCInstant() { return getUTCCalendar().toInstant(); }
    /**
     * Gets the UTC calendar.
     *

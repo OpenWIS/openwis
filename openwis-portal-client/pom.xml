@@ -18,20 +18,8 @@
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
+				<version>3.2.7</version>
 
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-xjc-ts</artifactId>
-						<version>${cxf.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-tools-common</artifactId>
-						<version>${cxf.version}</version>					
-					</dependency>
-				</dependencies>
 				<executions>
 					<execution>
 						<id>wsdl-to-java-user-management</id>
@@ -232,18 +220,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-tools-common</artifactId>
-			<version>${cxf.version}</version>
-			<exclusions>
-		        <exclusion>
-	          		<groupId>com.sun.xml.bind</groupId>
-	          		<artifactId>jaxb-xjc</artifactId>
-	        	</exclusion>
-		       	<exclusion>
-	          		<groupId>com.sun.xml.bind</groupId>
-	          		<artifactId>jaxb-impl</artifactId>
-	        	</exclusion>
-	      	</exclusions>	
+			<artifactId>cxf-core</artifactId>
+			<version>3.2.7</version>
 		</dependency>
 	</dependencies>
 

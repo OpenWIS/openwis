@@ -1,25 +1,5 @@
 package org.openwis.usermanagement;
 
-import static org.openwis.usermanagement.util.LdapUtils.ADDRESS_ADDRESS;
-import static org.openwis.usermanagement.util.LdapUtils.ADDRESS_CITY;
-import static org.openwis.usermanagement.util.LdapUtils.ADDRESS_COUNTRY;
-import static org.openwis.usermanagement.util.LdapUtils.ADDRESS_STATE;
-import static org.openwis.usermanagement.util.LdapUtils.ADDRESS_ZIP;
-import static org.openwis.usermanagement.util.LdapUtils.BACKUPS;
-import static org.openwis.usermanagement.util.LdapUtils.CLASSOFSERVICE;
-import static org.openwis.usermanagement.util.LdapUtils.CN;
-import static org.openwis.usermanagement.util.LdapUtils.CONTACT_EMAIL;
-import static org.openwis.usermanagement.util.LdapUtils.DEFAULT;
-import static org.openwis.usermanagement.util.LdapUtils.EMAILS;
-import static org.openwis.usermanagement.util.LdapUtils.FTPS;
-import static org.openwis.usermanagement.util.LdapUtils.GLOBAL;
-import static org.openwis.usermanagement.util.LdapUtils.IS_MEMBER_OF;
-import static org.openwis.usermanagement.util.LdapUtils.NAME;
-import static org.openwis.usermanagement.util.LdapUtils.NEEDUSERACCOUNT;
-import static org.openwis.usermanagement.util.LdapUtils.PASSWORD;
-import static org.openwis.usermanagement.util.LdapUtils.PROFILE;
-import static org.openwis.usermanagement.util.LdapUtils.SURNAME;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -31,11 +11,7 @@ import javax.jws.WebParam;
 import org.apache.commons.lang.StringUtils;
 import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.model.group.OpenWISGroup;
-import org.openwis.usermanagement.model.user.ClassOfService;
-import org.openwis.usermanagement.model.user.OpenWISAddress;
-import org.openwis.usermanagement.model.user.OpenWISEmail;
-import org.openwis.usermanagement.model.user.OpenWISFTP;
-import org.openwis.usermanagement.model.user.OpenWISUser;
+import org.openwis.usermanagement.model.user.*;
 import org.openwis.usermanagement.util.GroupUtils;
 import org.openwis.usermanagement.util.OpenWISEmailUtils;
 import org.openwis.usermanagement.util.OpenWISFTPUtils;
@@ -49,6 +25,8 @@ import com.novell.ldap.LDAPAttributeSet;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPModification;
+
+import static org.openwis.usermanagement.util.LdapUtils.*;
 
 /**
  * User Management Service Utilities class. <P>
@@ -231,6 +209,8 @@ public class UserManagementServiceUtil {
          openWISUser.setClassOfService(ClassOfService.valueOf(attribute.getStringValue()));
       } else if (NEEDUSERACCOUNT.equals(attribute.getName())) {
          openWISUser.setNeedUserAccount(Boolean.valueOf(attribute.getStringValue()));
+      } else if (INET_USER_STATUS.equals(attribute.getName())) {
+         openWISUser.setInetUserStatus(InetUserStatus.valueOf(attribute.getStringValue()));
       }
    }
 
@@ -310,6 +290,11 @@ public class UserManagementServiceUtil {
       if (!ldapUser.isNeedUserAccount() == user.isNeedUserAccount()) {
          attribute = new LDAPAttribute(NEEDUSERACCOUNT, Boolean.valueOf(user.isNeedUserAccount())
                .toString());
+         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+      }
+
+      if (ldapUser.getInetUserStatus() != user.getInetUserStatus()) {
+         attribute = new LDAPAttribute(INET_USER_STATUS, user.getInetUserStatus().name());
          modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
       }
       // backups

@@ -86,6 +86,8 @@ public class Geonet
 		public static final String NAME       = "name";
 		public static final String SURNAME    = "surname";
 		public static final String PROFILE    = "profile";
+		public static final String LAST_LOGIN = "lastlogin";
+		public static final String ACTIVE     = "active";
 		public static final String OPERATIONS = "operations";
 		public static final String OPER       = "oper";
 		public static final String SHOWVALIDATIONERRORS   = "showvalidationerrors";

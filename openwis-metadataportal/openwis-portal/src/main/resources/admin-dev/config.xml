@@ -6,7 +6,7 @@
 		<profiles>adminPortal-profiles.xml</profiles>
 		<uploadDir>../../data/tmp</uploadDir>
 		<maxUploadSize>100</maxUploadSize> <!-- Size must be in megabyte (integer), 100MB by default -->
-		<debug>false</debug>
+		<debug>true</debug>
 	</general>
 
 	<!-- ====================================================================== -->
@@ -151,7 +151,7 @@
                 <user>openwis</user>
                 <password>0penW1s</password>
                 <driver>org.postgresql.Driver</driver>
-                <url>jdbc:postgresql://and-mf-openwis-01:5432/OpenWIS</url>
+                <url>jdbc:postgresql://localhost:5432/OpenWIS</url>
                 <poolSize>10</poolSize>
                 <properties>
                  <property key="stringtype">unspecified</property>

@@ -3,11 +3,6 @@
  */
 package org.openwis.metadataportal.services.access;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import jeeves.constants.Jeeves;
 import jeeves.interfaces.Service;
 import jeeves.interfaces.ServiceWithJsp;
@@ -15,7 +10,6 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.server.ProfileManager;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
@@ -27,6 +21,16 @@ import org.openwis.metadataportal.kernel.availability.IAvailabilityManager;
 import org.openwis.metadataportal.kernel.external.HarnessProvider;
 import org.openwis.metadataportal.services.mock.MockGetDisseminationParameters;
 import org.openwis.metadataportal.services.mock.MockMode;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Get service. <P>
@@ -110,6 +114,24 @@ public class Get implements Service, ServiceWithJsp {
          IAvailabilityManager availabilityManager = new AvailabilityManager(dbms);
          boolean isUserPortalEnabled = availabilityManager.isUserPortalEnable();
          attrMap.put("isUserPortalEnabled", isUserPortalEnabled);
+
+         // get last login time
+         if (context.getUserSession().isAuthenticated()) {
+            // attempt to load user from db.
+            String username = context.getUserSession().getUsername();
+            String query = "SELECT * FROM Users WHERE username = ?";
+
+            @SuppressWarnings("unchecked")
+            List<Element> list = dbms.select(query, username).getChildren();
+            Element user = (Element) list.get(0);
+
+            String sLastLogin = user.getChildText(Geonet.Elem.LAST_LOGIN);
+            if (!sLastLogin.isEmpty()) {
+               ZoneId zoneId = ZoneId.systemDefault();
+               ZonedDateTime zdt = LocalDateTime.parse(sLastLogin).atZone(zoneId);
+               attrMap.put("userLastLogin", zdt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
+            }
+         }
       }
       
       return attrMap;

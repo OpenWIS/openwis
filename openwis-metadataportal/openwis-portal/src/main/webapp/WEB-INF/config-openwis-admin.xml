@@ -372,7 +372,21 @@
                 <xml name="error" file="xml/privileges-error.xml"/>
             </error>
         </service>
-		
+
+		<service name="xml.user.lock" type="xml">
+			<class name=".services.user.Lock" />
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
+		<service name="xml.user.report" type="xml">
+			<class name=".services.user.Report" />
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
+
 
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- SSO management                                                -->

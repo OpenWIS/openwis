@@ -612,7 +612,7 @@ public class JeevesEngine
 		if (srvReq.getLanguage() == null || srvReq.getLanguage().length() == 0)
 			srvReq.setLanguage(defaultLang);
 
-      srvReq.setDebug(srvReq.hasDebug() && debugFlag);
+      srvReq.setDebug(debugFlag);
 
 		//--- normal dispatch pipeline
 

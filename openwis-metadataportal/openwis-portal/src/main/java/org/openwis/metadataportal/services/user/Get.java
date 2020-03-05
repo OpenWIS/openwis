@@ -3,14 +3,10 @@
  */
 package org.openwis.metadataportal.services.user;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
-
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
@@ -28,6 +24,9 @@ import org.openwis.metadataportal.services.user.dto.ClassOfServiceDTO;
 import org.openwis.metadataportal.services.user.dto.ProfileDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.securityservice.ClassOfService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Get User Service.
@@ -129,7 +128,7 @@ public class Get implements Service {
       return JeevesJsonWrapper.send(userDTO);
    }
 
-   /**
+/**
     * Extract the username of the user to retrieve from the request information.  This
     * can be overridden by subclasses to restrict the usernames that can be retrieved. 
     * 

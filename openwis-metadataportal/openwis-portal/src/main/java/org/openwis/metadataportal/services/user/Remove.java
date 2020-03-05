@@ -15,7 +15,13 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
+import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UsersDTO;
+import org.openwis.metadataportal.services.util.DateTimeUtils;
+import org.openwis.metadataportal.services.util.UserLogUtils;
+
+import java.sql.Timestamp;
 
 /**
  * Short Description goes here. <P>
@@ -48,6 +54,8 @@ public class Remove implements Service {
       UserManager um = new UserManager(dbms);
 
       AcknowledgementDTO acknowledgementDTO = new AcknowledgementDTO(true);
+      UserLogDTO userActionLogDTO = null;
+
       for (User user : dto.getUsers()) {
          // Remove all associated requests/subscriptions
          RequestManager requestManager = new RequestManager();
@@ -55,6 +63,14 @@ public class Remove implements Service {
          
          // Remove user
          um.removeUser(user.getUsername());
+
+         // save log
+         userActionLogDTO = new UserLogDTO();
+         userActionLogDTO.setAction(UserActions.REMOVE);
+         userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+         userActionLogDTO.setUsername(user.getUsername());
+         userActionLogDTO.setActioner(context.getUserSession().getUsername());
+         UserLogUtils.saveLog(dbms, userActionLogDTO);
       }
 
       //Send Acknowledgement

@@ -137,8 +137,24 @@
     <wsdl:part name="parameters" element="tns:changePassword">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="lockUser">
+    <wsdl:part name="parameters" element="tns:lockUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unlockUser">
+    <wsdl:part name="parameters" element="tns:unlockUser">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllUserByUserNameAndGroupsFilter">
     <wsdl:part name="parameters" element="tns:getAllUserByUserNameAndGroupsFilter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lockUserResponse">
+    <wsdl:part name="parameters" element="tns:lockUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unlockUserResponse">
+    <wsdl:part name="parameters" element="tns:unlockUserResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="changePasswordResponse">
@@ -314,6 +330,22 @@
       <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="lockUser">
+      <wsdl:input name="lockUser" message="tns:lockUser">
+      </wsdl:input>
+      <wsdl:output name="lockUserResponse" message="tns:lockUserResponse">
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="unlockUser">
+      <wsdl:input name="unlockUser" message="tns:unlockUser">
+      </wsdl:input>
+      <wsdl:output name="unlockUserResponse" message="tns:unlockUserResponse">
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+      </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserManagementServiceSoapBinding" type="tns:UserManagementService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -467,6 +499,30 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="updateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="lockUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="lockUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="lockUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="unlockUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="unlockUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="unlockUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="UserManagementException">

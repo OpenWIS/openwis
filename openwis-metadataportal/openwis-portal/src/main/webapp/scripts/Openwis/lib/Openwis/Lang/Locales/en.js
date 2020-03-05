@@ -53,6 +53,8 @@ Openwis.Lang.Dictionary = {
     'Common.Btn.Add' : 'Add',
     'Common.Btn.Submit' : 'Submit',
     'Common.Btn.Browse' : 'Browse...',
+    'Common.Btn.Lock': 'Lock',
+    'Common.Btn.Unlock': 'Unlock',
 
     'Common.Extent.Temporal.From' : 'From',
     'Common.Extent.Temporal.To' : 'To',
@@ -500,6 +502,8 @@ Openwis.Lang.Dictionary = {
 	'Security.User.LastName.Column' : 'Last name',
 	'Security.User.FirstName.Column' : 'First name',
 	'Security.User.Profile.Column': 'Profile',
+	'Security.User.LastLogin.Column': 'Last login',
+	'Security.User.Active.Column': 'Active',
 	'Security.User.PasswordExpired.Column': 'Password Expired',
 	'Security.User.PasswordExpiredTime.Column': 'Password Expired Time',
 	'Security.User.PasswordChangedTime.Column': 'Password Changed Time',
@@ -509,7 +513,14 @@ Openwis.Lang.Dictionary = {
 	'Security.User.Import.Validate.Button': 'Import',
 	'Security.User.Filter.User' : 'Filter on (username, lastname, firstname)',
 	'Security.User.Grid.Label' : 'The list shows only the first 1000 users, you may need to refine the filters',
-	
+
+	'Security.Report.Title': 'Reports',
+	'Security.Report.Date.Column': 'Date',
+    'Security.Report.UserName.Column': 'User',
+    'Security.Report.Action.Column': 'Action',
+    'Security.Report.Actioner.Column': 'Actioner',
+    'Security.Report.Attribute.Column': 'Attribute',
+
 	'Security.User.Privileges.Title' : 'Privileges',
 	'Security.User.Privileges.Profile' : 'Profile',
 	'Security.User.Privileges.Groups' : 'Groups',
@@ -1176,6 +1187,7 @@ Openwis.Lang.Dictionary = {
     'Admin.Browser.SecurityService.UserManagement' : 'User management',
     'Admin.Browser.SecurityService.GroupManagement' : 'Group management',
     'Admin.Browser.SecurityService.DPManagement' : 'Data policy management',
+    'Admin.Browser.SecurityService.Report': 'Report',
     
     'Admin.Browser.Backup' : 'Backup',
     'Admin.Browser.Backup.Local' : 'Availability of local system',

@@ -3,29 +3,6 @@
  */
 package org.openwis.usermanagement;
 
-import static org.openwis.usermanagement.util.LdapUtils.BACKUPS;
-import static org.openwis.usermanagement.util.LdapUtils.CLASSOFSERVICE;
-import static org.openwis.usermanagement.util.LdapUtils.CN;
-import static org.openwis.usermanagement.util.LdapUtils.CONTACT_EMAIL;
-import static org.openwis.usermanagement.util.LdapUtils.DEFAULT;
-import static org.openwis.usermanagement.util.LdapUtils.EMAILS;
-import static org.openwis.usermanagement.util.LdapUtils.EQUAL;
-import static org.openwis.usermanagement.util.LdapUtils.FTPS;
-import static org.openwis.usermanagement.util.LdapUtils.GLOBAL;
-import static org.openwis.usermanagement.util.LdapUtils.INET_USER_STATUS;
-import static org.openwis.usermanagement.util.LdapUtils.INET_USER_STATUS_ACTIVE;
-import static org.openwis.usermanagement.util.LdapUtils.NAME;
-import static org.openwis.usermanagement.util.LdapUtils.NEEDUSERACCOUNT;
-import static org.openwis.usermanagement.util.LdapUtils.OBJECT_CLASS;
-import static org.openwis.usermanagement.util.LdapUtils.OPEN_WIS_USER;
-import static org.openwis.usermanagement.util.LdapUtils.PASSWORD;
-import static org.openwis.usermanagement.util.LdapUtils.PEOPLE;
-import static org.openwis.usermanagement.util.LdapUtils.PROFILE;
-import static org.openwis.usermanagement.util.LdapUtils.STAR;
-import static org.openwis.usermanagement.util.LdapUtils.SURNAME;
-import static org.openwis.usermanagement.util.LdapUtils.UID;
-import static org.openwis.usermanagement.util.LdapUtils.UNIQUE_MEMBER;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -43,6 +20,7 @@ import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.model.group.OpenWISGroup;
 import org.openwis.usermanagement.model.user.OpenWISAddress;
 import org.openwis.usermanagement.model.user.OpenWISUser;
+import org.openwis.usermanagement.model.user.OpenWISUserUpdateLog;
 import org.openwis.usermanagement.util.GroupUtils;
 import org.openwis.usermanagement.util.JNDIConnectionUtils;
 import org.openwis.usermanagement.util.JNDIUtils;
@@ -62,6 +40,8 @@ import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPModification;
 import com.novell.ldap.LDAPSearchConstraints;
 import com.novell.ldap.LDAPSearchResults;
+
+import static org.openwis.usermanagement.util.LdapUtils.*;
 
 /**
  * Implements the user management interface.
@@ -216,6 +196,26 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     }
 
+    @Override
+    public void lockUser(@WebParam(name = "userName") String username) throws UserManagementException {
+        logger.info("Locking user: " + username);
+        List<LDAPModification> modList = new ArrayList<LDAPModification>();
+        LDAPAttribute attribute = new LDAPAttribute(INET_USER_STATUS, INET_USER_STATUS_INACTIVE);
+        modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+        String dn = UserUtils.getDn(username);
+        UtilEntry.updateEntry(modList, dn);
+    }
+
+    @Override
+    public void unlockUser(@WebParam(name= "username") String username) throws UserManagementException {
+        logger.info("Unlocking user: " + username);
+        List<LDAPModification> modList = new ArrayList<LDAPModification>();
+        LDAPAttribute attribute = new LDAPAttribute(INET_USER_STATUS, INET_USER_STATUS_ACTIVE);
+        modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+        String dn = UserUtils.getDn(username);
+        UtilEntry.updateEntry(modList, dn);
+    }
+
     /**
      * {@inheritDoc}
      * @see org.openwis.usermanagement.UserManagementService#getUserInfo(java.lang.String)
@@ -261,10 +261,12 @@ public class UserManagementServiceImpl implements UserManagementService {
     /**
      * {@inheritDoc}
      * @see org.openwis.usermanagement.UserManagementService#updateUser(org.openwis.usermanagement.model.OpenWISUser)
+     * @return
      */
     @Override
-    public void updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException {
+    public List<OpenWISUserUpdateLog> updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException {
         logger.info("Updating User " + user.getUserName());
+        List<OpenWISUserUpdateLog> result = new ArrayList<>();
 
         boolean updatePersoInfo = user.getBackUps() == null && user.getGroups() == null
                 && user.getProfile() == null && user.getClassOfService() == null;
@@ -300,6 +302,12 @@ public class UserManagementServiceImpl implements UserManagementService {
                 UtilEntry.updateEntry(modList, dn);
             }
         }
+
+        for (LDAPModification mod : modList) {
+            result.add(UserUtils.buildUserUpdateLog(user.getUserName(),mod));
+        }
+
+        return result;
     }
 
     /**

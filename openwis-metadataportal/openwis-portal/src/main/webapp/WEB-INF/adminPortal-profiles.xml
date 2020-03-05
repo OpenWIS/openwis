@@ -25,6 +25,8 @@
 		<allow service="xml.user.import"/>
         <allow service="xml.user.get"/>
         <allow service="xml.user.save"/>
+		<allow service="xml.user.lock"/>
+		<allow service="xml.user.report"/>
         <allow service="xml.user.changePassword"/>   		
 		
 		<!-- Data Policy -->
