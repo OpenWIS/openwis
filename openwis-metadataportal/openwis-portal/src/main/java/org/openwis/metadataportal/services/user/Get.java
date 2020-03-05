@@ -128,7 +128,7 @@ public class Get implements Service {
       return JeevesJsonWrapper.send(userDTO);
    }
 
-   /**
+/**
     * Extract the username of the user to retrieve from the request information.  This
     * can be overridden by subclasses to restrict the usernames that can be retrieved. 
     * 

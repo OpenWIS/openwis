@@ -1153,7 +1153,8 @@ Openwis.Lang.Dictionary = {
     'Admin.Browser.SecurityService.UserManagement' : 'Gestion des utilisateurs',
     'Admin.Browser.SecurityService.GroupManagement' : 'Gestion des groupes',
     'Admin.Browser.SecurityService.DPManagement' : 'Politiques de donn�es',
-    
+    'Admin.Browser.SecurityService.Report': 'Rapport',
+
     'Admin.Browser.Backup' : 'Backup',
     'Admin.Browser.Backup.Local' : 'Dispo. du syst�me local',
     'Admin.Browser.Backup.Remote' : 'Dispo. des syst�mes distants',

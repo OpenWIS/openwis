@@ -113,10 +113,10 @@ public class OpenWisLogin implements Service {
     */
    private void updateUser(ServiceContext context, Dbms dbms, UserSession info) throws SQLException {
       //--- update user information into the database
-      String query = "UPDATE Users SET name=?, surname=?, profile=?, lastLogin=?, active=? WHERE username=?";
+      String query = "UPDATE Users SET name=?, surname=?, profile=?, lastLogin=? WHERE username=?";
 
       Timestamp timestamp = new Timestamp(new Date().getTime());
-      int res = dbms.execute(query, info.getName(), info.getSurname(), info.getProfile(), timestamp, true, info.getUsername());
+      int res = dbms.execute(query, info.getName(), info.getSurname(), info.getProfile(), timestamp, info.getUsername());
       Log.debug(LoginConstants.LOG, "Update Users " + info.getUsername());
 
       //--- if the user was not found --> add it

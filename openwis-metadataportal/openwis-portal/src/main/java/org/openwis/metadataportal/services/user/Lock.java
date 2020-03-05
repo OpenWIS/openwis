@@ -11,8 +11,14 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
+import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
+import org.openwis.metadataportal.services.util.DateTimeUtils;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.securityservice.InetUserStatus;
+
+import java.sql.Timestamp;
 
 public class Lock implements Service {
     @Override
@@ -26,6 +32,7 @@ public class Lock implements Service {
         String username = getUsernameFromRequest(context, userDTO);
 
         AcknowledgementDTO acknowledgementDTO = null;
+        UserLogDTO userActionLogDTO = null;
         if (StringUtils.isEmpty(username)) {
             acknowledgementDTO = new AcknowledgementDTO(false, "Username is not provided");
             return JeevesJsonWrapper.send(acknowledgementDTO);
@@ -36,19 +43,27 @@ public class Lock implements Service {
         User user = um.getUserByUserName(username);
 
         // Cannot lock the administrator
-        if (isAdminitrator(user.getProfile())) {
+        if (isAdministrator(user.getProfile())) {
             acknowledgementDTO = new AcknowledgementDTO(false, "Cannot lock administrator");
             return JeevesJsonWrapper.send(acknowledgementDTO);
         }
 
-        String lockAction = user.getInetUserStatus() == InetUserStatus.ACTIVE ? "locking" : "unlocking";
+        UserActions lockAction = user.getInetUserStatus() == InetUserStatus.ACTIVE ? UserActions.LOCK : UserActions.UNLOCK;
         um.lockUser(user.getUsername(), user.getInetUserStatus() == InetUserStatus.ACTIVE);
-        acknowledgementDTO = new AcknowledgementDTO(true, lockAction);
+        acknowledgementDTO = new AcknowledgementDTO(true, lockAction.name());
+
+        // save log
+        userActionLogDTO = new UserLogDTO();
+        userActionLogDTO.setAction(lockAction);
+        userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+        userActionLogDTO.setUsername(user.getUsername());
+        userActionLogDTO.setActioner(context.getUserSession().getUsername());
+        UserLogUtils.saveLog(dbms, userActionLogDTO);
 
         return JeevesJsonWrapper.send(acknowledgementDTO);
     }
 
-    private Boolean isAdminitrator(String profile) {
+    private Boolean isAdministrator(String profile) {
         return profile.equals("Administrator");
     }
 
@@ -61,7 +76,7 @@ public class Lock implements Service {
      * @param username
      * @return
      */
-    protected String getUsernameFromRequest(ServiceContext context, UserDTO userDTO) {
+    private String getUsernameFromRequest(ServiceContext context, UserDTO userDTO) {
         if (userDTO != null && (userDTO.getUser() != null || userDTO.isEditingPersoInfo())) {
             if (userDTO.isEditingPersoInfo()) {
                 return context.getUserSession().getUsername();

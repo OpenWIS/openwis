@@ -20,6 +20,7 @@ import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.model.group.OpenWISGroup;
 import org.openwis.usermanagement.model.user.OpenWISAddress;
 import org.openwis.usermanagement.model.user.OpenWISUser;
+import org.openwis.usermanagement.model.user.OpenWISUserUpdateLog;
 import org.openwis.usermanagement.util.GroupUtils;
 import org.openwis.usermanagement.util.JNDIConnectionUtils;
 import org.openwis.usermanagement.util.JNDIUtils;
@@ -260,10 +261,12 @@ public class UserManagementServiceImpl implements UserManagementService {
     /**
      * {@inheritDoc}
      * @see org.openwis.usermanagement.UserManagementService#updateUser(org.openwis.usermanagement.model.OpenWISUser)
+     * @return
      */
     @Override
-    public void updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException {
+    public List<OpenWISUserUpdateLog> updateUser(@WebParam(name = "user") OpenWISUser user) throws UserManagementException {
         logger.info("Updating User " + user.getUserName());
+        List<OpenWISUserUpdateLog> result = new ArrayList<>();
 
         boolean updatePersoInfo = user.getBackUps() == null && user.getGroups() == null
                 && user.getProfile() == null && user.getClassOfService() == null;
@@ -299,6 +302,12 @@ public class UserManagementServiceImpl implements UserManagementService {
                 UtilEntry.updateEntry(modList, dn);
             }
         }
+
+        for (LDAPModification mod : modList) {
+            result.add(UserUtils.buildUserUpdateLog(user.getUserName(),mod));
+        }
+
+        return result;
     }
 
     /**

@@ -461,6 +461,16 @@ CREATE INDEX request_id_index
        primary key (ALARM_ID)
      );
 
+     CREATE TABLE user_log (
+       id SERIAL NOT NULL,
+       DATE timestamp without time zone NOT NULL DEFAULT timezone('UTC'::text, now()),
+       USERNAME varchar(30) NOT NULL,
+       ACTION varchar(255) NOT NULL,
+       ATTRIBUTE_NAME varchar(255),
+       ACTIONER varchar(30 NOT NULL,
+       PRIMARY KEY (id)
+     );
+
     create index USER_ID_AND_REQ_TYPE_IDX on OPENWIS_USER_ALARM (user_id, req_type);
 
     create sequence USER_ALARM_SEQ;

@@ -22,7 +22,9 @@ import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.securityservice.OpenWISAddress;
 import org.openwis.securityservice.OpenWISGroup;
+import org.openwis.securityservice.OpenWISUserUpdateLog;
 import org.openwis.securityservice.OpenWISUser;
+import org.openwis.securityservice.InetUserStatus;
 import org.openwis.securityservice.UserManagementException_Exception;
 
 import java.sql.SQLException;
@@ -128,7 +130,7 @@ public class UserManager extends AbstractManager {
      * @param user the user to update.
      * @throws Exception  if an error occurs.
      */
-    public void updateUser(User user) throws Exception {
+    public List<OpenWISUserUpdateLog> updateUser(User user) throws Exception {
         OpenWISUser openWISUser = buildOpenWisUserFromUser(user);
 
         boolean updatePersoInfo = openWISUser.getBackUps().size() == 0 && openWISUser.getGroups().size() == 0
@@ -138,7 +140,7 @@ public class UserManager extends AbstractManager {
         }
 
         //Check LDAP AND update LDAP.
-        SecurityServiceProvider.getUserManagementService().updateUser(openWISUser);
+        return SecurityServiceProvider.getUserManagementService().updateUser(openWISUser);
     }
 
     private void retrieveUserGroupsOfOtherCentres(OpenWISUser openWISUser) throws Exception {
@@ -271,7 +273,7 @@ public class UserManager extends AbstractManager {
         }
 
         openWisUser.setClassOfService(user.getClassOfService());
-        openWisUser.setInetUserStatus(user.getInetUserStatus());
+        openWisUser.setInetUserStatus(InetUserStatus.ACTIVE);
         openWisUser.setNeedUserAccount(user.isNeedUserAccount());
         for (BackUp backUp : user.getBackUps()) {
             openWisUser.getBackUps().add(backUp.getName());
@@ -413,8 +415,6 @@ public class UserManager extends AbstractManager {
         } catch (SQLException e) {
             return user;
         }
-
         return user;
-
     }
 }
