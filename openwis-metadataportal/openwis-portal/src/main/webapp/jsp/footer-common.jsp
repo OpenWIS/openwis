@@ -29,6 +29,9 @@ color: #3C4751;
 #tos {
     float: left;
 }
+a {
+ background-color:white;
+}
  </STYLE>
 <!-- <div id="mss-footer">
    <div id="tos">
@@ -58,7 +61,7 @@ color: #3C4751;
 		  <p>Best viewed using IE 11, Firefox 52, Chrome 52, Safari 8, Opera 43 and above</p>
 	    </div>
 	    <div width="66%" align="left" style="float: left;">
-		 <p>Report Vulnerability | Privacy Statement | Terms of Use | Rate this Website</p>
+		 <p><a href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a> | <a href="http://asmc.asean.org/terms-of-use/" target="_blank">Privacy Statement</a> | <a href="http://asmc.asean.org/privacy-statement/" target="_blank">Terms of Use</a> | <a href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank">Rate this Website</a></p>
 		</div>
 		<br>
 		<div>
@@ -68,7 +71,9 @@ color: #3C4751;
 		  <p width="33%" align="right">&copy;2020 ASEAN Specialised Meteorological Centre</p>
 		</div>
 		<div>
-		  <p width="33%" align="right">Last Updated <%= LocalDate.now() %></p>
+		  <p width="33%" align="right" >Last Updated <%= LocalDate.now() %></p>
+		</div>
+		<div style="margin:10px;">
 		</div>
       </div>
   </div>

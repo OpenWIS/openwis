@@ -16,7 +16,7 @@ String serviceName = context.getService();
 					<img src="<%= context.getBaseUrl() %>/images/openwis/logo-asmc.png" alt="World picture" align="top">
 				</td>
 				<td align="center" width="33%" style="margin-top:50px;">
-				  <a href="">ABOUT ASMC</a>&nbsp;
+				  <a href="<%= locService %>/about.home">ABOUT ASMC</a>&nbsp;
 				  <a href="">CONTACT US</a>
 				</td>
 				<%-- <td align="center" width="0%" style="margin-top:30px;">
@@ -28,8 +28,8 @@ String serviceName = context.getService();
 				</td>
 			</tr>
 			<tr style="background-color:white; font-weight: bold; font: arial; color:#808080; font-size: 20px;">
-			 <td align="left" width="83%" >&nbsp;&nbsp;DATA CATALOG&nbsp;&nbsp;&nbsp;&nbsp;HELP</td>
-			 <td align="center" width="17%">LOGIN</td>
+			 <td align="left" width="83%" >&nbsp;&nbsp;DATA CATALOG&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%= locService %>/help.home">HELP</a></td>
+			 <td align="center" width="17%"><a href="<%= context.getBaseUrl() %>/openWisInit">LOGIN</a></td>
 			</tr>
 			<tr style="background-color:#ECF0F1; font-weight: bold;">
 			  <td>&nbsp;&nbsp;&nbsp;&nbsp;ASMC /</td>
@@ -60,7 +60,6 @@ String serviceName = context.getService();
 						document.getElementById("ext-comp-1019").value=document.getElementById(id).innerHTML;
 						document.getElementById("ext-gen105").click();
 					}
-					
 				</script>
 			  </td>
 			</tr>
