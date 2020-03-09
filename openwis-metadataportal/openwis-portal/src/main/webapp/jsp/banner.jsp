@@ -16,8 +16,8 @@ String serviceName = context.getService();
 					<img src="<%= context.getBaseUrl() %>/images/openwis/logo-asmc.png" alt="World picture" align="top">
 				</td>
 				<td align="center" width="33%" style="margin-top:50px;">
-				  <a href="<%= locService %>/about.home">ABOUT ASMC</a>&nbsp;
-				  <a href="">CONTACT US</a>
+				  <a href="<%= locService %>/about.home" style="color: #808080;">ABOUT ASMC</a>&nbsp;
+				  <a href="" style="color: #808080;">CONTACT US</a>
 				</td>
 				<%-- <td align="center" width="0%" style="margin-top:30px;">
 					<!-- <img src="<%= context.getBaseUrl() %>/images/openwis/titre_site.png" alt="World picture" align="top"> -->
@@ -28,15 +28,15 @@ String serviceName = context.getService();
 				</td>
 			</tr>
 			<tr style="background-color:white; font-weight: bold; font: arial; color:#808080; font-size: 20px;">
-			 <td align="left" width="83%" >&nbsp;&nbsp;DATA CATALOG&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%= locService %>/help.home">HELP</a></td>
-			 <td align="center" width="17%"><a href="<%= context.getBaseUrl() %>/openWisInit">LOGIN</a></td>
+			 <td align="left" width="83%" >&nbsp;&nbsp;DATA CATALOG&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%= locService %>/help.home" style="color: #808080;">HELP</a></td>
+			 <td align="center" width="17%"><a href="<%= context.getBaseUrl() %>/openWisInit" style="color: #808080;">LOGIN</a></td>
 			</tr>
 			<tr style="background-color:#ECF0F1; font-weight: bold;">
 			  <td>&nbsp;&nbsp;&nbsp;&nbsp;ASMC /</td>
 			  <td>
 				  <ul>
 					  <li class="dropdown">
-					     <a href="javascript:void(0)">&nbsp;DATA CATALOG /</a>
+					     <a href="javascript:void(0)" style="color: black;">&nbsp;DATA CATALOG /</a>
 					    <div class="dropdown-content">
 					       <a class="prod" id="prod1" onclick="showItem('prod1')" href="#">Satellite Images (JPSS 1/NOAA-20)</a>
 					       <a class="prod" id="prod2" onclick="showItem('prod2')" href="#">Satellite Images (Suomi-NPP)</a>

@@ -29,9 +29,7 @@ color: #3C4751;
 #tos {
     float: left;
 }
-a {
- background-color:white;
-}
+
  </STYLE>
 <!-- <div id="mss-footer">
    <div id="tos">
@@ -61,7 +59,7 @@ a {
 		  <p>Best viewed using IE 11, Firefox 52, Chrome 52, Safari 8, Opera 43 and above</p>
 	    </div>
 	    <div width="66%" align="left" style="float: left;">
-		 <p><a href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a> | <a href="http://asmc.asean.org/terms-of-use/" target="_blank">Privacy Statement</a> | <a href="http://asmc.asean.org/privacy-statement/" target="_blank">Terms of Use</a> | <a href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank">Rate this Website</a></p>
+		 <p><a href="https://tech.gov.sg/report_vulnerability" target="_blank" style="color:white;">Report Vulnerability</a> | <a href="http://asmc.asean.org/terms-of-use/" target="_blank" style="color:white;">Privacy Statement</a> | <a href="http://asmc.asean.org/privacy-statement/" target="_blank" style="color:white;">Terms of Use</a> | <a href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank" style="color:white;">Rate this Website</a></p>
 		</div>
 		<br>
 		<div>
