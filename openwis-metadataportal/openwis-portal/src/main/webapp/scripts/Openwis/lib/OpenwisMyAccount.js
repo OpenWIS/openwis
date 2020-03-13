@@ -113,6 +113,7 @@
             "Openwis/MyAccount/TrackMyRequests/TrackMySubscriptions.js",
             "Openwis/MyAccount/TrackMyRequests/MyMSSFSSSubscriptionsGridPanel.js",
             "Openwis/MyAccount/TrackMyRequests/TrackMyMSSFSSSubscriptions.js",
+            "Openwis/MyAccount/TrackMyRequests/MyUserAlarmsPanel.js",
             "Openwis/MyAccount/Browser.js",
             "Openwis/MyAccount/Viewport.js",
             "Openwis/MyAccount/Init.js"
