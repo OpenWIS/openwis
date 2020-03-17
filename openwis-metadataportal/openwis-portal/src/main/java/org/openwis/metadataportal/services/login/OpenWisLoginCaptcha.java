@@ -18,9 +18,6 @@ import java.io.IOException;
 
 public class OpenWisLoginCaptcha extends HttpServlet {
 
-    // Url for verifying client captcha response
-    private final String GOOGLE_CAPTCHA_VERIFICATION_URL="https://www.google.com/recaptcha/api/siteverify";
-
     private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE="g-recaptcha-response";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,30 +43,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
     {
 
         try {
-            boolean captchaPassed = false;
-            HttpClient client = new HttpClient();
-            PostMethod method = new PostMethod(GOOGLE_CAPTCHA_VERIFICATION_URL);
-            // set headers
-            method.setRequestHeader("Content-Type","application/json");
-            method.setRequestHeader("Accept", "application/json");
-
-            NameValuePair[] queryParam = {
-                    new NameValuePair("secret", OpenwisMetadataPortalConfig
-                            .getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SECRET_KEY)),
-                    new NameValuePair("response", request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE))
-            };
-            method.setQueryString(queryParam);
-
-            int statusCode = client.executeMethod(method);
-            if (statusCode == HttpStatus.SC_OK) {
-                // Read the response body.
-                byte[] responseBody = method.getResponseBody();
-
-                JSONObject json = new JSONObject(new String(responseBody));
-                // Deal with the response.
-                captchaPassed = json.getBoolean("success");
-            }
-
+            Boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
             if (captchaPassed)
             {
                 String[] uris=request.getRequestURI().split("/");
@@ -81,7 +55,6 @@ public class OpenWisLoginCaptcha extends HttpServlet {
                 String errorMessage= OpenWISMessages.format("LoginCaptcha.captchaFailed", "en");
                 forwardError(request, response, errorMessage);
             }
-
         } catch (Exception e) {
             Log.error(LoginConstants.LOG, "Error processing Login captcha  : " + e.getMessage());
             forwardError(request, response, "Error during login captcha - " + e.getMessage());

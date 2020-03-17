@@ -25,85 +25,82 @@ import java.net.URLEncoder;
 
 /**
  * Account Request
- * @author gibaultr
  *
+ * @author gibaultr
  */
-public class OpenWisRequestAccount extends HttpServlet{
-	
-	public static String DEFAULT_PASSWORD = "0penw1s@ntid0te!";
+public class OpenWisRequestAccount extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-		    throws ServletException, IOException
-		  {
-		      handleRequest(request,response);
-		  }	
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		    throws ServletException, IOException
-		  {
-		handleRequest(request,response);
+    private static String DEFAULT_PASSWORD = "0penw1s@ntid0te!";
 
-		  }
-	 /**
-	  * Method called once the end user has submitted his account request	  
-	  * @param request HTTP request
-	  * @param response HTTP response
-	  * @throws ServletException 
-	  * @throws IOException
-	  */
-	 private void handleRequest(HttpServletRequest request, HttpServletResponse response)
-			    throws ServletException, IOException
-	 {
-		 ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");	
-		 try {
-			    String userCaptchaResponse = request.getParameter("jcaptcha");
-			    //Check whether the captcha passed or not
-			    boolean captchaPassed = OpenWisImageCaptchaServlet.validateResponse(request, userCaptchaResponse);
-			    
-                //If captcha passed, send mail to end user
-			    if (captchaPassed)
-			    {
-			    	processRequest(context, request, response);
-			    }
-			    else {
-			    	String errorMessage= OpenWISMessages.format("AccountRequest.captchaFailed", context.getLanguage());
-			    	forwardError(request, response, errorMessage);
-			    }
-		 }
-	 	catch (UserAlreadyExistsException e) {
-	 		String errorMessage= OpenWISMessages.format("AccountRequest.userAlreadyExists", context.getLanguage());
-	    	forwardError(request, response, errorMessage);
-	 	}
-		 
-		 catch (Exception e) {
-		         	Log.error(LoginConstants.LOG, "Error processing Account Request  : " + e.getMessage());
-		         	forwardError(request, response, "Error during acccount request - " + e.getMessage());
-		      }
-	 }
+    private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE = "g-recaptcha-response";
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        handleRequest(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        handleRequest(request, response);
+
+    }
+
+    /**
+     * Method called once the end user has submitted his account request
+     *
+     * @param request  HTTP request
+     * @param response HTTP response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
+        try {
+            //Check whether the captcha passed or not
+            boolean captchaPassed = GoogleCaptchaVerificator.verify(GOOGLE_CAPTCHA_PARAMETER_RESPONSE);
+
+            //If captcha passed, send mail to end user
+            if (captchaPassed) {
+                processRequest(context, request, response);
+            } else {
+                String errorMessage = OpenWISMessages.format("AccountRequest.captchaFailed", context.getLanguage());
+                forwardError(request, response, errorMessage);
+            }
+        } catch (UserAlreadyExistsException e) {
+            String errorMessage = OpenWISMessages.format("AccountRequest.userAlreadyExists", context.getLanguage());
+            forwardError(request, response, errorMessage);
+        } catch (Exception e) {
+            Log.error(LoginConstants.LOG, "Error processing Account Request  : " + e.getMessage());
+            forwardError(request, response, "Error during acccount request - " + e.getMessage());
+        }
+    }
 
 
-	private void forwardError(HttpServletRequest request, HttpServletResponse response,
-			      String message) throws ServletException, IOException {
-		
-		String[] uris=request.getRequestURI().split("/");
-		String redirect = "/"+uris[1]+"/srv/en/user.accountRequest.get?errorMessage="+ URLEncoder.encode(message, "UTF-8");;
-    	response.setStatus(307); //this makes the redirection keep your requesting method as is.
-    	response.setHeader("Location", redirect);
-	}
-	/**
-	 * Process account request when captcha passed 
-	 * @param context context
-	 * @param request HTTP request 
-	 * @param response HTTP response
-	 * @throws Exception
-	 */
-	private void processRequest(ServiceContext context, HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
-		String[] uris=request.getRequestURI().split("/");
-    	String redirect = "/"+uris[1]+"/jsp/requestAccountAck.jsp";
-    	response.setStatus(307); //this makes the redirection keep your requesting method as is.
-    	response.addHeader("Location", redirect);
-    	
+    private void forwardError(HttpServletRequest request, HttpServletResponse response,
+                              String message) throws ServletException, IOException {
+
+        String[] uris = request.getRequestURI().split("/");
+        String redirect = "/" + uris[1] + "/srv/en/user.accountRequest.get?errorMessage=" + URLEncoder.encode(message, "UTF-8");
+        ;
+        response.setStatus(307); //this makes the redirection keep your requesting method as is.
+        response.setHeader("Location", redirect);
+    }
+
+    /**
+     * Process account request when captcha passed
+     *
+     * @param context  context
+     * @param request  HTTP request
+     * @param response HTTP response
+     * @throws Exception
+     */
+    private void processRequest(ServiceContext context, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String[] uris = request.getRequestURI().split("/");
+        String redirect = "/" + uris[1] + "/jsp/requestAccountAck.jsp";
+        response.setStatus(307); //this makes the redirection keep your requesting method as is.
+        response.addHeader("Location", redirect);
+
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String organisation = request.getParameter("organisation");
@@ -111,7 +108,7 @@ public class OpenWisRequestAccount extends HttpServlet{
         String email = request.getParameter("email");
 
         Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
-        
+
         // Create User
         UserManager um = new UserManager(dbms);
         User user = new User();
@@ -128,88 +125,91 @@ public class OpenWisRequestAccount extends HttpServlet{
         user.setAddress(address);
         user.setEmailContact(email);
         user.setProfile("Candidate");
-        user.setPassword(DEFAULT_PASSWORD);		           
+        user.setPassword(DEFAULT_PASSWORD);
         um.createUser(user);
         Log.debug(Geonet.SELF_REGISTER, "User created on Security Server");
-        
+
         //Send Mail To User
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the user");
         sendEmailToUser(context, email, firstname, lastname);
-        
+
         //Send Mail To Openwis Administrator
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the administrator");
         sendEmailToAdministrator(context, email, firstname, lastname, organisation, country);
-		
-	}
-	/**
-	 * Sending email notification to the end user just after he has requested an account 
-	 * @param context context
-	 * @param email user email address
-	 * @param firstname firstname of the user
-	 * @param lastname last name of the user
-	 */
-	private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname) {
-		
-		MailUtilities mail = new MailUtilities();
-        
-        String content = OpenWISMessages.format("AccountRequest.mailContent1", context.getLanguage(),new String[]{firstname,lastname});
+
+    }
+
+    /**
+     * Sending email notification to the end user just after he has requested an account
+     *
+     * @param context   context
+     * @param email     user email address
+     * @param firstname firstname of the user
+     * @param lastname  last name of the user
+     */
+    private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname) {
+
+        MailUtilities mail = new MailUtilities();
+
+        String content = OpenWISMessages.format("AccountRequest.mailContent1", context.getLanguage(), new String[]{firstname, lastname});
         String thisSite = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME);
         String subject = OpenWISMessages.format("AccountRequest.subject1", context.getLanguage(), thisSite);
-        
- 	   	GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
- 	   	SettingManager sm = gc.getSettingManager();
-       
- 	   	String host = sm.getValue("system/feedback/mailServer/host");
- 	   	String port = sm.getValue("system/feedback/mailServer/port");
- 	   String from =  System.getProperty("openwis.mail.senderAddress");
-	   	if (from == null) 
-	   		from=sm.getValue("system/feedback/email");	   
 
-        
+        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+        SettingManager sm = gc.getSettingManager();
+
+        String host = sm.getValue("system/feedback/mailServer/host");
+        String port = sm.getValue("system/feedback/mailServer/port");
+        String from = System.getProperty("openwis.mail.senderAddress");
+        if (from == null)
+            from = sm.getValue("system/feedback/email");
+
 
         boolean result = mail.sendMail(host, Integer.parseInt(port), subject, from, new String[]{email}, content);
         if (!result) {
-           // To be confirmed: Set ack dto if error message is requested
-           //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-        	Log.error(Geonet.SELF_REGISTER, "Error during Account Request : error while sending email to the end user("+email+")");
+            // To be confirmed: Set ack dto if error message is requested
+            //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Request : error while sending email to the end user(" + email + ")");
         } else {
-           Log.info(Geonet.SELF_REGISTER, "Account request email sent successfully to the end user("+email+") from "+from);
+            Log.info(Geonet.SELF_REGISTER, "Account request email sent successfully to the end user(" + email + ") from " + from);
         }
-	}
-	/**
-	 * Sending email notification to the administrator after the end user has requested an account 
-	 * @param context context
-	 * @param email user email address
-	 * @param firstname firstname of the user
-	 * @param lastname last name of the user
-	 */
-	private void sendEmailToAdministrator(ServiceContext context, String email, String firstname, String lastname, String organisation, String country) {
-		
-		MailUtilities mail = new MailUtilities();
-        
-        String content = OpenWISMessages.format("AccountRequest.mailContent2", context.getLanguage(),new String[]{firstname,lastname,email, organisation, country});
+    }
+
+    /**
+     * Sending email notification to the administrator after the end user has requested an account
+     *
+     * @param context   context
+     * @param email     user email address
+     * @param firstname firstname of the user
+     * @param lastname  last name of the user
+     */
+    private void sendEmailToAdministrator(ServiceContext context, String email, String firstname, String lastname, String organisation, String country) {
+
+        MailUtilities mail = new MailUtilities();
+
+        String content = OpenWISMessages.format("AccountRequest.mailContent2", context.getLanguage(), new String[]{firstname, lastname, email, organisation, country});
         String thisSite = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME);
         String subject = OpenWISMessages.format("AccountRequest.subject2", context.getLanguage(), thisSite);
-        
- 	   	GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
- 	   	SettingManager sm = gc.getSettingManager();
-       
- 	   	String host = sm.getValue("system/feedback/mailServer/host");
- 	   	String port = sm.getValue("system/feedback/mailServer/port");
- 	    String from =  System.getProperty("openwis.mail.senderAddress");
- 	    String to =  	sm.getValue("system/feedback/email");
-	   	if (from == null) 
-	   		from=sm.getValue("system/feedback/email");	 	   
+
+        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+        SettingManager sm = gc.getSettingManager();
+
+        String host = sm.getValue("system/feedback/mailServer/host");
+        String port = sm.getValue("system/feedback/mailServer/port");
+        String from = System.getProperty("openwis.mail.senderAddress");
+        String to = sm.getValue("system/feedback/email");
+        if (from == null)
+            from = sm.getValue("system/feedback/email");
 
         boolean result = mail.sendMail(host, Integer.parseInt(port), subject, from, new String[]{to}, content);
         if (!result) {
-           // To be confirmed: Set ack dto if error message is requested
-           //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-        	Log.error(Geonet.SELF_REGISTER, "Error during Account Request : error while sending email to the administrator ("+to+") from "+from+" about self registration of user "+email);
+            // To be confirmed: Set ack dto if error message is requested
+            //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Request : error while sending email to the administrator (" + to + ") from " + from + " about self registration of user " + email);
         } else {
-           Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator ("+to+") from "+from+" about self registration of user "+email);
+            Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator (" + to + ") from " + from + " about self registration of user " + email);
         }
-		
-	}	
-	
+
+    }
+
 }
