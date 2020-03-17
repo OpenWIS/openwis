@@ -98,9 +98,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.javaee</groupId>
-			<artifactId>javaee</artifactId>
-			<version>5.0</version>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -616,9 +616,9 @@
 								<scope>compile</scope>
 							</dependency>
 							<dependency>
-								<groupId>com.sun.javaee</groupId>
-								<artifactId>javaee</artifactId>
-								<version>5.0</version>
+								<groupId>javax</groupId>
+								<artifactId>javaee-api</artifactId>
+								<version>8.0</version>
 								<scope>compile</scope>
 							</dependency>
 						</dependencies>

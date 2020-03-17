@@ -59,8 +59,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.javaee</groupId>
-			<artifactId>javaee</artifactId>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -115,8 +116,8 @@
 						<!-- Same as the dependency in commons-logging -->
 					</dependency>
 					<dependency>
-						<groupId>com.sun.javaee</groupId>
-						<artifactId>javaee</artifactId>
+						<groupId>javax</groupId>
+						<artifactId>javaee-api</artifactId>
 						<version>${javaee.version}</version>
 					</dependency>
 					<dependency>

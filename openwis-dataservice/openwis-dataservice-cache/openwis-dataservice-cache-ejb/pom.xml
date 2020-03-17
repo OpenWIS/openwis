@@ -53,9 +53,9 @@
 	 <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.javaee</groupId>
-      <artifactId>javaee</artifactId>
-      <version>5.0</version>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>8.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
