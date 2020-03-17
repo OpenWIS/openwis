@@ -28,6 +28,8 @@ import java.util.Random;
  */
 public class OpenWisRecoverAccount extends HttpServlet{
 
+	private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE="g-recaptcha-response";
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException
 		  {
@@ -52,9 +54,8 @@ public class OpenWisRecoverAccount extends HttpServlet{
 	 {
 		 
 		 try {
-			    String userCaptchaResponse = request.getParameter("jcaptcha");
 			    //Check whether the captcha passed or not
-			    boolean captchaPassed = OpenWisImageCaptchaServlet.validateResponse(request, userCaptchaResponse);
+			    boolean captchaPassed = GoogleCaptchaVerificator.verify(GOOGLE_CAPTCHA_PARAMETER_RESPONSE);
 			    ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");	
 			    
 
