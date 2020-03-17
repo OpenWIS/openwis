@@ -1,3 +1,5 @@
+<%@page import="org.openwis.metadataportal.common.configuration.ConfigurationConstants"%>
+<%@page import="org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig"%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -6,6 +8,13 @@
 		<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/Openwis/lib/Openwis/RegistrationUser/RequestAccount.js"></script>
 		<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-requestAccount.css">
 		
+	    <script type="text/javascript">
+            var onloadCallback = function() {
+                grecaptcha.render('google-catpcha', {
+                'sitekey' : '<%=OpenwisMetadataPortalConfig.getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SITE_KEY)%>'
+                });
+            };
+        </script>
 	</head>
 	<body>
 		<div class="main-content">
@@ -29,26 +38,19 @@
 					<label for="email">Email Address:</label>
 					<input name="email" id="email" type="email" required="required" data-validation="isEmail"/>
 				</div>
-				
-								
 				<div class="spacer"></div>
-				
 				<div class="captcha">
-					<label for="captcha" class="for-captcha">Type the letters and numbers exactly as they appear in this image:</label>
-					
-					<div>
-						<img src="<%= context.getBaseUrl() %>/openWisRequestAccountCaptcha" /> 
-					</div>
-					<div>
-						<input name="jcaptcha" type="text" autocomplete="off" required="required" value="" data-validation="required"/>
-					</div>
+				    <div id="google-captcha"></div>
+                    <br>
 				</div>
-				
 				<div class="button">
 					<input id="submit" type="submit" value="Submit"/>
 					<img src="<%= context.getBaseUrl() %>/images/openwis/ajax-loader.gif" id="ajax-loader" class="ajax-loader" style="display:none"/>
 				</div>
 			</form>
+            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                async defer>
+            </script>
 		</div>
 	</body>
 </html>
