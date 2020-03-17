@@ -143,22 +143,22 @@
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- postgresql -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		
+
 		<resource enabled="true">
 			<name>main-db</name>
 			<provider>jeeves.resources.dbms.DbmsPool</provider>
 			<config>
-                <user>openwis</user>
-                <password>0penW1s</password>
-                <driver>org.postgresql.Driver</driver>
-                <url>jdbc:postgresql://and-mf-openwis-01:5432/OpenWIS</url>
-                <poolSize>10</poolSize>
-                <properties>
-                 <property key="stringtype">unspecified</property>
-                </properties>
+				<user>openwis</user>
+				<password>openwis31</password>
+				<driver>org.postgresql.Driver</driver>
+				<url>jdbc:postgresql://openwis-db-1.cxaczg5nxvqg.eu-west-3.rds.amazonaws.com:5432/OpenWIS</url>
+				<poolSize>10</poolSize>
+				<properties>
+					<property key="stringtype">unspecified</property>
+				</properties>
 			</config>
 		</resource>
-	    
+
 	</resources>
 
 	<!-- ====================================================================== -->
