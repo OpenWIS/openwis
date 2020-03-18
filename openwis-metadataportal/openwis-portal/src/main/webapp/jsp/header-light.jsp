@@ -37,8 +37,23 @@ boolean selfRegistrationEnabled = sm.getValueAsBool("system/userSelfRegistration
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/MultiSelect.css">
 	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
   
+    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/gn.geo.libs.js"></script>
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext/ext-all.js"></script>
+
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/ext.libs.js"></script>
+
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/Openwis/lib/Openwis/Lang/Lang.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/Openwis/lib/Openwis/Lang/Locales/<%= context.getLanguage() %>.js"></script>
-	
+
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/Openwis/OpenwisCommon.js"></script>
+
+    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/gn.libs.scriptaculous.js"></script>
+    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/gn.js"></script>
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/gn.editor.js"></script>
+
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/Openwis/lib/Openwis/Openwis.js"></script>
+
 	
     

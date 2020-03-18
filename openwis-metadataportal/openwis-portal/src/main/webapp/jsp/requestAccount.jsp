@@ -10,7 +10,7 @@
 
 	    <script type="text/javascript">
             var onloadCallback = function() {
-                grecaptcha.render('google-catpcha', {
+                grecaptcha.render('google-captcha', {
                 'sitekey' : '<%=OpenwisMetadataPortalConfig.getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SITE_KEY)%>'
                 });
             };

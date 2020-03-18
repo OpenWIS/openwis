@@ -1,5 +1,3 @@
-<%@page import="org.openwis.metadataportal.common.configuration.ConfigurationConstants"%>
-<%@page import="org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig"%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -10,7 +8,7 @@
 		
 	    <script type="text/javascript">
             var onloadCallback = function() {
-                grecaptcha.render('google-catpcha', {
+                grecaptcha.render('google-captcha', {
                 'sitekey' : '<%=OpenwisMetadataPortalConfig.getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SITE_KEY)%>'
                 });
             };
