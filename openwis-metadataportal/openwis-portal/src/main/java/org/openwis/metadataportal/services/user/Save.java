@@ -8,6 +8,7 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 
+import jeeves.utils.Log;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
 import org.openwis.metadataportal.kernel.request.RequestManager;
@@ -15,12 +16,16 @@ import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
+import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.securityservice.OpenWISUserUpdateLog;
+
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.sql.Timestamp;
 
@@ -77,6 +82,11 @@ public class Save implements Service {
             RequestManager requestManager = new RequestManager();
             requestManager.checkUserSubscription(user.getUser().getUsername(), dbms);
 
+            // if password was changes update the timestamp
+            if (!user.getUser().getPassword().isEmpty()) {
+               this.updateLastPasswordChangeTimestamp(dbms, user.getUser().getUsername());
+            }
+
          }
          acknowledgementDTO = new AcknowledgementDTO(true);
       } catch (UserAlreadyExistsException e) {
@@ -93,5 +103,14 @@ public class Save implements Service {
     */
    private String getUsernameFromRequest(ServiceContext context) {
        return context.getUserSession().getUsername();
+   }
+
+   private void updateLastPasswordChangeTimestamp(Dbms dbms, String username) throws SQLException {
+      String query = "UPDATE Users SET lastpasswordchange=? WHERE username=?";
+
+      Timestamp timestamp = new Timestamp(new Date().getTime());
+      int res = dbms.execute(query , timestamp, username);
+      Log.debug(LoginConstants.LOG, "Update  last passowrd change: " + username );
+      dbms.commit();
    }
 }
