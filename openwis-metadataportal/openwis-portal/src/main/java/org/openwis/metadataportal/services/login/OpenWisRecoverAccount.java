@@ -55,7 +55,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
 		 
 		 try {
 			    //Check whether the captcha passed or not
-			    boolean captchaPassed = GoogleCaptchaVerificator.verify(GOOGLE_CAPTCHA_PARAMETER_RESPONSE);
+			    boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
 			    ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");	
 			    
 
@@ -108,7 +108,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
         //Generate new Password
         String newPassword = generatePassword();
         //Change User Password
-        um.changePassword(email, newPassword);
+        um.changePassword(user.getUsername(), newPassword);
         
         
         //Send Mail To User
