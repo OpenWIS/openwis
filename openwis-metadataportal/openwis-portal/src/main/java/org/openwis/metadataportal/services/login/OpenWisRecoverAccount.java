@@ -139,8 +139,6 @@ public class OpenWisRecoverAccount extends HttpServlet{
  	   	GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
  	   	SettingManager sm = gc.getSettingManager();
        
- 	   	String host = sm.getValue("system/feedback/mailServer/host");
- 	   	String port = sm.getValue("system/feedback/mailServer/port");
  	   	String from =  System.getProperty("openwis.mail.senderAddress");
  	   	if (from == null) 
  	   		from=sm.getValue("system/feedback/email");	
@@ -148,7 +146,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
 
         
 
-        boolean result = mail.sendMail(host, Integer.parseInt(port), subject, from, new String[]{email}, content);
+        boolean result = mail.sendMail("", -1, subject, from, new String[]{email}, content);
         if (!result) {
            // To be confirmed: Set ack dto if error message is requested
            //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
