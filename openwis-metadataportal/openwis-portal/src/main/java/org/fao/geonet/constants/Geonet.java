@@ -499,6 +499,7 @@ public class Geonet
    public static final String HARVESTER_EXECUTOR = OPENWIS + ".harvester.executor";
    public static final String PRIVILEGES = OPENWIS + ".privileges";
    public static final String SELF_REGISTER = OPENWIS + ".selfRegister";
+   public static final String CREATE_REQUEST_SUBSCRIPTION = OPENWIS + ".create.request.subscription";
    public static final String UTIL = OPENWIS + ".util";
 
 
