@@ -51,10 +51,8 @@ public class MailUtilities {
             message.writeTo(outputStream);
 
             ByteBuffer buf = ByteBuffer.wrap(outputStream.toByteArray());
-
             byte[] arr = new byte[buf.remaining()];
             buf.get(arr);
-
             SdkBytes data = SdkBytes.fromByteArray(arr);
 
             RawMessage rawMessage = RawMessage.builder()
