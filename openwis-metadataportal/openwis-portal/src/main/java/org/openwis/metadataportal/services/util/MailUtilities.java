@@ -33,15 +33,13 @@ public class MailUtilities {
     /**
      * Send the mail to the registering user.
      *
-     * @param host The server host
-     * @param port The server port
      * @param subject The mail subject
      * @param from The sender
      * @param to The beneficiaries
      * @param content The mail content
      * @return
      */
-    public boolean sendMail(String host, int port, String subject, String from, String[] to, String content) {
+    public boolean sendMail(String subject, String from, String[] to, String content) {
         boolean isSendout = false;
         try {
             InstanceProfileCredentialsProvider provider = InstanceProfileCredentialsProvider.builder().build();

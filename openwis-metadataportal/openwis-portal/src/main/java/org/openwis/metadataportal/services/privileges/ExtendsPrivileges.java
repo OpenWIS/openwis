@@ -11,9 +11,7 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
 
-import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.kernel.setting.SettingManager;
 import org.jdom.Element;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.utils.SecurityServiceAlerts;
@@ -60,17 +58,11 @@ public class ExtendsPrivileges implements Service {
       String content = getContent(username, firstname,
             lastname, msg.getContent(), context.getLanguage());
 
-      GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-      SettingManager sm = gc.getSettingManager();
-
-      String host = sm.getValue("system/feedback/mailServer/host");
-      String port = sm.getValue("system/feedback/mailServer/port");
       String from = context.getUserSession().getMail();
-      Log.debug(Geonet.PRIVILEGES, "host : " + host + " port: " + port + " from : " + from);
+      Log.debug(Geonet.PRIVILEGES, " from : " + from);
       
       MailUtilities mail = new MailUtilities();
-      boolean result = mail.sendMail(host, Integer.parseInt(port), subject, from, new String[]{from},
-            content);
+      boolean result = mail.sendMail( subject, from, new String[]{from},content);
       
       if (!result) {
          acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("ExtendsPrivileges.error", context.getLanguage()));
@@ -78,9 +70,7 @@ public class ExtendsPrivileges implements Service {
       } else {
          Log.info(Geonet.PRIVILEGES, "Privilege Extension: successfully requested");
       }
-      
       raiseAlarm(username, msg.getContent());
-
       return JeevesJsonWrapper.send(acknowledgementDTO);
    }
    
