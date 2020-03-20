@@ -98,16 +98,12 @@ public class SelfRegister implements Service {
             String content = getContent(userDTO.getUser().getUsername(), userDTO.getUser()
                   .getPassword(), siteURL, thisSite, context.getLanguage());
 
-            String host = sm.getValue("system/feedback/mailServer/host");
-            String port = sm.getValue("system/feedback/mailServer/port");
             String from = sm.getValue("system/feedback/email");
-            Log.debug(Geonet.SELF_REGISTER, "host : " + host + " port: " + port + " from : " + from
-                  + " to : " + userDTO.getUser().getEmailContact());
+            Log.debug(Geonet.SELF_REGISTER, " from : " + from + " to : " + userDTO.getUser().getEmailContact());
 
             MailUtilities mail = new MailUtilities();
 
-            boolean result = mail.sendMail(host, Integer.parseInt(port), subject, from,
-                  new String[] {userDTO.getUser().getEmailContact()}, content);
+            boolean result = mail.sendMail(subject, from,new String[] {userDTO.getUser().getEmailContact()}, content);
             if (!result) {
                // To be confirmed: Set ack dto if error message is requested
                //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));

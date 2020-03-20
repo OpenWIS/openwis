@@ -623,10 +623,8 @@ public class Geonetwork implements ApplicationHandler {
     */
    private void sendMail(String[] adminMails, SettingManager sm, String backUpName, double remoteBackUpWarnRate) {
       
-      String host = sm.getValue("system/feedback/mailServer/host");
-      String port = sm.getValue("system/feedback/mailServer/port");
       String from = sm.getValue("system/feedback/email");
-      Log.debug(Geonet.SELF_REGISTER, "host : " + host + " port: " + port + " from : " + from + " to : " + adminMails);
+      Log.debug(Geonet.SELF_REGISTER, " from : " + from + " to : " + adminMails);
       
       MailUtilities mail = new MailUtilities();
 
@@ -635,7 +633,7 @@ public class Geonetwork implements ApplicationHandler {
             OpenWISMessages.getString("BackUpAvailability.mailContent", null), backUpName,
             remoteBackUpWarnRate);
       
-      boolean result = mail.sendMail(host, Integer.parseInt(port), subject, from, adminMails, content);
+      boolean result = mail.sendMail(subject, from, adminMails, content);
       if (!result) {
          Log.error(Geonet.ADMIN, "Send Mail Failed: the deployment is in error");
       } else {

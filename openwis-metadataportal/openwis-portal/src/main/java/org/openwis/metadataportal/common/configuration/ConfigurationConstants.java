@@ -246,4 +246,5 @@ public interface ConfigurationConstants {
 
     String GOOGLE_RECAPTCHA_SITE_KEY="openwis.metadataportal.login.captcha.siteKey";
 
+    String AWS_EMAIL_REGION="openwis.metadataportal.email.region";
 }
