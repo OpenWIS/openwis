@@ -17,10 +17,9 @@
   </description>
 
   <scm>
-    <connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
-    <developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
-    <tag>openwis-3.14.8-release</tag>
     <url>https://github.com/OpenWIS/openwis</url>
+    <connection>scm:git:ssh://git@github.com/OpenWIS/openwis.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/OpenWIS/openwis.git</developerConnection>
   </scm>
 
   <organization>
@@ -63,6 +62,7 @@
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <dependency-check-maven.version>5.3.0</dependency-check-maven.version>
     <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+    <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 
     <sonar.c.file.suffixes>-</sonar.c.file.suffixes>
     <sonar.cpp.file.suffixes>-</sonar.cpp.file.suffixes>
@@ -240,34 +240,21 @@
             <failOnError>false</failOnError>
           </configuration>
         </plugin>
-
-        <!-- this plugin is required to maven release the build -->
-        <!-- 23/01/15 Kirsty Burgess UK Met Office -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.3</version>
-          <configuration>
-            <pushChanges>true</pushChanges>
-            <localCheckout>true</localCheckout>
-            <preparationGoals>clean install</preparationGoals>
-            <autoVersionSubmodules>true</autoVersionSubmodules>
-            <!--This is set so not to break Maven releasings in Jenkins-->
-            <updateWorkingCopyVersions>false</updateWorkingCopyVersions>
-          </configuration>
-          <executions>
-            <execution>
-              <id>default</id>
-              <goals>
-                <goal>perform</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>${sonar-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <tagNameFormat>openwis-@{project.version}-release</tagNameFormat>
+            <scmCommentPrefix>[maven-release-plugin][skip travisci]</scmCommentPrefix>
+            <arguments>-Dmaven.javadoc.skip=true -Dmaven.test.skipTests=true -Dmaven.test.skip=true</arguments>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
