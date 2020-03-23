@@ -5,12 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p><span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span> has requested an account recover.</p>
+    <p><span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span> has requested an account.</p>
     <div class="login-detailed">
-        Login details:
+        Details:
         <ul>
             <li> Username: <span th:text="${username}">username</span></li>
-            <li> Password: <span th:text="${password}">password</span></li>
+            <li> Organization: <span th:text="${organization}">org</span></li>
+            <li> Country: <span th:text="${country}">org</span></li>
         </ul>
     </div>
 </body>

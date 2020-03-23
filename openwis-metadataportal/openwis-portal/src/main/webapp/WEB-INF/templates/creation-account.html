@@ -16,25 +16,31 @@
 </head>
 <body>
     <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
-    <p>Your password has been reset successfully.</p>
+    <p>Your account for ASMC WIS Portal has been created.</p>
     <div class="login-detailed">
-        Your login details for MSS-ASMC WIS Portal are provided below:
+        Your login details are provided below:
         <ul>
             <li> Username: <span th:text="${username}">username</span></li>
             <li> Password: <span th:text="${password}">password</span></li>
         </ul>
+        <p class="remember">You are encouraged to change your current password to use at lease 12 characters
+            and use passphrase which is easy to remember.
+        </p>
         To change your password:
         <ol>
+            <li>Login to the portal using the above credentials</li>
             <li>Select 'My Account'</li>
             <li>Select 'Personal information' and click 'Change my password'</li>
             <li>Enter your new password into the form and click 'Change Password...' </li>
         </ol>
-        <p>If you have any questions or concerns, please do not hesitate to contact us.</p>
+        <p>If you require further assistance, please contact us at
+            <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
+            or
+            <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+        </p>
     </div>
     <div class="footer">
-        <p class="end">Regards,</p>
-        <p class="end1">MSS Singapore Operations</p>
-        <p class="end1">MSS_Operations@nea.gov.sg</p>
-        <p class="note">NOTE: This email was sent automatically.  Please do not reply.</p>
+        <p class="note">This is an automatically generated message. Please do not reply to this email.</p>
     </div>
+</body>
 </html>
