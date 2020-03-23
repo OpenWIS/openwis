@@ -13,12 +13,16 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
+import org.openwis.metadataportal.services.util.mail.OpenWISMail;
+import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -132,24 +136,21 @@ public class OpenWisRecoverAccount extends HttpServlet{
 
         MailUtilities mail = new MailUtilities();
 
-        String content = OpenWISMessages.format("AccountRecovery.mailContent1", context.getLanguage(),new String[]{firstname,lastname,email,password});
-        String thisSite = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME);
-        String subject = OpenWISMessages.format("AccountRecovery.subject1", context.getLanguage(), thisSite);
+        Map<String, Object> content = new HashMap<>();
+        content.put("firstname", firstname);
+        content.put("lastname", lastname);
+        content.put("username", email);
+        content.put("password", password);
 
-        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-        SettingManager sm = gc.getSettingManager();
 
-        String from =  System.getProperty("openwis.mail.senderAddress");
-        if (from == null)
-            from=sm.getValue("system/feedback/email");
-
-        boolean result = mail.sendMail(subject, from, new String[]{email}, content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountUserMail(context, "AccountRecovery.subject1",new String[]{email}, content);
+        boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
             Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user("+email+")");
         } else {
-            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+email+") from "+from);
+            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+email+") from "+openWISMail.getAdministratorAddress());
         }
     }
     /**
@@ -163,25 +164,20 @@ public class OpenWisRecoverAccount extends HttpServlet{
 
         MailUtilities mail = new MailUtilities();
 
-        String content  = OpenWISMessages.format("AccountRecovery.mailContent2", context.getLanguage(),new String[]{firstname,lastname,email, password, ""});
-        String thisSite = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME);
-        String subject  = OpenWISMessages.format("AccountRecovery.subject2", context.getLanguage(), thisSite);
+        Map<String, Object> content = new HashMap<>();
+        content.put("firstname", firstname);
+        content.put("lastname", lastname);
+        content.put("username", email);
+        content.put("password", password);
 
-        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-        SettingManager sm = gc.getSettingManager();
-
-        String from =  System.getProperty("openwis.mail.senderAddress");
-        String to =  	sm.getValue("system/feedback/email");
-        if (from == null)
-            from=sm.getValue("system/feedback/email");
-
-        boolean result = mail.sendMail(subject, from, new String[]{to}, content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountAdminMail(context, "AccountRecovery.subject2", content);
+        boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the administrator ("+to+") from "+from+" about account recovery of user "+email);
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the administrator ("+openWISMail.getAdministratorAddress()+") about account recovery of user "+email);
         } else {
-            Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator ("+to+") from "+from+" about account recovery of user "+email);
+            Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator ("+openWISMail.getAdministratorAddress()+") about account recovery of user "+email);
         }
     }
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .end1 {
+            margin: 0;
+         }
+         .note {
+            font-size:12px;
+            font-weight: bold;
+            font-style: italic;
+          }
+    </style>
+</head>
+<body>
+    <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
+    <p> Thank you for requesting an account MSS-ASMC WIS Portal.
+        We are required to forward the request for the creation of your account to the WIS Focal Point of your country.
+        Once we have approval to create the account, you will receive an email containing your login details.</p>
+    <p>If you have any questions or concerns, please do not hesitate to contact us.</p>
+    <div class="footer">
+        <p class="end">Regards,</p>
+        <p class="end1">MSS Singapore Operations</p>
+        <p class="end1">MSS_Operations@nea.gov.sg</p>
+        <p class="note">NOTE: This email was sent automatically.  Please do not reply.</p>
+    </div>
+</html>

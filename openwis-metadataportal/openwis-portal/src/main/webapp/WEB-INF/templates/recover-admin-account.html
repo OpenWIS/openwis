@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p><span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span> has requested an account recover.</p>
+    <div class="login-detailed">
+        Login details:
+        <ul>
+            <li> Username: <span th:text="${username}">username</span></li>
+            <li> Password: <span th:text="${password}">password</span></li>
+        </ul>
+    </div>
+</body>
+</html>
