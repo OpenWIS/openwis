@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .end1 {
+            margin: 0;
+         }
+         .note {
+            font-size:12px;
+            font-weight: bold;
+            font-style: italic;
+          }
+    </style>
+</head>
+<body>
+    <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
+    <p>You have subscribed
+        to product <span th:text="${subscription.productMetadataURN}" class="urn">urn</span>
+        and we thank you.
+    </p>
+    <div class="request-details">
+        Please find below a summary of your subscription:
+        <table>
+            <tr>
+                <td class="row-header">Request ID:</td>
+                <td th:text="${requestID}">request id</td>
+            </tr>
+            <tr>
+                <td class="row-header">Product URN:</td>
+                <td th:text="${subscription.productMetadataURN}">urn</td>
+            </tr>
+            <tr>
+                <td class="row-header">Frequency</td>
+                <td th:if="${not #strings.isEmpty(subscription.frequency.recurrencePeriod)}">
+                    <table class="innerTable">
+                        <tr>
+                            <td class="row-header2">Type</td>
+                            <td th:text="${subscription.frequency.type}">type</td>
+                        </tr>
+                        <tr>
+                            <td class="row-header2">Every</td>
+                            <td>
+                                <span th:text="${subscription.frequency.recurrencePeriod}">2</span>
+                                <div th:switch="${subscription.frequency.recurrentScale}">
+                                    <p th:case="'HOUR'">Hours</p>
+                                    <p th:case="'DAYS'">Days</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header2">Starting date</td>
+                            <td th:text="${subscription.frequency.startingDate}">startingDate</td>
+                        </tr>
+                    </table>
+                </td>
+                <td th:if="${#strings.isEmpty(subscription.frequency.recurrencePeriod)}">
+                    <span th:text="${subscription.frequency.type}">type</span>
+                </td>
+            </tr>
+	</table>
+	<div class="dissemination">
+		<p class="row-header">Primary dissemination</p>
+		<div th:if="${not #strings.isEmpty(subscription.primaryDissemination.publicDiffusion)}">
+			<table>
+				<td>Public diffusion</td>
+				<td>
+					<table  class="innerTable">
+						<tr>
+							<td class="row-header2">Zip mode</td>
+							<td th:text="${subscription.primaryDissemination.publicDiffusion.zipMode}">zip mode</td>
+						</tr>
+						<tr th:if="${not #strings.isEmpty(subscription.primaryDissemination.publicDiffusion.ftp)}">
+							<td class="row-header2">SFTP:</td>
+							<td>
+								<ul>
+									<li>Host: <span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.host}">host</span></li>
+									<li>Port: <span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.port}">port</span></li>
+									<li>User: <span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.user}">user</user></li>
+									<li>Password: <span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.password}">password</span></li>
+									<li>Path: <span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.path}">path</span></li>
+								</ul>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</table>
+		</div>
+		<table th:if="${not #strings.isEmpty(subscription.primaryDissemination.shoppingCartDissemination)}" class="innerTable">
+			<tr>
+				<td class="row-header2">Zip mode</td>
+				<td th:text="${subscription.primaryDissemination.shoppingCartDissemination.zipMode}">zip mode</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${not #strings.isEmpty(subscription.secondaryDissemination)}" class="dissemination">
+		<p class="row-header">Secondary dissemination</p>
+		<div th:if="${not #strings.isEmpty(subscription.secondaryDissemination.publicDiffusion)}">
+			<table>
+				<td>Public diffusion</td>
+				<td>
+					<table  class="innerTable">
+						<tr>
+							<td class="row-header2">Zip mode</td>
+							<td th:text="${subscription.secondaryDissemination.publicDiffusion.zipMode}">zip mode</td>
+						</tr>
+						<tr th:if="${not #strings.isEmpty(subscription.secondaryDissemination.publicDiffusion.ftp)}">
+							<td class="row-header2">SFTP:</td>
+							<td>
+								<ul>
+									<li>Host: <span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.host}">host</span></li>
+									<li>Port: <span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.port}">port</span></li>
+									<li>User: <span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.user}">user</user></li>
+									<li>Password: <span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.password}">password</span></li>
+									<li>Path: <span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.path}">path</span></li>
+								</ul>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</table>
+		</div>
+		<table th:if="${not #strings.isEmpty(subscription.secondaryDissemination.shoppingCartDissemination)}" class="innerTable">
+			<tr>
+				<td class="row-header2">Zip mode</td>
+				<td th:text="${subscription.secondaryDissemination.shoppingCartDissemination.zipMode}">zip mode</td>
+			</tr>
+		</table>
+	</div>
+        <p>If you require further assistance, please contact us at
+            <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
+            or
+            <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+        </p>
+    </div>
+    <div class="footer">
+        <p class="note">This is an automatically generated message. Please do not reply to this email.</p>
+    </div>
+</body>
+</html>
