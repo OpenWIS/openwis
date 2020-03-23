@@ -33,11 +33,15 @@ import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
  */
 public class MailUtilities {
 
+    /**
+     * DEPRECATED. Use {@link #send(IOpenWISMail)} instead.
+     */
+    @Deprecated
     public boolean sendMail(String subject, String from, String[] to, String content) {
         return this.sendMail0(subject, from, to, content);
     }
 
-    public boolean sendMail(IOpenWISMail openWISMail) {
+    public boolean send(IOpenWISMail openWISMail) {
         return this.sendMail0(openWISMail.getSubject(), openWISMail.getAdministratorAddress(), openWISMail.getDestinations(), openWISMail.getBody());
     }
     /**

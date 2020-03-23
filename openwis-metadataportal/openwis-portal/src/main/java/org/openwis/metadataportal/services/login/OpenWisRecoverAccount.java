@@ -144,7 +144,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
 
 
         OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountUserMail(context, "AccountRecovery.subject1",new String[]{email}, content);
-        boolean result = mail.sendMail(openWISMail);
+        boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
@@ -171,7 +171,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
         content.put("password", password);
 
         OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountAdminMail(context, "AccountRecovery.subject2", content);
-        boolean result = mail.sendMail(openWISMail);
+        boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
