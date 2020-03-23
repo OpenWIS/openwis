@@ -18,12 +18,46 @@ public class EmailTemplate {
      */
     public static final String RECOVER_ACCOUNT_TEMPLATE = "recover-account.html";
 
+    /**
+     * Template name for recover account email body. This mail is sent to administrator
+     */
     public static final String RECOVER_ADMIN_ACCOUNT_TEMPLATE = "recover-admin-account.html";
 
+    /**
+     * Template name for request account email body
+     */
+    public static final String REQUEST_ACCOUNT_TEMPLATE = "request-account.html";
+
+    /**
+     * Template name for request account email body. This mail sent to administrator
+     */
+    public static final String REQUEST_ADMIN_ACCOUNT_TEMPLATE = "request-admin-account.html";
+
+    // Template for account disabled mail
+    public static final String ACCOUNT_DISABLED_TEMPLATE = "account-disabled.html";
+
+    // template for account termination
+    public static final String ACCOUNT_TERMINATION_TEMPLATE = "account-termination.html";
+
+    // template for account termination
+    public static final String ACCOUNT_CREATION_TEMPLATE = "creation-account.html";
+
+    // template for password expire notification
+    public static final String PASSWORD_EXPIRE_NOTIFICATION_TEMPLATE = "password-expire-notification.html";
+
+    /**
+     * Templates location
+     */
     private static final String TEMPLATE_LOCATION = "WEB-INF/templates/";
 
+    /**
+     * Template name
+     */
     private String templateName;
 
+    /**
+     * Path of the deployed app
+     */
     private String appPath;
 
     EmailTemplate(String appPath, String templateName) {
