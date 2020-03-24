@@ -158,7 +158,8 @@ public class CreateRequestSubscription implements Service {
         content.put("subscription", submitRequestSubscriptionDTO);
         content.put("requestID", requestID);
 
-        OpenWISMail openWISMail = OpenWISMailFactory.buildSuscriptionNotificationMail(context, "AccountRecovery.subject1",new String[]{email}, content);
+        String subject = OpenWISMessages.format("SubscriptionMail.subject", context.getLanguage(), new String[]{submitRequestSubscriptionDTO.getProductMetadataURN()});
+        OpenWISMail openWISMail = OpenWISMailFactory.buildSuscriptionNotificationMail(context, subject,new String[]{email}, content);
         boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
