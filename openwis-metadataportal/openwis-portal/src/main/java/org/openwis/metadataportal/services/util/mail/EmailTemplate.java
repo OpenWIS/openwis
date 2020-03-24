@@ -45,6 +45,9 @@ public class EmailTemplate {
     // template for password expire notification
     public static final String PASSWORD_EXPIRE_NOTIFICATION_TEMPLATE = "password-expire-notification.html";
 
+    /**
+     * Template for subscription notifications
+     */
     public static final String SUBSCRIPTION_NOTIFICATION_TEMPLATE = "subscription-notification.html";
 
     /**
