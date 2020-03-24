@@ -1,6 +1,8 @@
 package org.openwis.metadataportal.services.request;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import jeeves.exceptions.OperationNotAllowedEx;
 import jeeves.interfaces.Service;
@@ -39,6 +41,8 @@ import org.openwis.metadataportal.services.request.dto.submit.SubmitRequestSubsc
 import org.openwis.metadataportal.services.request.util.OperationEnumUtils;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
+import org.openwis.metadataportal.services.util.mail.OpenWISMail;
+import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
 
 /**
  * The Jeeves Service to submit the request or subscription to the server. <P>
@@ -127,6 +131,7 @@ public class CreateRequestSubscription implements Service {
                 context.getUserSession().getMail(),
                 context.getUserSession().getName(),
                 context.getUserSession().getSurname(),
+                requestID,
                 dto);
 
         // Acknowledgment
@@ -142,28 +147,26 @@ public class CreateRequestSubscription implements Service {
      * @param firstname firstname of the user
      * @param lastname last name of the user
      */
-    private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname, SubmitRequestSubscriptionDTO submitRequestSubscriptionDTO) {
+    private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname, String requestID, SubmitRequestSubscriptionDTO submitRequestSubscriptionDTO) {
 
         MailUtilities mail = new MailUtilities();
 
-        String content  = OpenWISMessages.format("Subscription.mailContent",
-                context.getLanguage(),
-                new String[]{firstname,lastname, submitRequestSubscriptionDTO.getProductMetadataURN()});
-        String subject  = OpenWISMessages.format("Subscription.subject", context.getLanguage(), submitRequestSubscriptionDTO.getProductMetadataURN());
+        Map<String, Object> content = new HashMap<>();
+        content.put("firstname", firstname);
+        content.put("lastname", lastname);
+        content.put("username", email);
+        content.put("subscription", submitRequestSubscriptionDTO);
+        content.put("requestID", requestID);
 
-        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-        SettingManager sm = gc.getSettingManager();
-
-        String from =  System.getProperty("openwis.mail.senderAddress");
-        String to =  	sm.getValue("system/feedback/email");
-        if (from == null)
-            from=sm.getValue("system/feedback/email");
-
-        boolean result = mail.sendMail(subject, from, new String[]{to}, content);
+        String subject = OpenWISMessages.format("SubscriptionMail.subject", context.getLanguage(), new String[]{submitRequestSubscriptionDTO.getProductMetadataURN()});
+        OpenWISMail openWISMail = OpenWISMailFactory.buildSuscriptionNotificationMail(context, subject,new String[]{email}, content);
+        boolean result = mail.send(openWISMail);
         if (!result) {
-            Log.error(Geonet.CREATE_REQUEST_SUBSCRIPTION, "Error during Subscription request: error while sending email to the user ("+to+") from "+from+" about product subscription "+email);
+            // To be confirmed: Set ack dto if error message is requested
+            //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user("+email+")");
         } else {
-            Log.info(Geonet.CREATE_REQUEST_SUBSCRIPTION, "Email sent successfully to the user ("+to+") from "+from+" about subscription to product "+email);
+            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+email+") from "+openWISMail.getAdministratorAddress());
         }
     }
 

@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <style type="text/css">
+        .hello {
+            text-align:left;
+            color: #000;
+            font-size:20px;
+            line-height: 28px;
+            padding-left: 20px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 24px;
+        }
+        .intro {
+            font-size: 16px;
+            line-height: 26px;
+            padding-left: 20px;
+            text-align: left;
+            font-weight: 300;
+        }
+        .product {
+            font-weight: 600;
+            word-wrap: break-word;
+        }
+
+        h2 {
+            text-align: left;
+            font-size: 20px;
+            padding-left: 20px;
+            font-weight: 600;
+        }
+        h3 {
+            font-size: 18px;
+            padding-left: 20px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+            margin: 10px 0 10px 0;
+            font-weight: 600;
+        }
+        .label {
+            color: #666;
+	    padding-right:5px;
+        }
+        a.email:link, a.email:visited, a.email:visited {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 300;
+            color: #006fc4;
+            font-family: 'Raleway', Arial;
+        }
+        a.email:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            padding: 0 0 0 60px;
+            margin: 10px 0 0 0;
+        }
+
+        ul ul {
+            list-style-type: circle;
+        }
+        li {
+            display: list-item;
+        }
+        li::marker {
+            font-size: 0.8em;
+        }
+
+        p {
+            padding-left: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 0 0;
+        }
+        .footer {
+            color: #666;
+            font-size: 16px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="greyedbg" style="margin:0;">
+
+
+<!--===== Start Body =====-->
+<table class="z greyedbg" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"  width="100%" align="left">
+    <tbody>
+
+    <tr>
+        <td width="100%" valign="top">
+            <table class="full bd" border="0" cellpadding="0" cellspacing="0" bgcolor="#fff" style="background-color: #fff;mso-table-lspace:0pt; mso-table-rspace:0pt;"align="left">
+                <tbody>
+                <tr>
+                    <td height="10"></td>
+                </tr>
+                <tr>
+                    <td valign="top" class="hello">
+                        Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,
+                    </td>
+                </tr>
+                <tr>
+                    <td height="30"></td>
+                </tr>
+                <tr>
+                    <td valign="top" class="intro">
+                        You have subscribed to the product:
+                        <span th:text="${subscription.productMetadataURN}" class="product">urn</span> and we thank you!
+                    </td>
+                </tr>
+                <tr>
+                    <td height="20"></td>
+                </tr>
+                <tr>
+                    <td valign="top" class="content">
+                       <h3>Please find below a summary of your subscription</h3>
+                        <ul>
+                            <li>
+                                <span class="label">Request ID:</span><span th:text="${requestID}">0001</span>
+                            </li>
+                            <li>
+                                <span class="label">Product URN:</span> <span th:text="${subscription.productMetadataURN}">urn</span>
+                            </li>
+                        </ul>
+                        <h3>Subselection Parameters</h3>
+                        <ul>
+                            <li><span class="label">Frequency:</span><span th:text="${subscription.frequency.type}">frequency</span></li>
+                            <li th:if="${not #strings.isEmpty(subscription.frequency.recurrencePeriod)}">
+				<span class="label">Every:</span><span th:text="${subscription.frequency.recurrencePeriod}">2</span>
+				<span th:text="${subscription.frequency.recurrentScale}"></span>
+                            </li>
+                            <li th:if="${not #strings.isEmpty(subscription.frequency.recurrencePeriod)}">
+				<span class="label">Starting date:</span><span th:text="${subscription.frequency.startingDate}">startingDate</span>
+                            </li>
+                        </ul>
+                        <h3>Primary Dissemination</h3>
+                        <div th:if="${not #strings.isEmpty(subscription.primaryDissemination.publicDiffusion)}">
+                            <p>Public dissemination</p>
+                            <ul>
+                                <li>
+                                    <span class="label">Zip mode:</span><span th:text="${subscription.primaryDissemination.publicDiffusion.zipMode}">zip mode</span>
+                                </li>
+                                <li th:if="${not #strings.isEmpty(subscription.primaryDissemination.publicDiffusion.ftp)}">
+                                    SFTP
+                                    <ul>
+                                        <li><span class="label">Host:</span> <span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.host}">host</span></li>
+					<li><span class="label">Port:</span><span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.port}">port</span></li>
+                                        <li><span class="label">User:</span><span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.user}">user</span></li>
+                                        <li><span class="label">Path:</span><span th:text="${subscription.primaryDissemination.publicDiffusion.ftp.path}">path</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${not #strings.isEmpty(subscription.primaryDissemination.shoppingCartDissemination)}" class="innerTable">
+                            <p>Staging post</p>
+                            <ul>
+                                <li>
+                                    <span class="label">Zip mode:</span><span th:text="${subscription.primaryDissemination.shoppingCartDissemination.zipMode}">zip mode</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${not #strings.isEmpty(subscription.secondaryDissemination)}" >
+                            <h3>Secondary Dissemination</h3>
+                            <div th:if="${not #strings.isEmpty(subscription.secondaryDissemination.publicDiffusion)}">
+                                <p>Public dissemination</p>
+                                <ul>
+                                    <li>
+                                        <span class="label">Zip mode:</span><span th:text="${subscription.secondaryDissemination.publicDiffusion.zipMode}">zip mode</span>
+                                    </li>
+                                    <li th:if="${not #strings.isEmpty(subscription.secondaryDissemination.publicDiffusion.ftp)}">
+                                        SFTP
+                                        <ul>
+                                            <li><span class="label">Host:</span> <span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.host}">host</span></li>
+                                            <li><span class="label">Port:</span><span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.port}">port</span></li>
+                                            <li><span class="label">User:</span><span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.user}">user</span></li>
+                                            <li><span class="label">Path:</span><span th:text="${subscription.secondaryDissemination.publicDiffusion.ftp.path}">path</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:if="${not #strings.isEmpty(subscription.secondaryDissemination.shoppingCartDissemination)}" class="innerTable">
+                                <p>Staging post</p>
+                                <ul>
+                                    <li>
+                                        <span class="label">Zip mode:</span><span th:text="${subscription.secondaryDissemination.shoppingCartDissemination.zipMode}">zip mode</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div th:if="${#strings.isEmpty(subscription.secondaryDissemination)}">
+                            <h3>Secondary Dissemination</h3>
+                            <p class="label">None</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="40"></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td height="20"></td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="z greyedbg" border="0" cellpadding="0" cellspacing="0" style="max-width: 900px; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"  width="100%" align="center">
+    <tbody>
+    <tr>
+        <td width="100%">
+            <table class="full footer" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt; mso-table-rspace:0pt; margin: 0 auto; " width="600" align="center">
+                <tbody>
+                    <tr>
+                        <td valign="top" style="text-align: center;">
+                            If you require further assistance, please contact us at
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="10"></td>
+                    </tr>
+                    <tr>
+                        <td valign="top" style="text-align: center;">
+                            <a href="mailto:WISMET@winsys.com.sg" class="email">WISMET@winsys.com.sg</a> or <a href="mailto:ASMC_Enquiries@nea.gov.sg" class="email">ASMC_Enquiries@nea.gov.sg</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="10"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; color: #000; font-size: 15px; font-weight: 300; color: #000; font-family: 'Raleway', Arial;">
+                            This is an automatically generated message. Please do not reply to this email.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!--===== End Footer =====-->
+</body>
+</html>

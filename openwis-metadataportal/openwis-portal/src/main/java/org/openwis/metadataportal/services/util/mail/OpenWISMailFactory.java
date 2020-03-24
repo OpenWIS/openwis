@@ -99,6 +99,19 @@ public class OpenWISMailFactory {
     public static OpenWISMail buildPasswordExpireNotificationMail(ServiceContext context, String subjectVar, String[] destinations, Map<String, Object> contentVars) {
         return buildUserMail(context, subjectVar, destinations, EmailTemplate.PASSWORD_EXPIRE_NOTIFICATION_TEMPLATE, contentVars);
     }
+
+    /**
+     * Return a new password expire notification mail
+     * @param context service context
+     * @param subjectVar subject property key
+     * @param destinations destination addresses
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildSuscriptionNotificationMail(ServiceContext context, String subjectVar, String[] destinations, Map<String, Object> contentVars) {
+        return buildUserMail(context, subjectVar, destinations, EmailTemplate.SUBSCRIPTION_NOTIFICATION_TEMPLATE, contentVars);
+    }
+
     private static OpenWISMail buildUserMail(ServiceContext context, String subjectVar, String[] destinations, String templateName, Map<String, Object> contentVars) {
         EmailTemplate emailTemplate = new EmailTemplate(context.getAppPath(), templateName);
         return new OpenWISMail(context, subjectVar, emailTemplate, contentVars);
