@@ -38,8 +38,7 @@ public class AccountLockAction implements AccountAction {
 
         Log.info(Log.SCHEDULER, "Start account lock action");
         try {
-            List<User> users = um.getAllUsers();
-            List<User> filteredUsers = users;
+            List<User> filteredUsers = um.getAllUsers();
             for (AccountFilter filter: filters) {
                 filteredUsers = filter.filter(filteredUsers);
             }
@@ -53,7 +52,7 @@ public class AccountLockAction implements AccountAction {
                 //mailUtilities.send(this.mail);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.error(Log.SCHEDULER, e.getMessage());
         }
         Log.info(Log.SCHEDULER, "Account lock action finished");
     }
