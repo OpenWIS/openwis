@@ -42,19 +42,23 @@ public class NotifiedUserFilter implements AccountFilter {
             List<UserLogDTO> logs = getUserLogs(this.dbms);
             for (User user : users) {
                 UserLogDTO lastNotificationLog = getLastNotification(logs, user);
-                if (lastNotificationLog == null) {
-                    Log.debug(Log.SCHEDULER, NotifiedUserFilter.class.toString() +": Found user not notified: " + user.getUsername());
-                    filteredUsers.add(user);
-                } else {
+                if (lastNotificationLog != null) {
                     if (user.getLastLogin().before(lastNotificationLog.getDate())) {
-                        Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s",
-                                NotifiedUserFilter.class.toString(),
+                        Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s.",
+                                NotifiedUserFilter.class.getSimpleName(),
+                                user.getUsername(),
+                                lastNotificationLog.getDate().toString()));
+                    } else {
+                        Log.debug(Log.SCHEDULER, String.format("%s: Found notified user: %s. Last notification was: %s. User is passing the filter.",
+                                NotifiedUserFilter.class.getSimpleName(),
                                 user.getUsername(),
                                 lastNotificationLog.getDate().toString()));
                         filteredUsers.add(user);
                     }
+                } else {
+                    Log.debug(Log.SCHEDULER, NotifiedUserFilter.class.getSimpleName() + ": Found user not notified: " + user.getUsername());
                 }
-            }
+        }
         } catch (SQLException | BadInputEx ex) {
             Log.error(Log.SCHEDULER, ex);
         }
