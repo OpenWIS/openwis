@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Class to filter a list of users based on the date of their last login.
- * A user is passing the filter if the timestamp of their last login is greater than timestamp now - duration * tileUnit
+ * All date time are computed in UTC. A user is passing the filter if the last login is before the threshold (meaning is older).
  */
 public class LastLoginFilter implements AccountFilter {
 
