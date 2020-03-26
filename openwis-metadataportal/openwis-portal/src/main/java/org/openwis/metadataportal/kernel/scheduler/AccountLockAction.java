@@ -35,19 +35,21 @@ public class AccountLockAction implements AccountAction {
         UserManager um = new UserManager(dbms);
         MailUtilities mailUtilities = new MailUtilities();
 
+        Log.info(Log.SCHEDULER, "Start account lock action");
         try {
             List<User> users = um.getAllUsers();
             List<User> filteredUsers = this.filter.filter(users);
             for (User user: filteredUsers) {
-                um.lockUser(user.getUsername(), true);
-                Log.debug(Log.SCHEDULER, "Account locked due to inactivity for user " + user.getUsername());
+//                um.lockUser(user.getUsername(), true);
+                Log.info(Log.SCHEDULER, "Account locked due to inactivity for user " + user.getUsername());
 
                 // send email to user
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
-                mailUtilities.send(this.mail);
+                //mailUtilities.send(this.mail);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.info(Log.SCHEDULER, "Account lock action finished");
     }
 }
