@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AccountTaskFactory {
 
-    public static AccountTask buildAccountLockTask(ServiceContext context, Dbms dbms, Long duration, TimeUnit timeUnit) {
+    public static AccountTask buildAccountLockTask(ServiceContext context, Dbms dbms, Integer duration, TimeUnit timeUnit) {
         AccountFilter filter = new LastLoginFilter(duration, timeUnit);
 
         Map<String, Object> mailContent = new HashMap<>();
@@ -23,19 +23,6 @@ public class AccountTaskFactory {
 
         AccountAction accountAction = new AccountLockAction(dbms, filter, mail);
         return new AccountTask(accountAction);
-    }
 
-    public static AccountTask buildAccountTerminationNotificationTask(ServiceContext context, Dbms dbms, Long duration, TimeUnit timeUnit) {
-        AccountFilter filter = new LastLoginFilter(duration, timeUnit);
-
-        Map<String, Object> mailContent = new HashMap<>();
-        mailContent.put("duration",duration);
-        mailContent.put("timeUnit", timeUnit.toString());
-
-        // Create a partial mail without destination. Destination address will be set be the task for each user.
-        IOpenWISMail mail = OpenWISMailFactory.buildAccountDisabledMail(context, "subject", null,mailContent);
-
-        AccountAction accountAction = new AccountLockingNotificationAction(dbms, filter, mail);
-        return new AccountTask(accountAction);
     }
 }
