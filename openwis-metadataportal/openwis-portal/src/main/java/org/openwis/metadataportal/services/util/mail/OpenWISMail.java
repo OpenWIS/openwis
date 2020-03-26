@@ -18,27 +18,27 @@ public class OpenWISMail implements IOpenWISMail {
      * subject variable name. the subject will be fetched from properties files.
      * If subject variable is not found, the subject variable will be returned as subject
      */
-    private final String subjectVariable;
+    private String subject;
 
     /**
      * To whom we sent the email
      */
-    private final String[] destinationAddresses;
+    private String[] destinations;
 
     /**
      * Content variables
      */
     private final EmailTemplate emailTemplate;
-    private final Map<String, Object> contentData;
+    private Map<String, Object> contentData;
 
     public OpenWISMail(ServiceContext context,
-                       String subjectVariable,
-                       String[] destinationAddresses,
+                       String subject,
+                       String[] destinations,
                        EmailTemplate bodyTemplate,
                        Map<String,Object> contentData) {
         this.context = context;
-        this.subjectVariable = subjectVariable;
-        this.destinationAddresses = destinationAddresses;
+        this.subject = subject;
+        this.destinations = destinations;
         this.emailTemplate = bodyTemplate;
         this.contentData = contentData;
     }
@@ -46,17 +46,17 @@ public class OpenWISMail implements IOpenWISMail {
     /**
      * Constructor for mails sent to administrator
      * @param context service context
-     * @param subjectVariable subject variable
+     * @param subject subject var
      * @param emailTemplate template use for body content
      * @param contentData data to generate the body content
      */
     public OpenWISMail(ServiceContext context,
-                       String subjectVariable,
+                       String subject,
                        EmailTemplate emailTemplate,
                        Map<String,Object> contentData) {
         this.context = context;
-        this.subjectVariable = subjectVariable;
-        this.destinationAddresses = new String[]{this.getAdministratorAddress()};
+        this.subject = subject;
+        this.destinations = new String[]{this.getAdministratorAddress()};
         this.emailTemplate = emailTemplate;
         this.contentData = contentData;
     }
@@ -76,12 +76,17 @@ public class OpenWISMail implements IOpenWISMail {
     @Override
     public String getSubject() {
         String thisSite = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME);
-        String subject = OpenWISMessages.format(this.subjectVariable, context.getLanguage(), thisSite);
+        String subject = OpenWISMessages.format(this.subject, context.getLanguage(), thisSite);
         if (hasSubject(subject)) {
             return subject;
         }
 
-        return this.subjectVariable;
+        return this.subject;
+    }
+
+    @Override
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     @Override
@@ -90,8 +95,23 @@ public class OpenWISMail implements IOpenWISMail {
     }
 
     @Override
+    public void setContentData(Map<String, Object> content) {
+        this.contentData = content;
+    }
+
+    @Override
+    public void addContentVariable(String name, Object value) {
+        this.contentData.put(name, value);
+    }
+
+    @Override
     public String[] getDestinations() {
-        return this.destinationAddresses;
+        return this.destinations;
+    }
+
+    @Override
+    public void setDestinations(String[] destinations) {
+        this.destinations = destinations;
     }
 
     /**
@@ -100,6 +120,6 @@ public class OpenWISMail implements IOpenWISMail {
      * @return boolean
      */
     private boolean hasSubject(String subject) {
-        return !String.format("!%s!", this.subjectVariable).equals(subject);
+        return !String.format("!%s!", this.subject).equals(subject);
     }
 }
