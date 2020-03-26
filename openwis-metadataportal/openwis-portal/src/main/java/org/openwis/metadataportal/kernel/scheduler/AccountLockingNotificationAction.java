@@ -5,9 +5,16 @@ import jeeves.utils.Log;
 import org.openwis.metadataportal.kernel.scheduler.filters.AccountFilter;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
+import org.openwis.metadataportal.services.login.LoginConstants;
+import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -16,32 +23,46 @@ import java.util.List;
 public class AccountLockingNotificationAction implements AccountAction {
 
     private final Dbms dbms;
-    private final AccountFilter filter;
     private final IOpenWISMail mail;
+    private final AccountFilter[] filters;
 
-    public AccountLockingNotificationAction(Dbms dbms, AccountFilter filter, IOpenWISMail mail) {
+    public AccountLockingNotificationAction(Dbms dbms, AccountFilter[] filters, IOpenWISMail mail) {
         this.dbms = dbms;
-        this.filter = filter;
+        this.filters = filters;
         this.mail = mail;
     }
+
     @Override
     public void doAction() {
 
         MailUtilities mailUtilities = new MailUtilities();
         UserManager um = new UserManager(this.dbms);
         try {
-            List<User> users = um.getAllUsers();
-            List<User> filteredUsers = this.filter.filter(users);
-            for (User user: filteredUsers) {
-                um.lockUser(user.getUsername(), true);
-                Log.debug(Log.SCHEDULER, "Account locked due to inactivity for user " + user.getUsername());
+            List<User> filteredUsers = um.getAllUsers();
+            for (AccountFilter filter : filters) {
+                filteredUsers = filter.filter(filteredUsers);
+            }
+
+            for (User user : filteredUsers) {
+                Log.info(Log.SCHEDULER, "Activity notification mail sent to " + user.getUsername());
 
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
-                mailUtilities.send(this.mail);
+                //mailUtilities.send(this.mail);
+                this.saveActionToLog(dbms, user);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.error(Log.SCHEDULER, e.getMessage());
         }
+    }
 
+    private void saveActionToLog(Dbms dbms, User user) throws SQLException {
+        String query = "INSERT INTO user_log(date, username, action, actioner, attribute) Values(?,?,?,?,?)";
+        dbms.execute(query,
+                Timestamp.valueOf(LocalDateTime.now()),
+                user.getUsername(),
+                UserActions.INACTIVITY_NOTIFICATION_MAIL,
+                "administrator",
+                "");
+        Log.debug(LoginConstants.LOG, "Insert into user_log " + UserActions.INACTIVITY_NOTIFICATION_MAIL + " for " + user.getUsername());
     }
 }
