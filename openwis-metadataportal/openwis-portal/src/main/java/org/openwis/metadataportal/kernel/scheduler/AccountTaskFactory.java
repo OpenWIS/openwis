@@ -3,6 +3,7 @@ package org.openwis.metadataportal.kernel.scheduler;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
 import org.openwis.metadataportal.kernel.scheduler.filters.AccountFilter;
+import org.openwis.metadataportal.kernel.scheduler.filters.ActiveAccountFilter;
 import org.openwis.metadataportal.kernel.scheduler.filters.LastLoginFilter;
 import org.openwis.metadataportal.kernel.scheduler.filters.ProfileFilter;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
@@ -17,6 +18,7 @@ public class AccountTaskFactory {
     public static AccountTask buildAccountLockTask(ServiceContext context, Dbms dbms, Integer duration, TimeUnit timeUnit) {
         AccountFilter[] filters = new AccountFilter[]{
                 new ProfileFilter("user"),
+                new ActiveAccountFilter(),
                 new LastLoginFilter(duration, timeUnit)
         };
 
