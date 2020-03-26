@@ -8,11 +8,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestLastLoginFilter extends LastLoginFilter{
 
-    public TestLastLoginFilter(Integer duration, TimeUnit timeUnit) {
+    public TestLastLoginFilter(Long duration, TimeUnit timeUnit) {
         super(duration, timeUnit);
     }
 
     public TestLastLoginFilter() {
-        super(1, TimeUnit.MINUTES);
+        super(1L, TimeUnit.MINUTES);
     }
 }
