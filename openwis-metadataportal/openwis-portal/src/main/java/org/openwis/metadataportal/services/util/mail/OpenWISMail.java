@@ -33,12 +33,12 @@ public class OpenWISMail implements IOpenWISMail {
 
     public OpenWISMail(ServiceContext context,
                        String subject,
-                       String[] destinations,
+                       String[] destinationAddresses,
                        EmailTemplate bodyTemplate,
                        Map<String,Object> contentData) {
         this.context = context;
         this.subject = subject;
-        this.destinations = destinations;
+        this.destinations = destinationAddresses;
         this.emailTemplate = bodyTemplate;
         this.contentData = contentData;
     }
