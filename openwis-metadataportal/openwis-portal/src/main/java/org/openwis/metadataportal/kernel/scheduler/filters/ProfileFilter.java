@@ -2,8 +2,8 @@ package org.openwis.metadataportal.kernel.scheduler.filters;
 
 import org.openwis.metadataportal.model.user.User;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProfileFilter implements AccountFilter {
 
@@ -15,13 +15,8 @@ public class ProfileFilter implements AccountFilter {
 
     @Override
     public List<User> filter(List<User> users) {
-        List<User> filteredUsers = new ArrayList<>();
-        for (User user: users) {
-            if (user.getProfile().toLowerCase().equals(profile)) {
-                filteredUsers.add(user);
-            }
-        }
-
-        return filteredUsers;
+        return users.stream()
+                .filter(u -> u.getProfile().toLowerCase().equals(profile))
+                .collect(Collectors.toList());
     }
 }
