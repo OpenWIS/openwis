@@ -59,6 +59,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.bouncycastle.util.Strings;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.csw.common.Csw;
 import org.fao.geonet.kernel.DataManager;
@@ -96,6 +97,8 @@ import org.openwis.metadataportal.kernel.metadata.ITemplateManager;
 import org.openwis.metadataportal.kernel.metadata.MetadataManager;
 import org.openwis.metadataportal.kernel.metadata.ProductMetadataManager;
 import org.openwis.metadataportal.kernel.metadata.TemplateManager;
+import org.openwis.metadataportal.kernel.scheduler.AccountTask;
+import org.openwis.metadataportal.kernel.scheduler.AccountTaskFactory;
 import org.openwis.metadataportal.model.availability.AvailabilityLevel;
 import org.openwis.metadataportal.model.availability.DataServiceAvailability;
 import org.openwis.metadataportal.model.availability.DeploymentAvailability;
@@ -363,10 +366,15 @@ public class Geonetwork implements ApplicationHandler {
             logger.info("Schedule Availability statistics");
             new AvailabilityManager(dbms).scheduleAvailabilityStatistics(settingMan, searchMan,
                     executor);
+
+            //--- Schedule account tasks
+            logger.info("Schedule Account tasks");
+            scheduleAccountTasks(settingMan,context, dbms);
         }
 
         return gnContext;
     }
+
 
     /**
      * Attempt to synchronize with LDAP groups, in case of first creation or if no groups are found in DB.
@@ -510,6 +518,36 @@ public class Geonetwork implements ApplicationHandler {
         }
     }
 
+    /**
+     * Schedule account tasks like LastLoginTask and password expiring task
+     */
+    private void scheduleAccountTasks(final SettingManager settingManager, final ServiceContext context, final Dbms dbms) {
+        Integer lastLoginPeriod = settingManager.getValueAsInt("system/lastlogin/period");
+        if (lastLoginPeriod == null) {
+            Log.error(Geonet.ADMIN,
+                    "Cannot configure period for last login. Check that 'system/lastlogin/period' is set. It defaults to 90.");
+            lastLoginPeriod = 90;
+        }
+
+        // defaults to days
+        TimeUnit lastLoginTimeUnit = TimeUnit.DAYS;
+        try {
+            lastLoginTimeUnit = TimeUnit.valueOf(Strings.toUpperCase(settingManager.getValue("system/lastlogin/timeunit")));
+            if (lastLoginTimeUnit != TimeUnit.DAYS && lastLoginTimeUnit != TimeUnit.HOURS && lastLoginTimeUnit != TimeUnit.MINUTES) {
+                Log.error(Geonet.ADMIN, "Last login time unit is set to wrong time unit. Only days, hours or minutes are allowed. Defaulting to Days");
+                lastLoginTimeUnit = TimeUnit.DAYS;
+            }
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            Log.error(Geonet.ADMIN,
+                    "Cannot configure time unit for last login. Check that 'system/lastlogin/timeunit' is set to either 'days' or 'hours' or 'minutes'",
+                    ex);
+        }
+
+        Log.info(Geonet.ADMIN, String.format("Schedule account lock task task every %d %s", lastLoginPeriod, lastLoginTimeUnit.toString()));
+        AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, lastLoginPeriod, lastLoginTimeUnit);
+        executor.scheduleAtFixedRate(accountLockTask, 0, 1, lastLoginTimeUnit);
+
+    }
     /**
      * Check availability of the given deployment.
      * @return the availability rate
