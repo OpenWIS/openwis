@@ -1,4 +1,4 @@
-package org.openwis.metadataportal.kernel.scheduler;
+package org.openwis.metadataportal.kernel.scheduler.filters;
 
 import org.openwis.metadataportal.model.user.User;
 

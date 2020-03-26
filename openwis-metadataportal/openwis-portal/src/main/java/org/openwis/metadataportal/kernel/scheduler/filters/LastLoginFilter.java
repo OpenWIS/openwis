@@ -1,4 +1,4 @@
-package org.openwis.metadataportal.kernel.scheduler;
+package org.openwis.metadataportal.kernel.scheduler.filters;
 
 import jeeves.utils.Log;
 import org.openwis.metadataportal.model.user.User;
@@ -40,10 +40,6 @@ public class LastLoginFilter implements AccountFilter {
 
         // filtered users
         for (User user : users) {
-            if (user.getProfile().toLowerCase().equals("admin") || user.getProfile().toLowerCase().equals("administrator")) {
-                continue;
-            }
-
             Log.debug(Log.SCHEDULER, String.format("User %s. Last login: %s", user.getUsername(), user.getLastLogin().toLocalDateTime().atOffset(ZoneOffset.UTC)));
 
             if (user.getLastLogin().toLocalDateTime().atOffset(ZoneOffset.UTC).isBefore(threshold)) {

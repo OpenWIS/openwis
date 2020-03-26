@@ -2,6 +2,7 @@ package org.openwis.metadataportal.kernel.scheduler;
 
 import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
+import org.openwis.metadataportal.kernel.scheduler.filters.AccountFilter;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.util.MailUtilities;
