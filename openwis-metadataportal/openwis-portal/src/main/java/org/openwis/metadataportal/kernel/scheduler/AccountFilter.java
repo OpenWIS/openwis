@@ -4,7 +4,7 @@ import org.openwis.metadataportal.model.user.User;
 
 import java.util.List;
 
-public interface UserFilter {
+public interface AccountFilter {
 
     /**
      * Filter a list of users

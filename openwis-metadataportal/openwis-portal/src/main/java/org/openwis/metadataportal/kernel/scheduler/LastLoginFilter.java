@@ -5,6 +5,7 @@ import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.login.LoginConstants;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,22 +14,22 @@ import java.util.concurrent.TimeUnit;
  * Class to filter a list of users based on the date of their last login.
  * A user is passing the filter if the timestamp of their last login is greater than timestamp now - duration * tileUnit
  */
-public class LastLoginFilter implements UserFilter {
+public class LastLoginFilter implements AccountFilter {
 
     // Represents the duration in timeUnits from the last login date for which the user passe the filter
-    private final Integer duration;
+    private final Long duration;
 
     // time unit
     private final TimeUnit timeUnit;
 
-    public LastLoginFilter(Integer duration, TimeUnit timeUnit) {
+    public LastLoginFilter(Long duration, TimeUnit timeUnit) {
         this.duration = duration;
         this.timeUnit = timeUnit;
     }
     @Override
     public List<User> filter(List<User> users) {
         List<User> filteredUsers = new ArrayList<>();
-        long now = System.currentTimeMillis();
+        long now = Instant.now().toEpochMilli();
         long threshold = now - this.timeUnit.toMillis(this.duration);
 
         // filtered users
