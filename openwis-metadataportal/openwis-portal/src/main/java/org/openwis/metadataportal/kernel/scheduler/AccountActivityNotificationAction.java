@@ -20,13 +20,13 @@ import java.util.List;
 /**
  * Send an email to users warning them about inactivity.
  */
-public class AccountLockingNotificationAction implements AccountAction {
+public class AccountActivityNotificationAction implements AccountAction {
 
     private final Dbms dbms;
     private final IOpenWISMail mail;
     private final AccountFilter[] filters;
 
-    public AccountLockingNotificationAction(Dbms dbms, AccountFilter[] filters, IOpenWISMail mail) {
+    public AccountActivityNotificationAction(Dbms dbms, AccountFilter[] filters, IOpenWISMail mail) {
         this.dbms = dbms;
         this.filters = filters;
         this.mail = mail;
@@ -35,6 +35,7 @@ public class AccountLockingNotificationAction implements AccountAction {
     @Override
     public void doAction() {
 
+        Log.info(Log.SCHEDULER, "Start account activity notification action");
         MailUtilities mailUtilities = new MailUtilities();
         UserManager um = new UserManager(this.dbms);
         try {
@@ -43,11 +44,12 @@ public class AccountLockingNotificationAction implements AccountAction {
                 filteredUsers = filter.filter(filteredUsers);
             }
 
+            Log.info(Log.SCHEDULER, String.format("Found %d users which will be notified about their inactivity.", filteredUsers.size()));
             for (User user : filteredUsers) {
                 Log.info(Log.SCHEDULER, "Activity notification mail sent to " + user.getUsername());
 
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
-                //mailUtilities.send(this.mail);
+                mailUtilities.send(this.mail);
                 this.saveActionToLog(dbms, user);
             }
         } catch (Exception e) {
@@ -60,9 +62,9 @@ public class AccountLockingNotificationAction implements AccountAction {
         dbms.execute(query,
                 Timestamp.valueOf(LocalDateTime.now()),
                 user.getUsername(),
-                UserActions.INACTIVITY_NOTIFICATION_MAIL,
+                UserActions.INACTIVITY_NOTIFICATION_MAIL.name(),
                 "administrator",
                 "");
-        Log.debug(LoginConstants.LOG, "Insert into user_log " + UserActions.INACTIVITY_NOTIFICATION_MAIL + " for " + user.getUsername());
+        Log.debug(LoginConstants.LOG, "Insert into user_log " + UserActions.INACTIVITY_NOTIFICATION_MAIL.name() + " for " + user.getUsername() );
     }
 }
