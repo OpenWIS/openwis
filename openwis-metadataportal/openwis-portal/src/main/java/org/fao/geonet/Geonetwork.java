@@ -32,12 +32,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +54,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.bouncycastle.util.Strings;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.csw.common.Csw;
 import org.fao.geonet.kernel.DataManager;
@@ -96,6 +92,8 @@ import org.openwis.metadataportal.kernel.metadata.ITemplateManager;
 import org.openwis.metadataportal.kernel.metadata.MetadataManager;
 import org.openwis.metadataportal.kernel.metadata.ProductMetadataManager;
 import org.openwis.metadataportal.kernel.metadata.TemplateManager;
+import org.openwis.metadataportal.kernel.scheduler.AccountTask;
+import org.openwis.metadataportal.kernel.scheduler.AccountTaskFactory;
 import org.openwis.metadataportal.model.availability.AvailabilityLevel;
 import org.openwis.metadataportal.model.availability.DataServiceAvailability;
 import org.openwis.metadataportal.model.availability.DeploymentAvailability;
@@ -113,807 +111,852 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 //=============================================================================
 
 /** This is the main class. It handles http connections and inits the system
-  */
+ */
 
 public class Geonetwork implements ApplicationHandler {
-   private Logger logger;
+    private Logger logger;
 
-   private String path;
+    private String path;
 
-   private ISearchManager searchMan;
+    private ISearchManager searchMan;
 
-   private ThesaurusManager thesaurusMan;
+    private ThesaurusManager thesaurusMan;
 
-   static final String IDS_ATTRIBUTE_NAME = "id";
+    static final String IDS_ATTRIBUTE_NAME = "id";
 
-   private boolean dbCreated;
+    private boolean dbCreated;
 
-   private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-   
-   private static final Hashtable<String, Boolean> servicesAvailability = new Hashtable<String, Boolean>();
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
-   static boolean isAlarmAlreadyRaised;
+    private static final Hashtable<String, Boolean> servicesAvailability = new Hashtable<String, Boolean>();
 
-   //---------------------------------------------------------------------------
-   //---
-   //--- GetContextName
-   //---
-   //---------------------------------------------------------------------------
+    static boolean isAlarmAlreadyRaised;
 
-   @Override
-   public String getContextName() {
-      return Geonet.CONTEXT_NAME;
-   }
+    //---------------------------------------------------------------------------
+    //---
+    //--- GetContextName
+    //---
+    //---------------------------------------------------------------------------
 
-   //---------------------------------------------------------------------------
-   //---
-   //--- Start
-   //---
-   //---------------------------------------------------------------------------
+    @Override
+    public String getContextName() {
+        return Geonet.CONTEXT_NAME;
+    }
 
-   /** Inits the engine, loading all needed data
+    //---------------------------------------------------------------------------
+    //---
+    //--- Start
+    //---
+    //---------------------------------------------------------------------------
+
+    /** Inits the engine, loading all needed data
      */
 
-   @Override
-   @SuppressWarnings("unchecked")
-   public Object start(Element config, ServiceContext context) throws Exception {
-      logger = context.getLogger();
+    @Override
+    @SuppressWarnings("unchecked")
+    public Object start(Element config, ServiceContext context) throws Exception {
+        logger = context.getLogger();
 
-      path = context.getAppPath();
-      String baseURL = context.getBaseUrl();
+        path = context.getAppPath();
+        String baseURL = context.getBaseUrl();
 
-      ServerLib sl = new ServerLib(path);
-      String version = sl.getVersion();
-      String subVersion = sl.getSubVersion();
+        ServerLib sl = new ServerLib(path);
+        String version = sl.getVersion();
+        String subVersion = sl.getSubVersion();
 
-      logger.info(MessageFormat.format("Initializing GeoNetwork {0}.{1} ...", version, subVersion));
+        logger.info(MessageFormat.format("Initializing GeoNetwork {0}.{1} ...", version, subVersion));
 
-      JeevesJCS.setConfigFilename(path + "WEB-INF/classes/cache.ccf");
-      logger.info("Starting ServiceConfig...");
-      // force cache to be config'd so shutdown hook works correctly
-      JeevesJCS.getInstance(Processor.XLINK_JCS);
+        JeevesJCS.setConfigFilename(path + "WEB-INF/classes/cache.ccf");
+        logger.info("Starting ServiceConfig...");
+        // force cache to be config'd so shutdown hook works correctly
+        JeevesJCS.getInstance(Processor.XLINK_JCS);
 
-      ServiceConfig handlerConfig = new ServiceConfig(config.getChildren());
+        ServiceConfig handlerConfig = new ServiceConfig(config.getChildren());
 
-      // --- Check current database and create database if an emty one is found
-      Dbms dbms = initDatabase(context);
+        // --- Check current database and create database if an emty one is found
+        Dbms dbms = initDatabase(context);
 
-      //------------------------------------------------------------------------
-      //--- initialize settings subsystem
+        //------------------------------------------------------------------------
+        //--- initialize settings subsystem
 
-      logger.info("  - Setting manager...");
+        logger.info("  - Setting manager...");
 
-      SettingManager settingMan = new SettingManager(dbms, context.getProviderManager());
+        SettingManager settingMan = new SettingManager(dbms, context.getProviderManager());
 
-      // --- Migrate database if an old one is found
-      migrateDatabase(dbms, settingMan, version, subVersion);
+        // --- Migrate database if an old one is found
+        migrateDatabase(dbms, settingMan, version, subVersion);
 
-      //------------------------------------------------------------------------
-      //--- Initialize thesaurus
+        //------------------------------------------------------------------------
+        //--- Initialize thesaurus
 
-      logger.info("  - Thesaurus...");
+        logger.info("  - Thesaurus...");
 
-      String thesauriDir = handlerConfig.getMandatoryValue(Geonet.Config.CODELIST_DIR);
+        String thesauriDir = handlerConfig.getMandatoryValue(Geonet.Config.CODELIST_DIR);
 
-      thesaurusMan = new ThesaurusManager(path, thesauriDir, context.isUser());
+        thesaurusMan = new ThesaurusManager(path, thesauriDir, context.isUser());
 
-      //------------------------------------------------------------------------
-      //--- initialize Z39.50
+        //------------------------------------------------------------------------
+        //--- initialize Z39.50
 
-      logger.info("  - Z39.50...");
+        logger.info("  - Z39.50...");
 
-      boolean z3950Enable = settingMan.getValueAsBool("system/z3950/enable", false);
-      ApplicationContext app_context = null;
-      if (!z3950Enable) {
-         logger.info("  - Z39.50: DISABLED");
-      } else {
-         String z3950port = settingMan.getValue("system/z3950/port");
-         String host = settingMan.getValue("system/server/host");
+        boolean z3950Enable = settingMan.getValueAsBool("system/z3950/enable", false);
+        ApplicationContext app_context = null;
+        if (!z3950Enable) {
+            logger.info("  - Z39.50: DISABLED");
+        } else {
+            String z3950port = settingMan.getValue("system/z3950/port");
+            String host = settingMan.getValue("system/server/host");
 
-         // null means not initialized
+            // null means not initialized
 
-         // build Z3950 repositories file first from template
-         if (Repositories.build(path, context)) {
-            logger.info("     Repositories file built from template.");
+            // build Z3950 repositories file first from template
+            if (Repositories.build(path, context)) {
+                logger.info("     Repositories file built from template.");
 
-            app_context = new ClassPathXmlApplicationContext(
-                  handlerConfig.getMandatoryValue(Geonet.Config.JZKITCONFIG));
+                app_context = new ClassPathXmlApplicationContext(
+                        handlerConfig.getMandatoryValue(Geonet.Config.JZKITCONFIG));
 
-            // to have access to the GN context in spring-managed objects
-            ContextContainer cc = (ContextContainer) app_context.getBean("ContextGateway");
-            cc.setSrvctx(context);
+                // to have access to the GN context in spring-managed objects
+                ContextContainer cc = (ContextContainer) app_context.getBean("ContextGateway");
+                cc.setSrvctx(context);
 
-            if (!z3950Enable)
-               logger.info("     Server is Disabled.");
-            else {
-               logger.info("     Server is Enabled.");
+                if (!z3950Enable)
+                    logger.info("     Server is Disabled.");
+                else {
+                    logger.info("     Server is Enabled.");
 
-               UserSession session = new UserSession();
-               session.authenticate(null, "z39.50", "", "", "Guest", null);
-               context.setUserSession(session);
-               context.setIpAddress("127.0.0.1");
-               Server.init(host, z3950port, path, context, app_context);
+                    UserSession session = new UserSession();
+                    session.authenticate(null, "z39.50", "", "", "Guest", null);
+                    context.setUserSession(session);
+                    context.setIpAddress("127.0.0.1");
+                    Server.init(host, z3950port, path, context, app_context);
+                }
+            } else {
+                logger.error("     Repositories file builder FAILED - Z3950 server disabled and Z3950 client services (remote search, harvesting) may not work.");
             }
-         } else {
-            logger.error("     Repositories file builder FAILED - Z3950 server disabled and Z3950 client services (remote search, harvesting) may not work.");
-         }
-      }
+        }
 
-      //------------------------------------------------------------------------
-      //--- initialize search and editing
+        //------------------------------------------------------------------------
+        //--- initialize search and editing
 
-      String htmlCacheDir = handlerConfig.getMandatoryValue(Geonet.Config.HTMLCACHE_DIR);
-      String dataDir = path + handlerConfig.getMandatoryValue(Geonet.Config.DATA_DIR);
+        String htmlCacheDir = handlerConfig.getMandatoryValue(Geonet.Config.HTMLCACHE_DIR);
+        String dataDir = path + handlerConfig.getMandatoryValue(Geonet.Config.DATA_DIR);
 
-      logger.info("  - Search...");
+        logger.info("  - Search...");
 
-      searchMan = SearchManagerFactory.createSearchManager(dbms, path, handlerConfig, new SettingInfo(
-            settingMan));
-      searchMan.startup();
-      XslUtil.searchManager = searchMan;
+        searchMan = SearchManagerFactory.createSearchManager(dbms, path, handlerConfig, new SettingInfo(
+                settingMan));
+        searchMan.startup();
+        XslUtil.searchManager = searchMan;
 
-      //------------------------------------------------------------------------
-      //--- get edit params and initialize DataManager
+        //------------------------------------------------------------------------
+        //--- get edit params and initialize DataManager
 
-      logger.info("  - Data manager...");
+        logger.info("  - Data manager...");
 
-      File _htmlCacheDir = new File(htmlCacheDir);
-      if (!_htmlCacheDir.isAbsolute()) {
-         htmlCacheDir = path + htmlCacheDir;
-      }
-      DataManager dataMan = new DataManager(context, searchMan, dbms, settingMan, baseURL,
-            htmlCacheDir, dataDir, path);
+        File _htmlCacheDir = new File(htmlCacheDir);
+        if (!_htmlCacheDir.isAbsolute()) {
+            htmlCacheDir = path + htmlCacheDir;
+        }
+        DataManager dataMan = new DataManager(context, searchMan, dbms, settingMan, baseURL,
+                htmlCacheDir, dataDir, path);
 
-      String schemasDir = path + Geonet.Path.SCHEMAS;
-      String saSchemas[] = new File(schemasDir).list();
+        String schemasDir = path + Geonet.Path.SCHEMAS;
+        String saSchemas[] = new File(schemasDir).list();
 
-      if (saSchemas == null)
-         throw new Exception("Cannot scan schemas directory : " + schemasDir);
-      else {
-         for (int i = 0; i < saSchemas.length; i++)
-            if (!saSchemas[i].equals("CVS") && !saSchemas[i].startsWith(".")) {
-               logger.info("    Adding xml schema : " + saSchemas[i]);
-               String schemaFile = schemasDir + saSchemas[i] + "/" + Geonet.File.SCHEMA;
-               String suggestFile = schemasDir + saSchemas[i] + "/"
-                     + Geonet.File.SCHEMA_SUGGESTIONS;
-               String substitutesFile = schemasDir + saSchemas[i] + "/"
-                     + Geonet.File.SCHEMA_SUBSTITUTES;
+        if (saSchemas == null)
+            throw new Exception("Cannot scan schemas directory : " + schemasDir);
+        else {
+            for (int i = 0; i < saSchemas.length; i++)
+                if (!saSchemas[i].equals("CVS") && !saSchemas[i].startsWith(".")) {
+                    logger.info("    Adding xml schema : " + saSchemas[i]);
+                    String schemaFile = schemasDir + saSchemas[i] + "/" + Geonet.File.SCHEMA;
+                    String suggestFile = schemasDir + saSchemas[i] + "/"
+                            + Geonet.File.SCHEMA_SUGGESTIONS;
+                    String substitutesFile = schemasDir + saSchemas[i] + "/"
+                            + Geonet.File.SCHEMA_SUBSTITUTES;
 
-               dataMan.addSchema(saSchemas[i], schemaFile, suggestFile, substitutesFile);
+                    dataMan.addSchema(saSchemas[i], schemaFile, suggestFile, substitutesFile);
+                }
+        }
+
+        //------------------------------------------------------------------------
+        //--- initialize harvesting subsystem
+        logger.info("  - Harvest manager...");
+        HarvestManager harvestMan = new HarvestManager(context, settingMan, dataMan);
+
+        //------------------------------------------------------------------------
+        //--- initialize catalogue services for the web
+
+        logger.info("  - Catalogue services for the web...");
+
+        CatalogConfiguration.loadCatalogConfig(path, Csw.CONFIG_FILE);
+        CatalogDispatcher catalogDis = new CatalogDispatcher(handlerConfig, path);
+
+        //------------------------------------------------------------------------
+        //--- initialize catalog services for the web
+
+        logger.info("  - Open Archive Initiative (OAI-PMH) server...");
+
+        OaiPmhDispatcher oaipmhDis = new OaiPmhDispatcher(settingMan);
+
+        //------------------------------------------------------------------------
+        //--- return application context
+
+        GeonetContext gnContext = new GeonetContext();
+
+        gnContext.dataMan = dataMan;
+        gnContext.searchMan = searchMan;
+        gnContext.config = handlerConfig;
+        gnContext.catalogDis = catalogDis;
+        gnContext.settingMan = settingMan;
+        gnContext.harvestMan = harvestMan;
+        gnContext.thesaurusMan = thesaurusMan;
+        gnContext.oaipmhDis = oaipmhDis;
+        gnContext.app_context = app_context;
+
+        logger.info("Site ID is : " + gnContext.getSiteId());
+
+        // Creates a default site logo, only if the logo image doesn't exists
+        // This can happen if the application has been updated with a new version preserving the database and
+        // images/logos folder is not copied from old application
+        createSiteLogo(gnContext.getSiteId());
+
+        if (dbCreated) {
+            // Create OpenWIS default templates if necessary
+            logger.info("Adding OpenWIS default templates");
+            String templateDirectoryPath = path + "/WEB-INF/classes/setup/templates";
+            ITemplateManager templateManager = new TemplateManager(dbms, dataMan, searchMan);
+            SiteSource source = new SiteSource(null, gnContext.getSiteId(), gnContext.getSiteName());
+            templateManager.addDefaultTemplateFromLocalDirectory("iso19139", templateDirectoryPath,
+                    source);
+        }
+
+        // Synchronize groups with ldap
+        synchronizeGroups(dbms, dataMan);
+
+        //------------------------------------------------------------------------
+        if (context.isAdmin()) {
+            //--- Schedule recurrent harvesting tasks
+            logger.info("Schedule recurrent harvesting tasks");
+            HarvestingTaskManager htm = new HarvestingTaskManager(dbms);
+            htm.scheduleAllRecurrentTasks(context);
+
+            //--- Schedule stop gap metadata synchronization
+            logger.info("Schedule Stop-Gap Metadata synchronization");
+            IMetadataManager mdm = new MetadataManager(dbms, dataMan, settingMan, path);
+            scheduleStopGapSyncho(settingMan, dbms, dataMan, mdm, gnContext);
+
+            //--- Schedule Availability check
+            logger.info("Schedule Availability check");
+            scheduleAvailability(settingMan, dbms);
+
+            //--- Schedule catalog size monitoring for alarm check
+            logger.info("Schedule Catalog size monitoring");
+            isAlarmAlreadyRaised = false;
+            scheduleMetadataAlarms(dbms);
+
+            //--- Schedule availability statistics
+            logger.info("Schedule Availability statistics");
+            new AvailabilityManager(dbms).scheduleAvailabilityStatistics(settingMan, searchMan,
+                    executor);
+
+            //--- Schedule account tasks
+            logger.info("Schedule Account tasks");
+            scheduleAccountTasks(settingMan,context, dbms);
+        }
+
+        return gnContext;
+    }
+
+
+    /**
+     * Attempt to synchronize with LDAP groups, in case of first creation or if no groups are found in DB.
+     * @param dbms the dbms
+     * @param dataMan the data manager
+     */
+    private void synchronizeGroups(Dbms dbms, DataManager dataMan) {
+        GroupManager gm = new GroupManager(dbms);
+        try {
+            if (dbCreated || gm.getAllGroups().size() == 0) {
+                logger.info("Synchronizing groups with LDAP");
+                gm.synchronize(dataMan);
             }
-      }
+        } catch (Exception e) {
+            logger.error("!!! Unable to synchronize with LDAP (check your LDAP connection) !!!");
+            logger.error(e.getMessage());
+        }
 
-      //------------------------------------------------------------------------
-      //--- initialize harvesting subsystem
-      logger.info("  - Harvest manager...");
-      HarvestManager harvestMan = new HarvestManager(context, settingMan, dataMan);
+    }
 
-      //------------------------------------------------------------------------
-      //--- initialize catalogue services for the web
+    /**
+     * Schedule stop gap synchronization.
+     *
+     * @param settingMan the setting man
+     * @param dbms the dbms
+     * @param dataMan the data man
+     * @param gnContext
+     */
+    private void scheduleStopGapSyncho(final SettingManager settingMan, final Dbms dbms,
+                                       final DataManager dataMan, final IMetadataManager mdm, final GeonetContext gnContext) {
+        try {
+            Integer period = settingMan.getValueAsInt("system/stopGap/period");
 
-      logger.info("  - Catalogue services for the web...");
+            Runnable command = new Runnable() {
+                /**
+                 * {@inheritDoc}
+                 * @see java.lang.Runnable#run()
+                 */
+                @Override
+                public void run() {
+                    IProductMetadataManager pmm = new ProductMetadataManager();
 
-      CatalogConfiguration.loadCatalogConfig(path, Csw.CONFIG_FILE);
-      CatalogDispatcher catalogDis = new CatalogDispatcher(handlerConfig, path);
+                    Date date = null;
+                    String lastSynchroDateKey = "system/stopGap/lastSynchro";
+                    String lastSynchro = settingMan.getValue(lastSynchroDateKey);
+                    try {
+                        date = DateTimeUtils.parse(lastSynchro);
+                    } catch (Exception e) {
+                        Log.warning(Geonet.ADMIN, "Invalid last stop gap synchronization date: '"
+                                + lastSynchro + "'. Should synchronize all stop gap data");
+                    }
 
-      //------------------------------------------------------------------------
-      //--- initialize catalog services for the web
+                    try {
+                        Date utcDate = DateTimeUtils.getUTCDate();
+                        pmm.synchronizeStopGapMetadata(date, dbms, dataMan, mdm, gnContext);
+                        settingMan.setValue(dbms, lastSynchroDateKey, DateTimeUtils.format(utcDate));
+                        dbms.commit();
+                    } catch (Exception e) {
+                        Log.error(Geonet.ADMIN, "Could not synchronize stop gap data", e);
+                    }
+                }
+            };
+            executor.scheduleAtFixedRate(command, period, period, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            Log.error(Geonet.ADMIN, "Could not configure the stop gap synchonisation", e);
+        }
+    }
 
-      logger.info("  - Open Archive Initiative (OAI-PMH) server...");
+    /**
+     * Schedule availability.
+     *
+     * @param settingMan the setting man
+     * @param dbms the dbms
+     */
+    private void scheduleAvailability(final SettingManager settingMan, final Dbms dbms) {
+        try {
+            Integer period = settingMan.getValueAsInt("system/availablility/period");
 
-      OaiPmhDispatcher oaipmhDis = new OaiPmhDispatcher(settingMan);
+            Runnable command = new Runnable() {
+                /**
+                 * {@inheritDoc}
+                 * @see java.lang.Runnable#run()
+                 */
+                @Override
+                public void run() {
+                    Log.info(Geonet.ADMIN, "Availability Check");
+                    Collection<String> backups = OpenwisDeploymentsConfig.getBackUps();
+                    for (String backupName : backups) {
+                        DeploymentManager deploymentManager = new DeploymentManager();
+                        Deployment deployment = deploymentManager.getDeploymentByName(backupName);
+                        Log.info(Geonet.ADMIN, "Checking availability of " + backupName);
 
-      //------------------------------------------------------------------------
-      //--- return application context
-
-      GeonetContext gnContext = new GeonetContext();
-
-      gnContext.dataMan = dataMan;
-      gnContext.searchMan = searchMan;
-      gnContext.config = handlerConfig;
-      gnContext.catalogDis = catalogDis;
-      gnContext.settingMan = settingMan;
-      gnContext.harvestMan = harvestMan;
-      gnContext.thesaurusMan = thesaurusMan;
-      gnContext.oaipmhDis = oaipmhDis;
-      gnContext.app_context = app_context;
-
-      logger.info("Site ID is : " + gnContext.getSiteId());
-
-      // Creates a default site logo, only if the logo image doesn't exists
-      // This can happen if the application has been updated with a new version preserving the database and
-      // images/logos folder is not copied from old application
-      createSiteLogo(gnContext.getSiteId());
-
-      if (dbCreated) {
-         // Create OpenWIS default templates if necessary
-         logger.info("Adding OpenWIS default templates");
-         String templateDirectoryPath = path + "/WEB-INF/classes/setup/templates";
-         ITemplateManager templateManager = new TemplateManager(dbms, dataMan, searchMan);
-         SiteSource source = new SiteSource(null, gnContext.getSiteId(), gnContext.getSiteName());
-         templateManager.addDefaultTemplateFromLocalDirectory("iso19139", templateDirectoryPath,
-               source);
-      }
-
-      // Synchronize groups with ldap
-      synchronizeGroups(dbms, dataMan);
-
-      //------------------------------------------------------------------------
-      if (context.isAdmin()) {
-         //--- Schedule recurrent harvesting tasks
-         logger.info("Schedule recurrent harvesting tasks");
-         HarvestingTaskManager htm = new HarvestingTaskManager(dbms);
-         htm.scheduleAllRecurrentTasks(context);
-
-         //--- Schedule stop gap metadata synchronization
-         logger.info("Schedule Stop-Gap Metadata synchronization");
-         IMetadataManager mdm = new MetadataManager(dbms, dataMan, settingMan, path);
-         scheduleStopGapSyncho(settingMan, dbms, dataMan, mdm, gnContext);
-         
-         //--- Schedule Availability check
-         logger.info("Schedule Availability check");
-         scheduleAvailability(settingMan, dbms);
-
-         //--- Schedule catalog size monitoring for alarm check
-         logger.info("Schedule Catalog size monitoring");
-         isAlarmAlreadyRaised = false;
-         scheduleMetadataAlarms(dbms);
-
-         //--- Schedule availability statistics
-         logger.info("Schedule Availability statistics");
-         new AvailabilityManager(dbms).scheduleAvailabilityStatistics(settingMan, searchMan,
-               executor);
-      }
-
-      return gnContext;
-   }
-
-   /**
-    * Attempt to synchronize with LDAP groups, in case of first creation or if no groups are found in DB.
-    * @param dbms the dbms
-    * @param dataMan the data manager
-    */
-   private void synchronizeGroups(Dbms dbms, DataManager dataMan) {
-      GroupManager gm = new GroupManager(dbms);
-      try {
-         if (dbCreated || gm.getAllGroups().size() == 0) {
-            logger.info("Synchronizing groups with LDAP");
-            gm.synchronize(dataMan);
-         }
-      } catch (Exception e) {
-         logger.error("!!! Unable to synchronize with LDAP (check your LDAP connection) !!!");
-         logger.error(e.getMessage());
-      }
-
-   }
-
-   /**
-    * Schedule stop gap synchronization.
-    *
-    * @param settingMan the setting man
-    * @param dbms the dbms
-    * @param dataMan the data man
-    * @param gnContext
-    */
-   private void scheduleStopGapSyncho(final SettingManager settingMan, final Dbms dbms,
-         final DataManager dataMan, final IMetadataManager mdm, final GeonetContext gnContext) {
-      try {
-         Integer period = settingMan.getValueAsInt("system/stopGap/period");
-
-         Runnable command = new Runnable() {
-            /**
-             * {@inheritDoc}
-             * @see java.lang.Runnable#run()
-             */
-            @Override
-            public void run() {
-               IProductMetadataManager pmm = new ProductMetadataManager();
-
-               Date date = null;
-               String lastSynchroDateKey = "system/stopGap/lastSynchro";
-               String lastSynchro = settingMan.getValue(lastSynchroDateKey);
-               try {
-                  date = DateTimeUtils.parse(lastSynchro);
-               } catch (Exception e) {
-                  Log.warning(Geonet.ADMIN, "Invalid last stop gap synchronization date: '"
-                        + lastSynchro + "'. Should synchronize all stop gap data");
-               }
-
-               try {
-                  Date utcDate = DateTimeUtils.getUTCDate();
-                  pmm.synchronizeStopGapMetadata(date, dbms, dataMan, mdm, gnContext);
-                  settingMan.setValue(dbms, lastSynchroDateKey, DateTimeUtils.format(utcDate));
-                  dbms.commit();
-               } catch (Exception e) {
-                  Log.error(Geonet.ADMIN, "Could not synchronize stop gap data", e);
-               }
-            }
-         };
-         executor.scheduleAtFixedRate(command, period, period, TimeUnit.SECONDS);
-      } catch (Exception e) {
-         Log.error(Geonet.ADMIN, "Could not configure the stop gap synchonisation", e);
-      }
-   }
-
-   /**
-    * Schedule availability.
-    *
-    * @param settingMan the setting man
-    * @param dbms the dbms
-    */
-   private void scheduleAvailability(final SettingManager settingMan, final Dbms dbms) {
-      try {
-         Integer period = settingMan.getValueAsInt("system/availablility/period");
-
-         Runnable command = new Runnable() {
-            /**
-             * {@inheritDoc}
-             * @see java.lang.Runnable#run()
-             */
-            @Override
-            public void run() {
-               Log.info(Geonet.ADMIN, "Availability Check");
-               Collection<String> backups = OpenwisDeploymentsConfig.getBackUps();
-               for (String backupName : backups) {
-                  DeploymentManager deploymentManager = new DeploymentManager();
-                  Deployment deployment = deploymentManager.getDeploymentByName(backupName);
-                  Log.info(Geonet.ADMIN, "Checking availability of " + backupName);
-
-                  boolean isServiceAvailable = true;
-                  if (servicesAvailability.containsKey(backupName)) {
-                     isServiceAvailable = Boolean.valueOf(servicesAvailability.get(backupName));
-                  }
-
-                  double remoteBackUpWarnRate = checkDeploymentAvailability(deployment);
-                  double backupWarnRate = OpenwisDeploymentsConfig.getBackupWarnRate();
-
-                  String report = MessageFormat.format(
-                        "Availability rate for {0}: {1}%",
-                        backupName, remoteBackUpWarnRate);
-                  Log.info(Geonet.ADMIN, report);
-
-                  // The rate of available function is inferior that the backup warn rate => the deployment is in error
-                  if (backupWarnRate > remoteBackUpWarnRate) {
-                     Log.warning(
-                           Geonet.ADMIN,
-                           MessageFormat
-                           .format(
-                                 "Below the backup warn rate ({0}%) => the deployment {1} is in error",
-                                 backupWarnRate, backupName));
-                     // Check that the state is changed
-                     if (isServiceAvailable) {
-                        //Send mail to admin
-                        String[] admins = {deployment.getAdminMail(),
-                              deploymentManager.getLocalDeployment().getAdminMail()};
-                        sendMail(admins, settingMan, backupName, remoteBackUpWarnRate);
-
-                        Log.debug(Geonet.ADMIN, "Store that the backup center " + backupName
-                              + " is in Error");
-                        //Store the state
-                        servicesAvailability.put(backupName, false);
-                     }
-                  } else {
-                     Log.debug(Geonet.ADMIN, "Store that the backup center " + backupName
-                           + " is Available");
-                     //Store the state
-                     servicesAvailability.put(backupName, true);
-                  }
-               }
-            }
-         };
-         executor.scheduleAtFixedRate(command, period, period, TimeUnit.SECONDS);
-      } catch (Exception e) {
-         Log.error(
-               Geonet.ADMIN,
-               "Could not configure the availability synchonisation. Check that 'system/availablility/period' exists in Settings",
-               e);
-      }
-   }
-   
-   /**
-    * Check availability of the given deployment.
-    * @return the availability rate
-    */
-   private double checkDeploymentAvailability(Deployment deployment) {
-      //Contact the proxy service of this center, with in params :
-      // - service
-      String service = "xml.availability.external.get";
-
-      String deploymentURL = deployment.getUrl() + "srv/" + service;
-
-      // Create an instance of HttpClient.
-      HttpClient client = new HttpClient();
-
-      // Create a method instance. Call the PROXY Service on the centre.
-      GetMethod method = new GetMethod(deploymentURL);
-
-      // Provide custom retry handler is necessary
-      method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-            new DefaultHttpMethodRetryHandler());
-
-      Element result = null;
-
-      try {
-         Log.debug(Geonet.ADMIN, "Execute availability backup method");
-         // Execute the method.
-         int statusCode = client.executeMethod(method);
-
-         if (statusCode != HttpStatus.SC_OK) {
-            Log.error(Geonet.ADMIN, "Availability check - Bad server response: " + method.getStatusLine());
-            return 0;
-         }
-
-         // Read the response body.
-         byte[] responseBody = method.getResponseBody();
-
-         // Deal with the response.
-         // Use caution: ensure correct character encoding and is not binary data
-         String response = new String(responseBody);
-         Log.debug(Geonet.ADMIN, response);
-
-         Reader in = new StringReader(response);
-         SAXBuilder builder = new SAXBuilder();
-         Document doc = builder.build(in);
-
-         result = doc.getRootElement();
-
-         DeploymentAvailability remoteDeploymentAvailability = JeevesJsonWrapper.read(
-               result.getText(), DeploymentAvailability.class);
-
-         MetadataServiceAvailability mdtaServiceAvailability = remoteDeploymentAvailability
-               .getMetadataServiceAvailability();
-         DataServiceAvailability dataServiceAvailability = remoteDeploymentAvailability
-               .getDataServiceAvailability();
-         SecurityServiceAvailability securityServiceAvailability = remoteDeploymentAvailability
-               .getSecurityServiceAvailability();
-
-         int serviceUnavailable = 0;
-         int numberOfService = 0;
-
-         serviceUnavailable = checkServiceUnavailable("Harvesting", serviceUnavailable,
-               mdtaServiceAvailability.getHarvesting().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Synchronization", serviceUnavailable,
-               mdtaServiceAvailability.getSynchronization().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Indexing", serviceUnavailable,
-               mdtaServiceAvailability.getIndexing().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("User Portal", serviceUnavailable,
-               mdtaServiceAvailability.getUserPortal().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Dissemination Queue", serviceUnavailable,
-               dataServiceAvailability.getDisseminationQueue().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Ingestion", serviceUnavailable,
-               dataServiceAvailability.getIngestion().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Replication", serviceUnavailable,
-               dataServiceAvailability.getReplicationProcess().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Subscription", serviceUnavailable,
-               dataServiceAvailability.getSubscriptionQueue().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("Security Service", serviceUnavailable,
-               securityServiceAvailability.getSecurityService().getLevel());
-         numberOfService++;
-         serviceUnavailable = checkServiceUnavailable("SSO Service", serviceUnavailable,
-               securityServiceAvailability.getSsoService().getLevel());
-         numberOfService++;
-
-         double remoteBackUpWarnRate = (1 - ((double) serviceUnavailable / (double) numberOfService)) * 100;
-         String report = MessageFormat.format("{0} / {1} service(s) DOWN", 
-               serviceUnavailable, numberOfService);
-         Log.info(Geonet.ADMIN, report);
-         
-         return remoteBackUpWarnRate;         
-      } catch (Exception e) {
-         Log.error(
-               Geonet.ADMIN,
-               "Could not check the availability synchonisation. Failed to access to 'xml.availability.external.get'",
-               e);
-         return 0;
-      }
-   }
-   
-   /**
-    * Send Mail.
-    * @param adminMail The admin mail.
-    * @param sm The setting manager.
-    */
-   private void sendMail(String[] adminMails, SettingManager sm, String backUpName, double remoteBackUpWarnRate) {
-      
-      String from = sm.getValue("system/feedback/email");
-      Log.debug(Geonet.SELF_REGISTER, " from : " + from + " to : " + adminMails);
-      
-      MailUtilities mail = new MailUtilities();
-
-      String subject = OpenWISMessages.getString("BackUpAvailability.subject", null);
-      String content = MessageFormat.format(
-            OpenWISMessages.getString("BackUpAvailability.mailContent", null), backUpName,
-            remoteBackUpWarnRate);
-      
-      boolean result = mail.sendMail(subject, from, adminMails, content);
-      if (!result) {
-         Log.error(Geonet.ADMIN, "Send Mail Failed: the deployment is in error");
-      } else {
-         Log.info(Geonet.ADMIN, "Send Mail Successfull: the deployment is in error");
-      }
-   }
-   
-   /**
-    * Check Service Unavailable.
-    * @param serviceName The service name.
-    * @param serviceUnavailable The number of service unavailable.
-    * @param level The level
-    * @return the number of service unavailable.
-    */
-   private int checkServiceUnavailable(String serviceName, int serviceUnavailable, AvailabilityLevel level) {
-      if (level == AvailabilityLevel.DOWN) {
-         serviceUnavailable++;
-         Log.warning(Geonet.ADMIN, serviceName + " is DOWN");
-      } else {
-         Log.info(Geonet.ADMIN, serviceName + " is available");
-      }
-      return serviceUnavailable;
-   }
-
-   /**
-    * Schedule alarms.
-    * When the number of entries in the DAR catalogue exceeds a defined threshold
-    *
-    * @param dbms the dbms
-    */
-   private void scheduleMetadataAlarms(final Dbms dbms) {
-      try {
-         // Launch the run task every period definition
-         Integer period = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.CATALOG_SIZE_ALARM_PERIOD);
-         // The limit number of entries in the DAR catalogue
-         final Integer limit = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.CATALOG_SIZE_ALARM_LIMIT);
-
-         Runnable command = new Runnable() {
-            /**
-             * {@inheritDoc}
-             * @see java.lang.Runnable#run()
-             */
-            @Override
-            public void run() {
-               IMetadataManager mm = new MetadataManager(dbms);
-               try {
-                  Log.debug(Geonet.ADMIN, "Checking catalog size");
-                  Integer nbMetadata = mm.getAllMetadata();
-                  // Raise alarm once
-                  if (nbMetadata > limit)
-                  {
-                     if (!isAlarmAlreadyRaised)
-                     {
-                        Log.warning(Geonet.ADMIN, "Catalog size (" + nbMetadata
-                              + ") is beyond the limit (" + limit + ")");
-                        AlertService alertService = ManagementServiceProvider.getAlertService();
-                        if (alertService == null) {
-                           Log.error(Geonet.ADMIN,
-                                 "Could not get hold of the AlertService. No alert was passed!");
-                           return;
+                        boolean isServiceAvailable = true;
+                        if (servicesAvailability.containsKey(backupName)) {
+                            isServiceAvailable = Boolean.valueOf(servicesAvailability.get(backupName));
                         }
-                        String source = "catalogue-monitoring";
-                        String location = "Catalogue";
-                        String eventId = MetadataServiceAlerts.TOO_MANY_ENTRIES_IN_CATALOGUE.getKey();
-                        List<Object> arguments = new ArrayList<Object>();
-                        arguments.add(limit);
-                        arguments.add(nbMetadata);
-                        alertService.raiseEvent(source, location, null, eventId, arguments);
-                        isAlarmAlreadyRaised = true;
-                     }
-                  }
-                  else
-                  {
-                     isAlarmAlreadyRaised = false;
-                  }
-               } catch (Exception e) {
-                  Log.error(Geonet.ADMIN, "Could not raise an alarm", e);
+
+                        double remoteBackUpWarnRate = checkDeploymentAvailability(deployment);
+                        double backupWarnRate = OpenwisDeploymentsConfig.getBackupWarnRate();
+
+                        String report = MessageFormat.format(
+                                "Availability rate for {0}: {1}%",
+                                backupName, remoteBackUpWarnRate);
+                        Log.info(Geonet.ADMIN, report);
+
+                        // The rate of available function is inferior that the backup warn rate => the deployment is in error
+                        if (backupWarnRate > remoteBackUpWarnRate) {
+                            Log.warning(
+                                    Geonet.ADMIN,
+                                    MessageFormat
+                                            .format(
+                                                    "Below the backup warn rate ({0}%) => the deployment {1} is in error",
+                                                    backupWarnRate, backupName));
+                            // Check that the state is changed
+                            if (isServiceAvailable) {
+                                //Send mail to admin
+                                String[] admins = {deployment.getAdminMail(),
+                                        deploymentManager.getLocalDeployment().getAdminMail()};
+                                sendMail(admins, settingMan, backupName, remoteBackUpWarnRate);
+
+                                Log.debug(Geonet.ADMIN, "Store that the backup center " + backupName
+                                        + " is in Error");
+                                //Store the state
+                                servicesAvailability.put(backupName, false);
+                            }
+                        } else {
+                            Log.debug(Geonet.ADMIN, "Store that the backup center " + backupName
+                                    + " is Available");
+                            //Store the state
+                            servicesAvailability.put(backupName, true);
+                        }
+                    }
+                }
+            };
+            executor.scheduleAtFixedRate(command, period, period, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            Log.error(
+                    Geonet.ADMIN,
+                    "Could not configure the availability synchonisation. Check that 'system/availablility/period' exists in Settings",
+                    e);
+        }
+    }
+
+    /**
+     * Schedule account tasks like LastLoginTask and password expiring task
+     */
+    private void scheduleAccountTasks(final SettingManager settingManager, final ServiceContext context, final Dbms dbms) {
+
+        // main keys are system variables. Second map values are default values
+        Map<String,Object> params = new HashMap <>();
+        params.put("system/lastlogin/period", 90);
+        params.put("system/lastlogin/timeunit", TimeUnit.DAYS);
+        params.put("system/inactivity/period", 83);
+        params.put("system/inactivity/timeunit", TimeUnit.DAYS);
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            if (entry.getKey().contains("period")) {
+                Integer value = settingManager.getValueAsInt(entry.getKey());
+                if (value == null) {
+                    Log.warning(Geonet.ADMIN,
+                            String.format("Check that '%s' is set. It defaults to d%.", entry.getKey(), entry.getValue()));
+                } else {
+                    entry.setValue(value);
+                }
+            } else {
+               try {
+                   TimeUnit timeUnit = TimeUnit.valueOf(settingManager.getValue(entry.getKey()).toUpperCase());
+                   entry.setValue(timeUnit);
+               } catch (IllegalArgumentException | NullPointerException ex) {
+                   Log.warning(Geonet.ADMIN,
+                           String.format("Check that '%s' is set. It defaults to d%.", entry.getKey(), entry.getValue().toString()));
                }
             }
-         };
-         executor.scheduleAtFixedRate(command, period, period, TimeUnit.SECONDS);
-      } catch (Exception e) {
-         Log.error(Geonet.ADMIN, "Could not Schedule Availability check", e);
-      }
-   }
+        }
 
-   /**
-    * Check if current database is running same version as the web application.
-    * If not, apply migration SQL script :
-    *  resources/sql/migration/{version}-to-{version}-{dbtype}.sql.
-    * eg. 2.4.3-to-2.5.0-default.sql
-    *
-    * @param dbms
-    * @param settingMan
-    * @param version
-    * @param subVersion
-    */
-   private void migrateDatabase(Dbms dbms, SettingManager settingMan, String version,
-         String subVersion) {
-      logger.info("  - Migration ...");
+        Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
+        AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
+        executor.scheduleAtFixedRate(accountLockTask, 0, 2, TimeUnit.MINUTES);
 
-      // Get db version and subversion
-      String dbVersion = settingMan.getValue("system/platform/version");
-      String dbSubVersion = settingMan.getValue("system/platform/subVersion");
+        Log.info(Geonet.ADMIN, String.format("Account inactivity notification: Threshold set to %d %s", params.get("system/inactivity/period"), params.get("system/inactivity/timeunit").toString()));
+        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms,(Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
+        executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, TimeUnit.MINUTES);
 
-      // Migrate db if needed
-      logger.debug("      Webapp   version:" + version + " subversion:" + subVersion);
-      logger.debug("      Database version:" + dbVersion + " subversion:" + dbSubVersion);
+    }
+    /**
+     * Check availability of the given deployment.
+     * @return the availability rate
+     */
+    private double checkDeploymentAvailability(Deployment deployment) {
+        //Contact the proxy service of this center, with in params :
+        // - service
+        String service = "xml.availability.external.get";
 
-      if (version.equals(dbVersion)
-      //&& subVersion.equals(dbSubVersion) Check only on version number
-      ) {
-         logger.info("      Webapp version = Database version, no migration task to apply.");
-      } else {
-         // Migrating from 2.0 to 2.5 could be done 2.0 -> 2.3 -> 2.4 -> 2.5
-         String dbType = Lib.db.getDBType(dbms);
-         logger.info("      Migrating from " + dbVersion + " to " + version + " (dbtype:" + dbType
-               + ")...");
-         String sqlMigrationScriptPath = path + "/WEB-INF/classes/setup/sql/migrate/" + dbVersion
-               + "-to-" + version + "/" + dbType + ".sql";
-         File sqlMigrationScript = new File(sqlMigrationScriptPath);
-         if (sqlMigrationScript.exists()) {
-            try {
-               // Run the SQL migration
-               logger.info("      Running SQL migration step ...");
-               Lib.db.runSQL(dbms, sqlMigrationScript);
+        String deploymentURL = deployment.getUrl() + "srv/" + service;
 
-               // Refresh setting manager in case the migration task added some new settings.
-               settingMan.refresh();
+        // Create an instance of HttpClient.
+        HttpClient client = new HttpClient();
 
-               // Update the logo
-               String siteId = settingMan.getValue("system/site/siteId");
-               initLogo(dbms, siteId);
+        // Create a method instance. Call the PROXY Service on the centre.
+        GetMethod method = new GetMethod(deploymentURL);
 
-               // TODO : Maybe a force rebuild index is required in such situation.
-            } catch (Exception e) {
-               logger.info("      Errors occurs during SQL migration task: "
-                     + sqlMigrationScriptPath + " or when refreshing settings manager.");
-               e.printStackTrace();
+        // Provide custom retry handler is necessary
+        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
+                new DefaultHttpMethodRetryHandler());
+
+        Element result = null;
+
+        try {
+            Log.debug(Geonet.ADMIN, "Execute availability backup method");
+            // Execute the method.
+            int statusCode = client.executeMethod(method);
+
+            if (statusCode != HttpStatus.SC_OK) {
+                Log.error(Geonet.ADMIN, "Availability check - Bad server response: " + method.getStatusLine());
+                return 0;
             }
 
-            logger.info("      Successfull migration.\n"
-                  + "      Catalogue administrator still need to update the catalogue\n"
-                  + "      logo and data directory in order to complete the migration process.\n"
-                  + "      Index rebuild is also recommended after migration.");
+            // Read the response body.
+            byte[] responseBody = method.getResponseBody();
 
-         } else {
-            logger.info("      No migration task found between webapp and database version.\n"
-                  + "      The system may be unstable or may failed to start if you try to run \n"
-                  + "      the current GeoNetwork "
-                  + version
-                  + " with an older database (ie. "
-                  + dbVersion
-                  + "\n"
-                  + "      ). Try to run the migration task manually on the current database\n"
-                  + "      before starting the application or start with a new empty database.\n"
-                  + "      Sample SQL scripts for migration could be found in WEB-INF/sql/migrate folder.\n");
+            // Deal with the response.
+            // Use caution: ensure correct character encoding and is not binary data
+            String response = new String(responseBody);
+            Log.debug(Geonet.ADMIN, response);
 
-         }
+            Reader in = new StringReader(response);
+            SAXBuilder builder = new SAXBuilder();
+            Document doc = builder.build(in);
 
-         // TODO : Maybe some migration stuff has to be done in Java ?
-      }
-   }
+            result = doc.getRootElement();
 
-   /**
-    * Database initialization. If no table in current database
-    * create the GeoNetwork database. If an existing GeoNetwork database
-    * exists, try to migrate the content.
-    *
-    * @param context
-    * @return
-    * @throws Exception
-    */
-   private Dbms initDatabase(ServiceContext context) throws Exception {
-      Dbms dbms = null;
-      try {
-         dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
-      } catch (Exception e) {
-         logger.info("    Failed to open database connection, Check config.xml db file configuration."
-               + "Error is: " + e.getMessage());
-      }
+            DeploymentAvailability remoteDeploymentAvailability = JeevesJsonWrapper.read(
+                    result.getText(), DeploymentAvailability.class);
 
-      String dbURL = dbms.getURL();
-      logger.info("  - Database connection on " + dbURL + " ...");
+            MetadataServiceAvailability mdtaServiceAvailability = remoteDeploymentAvailability
+                    .getMetadataServiceAvailability();
+            DataServiceAvailability dataServiceAvailability = remoteDeploymentAvailability
+                    .getDataServiceAvailability();
+            SecurityServiceAvailability securityServiceAvailability = remoteDeploymentAvailability
+                    .getSecurityServiceAvailability();
 
-      // Create db if empty
-      if (!Lib.db.touch(dbms)) {
-         logger.info("      " + dbURL + " is an empty database (Metadata table not found).");
+            int serviceUnavailable = 0;
+            int numberOfService = 0;
 
-         // Do we need to remove object before creating the database ?
-         Lib.db.removeObjects(dbms, path);
-         Lib.db.createSchema(dbms, path);
-         dbms.commit();
-         Lib.db.insertData(dbms, path);
+            serviceUnavailable = checkServiceUnavailable("Harvesting", serviceUnavailable,
+                    mdtaServiceAvailability.getHarvesting().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Synchronization", serviceUnavailable,
+                    mdtaServiceAvailability.getSynchronization().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Indexing", serviceUnavailable,
+                    mdtaServiceAvailability.getIndexing().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("User Portal", serviceUnavailable,
+                    mdtaServiceAvailability.getUserPortal().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Dissemination Queue", serviceUnavailable,
+                    dataServiceAvailability.getDisseminationQueue().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Ingestion", serviceUnavailable,
+                    dataServiceAvailability.getIngestion().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Replication", serviceUnavailable,
+                    dataServiceAvailability.getReplicationProcess().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Subscription", serviceUnavailable,
+                    dataServiceAvailability.getSubscriptionQueue().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("Security Service", serviceUnavailable,
+                    securityServiceAvailability.getSecurityService().getLevel());
+            numberOfService++;
+            serviceUnavailable = checkServiceUnavailable("SSO Service", serviceUnavailable,
+                    securityServiceAvailability.getSsoService().getLevel());
+            numberOfService++;
 
-         // Copy logo
-         String uuid = UUID.randomUUID().toString();
-         initLogo(dbms, uuid);
+            double remoteBackUpWarnRate = (1 - ((double) serviceUnavailable / (double) numberOfService)) * 100;
+            String report = MessageFormat.format("{0} / {1} service(s) DOWN",
+                    serviceUnavailable, numberOfService);
+            Log.info(Geonet.ADMIN, report);
 
-         dbCreated = true;
-      } else {
-         logger.info("      Found an existing GeoNetwork database.");
-      }
+            return remoteBackUpWarnRate;
+        } catch (Exception e) {
+            Log.error(
+                    Geonet.ADMIN,
+                    "Could not check the availability synchonisation. Failed to access to 'xml.availability.external.get'",
+                    e);
+            return 0;
+        }
+    }
 
-      return dbms;
-   }
+    /**
+     * Send Mail.
+     * @param adminMail The admin mail.
+     * @param sm The setting manager.
+     */
+    private void sendMail(String[] adminMails, SettingManager sm, String backUpName, double remoteBackUpWarnRate) {
 
-   /**
-    * Copy the default dummy logo to the logo folder based on uuid
-    * @param dbms
-    * @param nodeUuid
-    * @throws FileNotFoundException
-    * @throws IOException
-    * @throws SQLException
-    */
-   private void initLogo(Dbms dbms, String nodeUuid) {
-      createSiteLogo(nodeUuid);
+        String from = sm.getValue("system/feedback/email");
+        Log.debug(Geonet.SELF_REGISTER, " from : " + from + " to : " + adminMails);
 
-      try {
-         dbms.execute("UPDATE Settings SET value=? WHERE name='siteId'", nodeUuid);
-      } catch (SQLException e) {
-         logger.error("      Error when setting siteId values: " + e.getMessage());
-      }
-   }
+        MailUtilities mail = new MailUtilities();
 
-   /**
-    * Creates a default site logo, only if the logo image doesn't exists
-    *
-    * @param nodeUuid
-    */
-   private void createSiteLogo(String nodeUuid) {
-      try {
-         File logo = new File(path + "/images/logos/" + nodeUuid + ".gif");
-         if (!logo.exists()) {
-            FileInputStream is = new FileInputStream(path + "/images/logos/dummy.gif");
-            FileOutputStream os = new FileOutputStream(path + "/images/logos/" + nodeUuid + ".gif");
-            logger.info("      Setting catalogue logo for current node identified by: " + nodeUuid);
-            BinaryFile.copy(is, os, true, true);
-         }
-      } catch (Exception e) {
-         logger.error("      Error when setting the logo: " + e.getMessage());
-      }
-   }
+        String subject = OpenWISMessages.getString("BackUpAvailability.subject", null);
+        String content = MessageFormat.format(
+                OpenWISMessages.getString("BackUpAvailability.mailContent", null), backUpName,
+                remoteBackUpWarnRate);
 
-   //---------------------------------------------------------------------------
-   //---
-   //--- Stop
-   //---
-   //---------------------------------------------------------------------------
+        boolean result = mail.sendMail(subject, from, adminMails, content);
+        if (!result) {
+            Log.error(Geonet.ADMIN, "Send Mail Failed: the deployment is in error");
+        } else {
+            Log.info(Geonet.ADMIN, "Send Mail Successfull: the deployment is in error");
+        }
+    }
 
-   @Override
-   public void stop() {
-      logger.info("Stopping geonetwork...");
+    /**
+     * Check Service Unavailable.
+     * @param serviceName The service name.
+     * @param serviceUnavailable The number of service unavailable.
+     * @param level The level
+     * @return the number of service unavailable.
+     */
+    private int checkServiceUnavailable(String serviceName, int serviceUnavailable, AvailabilityLevel level) {
+        if (level == AvailabilityLevel.DOWN) {
+            serviceUnavailable++;
+            Log.warning(Geonet.ADMIN, serviceName + " is DOWN");
+        } else {
+            Log.info(Geonet.ADMIN, serviceName + " is available");
+        }
+        return serviceUnavailable;
+    }
 
-      //------------------------------------------------------------------------
-      //--- end search
+    /**
+     * Schedule alarms.
+     * When the number of entries in the DAR catalogue exceeds a defined threshold
+     *
+     * @param dbms the dbms
+     */
+    private void scheduleMetadataAlarms(final Dbms dbms) {
+        try {
+            // Launch the run task every period definition
+            Integer period = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.CATALOG_SIZE_ALARM_PERIOD);
+            // The limit number of entries in the DAR catalogue
+            final Integer limit = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.CATALOG_SIZE_ALARM_LIMIT);
 
-      logger.info("  - search...");
+            Runnable command = new Runnable() {
+                /**
+                 * {@inheritDoc}
+                 * @see java.lang.Runnable#run()
+                 */
+                @Override
+                public void run() {
+                    IMetadataManager mm = new MetadataManager(dbms);
+                    try {
+                        Log.debug(Geonet.ADMIN, "Checking catalog size");
+                        Integer nbMetadata = mm.getAllMetadata();
+                        // Raise alarm once
+                        if (nbMetadata > limit)
+                        {
+                            if (!isAlarmAlreadyRaised)
+                            {
+                                Log.warning(Geonet.ADMIN, "Catalog size (" + nbMetadata
+                                        + ") is beyond the limit (" + limit + ")");
+                                AlertService alertService = ManagementServiceProvider.getAlertService();
+                                if (alertService == null) {
+                                    Log.error(Geonet.ADMIN,
+                                            "Could not get hold of the AlertService. No alert was passed!");
+                                    return;
+                                }
+                                String source = "catalogue-monitoring";
+                                String location = "Catalogue";
+                                String eventId = MetadataServiceAlerts.TOO_MANY_ENTRIES_IN_CATALOGUE.getKey();
+                                List<Object> arguments = new ArrayList<Object>();
+                                arguments.add(limit);
+                                arguments.add(nbMetadata);
+                                alertService.raiseEvent(source, location, null, eventId, arguments);
+                                isAlarmAlreadyRaised = true;
+                            }
+                        }
+                        else
+                        {
+                            isAlarmAlreadyRaised = false;
+                        }
+                    } catch (Exception e) {
+                        Log.error(Geonet.ADMIN, "Could not raise an alarm", e);
+                    }
+                }
+            };
+            executor.scheduleAtFixedRate(command, period, period, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            Log.error(Geonet.ADMIN, "Could not Schedule Availability check", e);
+        }
+    }
 
-      try {
-         searchMan.shutdown();
-      } catch (Exception e) {
-         logger.error("Raised exception while stopping search");
-         logger.error("  Exception : " + e);
-         logger.error("  Message   : " + e.getMessage());
-         logger.error("  Stack     : " + Util.getStackTrace(e));
-      }
+    /**
+     * Check if current database is running same version as the web application.
+     * If not, apply migration SQL script :
+     *  resources/sql/migration/{version}-to-{version}-{dbtype}.sql.
+     * eg. 2.4.3-to-2.5.0-default.sql
+     *
+     * @param dbms
+     * @param settingMan
+     * @param version
+     * @param subVersion
+     */
+    private void migrateDatabase(Dbms dbms, SettingManager settingMan, String version,
+                                 String subVersion) {
+        logger.info("  - Migration ...");
 
-      //------------------------------------------------------------------------
-      //--- end Z39.50
+        // Get db version and subversion
+        String dbVersion = settingMan.getValue("system/platform/version");
+        String dbSubVersion = settingMan.getValue("system/platform/subVersion");
 
-      logger.info("  - Z39.50...");
-      Server.end();
-      
-      // Stopping executors
-      logger.info("  - executors...");
-      executor.shutdownNow();
-      HarvesterExecutorService.getInstance().shutdown();
-      DataManager.shutdownExecutor();
-   }
+        // Migrate db if needed
+        logger.debug("      Webapp   version:" + version + " subversion:" + subVersion);
+        logger.debug("      Database version:" + dbVersion + " subversion:" + dbSubVersion);
+
+        if (version.equals(dbVersion)
+            //&& subVersion.equals(dbSubVersion) Check only on version number
+        ) {
+            logger.info("      Webapp version = Database version, no migration task to apply.");
+        } else {
+            // Migrating from 2.0 to 2.5 could be done 2.0 -> 2.3 -> 2.4 -> 2.5
+            String dbType = Lib.db.getDBType(dbms);
+            logger.info("      Migrating from " + dbVersion + " to " + version + " (dbtype:" + dbType
+                    + ")...");
+            String sqlMigrationScriptPath = path + "/WEB-INF/classes/setup/sql/migrate/" + dbVersion
+                    + "-to-" + version + "/" + dbType + ".sql";
+            File sqlMigrationScript = new File(sqlMigrationScriptPath);
+            if (sqlMigrationScript.exists()) {
+                try {
+                    // Run the SQL migration
+                    logger.info("      Running SQL migration step ...");
+                    Lib.db.runSQL(dbms, sqlMigrationScript);
+
+                    // Refresh setting manager in case the migration task added some new settings.
+                    settingMan.refresh();
+
+                    // Update the logo
+                    String siteId = settingMan.getValue("system/site/siteId");
+                    initLogo(dbms, siteId);
+
+                    // TODO : Maybe a force rebuild index is required in such situation.
+                } catch (Exception e) {
+                    logger.info("      Errors occurs during SQL migration task: "
+                            + sqlMigrationScriptPath + " or when refreshing settings manager.");
+                    e.printStackTrace();
+                }
+
+                logger.info("      Successfull migration.\n"
+                        + "      Catalogue administrator still need to update the catalogue\n"
+                        + "      logo and data directory in order to complete the migration process.\n"
+                        + "      Index rebuild is also recommended after migration.");
+
+            } else {
+                logger.info("      No migration task found between webapp and database version.\n"
+                        + "      The system may be unstable or may failed to start if you try to run \n"
+                        + "      the current GeoNetwork "
+                        + version
+                        + " with an older database (ie. "
+                        + dbVersion
+                        + "\n"
+                        + "      ). Try to run the migration task manually on the current database\n"
+                        + "      before starting the application or start with a new empty database.\n"
+                        + "      Sample SQL scripts for migration could be found in WEB-INF/sql/migrate folder.\n");
+
+            }
+
+            // TODO : Maybe some migration stuff has to be done in Java ?
+        }
+    }
+
+    /**
+     * Database initialization. If no table in current database
+     * create the GeoNetwork database. If an existing GeoNetwork database
+     * exists, try to migrate the content.
+     *
+     * @param context
+     * @return
+     * @throws Exception
+     */
+    private Dbms initDatabase(ServiceContext context) throws Exception {
+        Dbms dbms = null;
+        try {
+            dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
+        } catch (Exception e) {
+            logger.info("    Failed to open database connection, Check config.xml db file configuration."
+                    + "Error is: " + e.getMessage());
+        }
+
+        String dbURL = dbms.getURL();
+        logger.info("  - Database connection on " + dbURL + " ...");
+
+        // Create db if empty
+        if (!Lib.db.touch(dbms)) {
+            logger.info("      " + dbURL + " is an empty database (Metadata table not found).");
+
+            // Do we need to remove object before creating the database ?
+            Lib.db.removeObjects(dbms, path);
+            Lib.db.createSchema(dbms, path);
+            dbms.commit();
+            Lib.db.insertData(dbms, path);
+
+            // Copy logo
+            String uuid = UUID.randomUUID().toString();
+            initLogo(dbms, uuid);
+
+            dbCreated = true;
+        } else {
+            logger.info("      Found an existing GeoNetwork database.");
+        }
+
+        return dbms;
+    }
+
+    /**
+     * Copy the default dummy logo to the logo folder based on uuid
+     * @param dbms
+     * @param nodeUuid
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws SQLException
+     */
+    private void initLogo(Dbms dbms, String nodeUuid) {
+        createSiteLogo(nodeUuid);
+
+        try {
+            dbms.execute("UPDATE Settings SET value=? WHERE name='siteId'", nodeUuid);
+        } catch (SQLException e) {
+            logger.error("      Error when setting siteId values: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Creates a default site logo, only if the logo image doesn't exists
+     *
+     * @param nodeUuid
+     */
+    private void createSiteLogo(String nodeUuid) {
+        try {
+            File logo = new File(path + "/images/logos/" + nodeUuid + ".gif");
+            if (!logo.exists()) {
+                FileInputStream is = new FileInputStream(path + "/images/logos/dummy.gif");
+                FileOutputStream os = new FileOutputStream(path + "/images/logos/" + nodeUuid + ".gif");
+                logger.info("      Setting catalogue logo for current node identified by: " + nodeUuid);
+                BinaryFile.copy(is, os, true, true);
+            }
+        } catch (Exception e) {
+            logger.error("      Error when setting the logo: " + e.getMessage());
+        }
+    }
+
+    //---------------------------------------------------------------------------
+    //---
+    //--- Stop
+    //---
+    //---------------------------------------------------------------------------
+
+    @Override
+    public void stop() {
+        logger.info("Stopping geonetwork...");
+
+        //------------------------------------------------------------------------
+        //--- end search
+
+        logger.info("  - search...");
+
+        try {
+            searchMan.shutdown();
+        } catch (Exception e) {
+            logger.error("Raised exception while stopping search");
+            logger.error("  Exception : " + e);
+            logger.error("  Message   : " + e.getMessage());
+            logger.error("  Stack     : " + Util.getStackTrace(e));
+        }
+
+        //------------------------------------------------------------------------
+        //--- end Z39.50
+
+        logger.info("  - Z39.50...");
+        Server.end();
+
+        // Stopping executors
+        logger.info("  - executors...");
+        executor.shutdownNow();
+        HarvesterExecutorService.getInstance().shutdown();
+        DataManager.shutdownExecutor();
+    }
 
 }
 

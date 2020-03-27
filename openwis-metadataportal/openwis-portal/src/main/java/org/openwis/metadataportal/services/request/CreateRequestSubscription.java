@@ -13,9 +13,7 @@ import jeeves.server.context.ServiceContext;
 
 import jeeves.utils.Log;
 import org.apache.commons.lang.StringUtils;
-import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.kernel.setting.SettingManager;
 import org.jdom.Element;
 import org.openwis.dataservice.AdHoc;
 import org.openwis.dataservice.ClassOfService;
@@ -27,8 +25,6 @@ import org.openwis.dataservice.SubscriptionService;
 import org.openwis.harness.mssfss.CreateRouting;
 import org.openwis.harness.mssfss.CreateRoutingResponse;
 import org.openwis.harness.mssfss.MSSFSS;
-import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
-import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 import org.openwis.metadataportal.common.utils.Utils;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.kernel.external.HarnessProvider;
@@ -159,7 +155,7 @@ public class CreateRequestSubscription implements Service {
         content.put("requestID", requestID);
 
         String subject = OpenWISMessages.format("SubscriptionMail.subject", context.getLanguage(), new String[]{submitRequestSubscriptionDTO.getProductMetadataURN()});
-        OpenWISMail openWISMail = OpenWISMailFactory.buildSuscriptionNotificationMail(context, subject,new String[]{email}, content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildSubscriptionNotificationMail(context, subject,new String[]{email}, content);
         boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested

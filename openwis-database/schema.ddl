@@ -467,7 +467,7 @@ CREATE INDEX request_id_index
        USERNAME varchar(30) NOT NULL,
        ACTION varchar(255) NOT NULL,
        ATTRIBUTE_NAME varchar(255),
-       ACTIONER varchar(30 NOT NULL,
+       ACTIONER varchar(30) NOT NULL,
        PRIMARY KEY (id)
      );
 

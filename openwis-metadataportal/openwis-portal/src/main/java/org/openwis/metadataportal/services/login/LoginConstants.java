@@ -231,4 +231,6 @@ public final class LoginConstants {
     * @member: LANG
     */
    public static final String LANG = "lang";
+
+   public static final String LAST_LOGIN_FILTER = "LastLoginFilter";
 }

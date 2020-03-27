@@ -68,7 +68,7 @@ public class UserManager extends AbstractManager {
                         OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
 
         for (OpenWISUser openWISUser : openWISUsers) {
-            allUsers.add(buildUserFromOpenWisUser(openWISUser));
+            allUsers.add(setLastLoginTime(buildUserFromOpenWisUser(openWISUser)));
         }
 
         return allUsers;
@@ -243,7 +243,7 @@ public class UserManager extends AbstractManager {
         user.getEmails().addAll(openWISUser.getEmails());
         user.getFtps().addAll(openWISUser.getFtps());
 
-        return user;
+        return  user;
     }
 
     /**

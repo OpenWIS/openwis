@@ -17,7 +17,8 @@
 <body>
     <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
     <p>Your account for ASMC WIS Portal will be disabled in
-    <span th:text="${days}">7</span> days, please log in to
+        <span th:text="${duration}">7</span> <span style="padding-left:10px" th:text="${timeUnit}">days</span>.</p>
+    please log in to
     <a href="https://asmc.asean.org/wis/">https://asmc.asean.org/wis/</a> to keep your account active.</p>
     <p>If you require further assistance, please contact us at
         <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
