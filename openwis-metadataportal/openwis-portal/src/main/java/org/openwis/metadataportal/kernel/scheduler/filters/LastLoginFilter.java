@@ -41,7 +41,7 @@ public class LastLoginFilter implements AccountFilter {
         // filtered users
         for (User user : users) {
             Log.debug(Log.SCHEDULER, String.format("%s : User %s. Last login: %s",
-                    LastLoginFilter.class.toString(),
+                    LastLoginFilter.class.getSimpleName(),
                     user.getUsername(),
                     user.getLastLogin().toLocalDateTime().atOffset(ZoneOffset.UTC)));
 
