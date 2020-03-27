@@ -6,6 +6,7 @@ package org.openwis.metadataportal.services.login;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,6 +100,33 @@ public class Logout extends HttpServlet {
             } else {
                redirectURL = LoginConstants.HOME_PAGE;
             }
+            
+            /*
+            //added by zhan
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+            	 int cookieLenght = cookies.length;
+            
+            	 for (int i = 0; i < cookieLenght; i++) {
+            		 Cookie cookie = new Cookie(cookies[i].getName(), "");
+            		 cookie.setMaxAge(0);
+            		   // cookie.setDomain(cookies[i].getDomain());
+            		   //cookie.setPath(cookies[i].getPath());
+            		 response.addCookie(cookie);
+            		 
+            	 }
+            }
+           */
+            //added by zhan
+            /** This code modification is to solve the openwis github issue #285
+             ** The details of this issue can be viewed at https://github.com/OpenWIS/openwis/issues/285
+             **/
+            //Cookie[] cookies = request.getCookies();
+            String str = request.getServerName();
+            String str1= str.substring(str.indexOf(".")+1);
+            response.addHeader("Set-Cookie","iPlanetDirectoryPro=; Path=/; Domain=" + str1 + "; Max-Age=0");
+            //response.addHeader("Set-Cookie","iPlanetDirectoryPro=; Path=/testfunny; Domain=" + str1);
+            
             response.sendRedirect(redirectURL);
          } else {
             forwardError(request, response, "No session defined");

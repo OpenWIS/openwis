@@ -4,13 +4,13 @@
   <parent>
     <artifactId>openwis-management</artifactId>
     <groupId>io.openwis.management</groupId>
-	<version>develop-SNAPSHOT</version>
+	<version>3.14.9-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>io.openwis.management.service</groupId>
   <artifactId>openwis-management-service</artifactId>
-  <version>develop-SNAPSHOT</version>
+  <version>3.14.9-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>OpenWIS Management Service</description>
   <name>openwis-management-service</name>
@@ -42,7 +42,7 @@
       <groupId>com.sun.javaee</groupId>
       <artifactId>javaee</artifactId>
       <scope>provided</scope>
-    </dependency>
+    </dependency>	  
   </dependencies>
 
 

@@ -33,7 +33,7 @@ class c_openwis::dataservice (
 )
 #
 {
-  require c_openwis::java7
+  require c_openwis::java8
   require c_openwis::jboss
 
   include c_openwis

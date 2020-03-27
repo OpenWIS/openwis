@@ -1,372 +1,426 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.openwis</groupId>
-	<artifactId>openwis</artifactId>
-	<version>develop-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>OpenWIS</name>
+  <groupId>io.openwis</groupId>
+  <artifactId>openwis</artifactId>
+  <version>3.14.9-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>OpenWIS</name>
 
-	<description>OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the three functions 
-	required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information System (France) on 
-	behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)</description>
+  <description>OpenWIS is an implementation of WMO Information System (WIS) and aims to perform the
+    three functions
+    required by the WIS, i.e. GISC, DCPC and NC. It is originally developed by AKKA Information
+    System (France) on
+    behalf of OpenWIS Association (with UKMO, MF, BoM, KMA, and MFI as the founding members)
+  </description>
 
-	<scm>
-		<connection>scm:git:git@github.com:OpenWIS/openwis.git</connection>
-		<developerConnection>scm:git:git@github.com:OpenWIS/openwis.git</developerConnection>
-		<tag>openwis-3.14.8-release</tag>
-		<url>https://github.com/OpenWIS/openwis</url>
-	</scm>
+  <scm>
+    <url>https://github.com/OpenWIS/openwis</url>
+    <connection>scm:git:ssh://git@github.com/OpenWIS/openwis.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/OpenWIS/openwis.git</developerConnection>
+  </scm>
 
-	<organization>
-		<name>OpenWIS Association</name>
-		<url>http://www.openis.io</url>
-	</organization>
+  <organization>
+    <name>OpenWIS Association</name>
+    <url>http://www.openis.io</url>
+  </organization>
 
-	<inceptionYear>2013</inceptionYear>
+  <inceptionYear>2013</inceptionYear>
 
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/OpenWIS/openwis/issues</url>
-	</issueManagement>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/OpenWIS/openwis/issues</url>
+  </issueManagement>
 
-	<ciManagement>
-		<system>Jenkins CloudBees</system>
-		<url> https://openwis-association.ci.cloudbees.com</url>
-	</ciManagement>
+  <ciManagement>
+    <system>Jenkins CloudBees</system>
+    <url>https://openwis-association.ci.cloudbees.com</url>
+  </ciManagement>
 
-	<mailingLists>
-		<mailingList>
-			<name>User List</name>
-			<subscribe>openwis-tmc@meteo.fr</subscribe>
-		</mailingList>
-	</mailingLists>
+  <mailingLists>
+    <mailingList>
+      <name>User List</name>
+      <subscribe>openwis-tmc@meteo.fr</subscribe>
+    </mailingList>
+  </mailingLists>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<file.encoding>UTF-8</file.encoding>	 
-		<cxf.version>2.2.12</cxf.version>	 
-		<!--security service is using 3.0.0.-->
-		<junit.version>4.8.1</junit.version>	  
-		<hibernate.version>3.4.0.GA</hibernate.version>
-		<solr.version>1.4.1</solr.version>
-		<arquillian.version>1.0.0.Alpha4</arquillian.version> 	  
-		<javaee.version>5.0</javaee.version> 
-		<spring.version>4.1.5.RELEASE</spring.version>	  
-	</properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <file.encoding>UTF-8</file.encoding>
+    <cxf.version>2.2.12</cxf.version>
+    <!--security service is using 3.0.0.-->
+    <junit.version>4.8.1</junit.version>
+    <hibernate.version>3.4.0.GA</hibernate.version>
+    <solr.version>1.4.1</solr.version>
+    <arquillian.version>1.0.0.Alpha4</arquillian.version>
+    <javaee.version>5.0</javaee.version>
+    <spring.version>4.2.4.RELEASE</spring.version>
+    <spring.security.version>3.2.0.RELEASE</spring.security.version>
 
-	<profiles>
-		<profile>
-			<id>openwis</id> 
-			<properties>
-				<admin.module>false</admin.module>	 
-				<user.module>true</user.module>	 			 
-			</properties>		 
-			<modules>
-				<module>openwis-harness</module>
-				<module>openwis-management</module>
-				<module>openwis-dataservice</module>
-				<module>openwis-portal-client</module>
-				<module>openwis-metadataportal</module>
-				<module>openwis-securityservice</module>
-				<module>openwis-stagingpost</module>
-				<module>openwis-metadataportal/openwis-portal</module>
-				<module>openwis-dependencies</module>
-				<module>openwis-tools</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>user</id>
-			<properties>
-				<admin.module>false</admin.module>
-				<user.module>true</user.module>			 
-			</properties>
-			<modules>
-				<module>openwis-metadataportal/openwis-portal</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>admin</id>
-			<properties>
-				<admin.module>true</admin.module>
-				<user.module>false</user.module>			 
-			</properties>
-			<modules>
-				<module>openwis-metadataportal/openwis-portal</module>
-			</modules>
-		</profile>
-	</profiles>
+    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <dependency-check-maven.version>5.3.0</dependency-check-maven.version>
+    <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+    <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 
-	<!-- =========================================================== -->
-	<!--     Dependency Management                                   -->
-	<!--     If a POM declares one of those dependencies, then it    -->
-	<!--     will use the version specified here. Otherwise, those   -->
-	<!--     dependencies are ignored.                               -->
-	<!-- =========================================================== -->   
-	<dependencyManagement>   
-		<dependencies>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-annotations</artifactId>
-				<version>${hibernate.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.javaee</groupId>
-				<artifactId>javaee</artifactId>
-				<version>${javaee.version}</version>
-			</dependency> 
-			<dependency>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>1.3.4</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <sonar.c.file.suffixes>-</sonar.c.file.suffixes>
+    <sonar.cpp.file.suffixes>-</sonar.cpp.file.suffixes>
+    <sonar.objc.file.suffixes>-</sonar.objc.file.suffixes>
+    <sonar.sourceEncoding>utf-8</sonar.sourceEncoding>
+  </properties>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.2</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<!-- setting a "global version" of maven-compiler-plugin for all modules-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
+  <profiles>
+    <profile>
+      <id>dependencies</id>
+      <modules>
+        <module>openwis-libs</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>openwis</id>
+      <properties>
+        <admin.module>false</admin.module>
+        <user.module>true</user.module>
+      </properties>
+      <modules>
+        <module>openwis-harness</module>
+        <module>openwis-management</module>
+        <module>openwis-dataservice</module>
+        <module>openwis-portal-client</module>
+        <module>openwis-metadataportal</module>
+        <module>openwis-securityservice</module>
+        <module>openwis-stagingpost</module>
+        <module>openwis-metadataportal/openwis-portal</module>
+        <module>openwis-dependencies</module>
+        <module>openwis-tools</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>user</id>
+      <properties>
+        <admin.module>false</admin.module>
+        <user.module>true</user.module>
+      </properties>
+      <modules>
+        <module>openwis-metadataportal/openwis-portal</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>admin</id>
+      <properties>
+        <admin.module>true</admin.module>
+        <user.module>false</user.module>
+      </properties>
+      <modules>
+        <module>openwis-metadataportal/openwis-portal</module>
+      </modules>
+    </profile>
+  </profiles>
 
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>build-helper-maven-plugin</artifactId>
-					<version>1.5</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-jar-plugin</artifactId>
-					<configuration>
-						<archive>
-							<addMavenDescriptor />
-							<manifest>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-								<addDefaultSpecificationEntries />		
-							</manifest>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.owasp</groupId>
-					<artifactId>dependency-check-maven</artifactId>
-					<version>1.3.4</version>
-				</plugin>
+  <!-- =========================================================== -->
+  <!--     Dependency Management                                   -->
+  <!--     If a POM declares one of those dependencies, then it    -->
+  <!--     will use the version specified here. Otherwise, those   -->
+  <!--     dependencies are ignored.                               -->
+  <!-- =========================================================== -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-annotations</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.javaee</groupId>
+        <artifactId>javaee</artifactId>
+        <version>${javaee.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>org.jacoco.agent</artifactId>
+      <version>${jacoco-maven-plugin.version}</version>
+      <classifier>runtime</classifier>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-				<!--this adds the javaee.jar to the local repo, as it is currently unavailable in any internet facing repositories-->
-				<!-- 02/07/14 Shaun Adams UK Met Office-->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.2.1</version>
-					<inherited>false</inherited>
-					<executions>
-						<execution>
-							<id>install-javaee-jar</id>
-							<!--
-					<phase>install</phase>
-					<goals>
-						<goal>exec</goal>
-					</goals>
-                    -->
-						</execution>
-					</executions>
-					<configuration>
-						<executable>mvn</executable>
-						<arguments>
-							<argument>install:install-file</argument>
-							<argument>-Dfile=${basedir}/resources/javaee-${javaee.version}.jar</argument>
-							<argument>-DgroupId=com.sun.javaee</argument>
-							<argument>-DartifactId=javaee</argument>
-							<argument>-Dversion=${javaee.version}</argument>
-							<argument>-Dpackaging=jar</argument>
-						</arguments>
-					</configuration>
-				</plugin>	
-				<!-- this plugin is required to maven release the build -->
-				<!-- 23/01/15 Kirsty Burgess UK Met Office -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
-					<configuration>
-						<pushChanges>true</pushChanges>
-						<localCheckout>true</localCheckout>
-						<preparationGoals>clean install</preparationGoals>
-						<autoVersionSubmodules>true</autoVersionSubmodules>
-						<!--This is set so not to break Maven releasings in Jenkins-->
-						<updateWorkingCopyVersions>false</updateWorkingCopyVersions>
-					</configuration>
-					<executions>
-						<execution>
-							<id>default</id>
-							<goals>
-								<goal>perform</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>	
-			</plugins>
-		</pluginManagement>
-	</build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.2</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <!-- setting a "global version" of maven-compiler-plugin for all modules-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-instrument</id>
+            <goals>
+              <goal>instrument</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-restore-instrumented-classes</id>
+            <goals>
+              <goal>restore-instrumented-classes</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12.2</version>
+        <configuration>
+          <systemPropertyVariables>
+            <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
 
-	<developers>
-		<developer>
-			<name>Leon Mika</name>
-			<organization>Bureau of Meteorology</organization>
-		</developer>
-		<developer>
-			<name>Weiging Qu</name>
-			<organization>Bureau of Meteorology</organization>
-		</developer>	
-		<developer>
-			<name>Y Wang</name>
-			<organization>Bureau of Meteorology</organization>
-		</developer>
-		<developer>
-			<name>Francois Faugeron</name>
-			<organization>Météo France</organization>
-		</developer>
-		<developer>
-			<name>Remy Gibault</name>
-			<organization>Météo France</organization>
-		</developer>
-		<developer>
-			<name>Yves Goupil</name>
-			<organization>Météo France</organization>
-		</developer>
-		<developer>
-			<name>Shaun Adams</name>
-			<organization>Met Office (UK)</organization>
-		</developer>
-		<developer>
-			<name>Kirsty Burgess</name>
-			<organization>Met Office (UK)</organization>
-		</developer>
-		<developer>
-			<name>Alan Morbey</name>
-			<organization>Met Office (UK)</organization>
-		</developer>
-		<developer>
-			<name>Martin Gollogly</name>
-			<organization>SciSys</organization>
-		</developer>
-	</developers>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <addMavenDescriptor/>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries/>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>${dependency-check-maven.version}</version>
+          <configuration>
+            <format>ALL</format>
+            <failOnError>false</failOnError>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${sonar-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <tagNameFormat>openwis-@{project.version}-release</tagNameFormat>
+            <scmCommentPrefix>[maven-release-plugin][skip travisci]</scmCommentPrefix>
+            <arguments>-Dmaven.javadoc.skip=true -Dmaven.test.skipTests=true -Dmaven.test.skip=true</arguments>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<name>oss.sonatype.org</name>
-			<id>oss.sonatype.org</id>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-		</pluginRepository>
-	</pluginRepositories>
+  <developers>
+    <developer>
+      <name>Leon Mika</name>
+      <organization>Bureau of Meteorology</organization>
+    </developer>
+    <developer>
+      <name>Weiging Qu</name>
+      <organization>Bureau of Meteorology</organization>
+    </developer>
+    <developer>
+      <name>Y Wang</name>
+      <organization>Bureau of Meteorology</organization>
+    </developer>
+    <developer>
+      <name>Francois Faugeron</name>
+      <organization>Météo France</organization>
+    </developer>
+    <developer>
+      <name>Remy Gibault</name>
+      <organization>Météo France</organization>
+    </developer>
+    <developer>
+      <name>Yves Goupil</name>
+      <organization>Météo France</organization>
+    </developer>
+    <developer>
+      <name>Shaun Adams</name>
+      <organization>Met Office (UK)</organization>
+    </developer>
+    <developer>
+      <name>Kirsty Burgess</name>
+      <organization>Met Office (UK)</organization>
+    </developer>
+    <developer>
+      <name>Alan Morbey</name>
+      <organization>Met Office (UK)</organization>
+    </developer>
+    <developer>
+      <name>Martin Gollogly</name>
+      <organization>SciSys</organization>
+    </developer>
+  </developers>
 
-	<repositories>
-		<repository>
-			<id>jboss-maven2</id>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
-		</repository>
-		<repository>
-			<id>repo1-maven2</id>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
+  <pluginRepositories>
+    <pluginRepository>
+      <name>oss.sonatype.org</name>
+      <id>oss.sonatype.org</id>
+      <url>https://oss.sonatype.org/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
 
+  <repositories>
+    <repository>
+      <id>jboss-maven2</id>
+      <url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
+    </repository>
+    <repository>
+      <id>repo1-maven2</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>jboss-repository</id>
+      <url>https://repository.jboss.org/maven2</url>
+    </repository>
 
-		<!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
-		<repository>
-			<id>codehaus-mule-repo</id>
-			<url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
-			<layout>default</layout>
-		</repository>
+    <!-- Repository hosting artefacts formally hosted by Codehaus (which was shutdown): http://www.codehaus.org/mechanics/maven/ -->
+    <repository>
+      <id>codehaus-mule-repo</id>
+      <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+    </repository>
 
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<id>core-maven-repo</id>
-			<name>GeoNetwork remote repository</name>
-			<url>https://raw.githubusercontent.com/geonetwork/core-maven-repo/master</url>
-		</repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>geotools</id>
-			<name>Geotools repository</name>
-			<url>http://download.osgeo.org/webdav/geotools/</url>
-		</repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>ch.thus</id>
-			<name>Boundless repository</name>
-			<url>http://www.thus.ch/~patrick/maven/</url>
-		</repository>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <id>core-maven-repo</id>
+      <name>GeoNetwork remote repository</name>
+      <url>https://raw.githubusercontent.com/geonetwork/core-maven-repo/master</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>geotools</id>
+      <name>Geotools repository</name>
+      <url>https://download.osgeo.org/webdav/geotools/</url>
+    </repository>
 
-		<!--
-	  <repository>
-		 <id>openqa-thirdparty</id>
-		 <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
-	  </repository>
-	  <repository>
-		 <id>openqa-releases</id>
-		 <url>http://nexus.openqa.org/content/repositories/releases</url>
-	  </repository>
-	  <repository>
-		 <id>openqa-snapshots</id>
-		 <url>http://nexus.openqa.org/content/repositories/snapshots</url>
-	  </repository>	  
-	  -->
-	</repositories>
+    <!--
+    <repository>
+      <id>openwis-internal</id>
+      <url>https://nexus.eurodyn.com/repository/openwis-internal/</url>
+    </repository>
+    <repository>
+      <id>forgerock-staging-repo</id>
+      <name>ForgeRock Release Repository</name>
+      <url>http://maven.forgerock.org/repo/releases</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>forgerock-snapshots-repo</id>
+      <name>ForgeRock Snapshot Repository</name>
+      <url>http://maven.forgerock.org/repo/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>maven.forgerock.org</id>
+      <name>maven.forgerock.org-openam-dependencies</name>
+      <url>http://maven.forgerock.org/repo/openam-dependencies</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>forgerock</id>
+      <url>http://maven.forgerock.org/repo/releases</url>
+    </repository>
+    <repository>
+      <id>forgerock-repo</id>
+      <url>http://maven.forgerock.org/repo/repo/org/forgerock/</url>
+    </repository>
+    <repository>
+      <id>openqa-thirdparty</id>
+      <url>http://nexus.openqa.org/content/repositories/thirdparty</url>
+    </repository>
+    <repository>
+      <id>openqa-releases</id>
+      <url>http://nexus.openqa.org/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>openqa-snapshots</id>
+      <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+    </repository>
+    -->
+  </repositories>
 
-	<distributionManagement>
-		<repository>
-			<id>openwis-release</id>
-			<name>OpenWIS Release Repository</name>
-			<url>http://repository-openwis-association.forge.cloudbees.com/release</url>
-		</repository>
-		<snapshotRepository>
-			<id>openwis-snapshot</id>
-			<name>OpenWIS Snapshot Repository</name>
-			<url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>  
+  <distributionManagement>
+    <repository>
+      <id>openwis-release</id>
+      <name>OpenWIS Release Repository</name>
+      <url>http://repository-openwis-association.forge.cloudbees.com/release</url>
+    </repository>
+    <snapshotRepository>
+      <id>openwis-snapshot</id>
+      <name>OpenWIS Snapshot Repository</name>
+      <url>http://repository-openwis-association.forge.cloudbees.com/snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>1.3.4</version>
-			</plugin>
-		</plugins>
-	</reporting> 
 </project>

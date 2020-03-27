@@ -31,7 +31,8 @@ import org.slf4j.LoggerFactory;
 
 @MessageDriven(messageListenerInterface=MessageListener.class, name = "PackedFeedingService", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-    @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/PackedFeedingQueue"),
+    //@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/PackedFeedingQueue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/queue/PackedFeedingQueue"),
     @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")})
 @Stateless(name = "PackedFeedingTimerService")
 @Depends({"jboss.ha:service=HASingletonDeployer,type=Barrier"})

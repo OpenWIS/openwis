@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openwis-dataservice</artifactId>
 		<groupId>io.openwis.dataservice</groupId>
-		<version>develop-SNAPSHOT</version>
+		<version>3.14.9-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -42,7 +42,7 @@
                 -->
 				<configuration>
                     <version>6</version>
-                    <initializeInOrder>true</initializeInOrder>
+                    <initializeInOrder>false</initializeInOrder>
                     <fileNameMapping>no-version-for-ejb</fileNameMapping>
 
 					<!-- Generate the conf file jboss-app.xml -->

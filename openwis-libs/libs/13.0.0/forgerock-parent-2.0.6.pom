@@ -1,0 +1,1268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+ Copyright 2011-2015 ForgeRock AS.
+
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License). You may not use this file except in
+ compliance with the License.
+
+ You can obtain a copy of the License at
+ http://forgerock.org/license/CDDLv1.0.html
+ See the License for the specific language governing
+ permission and limitations under the License.
+
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at http://forgerock.org/license/CDDLv1.0.html
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ your own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.forgerock</groupId>
+    <artifactId>forgerock-parent</artifactId>
+    <version>2.0.6</version>
+    <packaging>pom</packaging>
+    <name>ForgeRock Parent</name>
+    <description>Parent POM for ForgeRock projects. Provides default project build configuration.</description>
+    <url>http://www.forgerock.com</url>
+    <licenses>
+        <license>
+            <name>CDDL-1.0</name>
+            <url>http://opensource.org/licenses/CDDL-1.0</url>
+            <comments>Common Development and Distribution License (CDDL) 1.0</comments>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <organization>
+        <name>ForgeRock AS</name>
+        <url>http://www.forgerock.com</url>
+    </organization>
+    <issueManagement>
+        <system>jira</system>
+        <url>https://bugster.forgerock.org</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:ssh://git@stash.forgerock.org:7999/commons/forgerock-parent.git</connection>
+        <developerConnection>scm:git:ssh://git@stash.forgerock.org:7999/commons/forgerock-parent.git</developerConnection>
+        <url>http://stash.forgerock.org/projects/COMMONS/repos/forgerock-parent/browse</url>
+      <tag>2.0.6</tag>
+  </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>forgerock-snapshots</id>
+            <name>ForgeRock Snapshot Repository</name>
+            <url>${forgerockDistMgmtSnapshotsUrl}</url>
+        </snapshotRepository>
+        <repository>
+            <id>forgerock-staging</id>
+            <name>ForgeRock Release Repository</name>
+            <url>${forgerockDistMgmtReleasesUrl}</url>
+        </repository>
+        <site>
+            <id>community.internal.forgerock.com</id>
+            <name>ForgeRock Community</name>
+            <url>scp://community.internal.forgerock.com/var/www/vhosts/commons.forgerock.org/httpdocs/forgerock-parent</url>
+        </site>
+    </distributionManagement>
+
+    <!-- (see FAQ at http://maven.apache.org/guides/mini/guide-central-repository-upload.html ) -->
+    <repositories>
+        <repository>
+            <id>forgerock-staging-repository</id>
+            <name>ForgeRock Release Repository</name>
+            <url>http://maven.forgerock.org/repo/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>forgerock-snapshots-repository</id>
+            <name>ForgeRock Snapshot Repository</name>
+            <url>http://maven.forgerock.org/repo/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>forgerock-plugins-repository</id>
+            <name>ForgeRock Plugin Repository</name>
+            <url>http://maven.forgerock.org/repo/plugins</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <properties>
+        <!-- ************** -->
+        <!-- Build settings -->
+        <!-- ************** -->
+
+        <!-- Cross plugins settings -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- maven-compiler-plugin http://maven.apache.org/plugins/maven-compiler-plugin -->
+        <mavenCompilerPluginVersion>3.3</mavenCompilerPluginVersion>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+
+        <!-- maven-enforcer-plugin -->
+        <maven.min.version>3.0.1</maven.min.version>
+        <jdk.min.version>${maven.compiler.source}</jdk.min.version>
+
+        <!-- findbugs-maven-plugin -->
+        <findbugsPluginVersion>3.0.1</findbugsPluginVersion>
+
+        <!-- maven-javadoc-plugin -->
+        <javadocPluginVersion>2.9</javadocPluginVersion>
+        <!-- forgerock-build-tools stylesheet org/forgerock/javadoc/javadoc.css
+             does not work with JDK7 -->
+        <javadocStylesheet />
+        <javadocWindowTitle>${project.name} ${project.version} Documentation</javadocWindowTitle>
+        <javadocDocTitle>${javadocWindowTitle}</javadocDocTitle>
+
+        <!-- maven-idea-plugin & maven-eclipse-plugin -->
+        <downloadSources>true</downloadSources>
+        <downloadJavadocs>true</downloadJavadocs>
+
+        <!-- maven-pmd-plugin -->
+        <pmdPluginVersion>3.4</pmdPluginVersion>
+        <targetJdk>${maven.compiler.target}</targetJdk>
+
+        <!-- maven-checkstyle-plugin -->
+        <checkstylePluginVersion>2.16</checkstylePluginVersion>
+        <checkstyleSourceConfigLocation>org/forgerock/checkstyle/check-src-default.xml</checkstyleSourceConfigLocation>
+        <checkstyleDocTargetConfigLocation>org/forgerock/checkstyle/check-src-doc-target.xml</checkstyleDocTargetConfigLocation>
+        <checkstyleUnitTestSuppressionsLocation>org/forgerock/checkstyle/unit-test-suppressions.xml</checkstyleUnitTestSuppressionsLocation>
+        <checkstyleHeaderLocation>org/forgerock/checkstyle/default-java-header</checkstyleHeaderLocation>
+        <checkstyleFailOnError>true</checkstyleFailOnError>
+
+        <!-- Thanks to the usage of properties, each project using this POM as parent-pom can easily use its own plugin version 
+             (useful when you have some constraints on a given version and if the parent doesn't give you the one you need ...) -->
+
+        <!-- clirr-maven-plugin -->
+        <clirrPluginVersion>2.6.1</clirrPluginVersion>
+
+        <!-- cobertura-maven-plugin http://mojo.codehaus.org/cobertura-maven-plugin -->
+        <coberturaPluginVersion>2.7</coberturaPluginVersion>
+
+        <!-- maven-dependency-plugin -->
+        <mavenDependencyPluginVersion>2.10</mavenDependencyPluginVersion>
+
+        <!-- maven-clean-plugin http://maven.apache.org/components/plugins/maven-clean-plugin -->
+        <mavenCleanPluginVersion>2.6.1</mavenCleanPluginVersion>
+
+        <!-- maven-jar-plugin http://maven.apache.org/plugins/maven-jar-plugin/ -->
+        <mavenJarPluginVersion>2.6</mavenJarPluginVersion>
+
+        <!-- maven-war-plugin http://maven.apache.org/plugins/maven-war-plugin/ -->
+        <mavenWarPluginVersion>2.6</mavenWarPluginVersion>
+
+        <!-- maven-assembly-plugin http://maven.apache.org/plugins/maven-assembly-plugin/ -->
+        <mavenAssemblyPluginVersion>2.5.3</mavenAssemblyPluginVersion>
+
+        <!-- maven-surefire-plugin http://maven.apache.org/surefire/maven-surefire-plugin/ -->
+        <mavenSurefirePluginVersion>2.18.1</mavenSurefirePluginVersion>
+
+        <!-- maven-source-plugin http://maven.apache.org/plugins/maven-source-plugin/ -->
+        <mavenSourcePluginVersion>2.4</mavenSourcePluginVersion>
+
+        <!-- maven-resources-plugin http://maven.apache.org/plugins/maven-resources-plugin/ -->
+        <mavenResourcesPluginVersion>2.7</mavenResourcesPluginVersion>
+
+        <!-- maven-remote-resources-plugin http://maven.apache.org/plugins/maven-remote-resources-plugin/ -->
+        <mavenRemoteResourcesPluginVersion>1.5</mavenRemoteResourcesPluginVersion>
+
+        <!-- maven-deploy-plugin http://maven.apache.org/plugins/maven-deploy-plugin/ -->
+        <mavenDeployPluginVersion>2.8.2</mavenDeployPluginVersion>
+
+        <!-- maven-install-plugin http://maven.apache.org/plugins/maven-install-plugin/ -->
+        <mavenInstallPluginVersion>2.5.2</mavenInstallPluginVersion>
+
+        <!-- maven-scm-plugin http://maven.apache.org/plugins/maven-scm-plugin/ -->
+        <mavenSCMPluginVersion>1.9.4</mavenSCMPluginVersion>
+
+        <!-- license-maven-plugin http://mojo.codehaus.org/license-maven-plugin/ -->
+        <licenseMavenPluginVersion>1.8</licenseMavenPluginVersion>
+
+        <!-- maven-enforcer-plugin http://maven.apache.org/plugins/maven-enforcer-plugin/ -->
+        <mavenEnforcerPluginVersion>1.4</mavenEnforcerPluginVersion>
+
+        <!-- maven-release-plugin http://maven.apache.org/plugins/maven-release-plugin/ -->
+        <mavenReleasePluginVersion>2.5.1</mavenReleasePluginVersion>
+
+        <!-- ***************** -->
+        <!-- Repository Deployment URLs -->
+        <!-- ***************** -->
+        <forgerockDistMgmtSnapshotsUrl>http://maven.forgerock.org/repo/snapshots</forgerockDistMgmtSnapshotsUrl>
+        <forgerockDistMgmtReleasesUrl>http://maven.forgerock.org/repo/releases</forgerockDistMgmtReleasesUrl>
+
+        <!-- this property makes sure NetBeans 6.8+ picks up some formatting rules from checkstyle -->
+        <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
+
+        <!--  ForgeRock build tools version -->
+        <forgerockBuildToolsVersion>1.0.3</forgerockBuildToolsVersion>
+
+        <!-- Forgerock binary license name -->
+        <binary.license.name>Forgerock_License.txt</binary.license.name>
+    </properties>
+
+    <prerequisites>
+        <maven>${maven.min.version}</maven>
+    </prerequisites>
+
+    <build>
+        <pluginManagement>
+            <!--    mvn versions:display-plugin-updates
+                    mvn versions:display-dependency-updates
+                    mvn versions:use-latest-versions
+            -->
+            <plugins>
+                <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>${coberturaPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${findbugsPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${mavenAssemblyPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.7</version>
+                    <configuration>
+                        <instructions>
+                            <Implementation-Build>${ci.build.number}</Implementation-Build>
+                            <SCM-Revision>${ci.scm.revision}</SCM-Revision>
+                        </instructions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstylePluginVersion}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.forgerock</groupId>
+                            <artifactId>forgerock-build-tools</artifactId>
+                            <version>${forgerockBuildToolsVersion}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>6.6</version>
+                        </dependency>
+                    </dependencies>
+
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${mavenCleanPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${mavenCompilerPluginVersion}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <compilerArgument>-Xlint:all</compilerArgument>
+                        <showWarnings>true</showWarnings>
+                        <showDeprecation>true</showDeprecation>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${mavenDependencyPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${mavenDeployPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-docck-plugin</artifactId>
+                    <version>1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${mavenEnforcerPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${mavenInstallPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-invoker-plugin</artifactId>
+                    <version>1.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${mavenJarPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jarsigner-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <!--  See generate-javadoc profile - the configuration here
+                          must be aligned with the report configuration
+                          specified in the profile -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadocPluginVersion}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.forgerock</groupId>
+                            <artifactId>forgerock-build-tools</artifactId>
+                            <version>${forgerockBuildToolsVersion}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <author>false</author>
+                        <quiet>true</quiet>
+                        <windowtitle>${javadocWindowTitle}</windowtitle>
+                        <doctitle>${javadocDocTitle}</doctitle>
+                        <header><![CDATA[<b>${javadocDocTitle}</b>]]></header>
+                        <footer><![CDATA[<b>${javadocDocTitle}</b>]]></footer>
+                        <additionalparam>-linksource</additionalparam>
+                        <show>protected</show>
+                        <excludePackageNames>com.*</excludePackageNames>
+                        <stylesheetfile>${javadocStylesheet}</stylesheetfile>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>${pmdPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${mavenReleasePluginVersion}</version>
+                    <inherited>true</inherited>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>1.8.1</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <releaseProfiles>enforce,forgerock-release</releaseProfiles>
+                        <suppressCommitBeforeTag>false</suppressCommitBeforeTag>
+                        <goals>deploy</goals>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <version>${mavenRemoteResourcesPluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${mavenResourcesPluginVersion}</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>${mavenSCMPluginVersion}</version>
+                    <configuration>
+                        <tag>${project.artifactId}-${project.version}</tag>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.3</version>
+                    <configuration>
+                        <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.wagon</groupId>
+                            <artifactId>wagon-ssh</artifactId>
+                            <version>2.2</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${mavenSourcePluginVersion}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${mavenSurefirePluginVersion}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.forgerock</groupId>
+                            <artifactId>forgerock-build-tools</artifactId>
+                            <version>${forgerockBuildToolsVersion}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.12.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-maven-plugin</artifactId>
+                    <version>1.3.8</version>
+                </plugin>
+                <plugin>
+                    <!--This plugin's configuration is used to store Eclipse m2e settings
+                        only. It has no influence on the Maven build itself. It's really
+                        annoying that we have to do this. The alternative is that each
+                        developer who uses Eclipse must manually configure M2E. -->
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-dependency-plugin</artifactId>
+                                        <versionRange>[2.6,)</versionRange>
+                                        <goals>
+                                            <goal>unpack</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.forgerock.commons</groupId>
+                                        <artifactId>i18n-maven-plugin</artifactId>
+                                        <versionRange>[1.2.0,)</versionRange>
+                                        <goals>
+                                            <goal>generate-messages</goal>
+                                            <goal>generate-test-messages</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnIncremental>true</runOnIncremental>
+                                            <runOnConfiguration>true</runOnConfiguration>
+                                        </execute>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-enforcer-plugin</artifactId>
+                                        <versionRange>[1.0,)</versionRange>
+                                        <goals>
+                                            <goal>enforce</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>build-helper-maven-plugin</artifactId>
+                                        <versionRange>[1.4,)</versionRange>
+                                        <goals>
+                                            <goal>reserve-network-port</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                  <pluginExecutionFilter>
+                                    <groupId>org.codehaus.mojo</groupId>
+                                    <artifactId>xml-maven-plugin</artifactId>
+                                    <versionRange>1.0</versionRange>
+                                    <goals>
+                                      <goal>transform</goal>
+                                      <goal>validate</goal>
+                                    </goals>
+                                  </pluginExecutionFilter>
+                                  <action>
+                                    <execute>
+                                      <runOnIncremental>true</runOnIncremental>
+                                      <runOnConfiguration>true</runOnConfiguration>
+                                    </execute>
+                                  </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                  <pluginExecutionFilter>
+                                    <groupId>org.codehaus.mojo</groupId>
+                                    <artifactId>buildnumber-maven-plugin</artifactId>
+                                    <versionRange>[0,)</versionRange>
+                                    <goals>
+                                      <goal>create</goal>
+                                    </goals>
+                                  </pluginExecutionFilter>
+                                  <action>
+                                    <execute>
+                                      <runOnConfiguration>true</runOnConfiguration>
+                                      <runOnIncremental>true</runOnIncremental>
+                                    </execute>
+                                  </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <!-- Check Open Source licenses for all the dependencies -->
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${licenseMavenPluginVersion}</version>
+                    <configuration>
+                        <useMissingFile>true</useMissingFile>
+                        <fileTemplate>/org/codehaus/mojo/license/third-party-file-groupByLicense.ftl</fileTemplate>
+                        <failIfWarning>true</failIfWarning>
+                        <excludedScopes>test,provided</excludedScopes>
+                        <licenseMerges>
+                            <licenseMerge>
+                                Apache Software License, Version 2.0|
+                                The Apache Software License, Version 2.0|
+                                Apache v2|Apache 2|ASL, version 2|
+                                Apache 2.0|
+                                Apache License|
+                                Apache license|
+                                Apache-2.0|
+                                ALv2|
+                                Apache 2.0 license|
+                                Apache 2.0 License|
+                                Apache License Version 2.0|
+                                Apache License, Version 2.0|
+                                Apache Software License - Version 2.0|
+                                Apache License 2.0
+                            </licenseMerge>
+                            <licenseMerge>
+                                Common Development and Distribution License 1.0|
+                                CDDL 1.0|
+                                COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0|
+                                CDDL|
+                                CDDL-1.0|
+                                CDDL 1.0 license|
+                                CDDL 1.0 License|
+                                CDDL License, Version 1.0|
+                                Common Development and Distribution License (CDDL) v1.0|
+                                CDDL License
+                            </licenseMerge>
+                            <licenseMerge>
+                                Common Development and Distribution License 1.1|
+                                CDDL 1.1|
+                                CDDL-1.1|
+                                CDDL 1.1 license|
+                                CDDL 1.1 License|
+                                CDDL License, Version 1.1|
+                                Common Development and Distribution License (CDDL) v1.1
+                            </licenseMerge>
+                            <licenseMerge>
+                                The MIT License|
+                                The MIT license|
+                                MIT License|
+                                MIT license|
+                                MIT
+                            </licenseMerge>
+                            <licenseMerge>
+                                The GNU Lesser General Public License, version 2.1|
+                                LGPL 2.1 license|
+                                LGPL 2.1 License|
+                                LGPL, version 2.1|
+                                LGPL version 2.1|
+                                GNU Lesser General Public License, Version 2.1
+                            </licenseMerge>
+                            <licenseMerge>
+                                The GNU Lesser General Public License, version 2.0 with Classpath Exception|
+                                GPL2 w/ CPE|
+                                GPLv2+CE|
+                                GPLv2 with classpath exception
+                            </licenseMerge>
+                            <licenseMerge>
+                                The GNU Lesser General Public License, version 3.0|
+                                LGPL 3.0 license|
+                                LGPL, 3.0 license|
+                                LGPL, version 3.0|
+                                LGPL version 3.0|
+                                GNU Lesser General Public License, Version 3.0
+                            </licenseMerge>
+                            <licenseMerge>
+                                BSD|
+                                BSD License|
+                                BSD license|
+                                BSD-style license|
+                                The BSD License|
+                                The BSD license
+                            </licenseMerge>
+                            <licenseMerge>
+                                Dual licensed (CDDL and GPL)|
+                                CDDL+GPL|
+                                CDDL+GPL License|
+                                CDDL+GPL license
+                            </licenseMerge>
+                            <licenseMerge>
+                                Dual licensed (CDDL and GPLv2+CE)|
+                                CDDL/GPLv2+CE|
+                                CDDL + GPLv2 with classpath exception
+                            </licenseMerge>
+                        </licenseMerges>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>enforce</id>
+            <activation>
+                <property>
+                    <name>!skip-enforce</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-plugin-versions</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requirePluginVersions>
+                                            <message>Best practice is to always define plugin versions!</message>
+                                            <banLatest>true</banLatest>
+                                            <banRelease>true</banRelease>
+                                            <banSnapshots>false</banSnapshots>
+                                            <phases>deploy,site</phases>
+                                        </requirePluginVersions>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>enforce-java-version</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireJavaVersion>
+                                            <message>To build this project JDK ${jdk.min.version} (or greater) is required. Please install it.</message>
+                                            <version>${jdk.min.version}</version>
+                                        </requireJavaVersion>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>enforce-maven-version</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireMavenVersion>
+                                            <message>To build this project Maven ${maven.min.version} (or greater) is required. Please install it.</message>
+                                            <version>${maven.min.version}</version>
+                                        </requireMavenVersion>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>precommit</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Enforce Checkstyle during compilation -->
+
+                        <!-- Strictly speaking Checkstyle should be invoked as a
+                             report during site generation. However, we want
+                             to fail the build if source code does not comply with
+                             our coding guidelines, and not at a later stage when
+                             the site is generated (which may never occur for some
+                             projects).     
+                        -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>check-src-and-tests</id>
+                                <configuration>
+                                    <configLocation>${checkstyleSourceConfigLocation}</configLocation>
+                                    <headerLocation>${checkstyleHeaderLocation}</headerLocation>
+                                    <suppressionsLocation>${checkstyleUnitTestSuppressionsLocation}</suppressionsLocation>
+                                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                                    <!-- Only output errors if we're not expecting any -->
+                                    <consoleOutput>${checkstyleFailOnError}</consoleOutput>
+                                    <failsOnError>${checkstyleFailOnError}</failsOnError>
+                                </configuration>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>checkstyle</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!-- Check Open Source licenses for all the dependencies -->
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>generate-oss-license-report</id>
+                                <goals>
+                                    <goal>add-third-party</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>metrics</id>
+            <properties>
+                <testReportsDirectory>${project.build.directory}/surefire-reports/cobertura</testReportsDirectory>
+            </properties>
+            <build>
+                <plugins>
+                    <!-- Enforce Checkstyle during compilation -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                    </plugin>
+
+                    <!-- Cobertura -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <configuration>
+                            <formats>
+                                <format>xml</format>
+                                <format>html</format>
+                            </formats>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>cobertura</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <reporting>
+                <plugins>
+                    <!-- FindBugs -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                        <version>${findbugsPluginVersion}</version>
+                        <configuration>
+                            <xmlOutput>true</xmlOutput>
+                            <findbugsXmlOutput>true</findbugsXmlOutput>
+                            <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+                            <effort>Max</effort>
+                            <threshold>Low</threshold>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                    </plugin>
+
+                    <!-- PMD -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>${pmdPluginVersion}</version>
+                        <configuration>
+                            <linkXref>true</linkXref>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <minimumTokens>100</minimumTokens>
+                        </configuration>
+                    </plugin>
+
+                    <!-- CheckStyle -->
+                    <plugin> 
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${checkstylePluginVersion}</version>
+                        <configuration>
+                            <configLocation>${checkstyleSourceConfigLocation}</configLocation>
+                            <headerLocation>${checkstyleHeaderLocation}</headerLocation>
+                            <suppressionsLocation>${checkstyleUnitTestSuppressionsLocation}</suppressionsLocation>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <!-- Only output errors if we're not expecting any -->
+                            <consoleOutput>${checkstyleFailOnError}</consoleOutput>
+                            <!-- Reports should never fail site generation -->
+                            <failsOnError>false</failsOnError>
+                        </configuration>
+                        <reportSets>
+                            <reportSet>
+                                <reports>
+                                    <report>checkstyle</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <!-- We want to sign the artifact, the POM, and all attached artifacts -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <configuration>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                            <useAgent>true</useAgent>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>forgerock-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <inherited>true</inherited>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
+                    </plugin>
+                    <!-- Publish also javasources when releasing - required -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <!-- Publish also javadocs when releasing - required -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-maven</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireMavenVersion>
+                                            <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
+                                            <message>Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.</message>
+                                        </requireMavenVersion>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>maven-3</id>
+            <activation>
+                <file>
+                    <!--  This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+                    <exists>${basedir}</exists>
+                </file>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-site-plugin</artifactId>
+                            <configuration>
+                                <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <!-- if releasing current pom with maven 3 site descriptor must be attached -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>attach-descriptor</id>
+                                <goals>
+                                    <goal>attach-descriptor</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!--  This profile will automatically generate Javadoc archives
+                  during continuous integration.
+            -->
+            <id>generate-javadoc-jar</id>
+            <activation>
+                <property>
+                    <name>env.JOB_NAME</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!--  This profile will automatically generate Javadoc reports for
+                  modules containing src/main/java and avoids modules from
+                  having to repeat a lot of boilerplate in their pom files.
+
+                  Since it is not possible for reports to inherit from
+                  pluginManagement, we have to duplicate the configuration here
+                  (there are several major issues opened against Maven for this
+                  missing functionality).
+            -->
+            <id>generate-javadoc-report</id>
+            <activation>
+                <file>
+                    <!--  Just require presence of some Java source code -->
+                    <exists>src/main/java</exists>
+                </file>
+            </activation>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${javadocPluginVersion}</version>
+                        <configuration>
+                            <author>false</author>
+                            <quiet>true</quiet>
+                            <windowtitle>${javadocWindowTitle}</windowtitle>
+                            <doctitle>${javadocDocTitle}</doctitle>
+                            <header><![CDATA[<b>${javadocDocTitle}</b>]]></header>
+                            <footer><![CDATA[<b>${javadocDocTitle}</b>]]></footer>
+                            <additionalparam>-linksource</additionalparam>
+                            <show>protected</show>
+                            <excludePackageNames>com.*</excludePackageNames>
+                            <stylesheetfile>${javadocStylesheet}</stylesheetfile>
+                        </configuration>
+                        <reportSets>
+                            <reportSet>
+                                <reports>
+                                    <report>javadoc</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+        <profile>
+            <!-- This profile only active if the build server exports the SCM_REVISION variable -->
+            <id>ci-build</id>
+            <activation>
+                <property>
+                    <name>env.SCM_REVISION</name>
+                </property>
+            </activation>
+            <properties>
+                <ci.build.number>${env.BUILD_NUMBER}</ci.build.number>
+                <ci.scm.revision>${env.SCM_REVISION}</ci.scm.revision>
+            </properties>
+        </profile>
+        <profile>
+            <id>non-ci-build</id>
+            <activation>
+                <property>
+                    <name>!env.SCM_REVISION</name>
+                </property>
+            </activation>
+            <properties>
+                <ci.build.number>0</ci.build.number>
+                <ci.scm.revision>0</ci.scm.revision>
+            </properties>
+        </profile>
+        <profile>
+          <!-- This profile provides API/ABI compatiblity checks and reports via Clirr -->
+          <id>clirr</id>
+          <activation>
+            <file>
+              <exists>clirr-ignored-api-changes.xml</exists><!-- this file name is duplicated due to MNG-4471 -->
+            </file>
+          </activation>
+          <build>
+            <plugins>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>clirr-maven-plugin</artifactId>
+                <version>${clirrPluginVersion}</version>
+                <inherited>true</inherited>
+                <configuration>
+                  <comparisonVersion>${clirrComparisonVersion}</comparisonVersion>
+                  <excludes>
+                    <exclude>com/**</exclude>
+                  </excludes>
+                  <ignoredDifferencesFile>clirr-ignored-api-changes.xml</ignoredDifferencesFile>
+                </configuration>
+                <executions>
+                  <execution>
+                    <id>mvn clirr:check</id>
+                  </execution>
+                  <execution>
+                    <id>mvn verify</id>
+                    <goals>
+                      <goal>check</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
+            </plugins>
+          </build>
+          <reporting>
+            <plugins>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>clirr-maven-plugin</artifactId>
+                <version>${clirrPluginVersion}</version>
+                <inherited>true</inherited>
+                <configuration>
+                  <comparisonVersion>${clirrComparisonVersion}</comparisonVersion>
+                  <excludes>
+                    <exclude>com/**</exclude>
+                  </excludes>
+                  <ignoredDifferencesFile>clirr-ignored-api-changes.xml</ignoredDifferencesFile>
+                </configuration>
+              </plugin>
+            </plugins>
+          </reporting>
+        </profile>
+       <profile>
+          <!-- This profile gets the license from SVN if the URL is set -->
+          <id>get-binary-license</id>
+          <activation>
+             <property>
+                <name>binary.license.url</name>
+             </property>
+          </activation>
+          <build>
+             <plugins>
+                <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-antrun-plugin</artifactId>
+                   <executions>
+                      <execution>
+                         <id>get-license-from-svn</id>
+                         <goals>
+                            <goal>run</goal>
+                         </goals>
+                         <phase>prepare-package</phase>
+                         <configuration>
+                            <target>
+                               <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+                               <if>
+                                  <!-- To include the license in the binary, the project must set another property (include.binary.license) -->
+                                  <!-- This property contains the target folder to export the binary license -->
+                                  <isset property="include.binary.license" />
+                                  <then>
+                                     <echo message="Fetching license from SVN" />
+                                     <!-- The Maven SCM plugin clean the target folder when using the export command (it's a bug...) -->
+                                     <!-- That's why we are using the svn export command -->
+                                     <mkdir dir="${include.binary.license}" />
+                                     <exec dir="${include.binary.license}" executable="svn">
+                                        <arg value="export" />
+                                        <arg value="${binary.license.url}" />
+                                        <arg value="${include.binary.license}/${binary.license.name}" />
+                                     </exec>
+                                  </then>
+                                  <else>
+                                     <echo message="License not fetched from SVN for this project" />
+                                  </else>
+                               </if>
+                            </target>
+                         </configuration>
+                      </execution>
+                   </executions>
+                   <dependencies>
+                      <dependency>
+                         <groupId>ant-contrib</groupId>
+                         <artifactId>ant-contrib</artifactId>
+                         <version>1.0b3</version>
+                         <exclusions>
+                            <exclusion>
+                               <groupId>ant</groupId>
+                               <artifactId>ant</artifactId>
+                            </exclusion>
+                         </exclusions>
+                      </dependency>
+                      <dependency>
+                         <groupId>org.apache.ant</groupId>
+                         <artifactId>ant-nodeps</artifactId>
+                         <version>1.8.1</version>
+                      </dependency>
+                   </dependencies>
+                </plugin>
+             </plugins>
+          </build>
+       </profile>
+    </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>dependency-management</report>
+                            <report>issue-tracking</report>
+                            <report>license</report>
+                            <report>scm</report>
+                            <report>plugin-management</report>
+                            <report>distribution-management</report>
+                            <report>summary</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>

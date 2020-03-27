@@ -13,5 +13,13 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 .classpath
 .settings/
 
+# Ignore intellij files
+*.iml
+.idea/
+
 # Ignore vagrant working files
 .vagrant/
+
+# Ignore dataservice generated properties
+openwis-dataservice/openwis-dataservice-common/openwis-dataservice-common-domain/mem.lck
+openwis-dataservice/openwis-dataservice-common/openwis-dataservice-common-domain/mem.properties

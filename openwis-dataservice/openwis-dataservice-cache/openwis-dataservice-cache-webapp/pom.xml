@@ -4,7 +4,7 @@
   <parent>
     <artifactId>openwis-dataservice-cache</artifactId>
     <groupId>io.openwis.dataservice.cache</groupId>
-	<version>develop-SNAPSHOT</version>
+	<version>3.14.9-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -27,6 +27,8 @@
       <groupId>io.openwis.dataservice.cache</groupId>
       <artifactId>openwis-dataservice-cache-core</artifactId>
       <version>${project.version}</version>
+      <!-- Added by Zhan -->
+      <scope>provided</scope>
       <type>jar</type>
       <exclusions>
         <!-- This is excluded to avoid a duplicate persistence.xml file from appearing in the deployed EAR -->

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.geonetwork-opensource</groupId>
 		<artifactId>geonetwork</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>3.14.9-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -16,7 +16,7 @@
 	<groupId>org.geonetwork-opensource</groupId>
 	<artifactId>openwis-portal</artifactId>
 	<packaging>war</packaging>
-	<version>develop-SNAPSHOT</version>
+	<version>3.14.9-SNAPSHOT</version>
 	<name>OpenWIS module</name>
 
 	<description>
@@ -31,6 +31,22 @@
 		<geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
 		<minify.verbose>false</minify.verbose>
 		<war.name>openwis-user-portal</war.name>
+
+		<sonar.exclusions>src/main/webapp/scripts/*.js,
+			src/main/webapp/scripts/core/**,
+			src/main/webapp/scripts/editor/**,
+			src/main/webapp/scripts/ext/**,
+			src/main/webapp/scripts/ext-ux/**,
+			src/main/webapp/scripts/geo/**,
+			src/main/webapp/scripts/geoext/**,
+			src/main/webapp/scripts/lib/**,
+			src/main/webapp/scripts/localization/**,
+			src/main/webapp/scripts/map/**,
+			src/main/webapp/scripts/mapfish/**,
+			src/main/webapp/scripts/openlayers/**,
+			src/main/webapp/scripts/ownership/**,
+			src/main/webapp/scripts/scriptaculous/**
+		</sonar.exclusions>
 	</properties>
 
 	<!-- =========================================================== -->
@@ -586,25 +602,25 @@
 		<dependency>
 			<groupId>org.forgerock.openam</groupId>
 			<artifactId>openam-idpdiscovery</artifactId>
-			<version>12.0.0</version>
+			<version>13.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.forgerock.openam</groupId>
 			<artifactId>openam-federation-library</artifactId>
-			<version>12.0.0</version>
+			<version>13.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.forgerock.openam</groupId>
 			<artifactId>openam-shared</artifactId>
-			<version>12.0.0</version>
+			<version>13.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.forgerock.openam</groupId>
 			<artifactId>openam-saml2-schema</artifactId>
-			<version>12.0.0</version>
+			<version>13.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -631,6 +647,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+      			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.dspace</groupId>

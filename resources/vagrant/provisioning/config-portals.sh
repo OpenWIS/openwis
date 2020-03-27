@@ -77,5 +77,8 @@ if [ `whoami` = "openwis" ]; then
     sudoCmd=""
 fi
 
-$sudoCmd sed -i -e '178 d' -e '181 d' "$userPortalProfiles"
-$sudoCmd sed -i -e '342 d' -e '345 d' "$adminPortalProfiles"
+# uncooments "allow service" for user login :
+$sudoCmd sed -i -e '177 d' -e '180 d' "$userPortalProfiles"
+# uncooments "allow service" for admin login :
+$sudoCmd sed -i -e '347 d' -e '350 d' "$adminPortalProfiles" 
+
