@@ -252,6 +252,9 @@
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <tagNameFormat>openwis-@{project.version}-release</tagNameFormat>
+            <!-- [skip travisci] has been added in order to prevent Travis-CI to run the execution on the Maven
+           Release Commits on the Master branch, because this would lead to infinite loop of Maven releases.
+            -->
             <scmCommentPrefix>[maven-release-plugin][skip travisci]</scmCommentPrefix>
             <arguments>-Dmaven.javadoc.skip=true -Dmaven.test.skipTests=true -Dmaven.test.skip=true</arguments>
           </configuration>
