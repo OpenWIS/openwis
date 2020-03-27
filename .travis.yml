@@ -2,6 +2,9 @@ language: java
 
 jdk: openjdk8
 
+git:
+  depth: false
+
 addons:
   sonarcloud:
     organization: "openwis"
@@ -34,19 +37,16 @@ after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-data
   openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: rsync -r --quiet --delete-after ${TRAVIS_BUILD_DIR}/openwis_artifacts.tar.gz
-    ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
-  on:
-    branch: develop
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: sh resources/maven_release.sh
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script: rsync -r --quiet --delete-after ${TRAVIS_BUILD_DIR}/openwis_artifacts.tar.gz ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
+    on:
+      branch: develop
+  - provider: script
+    skip_cleanup: true
+    script: sh resources/maven_release.sh
+    on:
+      branch: master
 
 notifications:
   email:
