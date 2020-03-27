@@ -55,6 +55,7 @@ public class AccountActivityNotificationAction implements AccountAction {
         } catch (Exception e) {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
+        Log.info(Log.SCHEDULER, "Finished account activity notification action");
     }
 
     private void saveActionToLog(Dbms dbms, User user) throws SQLException {
