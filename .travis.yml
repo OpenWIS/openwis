@@ -44,7 +44,7 @@ deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: sh recource/maven_release.sh
+  script: sh resources/maven_release.sh
   on:
     branch: master
 
