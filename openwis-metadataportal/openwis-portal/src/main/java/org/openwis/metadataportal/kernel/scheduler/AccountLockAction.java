@@ -5,9 +5,15 @@ import jeeves.utils.Log;
 import org.openwis.metadataportal.kernel.scheduler.filters.AccountFilter;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
+import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
+import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.MailUtilities;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -43,17 +49,34 @@ public class AccountLockAction implements AccountAction {
                 filteredUsers = filter.filter(filteredUsers);
             }
 
+            Log.info(Log.SCHEDULER, String.format("Found %d users which their account will be locked due to inactivity.", filteredUsers.size()));
             for (User user: filteredUsers) {
-//                um.lockUser(user.getUsername(), true);
+                um.lockUser(user.getUsername(), true);
                 Log.info(Log.SCHEDULER, "Account locked due to inactivity for user " + user.getUsername());
+                this.saveLog(user);
 
                 // send email to user
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
-                //mailUtilities.send(this.mail);
+                mailUtilities.send(this.mail);
             }
         } catch (Exception e) {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
         Log.info(Log.SCHEDULER, "Account lock action finished");
+    }
+
+    private void saveLog(User user) {
+
+        // save log
+        UserLogDTO userActionLogDTO = new UserLogDTO();
+        userActionLogDTO.setAction(UserActions.LOCK);
+        userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+        userActionLogDTO.setUsername(user.getUsername());
+        userActionLogDTO.setActioner("admin");
+        try {
+            UserLogUtils.saveLog(dbms, userActionLogDTO);
+        } catch (SQLException e) {
+            Log.warning(Log.SCHEDULER, e);
+        }
     }
 }
