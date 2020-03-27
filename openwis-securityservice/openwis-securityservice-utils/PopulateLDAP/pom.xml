@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>io.openwis.securityservice</groupId>
 		<artifactId>openwis-securityservice</artifactId>
-		<version>3.14.9</version>
+		<version>3.14.10-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<groupId>io.openwis.securityservice.utils</groupId>
 	<artifactId>openwis-securityservice-utils-populate-ldap</artifactId>
-  <version>3.14.9</version>
+  <version>3.14.10-SNAPSHOT</version>
 	<name>openwis-securityservice-utils-populate-ldap</name>
 	<packaging>jar</packaging>
 
