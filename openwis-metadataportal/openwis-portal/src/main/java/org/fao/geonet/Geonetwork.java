@@ -32,12 +32,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -522,34 +517,40 @@ public class Geonetwork implements ApplicationHandler {
      * Schedule account tasks like LastLoginTask and password expiring task
      */
     private void scheduleAccountTasks(final SettingManager settingManager, final ServiceContext context, final Dbms dbms) {
-        Integer lastLoginPeriod = settingManager.getValueAsInt("system/lastlogin/period");
-        if (lastLoginPeriod == null) {
-            Log.warning(Geonet.ADMIN,
-                    "Cannot configure period for last login. Check that 'system/lastlogin/period' is set. It defaults to 90.");
-            lastLoginPeriod = 90;
-        }
 
-        // defaults to days
-        TimeUnit lastLoginTimeUnit = TimeUnit.DAYS;
-        try {
-            lastLoginTimeUnit = TimeUnit.valueOf(Strings.toUpperCase(settingManager.getValue("system/lastlogin/timeunit")));
-            if (lastLoginTimeUnit != TimeUnit.DAYS && lastLoginTimeUnit != TimeUnit.HOURS && lastLoginTimeUnit != TimeUnit.MINUTES) {
-                Log.warning(Geonet.ADMIN, "Last login time unit is set to wrong time unit. Only days, hours or minutes are allowed. Defaulting to Days");
-                lastLoginTimeUnit = TimeUnit.DAYS;
+        // main keys are system variables. Second map values are default values
+        Map<String,Object> params = new HashMap <>();
+        params.put("system/lastlogin/period", 90);
+        params.put("system/lastlogin/timeunit", TimeUnit.DAYS);
+        params.put("system/inactivity/period", 83);
+        params.put("system/inactivity/timeunit", TimeUnit.DAYS);
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            if (entry.getKey().contains("period")) {
+                Integer value = settingManager.getValueAsInt(entry.getKey());
+                if (value == null) {
+                    Log.warning(Geonet.ADMIN,
+                            String.format("Check that '%s' is set. It defaults to d%.", entry.getKey(), entry.getValue()));
+                } else {
+                    entry.setValue(value);
+                }
+            } else {
+               try {
+                   TimeUnit timeUnit = TimeUnit.valueOf(settingManager.getValue(entry.getKey()).toUpperCase());
+                   entry.setValue(timeUnit);
+               } catch (IllegalArgumentException | NullPointerException ex) {
+                   Log.warning(Geonet.ADMIN,
+                           String.format("Check that '%s' is set. It defaults to d%.", entry.getKey(), entry.getValue().toString()));
+               }
             }
-        } catch (IllegalArgumentException | NullPointerException ex) {
-            Log.error(Geonet.ADMIN,
-                    "Cannot configure time unit for last login. Check that 'system/lastlogin/timeunit' is set to either 'days' or 'hours' or 'minutes'",
-                    ex);
         }
 
-        Log.info(Geonet.ADMIN, String.format("Schedule account lock task task every %d %s", lastLoginPeriod, lastLoginTimeUnit.toString()));
-        AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, lastLoginPeriod, lastLoginTimeUnit);
-        executor.scheduleAtFixedRate(accountLockTask, 0, 2, lastLoginTimeUnit);
+        Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
+        AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
+        executor.scheduleAtFixedRate(accountLockTask, 0, 2, TimeUnit.MINUTES);
 
-        Log.info(Geonet.ADMIN, String.format("Schedule account lock notification task every %d %s", lastLoginPeriod -1, lastLoginTimeUnit.toString()));
-        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms, lastLoginPeriod-1, lastLoginTimeUnit);
-        executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, lastLoginTimeUnit);
+        Log.info(Geonet.ADMIN, String.format("Account inactivity notification: Threshold set to %d %s", params.get("system/inactivity/period"), params.get("system/inactivity/timeunit").toString()));
+        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms,(Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
+        executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, TimeUnit.MINUTES);
 
     }
     /**
