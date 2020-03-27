@@ -548,7 +548,7 @@ public class Geonetwork implements ApplicationHandler {
         executor.scheduleAtFixedRate(accountLockTask, 0, 2, lastLoginTimeUnit);
 
         Log.info(Geonet.ADMIN, String.format("Schedule account lock notification task every %d %s", lastLoginPeriod -1, lastLoginTimeUnit.toString()));
-        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountLockingNotificationTask(context, dbms, lastLoginPeriod-1, lastLoginTimeUnit);
+        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms, lastLoginPeriod-1, lastLoginTimeUnit);
         executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, lastLoginTimeUnit);
 
     }
