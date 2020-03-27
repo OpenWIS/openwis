@@ -524,7 +524,7 @@ public class Geonetwork implements ApplicationHandler {
     private void scheduleAccountTasks(final SettingManager settingManager, final ServiceContext context, final Dbms dbms) {
         Integer lastLoginPeriod = settingManager.getValueAsInt("system/lastlogin/period");
         if (lastLoginPeriod == null) {
-            Log.error(Geonet.ADMIN,
+            Log.warning(Geonet.ADMIN,
                     "Cannot configure period for last login. Check that 'system/lastlogin/period' is set. It defaults to 90.");
             lastLoginPeriod = 90;
         }
@@ -534,7 +534,7 @@ public class Geonetwork implements ApplicationHandler {
         try {
             lastLoginTimeUnit = TimeUnit.valueOf(Strings.toUpperCase(settingManager.getValue("system/lastlogin/timeunit")));
             if (lastLoginTimeUnit != TimeUnit.DAYS && lastLoginTimeUnit != TimeUnit.HOURS && lastLoginTimeUnit != TimeUnit.MINUTES) {
-                Log.error(Geonet.ADMIN, "Last login time unit is set to wrong time unit. Only days, hours or minutes are allowed. Defaulting to Days");
+                Log.warning(Geonet.ADMIN, "Last login time unit is set to wrong time unit. Only days, hours or minutes are allowed. Defaulting to Days");
                 lastLoginTimeUnit = TimeUnit.DAYS;
             }
         } catch (IllegalArgumentException | NullPointerException ex) {
@@ -545,7 +545,11 @@ public class Geonetwork implements ApplicationHandler {
 
         Log.info(Geonet.ADMIN, String.format("Schedule account lock task task every %d %s", lastLoginPeriod, lastLoginTimeUnit.toString()));
         AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, lastLoginPeriod, lastLoginTimeUnit);
-        executor.scheduleAtFixedRate(accountLockTask, 0, 1, lastLoginTimeUnit);
+        executor.scheduleAtFixedRate(accountLockTask, 0, 2, lastLoginTimeUnit);
+
+        Log.info(Geonet.ADMIN, String.format("Schedule account lock notification task every %d %s", lastLoginPeriod -1, lastLoginTimeUnit.toString()));
+        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountLockingNotificationTask(context, dbms, lastLoginPeriod-1, lastLoginTimeUnit);
+        executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, lastLoginTimeUnit);
 
     }
     /**
