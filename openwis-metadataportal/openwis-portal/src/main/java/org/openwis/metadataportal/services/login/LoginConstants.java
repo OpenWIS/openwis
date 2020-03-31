@@ -100,7 +100,7 @@ public final class LoginConstants {
     * Comment for <code>REALM</code>
     * @member: REALM
     */
-   public static final String REALM = "/";
+   public static final String REALM = "openwis";
 
    /**
     * Comment for <code>SESSION</code>
