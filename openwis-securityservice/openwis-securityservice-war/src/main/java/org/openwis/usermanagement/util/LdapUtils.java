@@ -95,6 +95,10 @@ public final class LdapUtils {
    public static final String SECRET_KEY = "OpenWISSecretKey";
 
    /**
+    * Timestamp used by 2FA
+    */
+   public static final String LAST_LOGIN_TIMESTAMP = "OpenWISLastLoginTimestamp";
+   /**
     * Last login time attribute name
     */
    public static final String LAST_LOGIN_TIME = "OpenWISLastLoginTime";

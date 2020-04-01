@@ -346,7 +346,7 @@ public class OpenWISUser implements Serializable {
    /**
     * If true the user has to change his password
     */
-   public Boolean getPwdMustChange() {
+   public Boolean isPwdMustChange() {
       return pwdMustChange;
    }
 
