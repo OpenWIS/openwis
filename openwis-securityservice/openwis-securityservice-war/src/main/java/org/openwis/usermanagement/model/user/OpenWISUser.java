@@ -93,7 +93,7 @@ public class OpenWISUser implements Serializable {
    /**
     * Last login time
     */
-   private LocalDateTime lastLoginTime;
+   private String lastLoginTime;
 
    /**
     * If true password must be change by user at first login
@@ -103,7 +103,7 @@ public class OpenWISUser implements Serializable {
    /**
     * Last time when the password has been changed
     */
-   private LocalDateTime pwdCreatingTime;
+   private String pwdCreatingTime;
 
    /**
     * Gets the name.
@@ -336,11 +336,11 @@ public class OpenWISUser implements Serializable {
    /**
     * Last login time
     */
-   public LocalDateTime getLastLoginTime() {
+   public String getLastLoginTime() {
       return lastLoginTime;
    }
 
-   public void setLastLoginTime(LocalDateTime lastLoginTime) {
+   public void setLastLoginTime(String lastLoginTime) {
       this.lastLoginTime = lastLoginTime;
    }
 
@@ -358,11 +358,11 @@ public class OpenWISUser implements Serializable {
    /**
     * Last time when the password was changed
     */
-   public LocalDateTime getPwdCreatingTime() {
+   public String getPwdCreatingTime() {
       return pwdCreatingTime;
    }
 
-   public void setPwdCreatingTime(LocalDateTime pwdCreatingTime) {
+   public void setPwdCreatingTime(String pwdCreatingTime) {
       this.pwdCreatingTime = pwdCreatingTime;
    }
 }

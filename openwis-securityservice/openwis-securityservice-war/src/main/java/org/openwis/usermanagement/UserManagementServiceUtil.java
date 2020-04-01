@@ -218,9 +218,9 @@ public class UserManagementServiceUtil {
       } else if (PWD_MUST_CHANGE.equals(attribute.getName())) {
          openWISUser.setPwdMustChange(Boolean.valueOf(attribute.getStringValue()));
       } else if (PWD_CREATION_TIME.equals(attribute.getName())) {
-         openWISUser.setPwdCreatingTime(LocalDateTime.parse(attribute.getStringValue(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+         openWISUser.setPwdCreatingTime(attribute.getStringValue());
       } else if (LAST_LOGIN_TIME.equals(attribute.getStringValue())) {
-         openWISUser.setLastLoginTime(LocalDateTime.parse(attribute.getStringValue(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+         openWISUser.setLastLoginTime(attribute.getStringValue());
       }
    }
 
