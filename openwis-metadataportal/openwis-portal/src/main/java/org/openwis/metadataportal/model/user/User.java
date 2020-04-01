@@ -353,7 +353,8 @@ public class User {
         if (getLastLogin() == null) {
             return "";
         }
-        return getLastLogin().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        return getLastLogin().format(formatter);
     }
 
     public InetUserStatus getInetUserStatus() {
