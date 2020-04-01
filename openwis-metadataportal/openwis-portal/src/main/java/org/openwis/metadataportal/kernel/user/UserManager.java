@@ -239,6 +239,7 @@ public class UserManager extends AbstractManager {
             backUp.setName(backUpName);
             user.getBackUps().add(backUp);
         }
+        user.setSecretKey(openWISUser.getSecretKey());
 
         user.getEmails().addAll(openWISUser.getEmails());
         user.getFtps().addAll(openWISUser.getFtps());
@@ -279,6 +280,7 @@ public class UserManager extends AbstractManager {
             openWisUser.getBackUps().add(backUp.getName());
         }
 
+        openWisUser.setSecretKey(user.getSecretKey());
         openWisUser.getEmails().addAll(user.getEmails());
         openWisUser.getFtps().addAll(user.getFtps());
 

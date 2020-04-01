@@ -90,6 +90,10 @@ public final class LdapUtils {
    public static final String NEEDUSERACCOUNT ="OpenWISNeedUserAccount";
 
    /**
+    * 2FA secret key
+    */
+   public static final String SECRET_KEY = "OpenWISSecretKey";
+   /**
     * @member: PROFILE
     */
    public static final String PROFILE = "OpenWISProfile";
