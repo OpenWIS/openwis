@@ -1,5 +1,7 @@
 package org.openwis.usermanagement;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -216,9 +218,9 @@ public class UserManagementServiceUtil {
       } else if (PWD_MUST_CHANGE.equals(attribute.getName())) {
          openWISUser.setPwdMustChange(Boolean.valueOf(attribute.getStringValue()));
       } else if (PWD_CREATION_TIME.equals(attribute.getName())) {
-         openWISUser.setPwdCreatingTime(attribute.getStringValue());
+         openWISUser.setPwdCreatingTime(LocalDateTime.parse(attribute.getStringValue(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
       } else if (LAST_LOGIN_TIME.equals(attribute.getStringValue())) {
-         openWISUser.setLastLoginTime(attribute.getStringValue());
+         openWISUser.setLastLoginTime(LocalDateTime.parse(attribute.getStringValue(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
       }
    }
 
@@ -330,6 +332,10 @@ public class UserManagementServiceUtil {
       }
       if (user.getPassword() != null && !user.getPassword().isEmpty()) {
          attribute = new LDAPAttribute(PASSWORD, user.getPassword());
+         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+
+         // change PWD_CREATION_TIME
+         attribute = new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
          modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
       }
       if (!ldapUser.getEmailContact().equals(user.getEmailContact())) {
