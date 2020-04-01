@@ -12,6 +12,7 @@ import org.openwis.securityservice.OpenWISFTP;
 import org.openwis.securityservice.InetUserStatus;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -99,15 +100,16 @@ public class User {
      */
     private List<Group> groups =  new ArrayList<Group>();
 
-    /**
-     * last login time
-     */
-    private Timestamp lastLogin;
+    private LocalDateTime lastLogin;
 
     /**
      * 2FA secret key
      */
     private String secretKey;
+
+    private Boolean pwdMustChange;
+
+    private LocalDateTime pwdCreationTime;
 
     /**
      * Account status: Active or Inactive
@@ -338,23 +340,20 @@ public class User {
         this.groups = groups;
     }
 
+    /**
+     * last login time
+     */
     @JsonIgnore
-    public Timestamp getLastLogin() {
+    public LocalDateTime getLastLogin() {
         return lastLogin;
-    }
-
-    public void setLastLogin(Timestamp lastLogin) {
-        this.lastLogin = lastLogin;
     }
 
     @JsonProperty("lastLogin")
     public String getLastLoginAsString() {
-        if (lastLogin == null) {
+        if (getLastLogin() == null) {
             return "";
         }
-        ZoneId zoneId = ZoneId.systemDefault();
-        ZonedDateTime zdt = ZonedDateTime.ofInstant(this.lastLogin.toInstant(), zoneId);
-        return zdt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL));
+        return getLastLogin().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     public InetUserStatus getInetUserStatus() {
@@ -374,5 +373,31 @@ public class User {
 
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    /**
+     * Force user to change his password if true.
+     */
+    public Boolean getPwdMustChange() {
+        return pwdMustChange;
+    }
+
+    public void setPwdMustChange(Boolean pwdMustChange) {
+        this.pwdMustChange = pwdMustChange;
+    }
+
+    /**
+     * Last time when password has changed
+     */
+    public LocalDateTime getPwdCreationTime() {
+        return pwdCreationTime;
+    }
+
+    public void setPwdCreationTime(LocalDateTime pwdCreationTime) {
+        this.pwdCreationTime = pwdCreationTime;
     }
 }

@@ -34,8 +34,7 @@ public class LastLoginFilter implements AccountFilter {
         List<User> filteredUsers = new ArrayList<>();
 
         // compute threshold
-        OffsetDateTime now = LocalDateTime.now().atOffset(ZoneOffset.UTC);
-        OffsetDateTime threshold = now.minus(duration, ChronoUnit.valueOf(timeUnit.toString()));
+        LocalDateTime threshold = LocalDateTime.now().minus(duration, ChronoUnit.valueOf(timeUnit.toString()));
         Log.debug(Log.SCHEDULER, String.format("%s : Threshold is: %s", LastLoginFilter.class.getSimpleName(), threshold.format(DateTimeFormatter.ISO_DATE_TIME)));
 
         // filtered users
@@ -43,9 +42,9 @@ public class LastLoginFilter implements AccountFilter {
             Log.debug(Log.SCHEDULER, String.format("%s : User %s. Last login: %s",
                     LastLoginFilter.class.getSimpleName(),
                     user.getUsername(),
-                    user.getLastLogin().toLocalDateTime().atOffset(ZoneOffset.UTC)));
+                    user.getLastLogin()));
 
-            if (user.getLastLogin().toLocalDateTime().atOffset(ZoneOffset.UTC).isBefore(threshold)) {
+            if (user.getLastLogin().isBefore(threshold)) {
                 Log.debug(Log.SCHEDULER, String.format("%s : User: %s. Last login: %s. Threshold: %s",
                         LastLoginFilter.class.getSimpleName(),
                         user.getUsername(),

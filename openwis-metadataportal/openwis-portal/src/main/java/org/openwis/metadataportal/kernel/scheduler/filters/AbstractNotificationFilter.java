@@ -87,6 +87,10 @@ public abstract class AbstractNotificationFilter {
         return Timestamp.valueOf(zdt.toLocalDateTime());
     }
 
+    protected LocalDateTime fromTimestamp(Timestamp timestamp) {
+        return LocalDateTime.parse(timestamp.toString());
+    }
+
     // Class to compare timestamps
     protected Comparator<Timestamp> dateComparator = (timestamp, t1) -> {
         if (timestamp.after(t1)) {
@@ -97,5 +101,4 @@ public abstract class AbstractNotificationFilter {
 
         return -1;
     };
-
 }
