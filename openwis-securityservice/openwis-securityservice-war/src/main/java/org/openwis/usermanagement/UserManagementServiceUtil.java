@@ -213,6 +213,12 @@ public class UserManagementServiceUtil {
          openWISUser.setInetUserStatus(InetUserStatus.valueOf(attribute.getStringValue()));
       } else if (SECRET_KEY.equals(attribute.getName())) {
          openWISUser.setSecretKey(attribute.getStringValue());
+      } else if (PWD_MUST_CHANGE.equals(attribute.getName())) {
+         openWISUser.setPwdMustChange(Boolean.valueOf(attribute.getStringValue()));
+      } else if (PWD_CREATION_TIME.equals(attribute.getName())) {
+         openWISUser.setPwdCreatingTime(attribute.getStringValue());
+      } else if (LAST_LOGIN_TIME.equals(attribute.getStringValue())) {
+         openWISUser.setLastLoginTime(attribute.getStringValue());
       }
    }
 

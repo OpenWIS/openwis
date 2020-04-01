@@ -93,6 +93,23 @@ public final class LdapUtils {
     * 2FA secret key
     */
    public static final String SECRET_KEY = "OpenWISSecretKey";
+
+   /**
+    * Last login time attribute name
+    */
+   public static final String LAST_LOGIN_TIME = "OpenWISLastLoginTime";
+
+   /**
+    * Pwd must change attribute
+    */
+   public static final String PWD_MUST_CHANGE = "OpenWISPwdMustChange";
+
+   /**
+    * Last time when password has been changed
+    */
+   public static final String PWD_CREATION_TIME = "OpenWISPwdCreationTime";
+
+
    /**
     * @member: PROFILE
     */
