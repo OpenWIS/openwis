@@ -1,7 +1,6 @@
 package org.openwis.usermanagement.model.user;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.openwis.usermanagement.model.group.OpenWISGroup;
@@ -103,7 +102,7 @@ public class OpenWISUser implements Serializable {
    /**
     * Last time when the password has been changed
     */
-   private String pwdCreatingTime;
+   private String pwdCreationTime;
 
    /**
     * Gets the name.
@@ -358,11 +357,11 @@ public class OpenWISUser implements Serializable {
    /**
     * Last time when the password was changed
     */
-   public String getPwdCreatingTime() {
-      return pwdCreatingTime;
+   public String getPwdCreationTime() {
+      return pwdCreationTime;
    }
 
-   public void setPwdCreatingTime(String pwdCreatingTime) {
-      this.pwdCreatingTime = pwdCreatingTime;
+   public void setPwdCreationTime(String pwdCreationTime) {
+      this.pwdCreationTime = pwdCreationTime;
    }
 }

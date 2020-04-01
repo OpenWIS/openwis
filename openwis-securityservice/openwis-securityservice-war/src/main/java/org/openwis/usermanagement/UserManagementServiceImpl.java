@@ -43,6 +43,7 @@ import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPModification;
 import com.novell.ldap.LDAPSearchConstraints;
 import com.novell.ldap.LDAPSearchResults;
+import org.springframework.cglib.core.Local;
 
 import static org.openwis.usermanagement.util.LdapUtils.*;
 
@@ -494,6 +495,9 @@ public class UserManagementServiceImpl implements UserManagementService {
         List<LDAPModification> modList = new ArrayList<LDAPModification>();
         LDAPAttribute attribute = new LDAPAttribute(PASSWORD, password);
         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+
+        LDAPAttribute att = new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        modList.add(new LDAPModification(LDAPModification.REPLACE, att));
         String dn = UserUtils.getDn(username);
         UtilEntry.updateEntry(modList, dn);
     }
