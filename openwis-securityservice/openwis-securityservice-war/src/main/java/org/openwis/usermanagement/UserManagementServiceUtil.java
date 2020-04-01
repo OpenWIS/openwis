@@ -211,6 +211,8 @@ public class UserManagementServiceUtil {
          openWISUser.setNeedUserAccount(Boolean.valueOf(attribute.getStringValue()));
       } else if (INET_USER_STATUS.equals(attribute.getName())) {
          openWISUser.setInetUserStatus(InetUserStatus.valueOf(attribute.getStringValue()));
+      } else if (SECRET_KEY.equals(attribute.getName())) {
+         openWISUser.setSecretKey(attribute.getStringValue());
       }
    }
 
