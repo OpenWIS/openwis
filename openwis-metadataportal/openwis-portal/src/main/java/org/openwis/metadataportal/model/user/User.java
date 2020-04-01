@@ -105,6 +105,11 @@ public class User {
     private Timestamp lastLogin;
 
     /**
+     * 2FA secret key
+     */
+    private String secretKey;
+
+    /**
      * Account status: Active or Inactive
      */
     private InetUserStatus inetUserStatus;
@@ -358,5 +363,16 @@ public class User {
 
     public void setInetUserStatus(InetUserStatus inetUserStatus) {
         this.inetUserStatus = inetUserStatus;
+    }
+
+    /**
+     * 2FA secret key
+     */
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 }
