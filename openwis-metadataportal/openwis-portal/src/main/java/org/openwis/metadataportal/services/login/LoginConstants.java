@@ -232,5 +232,4 @@ public final class LoginConstants {
     */
    public static final String LANG = "lang";
 
-   public static final String LAST_LOGIN_FILTER = "LastLoginFilter";
 }
