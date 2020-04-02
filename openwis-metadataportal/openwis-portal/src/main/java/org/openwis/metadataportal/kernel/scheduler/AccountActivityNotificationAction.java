@@ -35,6 +35,7 @@ public class AccountActivityNotificationAction implements AccountAction {
     @Override
     public void doAction() {
 
+        Log.info(Log.SCHEDULER, "========================");
         Log.info(Log.SCHEDULER, "Start account activity notification action");
         MailUtilities mailUtilities = new MailUtilities();
         UserManager um = new UserManager(this.dbms);
@@ -56,6 +57,7 @@ public class AccountActivityNotificationAction implements AccountAction {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
         Log.info(Log.SCHEDULER, "Finished account activity notification action");
+        Log.info(Log.SCHEDULER, "========================");
     }
 
     private void saveActionToLog(Dbms dbms, User user) throws SQLException {

@@ -41,6 +41,7 @@ public class AccountLockAction implements AccountAction {
         UserManager um = new UserManager(dbms);
         MailUtilities mailUtilities = new MailUtilities();
 
+        Log.info(Log.SCHEDULER, "========================");
         Log.info(Log.SCHEDULER, "Start account lock action");
         try {
             List<User> filteredUsers = um.getAllUsers();
@@ -62,6 +63,7 @@ public class AccountLockAction implements AccountAction {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
         Log.info(Log.SCHEDULER, "Account lock action finished");
+        Log.info(Log.SCHEDULER, "========================");
     }
 
     private void saveLog(User user) {
