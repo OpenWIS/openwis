@@ -544,12 +544,13 @@ public class Geonetwork implements ApplicationHandler {
             }
         }
 
+        AlertService alertService = ManagementServiceProvider.getAlertService();
         Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
-        AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
+        AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, alertService, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
         executor.scheduleAtFixedRate(accountLockTask, 0, 2, TimeUnit.MINUTES);
 
         Log.info(Geonet.ADMIN, String.format("Account inactivity notification: Threshold set to %d %s", params.get("system/inactivity/period"), params.get("system/inactivity/timeunit").toString()));
-        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms,(Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
+        AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms, alertService, (Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
         executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, TimeUnit.MINUTES);
 
     }

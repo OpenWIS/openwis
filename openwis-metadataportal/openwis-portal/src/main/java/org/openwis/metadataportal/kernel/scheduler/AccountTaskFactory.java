@@ -2,6 +2,7 @@ package org.openwis.metadataportal.kernel.scheduler;
 
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
+import org.openwis.management.alert.AlertService;
 import org.openwis.metadataportal.kernel.scheduler.filters.*;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
@@ -12,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AccountTaskFactory {
 
-    public static AccountTask buildAccountLockTask(ServiceContext context, Dbms dbms, Integer duration, TimeUnit timeUnit) {
+    public static AccountTask buildAccountLockTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer duration, TimeUnit timeUnit) {
         AccountFilter[] filters = new AccountFilter[]{
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
@@ -27,11 +28,11 @@ public class AccountTaskFactory {
         // Create a partial mail without destination. Destination address will be set be the task for each user.
         IOpenWISMail mail = OpenWISMailFactory.buildAccountTerminationMail(context, "subject", null,mailContent);
 
-        AccountAction accountAction = new AccountLockAction(dbms, filters, mail);
+        AccountAction accountAction = new AccountLockAction(dbms, alertService, filters, mail);
         return new AccountTask(accountAction);
     }
 
-    public static AccountTask buildAccountActivityNotificationTask(ServiceContext context, Dbms dbms, Integer duration, TimeUnit timeUnit) {
+    public static AccountTask buildAccountActivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer duration, TimeUnit timeUnit) {
         AccountFilter[] filters = new AccountFilter[]{
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
@@ -46,7 +47,7 @@ public class AccountTaskFactory {
         // Create a partial mail without destination. Destination address will be set be the task for each user.
         IOpenWISMail mail = OpenWISMailFactory.buildAccountDisabledMail(context, "subject", null,mailContent);
 
-        AccountAction accountAction = new AccountActivityNotificationAction(dbms, filters, mail);
+        AccountAction accountAction = new AccountActivityNotificationAction(dbms, alertService, filters, mail);
         return new AccountTask(accountAction);
     }
 }

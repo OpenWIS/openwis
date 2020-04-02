@@ -2,6 +2,7 @@ package org.openwis.metadataportal.kernel.scheduler;
 
 import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
+import org.openwis.management.alert.AlertService;
 import org.openwis.metadataportal.kernel.scheduler.filters.AccountFilter;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
@@ -13,6 +14,8 @@ import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +25,7 @@ public class AccountLockAction implements AccountAction {
 
     private final IOpenWISMail mail;
     private final Dbms dbms;
+    private AlertService alertService;
     private final AccountFilter[] filters;
 
     /**
@@ -30,7 +34,8 @@ public class AccountLockAction implements AccountAction {
      * @param filters list of filters to be applied on the list of users from db
      * @param mail partial mail. It does not contain the destination address. It will be set for each filtered user.
      */
-    public AccountLockAction(Dbms dbms, AccountFilter[] filters, IOpenWISMail mail) {
+    public AccountLockAction(Dbms dbms, AlertService alertService, AccountFilter[] filters, IOpenWISMail mail) {
+        this.alertService = alertService;
         this.filters = filters;
         this.dbms = dbms;
         this.mail = mail;
@@ -57,6 +62,14 @@ public class AccountLockAction implements AccountAction {
                 // send email to user
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
                 mailUtilities.send(this.mail);
+
+                if (alertService != null) {
+                    alertService.raiseEvent("Account Lock Task",
+                            "Admin portal",
+                            null,
+                            String.format("Account locked for user: %s", user.getUsername()),
+                            Collections.singletonList(user.getUsername()));
+                }
             }
         } catch (Exception e) {
             Log.error(Log.SCHEDULER, e.getMessage());
