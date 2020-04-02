@@ -20,11 +20,11 @@ import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
-import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.securityservice.OpenWISUserUpdateLog;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.sql.Timestamp;
@@ -68,7 +68,7 @@ public class Save implements Service {
             userActionLogDTO.setActioner(this.getUsernameFromRequest(context));
             userActionLogDTO.setAction(UserActions.CREATE);
             userActionLogDTO.setUsername(user.getUser().getUsername());
-            userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+            userActionLogDTO.setDate(LocalDateTime.now());
             UserLogUtils.saveLog(dbms, userActionLogDTO);
 
          } else {

@@ -28,7 +28,7 @@ public class NotifiedUserFilter extends AbstractNotificationFilter implements Ac
             for (User user : users) {
                 UserLogDTO lastNotificationLog = this.getLastNotification(logs, user);
                 if (lastNotificationLog != null) {
-                    if (user.getLastLogin().isBefore(fromTimestamp(lastNotificationLog.getDate()))) {
+                    if (user.getLastLogin().isBefore(lastNotificationLog.getDate())) {
                         Log.debug(Log.SCHEDULER, String.format("%s: Found notified user: %s. Last notification was: %s. User is passing the filter.",
                                 NotifiedUserFilter.class.getSimpleName(),
                                 user.getUsername(),

@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +14,7 @@ public class UserLogDTO {
 
     private int id;
 
-    private Timestamp date;
+    private LocalDateTime date;
 
     private UserActions action;
 
@@ -68,18 +69,20 @@ public class UserLogDTO {
     }
 
     @JsonIgnore
-    public Timestamp getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
     @JsonProperty("date")
     public String getDateAsString() {
-        ZoneId zoneId = ZoneId.systemDefault();
-        ZonedDateTime zdt = ZonedDateTime.ofInstant(this.date.toInstant(), zoneId);
-        return zdt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL));
+        if (getDate() == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        return getDate().format(formatter);
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

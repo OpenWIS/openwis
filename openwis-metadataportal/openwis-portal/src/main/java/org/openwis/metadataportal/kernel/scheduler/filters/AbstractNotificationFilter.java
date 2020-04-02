@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -71,7 +72,7 @@ public abstract class AbstractNotificationFilter {
         for (Element element : elements) {
             UserLogDTO log = new UserLogDTO();
             log.setId(Util.getParamAsInt(element, "id"));
-            log.setDate(toTimestamp(Util.getParam(element, "date")));
+            log.setDate(LocalDateTime.parse(Util.getParam(element, "date"), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             log.setAction(UserActions.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
             log.setAttribute(Util.getParam(element, "attribute", ""));
             log.setUsername(Util.getParam(element, "username"));
@@ -87,15 +88,11 @@ public abstract class AbstractNotificationFilter {
         return Timestamp.valueOf(zdt.toLocalDateTime());
     }
 
-    protected LocalDateTime fromTimestamp(Timestamp timestamp) {
-        return LocalDateTime.parse(timestamp.toString());
-    }
-
     // Class to compare timestamps
-    protected Comparator<Timestamp> dateComparator = (timestamp, t1) -> {
-        if (timestamp.after(t1)) {
+    protected Comparator<LocalDateTime> dateComparator = (t2, t1) -> {
+        if (t2.isAfter(t1)) {
             return 1;
-        } else if (timestamp.equals(t1)) {
+        } else if (t2.equals(t1)) {
             return 0;
         }
 

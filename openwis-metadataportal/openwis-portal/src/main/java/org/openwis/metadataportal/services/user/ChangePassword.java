@@ -7,7 +7,6 @@ import jeeves.interfaces.Service;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
-
 import jeeves.utils.Log;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
@@ -15,14 +14,14 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
-import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.PasswordDTO;
+import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
-import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -65,7 +64,7 @@ public class ChangePassword implements Service {
          // save log
           userActionLogDTO = new UserLogDTO();
           userActionLogDTO.setAction(UserActions.PASSWORD_CHANGE);
-          userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+          userActionLogDTO.setDate(LocalDateTime.now());
           userActionLogDTO.setUsername(username);
           userActionLogDTO.setActioner(username);
           userActionLogDTO.setActioner(username);

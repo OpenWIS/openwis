@@ -33,7 +33,7 @@ public class UnnotifiedUserFilter extends AbstractNotificationFilter implements 
                             user.getUsername()));
                     filteredUsers.add(user);
                 } else {
-                    if (user.getLastLogin().isAfter(fromTimestamp(lastNotificationLog.getDate()))) {
+                    if (user.getLastLogin().isAfter(lastNotificationLog.getDate())) {
                         Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s.",
                                 UnnotifiedUserFilter.class.getSimpleName(),
                                 user.getUsername(),

@@ -39,7 +39,7 @@ public class Report implements Service {
        for (Element element: elements) {
            UserLogDTO log = new UserLogDTO();
            log.setId(Util.getParamAsInt(element,"id"));
-           log.setDate(toTimestamp(Util.getParam(element,"date")));
+           log.setDate(LocalDateTime.now());
            log.setAction(UserActions.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
            log.setAttribute(Util.getParam(element,"attribute", ""));
            log.setUsername(Util.getParam(element,"username"));

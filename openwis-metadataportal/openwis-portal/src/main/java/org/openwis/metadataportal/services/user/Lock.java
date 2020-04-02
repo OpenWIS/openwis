@@ -14,11 +14,10 @@ import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
-import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.securityservice.InetUserStatus;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Lock implements Service {
     @Override
@@ -55,7 +54,7 @@ public class Lock implements Service {
         // save log
         userActionLogDTO = new UserLogDTO();
         userActionLogDTO.setAction(lockAction);
-        userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+        userActionLogDTO.setDate(LocalDateTime.now());
         userActionLogDTO.setUsername(user.getUsername());
         userActionLogDTO.setActioner(context.getUserSession().getUsername());
         UserLogUtils.saveLog(dbms, userActionLogDTO);

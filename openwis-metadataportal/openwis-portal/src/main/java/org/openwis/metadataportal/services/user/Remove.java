@@ -18,10 +18,9 @@ import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UsersDTO;
-import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Short Description goes here. <P>
@@ -67,7 +66,7 @@ public class Remove implements Service {
          // save log
          userActionLogDTO = new UserLogDTO();
          userActionLogDTO.setAction(UserActions.REMOVE);
-         userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+         userActionLogDTO.setDate(LocalDateTime.now());
          userActionLogDTO.setUsername(user.getUsername());
          userActionLogDTO.setActioner(context.getUserSession().getUsername());
          UserLogUtils.saveLog(dbms, userActionLogDTO);
