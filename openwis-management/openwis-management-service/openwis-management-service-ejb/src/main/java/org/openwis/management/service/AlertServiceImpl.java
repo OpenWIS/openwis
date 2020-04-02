@@ -152,7 +152,7 @@ public class AlertServiceImpl implements AlertService {
 
       if (filterExp != null && !filterExp.isEmpty()) {
          // build the SQL query (sorted)
-         String sql = getQuery(filterExp, sortField, sortOrder, index, count);
+         String sql = getQuery(filterExp, sortField, sortOrder);
          Query query = entityManager.createQuery(sql);
          query.setFirstResult(index);
          query.setMaxResults(count);
@@ -209,7 +209,7 @@ public class AlertServiceImpl implements AlertService {
          filterExp = DATABASE_TABLE_NAME + "." + DEFAULT_SORT_FIELD + " <= '" + to + "'";
       }
       // build the SQL query (sorted)
-      String sql = getQuery(filterExp, sortField, sortOrder, index, count);
+      String sql = getQuery(filterExp, sortField, sortOrder);
 
       Query query = entityManager.createQuery(sql);
       query.setFirstResult(index);
@@ -382,9 +382,7 @@ public class AlertServiceImpl implements AlertService {
 
    private String getQuery(final String filterExp,
                            final String sortColumn,
-                           final String sortOrder,
-                           final int index,
-                           final int maxCount) {
+                           final String sortOrder) {
       StringBuffer sql = new StringBuffer();
       sql.append(SQL_SELECT);
 
@@ -411,12 +409,6 @@ public class AlertServiceImpl implements AlertService {
       else {
          sql.append(DEFAULT_SORT_ORDER);
       }
-
-      sql.append(" LIMIT '");
-      sql.append(maxCount);
-      sql.append("' OFFSET '");
-      sql.append(index);
-      sql.append("'");
 
       return sql.toString();
    }
