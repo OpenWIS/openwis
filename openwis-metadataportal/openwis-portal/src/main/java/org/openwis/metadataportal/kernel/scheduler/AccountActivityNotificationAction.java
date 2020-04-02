@@ -2,19 +2,21 @@ package org.openwis.metadataportal.kernel.scheduler;
 
 import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
+import org.openwis.management.alert.AlertService;
 import org.openwis.metadataportal.kernel.scheduler.filters.AccountFilter;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.user.dto.UserActions;
-import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,10 +26,12 @@ public class AccountActivityNotificationAction implements AccountAction {
 
     private final Dbms dbms;
     private final IOpenWISMail mail;
+    private AlertService alertService;
     private final AccountFilter[] filters;
 
-    public AccountActivityNotificationAction(Dbms dbms, AccountFilter[] filters, IOpenWISMail mail) {
+    public AccountActivityNotificationAction(Dbms dbms, AlertService alertService, AccountFilter[] filters, IOpenWISMail mail) {
         this.dbms = dbms;
+        this.alertService = alertService;
         this.filters = filters;
         this.mail = mail;
     }
@@ -35,8 +39,9 @@ public class AccountActivityNotificationAction implements AccountAction {
     @Override
     public void doAction() {
 
-        Log.info(Log.SCHEDULER, "Start account activity notification action");
+        Log.info(Log.SCHEDULER, "=============== Account activity task ===============");
         MailUtilities mailUtilities = new MailUtilities();
+
         UserManager um = new UserManager(this.dbms);
         try {
             List<User> filteredUsers = um.getAllUsers();
@@ -49,13 +54,26 @@ public class AccountActivityNotificationAction implements AccountAction {
                 Log.info(Log.SCHEDULER, "Activity notification mail sent to " + user.getUsername());
 
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
+                this.mail.addContentVariable("firstname", user.getName());
+                this.mail.addContentVariable("lastname", user.getSurname());
                 mailUtilities.send(this.mail);
                 this.saveActionToLog(dbms, user);
+
+                // pass the alert
+                if (alertService != null) {
+                    alertService.raiseEvent("Account Activity Notification",
+                            "Admin Portal",
+                            null,
+                            String.format("User [%s] notified due to inactivity", user.getUsername()),
+                            Collections.singletonList(user.getUsername()));
+                } else {
+                    Log.warning(Log.SCHEDULER, "Could not get hold of the AlertService. No alert was passed");
+                }
             }
         } catch (Exception e) {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
-        Log.info(Log.SCHEDULER, "Finished account activity notification action");
+        Log.info(Log.SCHEDULER, "=============== Finished account activity task =============== ");
     }
 
     private void saveActionToLog(Dbms dbms, User user) throws SQLException {

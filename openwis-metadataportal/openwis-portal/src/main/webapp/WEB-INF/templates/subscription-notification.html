@@ -100,7 +100,7 @@
                 </tr>
                 <tr>
                     <td valign="top" class="hello">
-                        Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,
+                        Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,
                     </td>
                 </tr>
                 <tr>

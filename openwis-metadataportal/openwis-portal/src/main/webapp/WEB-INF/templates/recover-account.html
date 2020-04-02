@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
+    <p>Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,</p>
     <p>Your password has been reset successfully.</p>
     <div class="login-detailed">
         Your login details for MSS-ASMC WIS Portal are provided below:
