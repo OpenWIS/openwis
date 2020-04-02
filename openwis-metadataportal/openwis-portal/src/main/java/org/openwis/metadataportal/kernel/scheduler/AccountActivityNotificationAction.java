@@ -54,6 +54,8 @@ public class AccountActivityNotificationAction implements AccountAction {
                 Log.info(Log.SCHEDULER, "Activity notification mail sent to " + user.getUsername());
 
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
+                this.mail.addContentVariable("firstname", user.getName());
+                this.mail.addContentVariable("lastname", user.getSurname());
                 mailUtilities.send(this.mail);
                 this.saveActionToLog(dbms, user);
 

@@ -26,7 +26,7 @@ public class AccountTaskFactory {
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
 
         // Create a partial mail without destination. Destination address will be set be the task for each user.
-        IOpenWISMail mail = OpenWISMailFactory.buildAccountTerminationMail(context, "subject", null,mailContent);
+        IOpenWISMail mail = OpenWISMailFactory.buildAccountTerminationMail(context, "Account.lock.subject", null,mailContent);
 
         AccountAction accountAction = new AccountLockAction(dbms, alertService, filters, mail);
         return new AccountTask(accountAction);
@@ -45,7 +45,7 @@ public class AccountTaskFactory {
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
 
         // Create a partial mail without destination. Destination address will be set be the task for each user.
-        IOpenWISMail mail = OpenWISMailFactory.buildAccountDisabledMail(context, "subject", null,mailContent);
+        IOpenWISMail mail = OpenWISMailFactory.buildAccountDisabledMail(context, "Account.notification.subject", null,mailContent);
 
         AccountAction accountAction = new AccountActivityNotificationAction(dbms, alertService, filters, mail);
         return new AccountTask(accountAction);

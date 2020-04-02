@@ -61,6 +61,8 @@ public class AccountLockAction implements AccountAction {
 
                 // send email to user
                 this.mail.setDestinations(new String[]{user.getEmailContact()});
+                this.mail.addContentVariable("firstname", user.getName());
+                this.mail.addContentVariable("lastname", user.getSurname());
                 mailUtilities.send(this.mail);
 
                 if (alertService != null) {
