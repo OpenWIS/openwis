@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
+    <p>Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,</p>
     <p> Thank you for requesting an account MSS-ASMC WIS Portal.
         We are required to forward the request for the creation of your account to the WIS Focal Point of your country.
         Once we have approval to create the account, you will receive an email containing your login details.</p>

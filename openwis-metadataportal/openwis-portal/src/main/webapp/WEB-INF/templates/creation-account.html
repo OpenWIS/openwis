@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <p>Dear <span th:text="${firstname}">Firstname</span> <span th:text="${lastname}">lastname</span>,</p>
+    <p>Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,</p>
     <p>Your account for ASMC WIS Portal has been created.</p>
     <div class="login-detailed">
         Your login details are provided below:
