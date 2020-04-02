@@ -53,13 +53,13 @@ public class TwoFactorAuthenticationUtils {
     /**
      * Return a uri used in Google Authenticator
      * e.g. otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example
-     * @param contactEmail user email
+     * @param userEmail user email
      * @param secretKey the secret key encoded in Base32
      * @return uri
      */
-    public static String getTOPTKeyUri(String contactEmail, String secretKey) {
+    public static String getTOPTKeyUri(String userEmail, String secretKey) {
         StringBuilder uriBuilder = new StringBuilder("otpauth://totp/OpenWIS:");
-        uriBuilder.append(contactEmail);
+        uriBuilder.append(userEmail);
         uriBuilder.append("?secret=").append(secretKey);
         uriBuilder.append("&issuer=OpenWIS&period=30");
         return uriBuilder.toString();

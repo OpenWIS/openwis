@@ -32,6 +32,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class UserManager extends AbstractManager {
                         OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
 
         for (OpenWISUser openWISUser : openWISUsers) {
-            allUsers.add(setLastLoginTime(buildUserFromOpenWisUser(openWISUser)));
+            allUsers.add(buildUserFromOpenWisUser(openWISUser));
         }
 
         return allUsers;
@@ -197,7 +198,7 @@ public class UserManager extends AbstractManager {
 
         for (OpenWISUser openWISUser : openWISUsers) {
             User user = buildUserFromOpenWisUser(openWISUser);
-            allUsers.add(setLastLoginTime(user));
+            allUsers.add(user);
         }
 
         return allUsers;
@@ -239,6 +240,13 @@ public class UserManager extends AbstractManager {
             backUp.setName(backUpName);
             user.getBackUps().add(backUp);
         }
+        user.setSecretKey(openWISUser.getSecretKey());
+
+        if (!openWISUser.getLastLoginTime().isEmpty()) {
+            user.setLastLogin(LocalDateTime.parse(openWISUser.getLastLoginTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        }
+        user.setPwdCreationTime(LocalDateTime.parse(openWISUser.getPwdCreationTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        user.setPwdMustChange(openWISUser.isPwdMustChange());
 
         user.getEmails().addAll(openWISUser.getEmails());
         user.getFtps().addAll(openWISUser.getFtps());
@@ -279,6 +287,7 @@ public class UserManager extends AbstractManager {
             openWisUser.getBackUps().add(backUp.getName());
         }
 
+        openWisUser.setSecretKey(user.getSecretKey());
         openWisUser.getEmails().addAll(user.getEmails());
         openWisUser.getFtps().addAll(user.getFtps());
 
@@ -341,7 +350,7 @@ public class UserManager extends AbstractManager {
         List<User> users = new ArrayList<User>();
         for (OpenWISUser openWISUser : openWISUsers) {
             User user = buildUserFromOpenWisUser(openWISUser);
-            users.add(setLastLoginTime(user));
+            users.add(user);
         }
         return users;
     }
@@ -384,37 +393,5 @@ public class UserManager extends AbstractManager {
     public List<String> getAllUserNames() throws UserManagementException_Exception {
         return SecurityServiceProvider.getGroupManagementService().getAllUserNameByCentre(
                 OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
-    }
-
-    /**
-     * Update user with values from DB: last login
-     * @param user user created from OpenWISUser
-     * @return user with lastLogin. If the user do not exists in DB
-     * return the initial User.
-     */
-    private User setLastLoginTime(User user) {
-        String query = "SELECT * FROM Users WHERE username = ?";
-
-        // if no user in database => throw exception.
-        @SuppressWarnings("unchecked")
-        List<Element> list = null;
-        try {
-            list = getDbms().select(query, user.getUsername()).getChildren();
-            if (list.size() == 0) {
-                return user;
-            }
-            Element userE = list.get(0);
-
-            // set last login timestamp
-            if (!userE.getChildText(Geonet.Elem.LAST_LOGIN).isEmpty()) {
-                String sLastLogin = userE.getChildText(Geonet.Elem.LAST_LOGIN);
-                ZoneId zoneId = ZoneId.systemDefault();
-                ZonedDateTime zdt = LocalDateTime.parse(sLastLogin).atZone(zoneId);
-                user.setLastLogin(Timestamp.valueOf(zdt.toLocalDateTime()));
-            }
-        } catch (SQLException e) {
-            return user;
-        }
-        return user;
     }
 }

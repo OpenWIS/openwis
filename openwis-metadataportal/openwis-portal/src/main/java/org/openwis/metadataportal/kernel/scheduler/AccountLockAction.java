@@ -7,13 +7,12 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.user.dto.UserActions;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
-import org.openwis.metadataportal.services.util.DateTimeUtils;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -70,7 +69,7 @@ public class AccountLockAction implements AccountAction {
         // save log
         UserLogDTO userActionLogDTO = new UserLogDTO();
         userActionLogDTO.setAction(UserActions.LOCK);
-        userActionLogDTO.setDate(Timestamp.from(DateTimeUtils.getUTCInstant()));
+        userActionLogDTO.setDate(LocalDateTime.now());
         userActionLogDTO.setUsername(user.getUsername());
         userActionLogDTO.setActioner("admin");
         try {

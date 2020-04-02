@@ -85,10 +85,24 @@ public class OpenWISUser implements Serializable {
    private List<OpenWISGroup> groups;
 
    /**
-    * Key for two factor authentication. This key is encoded in Base16 (LDAP requirement)
-    * @member: secret key
+    * 2FA secret key
     */
    private String secretKey;
+
+   /**
+    * Last login time
+    */
+   private String lastLoginTime;
+
+   /**
+    * If true password must be change by user at first login
+    */
+   private Boolean pwdMustChange;
+
+   /**
+    * Last time when the password has been changed
+    */
+   private String pwdCreationTime;
 
    /**
     * Gets the name.
@@ -298,6 +312,10 @@ public class OpenWISUser implements Serializable {
       this.backUps = backUps;
    }
 
+   /**
+    * Key for two factor authentication. This key is encoded in Base16 (LDAP requirement)
+    * @member: secret key
+    */
    public String getSecretKey() {
       return secretKey;
    }
@@ -312,5 +330,38 @@ public class OpenWISUser implements Serializable {
 
    public void setInetUserStatus(InetUserStatus inetUserStatus) {
       this.inetUserStatus = inetUserStatus;
+   }
+
+   /**
+    * Last login time
+    */
+   public String getLastLoginTime() {
+      return lastLoginTime;
+   }
+
+   public void setLastLoginTime(String lastLoginTime) {
+      this.lastLoginTime = lastLoginTime;
+   }
+
+   /**
+    * If true the user has to change his password
+    */
+   public Boolean isPwdMustChange() {
+      return pwdMustChange;
+   }
+
+   public void setPwdMustChange(Boolean pwdMustChange) {
+      this.pwdMustChange = pwdMustChange;
+   }
+
+   /**
+    * Last time when the password was changed
+    */
+   public String getPwdCreationTime() {
+      return pwdCreationTime;
+   }
+
+   public void setPwdCreationTime(String pwdCreationTime) {
+      this.pwdCreationTime = pwdCreationTime;
    }
 }

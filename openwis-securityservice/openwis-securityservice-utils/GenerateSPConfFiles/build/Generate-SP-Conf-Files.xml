@@ -61,7 +61,7 @@
         
         <antcall target="run.web.content.to.File">
             <!-- url copy from-->
-            <param name="url-copy-from" value="${url-idp}${exportmetadata}?entityid=${idp-name}" />
+            <param name="url-copy-from" value="${url-idp}${exportmetadata}?reaml=${realm}&ampentityid=${idp-name}" />
             <!-- file copy to-->
             <param name="file-copy-to" value="${idp-file-name}" />
         </antcall>

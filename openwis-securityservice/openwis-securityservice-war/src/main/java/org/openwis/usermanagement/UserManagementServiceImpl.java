@@ -3,6 +3,9 @@
  */
 package org.openwis.usermanagement;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -40,6 +43,7 @@ import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPModification;
 import com.novell.ldap.LDAPSearchConstraints;
 import com.novell.ldap.LDAPSearchResults;
+import org.springframework.cglib.core.Local;
 
 import static org.openwis.usermanagement.util.LdapUtils.*;
 
@@ -112,6 +116,11 @@ public class UserManagementServiceImpl implements UserManagementService {
         attributeSet.add(new LDAPAttribute(SURNAME, user.getSurName()));
         attributeSet.add(new LDAPAttribute(PASSWORD, user.getPassword()));
         attributeSet.add(new LDAPAttribute(CONTACT_EMAIL, user.getEmailContact()));
+        attributeSet.add(new LDAPAttribute(PWD_MUST_CHANGE, Boolean.toString(user.isPwdMustChange())));
+        attributeSet.add(new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+        attributeSet.add(new LDAPAttribute(SECRET_KEY, user.getSecretKey()));
+        attributeSet.add(new LDAPAttribute(LAST_LOGIN_TIMESTAMP, Long.toString(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))));
+
         // address
         if (user.getAddress() != null) {
             userManagementServiceUtil.setLdapAddressModification(user, attributeSet);
@@ -486,6 +495,9 @@ public class UserManagementServiceImpl implements UserManagementService {
         List<LDAPModification> modList = new ArrayList<LDAPModification>();
         LDAPAttribute attribute = new LDAPAttribute(PASSWORD, password);
         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+
+        LDAPAttribute att = new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        modList.add(new LDAPModification(LDAPModification.REPLACE, att));
         String dn = UserUtils.getDn(username);
         UtilEntry.updateEntry(modList, dn);
     }
