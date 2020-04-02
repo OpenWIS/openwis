@@ -35,8 +35,7 @@ public class AccountActivityNotificationAction implements AccountAction {
     @Override
     public void doAction() {
 
-        Log.info(Log.SCHEDULER, "========================");
-        Log.info(Log.SCHEDULER, "Start account activity notification action");
+        Log.info(Log.SCHEDULER, "=============== Account activity task ===============");
         MailUtilities mailUtilities = new MailUtilities();
         UserManager um = new UserManager(this.dbms);
         try {
@@ -56,8 +55,7 @@ public class AccountActivityNotificationAction implements AccountAction {
         } catch (Exception e) {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
-        Log.info(Log.SCHEDULER, "Finished account activity notification action");
-        Log.info(Log.SCHEDULER, "========================");
+        Log.info(Log.SCHEDULER, "=============== Finished account activity task =============== ");
     }
 
     private void saveActionToLog(Dbms dbms, User user) throws SQLException {

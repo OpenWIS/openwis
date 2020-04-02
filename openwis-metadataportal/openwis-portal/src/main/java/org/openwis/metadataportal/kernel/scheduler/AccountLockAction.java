@@ -41,8 +41,7 @@ public class AccountLockAction implements AccountAction {
         UserManager um = new UserManager(dbms);
         MailUtilities mailUtilities = new MailUtilities();
 
-        Log.info(Log.SCHEDULER, "========================");
-        Log.info(Log.SCHEDULER, "Start account lock action");
+        Log.info(Log.SCHEDULER, "=============== Start account lock task ===============");
         try {
             List<User> filteredUsers = um.getAllUsers();
             for (AccountFilter filter: filters) {
@@ -62,8 +61,7 @@ public class AccountLockAction implements AccountAction {
         } catch (Exception e) {
             Log.error(Log.SCHEDULER, e.getMessage());
         }
-        Log.info(Log.SCHEDULER, "Account lock action finished");
-        Log.info(Log.SCHEDULER, "========================");
+        Log.info(Log.SCHEDULER, "=============== Account lock task finished ===============");
     }
 
     private void saveLog(User user) {
