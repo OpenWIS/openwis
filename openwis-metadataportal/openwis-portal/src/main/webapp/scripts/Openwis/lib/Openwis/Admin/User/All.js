@@ -60,6 +60,7 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 					{id:'surname', header: Openwis.i18n("Security.User.FirstName.Column"), dataIndex:'name', sortable: true, width: 180},
 					{id:'profile', header:Openwis.i18n("Security.User.Profile.Column"), dataIndex:'profile', sortable: true, width: 180},
 					{id:'lastLogin', header:Openwis.i18n("Security.User.LastLogin.Column"), dataIndex:'lastLogin', sortable: true, width: 180},
+					{id: 'pwdCreationTime', header:Openwis.i18n("Security.User.PasswordChangedTime.Column"), dataIndex:'pwdCreationTime', sortable:true, width:180},
 				],
 				autoExpandColumn: 'name',
 				listeners: { 
@@ -126,6 +127,10 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 					},
 					{
 					    name:'inetUserStatus',
+					    sortType:'asUCString'
+					},
+					{
+					    name:'pwdCreationTime',
 					    sortType:'asUCString'
 					},
 				],

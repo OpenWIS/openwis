@@ -21,7 +21,7 @@ public class PasswordNotificationMailAction implements AccountAction {
         this.mail.setDestinations(new String[]{user.getEmailContact()});
         this.mail.addContentVariable("firstname", user.getName());
         this.mail.addContentVariable("lastname", user.getSurname());
-        this.mail.addContentVariable("lastPasswordChange", user.getPwdCreationTime().format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm")));
+        this.mail.addContentVariable("lastPasswordChange", user.getPwdChangedTime().format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm")));
         this.mail.addContentVariable("username", user.getUsername());
         mailUtilities.send(this.mail);
         Log.debug(Log.SCHEDULER, String.format("Mail sent to [%s]", user.getEmailContact()));

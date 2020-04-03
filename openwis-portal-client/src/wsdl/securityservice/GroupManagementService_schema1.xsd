@@ -91,8 +91,8 @@
             <xs:element minOccurs="0" name="inetUserStatus" type="tns:inetUserStatus"/>
             <xs:element minOccurs="0" name="secretKey" type="xs:string"/>
             <xs:element minOccurs="0" name="lastLoginTime" type="xs:string"/>
-            <xs:element minOccurs="0" name="pwdMustChange" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="pwdCreationTime" type="xs:string"/>
+            <xs:element minOccurs="0" name="pwdExpireTime" type="xs:string"/>
+            <xs:element minOccurs="0" name="pwdChangedTime" type="xs:string"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="backUps" nillable="true" type="xs:string"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="groups" nillable="true" type="tns:openWISGroup"/>
         </xs:sequence>

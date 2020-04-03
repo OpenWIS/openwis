@@ -104,15 +104,15 @@ public final class LdapUtils {
    public static final String LAST_LOGIN_TIME = "OpenWISLastLoginTime";
 
    /**
-    * Pwd must change attribute
-    */
-   public static final String PWD_MUST_CHANGE = "OpenWISPwdMustChange";
-
-   /**
     * Last time when password has been changed
     */
-   public static final String PWD_CREATION_TIME = "OpenWISPwdCreationTime";
+   public static final String PWD_CHANGED_TIME = "pwdChangedTime";
 
+   /**
+    * Time when the current password will expire. If the time keep increases it means that
+    * the password never expires.
+    */
+   public static final String PWD_EXPIRE_TIME = "ds-pwp-password-expiration-time";
 
    /**
     * @member: PROFILE
