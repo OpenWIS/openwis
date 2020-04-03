@@ -17,7 +17,7 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.metadataportal.services.util.UserLogUtils;
@@ -66,7 +66,7 @@ public class Save implements Service {
             // create action log entry
             userActionLogDTO = new UserLogDTO();
             userActionLogDTO.setActioner(this.getUsernameFromRequest(context));
-            userActionLogDTO.setAction(UserActions.CREATE);
+            userActionLogDTO.setAction(UserAction.CREATE);
             userActionLogDTO.setUsername(user.getUser().getUsername());
             userActionLogDTO.setDate(LocalDateTime.now());
             UserLogUtils.saveLog(dbms, userActionLogDTO);

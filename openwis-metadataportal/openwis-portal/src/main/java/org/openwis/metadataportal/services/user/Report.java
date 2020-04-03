@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 
 import java.sql.Timestamp;
@@ -40,7 +40,7 @@ public class Report implements Service {
            UserLogDTO log = new UserLogDTO();
            log.setId(Util.getParamAsInt(element,"id"));
            log.setDate(LocalDateTime.now());
-           log.setAction(UserActions.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
+           log.setAction(UserAction.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
            log.setAttribute(Util.getParam(element,"attribute", ""));
            log.setUsername(Util.getParam(element,"username"));
            log.setActioner(Util.getParam(element,"actioner"));

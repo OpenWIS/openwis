@@ -11,7 +11,7 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UserDTO;
 import org.openwis.metadataportal.services.util.UserLogUtils;
@@ -47,7 +47,7 @@ public class Lock implements Service {
             return JeevesJsonWrapper.send(acknowledgementDTO);
         }
 
-        UserActions lockAction = user.getInetUserStatus() == InetUserStatus.ACTIVE ? UserActions.LOCK : UserActions.UNLOCK;
+        UserAction lockAction = user.getInetUserStatus() == InetUserStatus.ACTIVE ? UserAction.LOCK : UserAction.UNLOCK;
         um.lockUser(user.getUsername(), user.getInetUserStatus() == InetUserStatus.ACTIVE);
         acknowledgementDTO = new AcknowledgementDTO(true, lockAction.name());
 

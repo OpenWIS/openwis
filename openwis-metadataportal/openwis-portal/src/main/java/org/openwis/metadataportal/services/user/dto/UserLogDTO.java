@@ -3,12 +3,8 @@ package org.openwis.metadataportal.services.user.dto;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 public class UserLogDTO {
 
@@ -16,7 +12,7 @@ public class UserLogDTO {
 
     private LocalDateTime date;
 
-    private UserActions action;
+    private UserAction action;
 
     private String username;
 
@@ -27,11 +23,11 @@ public class UserLogDTO {
     /**
      * Type of action
      */
-    public UserActions getAction() {
+    public UserAction getAction() {
         return action;
     }
 
-    public void setAction(UserActions action) {
+    public void setAction(UserAction action) {
         this.action = action;
     }
 

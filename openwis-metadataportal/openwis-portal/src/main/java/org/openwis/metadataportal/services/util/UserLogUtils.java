@@ -4,7 +4,7 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
 import org.bouncycastle.util.Strings;
 import org.openwis.metadataportal.services.login.LoginConstants;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class UserLogUtils {
 
     public static UserLogDTO buildLog(OpenWISUserUpdateLog openwisLog) {
         UserLogDTO userActionLogDTO = new UserLogDTO();
-        userActionLogDTO.setAction(UserActions.valueOf(Strings.toUpperCase(openwisLog.getAction())));
+        userActionLogDTO.setAction(UserAction.valueOf(Strings.toUpperCase(openwisLog.getAction())));
         userActionLogDTO.setUsername(openwisLog.getUsername());
         userActionLogDTO.setAttribute(openwisLog.getAttribute());
         userActionLogDTO.setDate(LocalDateTime.now());
