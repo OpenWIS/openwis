@@ -11,13 +11,10 @@ import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
 import org.openwis.securityservice.InetUserStatus;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -107,9 +104,18 @@ public class User {
      */
     private String secretKey;
 
+    /**
+     * True if password must change
+     */
+    @JsonIgnore
     private Boolean pwdMustChange;
 
-    private LocalDateTime pwdCreationTime;
+    /**
+     * Last time when the password has changed
+     */
+    private LocalDateTime pwdChangedTime;
+
+    private LocalDateTime pwdExpireTime;
 
     /**
      * Account status: Active or Inactive
@@ -372,33 +378,55 @@ public class User {
         return secretKey;
     }
 
+    /**
+     * Set 2FA secret key
+     * @param secretKey secret key as string decoded
+     */
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
 
+    /**
+     * Set last login
+     * @param lastLogin
+     */
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
 
-    /**
-     * Force user to change his password if true.
-     */
-    public Boolean getPwdMustChange() {
-        return pwdMustChange;
+
+    @JsonIgnore
+    public LocalDateTime getPwdExpireTime() {
+        return pwdExpireTime;
     }
 
-    public void setPwdMustChange(Boolean pwdMustChange) {
-        this.pwdMustChange = pwdMustChange;
+    @JsonProperty("pwdExpireTime")
+    public String getPwdExpireTimeAsStr() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        return this.pwdExpireTime.format(formatter);
     }
 
-    /**
-     * Last time when password has changed
-     */
-    public LocalDateTime getPwdCreationTime() {
-        return pwdCreationTime;
+    @JsonProperty("pwdExpired")
+    public String isPwdExpired() {
+        return this.pwdChangedTime.isAfter(this.pwdExpireTime) ? "Yes" : "No";
     }
 
-    public void setPwdCreationTime(LocalDateTime pwdCreationTime) {
-        this.pwdCreationTime = pwdCreationTime;
+    public void setPwdExpireTime(LocalDateTime pwdExpireTime) {
+        this.pwdExpireTime = pwdExpireTime;
+    }
+
+    @JsonIgnore
+    public LocalDateTime getPwdChangedTime() {
+        return pwdChangedTime;
+    }
+
+    public void setPwdChangedTime(LocalDateTime pwdChangedTime) {
+        this.pwdChangedTime = pwdChangedTime;
+    }
+
+    @JsonProperty("pwdChangedTime")
+    public String getPwdCreationTimeAsStr() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        return this.getPwdChangedTime().format(formatter);
     }
 }

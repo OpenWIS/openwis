@@ -56,6 +56,7 @@ public class UserManager extends AbstractManager {
 
     //----------------------------------------------------------------------- Public methods.
 
+    private static final String LDAP_PWD_DATE_FORMAT="yyyyMMddHHmmss.SSS'Z'";
     /**
      * Get all users.
      * @return all users.
@@ -245,8 +246,8 @@ public class UserManager extends AbstractManager {
         if (!openWISUser.getLastLoginTime().isEmpty()) {
             user.setLastLogin(LocalDateTime.parse(openWISUser.getLastLoginTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
-        user.setPwdCreationTime(LocalDateTime.parse(openWISUser.getPwdCreationTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        user.setPwdMustChange(openWISUser.isPwdMustChange());
+        user.setPwdChangedTime(LocalDateTime.parse(openWISUser.getPwdChangedTime(), DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
+        user.setPwdExpireTime(LocalDateTime.parse(openWISUser.getPwdExpireTime(),DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
 
         user.getEmails().addAll(openWISUser.getEmails());
         user.getFtps().addAll(openWISUser.getFtps());

@@ -11,14 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * It filters out the user which have been notified.
- */
-public class UnnotifiedUserFilter implements AccountFilter{
+public class PasswordNotificationFilter implements AccountFilter {
 
-    private final Dbms dbms;
+    private Dbms dbms;
 
-    public UnnotifiedUserFilter(Dbms dbms) {
+    public PasswordNotificationFilter(Dbms dbms) {
         this.dbms = dbms;
     }
 
@@ -27,16 +24,16 @@ public class UnnotifiedUserFilter implements AccountFilter{
         List<User> filteredUsers = new ArrayList<>();
         LogFilter logFilter = new LogFilter();
         try {
-            List<UserLogDTO> logs = logFilter.getLogs(dbms);
+            List<UserLogDTO> logs = logFilter.getLogs(this.dbms);
             for (User user : users) {
-                UserLogDTO lastNotificationLog = logFilter.getLastLogEntry(logs,user, UserAction.INACTIVITY_NOTIFICATION_MAIL);
+                UserLogDTO lastNotificationLog = logFilter.getLastLogEntry(logs,user, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL);
                 if (lastNotificationLog == null) {
                     Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. User is passing the filter.",
                             UnnotifiedUserFilter.class.getSimpleName(),
                             user.getUsername()));
                     filteredUsers.add(user);
                 } else {
-                    if (user.getLastLogin().isAfter(lastNotificationLog.getDate())) {
+                    if (user.getPwdChangedTime().isAfter(lastNotificationLog.getDate())) {
                         Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s.",
                                 UnnotifiedUserFilter.class.getSimpleName(),
                                 user.getUsername(),

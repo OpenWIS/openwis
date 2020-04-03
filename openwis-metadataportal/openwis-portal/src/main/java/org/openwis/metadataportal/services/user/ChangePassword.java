@@ -15,7 +15,7 @@ import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.user.dto.PasswordDTO;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.UserLogUtils;
 
@@ -63,7 +63,7 @@ public class ChangePassword implements Service {
 
          // save log
           userActionLogDTO = new UserLogDTO();
-          userActionLogDTO.setAction(UserActions.PASSWORD_CHANGE);
+          userActionLogDTO.setAction(UserAction.PASSWORD_CHANGE);
           userActionLogDTO.setDate(LocalDateTime.now());
           userActionLogDTO.setUsername(username);
           userActionLogDTO.setActioner(username);

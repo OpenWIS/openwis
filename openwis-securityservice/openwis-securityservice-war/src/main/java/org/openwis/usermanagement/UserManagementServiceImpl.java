@@ -66,6 +66,12 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     private static int MAX_RESULT = 1000;
 
+    private String[] userAttributes = new String[] {PASSWORD, UID, NAME, PROFILE, SURNAME, CONTACT_EMAIL, CN,
+            NEEDUSERACCOUNT, INET_USER_STATUS, OBJECT_CLASS,
+            FTPS, CLASSOFSERVICE, BACKUPS, EMAILS,
+            ADDRESS_ADDRESS, ADDRESS_COUNTRY, ADDRESS_STATE, ADDRESS_ZIP, ADDRESS_CITY,
+            SECRET_KEY, LAST_LOGIN_TIME,
+            PWD_CHANGED_TIME, PWD_EXPIRE_TIME };
     /**
      * The user management service utilities.
      * @member: userManagementServiceUtil
@@ -116,8 +122,6 @@ public class UserManagementServiceImpl implements UserManagementService {
         attributeSet.add(new LDAPAttribute(SURNAME, user.getSurName()));
         attributeSet.add(new LDAPAttribute(PASSWORD, user.getPassword()));
         attributeSet.add(new LDAPAttribute(CONTACT_EMAIL, user.getEmailContact()));
-        attributeSet.add(new LDAPAttribute(PWD_MUST_CHANGE, Boolean.toString(user.isPwdMustChange())));
-        attributeSet.add(new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
         attributeSet.add(new LDAPAttribute(SECRET_KEY, user.getSecretKey()));
         attributeSet.add(new LDAPAttribute(LAST_LOGIN_TIMESTAMP, Long.toString(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))));
 
@@ -236,7 +240,8 @@ public class UserManagementServiceImpl implements UserManagementService {
         int searchScope = LDAPConnection.SCOPE_SUB;
         String entryDN = UserUtils.getDn(username);
         String searchFilter = OBJECT_CLASS + EQUAL + STAR;
-        LDAPEntry ldapEntry = UtilEntry.searchEntry(entryDN, searchScope, searchFilter, null);
+
+        LDAPEntry ldapEntry = UtilEntry.searchEntry(entryDN, searchScope, searchFilter, userAttributes);
         OpenWISUser openWISUser = new OpenWISUser();
         if (ldapEntry != null) {
             LDAPAttributeSet attributeSet = ldapEntry.getAttributeSet();
@@ -495,9 +500,6 @@ public class UserManagementServiceImpl implements UserManagementService {
         List<LDAPModification> modList = new ArrayList<LDAPModification>();
         LDAPAttribute attribute = new LDAPAttribute(PASSWORD, password);
         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
-
-        LDAPAttribute att = new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        modList.add(new LDAPModification(LDAPModification.REPLACE, att));
         String dn = UserUtils.getDn(username);
         UtilEntry.updateEntry(modList, dn);
     }
@@ -630,7 +632,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         LDAPSearchConstraints constraints = new LDAPSearchConstraints();
         constraints.setMaxResults(MAX_RESULT);
 
-        LDAPSearchResults results = UtilEntry.searchEntries(entryDN, searchScope, searchFilter, null,
+        LDAPSearchResults results = UtilEntry.searchEntries(entryDN, searchScope, searchFilter, userAttributes,
                 constraints);
         int nbResult = 0;
         while (results.hasMore() && nbResult < MAX_RESULT) {

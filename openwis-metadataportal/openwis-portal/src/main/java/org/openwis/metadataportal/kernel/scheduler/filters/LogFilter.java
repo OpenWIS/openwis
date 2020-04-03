@@ -6,7 +6,7 @@ import jeeves.utils.Util;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 import org.openwis.metadataportal.model.user.User;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 
 import java.sql.SQLException;
@@ -21,36 +21,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * This class implements basic logic to filter user on the fact that they have been already notified by mail about
- * their account activity or not.
- *
- * A notified user is a user which last login is older than a notification entry in USER_LOG table and its account
- * is active. This means that the user has been notified by email about his/her account activity.
- *
- * <b>Remark</b> We considered that the list of users contains only active users.
+ * This class provides a filter to extract the last log entry of a certain type for a given user.
  */
-public abstract class AbstractNotificationFilter {
+public class LogFilter {
 
-    private final Dbms dbms;
-
-    public AbstractNotificationFilter(Dbms dbms) {
-        this.dbms = dbms;
-    }
-
-    public Dbms getDbms() {
-        return dbms;
-    }
     /**
      * Return the last mail notification of a user
      *
-     * @param logs list of action logs
-     * @param user user for which the notification is searced
-     * @return last inactivity mail notification
+     * @param user user for which the notification is filtered
+     * @return last notification of type {@param action} for user {@param user}
      */
-    protected UserLogDTO getLastNotification(List<UserLogDTO> logs, User user) {
+    public UserLogDTO getLastLogEntry(List<UserLogDTO> logs, User user, UserAction action) {
+
         List<UserLogDTO> userLog = logs.stream()
                 .filter(l -> l.getUsername().equals(user.getUsername()))
-                .filter(l -> l.getAction().equals(UserActions.INACTIVITY_NOTIFICATION_MAIL))
+                .filter(l -> l.getAction().equals(action))
                 .sorted((l1, l2) -> dateComparator.compare(l1.getDate(), l2.getDate()))
                 .collect(Collectors.toList());
 
@@ -61,7 +46,7 @@ public abstract class AbstractNotificationFilter {
         return userLog.get(userLog.size() - 1);
     }
 
-    protected List<UserLogDTO> getUserLogs(Dbms dbms) throws SQLException, BadInputEx {
+    public List<UserLogDTO> getLogs(Dbms dbms) throws SQLException, BadInputEx {
         String query = "SELECT * from user_log;";
         List<Element> elements = dbms.select(query).getChildren();
         if (elements.size() == 0) {
@@ -73,7 +58,7 @@ public abstract class AbstractNotificationFilter {
             UserLogDTO log = new UserLogDTO();
             log.setId(Util.getParamAsInt(element, "id"));
             log.setDate(LocalDateTime.parse(Util.getParam(element, "date"), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            log.setAction(UserActions.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
+            log.setAction(UserAction.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
             log.setAttribute(Util.getParam(element, "attribute", ""));
             log.setUsername(Util.getParam(element, "username"));
             log.setActioner(Util.getParam(element, "actioner"));
@@ -83,13 +68,13 @@ public abstract class AbstractNotificationFilter {
         return results;
     }
 
-    protected Timestamp toTimestamp(String value) {
+    private Timestamp toTimestamp(String value) {
         ZonedDateTime zdt = LocalDateTime.parse(value).atZone(ZoneId.of("UTC"));
         return Timestamp.valueOf(zdt.toLocalDateTime());
     }
 
     // Class to compare timestamps
-    protected Comparator<LocalDateTime> dateComparator = (t2, t1) -> {
+    private Comparator<LocalDateTime> dateComparator = (t2, t1) -> {
         if (t2.isAfter(t1)) {
             return 1;
         } else if (t2.equals(t1)) {

@@ -15,7 +15,7 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
-import org.openwis.metadataportal.services.user.dto.UserActions;
+import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UsersDTO;
 import org.openwis.metadataportal.services.util.UserLogUtils;
@@ -65,7 +65,7 @@ public class Remove implements Service {
 
          // save log
          userActionLogDTO = new UserLogDTO();
-         userActionLogDTO.setAction(UserActions.REMOVE);
+         userActionLogDTO.setAction(UserAction.REMOVE);
          userActionLogDTO.setDate(LocalDateTime.now());
          userActionLogDTO.setUsername(user.getUsername());
          userActionLogDTO.setActioner(context.getUserSession().getUsername());
