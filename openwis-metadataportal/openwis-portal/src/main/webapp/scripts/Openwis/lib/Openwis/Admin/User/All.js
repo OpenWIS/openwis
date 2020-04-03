@@ -60,7 +60,9 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 					{id:'surname', header: Openwis.i18n("Security.User.FirstName.Column"), dataIndex:'name', sortable: true, width: 180},
 					{id:'profile', header:Openwis.i18n("Security.User.Profile.Column"), dataIndex:'profile', sortable: true, width: 180},
 					{id:'lastLogin', header:Openwis.i18n("Security.User.LastLogin.Column"), dataIndex:'lastLogin', sortable: true, width: 180},
-					{id: 'pwdCreationTime', header:Openwis.i18n("Security.User.PasswordChangedTime.Column"), dataIndex:'pwdCreationTime', sortable:true, width:180},
+					{id: 'pwdChangedTime', header:Openwis.i18n("Security.User.PasswordChangedTime.Column"), dataIndex:'pwdChangedTime', sortable:true, width:180},
+					{id: 'pwdExpireTime', header:Openwis.i18n("Security.User.PasswordExpiredTime.Column"), dataIndex:'pwdExpireTime', sortable:true, width:180},
+					{id: 'pwdExpired', header:Openwis.i18n("Security.User.PasswordExpired.Column"), dataIndex:'pwdExpired', sortable:true, width:180},
 				],
 				autoExpandColumn: 'name',
 				listeners: { 
@@ -130,7 +132,15 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 					    sortType:'asUCString'
 					},
 					{
-					    name:'pwdCreationTime',
+					    name:'pwdChangedTime',
+					    sortType:'asUCString'
+					},
+					{
+					    name:'pwdExpireTime',
+					    sortType:'asUCString'
+					},
+					{
+					    name:'pwdExpired',
 					    sortType:'asUCString'
 					},
 				],

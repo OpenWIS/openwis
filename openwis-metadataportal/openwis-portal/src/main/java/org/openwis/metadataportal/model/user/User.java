@@ -401,8 +401,14 @@ public class User {
     }
 
     @JsonProperty("pwdExpireTime")
-    public Date getPwdExpireTimeAsDate() {
-        return java.sql.Date.valueOf(this.pwdExpireTime.toLocalDate());
+    public String getPwdExpireTimeAsStr() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        return this.pwdExpireTime.format(formatter);
+    }
+
+    @JsonProperty("pwdExpired")
+    public String isPwdExpired() {
+        return this.pwdChangedTime.isAfter(this.pwdExpireTime) ? "Yes" : "No";
     }
 
     public void setPwdExpireTime(LocalDateTime pwdExpireTime) {
@@ -419,7 +425,8 @@ public class User {
     }
 
     @JsonProperty("pwdChangedTime")
-    public Date getPwdCreationTimeAsDate() {
-        return java.sql.Date.valueOf(this.pwdChangedTime.toLocalDate());
+    public String getPwdCreationTimeAsStr() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        return this.getPwdChangedTime().format(formatter);
     }
 }

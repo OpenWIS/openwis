@@ -4,7 +4,6 @@
 package org.openwis.metadataportal.services.common.json;
 
 import jeeves.utils.Util;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig.Feature;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
