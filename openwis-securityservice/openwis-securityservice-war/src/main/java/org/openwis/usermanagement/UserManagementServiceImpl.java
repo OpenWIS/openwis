@@ -66,6 +66,12 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     private static int MAX_RESULT = 1000;
 
+    private String[] userAttributes = new String[] {PASSWORD, UID, NAME, PROFILE, SURNAME, CONTACT_EMAIL, CN,
+            NEEDUSERACCOUNT, INET_USER_STATUS, OBJECT_CLASS,
+            FTPS, CLASSOFSERVICE, BACKUPS, EMAILS,
+            ADDRESS_ADDRESS, ADDRESS_COUNTRY, ADDRESS_STATE, ADDRESS_ZIP, ADDRESS_CITY,
+            SECRET_KEY, LAST_LOGIN_TIME,
+            PWD_CHANGED_TIME, PWD_EXPIRE_TIME };
     /**
      * The user management service utilities.
      * @member: userManagementServiceUtil
@@ -235,11 +241,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         String entryDN = UserUtils.getDn(username);
         String searchFilter = OBJECT_CLASS + EQUAL + STAR;
 
-        String[] attrs = new String[] {PASSWORD, UID, NAME, PROFILE, SURNAME, CONTACT_EMAIL, CN,
-                NEEDUSERACCOUNT, INET_USER_STATUS, OBJECT_CLASS,
-                SECRET_KEY, LAST_LOGIN_TIME,
-                PWD_CHANGED_TIME, PWD_EXPIRE_TIME };
-        LDAPEntry ldapEntry = UtilEntry.searchEntry(entryDN, searchScope, searchFilter, attrs);
+        LDAPEntry ldapEntry = UtilEntry.searchEntry(entryDN, searchScope, searchFilter, userAttributes);
         OpenWISUser openWISUser = new OpenWISUser();
         if (ldapEntry != null) {
             LDAPAttributeSet attributeSet = ldapEntry.getAttributeSet();
@@ -630,12 +632,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         LDAPSearchConstraints constraints = new LDAPSearchConstraints();
         constraints.setMaxResults(MAX_RESULT);
 
-        String[] attrs = new String[] {PASSWORD, UID, NAME, PROFILE, SURNAME, CONTACT_EMAIL,
-                CN, NEEDUSERACCOUNT, INET_USER_STATUS, OBJECT_CLASS,
-                SECRET_KEY, LAST_LOGIN_TIME,
-                PWD_CHANGED_TIME, PWD_EXPIRE_TIME };
-
-        LDAPSearchResults results = UtilEntry.searchEntries(entryDN, searchScope, searchFilter, attrs,
+        LDAPSearchResults results = UtilEntry.searchEntries(entryDN, searchScope, searchFilter, userAttributes,
                 constraints);
         int nbResult = 0;
         while (results.hasMore() && nbResult < MAX_RESULT) {
