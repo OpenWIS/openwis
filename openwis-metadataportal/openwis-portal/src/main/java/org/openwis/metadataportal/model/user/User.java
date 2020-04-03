@@ -14,6 +14,7 @@ import org.openwis.securityservice.InetUserStatus;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -112,7 +113,9 @@ public class User {
     /**
      * Last time when the password has changed
      */
-    private LocalDateTime pwdCreationTime;
+    private LocalDateTime pwdChangedTime;
+
+    private LocalDateTime pwdExpireTime;
 
     /**
      * Account status: Active or Inactive
@@ -391,33 +394,32 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    /**
-     * Force user to change his password if true.
-     */
+
     @JsonIgnore
-    public Boolean getPwdMustChange() {
-        return pwdMustChange;
+    public LocalDateTime getPwdExpireTime() {
+        return pwdExpireTime;
     }
 
-    public void setPwdMustChange(Boolean pwdMustChange) {
-        this.pwdMustChange = pwdMustChange;
+    @JsonProperty("pwdExpireTime")
+    public Date getPwdExpireTimeAsDate() {
+        return java.sql.Date.valueOf(this.pwdExpireTime.toLocalDate());
     }
 
-    /**
-     * Last time when password has changed
-     */
+    public void setPwdExpireTime(LocalDateTime pwdExpireTime) {
+        this.pwdExpireTime = pwdExpireTime;
+    }
+
     @JsonIgnore
-    public LocalDateTime getPwdCreationTime() {
-        return pwdCreationTime;
+    public LocalDateTime getPwdChangedTime() {
+        return pwdChangedTime;
     }
 
-    @JsonProperty("pwdCreationTime")
-    public String getPwdCreationTimeAsString() {
-        int days = Period.between(this.getPwdCreationTime().toLocalDate(), LocalDate.now()).getDays();
-        return String.format("%d days ago", days);
+    public void setPwdChangedTime(LocalDateTime pwdChangedTime) {
+        this.pwdChangedTime = pwdChangedTime;
     }
 
-    public void setPwdCreationTime(LocalDateTime pwdCreationTime) {
-        this.pwdCreationTime = pwdCreationTime;
+    @JsonProperty("pwdChangedTime")
+    public Date getPwdCreationTimeAsDate() {
+        return java.sql.Date.valueOf(this.pwdChangedTime.toLocalDate());
     }
 }

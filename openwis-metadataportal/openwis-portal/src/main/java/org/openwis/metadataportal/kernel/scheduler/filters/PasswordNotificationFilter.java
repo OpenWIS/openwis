@@ -33,7 +33,7 @@ public class PasswordNotificationFilter implements AccountFilter {
                             user.getUsername()));
                     filteredUsers.add(user);
                 } else {
-                    if (user.getPwdCreationTime().isAfter(lastNotificationLog.getDate())) {
+                    if (user.getPwdChangedTime().isAfter(lastNotificationLog.getDate())) {
                         Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s.",
                                 UnnotifiedUserFilter.class.getSimpleName(),
                                 user.getUsername(),
