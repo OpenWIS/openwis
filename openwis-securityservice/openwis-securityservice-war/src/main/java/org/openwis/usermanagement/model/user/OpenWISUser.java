@@ -95,14 +95,14 @@ public class OpenWISUser implements Serializable {
    private String lastLoginTime;
 
    /**
-    * If true password must be change by user at first login
+    * expire time of the current password
     */
-   private Boolean pwdMustChange;
+   private String pwdExpireTime;
 
    /**
     * Last time when the password has been changed
     */
-   private String pwdCreationTime;
+   private String pwdChangedTime;
 
    /**
     * Gets the name.
@@ -343,25 +343,19 @@ public class OpenWISUser implements Serializable {
       this.lastLoginTime = lastLoginTime;
    }
 
-   /**
-    * If true the user has to change his password
-    */
-   public Boolean isPwdMustChange() {
-      return pwdMustChange;
+   public String getPwdExpireTime() {
+      return pwdExpireTime;
    }
 
-   public void setPwdMustChange(Boolean pwdMustChange) {
-      this.pwdMustChange = pwdMustChange;
+   public void setPwdExpireTime(String pwdExpireTime) {
+      this.pwdExpireTime = pwdExpireTime;
    }
 
-   /**
-    * Last time when the password was changed
-    */
-   public String getPwdCreationTime() {
-      return pwdCreationTime;
+   public String getPwdChangedTime() {
+      return pwdChangedTime;
    }
 
-   public void setPwdCreationTime(String pwdCreationTime) {
-      this.pwdCreationTime = pwdCreationTime;
+   public void setPwdChangedTime(String pwdChangedTime) {
+      this.pwdChangedTime = pwdChangedTime;
    }
 }

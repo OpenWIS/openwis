@@ -215,10 +215,10 @@ public class UserManagementServiceUtil {
          openWISUser.setInetUserStatus(InetUserStatus.valueOf(attribute.getStringValue()));
       } else if (SECRET_KEY.equals(attribute.getName())) {
          openWISUser.setSecretKey(attribute.getStringValue());
-      } else if (PWD_MUST_CHANGE.equals(attribute.getName())) {
-         openWISUser.setPwdMustChange(Boolean.valueOf(attribute.getStringValue()));
-      } else if (PWD_CREATION_TIME.equals(attribute.getName())) {
-         openWISUser.setPwdCreationTime(attribute.getStringValue());
+      } else if (PWD_CHANGED_TIME.equals(attribute.getName())) {
+         openWISUser.setPwdChangedTime(attribute.getStringValue());
+      } else if (PWD_EXPIRE_TIME.equals(attribute.getName())) {
+         openWISUser.setPwdExpireTime(attribute.getStringValue());
       } else if (LAST_LOGIN_TIME.equals(attribute.getName())) {
          openWISUser.setLastLoginTime(attribute.getStringValue());
       }
@@ -333,10 +333,6 @@ public class UserManagementServiceUtil {
       if (user.getPassword() != null && !user.getPassword().isEmpty()) {
          attribute = new LDAPAttribute(PASSWORD, user.getPassword());
          modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
-
-         // change PWD_CREATION_TIME
-         LDAPAttribute att = new LDAPAttribute(PWD_CREATION_TIME, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-         modList.add(new LDAPModification(LDAPModification.REPLACE, att));
       }
       if (!ldapUser.getEmailContact().equals(user.getEmailContact())) {
          attribute = new LDAPAttribute(CONTACT_EMAIL, user.getEmailContact());
