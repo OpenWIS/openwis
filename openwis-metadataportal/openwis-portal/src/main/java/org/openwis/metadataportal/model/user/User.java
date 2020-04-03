@@ -11,12 +11,8 @@ import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
 import org.openwis.securityservice.InetUserStatus;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,8 +103,15 @@ public class User {
      */
     private String secretKey;
 
+    /**
+     * True if password must change
+     */
+    @JsonIgnore
     private Boolean pwdMustChange;
 
+    /**
+     * Last time when the password has changed
+     */
     private LocalDateTime pwdCreationTime;
 
     /**
@@ -372,10 +375,18 @@ public class User {
         return secretKey;
     }
 
+    /**
+     * Set 2FA secret key
+     * @param secretKey secret key as string decoded
+     */
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
 
+    /**
+     * Set last login
+     * @param lastLogin
+     */
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
@@ -383,6 +394,7 @@ public class User {
     /**
      * Force user to change his password if true.
      */
+    @JsonIgnore
     public Boolean getPwdMustChange() {
         return pwdMustChange;
     }
@@ -394,8 +406,15 @@ public class User {
     /**
      * Last time when password has changed
      */
+    @JsonIgnore
     public LocalDateTime getPwdCreationTime() {
         return pwdCreationTime;
+    }
+
+    @JsonProperty("pwdCreationTime")
+    public String getPwdCreationTimeAsString() {
+        int days = Period.between(this.getPwdCreationTime().toLocalDate(), LocalDate.now()).getDays();
+        return String.format("%d days ago", days);
     }
 
     public void setPwdCreationTime(LocalDateTime pwdCreationTime) {
