@@ -58,7 +58,7 @@ public class SaveSelf implements Service {
 		for (OpenWISUserUpdateLog updateLog: updateLogs) {
 		    UserLogDTO userActionLogDTO = UserLogUtils.buildLog(updateLog);
 		    userActionLogDTO.setActioner(context.getUserSession().getUsername());
-			UserLogUtils.saveLog(dbms, userActionLogDTO);
+			UserLogUtils.save(dbms, userActionLogDTO);
 		}
 		// call method checkSubscription on RequestManager service.
 		// (not sure if this is necessary).

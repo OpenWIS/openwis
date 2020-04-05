@@ -12,6 +12,7 @@ import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConf
 import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.Address;
+import org.openwis.metadataportal.model.user.TwoFactorAuthenticationKey;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
@@ -130,6 +131,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         user.setEmailContact(email);
         user.setProfile("Candidate");
         user.setPassword(DEFAULT_PASSWORD);
+        user.setSecretKey(new TwoFactorAuthenticationKey().getKeyBase16());
         um.createUser(user);
         Log.debug(Geonet.SELF_REGISTER, "User created on Security Server");
 

@@ -16,6 +16,7 @@ import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.group.Group;
 import org.openwis.metadataportal.model.user.BackUp;
 import org.openwis.metadataportal.model.user.Profile;
+import org.openwis.metadataportal.model.user.TwoFactorAuthenticationKey;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
@@ -125,6 +126,7 @@ public class Get implements Service {
             userDTO.getBackups().remove(backUpDTO);
          }
       }
+
       return JeevesJsonWrapper.send(userDTO);
    }
 

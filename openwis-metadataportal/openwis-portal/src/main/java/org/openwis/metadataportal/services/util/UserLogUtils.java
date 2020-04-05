@@ -15,7 +15,7 @@ import org.openwis.securityservice.OpenWISUserUpdateLog;
 
 public class UserLogUtils {
 
-    public static void saveLog(Dbms dbms, UserLogDTO log) throws SQLException {
+    public static void save(Dbms dbms, UserLogDTO log) throws SQLException {
         if (log != null) {
             String query = "INSERT INTO user_log(date, username, action, actioner, attribute) Values(?,?,?,?,?)";
             dbms.execute(query, log.getDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), log.getUsername(), log.getAction().name(), log.getActioner(), log.getAttribute());

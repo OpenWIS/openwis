@@ -45,7 +45,7 @@ public class UserDTO {
     * @member: backups
     */
    private List<BackUpDTO> backups = new ArrayList<BackUpDTO>();
-   
+
    /**
     * True if the user will be created, false if the user will be updated.
     * @member: isCreation

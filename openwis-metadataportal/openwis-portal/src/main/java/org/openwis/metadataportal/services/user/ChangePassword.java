@@ -68,7 +68,7 @@ public class ChangePassword implements Service {
           userActionLogDTO.setUsername(username);
           userActionLogDTO.setActioner(username);
           userActionLogDTO.setActioner(username);
-          UserLogUtils.saveLog(dbms, userActionLogDTO);
+          UserLogUtils.save(dbms, userActionLogDTO);
 
       } catch (SQLException e) {
          Log.error(LoginConstants.LOG, "Error during sql requests  : " + e.getMessage());
