@@ -239,7 +239,7 @@ public class UserManager extends AbstractManager {
         }
         user.setSecretKey(openWISUser.getSecretKey());
 
-        if (!openWISUser.getLastLoginTime().isEmpty()) {
+        if (openWISUser.getLastLoginTime() != null) {
             user.setLastLogin(LocalDateTime.parse(openWISUser.getLastLoginTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
         user.setPwdChangedTime(LocalDateTime.parse(openWISUser.getPwdChangedTime(), DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
