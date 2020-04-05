@@ -5,6 +5,10 @@ import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
+/**
+ * General mail action.
+ * This class sends a mail to user.
+ */
 public class MailAction implements AccountAction {
 
     private final IOpenWISMail mail;
