@@ -3,6 +3,7 @@ package org.openwis.metadataportal.kernel.user;
 import org.apache.commons.codec.binary.Base32;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 /**
@@ -10,25 +11,22 @@ import java.util.Random;
  */
 public class TwoFactorAuthenticationUtils {
 
-    private final static char[] HEX = new char[]{
-            '0', '1', '2', '3', '4', '5', '6', '7',
-            '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
     private final static int KEY_LENGTH = 12;
+
     /**
      * Encode {@param key} to Base16
      * @param key secret key
      * @return secret key encoded to Base16
      */
     public static String encodeBase16(String key) {
-        byte[] byteArray = key.getBytes();
-        StringBuffer hexBuffer = new StringBuffer(byteArray.length * 2);
-        for (int i = 0; i < byteArray.length; i++)
-            for (int j = 1; j >= 0; j--)
-                hexBuffer.append(HEX[(byteArray[i] >> (j * 4)) & 0xF]);
-        return hexBuffer.toString();
+        char[] encoded = Base16.encode(key.getBytes(), false);
+        return new String(encoded);
     }
 
+    public static String decodeBase16(String key) {
+        byte[] bytes = Base16.decode(key.toCharArray());
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
 
     /**
      * Encode to base32
