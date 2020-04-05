@@ -402,12 +402,18 @@ public class User {
 
     @JsonProperty("pwdExpireTime")
     public String getPwdExpireTimeAsStr() {
+        if (this.pwdExpireTime == null) {
+            return "";
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
         return this.pwdExpireTime.format(formatter);
     }
 
     @JsonProperty("pwdExpired")
     public String isPwdExpired() {
+        if (this.pwdExpireTime == null) {
+            return "";
+        }
         return this.pwdChangedTime.isAfter(this.pwdExpireTime) ? "Yes" : "No";
     }
 
@@ -425,7 +431,10 @@ public class User {
     }
 
     @JsonProperty("pwdChangedTime")
-    public String getPwdCreationTimeAsStr() {
+    public String getPwdChangedTimeAsStr() {
+        if (this.pwdChangedTime == null) {
+            return "";
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
         return this.getPwdChangedTime().format(formatter);
     }
