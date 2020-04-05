@@ -27,11 +27,7 @@ import org.openwis.securityservice.OpenWISUser;
 import org.openwis.securityservice.InetUserStatus;
 import org.openwis.securityservice.UserManagementException_Exception;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
