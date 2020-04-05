@@ -22,6 +22,7 @@ public class AccountTaskFactory {
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
                 new NotifiedUserFilter(dbms),
+                new ValidPasswordFilter(),
                 new LastLoginFilter(duration, timeUnit)
         );
 
@@ -48,6 +49,7 @@ public class AccountTaskFactory {
         List<AccountFilter> filters = Arrays.asList(
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
+                new ValidPasswordFilter(),
                 new UnnotifiedUserFilter(dbms),
                 new LastLoginFilter(duration, timeUnit)
         );
@@ -73,6 +75,7 @@ public class AccountTaskFactory {
         List<AccountFilter> filters = Arrays.asList(
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
+                new ValidPasswordFilter(),
                 new PasswordNotificationFilter(dbms)
         );
 
