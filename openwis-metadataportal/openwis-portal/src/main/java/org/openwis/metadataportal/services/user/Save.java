@@ -52,7 +52,7 @@ public class Save implements Service {
 
     /**
      * {@inheritDoc}
-     * @see jeeves.interfaces.Service#exec(org.jdom.Element, jeeves.server.context.ServiceContext)
+     * @see Service#exec(Element, ServiceContext)
      */
     @Override
     public Element exec(Element params, ServiceContext context) throws Exception {
@@ -64,9 +64,9 @@ public class Save implements Service {
         UserLogDTO userLogDTO = null;
 
         try {
+            User user = userDTO.getUser();
             if (userDTO.isCreationMode()) {
-                User user = userDTO.getUser();
-                user.setSecretKey(TwoFactorAuthenticationUtils.encodeBase16(TwoFactorAuthenticationUtils.generateKey()));
+                user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
                 um.createUser(user);
 
                 if (!user.getProfile().equals(Profile.Candidate.toString())) {
@@ -77,7 +77,7 @@ public class Save implements Service {
                     vars.put("password", user.getPassword());
 
                     String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
-                    vars.put("secretKey", TwoFactorAuthenticationUtils.getTOPTKeyUri(TwoFactorAuthenticationUtils.encodeBase32(decodedKey), user.getEmailContact()));
+                    vars.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(TwoFactorAuthenticationUtils.encodeBase32(decodedKey), user.getEmailContact()));
                     IOpenWISMail mail = OpenWISMailFactory.buildAccountCreationMail(context, "UserCreation.subject", new String[]{user.getEmailContact()}, vars);
                     MailUtilities mailUtilities = new MailUtilities();
                     boolean result =  mailUtilities.send(mail);
@@ -97,6 +97,32 @@ public class Save implements Service {
                 UserLogUtils.save(dbms, userLogDTO);
 
             } else {
+                User storedUser = um.getUserByUserName(user.getUsername());
+
+                // set secret key from storedUser
+                user.setSecretKey(storedUser.getSecretKey());
+                if (user.getPassword().compareTo(user.getUsername()) == 0)
+                {
+                    Log.info(Geonet.PRIVILEGES, "##### Password = <" + user.getPassword() + "> User name= <"+user.getUsername() + " - " + user.getName()+ " - " + user.getId());
+                    throw new Exception("Password must be different from user identifier");
+
+                }
+                else
+                {
+                    Log.info(Geonet.PRIVILEGES, "!##### Password = <" + user.getPassword() + "> User name= <"+user.getUsername() + " - " + user.getName()+ " - " + user.getId());
+
+                }
+
+                // When profile changes from Candidate to another value
+                // an email is sent to the end user
+                if (storedUser.getProfile().equals(Profile.Candidate.toString()) && !user.getProfile().equals(Profile.Candidate.toString()) ) {
+                    boolean result = sendEmailToUser(context,user);
+                    if (!result) {
+                        Log.info(Geonet.PRIVILEGES, "Error sending mail to " + user.getEmailContact());
+                        throw new Exception("Error sending mail to " + user.getEmailContact());
+                    }
+                }
+
                 List<OpenWISUserUpdateLog> updateLogs = um.updateUser(userDTO.getUser());
                 for (OpenWISUserUpdateLog updateLog : updateLogs) {
                     userLogDTO = UserLogUtils.buildLog(updateLog);
@@ -109,9 +135,25 @@ public class Save implements Service {
             }
         } catch (UserAlreadyExistsException e) {
             acknowledgementDTO = new AcknowledgementDTO(false, "The user " + e.getUserName() + " already exists");
+        } catch (Exception ex) {
+            acknowledgementDTO = new AcknowledgementDTO(false, ex.getMessage());
         }
 
         return JeevesJsonWrapper.send(acknowledgementDTO);
+    }
+
+    private boolean sendEmailToUser(ServiceContext context, User user) {
+        Map<String, Object> bodyData = new HashMap<>();
+        bodyData.put("firstname", user.getName());
+        bodyData.put("lastname", user.getSurname());
+        bodyData.put("username", user.getUsername());
+        bodyData.put("password", user.getPassword());
+
+        String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
+        bodyData.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getEmailContact(),TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
+
+        IOpenWISMail mail = OpenWISMailFactory.buildAccountCreationMail(context, "UserCreation.subject", new String[]{user.getEmailContact()}, bodyData);
+        return new MailUtilities().send(mail);
     }
 
     /**
