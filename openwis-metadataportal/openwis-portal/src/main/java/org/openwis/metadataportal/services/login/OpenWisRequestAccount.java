@@ -131,7 +131,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         user.setEmailContact(email);
         user.setProfile("Candidate");
         user.setPassword(DEFAULT_PASSWORD);
-        user.setSecretKey(TwoFactorAuthenticationUtils.encodeBase16(TwoFactorAuthenticationUtils.generateKey()));
+        user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
         um.createUser(user);
         Log.debug(Geonet.SELF_REGISTER, "User created on Security Server");
 
