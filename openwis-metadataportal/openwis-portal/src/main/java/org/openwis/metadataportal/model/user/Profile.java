@@ -37,6 +37,11 @@ public enum Profile {
     * The User profile.
     * @member: User
     */
-   User
+   User,
+
+   /**
+    * Candidate profile
+    */
+   Candidate,
 
 }
