@@ -4,11 +4,8 @@ package org.openwis.metadataportal.services.login;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
-import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.kernel.setting.SettingManager;
-import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
-import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
+import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.util.MailUtilities;
@@ -113,11 +110,11 @@ public class OpenWisRecoverAccount extends HttpServlet{
         String newPassword = generatePassword();
         //Change User Password
         um.changePassword(user.getUsername(), newPassword);
-
+        user.setPassword(newPassword);
 
         //Send Mail To User
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the user");
-        sendEmailToUser(context, email, user.getSurname(), user.getName(), newPassword);
+        sendEmailToUser(context, user);
 
         //Send Mail To Openwis Administrator
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the administrator");
@@ -127,30 +124,29 @@ public class OpenWisRecoverAccount extends HttpServlet{
     /**
      * Sending email notification to the end user just after he has requested an account
      * @param context context
-     * @param email user email address
-     * @param firstname firstname of the user
-     * @param lastname last name of the user
-     * @param password new password
+     * @param user user
      */
-    private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname, String password) {
+    private void sendEmailToUser(ServiceContext context, User user) {
 
         MailUtilities mail = new MailUtilities();
 
         Map<String, Object> content = new HashMap<>();
-        content.put("firstname", firstname);
-        content.put("lastname", lastname);
-        content.put("username", email);
-        content.put("password", password);
+        content.put("firstname", user.getName());
+        content.put("lastname", user.getSurname());
+        content.put("username", user.getEmailContact());
+        content.put("password", user.getPassword());
+        String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
+        content.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getEmailContact(),TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
 
 
-        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountUserMail(context, "AccountRecovery.subject1",new String[]{email}, content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountUserMail(context, "AccountRecovery.subject1",new String[]{user.getEmailContact()}, content);
         boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user("+email+")");
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user("+user.getEmailContact()+")");
         } else {
-            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+email+") from "+openWISMail.getAdministratorAddress());
+            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+user.getEmailContact()+") from "+openWISMail.getAdministratorAddress());
         }
     }
     /**
