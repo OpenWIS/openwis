@@ -145,6 +145,10 @@
     <wsdl:part name="parameters" element="tns:unlockUser">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateLoginTimestamp">
+    <wsdl:part name="parameters" element="tns:updateLoginTimestamp">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllUserByUserNameAndGroupsFilter">
     <wsdl:part name="parameters" element="tns:getAllUserByUserNameAndGroupsFilter">
     </wsdl:part>
@@ -155,6 +159,10 @@
   </wsdl:message>
   <wsdl:message name="unlockUserResponse">
     <wsdl:part name="parameters" element="tns:unlockUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLoginTimestampResponse">
+    <wsdl:part name="parameters" element="tns:updateLoginTimestampResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="changePasswordResponse">
@@ -346,6 +354,14 @@
       <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateLoginTimestamp">
+      <wsdl:input name="updateLoginTimestamp" message="tns:updateLoginTimestamp">
+      </wsdl:input>
+      <wsdl:output name="updateLoginTimestampResponse" message="tns:updateLoginTimestampResponse">
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+      </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="UserManagementServiceSoapBinding" type="tns:UserManagementService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -367,6 +383,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="changePasswordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLoginTimestamp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLoginTimestamp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLoginTimestampResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="UserManagementException">
