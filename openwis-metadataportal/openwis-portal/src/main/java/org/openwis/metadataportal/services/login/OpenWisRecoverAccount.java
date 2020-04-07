@@ -8,8 +8,11 @@ import org.fao.geonet.constants.Geonet;
 import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
+import org.openwis.metadataportal.services.user.dto.UserAction;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.metadataportal.services.util.mail.OpenWISMail;
 import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
 
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -120,6 +124,13 @@ public class OpenWisRecoverAccount extends HttpServlet{
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the administrator");
         sendEmailToAdministrator(context, email, user.getSurname(), user.getName(), newPassword);
 
+        // create action log entry
+        UserLogDTO userLogDTO = new UserLogDTO();
+        userLogDTO.setActioner(user.getUsername());
+        userLogDTO.setAction(UserAction.RECOVER);
+        userLogDTO.setUsername(user.getUsername());
+        userLogDTO.setDate(LocalDateTime.now());
+        UserLogUtils.save(dbms, userLogDTO);
     }
     /**
      * Sending email notification to the end user just after he has requested an account
