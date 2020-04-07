@@ -231,6 +231,20 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     /**
      * {@inheritDoc}
+     * @see org.openwis.usermanagement.UserManagementService#updateLoginTimestamp(String, long)
+     */
+    @Override
+    public void updateLoginTimestamp(@WebParam(name="username") String username, @WebParam(name="timestamp") long timestamp) throws UserManagementException {
+        logger.info("update timestamp for: " + username);
+        List<LDAPModification> modList = new ArrayList<LDAPModification>();
+        LDAPAttribute attribute = new LDAPAttribute(LAST_LOGIN_TIMESTAMP, Long.toString(timestamp));
+        modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+        String dn = UserUtils.getDn(username);
+        UtilEntry.updateEntry(modList, dn);
+    }
+
+    /**
+     * {@inheritDoc}
      * @see org.openwis.usermanagement.UserManagementService#getUserInfo(java.lang.String)
      */
     @Override
