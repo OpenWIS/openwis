@@ -1,8 +1,6 @@
 package org.openwis.metadataportal.services.request;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import jeeves.exceptions.OperationNotAllowedEx;
 import jeeves.interfaces.Service;
@@ -25,14 +23,17 @@ import org.openwis.dataservice.SubscriptionService;
 import org.openwis.harness.mssfss.CreateRouting;
 import org.openwis.harness.mssfss.CreateRoutingResponse;
 import org.openwis.harness.mssfss.MSSFSS;
+import org.openwis.dataservice.ProductMetadata;
 import org.openwis.metadataportal.common.utils.Utils;
 import org.openwis.metadataportal.kernel.external.DataServiceProvider;
 import org.openwis.metadataportal.kernel.external.HarnessProvider;
+import org.openwis.metadataportal.kernel.metadata.ProductMetadataManager;
 import org.openwis.metadataportal.model.datapolicy.OperationEnum;
 import org.openwis.metadataportal.services.common.json.AcknowledgementDTO;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.request.dto.common.SimpleRequestDTO;
+import org.openwis.metadataportal.services.request.dto.submit.SubmitDisseminationDTO;
 import org.openwis.metadataportal.services.request.dto.submit.SubmitRequestSubscriptionDTO;
 import org.openwis.metadataportal.services.request.util.OperationEnumUtils;
 import org.openwis.metadataportal.services.util.MailUtilities;
@@ -49,6 +50,7 @@ public class CreateRequestSubscription implements Service {
 
     /**
      * {@inheritDoc}
+     *
      * @see jeeves.interfaces.Service#init(java.lang.String, jeeves.server.ServiceConfig)
      */
     @Override
@@ -58,6 +60,7 @@ public class CreateRequestSubscription implements Service {
 
     /**
      * {@inheritDoc}
+     *
      * @see jeeves.interfaces.Service#exec(org.jdom.Element, jeeves.server.context.ServiceContext)
      */
     @Override
@@ -122,12 +125,24 @@ public class CreateRequestSubscription implements Service {
             requestID = Utils.formatRequestID(id);
         }
 
+        // get metadata product title
+        ProductMetadataManager productMetadataManager = new ProductMetadataManager();
+        ProductMetadata productMetadata = productMetadataManager.getProductMetadataByUrn(dto.getProductMetadataURN());
+        String title = "";
+        if (productMetadata == null) {
+            Log.error(Geonet.OPENWIS, "Product metadata null with urn: " + dto.getProductMetadataURN());
+        } else {
+            title = productMetadata.getTitle();
+        }
+
+
         // send email to user
         sendEmailToUser(context,
                 context.getUserSession().getMail(),
                 context.getUserSession().getName(),
                 context.getUserSession().getSurname(),
                 requestID,
+                title,
                 dto);
 
         // Acknowledgment
@@ -138,12 +153,13 @@ public class CreateRequestSubscription implements Service {
 
     /**
      * Sending email notification to the administrator after the end user has requested an account
-     * @param context context
-     * @param email user email address
+     *
+     * @param context   context
+     * @param email     user email address
      * @param firstname firstname of the user
-     * @param lastname last name of the user
+     * @param lastname  last name of the user
      */
-    private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname, String requestID, SubmitRequestSubscriptionDTO submitRequestSubscriptionDTO) {
+    private void sendEmailToUser(ServiceContext context, String email, String firstname, String lastname, String requestID, String title, SubmitRequestSubscriptionDTO submitRequestSubscriptionDTO) {
 
         MailUtilities mail = new MailUtilities();
 
@@ -151,19 +167,54 @@ public class CreateRequestSubscription implements Service {
         content.put("firstname", firstname);
         content.put("lastname", lastname);
         content.put("username", email);
-        content.put("subscription", submitRequestSubscriptionDTO);
+        content.put("urn", submitRequestSubscriptionDTO.getProductMetadataURN());
         content.put("requestID", requestID);
+        content.put("deliveryMethod", this.getDeliveryMethod(submitRequestSubscriptionDTO));
+        content.put("title", title);
 
         String subject = OpenWISMessages.format("SubscriptionMail.subject", context.getLanguage(), new String[]{submitRequestSubscriptionDTO.getProductMetadataURN()});
-        OpenWISMail openWISMail = OpenWISMailFactory.buildSubscriptionNotificationMail(context, subject,new String[]{email}, content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildSubscriptionNotificationMail(context, subject, new String[]{email}, content);
         boolean result = mail.send(openWISMail);
         if (!result) {
-            // To be confirmed: Set ack dto if error message is requested
-            //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user("+email+")");
+            Log.error(Geonet.OPENWIS, "Error during create request subscription : error while sending email to the end user(" + email + ")");
         } else {
-            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+email+") from "+openWISMail.getAdministratorAddress());
+            Log.info(Geonet.OPENWIS, "Create request subscription email sent successfully to the end user(" + email + ") from " + openWISMail.getAdministratorAddress());
         }
+    }
+
+    private String getDeliveryMethod(SubmitRequestSubscriptionDTO dto) {
+        StringBuilder deliveryMethod = new StringBuilder();
+        Map<String, Boolean> methods = new HashMap<>();
+
+        List<SubmitDisseminationDTO> disseminations = new ArrayList<>();
+        disseminations.add(dto.getPrimaryDissemination());
+        if (dto.getSecondaryDissemination() != null) {
+            disseminations.add(dto.getSecondaryDissemination());
+        }
+
+        for (SubmitDisseminationDTO disseminationDTO: disseminations) {
+            if (disseminationDTO.getPublicDiffusion() != null) {
+                if (disseminationDTO.getPublicDiffusion().getMail() != null) {
+                    methods.put("Mail", true);
+                }
+                if (disseminationDTO.getPublicDiffusion().getFtp() != null) {
+                    methods.put("SFTP", true);
+                }
+            }
+            if (disseminationDTO.getShoppingCartDissemination() != null) {
+                methods.put("Web browser", true);
+            }
+        }
+
+        Iterator<Map.Entry<String,Boolean>> it = methods.entrySet().iterator();
+        while(it.hasNext()) {
+            deliveryMethod.append(it.next().getKey());
+            if (it.hasNext()) {
+                deliveryMethod.append("/");
+            }
+        }
+
+        return deliveryMethod.toString();
     }
 
 }
