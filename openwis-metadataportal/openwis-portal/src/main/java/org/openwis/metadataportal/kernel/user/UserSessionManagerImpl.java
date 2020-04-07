@@ -1,8 +1,9 @@
 package org.openwis.metadataportal.kernel.user;
 
-import java.util.ArrayList;
+import jeeves.utils.Log;
+import org.fao.geonet.constants.Geonet;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +24,7 @@ public class UserSessionManagerImpl implements UserSessionManager {
 
     @Override
     public String registerUser(String username, String sessionId) {
+        Log.info(Geonet.OPENWIS, String.format("Register user: %s with session ID: %s",username, sessionId));
         if (userSessions.containsKey(username)) {
             return userSessions.get(username);
         }
@@ -32,12 +34,12 @@ public class UserSessionManagerImpl implements UserSessionManager {
 
     @Override
     public synchronized void unregisterUser(String username) {
+            Log.info(Geonet.OPENWIS, "Unregister user: " + username);
             userSessions.remove(username);
     }
 
     @Override
     public void unregisterSession(String sessionId) {
-
         String username = "";
         for(Map.Entry<String,String> entry: userSessions.entrySet()) {
             if (entry.getValue().equals(sessionId)) {
