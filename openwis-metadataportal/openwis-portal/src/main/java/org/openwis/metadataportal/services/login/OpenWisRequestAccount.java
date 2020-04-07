@@ -4,18 +4,17 @@ package org.openwis.metadataportal.services.login;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
-import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.kernel.setting.SettingManager;
-import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
-import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.Address;
 import org.openwis.metadataportal.model.user.User;
+import org.openwis.metadataportal.services.user.dto.UserAction;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 import org.openwis.metadataportal.services.util.mail.OpenWISMail;
 import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
 
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,6 +143,13 @@ public class OpenWisRequestAccount extends HttpServlet {
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the administrator");
         sendEmailToAdministrator(context, email, firstname, lastname, organisation, country);
 
+        // create action log entry
+        UserLogDTO userLogDTO = new UserLogDTO();
+        userLogDTO.setActioner(user.getUsername());
+        userLogDTO.setAction(UserAction.REQUEST);
+        userLogDTO.setUsername(user.getUsername());
+        userLogDTO.setDate(LocalDateTime.now());
+        UserLogUtils.save(dbms, userLogDTO);
     }
 
     /**

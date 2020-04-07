@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class Report implements Service {
        for (Element element: elements) {
            UserLogDTO log = new UserLogDTO();
            log.setId(Util.getParamAsInt(element,"id"));
-           log.setDate(LocalDateTime.now());
+           log.setDate(LocalDateTime.parse(Util.getParam(element,"date"), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
            log.setAction(UserAction.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
            log.setAttribute(Util.getParam(element,"attribute", ""));
            log.setUsername(Util.getParam(element,"username"));
