@@ -19,6 +19,7 @@ public class UserLogUtils {
         if (log != null) {
             String query = "INSERT INTO user_log(date, username, action, actioner, attribute) Values(?,?,?,?,?)";
             dbms.execute(query, log.getDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), log.getUsername(), log.getAction().name(), log.getActioner(), log.getAttribute());
+            dbms.commit();
             Log.debug(LoginConstants.LOG, "Insert into user_log " + log.getAction().name() + " for " + log.getUsername());
         }
     }
