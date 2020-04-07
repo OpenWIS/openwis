@@ -52,8 +52,8 @@ Openwis.Admin.User.Report = Ext.extend(Ext.Container, {
 				columns: [
 					{id: 'date', header:Openwis.i18n("Security.Report.Date.Column"), dataIndex:'date', sortable: true, width:100},
 					{id:'username', header: Openwis.i18n("Security.Report.UserName.Column"), dataIndex:'username', sortable: true, width: 180},
-					{id:'action', header: Openwis.i18n("Security.Report.Action.Column"), dataIndex:'action', sortable: true, width: 180},
-					{id:'attribute', header:Openwis.i18n("Security.Report.Attribute.Column"), dataIndex:'attribute', sortable: true, width: 180},
+					{id:'action', header: Openwis.i18n("Security.Report.Action.Column"), dataIndex:'action', sortable: true, width: 100},
+					{id:'attribute', header:Openwis.i18n("Security.Report.Attribute.Column"), dataIndex:'attribute', sortable: true, width: 100},
 					{id:'actioner', header: Openwis.i18n("Security.Report.Actioner.Column"), dataIndex:'actioner', sortable: true, width: 180},
 				],
 				autoExpandColumn: 'date',
