@@ -325,6 +325,17 @@ public class UserManager extends AbstractManager {
     }
 
     /**
+     * update login timestamp.
+     * After each successful login the timestamp must be updated. Otherwise 2FA will be not possible anymore
+     * @param username
+     * @param timestamp
+     * @throws Exception
+     */
+   public void updateLoginTimestamp(String username, long timestamp) throws Exception {
+        SecurityServiceProvider.getUserManagementService().updateLoginTimestamp(username, timestamp);
+   }
+
+    /**
      * Change user password.
      * @param username The user name.
      * @param password The password to update.
