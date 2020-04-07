@@ -9,6 +9,7 @@ import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
+import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.Address;
@@ -130,6 +131,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         user.setEmailContact(email);
         user.setProfile("Candidate");
         user.setPassword(DEFAULT_PASSWORD);
+        user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
         um.createUser(user);
         Log.debug(Geonet.SELF_REGISTER, "User created on Security Server");
 
@@ -191,7 +193,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         content.put("organization", organisation);
         content.put("country", country);
 
-        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountAdminMail(context, "AccountRequest.subject2", content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildRequestAccountAdminMail(context, "AccountRequest.subject2", content);
         boolean result = mail.send(openWISMail);
         if (!result) {
             Log.error(Geonet.SELF_REGISTER, "Error during Account Request : error while sending email to the administrator ("+openWISMail.getAdministratorAddress()+") about account request of user "+email);

@@ -28,7 +28,7 @@ public class LogAction implements AccountAction {
         userActionLogDTO.setUsername(user.getUsername());
         userActionLogDTO.setActioner("admin");
         try {
-            UserLogUtils.saveLog(dbms, userActionLogDTO);
+            UserLogUtils.save(dbms, userActionLogDTO);
             Log.debug(Log.SCHEDULER, String.format("Log entry added for user [%s]", user.getUsername()));
         } catch (SQLException e) {
             Log.warning(Log.SCHEDULER, e);

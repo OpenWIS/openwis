@@ -8,6 +8,9 @@ import org.openwis.metadataportal.services.user.dto.UserAction;
 
 import java.util.Collections;
 
+/**
+ * Raise an alert for a certain action.
+ */
 public class AlertAction implements AccountAction {
 
     private final AlertService alertService;

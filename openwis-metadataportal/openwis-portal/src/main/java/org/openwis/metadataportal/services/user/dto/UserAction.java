@@ -1,6 +1,7 @@
 package org.openwis.metadataportal.services.user.dto;
 
 public enum UserAction {
+    ADD,
     CREATE,
     UPDATE,
     REMOVE,

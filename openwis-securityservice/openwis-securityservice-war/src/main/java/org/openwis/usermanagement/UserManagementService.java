@@ -215,6 +215,13 @@ public interface UserManagementService {
    public void changePassword(String username, String password) throws UserManagementException;
 
    /**
+    *  Update login timestamp
+    * @param username username
+    * @param timestamp timestamp
+    * @throws UserManagementException
+    */
+   public void updateLoginTimestamp(@WebParam(name="username") String username, @WebParam(name="timestamp") long timestamp) throws UserManagementException;
+   /**
     * Initialize LDAP :
     * - Create admin user
     * - Create deployment node

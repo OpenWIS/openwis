@@ -69,7 +69,7 @@ public class Remove implements Service {
          userActionLogDTO.setDate(LocalDateTime.now());
          userActionLogDTO.setUsername(user.getUsername());
          userActionLogDTO.setActioner(context.getUserSession().getUsername());
-         UserLogUtils.saveLog(dbms, userActionLogDTO);
+         UserLogUtils.save(dbms, userActionLogDTO);
       }
 
       //Send Acknowledgement

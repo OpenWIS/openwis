@@ -22,6 +22,16 @@
         <ul>
             <li> Username: <span th:text="${username}">username</span></li>
             <li> Password: <span th:text="${password}">password</span></li>
+            <li> MFA Secret key: <span th:text="${secretKey}">secretkey</span></li>
+
+            <p>Please use Google Authenticator to scan the following QR Code
+            </p>
+            <img src="src"
+                 th:src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + ${secretKey}"
+                 alt="QR code"
+                 width="150"
+                 height="150"
+            />
         </ul>
         <p class="remember">You are encouraged to change your current password to use at lease 12 characters
             and use passphrase which is easy to remember.

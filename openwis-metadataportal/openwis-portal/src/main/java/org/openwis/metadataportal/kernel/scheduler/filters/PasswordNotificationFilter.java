@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class filtered the users whom password will expire soon and they have not been notified about it.
+ */
 public class PasswordNotificationFilter implements AccountFilter {
 
     private Dbms dbms;

@@ -27,11 +27,7 @@ import org.openwis.securityservice.OpenWISUser;
 import org.openwis.securityservice.InetUserStatus;
 import org.openwis.securityservice.UserManagementException_Exception;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -243,7 +239,7 @@ public class UserManager extends AbstractManager {
         }
         user.setSecretKey(openWISUser.getSecretKey());
 
-        if (!openWISUser.getLastLoginTime().isEmpty()) {
+        if (openWISUser.getLastLoginTime() != null) {
             user.setLastLogin(LocalDateTime.parse(openWISUser.getLastLoginTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
         user.setPwdChangedTime(LocalDateTime.parse(openWISUser.getPwdChangedTime(), DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
@@ -327,6 +323,17 @@ public class UserManager extends AbstractManager {
         return SecurityServiceProvider.getUserManagementService().getImportUserList(
                 OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
     }
+
+    /**
+     * update login timestamp.
+     * After each successful login the timestamp must be updated. Otherwise 2FA will be not possible anymore
+     * @param username
+     * @param timestamp
+     * @throws Exception
+     */
+   public void updateLoginTimestamp(String username, long timestamp) throws Exception {
+        SecurityServiceProvider.getUserManagementService().updateLoginTimestamp(username, timestamp);
+   }
 
     /**
      * Change user password.

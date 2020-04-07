@@ -5,6 +5,8 @@ package org.openwis.metadataportal.services.login;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
 import org.jdom.Element;
 import org.openwis.metadataportal.kernel.user.UserAlreadyLoggedException;
+import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.kernel.user.UserSessionManager;
 import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
 
@@ -66,6 +69,10 @@ public class OpenWisLogin implements Service {
 
          // update or insert user in database.
          updateUser(context, dbms, context.getUserSession());
+
+         // update login timestamp
+         UserManager userManager = new UserManager(dbms);
+         userManager.updateLoginTimestamp(context.getUserSession().getUsername(), LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
 
          // attempt to load user from db.
          String username = context.getUserSession().getUsername();

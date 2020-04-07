@@ -57,7 +57,7 @@ public class Lock implements Service {
         userActionLogDTO.setDate(LocalDateTime.now());
         userActionLogDTO.setUsername(user.getUsername());
         userActionLogDTO.setActioner(context.getUserSession().getUsername());
-        UserLogUtils.saveLog(dbms, userActionLogDTO);
+        UserLogUtils.save(dbms, userActionLogDTO);
 
         return JeevesJsonWrapper.send(acknowledgementDTO);
     }

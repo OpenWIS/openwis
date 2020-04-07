@@ -125,6 +125,7 @@ public class Get implements Service {
             userDTO.getBackups().remove(backUpDTO);
          }
       }
+
       return JeevesJsonWrapper.send(userDTO);
    }
 

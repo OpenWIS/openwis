@@ -43,6 +43,8 @@
     <xs:element name="userIsMemberOfGroup" type="tns:userIsMemberOfGroup"/>
     <xs:element name="userIsMemberOfGroupResponse" type="tns:userIsMemberOfGroupResponse"/>
     <xs:element name="openWISUserUpdateLog" type="tns:openWISUserUpdateLog"/>
+    <xs:element name="updateLoginTimestamp" type="tns:updateLoginTimestamp"/>
+    <xs:element name="updateLoginTimestampResponse" type="tns:updateLoginTimestampResponse"/>
     <xs:complexType name="importUser">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="userNames" type="xs:string"/>
@@ -56,6 +58,12 @@
         <xs:sequence>
             <xs:element minOccurs="0" name="arg0" type="xs:string"/>
             <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateLoginTimestamp">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="username" type="xs:string"/>
+            <xs:element minOccurs="0" name="timestamp" type="xs:long"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="lockUser">
@@ -75,6 +83,9 @@
         <xs:sequence/>
     </xs:complexType>
     <xs:complexType name="changePasswordResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="updateLoginTimestampResponse">
         <xs:sequence/>
     </xs:complexType>
     <xs:complexType name="updateUserProfile">

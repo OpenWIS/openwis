@@ -7,6 +7,9 @@ import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class sends a mail to user following a password notification action.
+ */
 public class PasswordNotificationMailAction implements AccountAction {
 
     private final IOpenWISMail mail;
