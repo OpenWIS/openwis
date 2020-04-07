@@ -77,7 +77,7 @@ public class Save implements Service {
                     vars.put("password", user.getPassword());
 
                     String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
-                    vars.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(TwoFactorAuthenticationUtils.encodeBase32(decodedKey), user.getEmailContact()));
+                    vars.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getUsername(), TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
                     IOpenWISMail mail = OpenWISMailFactory.buildAccountCreationMail(context, "UserCreation.subject", new String[]{user.getEmailContact()}, vars);
                     MailUtilities mailUtilities = new MailUtilities();
                     boolean result =  mailUtilities.send(mail);
@@ -150,7 +150,7 @@ public class Save implements Service {
         bodyData.put("password", user.getPassword());
 
         String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
-        bodyData.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getEmailContact(),TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
+        bodyData.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getUsername(),TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
 
         IOpenWISMail mail = OpenWISMailFactory.buildAccountCreationMail(context, "UserCreation.subject", new String[]{user.getEmailContact()}, bodyData);
         return new MailUtilities().send(mail);
