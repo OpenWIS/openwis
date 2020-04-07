@@ -67,6 +67,8 @@ public class Logout extends HttpServlet {
 
          if (userSession != null) {
 
+            userSessionManager.unregisterUser(userSession.getUsername());
+
             //Get User token
             String token = (String) userSession.getProperty(LoginConstants.TOKEN);
             String idpUrl = (String) userSession.getProperty(LoginConstants.PREFERRED_IDP_URL);
@@ -84,8 +86,6 @@ public class Logout extends HttpServlet {
             userSession.removeProperty(LoginConstants.SESSION_INDEX);
             userSession.removeProperty(LoginConstants.NAME_ID);
             userSession.removeProperty(LoginConstants.MAIN_SEARCH);
-
-            userSessionManager.unregisterUser(userSession.getUsername());
 
             request.getSession().setAttribute("session", userSession);
             
@@ -107,6 +107,9 @@ public class Logout extends HttpServlet {
             } else {
                redirectURL = LoginConstants.HOME_PAGE;
             }
+            String str = request.getServerName();
+            String str1= str.substring(str.indexOf(".")+1);
+            response.addHeader("Set-Cookie","iPlanetDirectoryPro=; Path=/; Domain=" + str1 + "; Max-Age=0");
             response.sendRedirect(redirectURL);
          } else {
             forwardError(request, response, "No session defined");
