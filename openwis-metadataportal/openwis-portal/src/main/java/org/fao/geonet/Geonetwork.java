@@ -522,13 +522,19 @@ public class Geonetwork implements ApplicationHandler {
         Map<String,Object> params = new HashMap <>();
         params.put("system/lastlogin/period", 90);
         params.put("system/lastlogin/timeunit", TimeUnit.DAYS);
+        params.put("system/lastlogin/runPeriod", 1);
+        params.put("system/lastlogin/runTimeUnit", TimeUnit.DAYS);
         params.put("system/inactivity/period", 83);
         params.put("system/inactivity/timeunit", TimeUnit.DAYS);
+        params.put("system/inactivity/runPeriod", 1);
+        params.put("system/inactivity/runTimeUnit", TimeUnit.DAYS);
         params.put("system/passwordExpire/period", 365);
         params.put("system/passwordExpire/timeunit", TimeUnit.DAYS);
+        params.put("system/passwordExpire/runPeriod", 1);
+        params.put("system/passwordExpire/runTimeUnit", TimeUnit.DAYS);
 
         for (Map.Entry<String, Object> entry: params.entrySet()) {
-            if (entry.getKey().contains("period")) {
+            if (entry.getKey().toLowerCase().contains("period")) {
                 Integer value = settingManager.getValueAsInt(entry.getKey());
                 if (value == null) {
                     Log.warning(Geonet.ADMIN,
@@ -542,7 +548,7 @@ public class Geonetwork implements ApplicationHandler {
                    entry.setValue(timeUnit);
                } catch (IllegalArgumentException | NullPointerException ex) {
                    Log.warning(Geonet.ADMIN,
-                           String.format("Check that '%s' is set. It defaults to d%.", entry.getKey(), entry.getValue().toString()));
+                           String.format("Check that '%s' is set. It defaults to %s.", entry.getKey(), entry.getValue().toString()));
                }
             }
         }
@@ -551,7 +557,7 @@ public class Geonetwork implements ApplicationHandler {
         if ( (Integer)params.get("system/lastlogin/period") != 0) {
             Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
             AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, alertService, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
-            executor.scheduleAtFixedRate(accountLockTask, 0, 2, TimeUnit.MINUTES);
+            executor.scheduleAtFixedRate(accountLockTask, 0, (Integer)params.get("system/lastlogin/runPeriod"), TimeUnit.valueOf(params.get("system/lastlogin/runTimeUnit").toString().toUpperCase()));
         } else {
             Log.info(Geonet.ADMIN, "Account lock task is DISABLED: \"system/lastlogin/period\" = 0");
         }
@@ -559,7 +565,7 @@ public class Geonetwork implements ApplicationHandler {
         if ((Integer) params.get("system/inactivity/period") != 0) {
             Log.info(Geonet.ADMIN, String.format("Account inactivity notification: Threshold set to %d %s", params.get("system/inactivity/period"), params.get("system/inactivity/timeunit").toString()));
             AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms, alertService, (Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
-            executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, 1, TimeUnit.MINUTES);
+            executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, (Integer)params.get("system/inactivity/runPeriod"), TimeUnit.valueOf(params.get("system/inactivity/runTimeUnit").toString().toUpperCase()));
         } else {
             Log.info(Geonet.ADMIN, "Inactivity account task is DISABLED: \"system/inactivity/period\" = 0");
         }
@@ -567,7 +573,7 @@ public class Geonetwork implements ApplicationHandler {
         if ( (Integer)params.get("system/passwordExpire/period") != 0) {
             Log.info(Geonet.ADMIN, String.format("Password expire notification: Threshold set to %d %s", params.get("system/passwordExpire/period"), params.get("system/passwordExpire/timeunit").toString()));
             AccountTask passwordExpireTask = AccountTaskFactory.buildPasswordExpireNotificationTask(context, dbms, alertService, (Integer) params.get("system/passwordExpire/period"), (TimeUnit) params.get("system/passwordExpire/timeunit"));
-            executor.scheduleAtFixedRate(passwordExpireTask, 0, 1, TimeUnit.MINUTES);
+            executor.scheduleAtFixedRate(passwordExpireTask, 0, (Integer)params.get("system/passwordExpire/runPeriod"), TimeUnit.valueOf(params.get("system/passwordExpire/runTimeUnit").toString().toUpperCase()));
         } else {
             Log.info(Geonet.ADMIN, "Password expire notification task is DISABLED: \"system/passwordExpire/period\" = 0");
         }
