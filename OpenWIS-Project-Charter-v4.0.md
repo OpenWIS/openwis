@@ -42,13 +42,14 @@ Converting existing Openwis code to the new system
 
 ## Deliverables
 
-A new identity and access management solution for Openwis (possibly Keycloak https://www.keycloak.org/).
-Documentations (installation, user, configuration)
-Scripts to migrate actual users/groups database to the new identity servers 
+1/ A new identity and access management solution for Openwis (possibly Keycloak https://www.keycloak.org/).
+2/ Documentations (installation, user, configuration)
+3/ Scripts to migrate actual users/groups database to the new identity servers 
 
 ## Sponsor and funding source
 
-Meteo-France and NOAA will lead the project. 
+Meteo-France and NOAA will lead the project.
+A certain portion of funding from the middleware upgrade could be apply to this effort.
 
 ## Milestones & Schedule
 
@@ -56,8 +57,8 @@ _Please list the milestones that will be needed to achieve each of the deliverab
 
 |  Project Milestone  |  Begin Date  |  End Date  |
 | ---------------------|---------------|-------------|
-|  Project   start        |  
-|  _insert milestone 1_|
+|  Project   start        |  April 2020 |
+|  Keycloak evaluation | April 2020 | Summer 2020
 |  _insert milestone 2_|
 |  _insert milestone n_|
 |  Project closure |
