@@ -7099,7 +7099,7 @@ INSERT INTO Settings VALUES (30,1,'intranet',NULL);
 INSERT INTO Settings VALUES (31,30,'network','127.0.0.1');
 INSERT INTO Settings VALUES (32,30,'netmask','255.0.0.0');
 INSERT INTO Settings VALUES (40,1,'z3950',NULL);
-INSERT INTO Settings VALUES (41,40,'enable','true');
+INSERT INTO Settings VALUES (41,40,'enable','false');
 INSERT INTO Settings VALUES (42,40,'port','2100');
 INSERT INTO Settings VALUES (50,1,'proxy',NULL);
 INSERT INTO Settings VALUES (51,50,'use','false');
@@ -7197,6 +7197,26 @@ INSERT INTO Settings VALUES (726,724,'lastSynchro',NULL);
 INSERT INTO Settings VALUES (727,1,'availablility',NULL);
 INSERT INTO Settings VALUES (728,727,'period','300');
 
+-- settings for account tasks
+INSERT INTO Settings VALUES (729,1, 'lastlogin', NULL);
+INSERT INTO Settings VALUES (730, 729, 'period', 0);
+INSERT INTO Settings VALUES (731, 729, 'timeunit', 'days');
+INSERT INTO Settings VALUES (732, 729, 'runPeriod', 1);
+INSERT INTO Settings VALUES (733, 729, 'runTimeUnit', 'days');
+
+
+INSERT INTO Settings VALUES (734,1, 'inactivity', NULL);
+INSERT INTO Settings VALUES (735, 734, 'period', 0);
+INSERT INTO Settings VALUES (736, 734, 'timeunit', 'days');
+INSERT INTO Settings VALUES (737, 734, 'runPeriod', 1);
+INSERT INTO Settings VALUES (738, 734, 'runTimeUnit', 'days');
+
+
+INSERT INTO Settings VALUES (739,1, 'passwordExpire', NULL);
+INSERT INTO Settings VALUES (740, 739, 'period', 0);
+INSERT INTO Settings VALUES (741, 739, 'timeunit', 'days');
+INSERT INTO Settings VALUES (742, 739, 'runPeriod', 1);
+INSERT INTO Settings VALUES (743, 739, 'runTimeUnit', 'days');
 -- settings for z3950 added
 INSERT INTO Settings VALUES (1043,40,'sruMaxRecords','40');
 
