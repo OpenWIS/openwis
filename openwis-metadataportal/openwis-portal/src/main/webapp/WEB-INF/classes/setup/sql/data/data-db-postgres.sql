@@ -7099,7 +7099,7 @@ INSERT INTO Settings VALUES (30,1,'intranet',NULL);
 INSERT INTO Settings VALUES (31,30,'network','127.0.0.1');
 INSERT INTO Settings VALUES (32,30,'netmask','255.0.0.0');
 INSERT INTO Settings VALUES (40,1,'z3950',NULL);
-INSERT INTO Settings VALUES (41,40,'enable','true');
+INSERT INTO Settings VALUES (41,40,'enable','false');
 INSERT INTO Settings VALUES (42,40,'port','2100');
 INSERT INTO Settings VALUES (50,1,'proxy',NULL);
 INSERT INTO Settings VALUES (51,50,'use','false');
