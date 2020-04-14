@@ -1,54 +1,39 @@
 package org.openwis.datasource.server.init;
 
-import java.io.IOException;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Short Description goes here. <P>
- * Explanation goes here. <P>
- *
- */
-public class InitServlet extends javax.servlet.http.HttpServlet {
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.Timeout;
+import javax.ejb.TimerService;
+
+@Singleton
+@Startup
+public class InitServlet {
 
    /**
     * The logger.
     */
    private static Logger logger = LoggerFactory.getLogger(InitServlet.class);
 
-   /**
-    * {@inheritDoc}
-    * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-    */
-   @Override
-   public void doPost(HttpServletRequest request, HttpServletResponse response)
-         throws ServletException, IOException {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN);
-   }
+   @Resource
+   TimerService timerService;
 
-   /**
-    * {@inheritDoc}
-    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-    */
-   @Override
-   public void doGet(HttpServletRequest request, HttpServletResponse response)
-         throws ServletException, IOException {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN);
+   @PostConstruct
+   public void initialize() {
+      logger.info(InitServlet.class.getSimpleName(), "Init timer");
+      timerService.createTimer(20000, 0, "Wait 20s to allow management service to fully initialize");
    }
-
    /**
     * {@inheritDoc}
     * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
     */
-   @Override
-   public void init(ServletConfig cfg) throws ServletException {
-      super.init(cfg);
+   @Timeout
+   public void init() {
       try {
          getInitService().init();
          logger.debug("InitServlet: System init completed."); //$NON-NLS-1$
@@ -60,7 +45,7 @@ public class InitServlet extends javax.servlet.http.HttpServlet {
    /**
     * This method is called when the servlet container is shut down.
     */
-   @Override
+   @PreDestroy
    public void destroy() {
       try {
          getInitService().destroy();

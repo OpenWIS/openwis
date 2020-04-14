@@ -49,7 +49,7 @@ public class ServiceServlet {
 	 * Starts Services like the Collection and the CleanUp/Housekeeping (located in the CacheManager)
 	 */
 	@Timeout
-	public void init() throws ServletException {
+	public void init() {
 		try {
 			cacheManager = DataServiceCacheBeans.getInstance().getCacheManager();
 			cacheManager.stop();
