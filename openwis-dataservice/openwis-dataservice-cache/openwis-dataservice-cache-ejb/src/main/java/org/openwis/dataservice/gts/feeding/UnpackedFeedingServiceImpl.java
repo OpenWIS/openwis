@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 @MessageDriven(messageListenerInterface=MessageListener.class, name = "UnpackedFeedingService", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-    @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/UnpackedFeedingQueue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/queue/UnpackedFeedingQueue"),
     @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1")})
 @TransactionTimeout(18000)    
 public class UnpackedFeedingServiceImpl implements ConfigurationInfo,UnpackedFeedingService {
