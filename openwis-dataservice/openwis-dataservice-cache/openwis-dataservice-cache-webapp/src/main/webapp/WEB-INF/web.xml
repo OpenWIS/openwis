@@ -12,14 +12,12 @@
 	<listener>
 	    <listener-class> org.openwis.datasource.server.init.ExtractionTimerListener</listener-class> 
 	</listener> 
--->
 
 	<servlet>
 		<servlet-name>ServiceServlet</servlet-name>
 		<servlet-class>org.openwis.dataservice.webapp.ServiceServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-<!-- 
 	<servlet-mapping>
 		<servlet-name>TimerClient</servlet-name>
 		<url-pattern>/initDataSource</url-pattern>

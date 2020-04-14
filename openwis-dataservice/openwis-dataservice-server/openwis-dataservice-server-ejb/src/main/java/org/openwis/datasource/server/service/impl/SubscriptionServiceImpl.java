@@ -113,7 +113,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
    private ConnectionFactory cf;
 
    /** The request queue. */
-   @Resource(mappedName = "java:/queue/RequestQueue")
+   @Resource(mappedName = "java:/jms/queue/RequestQueue")
    private Queue queue;
 
    /** The subscription dao. */
