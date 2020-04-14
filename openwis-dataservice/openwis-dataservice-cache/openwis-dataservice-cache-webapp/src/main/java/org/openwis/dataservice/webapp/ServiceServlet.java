@@ -1,5 +1,12 @@
 package org.openwis.dataservice.webapp;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.Timeout;
+import javax.ejb.TimerService;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +23,9 @@ import org.openwis.management.utils.ManagementServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ServiceServlet extends HttpServlet {
+@Singleton
+@Startup
+public class ServiceServlet {
 
 	private final Logger LOG = LoggerFactory.getLogger(ServiceServlet.class);
 
@@ -27,12 +36,19 @@ public class ServiceServlet extends HttpServlet {
 
 	private DisseminationServiceWrapper disseminationService;
 
+	@Resource
+	TimerService timerService;
 	// ----------------------------------
 
+	@PostConstruct
+	public void initialize() {
+		LOG.info(ServiceServlet.class.getSimpleName(), "Init timer");
+		timerService.createTimer(20000, 0, "Wait 20s to allow management service to fully initialize");
+	}
 	/**
 	 * Starts Services like the Collection and the CleanUp/Housekeeping (located in the CacheManager)
 	 */
-	@Override
+	@Timeout
 	public void init() throws ServletException {
 		try {
 			cacheManager = DataServiceCacheBeans.getInstance().getCacheManager();
@@ -89,7 +105,7 @@ public class ServiceServlet extends HttpServlet {
 		}
 	}
 
-	@Override
+	@PreDestroy
 	public void destroy() {
 		globalDataCollection.stop();
 		feeding.stop();
