@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.utils.SecurityServiceAlerts;
-import org.openwis.usermanagement.model.user.OpenWISUser;
 import org.openwis.usermanagement.util.JNDIUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +26,23 @@ public class LogWatcherTask {
    /** The logger. */
    private static Logger logger = LoggerFactory.getLogger(LogWatcherTask.class);
 
-   /** The authentication log timer name. */
-   public static final String NAME = "AUTH_LOG_TIMER";
-
    /** Date/time format used in OpenAM logs */
-   public static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+   private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-   private UserManagementServiceImpl userManagementService = new UserManagementServiceImpl();
+   /**
+    * Column separator
+    */
+   private static final String COLUMN_SEPARATOR = ";";
+
+   /**
+    * Keyword for failed login
+    */
+   private static final String FAILED_LOGIN = "FAILED";
+
+   /**
+    * Field position of what we are looking for: date of login and the username
+    */
+   private static final Integer[] FIELD_POSITIONS = new Integer[]{1, 7};
 
    /**
     * Method called by the scheduler.
@@ -63,20 +71,22 @@ public class LogWatcherTask {
          DataInputStream in = new DataInputStream(fstream);
          BufferedReader br = new BufferedReader(new InputStreamReader(in));
          String strLine;
+
+         ParseLogEntry parseLogEntry = new ParseLogEntry(COLUMN_SEPARATOR, FIELD_POSITIONS);
+
          //Read File Line By Line
          while ((strLine = br.readLine()) != null) {
-            if (!strLine.contains("AUTHENTICATION-201")) {
+            if (!strLine.contains(FAILED_LOGIN)) {
                continue;
             }
 
-            logger.debug("Line contains AUTHENTICATION-201: {}", strLine);
-            int loginIndex = JNDIUtils.getInstance().getLogTimerSplitIndexForLogin();
-            
-            String[] error = strLine.split("\"");
-            if (error.length < loginIndex + 1) {
+            logger.debug("Line contains {}: {}",FAILED_LOGIN, strLine);
+
+            List<String> parsedFields = parseLogEntry.parse(strLine);
+            if (parsedFields.size() == 0) {
                continue;
             }
-            String dateToUse = error[1];
+            String dateToUse = parsedFields.get(0);
             logger.debug("New date : {}", dateToUse);
             try {
                newLastDate = Calendar.getInstance();
@@ -92,11 +102,11 @@ public class LogWatcherTask {
                continue;
             }
 
-            String loginItem = error[loginIndex].trim();
+            String loginItem = parsedFields.get(1);
             logger.debug("loginItem: {}", loginItem);
             String login = loginItem.split("\t")[0];
             logger.debug("Extracted login: {}", login);
-            checkUser(login);
+            sendAlarm(login);
          }
          //Close the input stream
          in.close();
@@ -109,27 +119,6 @@ public class LogWatcherTask {
       }
    }
    
-   /**
-    * Check user; errors are catched, so that this user is skipped for next timer.
-    * 
-    * @param user the user login
-    */
-   private void checkUser(String user) {
-      try {
-         OpenWISUser u = userManagementService.getUserInfo(user);
-         if (u != null) {
-            String userProfile = u.getProfile();
-            if ("Administrator".equals(userProfile) || "Operator".equals(userProfile)) {
-               logger.warn(MessageFormat.format("Authentication failed for {0} ({1})", user,
-                     userProfile));
-               sendAlarm(user);
-            }
-         }
-      } catch (Exception e) {
-         logger.error("Error in LogTimerService during user checking: " + user, e);
-      }
-   }
-
    private Calendar getLastDate(File lastDateFile) throws IOException, ParseException {
       FileInputStream fstream = new FileInputStream(lastDateFile);
       DataInputStream in = new DataInputStream(fstream);
@@ -174,6 +163,55 @@ public class LogWatcherTask {
          arguments.add(user);
 
          alertService.raiseEvent(source, location, null, eventId, arguments);
+      }
+   }
+
+   private class ParseLogEntry {
+
+      /*
+      Column seperator
+       */
+      private final String columnSeparator;
+
+      /**
+       * Position of captured fields
+       */
+      private final Integer[] positions;
+
+      private final String[] stripChar = new String[]{"\"", "[", "]"};
+
+      private ParseLogEntry(String columnSeparator, Integer[] positions) {
+         this.columnSeparator = columnSeparator;
+         this.positions = positions;
+      }
+
+      private List<String> parse(String line) {
+         List<String> capturedFields = new ArrayList<>();
+         String[] fields = line.split(this.columnSeparator);
+         for (Integer pos : this.positions) {
+            if (pos < fields.length) {
+               capturedFields.add(sanitize(fields[pos]));
+            } else {
+               logger.warn("Cannot capture field at position {}. Position is greater than number of columns", pos);
+            }
+         }
+         return capturedFields;
+      }
+
+      /**
+       * Strip any unwanted char from string
+       * @param field string to sanitize
+       * @return sanitized string
+       */
+      private String sanitize(String field) {
+         String sanitizedString = field;
+
+         for (String c: this.stripChar) {
+            if (sanitizedString.contains(c)) {
+               sanitizedString = sanitizedString.replace(c, "");
+            }
+         }
+         return sanitizedString;
       }
    }
 }
