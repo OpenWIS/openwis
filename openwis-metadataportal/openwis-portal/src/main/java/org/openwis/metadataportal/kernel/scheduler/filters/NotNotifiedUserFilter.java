@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * It filters out the user which have been notified.
  */
-public class NotNotifiedUserFilter implements AccountFilter{
+public class NotNotifiedUserFilter implements AccountFilter {
 
     private final Dbms dbms;
 
@@ -29,7 +29,7 @@ public class NotNotifiedUserFilter implements AccountFilter{
         try {
             List<UserLogDTO> logs = logFilter.getLogs(dbms);
             for (User user : users) {
-                UserLogDTO lastNotificationLog = logFilter.getLastLogEntry(logs,user, UserAction.INACTIVITY_NOTIFICATION_MAIL);
+                UserLogDTO lastNotificationLog = logFilter.getLastLogEntry(logs, user, UserAction.INACTIVITY_NOTIFICATION_MAIL);
                 if (lastNotificationLog == null) {
                     Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. User is passing the filter.",
                             NotNotifiedUserFilter.class.getSimpleName(),
