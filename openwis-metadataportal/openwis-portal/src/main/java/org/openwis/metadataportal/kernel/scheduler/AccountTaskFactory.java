@@ -2,7 +2,6 @@ package org.openwis.metadataportal.kernel.scheduler;
 
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
-import org.fao.geonet.constants.Geonet;
 import org.openwis.management.alert.AlertService;
 import org.openwis.metadataportal.kernel.scheduler.actions.*;
 import org.openwis.metadataportal.kernel.scheduler.filters.*;
@@ -52,7 +51,7 @@ public class AccountTaskFactory {
                 new ProfileFilter(Profile.User.name()),
                 new ActiveAccountFilter(),
                 new ValidPasswordFilter(),
-                new NotNotifiedUserFilter(dbms),
+                new NotificationFilter(dbms),
                 new LastLoginFilter(period, timeUnit)
         );
 
