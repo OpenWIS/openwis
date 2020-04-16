@@ -50,7 +50,7 @@ public class AccountTaskFactory {
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
                 new ValidPasswordFilter(),
-                new UnnotifiedUserFilter(dbms),
+                new NotNotifiedUserFilter(dbms),
                 new LastLoginFilter(duration, timeUnit)
         );
 
