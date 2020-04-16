@@ -2,10 +2,12 @@ package org.openwis.metadataportal.kernel.scheduler;
 
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
+import org.fao.geonet.constants.Geonet;
 import org.openwis.management.alert.AlertService;
 import org.openwis.metadataportal.kernel.scheduler.actions.*;
 import org.openwis.metadataportal.kernel.scheduler.filters.*;
 import org.openwis.metadataportal.kernel.user.UserManager;
+import org.openwis.metadataportal.model.user.Profile;
 import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
@@ -19,7 +21,7 @@ public class AccountTaskFactory {
         UserManager userManager = new UserManager(dbms);
         // Create filters
         List<AccountFilter> filters = Arrays.asList(
-                new ProfileFilter("user"),
+                new ProfileFilter(Profile.User.name()),
                 new ActiveAccountFilter(),
                 new NotifiedUserFilter(dbms),
                 new ValidPasswordFilter(),
@@ -47,7 +49,7 @@ public class AccountTaskFactory {
     public static AccountTask buildAccountActivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer duration, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
-                new ProfileFilter("user"),
+                new ProfileFilter(Profile.User.name()),
                 new ActiveAccountFilter(),
                 new ValidPasswordFilter(),
                 new NotNotifiedUserFilter(dbms),
