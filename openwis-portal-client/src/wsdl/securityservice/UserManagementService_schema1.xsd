@@ -121,6 +121,7 @@
             <xs:element minOccurs="0" name="lastLoginTime" type="xs:string"/>
             <xs:element minOccurs="0" name="pwdChangedTime" type="xs:string"/>
             <xs:element minOccurs="0" name="pwdExpireTime" type="xs:string"/>
+            <xs:element minOccurs="0" name="pwdReset" type="xs:boolean"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="backUps" nillable="true" type="xs:string"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="groups" nillable="true" type="tns:openWISGroup"/>
         </xs:sequence>
