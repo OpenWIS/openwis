@@ -29,6 +29,7 @@ import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
 import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
 import org.openwis.securityservice.OpenWISUserUpdateLog;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -67,20 +68,11 @@ public class Save implements Service {
             User user = userDTO.getUser();
             if (userDTO.isCreationMode()) {
                 user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
+                user.setPwdReset(true); // force user to change his password
                 um.createUser(user);
 
                 if (!user.getProfile().equals(Profile.Candidate.toString())) {
-                    Map<String, Object> vars = new HashMap<>();
-                    vars.put("firstname", user.getName());
-                    vars.put("lastname", user.getSurname());
-                    vars.put("username", user.getUsername());
-                    vars.put("password", user.getPassword());
-
-                    String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
-                    vars.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getUsername(), TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
-                    IOpenWISMail mail = OpenWISMailFactory.buildAccountCreationMail(context, "UserCreation.subject", new String[]{user.getEmailContact()}, vars);
-                    MailUtilities mailUtilities = new MailUtilities();
-                    boolean result =  mailUtilities.send(mail);
+                    boolean result = sendEmailToUser(context, user);
                     if (!result) {
                         acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("UserCreation.error", context.getLanguage()));
                         Log.error(Geonet.PRIVILEGES, "User Creation: Error while sending email to user email " + user.getEmailContact());
@@ -89,41 +81,35 @@ public class Save implements Service {
                     }
                 }
                 // create action log entry
-                userLogDTO = new UserLogDTO();
-                userLogDTO.setActioner(this.getUsernameFromRequest(context));
-                userLogDTO.setAction(UserAction.CREATE);
-                userLogDTO.setUsername(userDTO.getUser().getUsername());
-                userLogDTO.setDate(LocalDateTime.now());
-                UserLogUtils.save(dbms, userLogDTO);
+                saveLog(context, userDTO, dbms);
 
             } else {
                 User storedUser = um.getUserByUserName(user.getUsername());
 
                 // set secret key from storedUser
                 user.setSecretKey(storedUser.getSecretKey());
-                if (user.getPassword().compareTo(user.getUsername()) == 0)
-                {
-                    Log.info(Geonet.PRIVILEGES, "##### Password = <" + user.getPassword() + "> User name= <"+user.getUsername() + " - " + user.getName()+ " - " + user.getId());
-                    throw new Exception("Password must be different from user identifier");
-
-                }
-                else
-                {
-                    Log.info(Geonet.PRIVILEGES, "!##### Password = <" + user.getPassword() + "> User name= <"+user.getUsername() + " - " + user.getName()+ " - " + user.getId());
-
+                if ( !user.getPassword().isEmpty() ) {
+                    if (user.getPassword().compareTo(user.getUsername()) == 0) {
+                        Log.info(Geonet.PRIVILEGES, "##### Password = <" + user.getPassword() + "> User name= <" + user.getUsername() + " - " + user.getName() + " - " + user.getId());
+                        throw new Exception("Password must be different from user identifier");
+                    } else {
+                        // password changed so reset it
+                        user.setPwdReset(true);
+                        Log.info(Geonet.PRIVILEGES, "!##### Password = <" + user.getPassword() + "> User name= <" + user.getUsername() + " - " + user.getName() + " - " + user.getId());
+                    }
                 }
 
                 // When profile changes from Candidate to another value
                 // an email is sent to the end user
-                if (storedUser.getProfile().equals(Profile.Candidate.toString()) && !user.getProfile().equals(Profile.Candidate.toString()) ) {
-                    boolean result = sendEmailToUser(context,user);
+                if (storedUser.getProfile().equals(Profile.Candidate.toString()) && !user.getProfile().equals(Profile.Candidate.toString())) {
+                    boolean result = sendEmailToUser(context, user);
                     if (!result) {
                         Log.info(Geonet.PRIVILEGES, "Error sending mail to " + user.getEmailContact());
                         throw new Exception("Error sending mail to " + user.getEmailContact());
                     }
                 }
 
-                List<OpenWISUserUpdateLog> updateLogs = um.updateUser(userDTO.getUser());
+                List<OpenWISUserUpdateLog> updateLogs = um.updateUser(user);
                 for (OpenWISUserUpdateLog updateLog : updateLogs) {
                     userLogDTO = UserLogUtils.buildLog(updateLog);
                     userLogDTO.setActioner(context.getUserSession().getUsername());
@@ -142,6 +128,16 @@ public class Save implements Service {
         return JeevesJsonWrapper.send(acknowledgementDTO);
     }
 
+    private void saveLog(ServiceContext context, UserDTO userDTO, Dbms dbms) throws SQLException {
+        UserLogDTO userLogDTO;
+        userLogDTO = new UserLogDTO();
+        userLogDTO.setActioner(this.getUsernameFromRequest(context));
+        userLogDTO.setAction(UserAction.CREATE);
+        userLogDTO.setUsername(userDTO.getUser().getUsername());
+        userLogDTO.setDate(LocalDateTime.now());
+        UserLogUtils.save(dbms, userLogDTO);
+    }
+
     private boolean sendEmailToUser(ServiceContext context, User user) {
         Map<String, Object> bodyData = new HashMap<>();
         bodyData.put("firstname", user.getName());
@@ -150,7 +146,7 @@ public class Save implements Service {
         bodyData.put("password", user.getPassword());
 
         String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
-        bodyData.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getUsername(),TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
+        bodyData.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getUsername(), TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
 
         IOpenWISMail mail = OpenWISMailFactory.buildAccountCreationMail(context, "UserCreation.subject", new String[]{user.getEmailContact()}, bodyData);
         return new MailUtilities().send(mail);
