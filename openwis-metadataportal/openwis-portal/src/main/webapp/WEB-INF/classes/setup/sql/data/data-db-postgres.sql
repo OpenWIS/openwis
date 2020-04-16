@@ -7198,11 +7198,6 @@ INSERT INTO Settings VALUES (727,1,'availablility',NULL);
 INSERT INTO Settings VALUES (728,727,'period','300');
 
 -- settings for account tasks
-INSERT INTO Settings VALUES (729,1, 'lastlogin', NULL);
-INSERT INTO Settings VALUES (730, 729, 'period', 0);
-INSERT INTO Settings VALUES (731, 729, 'timeunit', 'days');
-
-
 INSERT INTO Settings VALUES (734,1, 'inactivity', NULL);
 INSERT INTO Settings VALUES (735, 734, 'period', 0);
 INSERT INTO Settings VALUES (736, 734, 'timeunit', 'days');

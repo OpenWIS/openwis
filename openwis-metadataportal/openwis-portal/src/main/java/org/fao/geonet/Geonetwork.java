@@ -520,8 +520,6 @@ public class Geonetwork implements ApplicationHandler {
 
         // main keys are system variables. Second map values are default values
         Map<String,Object> params = new HashMap <>();
-        params.put("system/lastlogin/period", 12);
-        params.put("system/lastlogin/timeunit", TimeUnit.HOURS);
         params.put("system/inactivity/period", 12);
         params.put("system/inactivity/timeunit", TimeUnit.HOURS);
         params.put("system/passwordExpire/period", 12);
