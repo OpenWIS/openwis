@@ -520,18 +520,12 @@ public class Geonetwork implements ApplicationHandler {
 
         // main keys are system variables. Second map values are default values
         Map<String,Object> params = new HashMap <>();
-        params.put("system/lastlogin/period", 90);
-        params.put("system/lastlogin/timeunit", TimeUnit.DAYS);
-        params.put("system/lastlogin/runPeriod", 1);
-        params.put("system/lastlogin/runTimeUnit", TimeUnit.DAYS);
-        params.put("system/inactivity/period", 83);
-        params.put("system/inactivity/timeunit", TimeUnit.DAYS);
-        params.put("system/inactivity/runPeriod", 1);
-        params.put("system/inactivity/runTimeUnit", TimeUnit.DAYS);
-        params.put("system/passwordExpire/period", 365);
-        params.put("system/passwordExpire/timeunit", TimeUnit.DAYS);
-        params.put("system/passwordExpire/runPeriod", 1);
-        params.put("system/passwordExpire/runTimeUnit", TimeUnit.DAYS);
+        params.put("system/lastlogin/period", 12);
+        params.put("system/lastlogin/timeunit", TimeUnit.HOURS);
+        params.put("system/inactivity/period", 12);
+        params.put("system/inactivity/timeunit", TimeUnit.HOURS);
+        params.put("system/passwordExpire/period", 12);
+        params.put("system/passwordExpire/timeunit", TimeUnit.HOURS);
 
         for (Map.Entry<String, Object> entry: params.entrySet()) {
             if (entry.getKey().toLowerCase().contains("period")) {
@@ -557,7 +551,7 @@ public class Geonetwork implements ApplicationHandler {
         if ( (Integer)params.get("system/lastlogin/period") != 0) {
             Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
             AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, alertService, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
-            executor.scheduleAtFixedRate(accountLockTask, 0, (Integer)params.get("system/lastlogin/runPeriod"), TimeUnit.valueOf(params.get("system/lastlogin/runTimeUnit").toString().toUpperCase()));
+            executor.scheduleAtFixedRate(accountLockTask, 0, (Integer)params.get("system/lastlogin/period"), TimeUnit.valueOf(params.get("system/lastlogin/timeunit").toString().toUpperCase()));
         } else {
             Log.info(Geonet.ADMIN, "Account lock task is DISABLED: \"system/lastlogin/period\" = 0");
         }
