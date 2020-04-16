@@ -54,7 +54,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.bouncycastle.util.Strings;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.csw.common.Csw;
 import org.fao.geonet.kernel.DataManager;
@@ -548,7 +547,7 @@ public class Geonetwork implements ApplicationHandler {
         AlertService alertService = ManagementServiceProvider.getAlertService();
         if ( (Integer)params.get("system/lastlogin/period") != 0) {
             Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
-            AccountTask accountLockTask = AccountTaskFactory.buildAccountLockTask(context, dbms, alertService, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
+            AccountTask accountLockTask = AccountTaskFactory.buildAccountInactivityLockTask(context, dbms, alertService, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
             executor.scheduleAtFixedRate(accountLockTask, 0, (Integer)params.get("system/lastlogin/period"), TimeUnit.valueOf(params.get("system/lastlogin/timeunit").toString().toUpperCase()));
         } else {
             Log.info(Geonet.ADMIN, "Account lock task is DISABLED: \"system/lastlogin/period\" = 0");
@@ -556,7 +555,7 @@ public class Geonetwork implements ApplicationHandler {
 
         if ((Integer) params.get("system/inactivity/period") != 0) {
             Log.info(Geonet.ADMIN, String.format("Account inactivity notification: Threshold set to %d %s", params.get("system/inactivity/period"), params.get("system/inactivity/timeunit").toString()));
-            AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountActivityNotificationTask(context, dbms, alertService, (Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
+            AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountInactivityNotificationTask(context, dbms, alertService, (Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
             executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, (Integer)params.get("system/inactivity/runPeriod"), TimeUnit.valueOf(params.get("system/inactivity/runTimeUnit").toString().toUpperCase()));
         } else {
             Log.info(Geonet.ADMIN, "Inactivity account task is DISABLED: \"system/inactivity/period\" = 0");

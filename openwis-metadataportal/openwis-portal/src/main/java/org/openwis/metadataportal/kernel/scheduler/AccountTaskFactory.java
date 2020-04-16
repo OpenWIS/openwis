@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AccountTaskFactory {
 
-    public static AccountTask buildAccountLockTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer duration, TimeUnit timeUnit) {
+    public static AccountTask buildAccountInactivityLockTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         // Create filters
         List<AccountFilter> filters = Arrays.asList(
@@ -25,7 +25,7 @@ public class AccountTaskFactory {
                 new ActiveAccountFilter(),
                 new NotifiedUserFilter(dbms),
                 new ValidPasswordFilter(),
-                new LastLoginFilter(duration, timeUnit)
+                new LastLoginFilter(period, timeUnit)
         );
 
         List<AccountAction> actions = new ArrayList<>();
@@ -33,7 +33,7 @@ public class AccountTaskFactory {
         actions.add(new AccountLockAction(userManager));
         // create mail action
         Map<String, Object> mailContent = new HashMap<>();
-        mailContent.put("duration",duration);
+        mailContent.put("period",period);
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
         IOpenWISMail mail = OpenWISMailFactory.buildAccountTerminationMail(context, "Account.lock.subject", null,mailContent);
         actions.add(new MailAction(mail));
@@ -46,19 +46,19 @@ public class AccountTaskFactory {
         return new AccountTask("Account Lock Task", userManager, filters, actions);
     }
 
-    public static AccountTask buildAccountActivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer duration, TimeUnit timeUnit) {
+    public static AccountTask buildAccountInactivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
                 new ProfileFilter(Profile.User.name()),
                 new ActiveAccountFilter(),
                 new ValidPasswordFilter(),
                 new NotNotifiedUserFilter(dbms),
-                new LastLoginFilter(duration, timeUnit)
+                new LastLoginFilter(period, timeUnit)
         );
 
         List<AccountAction> actions = new ArrayList<>();
         Map<String, Object> mailContent = new HashMap<>();
-        mailContent.put("duration",duration);
+        mailContent.put("period",period);
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
         IOpenWISMail mail = OpenWISMailFactory.buildAccountDisabledMail(context, "Account.notification.subject", null,mailContent);
         actions.add(new MailAction(mail));
