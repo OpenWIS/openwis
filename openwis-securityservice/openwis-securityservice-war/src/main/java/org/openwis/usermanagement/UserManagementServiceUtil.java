@@ -351,6 +351,11 @@ public class UserManagementServiceUtil {
          modList = updateField(ldapUser.getAddress().getState(), user
                .getAddress().getState(), ADDRESS_STATE, modList);
       }
+
+      // reset password
+      attribute = new LDAPAttribute(PWD_RESET, user.getPwdReset().toString());
+      modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
+
       return modList;
    }
 }

@@ -104,6 +104,12 @@ public class OpenWISUser implements Serializable {
     */
    private String pwdChangedTime;
 
+
+   /**
+    * Set true to force user to reset hist password
+    */
+   private Boolean pwdReset;
+
    /**
     * Gets the name.
     * @return the name.
@@ -357,5 +363,13 @@ public class OpenWISUser implements Serializable {
 
    public void setPwdChangedTime(String pwdChangedTime) {
       this.pwdChangedTime = pwdChangedTime;
+   }
+
+   public Boolean getPwdReset() {
+      return pwdReset;
+   }
+
+   public void setPwdReset(Boolean pwdReset) {
+      this.pwdReset = pwdReset;
    }
 }
