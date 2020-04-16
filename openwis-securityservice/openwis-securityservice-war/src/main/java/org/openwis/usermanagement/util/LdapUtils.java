@@ -109,6 +109,11 @@ public final class LdapUtils {
    public static final String PWD_CHANGED_TIME = "pwdChangedTime";
 
    /**
+    * Password reset attribute
+    */
+   public static final String PWD_RESET = "pwdReset";
+
+   /**
     * Time when the current password will expire. If the time keep increases it means that
     * the password never expires.
     */

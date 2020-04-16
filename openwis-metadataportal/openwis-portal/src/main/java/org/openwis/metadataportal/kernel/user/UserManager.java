@@ -284,6 +284,7 @@ public class UserManager extends AbstractManager {
             openWisUser.getBackUps().add(backUp.getName());
         }
 
+        openWisUser.setPwdReset(user.getPwdReset());
         openWisUser.setSecretKey(user.getSecretKey());
         openWisUser.getEmails().addAll(user.getEmails());
         openWisUser.getFtps().addAll(user.getFtps());

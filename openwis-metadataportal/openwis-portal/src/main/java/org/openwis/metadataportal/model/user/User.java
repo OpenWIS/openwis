@@ -104,17 +104,17 @@ public class User {
      */
     private String secretKey;
 
-    /**
-     * True if password must change
-     */
     @JsonIgnore
-    private Boolean pwdMustChange;
+    private Boolean pwdReset;
 
     /**
      * Last time when the password has changed
      */
     private LocalDateTime pwdChangedTime;
 
+    /**
+     * Password expire time
+     */
     private LocalDateTime pwdExpireTime;
 
     /**
@@ -437,5 +437,20 @@ public class User {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
         return this.getPwdChangedTime().format(formatter);
+    }
+
+    /**
+     * Return true if user is forced to change its password.
+     * False if pwdReset is not set
+     */
+    public Boolean getPwdReset() {
+        return pwdReset == null ? false : pwdReset;
+    }
+
+    /**
+     * Set true to force user to reset his password at first login.
+     */
+    public void setPwdReset(Boolean pwdReset) {
+        this.pwdReset = pwdReset;
     }
 }
