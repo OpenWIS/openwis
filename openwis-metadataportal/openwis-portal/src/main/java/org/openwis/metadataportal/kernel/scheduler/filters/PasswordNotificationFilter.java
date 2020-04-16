@@ -32,13 +32,13 @@ public class PasswordNotificationFilter implements AccountFilter {
                 UserLogDTO lastNotificationLog = logFilter.getLastLogEntry(logs,user, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL);
                 if (lastNotificationLog == null) {
                     Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. User is passing the filter.",
-                            NotNotifiedUserFilter.class.getSimpleName(),
+                            PasswordNotificationFilter.class.getSimpleName(),
                             user.getUsername()));
                     filteredUsers.add(user);
                 } else {
                     if (user.getPwdChangedTime().isAfter(lastNotificationLog.getDate())) {
                         Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s.",
-                                NotNotifiedUserFilter.class.getSimpleName(),
+                                PasswordNotificationFilter.class.getSimpleName(),
                                 user.getUsername(),
                                 lastNotificationLog.getDate().toString()));
                         filteredUsers.add(user);
