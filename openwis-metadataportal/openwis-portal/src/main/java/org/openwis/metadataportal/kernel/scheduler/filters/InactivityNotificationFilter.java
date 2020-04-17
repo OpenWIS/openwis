@@ -13,24 +13,27 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Consider the following time line:
  *
- *         -7d      Now     -5d   -2d   -1d   pwdExpire
- * ------- | ------- x ----- | --- | --- | --- | --- |
+ *        Last login         +83d      Now     +85d  +88d  +89d  +90d
+ * ---------- X ------------- | ------- x ----- | --- | --- | --- | --- |
  * </p>
  *
- * For each user the date of the password change is shifted with the {@param period}.
+ * For each user the date of the last login is shifted with the {@param period}.
  * The filter checks if there is a notification between the present time and the shifted date.
- * <p>For example if {@param period} is 7d the filter will check if there are notification between
- * the present date and pwdExpire - 7d. If there is a notification the user is filtered out.</p>
+ * <p>For example if {@param period} is 83 the filter will check if there are notification between
+ * the present date and last_login + 83d. If there is a notification the user is filtered out.</p>
  *
  * <p> If the present day is before the shifted date the user is filter out. </p>
  */
-public class PasswordNotificationFilter extends BaseNotificationFilter implements AccountFilter {
-    public PasswordNotificationFilter(Dbms dbms, UserAction action, int period, TimeUnit timeUnit) {
+public class InactivityNotificationFilter extends BaseNotificationFilter implements AccountFilter {
+
+    public InactivityNotificationFilter(Dbms dbms, UserAction action, int period, TimeUnit timeUnit) {
         super(dbms, action, period, timeUnit);
     }
 
     @Override
     public LocalDateTime shiftDate(User user, int period, TimeUnit timeUnit) {
-        return user.getPwdExpireTime().minus(period, ChronoUnit.valueOf(timeUnit.toString()));
+        return user.getLastLogin().plus(period, ChronoUnit.valueOf(timeUnit.toString()));
     }
+
+
 }
