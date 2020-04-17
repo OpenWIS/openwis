@@ -53,7 +53,7 @@ public class OpenWISMailFactory {
     }
 
     /**
-     * Return a new account disabled mail
+     * Return a new account suspended mail
      * @param context service context
      * @param subject subject property key
      * @param destinations destination addresses
@@ -72,9 +72,20 @@ public class OpenWISMailFactory {
      * @return OpenWISMail
      */
     public static OpenWISMail buildAccountSuspensionAdminMail(ServiceContext context, String subject,  Map<String, Object> contentVars) {
-        return buildAdminMail(context, subject, EmailTemplate.ACCOUNT_SUSPENSION_TEMPLATE, contentVars);
+        return buildAdminMail(context, subject, EmailTemplate.ACCOUNT_SUSPENTION_ADMIN_TEMPLATE, contentVars);
     }
 
+    /**
+     * Return a new account suspended mail
+     * @param context service context
+     * @param subject subject property key
+     * @param destinations destination addresses
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountInactivityNotificationMail(ServiceContext context, String subject, String[] destinations, Map<String, Object> contentVars) {
+        return buildUserMail(context, subject, destinations, EmailTemplate.ACCOUNT_INACTIVITY_TEMPLATE, contentVars);
+    }
     /**
      * Return a new account termination mail
      * @param context service context

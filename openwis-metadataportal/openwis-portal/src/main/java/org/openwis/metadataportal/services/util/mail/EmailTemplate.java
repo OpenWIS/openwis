@@ -34,7 +34,11 @@ public class EmailTemplate {
     public static final String REQUEST_ADMIN_ACCOUNT_TEMPLATE = "request-admin-account.html";
 
     // Template for account disabled mail
-    public static final String ACCOUNT_SUSPENSION_TEMPLATE = "account-disabled.html";
+    public static final String ACCOUNT_SUSPENSION_TEMPLATE = "account-suspended.html";
+
+    public static final String ACCOUNT_SUSPENTION_ADMIN_TEMPLATE = "account-admin-suspended.html";
+
+    public static final String ACCOUNT_INACTIVITY_TEMPLATE = "account-inactivity-notification.html";
 
     // template for account termination
     public static final String ACCOUNT_TERMINATION_TEMPLATE = "account-termination.html";
