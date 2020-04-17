@@ -20,10 +20,13 @@ public class MailAction implements AccountAction {
     @Override
     public void doAction(User user) {
         MailUtilities mailUtilities = new MailUtilities();
-        this.mail.setDestinations(new String[]{user.getEmailContact()});
+
+        if (this.mail.getDestinations() == null) {
+            this.mail.setDestinations(new String[]{user.getEmailContact()});
+        }
         this.mail.addContentVariable("firstname", user.getName());
         this.mail.addContentVariable("lastname", user.getSurname());
         mailUtilities.send(this.mail);
-        Log.debug(Log.SCHEDULER, String.format("Mail sent to [%s]", user.getEmailContact()));
+        Log.debug(Log.SCHEDULER, String.format("Mail sent to [%s]", this.mail.getDestinations()[0]));
     }
 }
