@@ -16,13 +16,15 @@ import java.util.concurrent.TimeUnit;
 
 public class AccountTaskFactory {
 
+    /**
+     * Return a task for inactivity lock
+     */
     public static AccountTask buildAccountInactivityLockTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         // Create filters
         List<AccountFilter> filters = Arrays.asList(
                 new ProfileFilter(Profile.User.name()),
                 new ActiveAccountFilter(),
-                new NotifiedUserFilter(dbms),
                 new ValidPasswordFilter(),
                 new LastLoginFilter(period, timeUnit)
         );
@@ -30,12 +32,17 @@ public class AccountTaskFactory {
         List<AccountAction> actions = new ArrayList<>();
         // lock action
         actions.add(new AccountLockAction(userManager));
-        // create mail action
+
+        // create user mail action
         Map<String, Object> mailContent = new HashMap<>();
         mailContent.put("period",period);
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
-        IOpenWISMail mail = OpenWISMailFactory.buildAccountTerminationMail(context, "Account.lock.subject", null,mailContent);
+        IOpenWISMail mail = OpenWISMailFactory.buildAccountSuspensionMail(context, "Account.lock.subject", null,mailContent);
         actions.add(new MailAction(mail));
+
+        // create admin mail action
+        IOpenWISMail adminMail = OpenWISMailFactory.buildAccountSuspensionAdminMail(context, "Account.lock.subject", mailContent);
+        actions.add(new MailAction(adminMail));
 
         //log action
         actions.add(new LogAction(dbms, UserAction.LOCK));
@@ -45,21 +52,20 @@ public class AccountTaskFactory {
         return new AccountTask("Account Lock Task", userManager, filters, actions);
     }
 
-    public static AccountTask buildAccountInactivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, TimeUnit timeUnit) {
+    public static AccountTask buildAccountInactivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, Integer threshold, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
                 new ProfileFilter(Profile.User.name()),
                 new ActiveAccountFilter(),
                 new ValidPasswordFilter(),
-                new NotificationFilter(dbms),
-                new LastLoginFilter(period, timeUnit)
+                new InactivityNotificationFilter(dbms, UserAction.INACTIVITY_NOTIFICATION_MAIL, period -threshold, timeUnit)
         );
 
         List<AccountAction> actions = new ArrayList<>();
         Map<String, Object> mailContent = new HashMap<>();
-        mailContent.put("period",period);
+        mailContent.put("period",threshold);
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
-        IOpenWISMail mail = OpenWISMailFactory.buildAccountDisabledMail(context, "Account.notification.subject", null,mailContent);
+        IOpenWISMail mail = OpenWISMailFactory.buildAccountInactivityNotificationMail(context, "Account.notification.subject", null,mailContent);
         actions.add(new MailAction(mail));
 
         // log action
@@ -68,21 +74,21 @@ public class AccountTaskFactory {
         //alert action
         actions.add(new AlertAction(alertService, UserAction.INACTIVITY_NOTIFICATION_MAIL));
 
-        return new AccountTask("Account Inactivity Task", userManager, filters, actions);
+        return new AccountTask(String.format("AccountInactivity: T - %d %s", threshold, timeUnit.toString()), userManager, filters, actions);
     }
 
-    public static AccountTask buildPasswordExpireNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer duration, TimeUnit timeUnit) {
+    public static AccountTask buildPasswordExpireNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
                 new ProfileFilter("user"),
                 new ActiveAccountFilter(),
                 new ValidPasswordFilter(),
-                new PasswordNotificationFilter(dbms)
+                new PasswordNotificationFilter(dbms, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL, period, timeUnit)
         );
 
         List<AccountAction> actions = new ArrayList<>();
         Map<String, Object> mailContent = new HashMap<>();
-        mailContent.put("duration",duration);
+        mailContent.put("duration",period);
         mailContent.put("timeUnit", timeUnit.toString().toLowerCase());
         IOpenWISMail mail = OpenWISMailFactory.buildPasswordExpireNotificationMail(context, "Password.notification.subject", null,mailContent);
         actions.add(new PasswordNotificationMailAction(mail));
@@ -93,6 +99,6 @@ public class AccountTaskFactory {
         //alert action
         actions.add(new AlertAction(alertService, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL));
 
-        return new AccountTask("Password expire notification task", userManager, filters, actions);
+        return new AccountTask(String.format("Password expire notification task. Threshold: %d %s", period, timeUnit.toString()), userManager, filters, actions);
     }
 }

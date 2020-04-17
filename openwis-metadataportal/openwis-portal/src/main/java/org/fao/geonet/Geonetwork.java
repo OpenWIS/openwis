@@ -74,6 +74,7 @@ import org.fao.geonet.util.XslUtil;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.openrdf.sesame.sail.query.In;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.utils.MetadataServiceAlerts;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
@@ -109,7 +110,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 //=============================================================================
 
-/** This is the main class. It handles http connections and inits the system
+/**
+ * This is the main class. It handles http connections and inits the system
  */
 
 public class Geonetwork implements ApplicationHandler {
@@ -148,7 +150,8 @@ public class Geonetwork implements ApplicationHandler {
     //---
     //---------------------------------------------------------------------------
 
-    /** Inits the engine, loading all needed data
+    /**
+     * Inits the engine, loading all needed data
      */
 
     @Override
@@ -363,7 +366,7 @@ public class Geonetwork implements ApplicationHandler {
 
             //--- Schedule account tasks
             logger.info("Schedule Account tasks");
-            scheduleAccountTasks(settingMan,context, dbms);
+            scheduleAccountTasks(settingMan, context, dbms);
         }
 
         return gnContext;
@@ -372,7 +375,8 @@ public class Geonetwork implements ApplicationHandler {
 
     /**
      * Attempt to synchronize with LDAP groups, in case of first creation or if no groups are found in DB.
-     * @param dbms the dbms
+     *
+     * @param dbms    the dbms
      * @param dataMan the data manager
      */
     private void synchronizeGroups(Dbms dbms, DataManager dataMan) {
@@ -393,8 +397,8 @@ public class Geonetwork implements ApplicationHandler {
      * Schedule stop gap synchronization.
      *
      * @param settingMan the setting man
-     * @param dbms the dbms
-     * @param dataMan the data man
+     * @param dbms       the dbms
+     * @param dataMan    the data man
      * @param gnContext
      */
     private void scheduleStopGapSyncho(final SettingManager settingMan, final Dbms dbms,
@@ -441,7 +445,7 @@ public class Geonetwork implements ApplicationHandler {
      * Schedule availability.
      *
      * @param settingMan the setting man
-     * @param dbms the dbms
+     * @param dbms       the dbms
      */
     private void scheduleAvailability(final SettingManager settingMan, final Dbms dbms) {
         try {
@@ -517,61 +521,111 @@ public class Geonetwork implements ApplicationHandler {
      */
     private void scheduleAccountTasks(final SettingManager settingManager, final ServiceContext context, final Dbms dbms) {
 
-        // main keys are system variables. Second map values are default values
-        Map<String,Object> params = new HashMap <>();
-        params.put("system/inactivity/period", 12);
-        params.put("system/inactivity/timeunit", TimeUnit.HOURS);
-        params.put("system/passwordExpire/period", 12);
-        params.put("system/passwordExpire/timeunit", TimeUnit.HOURS);
+        // main keys are variables and values are default values
+        Map<String, Object> params = new HashMap<>();
+        params.put(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT, TimeUnit.DAYS);
+        params.put(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_PERIOD, 90);
+        params.put(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_NOTIFICATIONS_PERIOD, new int[]{7, 5, 2, 1});
+        params.put(ConfigurationConstants.ACCOUNT_TASK_PASSWORD_EXPIRE_NOTIFICATIONS_PERIOD, new int[]{7, 5, 2, 1});
 
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            if (entry.getKey().toLowerCase().contains("period")) {
-                Integer value = settingManager.getValueAsInt(entry.getKey());
-                if (value == null) {
-                    Log.warning(Geonet.ADMIN,
-                            String.format("Check that '%s' is set. It defaults to d%.", entry.getKey(), entry.getValue()));
-                } else {
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            if (entry.getValue() instanceof Integer) {
+                try {
+                    Integer value = OpenwisMetadataPortalConfig.getInt(entry.getKey());
                     entry.setValue(value);
+                } catch (NumberFormatException ex) {
+                    Log.warning(Geonet.ADMIN,
+                            String.format("%s. Check'%s' values. It defaults to %s.", ex.getMessage(), entry.getKey(), entry.getValue().toString()));
                 }
-            } else {
-               try {
-                   TimeUnit timeUnit = TimeUnit.valueOf(settingManager.getValue(entry.getKey()).toUpperCase());
-                   entry.setValue(timeUnit);
-               } catch (IllegalArgumentException | NullPointerException ex) {
-                   Log.warning(Geonet.ADMIN,
-                           String.format("Check that '%s' is set. It defaults to %s.", entry.getKey(), entry.getValue().toString()));
-               }
+            } else if (entry.getValue() instanceof int[]) {
+                try {
+                    List<String> values = OpenwisMetadataPortalConfig.getList(entry.getKey());
+                    int[] newValues = new int[values.size()];
+                    for (int i = 0; i < values.size(); i++) {
+                        newValues[i] = Integer.valueOf(values.get(i));
+                    }
+                    entry.setValue(newValues);
+                } catch (NumberFormatException ex) {
+                    Log.warning(Geonet.ADMIN,
+                            String.format("%s. Check'%s' values. It defaults to %s.", ex.getMessage(), entry.getKey(), entry.getValue().toString()));
+                }
+            } else if (entry.getValue() instanceof TimeUnit) {
+                try {
+                    TimeUnit timeUnit = TimeUnit.valueOf(OpenwisMetadataPortalConfig.getString(entry.getKey()).toUpperCase());
+                    entry.setValue(timeUnit);
+                } catch (IllegalArgumentException | NullPointerException ex) {
+                    Log.warning(Geonet.ADMIN,
+                            String.format("Check if '%s' is set. It defaults to %s.", entry.getKey(), entry.getValue().toString()));
+                }
             }
         }
 
         AlertService alertService = ManagementServiceProvider.getAlertService();
-        if ( (Integer)params.get("system/lastlogin/period") != 0) {
-            Log.info(Geonet.ADMIN, String.format("Account lock task: Threshold set to %d %s", params.get("system/lastlogin/period"), params.get("system/lastlogin/timeunit").toString()));
-            AccountTask accountLockTask = AccountTaskFactory.buildAccountInactivityLockTask(context, dbms, alertService, (Integer) params.get("system/lastlogin/period"), (TimeUnit) params.get("system/lastlogin/timeunit"));
-            executor.scheduleAtFixedRate(accountLockTask, 0, (Integer)params.get("system/lastlogin/period"), TimeUnit.valueOf(params.get("system/lastlogin/timeunit").toString().toUpperCase()));
-        } else {
-            Log.info(Geonet.ADMIN, "Account lock task is DISABLED: \"system/lastlogin/period\" = 0");
+        int inactivityExecPeriod = settingManager.getValueAsInt("system/inactivity/period") == null ? 0 : settingManager.getValueAsInt("system/inactivity/period");
+        int passwordExecExpirePeriod = settingManager.getValueAsInt("system/passwordExpire/period") == null ? 0 : settingManager.getValueAsInt("system/passwordExpire/period");
+        TimeUnit inactivityTimeUnit = TimeUnit.DAYS;
+        TimeUnit passwordExpireTimeUnit = TimeUnit.DAYS;
+        try {
+            inactivityTimeUnit = settingManager.getValue("system/inactivity/timeunit") == null ? TimeUnit.DAYS : TimeUnit.valueOf(settingManager.getValue("system/inactivity/timeunit").toUpperCase());
+            passwordExpireTimeUnit = settingManager.getValue("system/passwordExpire/timeunit") == null ? TimeUnit.DAYS : TimeUnit.valueOf(settingManager.getValue("system/passwordExpire/timeunit").toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            Log.warning(Geonet.ADMIN, "TimeUnit parse error: " + ex.getMessage());
+            // disabling account tasks
+            inactivityExecPeriod = 0;
+            passwordExecExpirePeriod = 0;
         }
 
-        if ((Integer) params.get("system/inactivity/period") != 0) {
-            Log.info(Geonet.ADMIN, String.format("Account inactivity notification: Threshold set to %d %s", params.get("system/inactivity/period"), params.get("system/inactivity/timeunit").toString()));
-            AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountInactivityNotificationTask(context, dbms, alertService, (Integer) params.get("system/inactivity/period"), (TimeUnit) params.get("system/inactivity/timeunit"));
-            executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, (Integer)params.get("system/inactivity/runPeriod"), TimeUnit.valueOf(params.get("system/inactivity/runTimeUnit").toString().toUpperCase()));
+        if (inactivityExecPeriod != 0) {
+            Log.info(Geonet.ADMIN, String.format("Account lock task: Run every %d %s", inactivityExecPeriod, inactivityTimeUnit.toString()));
+            AccountTask accountLockTask = AccountTaskFactory.buildAccountInactivityLockTask(context,
+                    dbms,
+                    alertService,
+                    (Integer) params.get(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_PERIOD),
+                    (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT)
+            );
+            executor.scheduleAtFixedRate(accountLockTask, 0, inactivityExecPeriod, inactivityTimeUnit);
+
+            int[] thresholds = (int[]) params.get(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_NOTIFICATIONS_PERIOD);
+            int inactivityPeriod = (Integer) params.get(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_PERIOD);
+            for (int threshold : thresholds) {
+                if ( inactivityPeriod - threshold < 0) {
+                    Log.warning(Geonet.ADMIN, "Cannot create account notification task. Threshold > period");
+                    continue;
+                }
+
+                Log.info(Geonet.ADMIN, String.format("Account inactivity notification T - %d %s", threshold, inactivityTimeUnit.toString()));
+                AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountInactivityNotificationTask(context,
+                        dbms,
+                        alertService,
+                        inactivityPeriod,
+                        threshold,
+                        (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT));
+                executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, inactivityExecPeriod, inactivityTimeUnit);
+            }
         } else {
-            Log.info(Geonet.ADMIN, "Inactivity account task is DISABLED: \"system/inactivity/period\" = 0");
+            Log.info(Geonet.ADMIN, "Account lock task is DISABLED.");
         }
 
-        if ( (Integer)params.get("system/passwordExpire/period") != 0) {
-            Log.info(Geonet.ADMIN, String.format("Password expire notification: Threshold set to %d %s", params.get("system/passwordExpire/period"), params.get("system/passwordExpire/timeunit").toString()));
-            AccountTask passwordExpireTask = AccountTaskFactory.buildPasswordExpireNotificationTask(context, dbms, alertService, (Integer) params.get("system/passwordExpire/period"), (TimeUnit) params.get("system/passwordExpire/timeunit"));
-            executor.scheduleAtFixedRate(passwordExpireTask, 0, (Integer)params.get("system/passwordExpire/runPeriod"), TimeUnit.valueOf(params.get("system/passwordExpire/runTimeUnit").toString().toUpperCase()));
+        if (passwordExecExpirePeriod != 0) {
+            int[] values = (int[]) params.get(ConfigurationConstants.ACCOUNT_TASK_PASSWORD_EXPIRE_NOTIFICATIONS_PERIOD);
+            for (int v : values) {
+                Log.info(Geonet.ADMIN, String.format("Password expire notification: T - %d %s", v, passwordExpireTimeUnit.toString()));
+                AccountTask passwordExpireTask = AccountTaskFactory.buildPasswordExpireNotificationTask(context,
+                        dbms,
+                        alertService,
+                        v,
+                        (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT));
+                executor.scheduleAtFixedRate(passwordExpireTask, 0, passwordExecExpirePeriod, passwordExpireTimeUnit);
+            }
         } else {
-            Log.info(Geonet.ADMIN, "Password expire notification task is DISABLED: \"system/passwordExpire/period\" = 0");
+            Log.info(Geonet.ADMIN, "Password expire notification task is DISABLED");
         }
 
     }
+
     /**
      * Check availability of the given deployment.
+     *
      * @return the availability rate
      */
     private double checkDeploymentAvailability(Deployment deployment) {
@@ -678,8 +732,9 @@ public class Geonetwork implements ApplicationHandler {
 
     /**
      * Send Mail.
+     *
      * @param adminMail The admin mail.
-     * @param sm The setting manager.
+     * @param sm        The setting manager.
      */
     private void sendMail(String[] adminMails, SettingManager sm, String backUpName, double remoteBackUpWarnRate) {
 
@@ -703,9 +758,10 @@ public class Geonetwork implements ApplicationHandler {
 
     /**
      * Check Service Unavailable.
-     * @param serviceName The service name.
+     *
+     * @param serviceName        The service name.
      * @param serviceUnavailable The number of service unavailable.
-     * @param level The level
+     * @param level              The level
      * @return the number of service unavailable.
      */
     private int checkServiceUnavailable(String serviceName, int serviceUnavailable, AvailabilityLevel level) {
@@ -743,10 +799,8 @@ public class Geonetwork implements ApplicationHandler {
                         Log.debug(Geonet.ADMIN, "Checking catalog size");
                         Integer nbMetadata = mm.getAllMetadata();
                         // Raise alarm once
-                        if (nbMetadata > limit)
-                        {
-                            if (!isAlarmAlreadyRaised)
-                            {
+                        if (nbMetadata > limit) {
+                            if (!isAlarmAlreadyRaised) {
                                 Log.warning(Geonet.ADMIN, "Catalog size (" + nbMetadata
                                         + ") is beyond the limit (" + limit + ")");
                                 AlertService alertService = ManagementServiceProvider.getAlertService();
@@ -764,9 +818,7 @@ public class Geonetwork implements ApplicationHandler {
                                 alertService.raiseEvent(source, location, null, eventId, arguments);
                                 isAlarmAlreadyRaised = true;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             isAlarmAlreadyRaised = false;
                         }
                     } catch (Exception e) {
@@ -783,7 +835,7 @@ public class Geonetwork implements ApplicationHandler {
     /**
      * Check if current database is running same version as the web application.
      * If not, apply migration SQL script :
-     *  resources/sql/migration/{version}-to-{version}-{dbtype}.sql.
+     * resources/sql/migration/{version}-to-{version}-{dbtype}.sql.
      * eg. 2.4.3-to-2.5.0-default.sql
      *
      * @param dbms
@@ -903,6 +955,7 @@ public class Geonetwork implements ApplicationHandler {
 
     /**
      * Copy the default dummy logo to the logo folder based on uuid
+     *
      * @param dbms
      * @param nodeUuid
      * @throws FileNotFoundException
