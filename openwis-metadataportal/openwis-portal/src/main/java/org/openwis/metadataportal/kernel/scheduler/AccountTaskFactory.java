@@ -99,6 +99,6 @@ public class AccountTaskFactory {
         //alert action
         actions.add(new AlertAction(alertService, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL));
 
-        return new AccountTask(String.format("Password expire notification task. Threshold: %d %s", period, timeUnit.toString()), userManager, filters, actions);
+        return new AccountTask(String.format("Password expire notification task: Expire date - %d %s", period, timeUnit.toString()), userManager, filters, actions);
     }
 }
