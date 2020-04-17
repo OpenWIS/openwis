@@ -3,16 +3,13 @@ package org.openwis.metadataportal.kernel.scheduler.filters;
 import jeeves.exceptions.BadInputEx;
 import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
-import jeeves.utils.Util;
-import org.apache.commons.lang.StringUtils;
-import org.jdom.Element;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +36,7 @@ public abstract class BaseNotificationFilter {
         LocalDateTime now = LocalDateTime.now();
 
         try {
-            List<UserLogDTO> logs = this.getUserLogs(dbms);
+            List<UserLogDTO> logs = UserLogUtils.getLogs(dbms);
             for (User user : users) {
                 // shift last login
                 LocalDateTime shiftedDate = this.shiftDate(user, this.period, this.timeUnit);
@@ -67,27 +64,5 @@ public abstract class BaseNotificationFilter {
             Log.error(Log.SCHEDULER, ex);
         }
         return filteredUsers;
-    }
-
-    private List<UserLogDTO> getUserLogs(Dbms dbms) throws SQLException, BadInputEx {
-        String query = "SELECT * from user_log;";
-        List<Element> elements = dbms.select(query).getChildren();
-        if (elements.size() == 0) {
-            return new ArrayList<>();
-        }
-
-        List<UserLogDTO> results = new ArrayList<>();
-        for (Element element : elements) {
-            UserLogDTO log = new UserLogDTO();
-            log.setId(Util.getParamAsInt(element, "id"));
-            log.setDate(LocalDateTime.parse(Util.getParam(element, "date"), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            log.setAction(UserAction.valueOf(StringUtils.upperCase(Util.getParam(element, "action"))));
-            log.setAttribute(Util.getParam(element, "attribute", ""));
-            log.setUsername(Util.getParam(element, "username"));
-            log.setActioner(Util.getParam(element, "actioner"));
-            results.add(log);
-        }
-
-        return results;
     }
 }
