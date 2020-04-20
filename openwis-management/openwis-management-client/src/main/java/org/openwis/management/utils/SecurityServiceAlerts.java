@@ -72,10 +72,12 @@ public enum SecurityServiceAlerts {
     * <li>privileges, specifies the requested privileges
     * </ol>
     */
-   USER_PRIVILEGES_REQUEST ("securityservice.userPrivilegesExtensionRequest");
+   USER_PRIVILEGES_REQUEST ("securityservice.userPrivilegesExtensionRequest"),
 
-
-
+   /**
+    * Notifies that an account has been locked out due to multiple failed login.
+    */
+   ACCOUNT_LOCKED_OUT ("securityservice.accountLocked");
 
    private final String key;
 
