@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class InactivityNotificationFilter extends BaseNotificationFilter implements AccountFilter {
 
-    public InactivityNotificationFilter(Dbms dbms, UserAction action, int period, TimeUnit timeUnit) {
-        super(dbms, action, period, timeUnit);
+    public InactivityNotificationFilter(Dbms dbms,  int period, TimeUnit timeUnit) {
+        super(dbms, UserAction.INACTIVITY_NOTIFICATION_MAIL, period, timeUnit);
     }
 
     @Override

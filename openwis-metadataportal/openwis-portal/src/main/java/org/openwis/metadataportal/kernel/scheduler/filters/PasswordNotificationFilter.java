@@ -25,8 +25,8 @@ import java.util.concurrent.TimeUnit;
  * <p> If the present day is before the shifted date the user is filter out. </p>
  */
 public class PasswordNotificationFilter extends BaseNotificationFilter implements AccountFilter {
-    public PasswordNotificationFilter(Dbms dbms, UserAction action, int period, TimeUnit timeUnit) {
-        super(dbms, action, period, timeUnit);
+    public PasswordNotificationFilter(Dbms dbms, int period, TimeUnit timeUnit) {
+        super(dbms, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL, period, timeUnit);
     }
 
     @Override
