@@ -35,7 +35,7 @@ public class OpenWISMail implements IOpenWISMail {
                        String subject,
                        String[] destinationAddresses,
                        EmailTemplate bodyTemplate,
-                       Map<String,Object> contentData) {
+                       Map<String, Object> contentData) {
         this.context = context;
         this.subject = subject;
         this.destinations = destinationAddresses;
@@ -45,15 +45,16 @@ public class OpenWISMail implements IOpenWISMail {
 
     /**
      * Constructor for mails sent to administrator
-     * @param context service context
-     * @param subject subject var
+     *
+     * @param context       service context
+     * @param subject       subject var
      * @param emailTemplate template use for body content
-     * @param contentData data to generate the body content
+     * @param contentData   data to generate the body content
      */
     public OpenWISMail(ServiceContext context,
                        String subject,
                        EmailTemplate emailTemplate,
-                       Map<String,Object> contentData) {
+                       Map<String, Object> contentData) {
         this.context = context;
         this.subject = subject;
         this.destinations = new String[]{this.getAdministratorAddress()};
@@ -64,11 +65,12 @@ public class OpenWISMail implements IOpenWISMail {
     @Override
     public String getAdministratorAddress() {
         GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-        SettingManager sm = gc.getSettingManager();
 
-        String from =  System.getProperty("openwis.mail.senderAddress");
-        if (from == null)
-            from=sm.getValue("system/feedback/email");
+        String from = OpenwisMetadataPortalConfig.getString("openwis.mail.senderAddress");
+        if (from == null) {
+            SettingManager sm = gc.getSettingManager();
+            from = sm.getValue("system/feedback/email");
+        }
 
         return from;
     }
@@ -116,6 +118,7 @@ public class OpenWISMail implements IOpenWISMail {
 
     /**
      * Return true if we were able to find a property key for subject
+     *
      * @param subject
      * @return boolean
      */

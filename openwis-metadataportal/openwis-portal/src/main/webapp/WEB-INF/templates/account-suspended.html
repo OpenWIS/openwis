@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .end1 {
+            margin: 0;
+         }
+         .note {
+            font-size:12px;
+            font-weight: bold;
+            font-style: italic;
+          }
+    </style>
+</head>
+<body>
+<p>Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,</p>
+<p>Your account for ASMC WIS Portal has been suspended due to inactivity for
+    <span th:text="${period}">7</span> <span style="padding-left:5px" th:text="${timeUnit}">days</span>.</p>
+<p>To reactivate your account, please re-submit the Account Request form (
+<a href="https://asmc.asean.org/wis/openwis-user-portal/svr/en/main.home">https://asmc.asean.org/wis/openwis-user-portal/svr/en/main.home</a>
+</p>
+    <p>If you require further assistance, please contact us at
+        <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
+        or
+        <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+    </p>
+</div>
+<div class="footer">
+    <p class="note">This is an automatically generated message. Please do not reply to this email.</p>
+</div>
+</body>
+</html>

@@ -39,6 +39,11 @@ public class LogWatcherTask {
     */
    private static final String FAILED_LOGIN = "FAILED";
 
+   private static final String INVALID_PASSWORD = "INVALID_PASSWORD";
+
+   // Keyword for locking out an account
+   private static final String LOCKED_OUT = "LOCKED_OUT";
+
    /**
     * Field position of what we are looking for: date of login and the username
     */
@@ -76,7 +81,7 @@ public class LogWatcherTask {
 
          //Read File Line By Line
          while ((strLine = br.readLine()) != null) {
-            if (!strLine.contains(FAILED_LOGIN)) {
+            if (this.getFailedReason(strLine) == FAILED_REASON.UNKNOWN_REASON) {
                continue;
             }
 
@@ -106,7 +111,7 @@ public class LogWatcherTask {
             logger.debug("loginItem: {}", loginItem);
             String login = loginItem.split("\t")[0];
             logger.debug("Extracted login: {}", login);
-            sendAlarm(login);
+            sendAlarm(login, this.getFailedReason(strLine));
          }
          //Close the input stream
          in.close();
@@ -146,10 +151,11 @@ public class LogWatcherTask {
 
    /**
     * Send authentication failed for operator/administrator alarm.
-    * 
+    *
     * @param user user login
+    * @param failedReason
     */
-   private void sendAlarm(String user) {
+   private void sendAlarm(String user, FAILED_REASON failedReason) {
       AlertService alertService = ManagementServiceProvider.getAlertService();
       if (alertService == null) {
          logger.error("Could not get hold of the AlertService. No alert was passed!");
@@ -157,7 +163,9 @@ public class LogWatcherTask {
          String source = "Security Service";
          String location = "Log Timer Service";
 
-         String eventId = SecurityServiceAlerts.AUTHENTICATION_FAILED.getKey();
+         String eventId = failedReason == FAILED_REASON.INVALID_PASSWORD
+                 ? SecurityServiceAlerts.AUTHENTICATION_FAILED.getKey()
+                 : SecurityServiceAlerts.ACCOUNT_LOCKED_OUT.getKey();
 
          List<Object> arguments = new ArrayList<Object>();
          arguments.add(user);
@@ -166,6 +174,16 @@ public class LogWatcherTask {
       }
    }
 
+   private FAILED_REASON getFailedReason(String line) {
+      if (line.contains(FAILED_LOGIN)) {
+         if (line.contains(INVALID_PASSWORD)) {
+            return FAILED_REASON.INVALID_PASSWORD;
+         } else if (line.contains(LOCKED_OUT)) {
+            return FAILED_REASON.LOCKED_OUT;
+         }
+      }
+      return FAILED_REASON.UNKNOWN_REASON;
+   }
    private class ParseLogEntry {
 
       /*
@@ -213,5 +231,11 @@ public class LogWatcherTask {
          }
          return sanitizedString;
       }
+   }
+
+   private enum FAILED_REASON {
+      INVALID_PASSWORD,
+      LOCKED_OUT,
+      UNKNOWN_REASON
    }
 }

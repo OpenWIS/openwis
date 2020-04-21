@@ -246,5 +246,18 @@ public interface ConfigurationConstants {
 
     String GOOGLE_RECAPTCHA_SITE_KEY="openwis.metadataportal.login.captcha.siteKey";
 
+    // AWS SES region
     String AWS_EMAIL_REGION="openwis.metadataportal.email.region";
+
+    // Time unit used by account tasks
+    String ACCOUNT_TASK_TIME_UNIT = "openwis.metadataportal.account.task.timeunit";
+
+    // Period of inactivity after which the account will be locked
+    String ACCOUNT_TASK_INACTIVITY_PERIOD = "openwis.metadataportal.account.task.inactivity.lock";
+
+    // How many days before lock the account the user will receive mails
+    String ACCOUNT_TASK_INACTIVITY_NOTIFICATIONS_PERIOD ="openwis.metadataportal.account.task.inactivity.notifications";
+
+    // How many days before password wil expire the user will receive mails
+    String ACCOUNT_TASK_PASSWORD_EXPIRE_NOTIFICATIONS_PERIOD = "openwis.metadataportal.account.task.passwordExpire";
 }

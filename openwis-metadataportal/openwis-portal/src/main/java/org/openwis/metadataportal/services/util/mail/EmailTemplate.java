@@ -33,8 +33,20 @@ public class EmailTemplate {
      */
     public static final String REQUEST_ADMIN_ACCOUNT_TEMPLATE = "request-admin-account.html";
 
-    // Template for account disabled mail
-    public static final String ACCOUNT_DISABLED_TEMPLATE = "account-disabled.html";
+    // Template for account suspension mail due to multiple failed login
+    public static final String ACCOUNT_SUSPENSION_FAILED_LOGIN_TEMPLATE = "account-suspended-failed-login.html";
+
+    // Template for account suspension admin mail due multiple failed login
+    public static final String ACCOUNT_SUSPENTION_FAILED_LOGIN_ADMIN_TEMPLATE = "account-admin-suspended-failed-login.html";
+
+    // Template for account suspension mail due to inactivity
+    public static final String ACCOUNT_SUSPENSION_TEMPLATE = "account-suspended.html";
+
+    // Template for account suspension admin mail due to inactivity
+    public static final String ACCOUNT_SUSPENTION_ADMIN_TEMPLATE = "account-admin-suspended.html";
+
+    // Template for account inactivity notification
+    public static final String ACCOUNT_INACTIVITY_TEMPLATE = "account-inactivity-notification.html";
 
     // template for account termination
     public static final String ACCOUNT_TERMINATION_TEMPLATE = "account-termination.html";

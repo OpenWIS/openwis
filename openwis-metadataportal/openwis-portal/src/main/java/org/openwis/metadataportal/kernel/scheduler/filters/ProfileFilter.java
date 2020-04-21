@@ -16,7 +16,7 @@ public class ProfileFilter implements AccountFilter {
     @Override
     public List<User> filter(List<User> users) {
         return users.stream()
-                .filter(u -> u.getProfile().toLowerCase().equals(profile))
+                .filter(u -> u.getProfile().toLowerCase().equals(profile.toLowerCase()))
                 .collect(Collectors.toList());
     }
 }

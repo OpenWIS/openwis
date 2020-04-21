@@ -53,17 +53,62 @@ public class OpenWISMailFactory {
     }
 
     /**
-     * Return a new account disabled mail
+     * Return a new account suspended mail
      * @param context service context
      * @param subject subject property key
      * @param destinations destination addresses
      * @param contentVars body data
      * @return OpenWISMail
      */
-    public static OpenWISMail buildAccountDisabledMail(ServiceContext context, String subject, String[] destinations, Map<String, Object> contentVars) {
-        return buildUserMail(context, subject, destinations, EmailTemplate.ACCOUNT_DISABLED_TEMPLATE, contentVars);
+    public static OpenWISMail buildAccountSuspensionMail(ServiceContext context, String subject, String[] destinations, Map<String, Object> contentVars) {
+        return buildUserMail(context, subject, destinations, EmailTemplate.ACCOUNT_SUSPENSION_TEMPLATE, contentVars);
     }
 
+    /**
+     * Return a new account suspended mail to be sent to admin
+     * @param context service context
+     * @param subject subject property key
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountSuspensionAdminMail(ServiceContext context, String subject,  Map<String, Object> contentVars) {
+        return buildAdminMail(context, subject, EmailTemplate.ACCOUNT_SUSPENTION_ADMIN_TEMPLATE, contentVars);
+    }
+
+    /**
+     * Return a new account suspended mail due to multiple failed login
+     * @param context service context
+     * @param subject subject property key
+     * @param destinations destination addresses
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountSuspensionFailedLoginMail(ServiceContext context, String subject, String[] destinations, Map<String, Object> contentVars) {
+        return buildUserMail(context, subject, destinations, EmailTemplate.ACCOUNT_SUSPENSION_FAILED_LOGIN_TEMPLATE, contentVars);
+    }
+
+    /**
+     * Return a new account suspended mail to be sent to admin due to multiple failed login
+     * @param context service context
+     * @param subject subject property key
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountSuspensionAdminFailedLoginMail(ServiceContext context, String subject,  Map<String, Object> contentVars) {
+        return buildAdminMail(context, subject, EmailTemplate.ACCOUNT_SUSPENTION_FAILED_LOGIN_ADMIN_TEMPLATE, contentVars);
+    }
+
+    /**
+     * Return a new account suspended mail
+     * @param context service context
+     * @param subject subject property key
+     * @param destinations destination addresses
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountInactivityNotificationMail(ServiceContext context, String subject, String[] destinations, Map<String, Object> contentVars) {
+        return buildUserMail(context, subject, destinations, EmailTemplate.ACCOUNT_INACTIVITY_TEMPLATE, contentVars);
+    }
     /**
      * Return a new account termination mail
      * @param context service context

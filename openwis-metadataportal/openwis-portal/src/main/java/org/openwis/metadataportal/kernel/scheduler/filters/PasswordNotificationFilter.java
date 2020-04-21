@@ -1,53 +1,36 @@
 package org.openwis.metadataportal.kernel.scheduler.filters;
 
-import jeeves.exceptions.BadInputEx;
 import jeeves.resources.dbms.Dbms;
-import jeeves.utils.Log;
 import org.openwis.metadataportal.model.user.User;
 import org.openwis.metadataportal.services.user.dto.UserAction;
-import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 /**
- * This class filtered the users whom password will expire soon and they have not been notified about it.
+ * This filter filters out the users who have been already notified.
+ * <p>
+ * Consider the following time line:
+ *
+ *         -7d      Now     -5d   -2d   -1d   pwdExpire
+ * ------- | ------- x ----- | --- | --- | --- | --- |
+ * </p>
+ *
+ * For each user the date of the password change is shifted with the {@param period}.
+ * The filter checks if there is a notification between the present time and the shifted date.
+ * <p>For example if {@param period} is 7d the filter will check if there are notification between
+ * the present date and pwdExpire - 7d. If there is a notification the user is filtered out.</p>
+ *
+ * <p> If the present day is before the shifted date the user is filter out. </p>
  */
-public class PasswordNotificationFilter implements AccountFilter {
-
-    private Dbms dbms;
-
-    public PasswordNotificationFilter(Dbms dbms) {
-        this.dbms = dbms;
+public class PasswordNotificationFilter extends BaseNotificationFilter implements AccountFilter {
+    public PasswordNotificationFilter(Dbms dbms, int period, TimeUnit timeUnit) {
+        super(dbms, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL, period, timeUnit);
     }
 
     @Override
-    public List<User> filter(List<User> users) {
-        List<User> filteredUsers = new ArrayList<>();
-        LogFilter logFilter = new LogFilter();
-        try {
-            List<UserLogDTO> logs = logFilter.getLogs(this.dbms);
-            for (User user : users) {
-                UserLogDTO lastNotificationLog = logFilter.getLastLogEntry(logs,user, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL);
-                if (lastNotificationLog == null) {
-                    Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. User is passing the filter.",
-                            UnnotifiedUserFilter.class.getSimpleName(),
-                            user.getUsername()));
-                    filteredUsers.add(user);
-                } else {
-                    if (user.getPwdChangedTime().isAfter(lastNotificationLog.getDate())) {
-                        Log.debug(Log.SCHEDULER, String.format("%s: Found user not notified: %s. Last notification was: %s.",
-                                UnnotifiedUserFilter.class.getSimpleName(),
-                                user.getUsername(),
-                                lastNotificationLog.getDate().toString()));
-                        filteredUsers.add(user);
-                    }
-                }
-            }
-        } catch (SQLException | BadInputEx ex) {
-            Log.error(Log.SCHEDULER, ex);
-        }
-        return filteredUsers;
+    public LocalDateTime shiftDate(User user, int period, TimeUnit timeUnit) {
+        return user.getPwdExpireTime().minus(period, ChronoUnit.valueOf(timeUnit.toString()));
     }
 }
