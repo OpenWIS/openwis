@@ -1,82 +1,84 @@
 package org.openwis.metadataportal.kernel.scheduler.filters;
 
+import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
 import org.openwis.metadataportal.model.user.User;
-import org.openwis.metadataportal.services.management.RecentEvents;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FailedLoginFilter implements AccountFilter {
 
-    private final LocalDateTime from;
-    private String datePattern = "YYYY-MM-dd HH:mm";
+    private final Dbms dbms;
+    private final String datePattern = "YYYY-MM-dd HH:mm:ss.SSS";
 
-    public FailedLoginFilter(LocalDateTime from) {
-        this.from = from;
+    public FailedLoginFilter(Dbms dbms) {
+        this.dbms = dbms;
     }
 
     @Override
     public List<User> filter(List<User> users) {
 
         List<User> filteredUsers = new ArrayList<>();
-        LocalDateTime now = LocalDateTime.now();
-
-        // create a RecentEvents service and request the last events
-        Element requestElement = this.createRequestElement(this.from, now);
-        Log.debug(Geonet.ADMIN, String.format("%s: Request element: %s",FailedLoginFilter.class.getSimpleName(), requestElement.toString()));
-        RecentEvents recentEvents = new RecentEvents();
-        Element response = null;
-        try {
-            response = recentEvents.exec(requestElement, null);
-        } catch (Exception e) {
-            Log.error(Geonet.ADMIN, e.getMessage());
-            return new ArrayList<>();
-        }
 
         for (User user : users) {
-            if (!response.toString().contains(user.getUsername())) {
-                filteredUsers.add(user);
+            try {
+                LocalDateTime lastLockedDate = this.getAccountLockedDate(user);
+                if (lastLockedDate != null) {
+                    if (!this.isAccountLockedLastNotification(user, lastLockedDate)) {
+                        filteredUsers.add(user);
+                    }
+                }
+            } catch (SQLException | NullPointerException e) {
+                Log.error(Geonet.ADMIN, String.format("%s. User %s: %s",
+                        FailedLoginFilter.class.getSimpleName(),
+                        user.getUsername(),
+                        e.getMessage()));
             }
+
         }
 
         return filteredUsers;
     }
 
-    private Element createRequestElement(LocalDateTime from, LocalDateTime to) {
-        Element element = new Element("request");
-        Element child = new Element("start");
-        child.setText("0");
-        element.addContent(child);
+    /**
+     * Return the date when the last lock out of account occured
+     *
+     * @param user user which account has been locked out
+     * @return Element
+     */
+    @SuppressWarnings("unchecked case")
+    private LocalDateTime getAccountLockedDate(User user) throws SQLException {
+        String query = String.format("select * from openwis_alarms where message like '%%Account locked%%%s%%' and source = 'Security Service' ORDER BY date DESC LIMIT 1;", user.getUsername());
 
-        child = new Element("limit").setText("100");
-        element.addContent(child);
+        List<Element> result = this.dbms.select(query).getChildren();
+        if (result.size() == 0) {
+            return null;
+        }
 
-        child = new Element("date_from").setText(from.format(DateTimeFormatter.ofPattern(datePattern)));
-        element.addContent(child);
+        List<Element> elements = (List<Element>) result.get(0).getContent();
+        for (Element e: elements) {
+            if (e.getName().equals("date")) {
+                return LocalDateTime.parse(e.getText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            }
+        }
+        return null;
+    }
 
-        child = new Element("date_to").setText(to.format(DateTimeFormatter.ofPattern(datePattern)));
-        element.addContent(child);
+    private boolean isAccountLockedLastNotification(User user, LocalDateTime lockedDate) throws SQLException {
+        String query = String.format("select * from user_log where username = '%s' and action = 'ACCOUNT_LOCKED_NOTIFICATION_MAIL' and date >= '%s';",
+                user.getUsername(),
+                lockedDate.format(DateTimeFormatter.ofPattern(datePattern))
+        );
 
-        child = new Element("severity");
-        element.addContent(child);
+        List<Element> result = null;
+        result = dbms.select(query).getChildren();
 
-        child = new Element("module");
-        element.addContent(child);
-
-        child = new Element("source").setText("Security Service");
-        element.addContent(child);
-
-        child = new Element("message").setText("Account locked");
-        element.addContent(child);
-
-        child = new Element("sort").setText("date");
-        element.addContent(child);
-        return element;
+        return result.size() != 0;
     }
 }
