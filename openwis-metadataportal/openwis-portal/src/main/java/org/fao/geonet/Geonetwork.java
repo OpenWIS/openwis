@@ -563,27 +563,33 @@ public class Geonetwork implements ApplicationHandler {
         AlertService alertService = ManagementServiceProvider.getAlertService();
         int inactivityExecPeriod = settingManager.getValueAsInt("system/inactivity/period") == null ? 0 : settingManager.getValueAsInt("system/inactivity/period");
         int passwordExecExpirePeriod = settingManager.getValueAsInt("system/passwordExpire/period") == null ? 0 : settingManager.getValueAsInt("system/passwordExpire/period");
-        TimeUnit inactivityTimeUnit = TimeUnit.DAYS;
-        TimeUnit passwordExpireTimeUnit = TimeUnit.DAYS;
-        try {
-            inactivityTimeUnit = settingManager.getValue("system/inactivity/timeunit") == null ? TimeUnit.DAYS : TimeUnit.valueOf(settingManager.getValue("system/inactivity/timeunit").toUpperCase());
-            passwordExpireTimeUnit = settingManager.getValue("system/passwordExpire/timeunit") == null ? TimeUnit.DAYS : TimeUnit.valueOf(settingManager.getValue("system/passwordExpire/timeunit").toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            Log.warning(Geonet.ADMIN, "TimeUnit parse error: " + ex.getMessage());
-            // disabling account tasks
-            inactivityExecPeriod = 0;
-            passwordExecExpirePeriod = 0;
+        int failedLoginExecPeriod = settingManager.getValueAsInt("system/failedLogin/period") == null ? 0 : settingManager.getValueAsInt("system/failedLogin/period");
+
+        Map<String,TimeUnit> unitMap = new HashMap<String,TimeUnit>() {{
+            put("inactivity", TimeUnit.DAYS);
+            put("passwordExpire", TimeUnit.DAYS);
+            put("failedLogin", TimeUnit.DAYS);
+        }};
+
+        for (Map.Entry<String,TimeUnit> unitEntry: unitMap.entrySet()) {
+            String smValue = String.format("system/%s/timeunit", unitEntry.getKey());
+            try {
+                unitEntry.setValue(settingManager.getValue(smValue) == null ? TimeUnit.DAYS : TimeUnit.valueOf(settingManager.getValue(smValue).toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                // don't do anything. we already have the default value
+                Log.warning(Geonet.ADMIN, "Wrong time for time unit:" + smValue);
+            }
         }
 
         if (inactivityExecPeriod != 0) {
-            Log.info(Geonet.ADMIN, String.format("Account lock task: Run every %d %s", inactivityExecPeriod, inactivityTimeUnit.toString()));
+            Log.info(Geonet.ADMIN, String.format("Account lock task: Run every %d %s", inactivityExecPeriod, unitMap.get("inactivity").toString()));
             AccountTask accountLockTask = AccountTaskFactory.buildAccountInactivityLockTask(context,
                     dbms,
                     alertService,
                     (Integer) params.get(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_PERIOD),
                     (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT)
             );
-            executor.scheduleAtFixedRate(accountLockTask, 0, inactivityExecPeriod, inactivityTimeUnit);
+            executor.scheduleAtFixedRate(accountLockTask, 0, inactivityExecPeriod, unitMap.get("inactivity"));
 
             int[] thresholds = (int[]) params.get(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_NOTIFICATIONS_PERIOD);
             int inactivityPeriod = (Integer) params.get(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_PERIOD);
@@ -593,14 +599,14 @@ public class Geonetwork implements ApplicationHandler {
                     continue;
                 }
 
-                Log.info(Geonet.ADMIN, String.format("Account inactivity notification T - %d %s", threshold, inactivityTimeUnit.toString()));
+                Log.info(Geonet.ADMIN, String.format("Account inactivity notification T - %d %s", threshold, unitMap.get("inactivity")));
                 AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountInactivityNotificationTask(context,
                         dbms,
                         alertService,
                         inactivityPeriod,
                         threshold,
                         (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT));
-                executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, inactivityExecPeriod, inactivityTimeUnit);
+                executor.scheduleAtFixedRate(accountLockingNotificationTask, 0, inactivityExecPeriod, unitMap.get("inactivity"));
             }
         } else {
             Log.info(Geonet.ADMIN, "Account lock task is DISABLED.");
@@ -609,16 +615,26 @@ public class Geonetwork implements ApplicationHandler {
         if (passwordExecExpirePeriod != 0) {
             int[] values = (int[]) params.get(ConfigurationConstants.ACCOUNT_TASK_PASSWORD_EXPIRE_NOTIFICATIONS_PERIOD);
             for (int v : values) {
-                Log.info(Geonet.ADMIN, String.format("Password expire notification: T - %d %s", v, passwordExpireTimeUnit.toString()));
+                Log.info(Geonet.ADMIN, String.format("Password expire notification: T - %d %s", v, unitMap.get("passwordExpire")));
                 AccountTask passwordExpireTask = AccountTaskFactory.buildPasswordExpireNotificationTask(context,
                         dbms,
                         alertService,
                         v,
                         (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT));
-                executor.scheduleAtFixedRate(passwordExpireTask, 0, passwordExecExpirePeriod, passwordExpireTimeUnit);
+                executor.scheduleAtFixedRate(passwordExpireTask, 0, passwordExecExpirePeriod, unitMap.get("passwordExpire"));
             }
         } else {
             Log.info(Geonet.ADMIN, "Password expire notification task is DISABLED");
+        }
+
+        if (failedLoginExecPeriod != 0) {
+            Log.info(Geonet.ADMIN, "Multiple failed login notification task");
+            AccountTask passwordExpireTask = AccountTaskFactory.buildLockedAccountNotificationTask(context,
+                    dbms,
+                    alertService,
+                    failedLoginExecPeriod,
+                    unitMap.get("failedLogin"));
+            executor.scheduleAtFixedRate(passwordExpireTask, 0, failedLoginExecPeriod, unitMap.get("failedLogin"));
         }
 
     }
