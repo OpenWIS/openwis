@@ -159,10 +159,8 @@ public class AccountTaskFactory {
                 new ProfileFilter("user"),
                 // Only inactive accounts
                 new AccountStatusFilter(InetUserStatus.INACTIVE),
-                // only users who have not been notified yet
-                new AccountLockedNotificationFilter(dbms),
                 // only users with the account locked out due to multiple failed logins
-                new FailedLoginFilter(LocalDateTime.now().minus(execPeriod, ChronoUnit.valueOf(timeUnit.toString())))
+                new FailedLoginFilter(dbms)
         );
 
         List<AccountAction> actions = new ArrayList<>();
