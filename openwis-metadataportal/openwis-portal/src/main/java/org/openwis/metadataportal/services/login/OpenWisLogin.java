@@ -54,10 +54,10 @@ public class OpenWisLogin implements Service {
       ServletContext servletContext = context.getUserSession().getsHttpSession().getServletContext();
       UserSessionManager userSessionManager = (UserSessionManager) servletContext.getAttribute("userSessionManager");
 	  
-      Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
       try {
 
+         Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
          // check if user is already logged in from other session
          String sessionId = userSessionManager.getUserSessionId(context.getUserSession().getUsername());
          if (sessionId.isEmpty()) {
@@ -104,6 +104,9 @@ public class OpenWisLogin implements Service {
          Log.error(LoginConstants.LOG, "Error during sql requests  : " + e.getMessage());
          throw new OpenWisLoginEx();
       } catch (UserAlreadyLoggedException e) {
+         Log.error(LoginConstants.LOG, e.getMessage(), e);
+         throw new OpenWisLoginEx(e.getMessage());
+      } catch (Exception e) {
          Log.error(LoginConstants.LOG, e.getMessage(), e);
          throw new OpenWisLoginEx(e.getMessage());
       }
