@@ -81,7 +81,7 @@ if (devMode) {
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext/adapter/ext/ext-base.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext/ext-all.js"></script>
 	
-	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/OpenLayers.js"></script>	
+	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/openlayers/lib/OpenLayers.js"></script>
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/gn.geo.libs.js"></script>
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/lib/ext.libs.js"></script>
     
