@@ -70,6 +70,7 @@ public class TokenUtilities {
 
       // Create a method instance. Call an OpenSSO REST Service.
       PostMethod method = new PostMethod(idpUrl + REST_TOKEN_VALID);
+      Log.debug(LoginConstants.LOG, "Verify token at: " + method.getPath());
 
       // set headers
       method.setRequestHeader("Content-Type","application/json");

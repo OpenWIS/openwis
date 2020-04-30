@@ -17,6 +17,7 @@ import jeeves.utils.Log;
 import org.apache.commons.lang.StringUtils;
 
 import com.sun.identity.saml2.common.SAML2Constants;
+import org.fao.geonet.constants.Geonet;
 import org.openwis.metadataportal.kernel.user.UserSessionManager;
 
 /**
@@ -72,6 +73,7 @@ public class Logout extends HttpServlet {
             //Get User token
             String token = (String) userSession.getProperty(LoginConstants.TOKEN);
             String idpUrl = (String) userSession.getProperty(LoginConstants.PREFERRED_IDP_URL);
+            Log.info(LoginConstants.LOG, "idpUrl: " + idpUrl);
             String entityID = (String) userSession.getProperty(LoginConstants.IDP_ENTITY_ID);
             String spEntityID = (String) userSession.getProperty(LoginConstants.SP_ENTITY_ID);
             String sessionIndex = (String) userSession.getProperty(LoginConstants.SESSION_INDEX);
