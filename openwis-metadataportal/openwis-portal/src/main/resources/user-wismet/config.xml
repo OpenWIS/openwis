@@ -6,7 +6,7 @@
 		<profiles>userPortal-profiles.xml</profiles>
 		<uploadDir>../../data/tmp</uploadDir>
 		<maxUploadSize>100</maxUploadSize> <!-- Size must be in megabyte (integer), 100MB by default -->
-		<debug>false</debug>
+		<debug>true</debug>
 	</general>
 
 	<!-- ====================================================================== -->
@@ -151,7 +151,7 @@
 				<user>openwis</user>
 				<password>openwis31</password>
 				<driver>org.postgresql.Driver</driver>
-				<url>jdbc:postgresql://openwis-db-1.cxaczg5nxvqg.eu-west-3.rds.amazonaws.com:5432/OpenWIS</url>
+				<url>jdbc:postgresql://dbs-pgsql-wismet-t02ezdb-postgre.cpdgomklj87t.ap-southeast-1.rds.amazonaws.com:5432/openwisdb</url>
 				<poolSize>10</poolSize>
 				<properties>
 					<property key="stringtype">unspecified</property>

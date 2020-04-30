@@ -179,7 +179,7 @@
                 <activeByDefault>${user.module}</activeByDefault>
             </activation>
             <properties>
-                <profile-id>user-dev</profile-id>
+                <profile-id>user-wismet</profile-id>
                 <war.name>openwis-user-portal</war.name>
             </properties>
             <build>
