@@ -260,4 +260,6 @@ public interface ConfigurationConstants {
 
     // How many days before password wil expire the user will receive mails
     String ACCOUNT_TASK_PASSWORD_EXPIRE_NOTIFICATIONS_PERIOD = "openwis.metadataportal.account.task.passwordExpire";
+
+    String IDP_URL = "openwis.metadataportal.idp.url";
 }
