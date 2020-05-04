@@ -5,7 +5,7 @@
 <html>
 <head>
 <%
-String title = "MSS WIS Portal Home Page";
+String title = "Weather Information System- Meteorological Service Singapore";
 %>
 
 	<%@include file="header-common.jsp" %>

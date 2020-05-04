@@ -20,6 +20,7 @@ boolean selfRegistrationEnabled = sm.getValueAsBool("system/userSelfRegistration
 boolean devMode = context.isDebug();
 %>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="description" content=""> <!-- Description à fournir par MSS -->
 	<title><%= title %></title>
 
 	<link href="<%= context.getBaseUrl() %>/favicon.ico" rel="shortcut icon" type="image/x-icon">
