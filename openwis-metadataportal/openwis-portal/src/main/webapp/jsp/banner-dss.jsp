@@ -35,7 +35,36 @@ String serviceName = context.getService();
         <div class="dss-main-nav">
             <div class="dss-nav-catalog"><a href="<%= locService %>/main.home">DATA CATALOG</a></div>
             <div><a href="<%= locService %>/help.home">HELP</a></div>
-            <div class="dss-nav-login"><a href="<%= context.getBaseUrl() %>/openWisInit">LOGIN</a></div>
+            <!-- Login -->
+            <div class="dss-nav-login">
+                <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {
+                     String entityID = (String) context.getUserSession().getProperty("idpEntityID");
+                %>
+                <form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
+                    <%if (request.getAttribute("userLastLogin") !=  null) {%>
+                	    <div><%=request.getAttribute("userLastLogin")%></div>
+                	<%}%>
+                		<div class="logoutDiv">
+                	    	<%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %><br/> (<%= entityID %>)
+                		</div>
+                		<div class="logoutDiv">
+                			<button type="submit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout'))</script></button>
+                			<i class="iconIOS7-bt_link_on"></i>
+                			<input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
+                		</div>
+                </form>
+                <% } else { %>
+                    <% if ("user".equals(portalType) && !context.isDebug() ) { %>
+                        <div class="dss-loginDiv">
+                            <a class="dss-login-ref" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+                    	</div>
+                    	<%} else {%>
+                        <div class="dss-loginDiv">
+                            <a class="dss-login-ref" href="<%= context.getBaseUrl() %>/openWisInit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+                        </div>
+                    <% } %>
+                <% } %>
+            </div>
         </div>
     </div>
 </div>
