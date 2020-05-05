@@ -59,4 +59,46 @@
         </div>
     </div>
 </div>
+<table>
+    <tr>
+        <td class="dss-menu-nav-item">ASMC</td>
+        <td>/</td>
+        <td>
+            <div class="dss-datacatalog">
+                <div class="dropdown">
+                    <a class="dss-menu-nav-item" href="#">Data Catalog</a>
+                    <ul class="dropdown-content">
+                        <li>
+                        <a class="prod" id="prod1" onclick="showItem('prod1')" href="#">Satellite Images (JPSS
+                            1/NOAA-20)</a></li>
+                        <li><a class="prod" id="prod2" onclick="showItem('prod2')" href="#">Satellite Images
+                            (Suomi-NPP)</a></li>
+                        <li><a class="prod" id="prod3" onclick="showItem('prod3')" href="#">Satellite Images (AQUA)</a></li>
+                        <li><a class="prod" id="prod4" onclick="showItem('prod4')" href="#">Satellite Images (TERRA)</a></li>
+                        <li><a class="prod" id="prod5" onclick="showItem('prod5')" href="#">Regional Haze Situation</a></li>
+                        <li><a class="prod" id="prod6" onclick="showItem('prod6')" href="#">Hotspot Reports (JPSS
+                            1/NOAA-20)</a></li>
+                        <li><a class="prod" id="prod7" onclick="showItem('prod7')" href="#">Hotspot Reports
+                            (Suomi-NPP)</a></li>
+                        <li><a class="prod" id="prod8" onclick="showItem('prod8')" href="#">Hotspot Reports (AQUA)</a></li>
+                        <li><a class="prod" id="prod9" onclick="showItem('prod9')" href="#">Hotspot Reports (TERRA)</a></li>
+                        <li><a class="prod" id="prod10" onclick="showItem('prod10')" href="#">Smoke Haze Dispersion
+                            Model</a></li>
+                    </ul>
+                </div>
+            </div>
+        </td>
+        <td class="dss-menu-nav-item" id="produit">
+            <script type="text/javascript">
+                function showItem(id) {
+                    let product = document.getElementById("produit");
+                    product.innerHTML = "/ " + document.getElementById(id).innerHTML;
+                    document.getElementById("ext-comp-1019").value = document.getElementById(id).innerHTML;
+                    document.getElementById("ext-gen105").click();
+                }
+            </script>
+        </td>
+    </tr>
+</table>
+
 
