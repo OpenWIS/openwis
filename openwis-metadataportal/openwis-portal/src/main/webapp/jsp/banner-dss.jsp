@@ -31,7 +31,7 @@
                 <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {%>
                     <div class="dss-logout-container">
                         <div class="dss-logout-username">
-                            <%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %>>
+                            <%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %>
                         </div>
                         <form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
                 		    <div class="dss-logoutDiv">
