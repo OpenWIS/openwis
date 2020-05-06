@@ -177,3 +177,21 @@
     justify-content: right;
 }
 
+.dss-maintenance-notice {
+    padding-left: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4b4b4b;
+}
+
+.dss-maintenance-title {
+    margin-top: 7px;
+    font-size: 15px;
+    font-weight: 700;
+    color: blue;
+    padding-left: 30px;
+}
+
+.dss-maintenance-container {
+    color: #d3ffff;
+}

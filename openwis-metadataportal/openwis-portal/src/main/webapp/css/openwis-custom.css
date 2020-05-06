@@ -481,7 +481,6 @@
 
  #header {
      padding-bottom: 15px;
-     height: 176px
  }
 
  #header tr {
@@ -617,7 +616,6 @@
      background: url(../images/openwis/headerBack/header_img.jpg) no-repeat center;
      z-index: 50;
      margin: auto;
-     margin-top: -30px;
  }
 
  #contentElement {

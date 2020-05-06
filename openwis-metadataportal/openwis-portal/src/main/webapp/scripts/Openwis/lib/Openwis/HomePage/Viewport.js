@@ -228,7 +228,6 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 				border: false,
 				contentEl: 'header',
 				cls: 'headerCtCls',
-				height: 310
 			});
 		}
 		return this.headerPanel;
