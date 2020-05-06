@@ -229,7 +229,7 @@ Openwis.Lang.Dictionary = {
    
     
     //----------------------------------------------------------------- Home page.
-	'HomePage.Main.Header' : '<h1>Find Interactive Maps, GIS datasets, Satellite Imagery and Related Applications</h1>',
+	'HomePage.Main.Header' : '<h1>ASEAN Specialized<p>Meteorological Center</p></h1>',
 	
     'HomePage.Main.Content' : '<p>\
                                       <h1>OpenWIS purpose is:</h1>\
