@@ -81,10 +81,14 @@
     color: #19517B;
 }
 
-.dss-nav-catalog {
-    margin-right: 100px;
+.dss-nav-item {
+    margin-right: 20px;
 }
 
+.dss-nav-left {
+    display: flex;
+    justify-content: center;
+}
 .dss-nav-login {
     flex: 1;
     text-align: right;
