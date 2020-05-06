@@ -35,7 +35,7 @@
                         </div>
                         <form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
                 		    <div class="dss-logoutDiv">
-                			    <button type="submit" class="dss-logout-button"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout'))</script></button>
+                			    <button type="submit" class="dss-logout-button"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Logout').toUpperCase())</script></button>
                 			    <i class="iconIOS7-bt_link_on"></i>
                 			    <input type="hidden" name="lang" value="<%= context.getLanguage() %>"/>
                 		    </div>
@@ -44,11 +44,11 @@
                 <% } else { %>
                     <% if ("user".equals(portalType) && !context.isDebug() ) { %>
                         <div class="dss-loginDiv">
-                            <a class="dss-login-ref" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+                            <a class="dss-login-ref" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login').toUpperCase())</script></a>
                     	</div>
                     	<%} else {%>
                         <div class="dss-loginDiv">
-                            <a class="dss-login-ref" href="<%= context.getBaseUrl() %>/openWisInit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
+                            <a class="dss-login-ref" href="<%= context.getBaseUrl() %>/openWisInit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login').toUpperCase())</script></a>
                         </div>
                     <% } %>
                 <% } %>
