@@ -105,12 +105,14 @@
        </script>
    </div>
 </div>
-<div class="dss-maintenance-container">
-    <div class="dss-maintenance-title">
-        <p>Maintenance Notice</p>
+<% if (request.getAttribute("maintenanceDate") != null) {%>
+    <div class="dss-maintenance-container">
+        <div class="dss-maintenance-title">
+            <p>Maintenance Notice</p>
+        </div>
+        <div class="dss-maintenance-notice">
+            <p>The WIS Portal will be undergoing scheduled maintenance and will be unavailable on </p><p><%=request.getAttribute("maintenanceDate")%></p>
+        </div>
     </div>
-    <div class="dss-maintenance-notice">
-        <p>The WIS Portal will be undergoing scheduled maintenance and will be unavailable on DD MMM, XX am to YY pm.</p>
-    </div>
-</div>
+<% } %>
 
