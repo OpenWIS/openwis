@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 public class UserLogDTO {
@@ -70,12 +71,11 @@ public class UserLogDTO {
     }
 
     @JsonProperty("date")
-    public String getDateAsString() {
+    public long getDateAsLong() {
         if (getDate() == null) {
-            return "";
+            return LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)*1000;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
-        return getDate().format(formatter);
+        return getDate().toEpochSecond(ZoneOffset.UTC) * 1000;
     }
 
     public void setDate(LocalDateTime date) {
