@@ -414,7 +414,7 @@ public class User {
         if (this.pwdExpireTime == null) {
             return "";
         }
-        return this.pwdChangedTime.isAfter(this.pwdExpireTime) ? "Yes" : "No";
+        return this.pwdExpireTime.isBefore(LocalDateTime.now()) ? "Yes" : "No";
     }
 
     public void setPwdExpireTime(LocalDateTime pwdExpireTime) {
