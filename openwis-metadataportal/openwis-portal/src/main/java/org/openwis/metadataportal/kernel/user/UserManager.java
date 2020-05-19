@@ -3,7 +3,9 @@
  */
 package org.openwis.metadataportal.kernel.user;
 
+import jeeves.interfaces.Logger;
 import jeeves.resources.dbms.Dbms;
+import jeeves.utils.Log;
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
@@ -29,8 +31,10 @@ import org.openwis.securityservice.UserManagementException_Exception;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Short Description goes here. <P>
@@ -243,7 +247,27 @@ public class UserManager extends AbstractManager {
             user.setLastLogin(LocalDateTime.parse(openWISUser.getLastLoginTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
         user.setPwdChangedTime(LocalDateTime.parse(openWISUser.getPwdChangedTime(), DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
-        user.setPwdExpireTime(LocalDateTime.parse(openWISUser.getPwdExpireTime(),DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
+
+        /**
+         * Fix: DO NOT USE getPwdExpireTime
+         * Password expiration is computed from pwdChangedTime + the period of password valability
+         * Password expiration
+         * If you set up password expiration, the warning gets triggered when the user authenticates during the password expiration warning interval
+         * and the ds-pwp-warned-time attribute is set. If the user does not authenticate before the password expiry time,
+         * the ds-pwp-password-expiration-time value will keep increasing until the user password is changed and the expiry time is reset.
+         * For more details see: https://backstage.forgerock.com/knowledge/kb/article/a40016497
+         */
+        int period = 365;
+        ChronoUnit periodTimeUnit = ChronoUnit.DAYS;
+        try {
+            period = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_PERIOD);
+            periodTimeUnit = ChronoUnit.valueOf(OpenwisMetadataPortalConfig.getString(ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT));
+        } catch (NumberFormatException ex) {
+            Log.error(Log.WEBAPP, "Not a number: " + ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_PERIOD);
+        } catch (IllegalArgumentException e) {
+            Log.error(Log.WEBAPP, "Not a time unit: " + ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT);
+        }
+        user.setPwdExpireTime(user.getPwdChangedTime().plus(period, periodTimeUnit));
 
         user.getEmails().addAll(openWISUser.getEmails());
         user.getFtps().addAll(openWISUser.getFtps());
