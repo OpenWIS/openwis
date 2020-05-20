@@ -228,6 +228,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 				border: false,
 				contentEl: 'header',
 				cls: 'headerCtCls',
+				height: "auto"
 			});
 		}
 		return this.headerPanel;
@@ -260,7 +261,6 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 				region: 'west',
 				border: false,
 				html: '&nbsp;',
-            	height: 1200
 			});
 		}
 		return this.westPanel;
@@ -310,7 +310,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
             
             var contentPanelHeight = this.getSearchResultsPanel().getHeight() + 350;
             var compMinHeight = (leftPanelHeight > contentPanelHeight) ? leftPanelHeight : contentPanelHeight;
-            compMinHeight += 475;
+            compMinHeight += 550;
             
         	this.getViewportPanel().boxMinHeight = compMinHeight;
         	
