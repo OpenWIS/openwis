@@ -26,6 +26,10 @@ import org.openwis.metadataportal.kernel.user.UserAlreadyLoggedException;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.kernel.user.UserSessionManager;
 import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
+import org.openwis.metadataportal.services.user.dto.UserAction;
+import org.openwis.metadataportal.services.user.dto.UserDTO;
+import org.openwis.metadataportal.services.user.dto.UserLogDTO;
+import org.openwis.metadataportal.services.util.UserLogUtils;
 
 import javax.servlet.ServletContext;
 
@@ -96,6 +100,8 @@ public class OpenWisLogin implements Service {
          @SuppressWarnings("unchecked")
          List<String> groups = (List<String>) context.getUserSession().getProperty(Params.GROUPS);
          updateTableUserGroup(sId, dbms, groups);
+
+         addLogEntry(username, dbms);
 
          context.info("User '" + username + "' logged in as '" + sProfile + "'");
          context.getUserSession().authenticate(sId, username, sName, sSurname, sProfile, sMail);
@@ -171,6 +177,16 @@ public class OpenWisLogin implements Service {
 
       }
 
+   }
+
+   private void addLogEntry(String username, Dbms dbms) throws SQLException {
+      UserLogDTO userLogDTO;
+      userLogDTO = new UserLogDTO();
+      userLogDTO.setActioner(username);
+      userLogDTO.setAction(UserAction.LOGIN);
+      userLogDTO.setUsername(username);
+      userLogDTO.setDate(LocalDateTime.now());
+      UserLogUtils.save(dbms, userLogDTO);
    }
 
 }

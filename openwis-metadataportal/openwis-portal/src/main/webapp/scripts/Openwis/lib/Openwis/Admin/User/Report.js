@@ -50,7 +50,7 @@ Openwis.Admin.User.Report = Ext.extend(Ext.Container, {
 				store: this.getReportStore(),
 				loadMask: true,
 				columns: [
-					{id: 'date', header:Openwis.i18n("Security.Report.Date.Column"), dataIndex:'date', sortable: true, width:100},
+					{id: 'date', header:Openwis.i18n("Security.Report.Date.Column"), dataIndex:'date', sortable: true, width:100,renderer: Openwis.Utils.Date.formatDateTimeUTCfromLong},
 					{id:'username', header: Openwis.i18n("Security.Report.UserName.Column"), dataIndex:'username', sortable: true, width: 180},
 					{id:'action', header: Openwis.i18n("Security.Report.Action.Column"), dataIndex:'action', sortable: true, width: 100},
 					{id:'attribute', header:Openwis.i18n("Security.Report.Attribute.Column"), dataIndex:'attribute', sortable: true, width: 100},
@@ -79,7 +79,6 @@ Openwis.Admin.User.Report = Ext.extend(Ext.Container, {
 				    },
 					{
 						name:'date',
-						sortType:'asUCString'
 					},{
 						name:'username',
 						sortType:'asUCString'
@@ -94,6 +93,10 @@ Openwis.Admin.User.Report = Ext.extend(Ext.Container, {
 					    sortType:'asUCString'
 					},
 				],
+				sortInfo: {
+                    field: 'date',
+                   direction: 'DESC'
+                },
 				listeners: {
 					load: function (records) {
 						if (records && records.totalLength > 999) {
