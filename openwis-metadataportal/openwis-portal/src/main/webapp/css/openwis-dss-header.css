@@ -55,7 +55,7 @@
 .dss-logo-right-container {
     display: grid;
     justify-items: right;
-    padding-right: 10px;
+    padding-right: 20px;
 }
 
 .dss-main-nav {
@@ -67,7 +67,7 @@
 }
 
 .dss-main-nav > div {
-    padding-right: 10px;
+    padding-right: 20px;
     margin-left: 30px;
     color: #4b4b4b;
 }
