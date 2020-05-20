@@ -35,8 +35,13 @@ boolean devMode = context.isDebug();
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-metadataeditor.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/fileuploadfield.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/MultiSelect.css">
-	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
-	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss-header.css">
+
+    <% if ("user".equals(portalType)) { %>
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom-user.css">
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss-header.css">
+    <%} else {%>
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
+    <%  } %>
 <%
 if (devMode) {
 %>  
