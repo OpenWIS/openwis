@@ -516,6 +516,13 @@ public class UserManagementServiceImpl implements UserManagementService {
         modList.add(new LDAPModification(LDAPModification.REPLACE, attribute));
         String dn = UserUtils.getDn(username);
         UtilEntry.updateEntry(modList, dn);
+
+        // This method is called be the user himself therefore the attribute pwdReset must be set to false
+        // to force OpenDJ not to ask user to reset his password at next login.
+        LDAPAttribute pwdResetAttr = new LDAPAttribute(PWD_RESET, Boolean.toString(false));
+        modList.add(new LDAPModification(LDAPModification.REPLACE, pwdResetAttr));
+        dn = UserUtils.getDn(username);
+        UtilEntry.updateEntry(modList, dn);
     }
 
     /**
