@@ -111,7 +111,8 @@
             <p>Maintenance Notice</p>
         </div>
         <div class="dss-maintenance-notice">
-            <p>The WIS Portal will be undergoing scheduled maintenance and will be unavailable on </p><p><%=request.getAttribute("maintenanceDate")%></p>
+            <p>The WIS Portal will be undergoing scheduled maintenance and will be unavailable on </p>
+            <p class="dss-maintenance-date"><%=request.getAttribute("maintenanceDate")%></p>
         </div>
     </div>
 <% } %>
