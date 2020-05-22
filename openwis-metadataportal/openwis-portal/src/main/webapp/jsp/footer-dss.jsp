@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.text.SimpleDateFormat" %>
+<%! final static String DATE_FORMAT_NOW = "dd/MM/yy"; %>
+
 <div class="footer">
     <div class="main-content">
         <div class="main-content-left">
@@ -52,7 +55,16 @@
         </div>
         <div class="copyright text-to-right">
             <div id="copyrights">&copy;2020 National Environment Agency</div>
-            <div class="date">Last updated 19 Februari 2020</div>
+            <div class="date">Last updated
+              <script>
+                    var today  = new Date();
+                    const months = {
+                        0: 'January',1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June', 6: 'July', 7: 'August',
+                        8: 'September', 9: 'October', 10: 'November', 11: 'December' }
+                    const m = months[today.getMonth()]
+                    document.write(today.getDate() + " " + m + " " +  today.getFullYear()); // Sat
+            </script>
+            </div>
         </div>
     </div>
 </div>
