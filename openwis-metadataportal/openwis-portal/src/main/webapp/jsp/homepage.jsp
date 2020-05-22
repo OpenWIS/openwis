@@ -24,6 +24,10 @@ String title = "MSS WIS Portal Home Page";
         <%@include file="banner.jsp" %>
          
       </div>
-<%@include file="footer-common.jsp" %>      
+    <% if ("user".equals(portalType)) { %>
+        <%@include file="footer-dss.jsp" %>
+    <%} else {%>
+        <%@include file="footer-common.jsp" %>
+    <%  } %>
    </body>
 </html>

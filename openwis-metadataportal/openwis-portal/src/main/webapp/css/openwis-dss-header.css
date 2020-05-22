@@ -195,3 +195,84 @@
 .dss-maintenance-container {
     color: #d3ffff;
 }
+
+.footer {
+	width: 990px;
+	margin:auto;
+	background:#19517B;
+	color: #fff;
+}
+
+.main-content {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 50px;
+}
+
+.main-content-left {
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.main-content-right {
+	margin: auto;
+	margin-right: 20px;
+}
+
+.main-content-right > ul > li {
+	line-height: 30px;
+}
+
+.footer-link {
+	color: white;
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.catalog-links-container {
+	margin-top: 10px;
+}
+
+.title {
+	font-size: 18px;
+	font-weight: 300;
+	text-transform: uppercase;
+	font-weight: 1000;
+}
+
+.title-border {
+	border-bottom: 3px solid #f36e21;
+	padding-bottom: 5px;
+}
+
+
+.text-to-right {
+	text-align:right;
+	margin-right: 20px;
+	padding-bottom: 5px;
+}
+
+.bottom-link-container {
+	margin-left: 20px;
+	margin-right:20px;
+	margin-top: 10px;
+	font-size: 12px;
+}
+
+.bottom-links {
+	display: flex;
+}
+
+.bottom-links > li {
+	padding-right: 10px;
+}
+
+.browser {
+	margin-left:20px;
+	font-size: 12px;
+	padding-bottom: 5px;
+}
+
+.copyright {
+	font-size: 12px;
+}
