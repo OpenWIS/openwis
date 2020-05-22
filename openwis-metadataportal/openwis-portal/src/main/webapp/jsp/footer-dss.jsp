@@ -55,16 +55,28 @@
         </div>
         <div class="copyright text-to-right">
             <div id="copyrights">&copy;2020 National Environment Agency</div>
-            <div class="date">Last updated
-              <script>
-                    var today  = new Date();
-                    const months = {
-                        0: 'January',1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June', 6: 'July', 7: 'August',
-                        8: 'September', 9: 'October', 10: 'November', 11: 'December' }
-                    const m = months[today.getMonth()]
-                    document.write(today.getDate() + " " + m + " " +  today.getFullYear()); // Sat
-            </script>
-            </div>
+            <div class="footer-dates">
+             <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {%>
+                <div class="loginDate">
+                    Last login:
+                        <%if (request.getAttribute("userLastLogin") !=  null) {%>
+                            <div class="login-date-inner"><%=request.getAttribute("userLastLogin")%></div>
+                         <%}%>
+                </div>
+                <%} else {%>
+                    <div></div>
+                <%}%>
+                <div class="date">Last updated
+                  <script>
+                        var today  = new Date();
+                        const months = {
+                            0: 'January',1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June', 6: 'July', 7: 'August',
+                            8: 'September', 9: 'October', 10: 'November', 11: 'December' }
+                        const m = months[today.getMonth()]
+                        document.write(today.getDate() + " " + m + " " +  today.getFullYear()); // Sat
+                </script>
+                </div>
+             </div>
         </div>
     </div>
 </div>

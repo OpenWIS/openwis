@@ -289,3 +289,16 @@
 .copyright {
 	font-size: 12px;
 }
+ .footer-dates {
+    display: flex;
+    justify-content: space-between;
+ }
+
+.loginDate {
+    margin-left:20px;
+    display: flex;
+}
+
+.login-date-inner {
+    margin-left: 5px;
+}
