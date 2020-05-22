@@ -223,6 +223,15 @@
 	line-height: 30px;
 }
 
+.main-content-right a {
+    margin: auto;
+}
+
+.main-content-right img {
+    width: 15px;
+    height: 15px;
+}
+
 .footer-link {
 	color: white;
 	text-decoration: none;
@@ -240,6 +249,9 @@
 	font-weight: 1000;
 }
 
+.subtitle {
+    display: flex;
+}
 .title-border {
 	border-bottom: 3px solid #f36e21;
 	padding-bottom: 5px;

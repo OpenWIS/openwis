@@ -38,7 +38,7 @@ boolean devMode = context.isDebug();
 
     <% if ("user".equals(portalType)) { %>
 	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom-user.css">
-	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss-header.css">
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss.css">
     <%} else {%>
 	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
     <%  } %>

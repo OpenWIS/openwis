@@ -27,7 +27,7 @@
                 <li><p class="title">ABOUT</p></li>
                 <li><p class="title">CONTACT US</p></li>
                 <li class="subtitle"><p>FOLLOW US ON</p>
-			<a class="donotresize" href="http://asmc.asean.org/feed/">
+			<a  href="http://asmc.asean.org/feed/">
                     <img src="<%= context.getBaseUrl() %>/images/icon-rss.png" width="150"
                          alt="icon rss" align="top">
 			</a>
