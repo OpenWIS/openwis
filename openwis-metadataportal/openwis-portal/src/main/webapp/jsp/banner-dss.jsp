@@ -69,7 +69,7 @@
 <table class="dss-menu">
     <tr>
         <td class="dss-menu-nav-item">ASMC</td>
-        <td class="dss-menu-nav-item">/</td>
+        <td class="dss-menu-nav-item dss-menu-nav-separator">/</td>
         <td>
             <div class="dss-datacatalog">
                 <div class="dropdown">
