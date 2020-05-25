@@ -42,7 +42,9 @@ String title = "ASEAN | WIS Portal";
             <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="POST">
                   <div id="html_element"></div>
                 <br>
-                <input type="submit" value="Submit">
+                <div class="submitContainer">
+                    <input id="submitButton" type="submit" value="Submit">
+                </div>
             </form>
             <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
                  async defer>

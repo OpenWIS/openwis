@@ -25,6 +25,15 @@ body {
     margin-bottom: 15px;
 }
 
+.submitContainer {
+    display:flex;
+    justify-content: center;
+}
+
+#submitButton {
+    width: 100px;
+    height: 30px;
+}
 .captcha {
     display: flex;
     justify-content:center;
