@@ -17,7 +17,7 @@
 </script>
 
 <%
-String title = "Login captcha verification";
+String title = "ASEAN | WIS Portal";
 %>
 
 	<%@include file="header-common.jsp" %>
@@ -37,15 +37,18 @@ String title = "Login captcha verification";
         <%
         }
         %>
-      <div class="form-container">
-        <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="POST">
-              <div id="html_element"></div>
-              <br>
-              <input type="submit" value="Submit">
-        </form>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-             async defer>
-        </script>
+      <div class="main">
+        <div class="form-container">
+            <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="POST">
+                  <div id="html_element"></div>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                 async defer>
+            </script>
+        </div>
+        <%@include file="footer-dss.jsp"%>
         <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-homepage.css">
         <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-login-captcha.css">
       </div>

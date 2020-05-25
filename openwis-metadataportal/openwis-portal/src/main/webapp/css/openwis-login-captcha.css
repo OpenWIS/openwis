@@ -1,7 +1,25 @@
+body {
+    background: #eaeaea;
+    width: 990px;
+    margin: auto;
+}
+#header {
+    background: white;
+    padding-bottom: 0;
+}
+
+.dss-nav-login {
+    display: none;
+}
+
+.dss-menu-container {
+    display: none;
+}
 .form-container {
-    margin-top: 30px;
     display: flex;
     justify-content:center;
+    background: white;
+    height: 500px;
 }
 .for-captcha {
     margin-bottom: 15px;
@@ -15,4 +33,12 @@
 .captcha-image {
     margin-top: 15px;
     margin-bottom: 15px;
+}
+
+.main-content-right {
+    margin-top: 20px;
+}
+
+.main-content-left {
+    display: none;
 }
