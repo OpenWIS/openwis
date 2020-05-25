@@ -76,16 +76,16 @@
                     <a class="dss-menu-nav-item" href="#">Data Catalog</a>
                     <ul class="dropdown-content">
                         <li>
-                        <a class="prod" id="noaa-20" onclick="showItem('noaa-20')" href="#">Satellite Images (JPSS 1/NOAA-20)</a></li>
-                        <li><a class="prod" id="Suomi-NPP" onclick="showItem('Suomi-NPP')" href="#">Satellite Images (Suomi-NPP)</a></li>
+                        <a class="prod" id="noaa20" onclick="showItem('noaa20')" href="#">Satellite Images (JPSS 1/NOAA-20)</a></li>
+                        <li><a class="prod" id="suomiNpp" onclick="showItem('suomiNpp')" href="#">Satellite Images (Suomi-NPP)</a></li>
                         <li><a class="prod" id="aqua" onclick="showItem('aqua')" href="#">Satellite Images (AQUA)</a></li>
                         <li><a class="prod" id="terra" onclick="showItem('terra')" href="#">Satellite Images (TERRA)</a></li>
                         <li><a class="prod" id="haze" onclick="showItem('haze')" href="#">Regional Haze Situation</a></li>
-                        <li><a class="prod" id="hostpot_noaa20" onclick="showItem('hostpot noaa20')" href="#">Hotspot Reports (JPSS 1/NOAA-20)</a></li>
-                        <li><a class="prod" id="hostpot_npp" onclick="showItem('hostpot npp')" href="#">Hotspot Reports (Suomi-NPP)</a></li>
-                        <li><a class="prod" id="hostpot_aqua" onclick="showItem('hostpot aqua')" href="#">Hotspot Reports (AQUA)</a></li>
-                        <li><a class="prod" id="hostpot_terra" onclick="showItem('hostpot terra')" href="#">Hotspot Reports (TERRA)</a></li>
-                        <li><a class="prod" id="haze_dispersion" onclick="showItem('haze dispersion')" href="#">Smoke Haze Dispersion
+                        <li><a class="prod" id="hotspotNoaa20" onclick="showItem('hotspotNoaa20')" href="#">Hotspot Reports (JPSS 1/NOAA-20)</a></li>
+                        <li><a class="prod" id="hotspotNpp" onclick="showItem('hotspotNpp')" href="#">Hotspot Reports (Suomi-NPP)</a></li>
+                        <li><a class="prod" id="hotspotAqua" onclick="showItem('hotspotAqua')" href="#">Hotspot Reports (AQUA)</a></li>
+                        <li><a class="prod" id="hotspotTerra" onclick="showItem('hotspotTerra')" href="#">Hotspot Reports (TERRA)</a></li>
+                        <li><a class="prod" id="hazeDispersion" onclick="showItem('hazeDispersion')" href="#">Smoke Haze Dispersion
                             Model</a></li>
                     </ul>
                 </div>
@@ -95,14 +95,6 @@
     </tr>
 </table>
    <div class="dss-menu-nav-item" id="produit">
-       <script type="text/javascript">
-           function showItem(id) {
-               let product = document.getElementById("produit");
-               product.innerHTML = "/ " + document.getElementById(id).innerHTML;
-               document.getElementById("ext-comp-1019").value = document.getElementById(id).innerHTML;
-               document.getElementById("ext-gen105").click();
-           }
-       </script>
    </div>
 </div>
 <% if (request.getAttribute("maintenanceDate") != null) {%>
