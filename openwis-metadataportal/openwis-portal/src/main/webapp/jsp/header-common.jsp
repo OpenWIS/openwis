@@ -158,3 +158,6 @@ if (devMode) {
 
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/core/kernel/kernel.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/mfi.js"></script>
+	 <% if ("user".equals(portalType)) { %>
+	    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/menu-search.js"></script>
+	 <% } %>
