@@ -108,11 +108,20 @@
     font-size: 15px;
     font-weight: 700;
 }
+
+#produit {
+    padding-left: 2px;
+}
 .dss-menu {
     margin-left: 30px;
 }
 .dss-menu-nav-item {
     color: #4b4b4b;
+}
+
+.dss-menu-nav-separator {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .dropdown {
