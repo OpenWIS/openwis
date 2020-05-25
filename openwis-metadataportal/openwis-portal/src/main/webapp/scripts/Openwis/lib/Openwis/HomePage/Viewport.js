@@ -236,7 +236,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 	getHeaderImage: function(){
 		if(!this.headerImage) {
 			this.headerImage = {tag:'div', cls:'header_img SearchPage', id:'header_img', 
-			html: "<div id='urlTitleCont'><div id='urlTitle'>SEARCH <strong>RESULTS</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div>"}
+			html: "<div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div>"}
 		}
 		return this.headerImage;
 	},
@@ -261,7 +261,6 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 				region: 'west',
 				border: false,
 				html: '&nbsp;',
-            	height: 1200
 			});
 		}
 		return this.westPanel;
@@ -311,7 +310,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
             
             var contentPanelHeight = this.getSearchResultsPanel().getHeight() + 350;
             var compMinHeight = (leftPanelHeight > contentPanelHeight) ? leftPanelHeight : contentPanelHeight;
-            compMinHeight += 475;
+            compMinHeight += 550;
             
         	this.getViewportPanel().boxMinHeight = compMinHeight;
         	

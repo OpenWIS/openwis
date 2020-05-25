@@ -20,6 +20,7 @@ boolean selfRegistrationEnabled = sm.getValueAsBool("system/userSelfRegistration
 boolean devMode = context.isDebug();
 %>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="description" content="This portal provides operational information and products on the weather and smoke haze situation in the ASEAN region" />
 	<title><%= title %></title>
 
 	<link href="<%= context.getBaseUrl() %>/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -35,7 +36,13 @@ boolean devMode = context.isDebug();
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-metadataeditor.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/fileuploadfield.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext-ux/css/MultiSelect.css">
-	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
+
+    <% if ("user".equals(portalType)) { %>
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom-user.css">
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss.css">
+    <%} else {%>
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
+    <%  } %>
 <%
 if (devMode) {
 %>  
@@ -151,3 +158,6 @@ if (devMode) {
 
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/core/kernel/kernel.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/mfi.js"></script>
+	 <% if ("user".equals(portalType)) { %>
+	    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/menu-search.js"></script>
+	 <% } %>

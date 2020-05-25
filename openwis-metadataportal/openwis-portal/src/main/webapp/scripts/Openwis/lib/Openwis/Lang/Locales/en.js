@@ -229,7 +229,7 @@ Openwis.Lang.Dictionary = {
    
     
     //----------------------------------------------------------------- Home page.
-	'HomePage.Main.Header' : '<h1>Find Interactive Maps, GIS datasets, Satellite Imagery and Related Applications</h1>',
+	'HomePage.Main.Header' : '<h1>ASEAN Specialized<p>Meteorological Center</p></h1>',
 	
     'HomePage.Main.Content' : '<p>\
                                       <h1>OpenWIS purpose is:</h1>\
@@ -252,7 +252,7 @@ Openwis.Lang.Dictionary = {
     	<h2>To sign up for an account</h2>\
     	<p></p>\
     	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
-    	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a><img src="/accountRequest/images/new-window.png">\
+    	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a>.\
     	If your registration is successful, an email containing your login credentials will be sent to you within 3-5 working days.</p>\
     	<br>\
     	<br>\
@@ -260,7 +260,7 @@ Openwis.Lang.Dictionary = {
     	<h2>To recover a lost account</h2>\
     	<p></p>\
     	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRecovery.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRecovery.get\', \'_blank\',\
-    	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Recovery form</a><img src="/accountRequest/images/new-window.png"></p>\
+    	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Recovery form</a>.</p>\
     	<br>\
     	<br>\
     	<p></p>',

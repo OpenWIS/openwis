@@ -5,7 +5,7 @@
 <html>
 <head>
 <%
-String title = "MSS WIS Portal Home Page";
+String title = "ASMC | WIS Portal";
 %>
 
 	<%@include file="header-common.jsp" %>
@@ -13,13 +13,21 @@ String title = "MSS WIS Portal Home Page";
 	<%@include file="header-homepage.jsp" %>
     
     <%@include file="header-remotesearch.jsp" %>
-	<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
+    <% if ("user".equals(portalType)) { %>
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom-user.css">
+    <%} else {%>
+	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
+    <%  } %>
    </head>
    <body>
       <div id="header">
         <%@include file="banner.jsp" %>
          
       </div>
-<%@include file="footer-common.jsp" %>      
+    <% if ("user".equals(portalType)) { %>
+        <%@include file="footer-dss.jsp" %>
+    <%} else {%>
+        <%@include file="footer-common.jsp" %>
+    <%  } %>
    </body>
 </html>
