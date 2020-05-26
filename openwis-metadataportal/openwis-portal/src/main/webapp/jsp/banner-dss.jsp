@@ -38,9 +38,13 @@
             <!-- Login -->
             <div class="dss-nav-login">
                 <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {%>
+                    <%
+                         String nameForHtml = StringEscapeUtils.escapeHtml(context.getUserSession().getName());
+                         String surnameForHtml = StringEscapeUtils.escapeHtml(context.getUserSession().getSurname());
+                    %>
                     <div class="dss-logout-container">
                         <div class="dss-logout-username">
-                            <%= context.getUserSession().getName() %> <%= context.getUserSession().getSurname() %>
+                            <%= nameForHtml %> <%= surnameForHtml %>
                         </div>
                         <form name="logout" action="<%= context.getBaseUrl() %>/openWisLogout" method="post" id="loginFormEl">
                 		    <div class="dss-logoutDiv">

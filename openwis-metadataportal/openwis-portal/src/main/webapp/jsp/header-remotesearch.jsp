@@ -2,6 +2,7 @@
 <%@page import="jeeves.server.UserSession"%>
 <%@page import="org.openwis.metadataportal.services.login.LoginConstants"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 	<script type="text/javascript" language="JavaScript">
 	    var remoteSearch = {};
@@ -26,7 +27,7 @@
 			    String[] relayStateResult = relayState.split(LoginConstants.RELAY_STATE_SEPARATOR);
 		    	if (relayStateResult.length >= 2) { %>
 		    		remoteSearch.type = "<%= relayStateResult[0]%>";
-		    		remoteSearch.urn = "<%= relayStateResult[1] %>";
+		    		remoteSearch.urn = "<%= StringEscapeUtils.escapeJavaScript(relayStateResult[1]) %>";
 			    <%
 			    }
 		    	if (relayStateResult.length == 4) { %>
