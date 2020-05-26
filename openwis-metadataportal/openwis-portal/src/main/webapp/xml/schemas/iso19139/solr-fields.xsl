@@ -240,7 +240,11 @@
 				</field>
 			</xsl:for-each>
 
-
+			<xsl:for-each select="gmd:graphicOverview/gmd:MD_BrowseGraphic/gmd:fileName/gco:CharacterString">
+				<field name="graphicOverview">
+					<xsl:value-of select="string(.)" />
+				</field>
+			</xsl:for-each>
 
 			<xsl:choose>
 				<xsl:when test="gmd:resourceConstraints/gmd:MD_SecurityConstraints">

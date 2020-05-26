@@ -174,6 +174,8 @@ public interface ConfigurationConstants {
     /** Accepted list of file extensions (deduced from the metadata and used during file unpacking) */
     String ACCEPTED_FILE_EXTENSIONS = "openwis.metadataportal.acceptedFileExtensions";
 
+    // ** Is graphic overview enabled **
+    String GRAPHIC_OVERVIEW_ENABLE = "openwis.metadataportal.graphicOverview.enable";
     /**
      * URL of user portal used for monitoring.
      */
