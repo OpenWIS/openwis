@@ -106,6 +106,9 @@ public class UserSearch implements ServiceWithJsp, Service {
       result.put("username", session.getUsername());
       result.put("isCacheEnable",
             OpenwisMetadataPortalConfig.getBoolean(ConfigurationConstants.CACHE_ENABLE));
+      result.put("isGraphicOverviewEnable",
+              OpenwisMetadataPortalConfig.getBoolean(ConfigurationConstants.GRAPHIC_OVERVIEW_ENABLE));
+
       boolean isBlacklisted = false;
       if (session.isAuthenticated())
       {
