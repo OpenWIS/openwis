@@ -1,6 +1,7 @@
 <%@page import="java.util.List"%>
 <%@page import="org.openwis.metadataportal.common.configuration.ConfigurationConstants"%>
 <%@page import="org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
