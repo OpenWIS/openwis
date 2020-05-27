@@ -44,15 +44,21 @@
         </div>
         <div class="bottom-link-container">
 		<ul class="bottom-links">
-                <li><a class="footer-link" href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a></li>
+                <li><a class="footer-link" onclick="redirectWarning()" href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a></li>
 		<li>|</li>
-                <li><a class="footer-link" href="http://asmc.asean.org/terms-of-use/" target="_blank">Privacy Statement</a></li>
+                <li><a class="footer-link" onclick="redirectWarning()" href="http://asmc.asean.org/terms-of-use/" target="_blank">Terms of use</a></li>
 		<li>|</li>
-                <li><a class="footer-link" href="http://asmc.asean.org/privacy-statement/" target="_blank">Terms of Use</a></li>
+                <li><a class="footer-link" onclick="redirectWarning()" href="http://asmc.asean.org/privacy-statement/" target="_blank">Privacy Statement</a></li>
 		<li>|</li>
-                <li><a class="footer-link" href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank">Rate this Website</a></li>
+                <li><a class="footer-link" onclick="redirectWarning()" href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank">Rate this Website</a></li>
             </ul>
         </div>
+        <script type="text/javascript">
+            function redirectWarning() {
+                alert("Warning! You will be redirected to an external site.");
+            }
+        </script>
+
         <div class="copyright text-to-right">
             <div id="copyrights">&copy;2020 National Environment Agency</div>
             <div class="footer-dates">
