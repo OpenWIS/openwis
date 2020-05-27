@@ -261,6 +261,8 @@
       </plugins>
     </pluginManagement>
   </build>
+  
+  <!--this is a test-->
 
   <developers>
     <developer>
