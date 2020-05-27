@@ -31,6 +31,18 @@ public class PasswordNotificationFilter extends BaseNotificationFilter implement
 
     @Override
     public LocalDateTime shiftDate(User user, int period, TimeUnit timeUnit) {
-        return user.getPwdExpireTime().minus(period, ChronoUnit.valueOf(timeUnit.toString()));
+        ChronoUnit chronoUnit;
+        switch (timeUnit) {
+            case MINUTES:
+                chronoUnit = ChronoUnit.MINUTES;
+                break;
+            case HOURS:
+                chronoUnit = ChronoUnit.HOURS;
+                break;
+            default:
+                chronoUnit = ChronoUnit.DAYS;
+        }
+
+        return user.getPwdExpireTime().minus(period, chronoUnit);
     }
 }

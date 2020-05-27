@@ -258,16 +258,23 @@ public class UserManager extends AbstractManager {
          * For more details see: https://backstage.forgerock.com/knowledge/kb/article/a40016497
          */
         int period = 365;
-        ChronoUnit periodTimeUnit = ChronoUnit.DAYS;
+        ChronoUnit periodTimeUnit;
         try {
             period = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_PERIOD);
-            periodTimeUnit = ChronoUnit.valueOf(OpenwisMetadataPortalConfig.getString(ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT));
+            switch (ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT.toLowerCase()) {
+                case "minutes":
+                    periodTimeUnit = ChronoUnit.MINUTES;
+                    break;
+                case "hours":
+                    periodTimeUnit = ChronoUnit.HOURS;
+                    break;
+                default:
+                    periodTimeUnit = ChronoUnit.DAYS;
+            }
+            user.setPwdExpireTime(user.getPwdChangedTime().plus(period, periodTimeUnit));
         } catch (NumberFormatException ex) {
             Log.error(Log.WEBAPP, "Not a number: " + ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_PERIOD);
-        } catch (IllegalArgumentException e) {
-            Log.error(Log.WEBAPP, "Not a time unit: " + ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT);
         }
-        user.setPwdExpireTime(user.getPwdChangedTime().plus(period, periodTimeUnit));
 
         user.getEmails().addAll(openWISUser.getEmails());
         user.getFtps().addAll(openWISUser.getFtps());
