@@ -1,0 +1,142 @@
+include:
+    - project: 'security/template'
+      ref: master
+      file: gitlab.yml
+
+.sec_script_sast: &sec_script_sast
+  - 'echo "SECU_BRANCH_NAME is ${SECU_BRANCH_NAME:=master}"'
+  - 'curl --output security_build.sh --header "PRIVATE-TOKEN: ${SECU_PUBLIC_TOKEN}" https://gitlab.akka.eu/api/v4/projects/${SECU_PROJECT}/repository/files/add-on%2Fsecurity_build.sh/raw?ref=${SECU_BRANCH_NAME}'
+  - 'chmod +x ./security_build.sh'
+  - '[ ${SECU_SAST_ENABLE^^} != "FALSE" ] && (./security_build.sh ${SECU_SONARQUBE_SERVER} ${SECU_SONARQUBE_TOKEN} --CI_PROJECT_DIR=${CI_PROJECT_DIR} ${SECU_BUILD_OPTION} --CI_PIPELINE_ID=$CI_PIPELINE_ID --CI_PROJECT_ID=$CI_PROJECT_ID "--CI_PROJECT_NAME=$CI_PROJECT_NAME" "--CI_PROJECT_TITLE=$CI_PROJECT_TITLE" --JOB_ID=$CI_JOB_ID "--CI_COMMIT_REF_NAME=$CI_COMMIT_REF_NAME" --CI_COMMIT_SHA=$CI_COMMIT_SHA || exit 1)' 
+
+stages:
+    - build
+    - secu
+
+variables:
+  # This will supress any download for dependencies and plugins or upload messages which would clutter the console log.
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=/home/openwis/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode -s $CI_PROJECT_DIR/resources/settings.xml"
+  JAVA_HOME: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-1.el7.x86_64/"
+  
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - .m2/repository/
+    - target/
+
+openwis-dataservice:
+  stage: build
+  tags:
+      - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-dataservice
+    - 'echo "M2_SETTINGS_OPTION: ${M2_SETTINGS_OPTION}"'
+    - mvn $M2_SETTINGS_OPTION compile -Popenwis
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_1
+    - 'echo "SECU_BUILD_OPTION: ${SECU_BUILD_OPTION}"'
+    - *sec_script_sast
+  artifacts:
+      paths:
+        - target/classes/
+        - target/generated-sources/
+        - sast_reports.tar
+        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
+        
+openwis-portal:
+  stage: build
+  tags:
+      - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-metadataportal
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_2
+    - mvn $M2_SETTINGS_OPTION compile -Popenwis,user
+    - *sec_script_sast
+  artifacts:
+      paths:
+        - target/classes/
+        - target/generated-sources/
+        - sast_reports.tar
+        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
+
+openwis-management:
+  stage: build
+  tags:
+      - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-management
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_3
+    - mvn $M2_SETTINGS_OPTION compile -Popenwis
+    - *sec_script_sast
+  artifacts:
+      paths:
+        - target/classes/
+        - target/generated-sources/
+        - sast_reports.tar
+        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
+        
+openwis-securityservice:
+  stage: build
+  tags:
+      - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-securityservice
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_4
+    - mvn $M2_SETTINGS_OPTION compile -Popenwis
+    - *sec_script_sast
+  artifacts:
+      paths:
+        - target/classes/
+        - target/generated-sources/
+        - sast_reports.tar
+        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
+
+openwis-harness:
+  stage: build
+  tags:
+      - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-harness
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_5
+    - mvn $M2_SETTINGS_OPTION compile -Popenwis
+    - *sec_script_sast
+  artifacts:
+      paths:
+        - target/classes/
+        - target/generated-sources/
+        - sast_reports.tar
+        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
+
+report-dataservice:
+  extends: .TriggerSecu
+  variables:
+    SECU_TARGET_JOB_BUILD_NAME: 'openwis-dataservice'
+
+report-portal:
+  extends: .TriggerSecu
+  variables:
+    SECU_TARGET_JOB_BUILD_NAME: 'openwis-portal'
+
+report-management:
+  extends: .TriggerSecu
+
+  variables:
+    SECU_TARGET_JOB_BUILD_NAME: 'openwis-management'
+
+report-securityservice:
+  extends: .TriggerSecu
+  variables:
+    SECU_TARGET_JOB_BUILD_NAME: 'openwis-securityservice'
+
+report-harness:
+  extends: .TriggerSecu
+  variables:
+    SECU_TARGET_JOB_BUILD_NAME: 'openwis-harness'
+
+
