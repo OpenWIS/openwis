@@ -70,7 +70,7 @@ openwis-management:
     - export JAVA_HOME=$JAVA_HOME
     - cd openwis-management
     - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_3
-    - mvn $M2_SETTINGS_OPTION compile -Popenwis
+    - mvn $M2_SETTINGS_OPTION install -Popenwis
     - *sec_script_sast
   artifacts:
       paths:
