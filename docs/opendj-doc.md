@@ -110,6 +110,12 @@ Set the validators to password policy:
 ./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set max-password-age:365d --set password-expiration-waing-interval:358d
 ```
 
+### Set expire-passwords-without-warning to true
+```dtd
+./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set expire-passwords-without-warning:true
+```
+> The default value do not allow password expiration at the end of password expiration. If user tries to login after the password expired it will be asked to change the password.
+
 #### WISMET Password policty 
 ```$xslt
 [ec2-user@ip-172-32-2-29 bin]$ ./dsconfig -D "cn=directory manager" -w password -n get-password-policy-prop   --policy-name "Default Password Policy"
