@@ -107,7 +107,7 @@ Set the validators to password policy:
 
 ### Set password expire period to 365 days
 ```$xslt
-./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set max-password-age:365d --set password-expiration-waing-interval:358d
+./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set max-password-age:365d --set password-expiration-warning-interval:7d
 ```
 
 ### Set expire-passwords-without-warning to true
