@@ -105,7 +105,7 @@
                             	<table>
                             	<tr>
                             	<td  width="55%" align="right">
-                            	    <% if ("user".equals(portalType) && !context.isDebug() ) { %>
+                            	    <% if (!context.isDebug() ) { %>
                             	        <div class="loginDiv">
                             	   		    <a class="banner" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login'))</script></a>
 		    						    </div>
