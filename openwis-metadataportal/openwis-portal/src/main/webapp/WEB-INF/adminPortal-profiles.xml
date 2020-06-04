@@ -350,6 +350,8 @@
         <allow service="xml.user.login"/>
 		<allow service="xml.user.logout"/>
 		-->
+		<allow service="user.loginCaptcha.get"/>
+		<allow service="user.loginCaptcha.submit"/>
         <allow service="user.choose.domain"/>
 
 		<!-- User privileges -->

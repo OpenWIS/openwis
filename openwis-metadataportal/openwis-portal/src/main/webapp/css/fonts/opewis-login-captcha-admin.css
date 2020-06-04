@@ -1,0 +1,34 @@
+body {
+    background: #eaeaea;
+    width: 990px;
+    margin: auto;
+}
+
+.form-container {
+    display: flex;
+    justify-content:center;
+    background: white;
+    height: 500px;
+}
+.for-captcha {
+    margin-bottom: 15px;
+}
+
+.submitContainer {
+    display:flex;
+    justify-content: center;
+}
+
+#submitButton {
+    width: 100px;
+    height: 30px;
+}
+.captcha {
+    display: flex;
+    justify-content:center;
+}
+
+.captcha-image {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

@@ -50,9 +50,14 @@ String title = "ASEAN | WIS Portal";
                  async defer>
             </script>
         </div>
-        <%@include file="footer-dss.jsp"%>
-        <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-homepage.css">
-        <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-login-captcha.css">
+            <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-homepage.css">
+            <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-login-captcha.css">
+        <% if ("user".equals(portalType)) { %>
+            <%@include file="footer-dss.jsp"%>
+        <% } else { %>
+            <%@include file="footer-common.jsp"%>
+            <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-footer-user.css">
+        <% } %>
       </div>
    </body>
 </html>
