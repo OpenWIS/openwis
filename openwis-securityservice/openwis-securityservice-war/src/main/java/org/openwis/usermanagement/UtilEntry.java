@@ -59,7 +59,7 @@ public final class UtilEntry {
          lc.add(newEntry);
       } catch (LDAPException e) {
          LOGGER.error("LDAP Exception : Error during add new entry", e);
-         throw new UserManagementException();
+         throw new UserManagementException(e.getLDAPErrorMessage());
       } catch (UnsupportedEncodingException e) {
          LOGGER.error("Unsupported EncodingException : Error during add new entry", e);
          throw new UserManagementException();
@@ -81,7 +81,7 @@ public final class UtilEntry {
          lc.delete(deleteDN);
       } catch (LDAPException e) {
          LOGGER.error("LDAP Exception : Error during delete entry", e);
-         throw new UserManagementException();
+         throw new UserManagementException(e.getLDAPErrorMessage());
       } catch (UnsupportedEncodingException e) {
          LOGGER.error("Unsupported EncodingException : Error during delete entry", e);
          throw new UserManagementException();
@@ -179,7 +179,7 @@ public final class UtilEntry {
 
       } catch (LDAPException e) {
          LOGGER.error("LDAP Exception : Error during searching entries", e);
-         throw new UserManagementException();
+         throw new UserManagementException(e.getLDAPErrorMessage());
       } catch (UnsupportedEncodingException e) {
          LOGGER.error("Unsupported EncodingException : Error during during searching entries", e);
          throw new UserManagementException();
@@ -278,7 +278,7 @@ public final class UtilEntry {
          }
       } catch (LDAPException e) {
          LOGGER.error("LDAP Exception : Error during update Entry", e);
-         throw new UserManagementException();
+         throw new UserManagementException(e.getLDAPErrorMessage());
       } catch (UnsupportedEncodingException e) {
          LOGGER.error("Unsupported EncodingException : Error during update Entry", e);
          throw new UserManagementException();
