@@ -4,6 +4,7 @@ package org.openwis.metadataportal.services.login;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
@@ -25,8 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Account Request
@@ -34,8 +38,6 @@ import java.util.Map;
  * @author gibaultr
  */
 public class OpenWisRequestAccount extends HttpServlet {
-
-    private static String DEFAULT_PASSWORD = "0penw1s@ntid0te!";
 
     private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE = "g-recaptcha-response";
 
@@ -130,7 +132,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         user.setAddress(address);
         user.setEmailContact(email);
         user.setProfile("Candidate");
-        user.setPassword(DEFAULT_PASSWORD);
+        user.setPassword(generateRandomPassword());
         user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
         um.createUser(user);
         Log.debug(Geonet.SELF_REGISTER, "User created on Security Server");
@@ -207,6 +209,32 @@ public class OpenWisRequestAccount extends HttpServlet {
         } else {
             Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator ("+openWISMail.getAdministratorAddress()+") about account request of user "+email);
         }
+    }
+
+    /**
+     * According to WISMET password policy, the password must be 12 characters long.
+     * 1 upper case
+     * 2 special character
+     * 1 number
+     */
+    private String generateRandomPassword() {
+        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
+        String lowerCaseLetters = RandomStringUtils.random(10, 97, 122, true, true);
+        String numbers = RandomStringUtils.randomNumeric(2);
+        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
+        String totalChars = RandomStringUtils.randomAlphanumeric(2);
+        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
+                .concat(numbers)
+                .concat(specialChar)
+                .concat(totalChars);
+        List<Character> pwdChars = combinedChars.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toList());
+        Collections.shuffle(pwdChars);
+        String password = pwdChars.stream()
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
+        return password;
     }
 
 }
