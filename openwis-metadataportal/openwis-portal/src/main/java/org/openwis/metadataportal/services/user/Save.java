@@ -9,6 +9,7 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 
 import jeeves.utils.Log;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
 import org.openwis.metadataportal.kernel.request.RequestManager;
@@ -31,9 +32,11 @@ import org.openwis.securityservice.OpenWISUserUpdateLog;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Short Description goes here. <P>
@@ -69,6 +72,7 @@ public class Save implements Service {
             if (userDTO.isCreationMode()) {
                 user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
                 user.setPwdReset(true); // force user to change his password
+                user.setPassword(generateRandomPassword());
                 um.createUser(user);
 
                 if (!user.getProfile().equals(Profile.Candidate.toString())) {
@@ -102,6 +106,7 @@ public class Save implements Service {
                 // When profile changes from Candidate to another value
                 // an email is sent to the end user
                 if (storedUser.getProfile().equals(Profile.Candidate.toString()) && !user.getProfile().equals(Profile.Candidate.toString())) {
+                    user.setPassword(generateRandomPassword());
                     boolean result = sendEmailToUser(context, user);
                     if (!result) {
                         Log.info(Geonet.PRIVILEGES, "Error sending mail to " + user.getEmailContact());
@@ -159,5 +164,31 @@ public class Save implements Service {
      */
     private String getUsernameFromRequest(ServiceContext context) {
         return context.getUserSession().getUsername();
+    }
+
+    /**
+     * According to WISMET password policy, the password must be 12 characters long.
+     * 1 upper case
+     * 2 special character
+     * 1 number
+     */
+    private String generateRandomPassword() {
+        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
+        String lowerCaseLetters = RandomStringUtils.random(10, 97, 122, true, true);
+        String numbers = RandomStringUtils.randomNumeric(2);
+        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
+        String totalChars = RandomStringUtils.randomAlphanumeric(2);
+        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
+                .concat(numbers)
+                .concat(specialChar)
+                .concat(totalChars);
+        List<Character> pwdChars = combinedChars.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toList());
+        Collections.shuffle(pwdChars);
+        String password = pwdChars.stream()
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
+        return password;
     }
 }
