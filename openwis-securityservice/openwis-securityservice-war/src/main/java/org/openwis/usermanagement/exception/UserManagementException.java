@@ -10,6 +10,14 @@ package org.openwis.usermanagement.exception;
  */
 public class UserManagementException extends Exception {
 
+   public UserManagementException(String message) {
+       this.message = message;
+   }
+
+   public UserManagementException() {
+      this.message = MSG_ERROR;
+   }
+
    /**
     * Comment for <code>MSG_ERROR</code>
     * @member: MSG_ERROR
