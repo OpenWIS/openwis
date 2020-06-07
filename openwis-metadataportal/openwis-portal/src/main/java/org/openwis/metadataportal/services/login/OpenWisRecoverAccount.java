@@ -113,7 +113,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
         //Generate new Password
         String newPassword = generateRandomPassword();
         //Change User Password
-        um.changePassword(user.getUsername(), newPassword);
+        um.changePassword(user.getUsername(), newPassword, true);
         user.setPassword(newPassword);
 
         //Send Mail To User

@@ -56,7 +56,9 @@ public class ChangePassword implements Service {
 
       UserManager um = new UserManager(dbms);
       String username = context.getUserSession().getUsername();
-      um.changePassword(username, password.getPassword());
+
+      // When user changes himself the password, do not force him to reset hist password again at login time
+      um.changePassword(username, password.getPassword(), false);
 
       try {
          updateLastPasswordChangeTimestamp(dbms, username);

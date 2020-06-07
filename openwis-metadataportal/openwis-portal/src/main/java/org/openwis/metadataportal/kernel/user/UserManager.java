@@ -373,8 +373,8 @@ public class UserManager extends AbstractManager {
      * @param password The password to update.
      * @throws Exception if an error occurs.
      */
-    public void changePassword(String username, String password) throws Exception {
-        SecurityServiceProvider.getUserManagementService().changePassword(username, password);
+    public void changePassword(String username, String password, Boolean forceReset) throws Exception {
+        SecurityServiceProvider.getUserManagementService().changePassword(username, password, forceReset);
     }
 
     /**
