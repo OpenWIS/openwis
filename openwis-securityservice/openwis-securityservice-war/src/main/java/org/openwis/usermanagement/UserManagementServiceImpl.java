@@ -509,7 +509,7 @@ public class UserManagementServiceImpl implements UserManagementService {
      * @see org.openwis.usermanagement.UserManagementService#changePassword(java.lang.String, java.lang.String)
      */
     @Override
-    public void changePassword(String username, String password) throws UserManagementException {
+    public void changePassword(String username, String password, Boolean forceReset) throws UserManagementException {
         logger.info("Changing password for User " + username);
         List<LDAPModification> modList = new ArrayList<LDAPModification>();
         LDAPAttribute attribute = new LDAPAttribute(PASSWORD, password);
@@ -518,9 +518,8 @@ public class UserManagementServiceImpl implements UserManagementService {
         UtilEntry.updateEntry(modList, dn);
         modList.clear();
 
-        // This method is called be the user himself therefore the attribute pwdReset must be set to false
-        // to force OpenDJ not to ask user to reset his password at next login.
-        LDAPAttribute pwdResetAttr = new LDAPAttribute(PWD_RESET, Boolean.toString(false));
+        // If forceReset is true, the user will be forced to change his password at first login
+        LDAPAttribute pwdResetAttr = new LDAPAttribute(PWD_RESET, Boolean.toString(forceReset));
         modList.add(new LDAPModification(LDAPModification.REPLACE, pwdResetAttr));
         dn = UserUtils.getDn(username);
         UtilEntry.updateEntry(modList, dn);

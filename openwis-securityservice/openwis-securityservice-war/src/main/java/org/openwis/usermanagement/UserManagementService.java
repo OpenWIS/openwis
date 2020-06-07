@@ -210,9 +210,10 @@ public interface UserManagementService {
     * Change user password.
     * @param username the user name.
     * @param password the password to update.
+    * @param forceReset force the user to change his password at first login if true.
     * @throws UserManagementException if an error occurs.
     */
-   public void changePassword(String username, String password) throws UserManagementException;
+   public void changePassword(String username, String password, Boolean forceReset) throws UserManagementException;
 
    /**
     *  Update login timestamp
