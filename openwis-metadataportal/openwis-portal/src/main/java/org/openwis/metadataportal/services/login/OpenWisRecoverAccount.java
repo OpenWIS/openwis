@@ -4,6 +4,7 @@ package org.openwis.metadataportal.services.login;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserManager;
@@ -22,9 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Account Request
@@ -111,7 +111,7 @@ public class OpenWisRecoverAccount extends HttpServlet{
         User user = um.getUserByUserName(email);
 
         //Generate new Password
-        String newPassword = generatePassword();
+        String newPassword = generateRandomPassword();
         //Change User Password
         um.changePassword(user.getUsername(), newPassword);
         user.setPassword(newPassword);
@@ -188,27 +188,30 @@ public class OpenWisRecoverAccount extends HttpServlet{
         }
     }
 
-    private String generatePassword() {
-
-        String[] symbols = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
-        int length = 10;
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            int indexRandom = getRandomNumberInRange( 0,symbols.length );
-            sb.append( symbols[indexRandom] );
-        }
-        String password = sb.toString();
+    /**
+     * According to WISMET password policy, the password must be 12 characters long.
+     * 1 upper case
+     * 2 special character
+     * 1 number
+     */
+    private String generateRandomPassword() {
+        String upperCaseLetters = RandomStringUtils.random(2, 65, 90, true, true);
+        String lowerCaseLetters = RandomStringUtils.random(10, 97, 122, true, true);
+        String numbers = RandomStringUtils.randomNumeric(2);
+        String specialChar = RandomStringUtils.random(2, 33, 47, false, false);
+        String totalChars = RandomStringUtils.randomAlphanumeric(2);
+        String combinedChars = upperCaseLetters.concat(lowerCaseLetters)
+                .concat(numbers)
+                .concat(specialChar)
+                .concat(totalChars);
+        List<Character> pwdChars = combinedChars.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toList());
+        Collections.shuffle(pwdChars);
+        String password = pwdChars.stream()
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
         return password;
-    }
-
-    private static int getRandomNumberInRange(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
     }
 
 }
