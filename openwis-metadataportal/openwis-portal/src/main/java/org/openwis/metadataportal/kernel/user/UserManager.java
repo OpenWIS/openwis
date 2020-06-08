@@ -261,7 +261,7 @@ public class UserManager extends AbstractManager {
         ChronoUnit periodTimeUnit;
         try {
             period = OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_PERIOD);
-            switch (ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT.toLowerCase()) {
+            switch (OpenwisMetadataPortalConfig.getString(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT.toLowerCase())) {
                 case "minutes":
                     periodTimeUnit = ChronoUnit.MINUTES;
                     break;
