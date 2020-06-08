@@ -651,6 +651,7 @@
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/User/ImportUser.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/User/Manage.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/User/All.js</include>
+                                <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/User/Report.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/SSOManagement/SSOManagement.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Common/Request/Utils.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/DataService/MonitorCurrentRequests.js</include>
