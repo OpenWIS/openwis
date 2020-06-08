@@ -32,6 +32,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -550,13 +551,18 @@ public class Geonetwork implements ApplicationHandler {
                             String.format("%s. Check'%s' values. It defaults to %s.", ex.getMessage(), entry.getKey(), entry.getValue().toString()));
                 }
             } else if (entry.getValue() instanceof TimeUnit) {
-                try {
-                    TimeUnit timeUnit = TimeUnit.valueOf(OpenwisMetadataPortalConfig.getString(entry.getKey()).toUpperCase());
+                    TimeUnit timeUnit;
+                    switch (OpenwisMetadataPortalConfig.getString(entry.getKey()).toLowerCase()) {
+                        case "minutes":
+                            timeUnit = TimeUnit.MINUTES;
+                            break;
+                        case "hours":
+                            timeUnit = TimeUnit.HOURS;
+                            break;
+                        default:
+                            timeUnit = TimeUnit.DAYS;
+                    }
                     entry.setValue(timeUnit);
-                } catch (IllegalArgumentException | NullPointerException ex) {
-                    Log.warning(Geonet.ADMIN,
-                            String.format("Check if '%s' is set. It defaults to %s.", entry.getKey(), entry.getValue().toString()));
-                }
             }
         }
 
