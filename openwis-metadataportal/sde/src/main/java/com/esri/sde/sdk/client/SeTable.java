@@ -12,8 +12,8 @@ public class SeTable {
 	public void create(SeColumnDefinition[] c, String s) {}
 	public SeColumnDefinition[] describe() throws SeException { return null; }
 	public void truncate()throws SeException{};
-	public static class SeTableStats {
-		public static /* GEOT-947 final*/ int SE_COUNT_STATS = 0;
+	public final static class SeTableStats {
+		public final static /* GEOT-947 final*/ int SE_COUNT_STATS = 0;
 		public int getCount() { return 0; }
 	}
     public int getPermissions() throws SeException{return 0;}

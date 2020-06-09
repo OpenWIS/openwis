@@ -4,13 +4,13 @@ import java.util.Vector;
 
 public class SeConnection {
 
-    public static int SE_TRYLOCK_POLICY = 0;
-    public static /* GEOT-947 final*/ int SE_UNPROTECTED_POLICY = 0;
-    public static int SE_ONE_THREAD_POLICY = 1;
+    public final static int SE_TRYLOCK_POLICY = 0;
+    public final static /* GEOT-947 final*/ int SE_UNPROTECTED_POLICY = 0;
+    public final static int SE_ONE_THREAD_POLICY = 1;
     /**
      * added by heikki doeleman.
      */
-    public static int SE_LOCK_POLICY = 2;
+    public final static int SE_LOCK_POLICY = 2;
 	
 	public SeConnection(String a, int i, String b, String c, String d) {
 	    throw new UnsupportedOperationException("this is the dummy api");

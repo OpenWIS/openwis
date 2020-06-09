@@ -2,7 +2,7 @@ package com.esri.sde.sdk.client;
 
 public class SeVersion {
 
-    public static String SE_QUALIFIED_DEFAULT_VERSION_NAME = null;
+    public final static String SE_QUALIFIED_DEFAULT_VERSION_NAME = null;
 
     public SeVersion(SeConnection conn, String versionName) throws SeException {
     }

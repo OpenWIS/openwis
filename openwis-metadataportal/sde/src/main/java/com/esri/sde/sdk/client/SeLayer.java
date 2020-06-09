@@ -2,23 +2,23 @@ package com.esri.sde.sdk.client;
 
 public class SeLayer {
 	
-	public static /* GEOT-947 final*/ int SE_NIL_TYPE_MASK = 0;
-	public static /* GEOT-947 final*/ int SE_LINE_TYPE_MASK = 1;
-	public static /* GEOT-947 final*/ int SE_POINT_TYPE_MASK = 2;
-	public static /* GEOT-947 final*/ int SE_AREA_TYPE_MASK = 3;
-	public static /* GEOT-947 final*/ int SE_MULTIPART_TYPE_MASK = 4;
-	public static /* GEOT-947 final*/ int SE_SHAPE_ATTRIBUTE_FID = 5;
-	public static /* GEOT-947 final*/ int SE_SIMPLE_LINE_TYPE_MASK = 6;
-	public static /* GEOT-947 final*/ int TYPE_NIL = 7;
-	public static /* GEOT-947 final*/ int TYPE_MULTI_MASK = 8;
-	public static /* GEOT-947 final*/ int TYPE_LINE = 9;
-	public static /* GEOT-947 final*/ int TYPE_POINT = 10;
-	public static /* GEOT-947 final*/ int TYPE_POLYGON = 11;
-	public static /* GEOT-947 final*/ int TYPE_SIMPLE_LINE = 12;
-	public static /* GEOT-947 final*/ int TYPE_MULTI_SIMPLE_LINE = 13;
-	public static /* GEOT-947 final*/ int TYPE_MULTI_LINE = 14;
-	public static /* GEOT-947 final*/ int TYPE_MULTI_POLYGON = 15;
-	public static /* GEOT-947 final*/ int TYPE_MULTI_POINT = 16;
+	public final static /* GEOT-947 final*/ int SE_NIL_TYPE_MASK = 0;
+	public final static /* GEOT-947 final*/ int SE_LINE_TYPE_MASK = 1;
+	public final static /* GEOT-947 final*/ int SE_POINT_TYPE_MASK = 2;
+	public final static /* GEOT-947 final*/ int SE_AREA_TYPE_MASK = 3;
+	public final static /* GEOT-947 final*/ int SE_MULTIPART_TYPE_MASK = 4;
+	public final static /* GEOT-947 final*/ int SE_SHAPE_ATTRIBUTE_FID = 5;
+	public final static /* GEOT-947 final*/ int SE_SIMPLE_LINE_TYPE_MASK = 6;
+	public final static /* GEOT-947 final*/ int TYPE_NIL = 7;
+	public final static /* GEOT-947 final*/ int TYPE_MULTI_MASK = 8;
+	public final static /* GEOT-947 final*/ int TYPE_LINE = 9;
+	public final static /* GEOT-947 final*/ int TYPE_POINT = 10;
+	public final static /* GEOT-947 final*/ int TYPE_POLYGON = 11;
+	public final static /* GEOT-947 final*/ int TYPE_SIMPLE_LINE = 12;
+	public final static /* GEOT-947 final*/ int TYPE_MULTI_SIMPLE_LINE = 13;
+	public final static /* GEOT-947 final*/ int TYPE_MULTI_LINE = 14;
+	public final static /* GEOT-947 final*/ int TYPE_MULTI_POLYGON = 15;
+	public final static /* GEOT-947 final*/ int TYPE_MULTI_POINT = 16;
 	
 	public SeLayer(SeConnection c, String s, String y) throws SeException {}
 	public SeLayer(SeConnection c) {}
