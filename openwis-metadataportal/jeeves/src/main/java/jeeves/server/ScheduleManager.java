@@ -130,7 +130,7 @@ public class ScheduleManager extends Thread {
 
     //--------------------------------------------------------------------------
 
-    public void exit() {
+    public void exitScheduleManager() {
         canExit = true;
     }
 

@@ -200,7 +200,9 @@ public class DbmsPool implements ResourceProvider
 			if (nTries < maxTries - 1)
 			{
 				try { Thread.sleep(maxWait); }
-				catch (InterruptedException ex) {}
+				catch (InterruptedException ex) {
+					Thread.currentThread().interrupt();
+				}
 			}
 		}
 		throw new Exception("unable to open resource " + name + " after " + maxTries + "attempts: " + lastMessage);

@@ -44,7 +44,7 @@ public class GetRecordResponse extends AbstractResponse
 	public GetRecordResponse(Element response)
 	{
 		super(response);
-		build(response);
+		buildResponse(response);
 	}
 
 	//---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ public class GetRecordResponse extends AbstractResponse
 	//---
 	//---------------------------------------------------------------------------
 
-	private void build(Element response)
+	private void buildResponse(Element response)
 	{
 		Element getRec = response.getChild("GetRecord", OaiPmh.Namespaces.OAI_PMH);
 		Element record = getRec  .getChild("record",    OaiPmh.Namespaces.OAI_PMH);

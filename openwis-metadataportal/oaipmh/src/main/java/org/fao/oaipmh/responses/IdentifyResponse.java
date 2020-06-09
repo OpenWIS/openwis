@@ -48,7 +48,7 @@ public class IdentifyResponse extends AbstractResponse
 	public IdentifyResponse(Element response)
 	{
 		super(response);
-		build(response);
+		buildResponse(response);
 	}
 
 	//---------------------------------------------------------------------------
@@ -142,7 +142,7 @@ public class IdentifyResponse extends AbstractResponse
 	//---
 	//---------------------------------------------------------------------------
 
-	private void build(Element response)
+	private void buildResponse(Element response)
 	{
 		Element ident = response.getChild("Identify", OaiPmh.Namespaces.OAI_PMH);
 
