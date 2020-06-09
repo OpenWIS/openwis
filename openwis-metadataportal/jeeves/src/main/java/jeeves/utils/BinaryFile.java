@@ -23,25 +23,12 @@
 
 package jeeves.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-
 import org.globus.ftp.DataSink;
 import org.globus.ftp.FTPClient;
 import org.globus.ftp.Session;
 import org.jdom.Element;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.UserInfo;
+import java.io.*;
 
 
 //=============================================================================
@@ -233,6 +220,7 @@ public final class BinaryFile
 	{
 		//----------------------------------------------------------------------
 		// Local class required by jsch for scp
+/*
 		class MyUserInfo implements UserInfo {
 			String passwd = getRemotePassword();
 
@@ -247,6 +235,7 @@ public final class BinaryFile
 			public boolean promptPassword(String message){ return true; }
 			public boolean promptPassphrase(String message){ return true; }
 		}
+*/
 
 		//---------------------------------------------------------------------
 		// Local class needed by globus ftpclient for ftp 
@@ -293,7 +282,7 @@ public final class BinaryFile
 			copy(input, output, true, false);
 		} else {
 			if (remoteProtocol.equals("scp")) {
-				try {
+				/*try {
 					// set up JSch: channel to scp
 					JSch jsch=new JSch();
 					com.jcraft.jsch.Session session=jsch.getSession(remoteUser, remoteSite, 22);
@@ -316,7 +305,7 @@ public final class BinaryFile
 				} catch (Exception e) {
 					Log.error(Log.RESOURCES,"Problem with scp from site: "+remoteUser+"@"+remoteSite+":"+remotePath);
 					e.printStackTrace();
-				}
+				}*/
 			} else if (remoteProtocol.equals("ftp")) {
 			 	// set up globus FTP client
 				try {
