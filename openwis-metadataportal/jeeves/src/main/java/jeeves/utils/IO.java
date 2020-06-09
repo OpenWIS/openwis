@@ -31,45 +31,41 @@ import java.io.IOException;
 
 /**
  * A container of I/O methods. <P>
- * 
  */
-public final class IO
-{
-	/**
-    * Default constructor.
-    * Builds a IO.
-    */
-   private IO() {}
-   
-   /**
-	 * Loads a text file, handling the exceptions
-	 * @param name
-	 * @return
-	 */
-	public static String loadFile(String name)
-	{
-		StringBuffer sb = new StringBuffer();
+public final class IO {
+    /**
+     * Default constructor.
+     * Builds a IO.
+     */
+    private IO() {
+    }
 
-		try
-		{
-			BufferedReader	rdr = new BufferedReader(new FileReader(name));
+    /**
+     * Loads a text file, handling the exceptions
+     *
+     * @param name
+     * @return
+     */
+    public static String loadFile(String name) {
+        StringBuffer sb = new StringBuffer();
 
-			String inputLine;
+        try (BufferedReader rdr = new BufferedReader(new FileReader(name))) {
 
-			while ((inputLine = rdr.readLine()) != null) {
-				sb.append(inputLine);
-				sb.append('\n');
-			}
 
-			rdr.close();
+            String inputLine;
 
-			return sb.toString();
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-	}
+            while ((inputLine = rdr.readLine()) != null) {
+                sb.append(inputLine);
+                sb.append('\n');
+            }
+
+            rdr.close();
+
+            return sb.toString();
+        } catch (IOException e) {
+            return null;
+        }
+    }
 }
 
 //=============================================================================
