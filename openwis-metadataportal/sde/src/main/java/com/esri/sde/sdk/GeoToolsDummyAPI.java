@@ -8,6 +8,6 @@ package com.esri.sde.sdk;
  */
 public class GeoToolsDummyAPI {
     
-    public static int DUMMY_API_VERSION=1;
+    public final static int DUMMY_API_VERSION=1;
 
 }
