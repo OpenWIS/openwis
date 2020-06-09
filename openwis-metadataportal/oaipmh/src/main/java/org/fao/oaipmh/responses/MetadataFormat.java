@@ -30,63 +30,84 @@ import org.jdom.Namespace;
 
 //=============================================================================
 
-public class MetadataFormat
-{
-	//---------------------------------------------------------------------------
-	//---
-	//--- Constructor
-	//---
-	//---------------------------------------------------------------------------
+public class MetadataFormat {
+    //---------------------------------------------------------------------------
+    //---
+    //--- Constructor
+    //---
+    //---------------------------------------------------------------------------
 
-	public MetadataFormat() {}
+    public MetadataFormat() {
+    }
 
-	//---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
 
-	public MetadataFormat(Element mdForm)
-	{
-		prefix = mdForm.getChildText("metadataPrefix", OaiPmh.Namespaces.OAI_PMH);
-		schema = mdForm.getChildText("schema",         OaiPmh.Namespaces.OAI_PMH);
+    public MetadataFormat(Element mdForm) {
+        setPrefix(mdForm.getChildText("metadataPrefix", OaiPmh.Namespaces.OAI_PMH));
+        setSchema(mdForm.getChildText("schema", OaiPmh.Namespaces.OAI_PMH));
 
-		String ns = mdForm.getChildText("metadataNamespace", OaiPmh.Namespaces.OAI_PMH);
-		namespace = Namespace.getNamespace(ns);
-	}
+        String ns = mdForm.getChildText("metadataNamespace", OaiPmh.Namespaces.OAI_PMH);
+        setNamespace(Namespace.getNamespace(ns));
+    }
 
-	//---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
 
-	public MetadataFormat(String prefix, String schema, String ns)
-	{
-		this.prefix = prefix;
-		this.schema = schema;
+    public MetadataFormat(String prefix, String schema, String ns) {
+        this.setPrefix(prefix);
+        this.setSchema(schema);
 
-		namespace = Namespace.getNamespace(ns);
-	}
+        setNamespace(Namespace.getNamespace(ns));
+    }
 
-	//---------------------------------------------------------------------------
-	//---
-	//--- API methods
-	//---
-	//---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
+    //---
+    //--- API methods
+    //---
+    //---------------------------------------------------------------------------
 
-	public Element toXml()
-	{
-		Element root = new Element("metadataFormat", OaiPmh.Namespaces.OAI_PMH);
+    public Element toXml() {
+        Element root = new Element("metadataFormat", OaiPmh.Namespaces.OAI_PMH);
 
-		Lib.add(root, "metadataPrefix",    prefix);
-		Lib.add(root, "schema",            schema);
-		Lib.add(root, "metadataNamespace", namespace.getURI());
+        Lib.add(root, "metadataPrefix", getPrefix());
+        Lib.add(root, "schema", getSchema());
+        Lib.add(root, "metadataNamespace", getNamespace().getURI());
 
-		return root;
-	}
+        return root;
+    }
 
-	//---------------------------------------------------------------------------
-	//---
-	//--- Variables
-	//---
-	//---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
+    //---
+    //--- Variables
+    //---
+    //---------------------------------------------------------------------------
 
-	public String    prefix;
-	public String    schema;
-	public Namespace namespace;
+    private String prefix;
+    private String schema;
+    private Namespace namespace;
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
+    }
+
+    public Namespace getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(Namespace namespace) {
+        this.namespace = namespace;
+    }
 }
 
 //=============================================================================
