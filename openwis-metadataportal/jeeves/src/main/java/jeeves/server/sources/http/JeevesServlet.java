@@ -46,7 +46,7 @@ import jeeves.utils.Util;
 
 @SuppressWarnings("serial")
 public class JeevesServlet extends HttpServlet {
-   private JeevesEngine jeeves = new JeevesEngine();
+   private final JeevesEngine jeeves = new JeevesEngine();
 
    private boolean initialized = false;
 
