@@ -16,6 +16,7 @@
                 <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-html-content.css">
                 <% if (pageId == null) { %>
                     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss-simple.css">
+                    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/error.css">
                 <% } %>
 
                 <%
