@@ -184,7 +184,10 @@ public final class BinaryFile {
 
         if (remove) {
             String path = response.getAttributeValue("path");
-            new File(path).delete();
+            boolean result = new File(path).delete();
+            if (!result) {
+                Log.warning(Log.RESOURCES, "BinaryFile: Delete file failed");
+            }
         }
     }
 
