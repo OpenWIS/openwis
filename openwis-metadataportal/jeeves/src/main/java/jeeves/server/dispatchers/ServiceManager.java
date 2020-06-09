@@ -874,7 +874,7 @@ public class ServiceManager {
                     Xml.transform(rootElem, styleSheet, req.getOutputStream());
                     req.endStream();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.error(Log.ENGINE, e.getMessage());
                 }
             }
         }

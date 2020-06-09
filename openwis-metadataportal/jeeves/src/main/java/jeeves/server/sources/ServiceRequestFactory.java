@@ -391,7 +391,7 @@ public final class ServiceRequestFactory {
 			byte[] utf8Bytes = file.getBytes("UTF8");
 			file = new String(utf8Bytes, "UTF8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		    Log.error(Log.ENGINE, e.getMessage());
 		}
 
 		// --- replace whitespace with underscore

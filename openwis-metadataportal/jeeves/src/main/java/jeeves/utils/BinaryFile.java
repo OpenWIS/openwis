@@ -83,7 +83,7 @@ public final class BinaryFile {
             in.close();
             return buffer.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.error(Log.RESOURCES, e.getMessage());
             return null;
         }
     }
@@ -308,7 +308,6 @@ public final class BinaryFile {
                     ftp.get(remotePath, outputSink, null);
                 } catch (Exception e) {
                     Log.error(Log.RESOURCES, "Problem with ftp from site: " + remoteUser + "@" + remoteSite + ":" + remotePath);
-                    e.printStackTrace();
                 }
             } else {
                 Log.error(Log.RESOURCES, "Unknown remote protocol in config file");

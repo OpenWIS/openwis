@@ -121,7 +121,7 @@ public class Dbms {
         try {
             conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.error(Log.DBMS, e.getMessage());
         }
     }
 
@@ -157,7 +157,7 @@ public class Dbms {
         try {
             return conn.isClosed();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.error(Log.DBMS, e.getMessage());
             return true;
         }
     }
