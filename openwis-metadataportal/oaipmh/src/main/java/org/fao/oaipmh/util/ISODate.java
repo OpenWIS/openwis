@@ -45,7 +45,6 @@ public class ISODate implements Cloneable
 
 	//---------------------------------------------------------------------------
 
-	private static Calendar calendar = Calendar.getInstance();
 
 	//---------------------------------------------------------------------------
 	//---
@@ -62,6 +61,7 @@ public class ISODate implements Cloneable
 
 	public ISODate(long time)
 	{
+		Calendar calendar = Calendar.getInstance();
 		synchronized(calendar)
 		{
 			calendar.setTimeInMillis(time);
@@ -181,6 +181,7 @@ public class ISODate implements Cloneable
 
 	public long getSeconds()
 	{
+		Calendar calendar = Calendar.getInstance();
 		synchronized(calendar)
 		{
 			calendar.clear();
