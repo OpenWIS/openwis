@@ -47,7 +47,7 @@ public class ListMetadataFormatsResponse extends AbstractResponse
 	public ListMetadataFormatsResponse(Element response)
 	{
 		super(response);
-		build(response);
+		buildResponse(response);
 	}
 
 	//---------------------------------------------------------------------------
@@ -88,7 +88,7 @@ public class ListMetadataFormatsResponse extends AbstractResponse
 	//---------------------------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
-	private void build(Element response)
+	private void buildResponse(Element response)
 	{
 		Element listMdFor = response.getChild("ListMetadataFormats", OaiPmh.Namespaces.OAI_PMH);
 

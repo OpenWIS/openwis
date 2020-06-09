@@ -58,7 +58,7 @@ public abstract class ListResponse extends AbstractResponse
 		super(response);
 
 		listReq = lr;
-		build(response);
+		buildResponse(response);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public abstract class ListResponse extends AbstractResponse
          throw new RuntimeException("Iterator exausted");
       }
 
-      build(listReq.resume(token));
+      buildResponse(listReq.resume(token));
 
       if (!iterator.hasNext()) {
          throw new RuntimeException("Iterator exausted");
@@ -154,7 +154,7 @@ public abstract class ListResponse extends AbstractResponse
 	//---------------------------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
-	private void build(Element response)
+	private void buildResponse(Element response)
 	{
 		Element operElem = response.getChild(listReq.getVerb(), OaiPmh.Namespaces.OAI_PMH);
 		Element resToken = operElem.getChild("resumptionToken", OaiPmh.Namespaces.OAI_PMH);
