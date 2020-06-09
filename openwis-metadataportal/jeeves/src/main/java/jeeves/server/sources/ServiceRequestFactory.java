@@ -84,7 +84,7 @@ public final class ServiceRequestFactory {
 			try {
 				req.setCharacterEncoding("UTF-8");
 			} catch (UnsupportedEncodingException ex) {
-				ex.printStackTrace();
+			    Log.error(Log.ENGINE, ex.getMessage());
 			}
 
 		// --- extract basic info

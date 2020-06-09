@@ -3,6 +3,7 @@ package jeeves.server.local;
 import jeeves.server.JeevesEngine;
 import jeeves.server.ProfileManager;
 import jeeves.server.UserSession;
+import jeeves.utils.Log;
 import jeeves.utils.Xml;
 
 import org.jdom.Element;
@@ -159,6 +160,6 @@ public class LocalJeeves
 	private static void err(String s, Throwable t)
 	{
 		p("ERROR: " + s + " msg=" + t.getMessage());
-		t.printStackTrace();
+		Log.error(Log.JEEVES, t.getMessage());
 	}
 }

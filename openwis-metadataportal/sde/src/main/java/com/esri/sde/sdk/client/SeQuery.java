@@ -9,7 +9,8 @@ public class SeQuery extends SeStreamOp {
     public SeQuery(SeConnection c) throws SeException {}
 	public SeQuery(SeConnection c, String[] s, SeSqlConstruct y) throws SeException {}
 	
-	public static /* GEOT-947 final*/ short SE_OPTIMIZE = 0;
+	public final static /* GEOT-947 final*/ short SE_OPTIMIZE = 0;
+
 	
 	public void prepareQuery()throws SeException {}
 	/**
