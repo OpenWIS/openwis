@@ -2,8 +2,8 @@ package com.esri.sde.sdk.client;
 
 public class SeState {
 
-    public static int SE_STATE_DIFF_NOCHECK = 0;
-    public static int SE_NULL_STATE_ID = 0;
+    public final static int SE_STATE_DIFF_NOCHECK = 0;
+    public final static int SE_NULL_STATE_ID = 0;
 
     public SeState(SeConnection conn, SeObjectId stateId) throws SeException {
     }

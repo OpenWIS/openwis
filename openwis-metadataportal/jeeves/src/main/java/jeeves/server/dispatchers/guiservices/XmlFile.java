@@ -28,6 +28,7 @@ import java.io.File;
 import jeeves.constants.ConfigFile;
 import jeeves.exceptions.BadInputEx;
 import jeeves.server.context.ServiceContext;
+import jeeves.utils.Log;
 import jeeves.utils.Util;
 import jeeves.utils.XmlFileCacher;
 
@@ -98,7 +99,7 @@ public class XmlFile implements GuiService
 		try {
 			result = (Element)xmlCache.get().clone();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.error(Log.RESOURCES, e.getMessage());
 			String xmlDefaultLangFilePath = path + base +"/"+ defaultLang +"/"+ file;
 			xmlCache = new XmlFileCacher(new File(xmlDefaultLangFilePath));
 			result = (Element)xmlCache.get().clone();

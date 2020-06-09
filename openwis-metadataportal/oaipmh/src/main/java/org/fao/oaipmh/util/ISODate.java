@@ -34,14 +34,14 @@ import java.util.TimeZone;
 
 public class ISODate implements Cloneable
 {
-	public int year;	//--- 4 digits
-	public int month;	//--- 1..12
-	public int day;	//--- 1..31
-	public int hour;	//--- 0..23
-	public int min;	//--- 0..59
-	public int sec;	//--- 0..59
+	private int year;	//--- 4 digits
+	private int month;	//--- 1..12
+	private int day;	//--- 1..31
+	private int hour;	//--- 0..23
+	private int min;	//--- 0..59
+	private int sec;	//--- 0..59
 
-	public boolean isShort; //--- 'true' if the format is yyyy-mm-dd
+	private boolean isShort; //--- 'true' if the format is yyyy-mm-dd
 
 	//---------------------------------------------------------------------------
 
@@ -67,13 +67,13 @@ public class ISODate implements Cloneable
 			calendar.setTimeInMillis(time);
 			calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-			year  = calendar.get(Calendar.YEAR);
-			month = calendar.get(Calendar.MONTH) +1;
-			day   = calendar.get(Calendar.DAY_OF_MONTH);
+			setYear(calendar.get(Calendar.YEAR));
+			setMonth(calendar.get(Calendar.MONTH) +1);
+			setDay(calendar.get(Calendar.DAY_OF_MONTH));
 
-			hour  = calendar.get(Calendar.HOUR_OF_DAY);
+			setHour(calendar.get(Calendar.HOUR_OF_DAY));
 			min   = calendar.get(Calendar.MINUTE);
-			sec   = calendar.get(Calendar.SECOND);
+			setSec(calendar.get(Calendar.SECOND));
 		}
 	}
 
@@ -88,12 +88,12 @@ public class ISODate implements Cloneable
 
 	private ISODate(int y, int m, int d, int h, int mi, int s)
 	{
-		year  = y;
-		month = m;
-		day   = d;
-		hour  = h;
+		setYear(y);
+		setMonth(m);
+		setDay(d);
+		setHour(h);
 		min   = mi;
-		sec   = s;
+		setSec(s);
 	}
 
 	//---------------------------------------------------------------------------
@@ -104,7 +104,7 @@ public class ISODate implements Cloneable
 
 	public ISODate clone()
 	{
-		return new ISODate(year, month, day, hour, min, sec);
+		return new ISODate(getYear(), getMonth(), getDay(), getHour(), min, getSec());
 	}
 
 	//---------------------------------------------------------------------------
@@ -119,15 +119,15 @@ public class ISODate implements Cloneable
 
 		try
 		{
-			year  = Integer.parseInt(isoDate.substring(0,  4));
-			month = Integer.parseInt(isoDate.substring(5,  7));
-			day   = Integer.parseInt(isoDate.substring(8, 10));
+			setYear(Integer.parseInt(isoDate.substring(0,  4)));
+			setMonth(Integer.parseInt(isoDate.substring(5,  7)));
+			setDay(Integer.parseInt(isoDate.substring(8, 10)));
 
-			isShort = true;
+			setShort(true);
 
-			hour = 0;
+			setHour(0);
 			min  = 0;
-			sec  = 0;
+			setSec(0);
 
 			//--- is the date in 'yyyy-mm-dd' or 'yyyy-mm-ddZ' format?
 
@@ -136,11 +136,11 @@ public class ISODate implements Cloneable
 
 			isoDate = isoDate.substring(11);
 
-			hour  = Integer.parseInt(isoDate.substring(0,2));
+			setHour(Integer.parseInt(isoDate.substring(0,2)));
 			min   = Integer.parseInt(isoDate.substring(3,5));
-			sec   = Integer.parseInt(isoDate.substring(6,8));
+			setSec(Integer.parseInt(isoDate.substring(6,8)));
 
-			isShort = false;
+			setShort(false);
 		}
 		catch(Exception e)
 		{
@@ -160,14 +160,14 @@ public class ISODate implements Cloneable
 
 	public String getDate()
 	{
-		return year +"-"+ pad(month) +"-"+ pad(day);
+		return getYear() +"-"+ pad(getMonth()) +"-"+ pad(getDay());
 	}
 
 	//--------------------------------------------------------------------------
 
 	public String getTime()
 	{
-		return pad(hour) +":"+ pad(min) +":"+ pad(sec);
+		return pad(getHour()) +":"+ pad(min) +":"+ pad(getSec());
 	}
 
 	//--------------------------------------------------------------------------
@@ -185,7 +185,7 @@ public class ISODate implements Cloneable
 		synchronized(calendar)
 		{
 			calendar.clear();
-   	   calendar.set(year, month -1, day, hour, min, sec);
+   	   calendar.set(getYear(), getMonth() -1, getDay(), getHour(), min, getSec());
 
 			return calendar.getTimeInMillis() / 1000;
 		}
@@ -203,6 +203,54 @@ public class ISODate implements Cloneable
 			return Integer.toString(value);
 
 		return "0"+ value;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public int getSec() {
+		return sec;
+	}
+
+	public void setSec(int sec) {
+		this.sec = sec;
+	}
+
+	public boolean isShort() {
+		return isShort;
+	}
+
+	public void setShort(boolean aShort) {
+		isShort = aShort;
 	}
 }
 

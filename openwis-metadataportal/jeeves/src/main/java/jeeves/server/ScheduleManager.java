@@ -120,10 +120,10 @@ public class ScheduleManager extends Thread {
 
         ScheduleInfo si = new ScheduleInfo();
 
-        si.name = name;
-        si.schedule = schedule;
-        si.period = getPeriod(when);
-        si.counter = si.period;
+        si.setName(name);
+        si.setSchedule(schedule);
+        si.setPeriod(getPeriod(when));
+        si.setCounter(si.getPeriod());
 
         vSchedules.add(si);
     }
@@ -164,8 +164,9 @@ public class ScheduleManager extends Thread {
 
     private void doJob() {
         for (ScheduleInfo si : vSchedules) {
-            if (--si.counter <= 0) {
-                si.counter = si.period;
+            si.setCounter(si.getCounter()-1);
+            if (si.getCounter() <= 0) {
+                si.setCounter(si.getPeriod());
                 executeSchedule(si);
             }
         }
@@ -176,24 +177,24 @@ public class ScheduleManager extends Thread {
     private void executeSchedule(ScheduleInfo si) {
         //--- create the corresponding schedule context
 
-        ScheduleContext context = new ScheduleContext(si.name, providMan, serialFact, htContexts);
+        ScheduleContext context = new ScheduleContext(si.getName(), providMan, serialFact, htContexts);
 
         context.setBaseUrl(baseUrl);
         context.setAppPath(appPath);
 
         try {
-            si.schedule.exec(context);
+            si.getSchedule().exec(context);
             context.getResourceManager().close();
             return;
         } catch (JeevesException e) {
-            error("Communication exception while executing schedule : " + si.name);
+            error("Communication exception while executing schedule : " + si.getName());
             error(" (C) Status  : " + e.getId());
             error(" (C) Message : " + e.getMessage());
 
             if (e.getObject() != null)
                 error(" (C) Object  : " + e.getObject());
         } catch (Exception e) {
-            error("Raised exception when executing schedule : " + si.name);
+            error("Raised exception when executing schedule : " + si.getName());
             error(" (C) Stack trace : " + Util.getStackTrace(e));
         }
 
@@ -255,11 +256,46 @@ public class ScheduleManager extends Thread {
 //=============================================================================
 
 class ScheduleInfo {
-    public String name;
-    public Schedule schedule;
+    private String name;
+    private Schedule schedule;
 
-    public int period;
-    public int counter;
+    private int period;
+    private int counter;
+
+    public ScheduleInfo() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
 }
 
 //=============================================================================
