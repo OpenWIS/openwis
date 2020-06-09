@@ -2,15 +2,15 @@ package com.esri.sde.sdk.client;
 
 public class SeShape {
 	
-	public static int TYPE_NIL = -1;
-	public static int TYPE_POINT = 0;
-	public static int TYPE_MULTI_POINT = 1;
-	public static int TYPE_LINE = 2;
-	public static int TYPE_SIMPLE_LINE = 3;
-	public static int TYPE_MULTI_LINE = 4;
-	public static int TYPE_MULTI_SIMPLE_LINE = 5;
-	public static int TYPE_POLYGON = 6;
-	public static int TYPE_MULTI_POLYGON = 7;
+	public final static int TYPE_NIL = -1;
+	public final static int TYPE_POINT = 0;
+	public final static int TYPE_MULTI_POINT = 1;
+	public final static int TYPE_LINE = 2;
+	public final static int TYPE_SIMPLE_LINE = 3;
+	public final static int TYPE_MULTI_LINE = 4;
+	public final static int TYPE_MULTI_SIMPLE_LINE = 5;
+	public final static int TYPE_POLYGON = 6;
+	public final static int TYPE_MULTI_POLYGON = 7;
 	
 	public SeShape(){}
 	public SeShape(SeCoordinateReference s) throws SeException {}

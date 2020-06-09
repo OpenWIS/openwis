@@ -132,8 +132,7 @@ public final class Xml
 
 			result = (Element)jdoc.getRootElement().detach();
 		} catch (Exception e) {
-			System.out.println("Threw exception "+e);
-			e.printStackTrace();
+		    Log.error(Log.RESOURCES, e.getMessage());
 		}
 		return result;
 	}
@@ -488,7 +487,7 @@ public final class Xml
 				}
 				x.setText(xpath);
 			} catch (JDOMException e) {
-				e.printStackTrace();
+			    Log.error(Log.RESOURCES, e.getMessage());
 				x.setText("nopath");
 			}
 			String message = exception.getMessage() + " (Element: " + elem.getQualifiedName();
