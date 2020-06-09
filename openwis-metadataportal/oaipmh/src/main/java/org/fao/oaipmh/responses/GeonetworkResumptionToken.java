@@ -51,6 +51,7 @@ public class GeonetworkResumptionToken extends ResumptionToken
 
    private SearchResult res;
 
+	private static final Random r = new Random();
 
 	//---------------------------------------------------------------------------
 
@@ -236,7 +237,6 @@ public class GeonetworkResumptionToken extends ResumptionToken
 	}
 
 	private static String generateRandomString() {
-		Random r = new Random();
 		return Long.toString(Math.abs(r.nextLong()), 36);
 	}
 
