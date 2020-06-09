@@ -638,24 +638,25 @@
 
  .HelpPage .header_img,
  .AboutPage .header_img {
-     margin-left: -135px;
-     margin-top: -69px;
-     margin-bottom: 30px
+     margin-left: -50px;
+     margin-top: -55px;
+     margin-bottom: 30px;
+     width: 990px;
  }
 
  #urlTitleCont {
-     height: 360px
+     height: 360px;
  }
 
  .SearchPage #urlTitleCont {
  }
 
  .AboutPage #urlTitleCont {
-     background: url(../images/openwis/headerBack/earth.png) no-repeat scroll 698px bottom rgba(0, 0, 0, 0)
+     background: url(../images/openwis/headerBack/earth.png) no-repeat scroll 698px bottom rgba(0, 0, 0, 0);
  }
 
  .HelpPage #urlTitleCont {
-     background: url(../images/openwis/headerBack/help.png) no-repeat scroll 698px bottom rgba(0, 0, 0, 0)
+     background: url(../images/openwis/headerBack/help.png) no-repeat scroll 650px bottom rgba(0, 0, 0, 0);
  }
 
  #urlTitle {

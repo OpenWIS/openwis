@@ -10,10 +10,14 @@
    </head>
    <body>
      <div id="header">
-        <%@include file="banner.jsp" %>
+                <%@include file="banner.jsp" %>
 
                 <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-homepage.css">
-        <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-html-content.css">
+                <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-html-content.css">
+                <% if (pageId == null) { %>
+                    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss-simple.css">
+                    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/error.css">
+                <% } %>
 
                 <%
                 if (devMode) {
@@ -93,6 +97,14 @@ else{
       <% } %>
       </div>
         </div>
-    <%@include file="footer-common.jsp" %>    
+    <% if ("user".equals(portalType)) { %>
+        <%@include file="footer-dss.jsp"%>
+        <% if (pageId == null){ %>
+            <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/footer-dss-simple.css">
+        <% } %>
+
+     <% } else { %>
+        <%@include file="footer-common.jsp" %>
+    <% } %>
    </body>
 </html>

@@ -1,0 +1,31 @@
+.main-content {
+        margin-bottom: 10px;
+}
+.main-content-right {
+
+    margin-top: 20px;
+}
+
+.main-content-left {
+    display: none;
+}
+
+ul > li > .title {
+        margin-top:0;
+        margin-bottom:0;
+        }
+ul > li > .subtitle {
+        margin-top:0;
+        margin-bottom:0;
+        }
+
+.links > li {
+        list-style: none;
+}
+
+.bottom-links {
+        margin: 0;
+}
+.bottom-links > li {
+        list-style: none;
+}
