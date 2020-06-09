@@ -563,6 +563,7 @@
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/Misc.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/Save.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/Remove.js</include>
+                                <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/Lock.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/Get.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/GetWithoutError.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/Index.js</include>
