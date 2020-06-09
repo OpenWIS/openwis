@@ -70,24 +70,6 @@ public class Xml {
 	/** Converts an xml element to a string 
 	 * @param schemaPath */
 
-	// public static String getString(Element data)
-	// {
-	// XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-	//
-	// return outputter.outputString(data);
-	// }
-
-	// ---------------------------------------------------------------------------
-
-	// public static String getString(Document data)
-	// {
-	// XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-	//
-	// return outputter.outputString(data);
-	// }
-
-	// ---------------------------------------------------------------------------
-
 	/**
 	 * Validate and XML document.
 	 * 
@@ -102,11 +84,11 @@ public class Xml {
 
 		Schema schema;
 		if (schemaPath != null && schemaPath.exists()) {
-		   schema = factory.newSchema(schemaPath);
+		   schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema(schemaPath);
 		} else {
 		   // NOTE: Create a schema object without schema file name so that schemas
 		   // will be obtained from whatever locations are provided in the document
-		   schema = factory.newSchema();
+		   schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema();
 		}
 		ValidatorHandler vh = schema.newValidatorHandler();
 		so = new SAXOutputter(vh);
@@ -119,8 +101,6 @@ public class Xml {
 	// ---
 	// ---------------------------------------------------------------------------
 
-	private static SchemaFactory factory = SchemaFactory
-			.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 	private static SAXOutputter so;
 
 }
