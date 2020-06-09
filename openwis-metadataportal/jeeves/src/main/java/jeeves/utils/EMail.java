@@ -122,22 +122,23 @@ public class EMail
 
 	public boolean send() throws IOException
 	{
-		Socket socket = new Socket(sMailServer, iPort);
+		try (Socket socket = new Socket(sMailServer, iPort)) {
 
-		in  = new BufferedReader(new InputStreamReader(new DataInputStream(socket.getInputStream())));
-		out = new OutputStreamWriter(new DataOutputStream(socket.getOutputStream()), "ISO-8859-1");
+			in = new BufferedReader(new InputStreamReader(new DataInputStream(socket.getInputStream())));
+			out = new OutputStreamWriter(new DataOutputStream(socket.getOutputStream()), "ISO-8859-1");
 
-		if (lookMailServer())
-		if (sendData("2",   "HELO " + InetAddress.getLocalHost().getHostName() + "\r\n"))
-		if (sendData("2",   "MAIL FROM: <" + sFrom + ">\r\n"))
-		if (sendData("2",   "RCPT TO: <" + sTo + ">\r\n"))
-		if (sendData("354", "DATA\r\n"))
-		if (sendData("2",   buildContent()))
-		if (sendData("2",   "QUIT\r\n"))
-			return true;
+			if (lookMailServer())
+				if (sendData("2", "HELO " + InetAddress.getLocalHost().getHostName() + "\r\n"))
+					if (sendData("2", "MAIL FROM: <" + sFrom + ">\r\n"))
+						if (sendData("2", "RCPT TO: <" + sTo + ">\r\n"))
+							if (sendData("354", "DATA\r\n"))
+								if (sendData("2", buildContent()))
+									if (sendData("2", "QUIT\r\n"))
+										return true;
 
-		sendData("2", "QUIT\r\n");
-		return false;
+			sendData("2", "QUIT\r\n");
+			return false;
+		}
 	}
 
 	//--------------------------------------------------------------------------

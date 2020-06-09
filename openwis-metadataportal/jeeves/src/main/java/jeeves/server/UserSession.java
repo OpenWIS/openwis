@@ -23,112 +23,135 @@
 
 package jeeves.server;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import javax.servlet.http.HttpSession;
 
 //=============================================================================
 
-/** Abstraction layer from the user session
-  */
+/**
+ * Abstraction layer from the user session
+ */
 
-public class UserSession
-{
-	private Hashtable<String, Object> htProperties = new Hashtable<String, Object>(10, .75f);
+public class UserSession implements Serializable {
+    private Hashtable<String, Object> htProperties = new Hashtable<String, Object>(10, .75f);
 
-	private String  sUserId;
-	private String  sUsername;
-	private String  sName;
-	private String  sSurname;
-	private String  sProfile;
-	private String  sMail;
-	private HttpSession sHttpSession;
+    private String sUserId;
+    private String sUsername;
+    private String sName;
+    private String sSurname;
+    private String sProfile;
+    private String sMail;
+    private HttpSession sHttpSession;
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Constructor
-	//---
-	//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //---
+    //--- Constructor
+    //---
+    //--------------------------------------------------------------------------
 
-	public UserSession() {}
+    public UserSession() {
+    }
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- API methods
-	//---
-	//--------------------------------------------------------------------------
-	
-	/**
-	 * @return the sHttpSession
-	 */
-	public HttpSession getsHttpSession() {
-		return sHttpSession;
-	}
+    //--------------------------------------------------------------------------
+    //---
+    //--- API methods
+    //---
+    //--------------------------------------------------------------------------
 
-	/**
-	 * @param sHttpSession the sHttpSession to set
-	 */
-	public void setsHttpSession(HttpSession sHttpSession) {
-		this.sHttpSession = sHttpSession;
-	}
+    /**
+     * @return the sHttpSession
+     */
+    public HttpSession getsHttpSession() {
+        return sHttpSession;
+    }
 
-	/** Sets a generic property
-	  */
+    /**
+     * @param sHttpSession the sHttpSession to set
+     */
+    public void setsHttpSession(HttpSession sHttpSession) {
+        this.sHttpSession = sHttpSession;
+    }
 
-	public void setProperty(String name, Object value)
-	{
-		htProperties.put(name, value);
-	}
+    /**
+     * Sets a generic property
+     */
 
-	//--------------------------------------------------------------------------
-	/** Gets a generic property
-	  */
+    public void setProperty(String name, Object value) {
+        htProperties.put(name, value);
+    }
 
-	public Object getProperty(String name)
-	{
-		return htProperties.get(name);
-	}
+    //--------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------
-	/** Removes a generic property
-	  */
+    /**
+     * Gets a generic property
+     */
 
-	public void removeProperty(String name)
-	{
-		htProperties.remove(name);
-	}
+    public Object getProperty(String name) {
+        return htProperties.get(name);
+    }
 
-	//--------------------------------------------------------------------------
-	/** Says that the user is authenticated and this id and profile must be used
-	  */
+    //--------------------------------------------------------------------------
 
-	public void authenticate(String userId, String username, String name, String surname, String profile, String mail)
-	{
-		sUserId   = userId;
-		sUsername = username;
-		sName     = name;
-		sSurname  = surname;
-		sProfile  = profile;
-		sMail = mail;
-	}
+    /**
+     * Removes a generic property
+     */
 
-	//--------------------------------------------------------------------------
+    public void removeProperty(String name) {
+        htProperties.remove(name);
+    }
 
-	public boolean isAuthenticated()
-	{
-		return sUserId != null;
-	}
+    //--------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------
+    /**
+     * Says that the user is authenticated and this id and profile must be used
+     */
 
-	public String getUserId()    { return sUserId;   }
-	public String getUsername()  { return sUsername; }
-	public String getName()      { return sName;     }
-	public String getSurname()   { return sSurname;  }
-	public String getProfile()   { return sProfile;  }
-   public String getMail()      { return sMail;  }
-   
-	public int getUserIdAsInt()  { return Integer.parseInt(sUserId); }
+    public void authenticate(String userId, String username, String name, String surname, String profile, String mail) {
+        sUserId = userId;
+        sUsername = username;
+        sName = name;
+        sSurname = surname;
+        sProfile = profile;
+        sMail = mail;
+    }
+
+    //--------------------------------------------------------------------------
+
+    public boolean isAuthenticated() {
+        return sUserId != null;
+    }
+
+    //--------------------------------------------------------------------------
+
+    public String getUserId() {
+        return sUserId;
+    }
+
+    public String getUsername() {
+        return sUsername;
+    }
+
+    public String getName() {
+        return sName;
+    }
+
+    public String getSurname() {
+        return sSurname;
+    }
+
+    public String getProfile() {
+        return sProfile;
+    }
+
+    public String getMail() {
+        return sMail;
+    }
+
+    public int getUserIdAsInt() {
+        return Integer.parseInt(sUserId);
+    }
 }
 
 //=============================================================================
