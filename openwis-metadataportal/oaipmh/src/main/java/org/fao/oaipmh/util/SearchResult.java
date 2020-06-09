@@ -38,8 +38,8 @@ public class SearchResult
 	//---
 	//---------------------------------------------------------------------------
 	
-	public String       prefix;
-	public List<String> urns;
+	private String       prefix;
+	private List<String> urns;
 	
 	private String token;
 	
@@ -52,7 +52,7 @@ public class SearchResult
 
 	public SearchResult(String prefix)
 	{
-		this.prefix = prefix;
+		this.setPrefix(prefix);
 	}
 
 	//---------------------------------------------------------------------------
