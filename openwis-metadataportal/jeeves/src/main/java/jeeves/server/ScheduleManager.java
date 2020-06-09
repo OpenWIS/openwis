@@ -41,7 +41,7 @@ import org.jdom.Element;
 
 public class ScheduleManager extends Thread
 {
-	private boolean exit = false;
+	private boolean canExit = false;
 
 	private String appPath;
 	private String baseUrl;
@@ -127,7 +127,7 @@ public class ScheduleManager extends Thread
 
 	public void exit()
 	{
-		exit = true;
+		canExit = true;
 	}
 
 	//--------------------------------------------------------------------------
@@ -138,7 +138,7 @@ public class ScheduleManager extends Thread
 
 	public void run()
 	{
-		while(!exit)
+		while(!canExit)
 		{
 			doJob();
 
