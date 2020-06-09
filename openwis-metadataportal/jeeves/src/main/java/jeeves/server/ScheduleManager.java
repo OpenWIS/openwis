@@ -22,6 +22,7 @@
 //==============================================================================
 
 package jeeves.server;
+
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -39,249 +40,226 @@ import org.jdom.Element;
 
 //=============================================================================
 
-public class ScheduleManager extends Thread
-{
-	private boolean canExit = false;
+public class ScheduleManager extends Thread {
+    private boolean canExit = false;
 
-	private String appPath;
-	private String baseUrl;
+    private String appPath;
+    private String baseUrl;
 
-	private ProviderManager providMan;
-	private SerialFactory   serialFact;
+    private ProviderManager providMan;
+    private SerialFactory serialFact;
 
-	private Vector<ScheduleInfo> vSchedules = new Vector<ScheduleInfo>();
-	private Hashtable<String, Object> htContexts = new Hashtable<String, Object>();
+    private Vector<ScheduleInfo> vSchedules = new Vector<ScheduleInfo>();
+    private Hashtable<String, Object> htContexts = new Hashtable<String, Object>();
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Constructor
-	//---
-	//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //---
+    //--- Constructor
+    //---
+    //--------------------------------------------------------------------------
 
-	public ScheduleManager() {}
+    public ScheduleManager() {
+    }
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- API methods
-	//---
-	//---------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //---
+    //--- API methods
+    //---
+    //---------------------------------------------------------------------------
 
-	public void registerContext(String name, Object context)
-	{
-		htContexts.put(name, context);
-	}
+    public void registerContext(String name, Object context) {
+        htContexts.put(name, context);
+    }
 
-	//---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
 
-	public void setBaseUrl(String name)
-	{
-		baseUrl = name;
+    public void setBaseUrl(String name) {
+        baseUrl = name;
 
-		if (!baseUrl.startsWith("/"))
-			baseUrl = "/"+ baseUrl;
-	}
+        if (!baseUrl.startsWith("/"))
+            baseUrl = "/" + baseUrl;
+    }
 
-	//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
-	public void setProviderMan  (ProviderManager p) { providMan  = p; }
-	public void setSerialFactory(SerialFactory   s) { serialFact = s; }
+    public void setProviderMan(ProviderManager p) {
+        providMan = p;
+    }
 
-	public void setAppPath(String  path)  { appPath = path;  }
+    public void setSerialFactory(SerialFactory s) {
+        serialFact = s;
+    }
 
-	//--------------------------------------------------------------------------
+    public void setAppPath(String path) {
+        appPath = path;
+    }
 
-	@SuppressWarnings("unchecked")
-   public void addSchedule(String pack, Element sched) throws Exception
-	{
-		String name = sched.getAttributeValue(ConfigFile.Schedule.Attr.NAME);
-		String clas = sched.getAttributeValue(ConfigFile.Schedule.Attr.CLASS);
-		String when = sched.getAttributeValue(ConfigFile.Schedule.Attr.WHEN);
+    //--------------------------------------------------------------------------
 
-		//--- get class name
+    @SuppressWarnings("unchecked")
+    public void addSchedule(String pack, Element sched) throws Exception {
+        String name = sched.getAttributeValue(ConfigFile.Schedule.Attr.NAME);
+        String clas = sched.getAttributeValue(ConfigFile.Schedule.Attr.CLASS);
+        String when = sched.getAttributeValue(ConfigFile.Schedule.Attr.WHEN);
 
-		if (clas == null)
-			throw new IllegalArgumentException("Missing 'class' attrib in 'schedule' element");
+        //--- get class name
 
-		if (clas.startsWith("."))
-			clas = pack + clas;
+        if (clas == null)
+            throw new IllegalArgumentException("Missing 'class' attrib in 'schedule' element");
 
-		//--- create instance
+        if (clas.startsWith("."))
+            clas = pack + clas;
 
-		Schedule schedule = (Schedule) Class.forName(clas).newInstance();
+        //--- create instance
 
-		schedule.init(appPath, new ServiceConfig(sched.getChildren(ConfigFile.Schedule.Child.PARAM)));
+        Schedule schedule = (Schedule) Class.forName(clas).newInstance();
 
-		//--- store schedule
+        schedule.init(appPath, new ServiceConfig(sched.getChildren(ConfigFile.Schedule.Child.PARAM)));
 
-		ScheduleInfo si = new ScheduleInfo();
+        //--- store schedule
 
-		si.name     = name;
-		si.schedule = schedule;
-		si.period   = getPeriod(when);
-		si.counter  = si.period;
+        ScheduleInfo si = new ScheduleInfo();
 
-		vSchedules.add(si);
-	}
+        si.name = name;
+        si.schedule = schedule;
+        si.period = getPeriod(when);
+        si.counter = si.period;
 
-	//--------------------------------------------------------------------------
+        vSchedules.add(si);
+    }
 
-	public void exit()
-	{
-		canExit = true;
-	}
+    //--------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Main loop
-	//---
-	//--------------------------------------------------------------------------
+    public void exit() {
+        canExit = true;
+    }
 
-	public void run()
-	{
-		while(!canExit)
-		{
-			doJob();
+    //--------------------------------------------------------------------------
+    //---
+    //--- Main loop
+    //---
+    //--------------------------------------------------------------------------
 
-			try
-			{
-				sleep(1000);
-			}
-			catch (InterruptedException e) {}
-		}
-	}
+    public void run() {
+        while (!canExit) {
+            doJob();
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Private methods
-	//---
-	//--------------------------------------------------------------------------
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
 
-	/** This method is called every second */
+    //--------------------------------------------------------------------------
+    //---
+    //--- Private methods
+    //---
+    //--------------------------------------------------------------------------
 
-	private void doJob()
-	{
-		for (ScheduleInfo si : vSchedules) {
-			if (--si.counter <= 0) {
-				si.counter = si.period;
-				executeSchedule(si);
-			}
-		}
-	}
+    /**
+     * This method is called every second
+     */
 
-	//--------------------------------------------------------------------------
+    private void doJob() {
+        for (ScheduleInfo si : vSchedules) {
+            if (--si.counter <= 0) {
+                si.counter = si.period;
+                executeSchedule(si);
+            }
+        }
+    }
 
-	private void executeSchedule(ScheduleInfo si)
-	{
-		//--- create the corresponding schedule context
+    //--------------------------------------------------------------------------
 
-		ScheduleContext context = new ScheduleContext(si.name, providMan, serialFact, htContexts);
+    private void executeSchedule(ScheduleInfo si) {
+        //--- create the corresponding schedule context
 
-		context.setBaseUrl(baseUrl);
-		context.setAppPath(appPath);
+        ScheduleContext context = new ScheduleContext(si.name, providMan, serialFact, htContexts);
 
-		try
-		{
-			si.schedule.exec(context);
-			context.getResourceManager().close();
-			return;
-		}
+        context.setBaseUrl(baseUrl);
+        context.setAppPath(appPath);
 
-		catch(JeevesException e)
-		{
-			error("Communication exception while executing schedule : "+ si.name);
-			error(" (C) Status  : "+e.getId());
-			error(" (C) Message : "+e.getMessage());
+        try {
+            si.schedule.exec(context);
+            context.getResourceManager().close();
+            return;
+        } catch (JeevesException e) {
+            error("Communication exception while executing schedule : " + si.name);
+            error(" (C) Status  : " + e.getId());
+            error(" (C) Message : " + e.getMessage());
 
-			if (e.getObject() != null)
-				error(" (C) Object  : "+e.getObject());
-		}
+            if (e.getObject() != null)
+                error(" (C) Object  : " + e.getObject());
+        } catch (Exception e) {
+            error("Raised exception when executing schedule : " + si.name);
+            error(" (C) Stack trace : " + Util.getStackTrace(e));
+        }
 
-		catch (Exception e)
-		{
-			error("Raised exception when executing schedule : "+ si.name);
-			error(" (C) Stack trace : "+ Util.getStackTrace(e));
-		}
+        //--- in case of exception we have to abort all resources
 
-		//--- in case of exception we have to abort all resources
+        abort(context);
+    }
 
-		abort(context);
-	}
+    //--------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------
+    private void abort(ScheduleContext context) {
+        try {
+            context.getResourceManager().abort();
+        } catch (Exception ex) {
+            error("CANNOT ABORT PREVIOUS EXCEPTION");
+            error(" (C) Exc : " + ex);
+        }
+    }
 
-	private void abort(ScheduleContext context)
-	{
-		try
-		{
-			context.getResourceManager().abort();
-		}
-		catch (Exception ex)
-		{
-			error("CANNOT ABORT PREVIOUS EXCEPTION");
-			error(" (C) Exc : " + ex);
-		}
-	}
+    //--------------------------------------------------------------------------
 
-	//--------------------------------------------------------------------------
+    private int getPeriod(String when) {
+        int period = 0;
+        int mult = 0;
 
-	private int getPeriod(String when)
-	{
-		int period = 0;
-		int mult   = 0;
+        StringTokenizer st = new StringTokenizer(when, ",");
 
-		StringTokenizer st = new StringTokenizer(when, ",");
+        while (st.hasMoreTokens()) {
+            String token = st.nextToken().trim().toLowerCase();
 
-		while (st.hasMoreTokens())
-		{
-			String token = st.nextToken().trim().toLowerCase();
+            if (token.endsWith(" hour")) {
+                token = token.substring(0, token.length() - 5);
+                mult = 3600;
+            } else if (token.endsWith(" hours")) {
+                token = token.substring(0, token.length() - 6);
+                mult = 3600;
+            } else if (token.endsWith(" min")) {
+                token = token.substring(0, token.length() - 4);
+                mult = 60;
+            } else if (token.endsWith(" sec")) {
+                token = token.substring(0, token.length() - 4);
+                mult = 1;
+            } else
+                throw new IllegalArgumentException("Bad period format :" + when);
 
-			if (token.endsWith(" hour"))
-			{
-				token = token.substring(0, token.length() -5);
-				mult  = 3600;
-			}
+            period += mult * Integer.parseInt(token);
+        }
 
-			else if (token.endsWith(" hours"))
-			{
-				token = token.substring(0, token.length() -6);
-				mult  = 3600;
-			}
+        return period;
+    }
 
-			else if (token.endsWith(" min"))
-			{
-				token = token.substring(0, token.length() -4);
-				mult  = 60;
-			}
+    //---------------------------------------------------------------------------
 
-			else if (token.endsWith(" sec"))
-			{
-				token = token.substring(0, token.length() -4);
-				mult  = 1;
-			}
-
-			else
-				throw new IllegalArgumentException("Bad period format :" +when);
-
-			period += mult * Integer.parseInt(token);
-		}
-
-		return period;
-	}
-
-	//---------------------------------------------------------------------------
-
-	private void error  (String message) { Log.error  (Log.SCHEDULER, message); }
+    private void error(String message) {
+        Log.error(Log.SCHEDULER, message);
+    }
 }
 
 //=============================================================================
 
-class ScheduleInfo
-{
-	public String   name;
-	public Schedule schedule;
+class ScheduleInfo {
+    public String name;
+    public Schedule schedule;
 
-	public int period;
-	public int counter;
+    public int period;
+    public int counter;
 }
 
 //=============================================================================
