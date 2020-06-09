@@ -549,7 +549,7 @@ public class JeevesEngine
 			info("=== Stopping system ========================================");
 
 			info("Stopping schedule manager...");
-			scheduleMan.exit();
+			scheduleMan.exitScheduleManager();
 
 			info("Stopping handlers...");
 			stopHandlers();
