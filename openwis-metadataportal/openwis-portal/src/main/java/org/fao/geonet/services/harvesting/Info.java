@@ -221,7 +221,7 @@ public class Info implements Service {
       Element root = new Element("formats");
 
       for (MetadataFormat mf : res.getFormats())
-         root.addContent(new Element("format").setText(mf.prefix));
+         root.addContent(new Element("format").setText(mf.getPrefix()));
 
       return root;
    }

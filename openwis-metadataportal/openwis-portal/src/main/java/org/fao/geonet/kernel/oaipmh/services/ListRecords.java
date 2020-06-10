@@ -83,7 +83,7 @@ public class ListRecords extends AbstractTokenLister {
       while (num < OpenwisMetadataPortalConfig.getInt(ConfigurationConstants.OAI_MAX_RECORDS) && pos < result.getUrns().size()) {
          String urn = result.getUrns().get(pos);
 
-         Record r = buildRecord(context, dbms, urn, result.prefix, category);
+         Record r = buildRecord(context, dbms, urn, result.getPrefix(), category);
 
          // FIXME possible bug if record is null. We should flag the metadata as invalid record 
          // in order to take it into account in the resumption token. 

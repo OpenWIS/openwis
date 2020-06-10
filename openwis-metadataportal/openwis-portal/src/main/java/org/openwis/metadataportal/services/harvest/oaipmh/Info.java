@@ -126,7 +126,7 @@ public class Info implements Service {
       //--- build response
       List<String> formats = new ArrayList<String>();
       for (MetadataFormat mf : res.getFormats()) {
-         formats.add(mf.prefix);
+         formats.add(mf.getPrefix());
       }
 
       return formats;

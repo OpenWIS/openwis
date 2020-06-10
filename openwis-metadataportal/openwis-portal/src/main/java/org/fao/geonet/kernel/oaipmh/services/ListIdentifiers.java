@@ -91,7 +91,7 @@ public class ListIdentifiers extends AbstractTokenLister
 		{
 			String urn = result.getUrns().get(pos);
 
-			Header h = buildHeader(dbms, urn, result.prefix, appPath, category);
+			Header h = buildHeader(dbms, urn, result.getPrefix(), appPath, category);
 
 			if (h != null) {
 				res.addHeader(h);

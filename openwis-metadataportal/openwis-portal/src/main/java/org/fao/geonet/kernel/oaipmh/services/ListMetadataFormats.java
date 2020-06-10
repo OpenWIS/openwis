@@ -103,9 +103,9 @@ public class ListMetadataFormats implements OaiPmhService
 
 		MetadataFormat mf = new MetadataFormat();
 
-		mf.prefix    = name;
-		mf.schema    = Lib.getSchemaUrl(context, schemaFile);
-		mf.namespace = Namespace.getNamespace(nsPref != null ? nsPref : "");
+		mf.setPrefix(name);
+		mf.setSchema(Lib.getSchemaUrl(context, schemaFile));
+		mf.setNamespace(Namespace.getNamespace(nsPref != null ? nsPref : ""));
 
 		return mf;
 	}

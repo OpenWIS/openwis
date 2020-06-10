@@ -78,12 +78,12 @@ public abstract class AbstractTokenLister implements OaiPmhService {
 
          String sFrom = null;
          if (from != null) {
-            sFrom = from.isShort ? from.getDate() : from.toString();
+            sFrom = from.isShort() ? from.getDate() : from.toString();
          }
          
          String sTo = null;
          if (until != null) {
-            sTo = until.isShort ? until.getDate() : until.toString();
+            sTo = until.isShort() ? until.getDate() : until.toString();
          }
 
          if (from != null && until != null && from.sub(until) > 0)
