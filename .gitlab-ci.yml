@@ -45,7 +45,7 @@ openwis-dataservice:
         - sast_reports.tar
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
         
-openwis-portal:
+openwis-metadataportal:
   stage: build
   tags:
       - openwis
@@ -61,6 +61,23 @@ openwis-portal:
         - target/generated-sources/
         - sast_reports.tar
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
+
+openwis-portal:
+  stage: build
+  tags:
+    - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-metadataportal/openwis-portal
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_2
+    - mvn $M2_SETTINGS_OPTION compile -Popenwis,user
+    - *sec_script_sast
+  artifacts:
+    paths:
+      - target/classes/
+      - target/generated-sources/
+      - sast_reports.tar
+      - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 openwis-management:
   stage: build
@@ -117,6 +134,11 @@ report-dataservice:
   extends: .TriggerSecu
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-dataservice'
+
+report-metadataportal:
+  extends: .TriggerSecu
+  variables:
+    SECU_TARGET_JOB_BUILD_NAME: 'openwis-metadataportal'
 
 report-portal:
   extends: .TriggerSecu
