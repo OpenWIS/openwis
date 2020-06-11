@@ -9,6 +9,12 @@ include:
   - 'chmod +x ./security_build.sh'
   - '[ ${SECU_SAST_ENABLE^^} != "FALSE" ] && (./security_build.sh ${SECU_SONARQUBE_SERVER} ${SECU_SONARQUBE_TOKEN} --CI_PROJECT_DIR=${CI_PROJECT_DIR} ${SECU_BUILD_OPTION} --CI_PIPELINE_ID=$CI_PIPELINE_ID --CI_PROJECT_ID=$CI_PROJECT_ID "--CI_PROJECT_NAME=$CI_PROJECT_NAME" "--CI_PROJECT_TITLE=$CI_PROJECT_TITLE" --JOB_ID=$CI_JOB_ID "--CI_COMMIT_REF_NAME=$CI_COMMIT_REF_NAME" --CI_COMMIT_SHA=$CI_COMMIT_SHA || exit 1)' 
 
+.only-master-release-develop:
+  only:
+    - master
+    - develop
+    - release
+
 stages:
     - build
     - secu
@@ -28,6 +34,7 @@ cache:
 
 # Needed to compile openwis-portal
 openwis-harness:
+  extends: .only-master-release-develop
   stage: build
   tags:
     - openwis
@@ -42,6 +49,7 @@ openwis-harness:
 
 # Needed to compile openwis-portal
 openwis-portal-wsdl:
+  extends: .only-master-release-develop
   stage: build
   tags:
     - openwis
@@ -55,6 +63,7 @@ openwis-portal-wsdl:
       - target/generated-sources/
 
 openwis-dataservice:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -74,6 +83,7 @@ openwis-dataservice:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
         
 openwis-metadataportal:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -91,6 +101,7 @@ openwis-metadataportal:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 openwis-portal:
+  extends: .only-master-release-develop
   stage: build
   tags:
     - openwis
@@ -108,6 +119,7 @@ openwis-portal:
       - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 openwis-management:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -125,6 +137,7 @@ openwis-management:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
         
 openwis-securityservice:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -143,27 +156,36 @@ openwis-securityservice:
 
 
 report-dataservice:
-  extends: .TriggerSecu
+  extends:
+    -.TriggerSecu
+    - only-master-release-develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-dataservice'
 
 report-metadataportal:
-  extends: .TriggerSecu
+  extends:
+    -.TriggerSecu
+    - only-master-release-develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-metadataportal'
 
 report-portal:
-  extends: .TriggerSecu
+  extends:
+    -.TriggerSecu
+    - only-master-release-develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-portal'
 
 report-management:
-  extends: .TriggerSecu
-
+  extends:
+    -.TriggerSecu
+    - only-master-release-develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-management'
 
 report-securityservice:
-  extends: .TriggerSecu
+  extends:
+    -.TriggerSecu
+    - only-master-release-develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-securityservice'
