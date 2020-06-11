@@ -156,36 +156,46 @@ openwis-securityservice:
 
 
 report-dataservice:
-  extends:
-    -.TriggerSecu
-    - .only-master-release-develop
+  extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-dataservice'
 
 report-metadataportal:
-  extends:
-    -.TriggerSecu
-    - .only-master-release-develop
+  extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-metadataportal'
 
 report-portal:
-  extends:
-    -.TriggerSecu
-    - .only-master-release-develop
+  extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-portal'
 
 report-management:
-  extends:
-    -.TriggerSecu
-    - .only-master-release-develop
+  extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-management'
 
 report-securityservice:
-  extends:
-    -.TriggerSecu
-    - .only-master-release-develop
+  extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-securityservice'
