@@ -26,6 +26,34 @@ cache:
     - .m2/repository/
     - target/
 
+# Needed to compile openwis-portal
+openwis-harness:
+  stage: build
+  tags:
+    - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-harness
+    - mvn $M2_SETTINGS_OPTION install -Popenwis
+  artifacts:
+    paths:
+      - target/classes/
+      - target/generated-sources/
+
+# Needed to compile openwis-portal
+openwis-portal-wsdl:
+  stage: build
+  tags:
+    - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-portal-client
+    - mvn $M2_SETTINGS_OPTION install -Popenwis
+  artifacts:
+    paths:
+      - target/classes/
+      - target/generated-sources/
+
 openwis-dataservice:
   stage: build
   tags:
@@ -53,7 +81,7 @@ openwis-metadataportal:
     - export JAVA_HOME=$JAVA_HOME
     - cd openwis-metadataportal
     - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_2
-    - mvn $M2_SETTINGS_OPTION compile -Popenwis,user
+    - mvn $M2_SETTINGS_OPTION install -Popenwis,user
     - *sec_script_sast
   artifacts:
       paths:
@@ -113,22 +141,6 @@ openwis-securityservice:
         - sast_reports.tar
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
-openwis-harness:
-  stage: build
-  tags:
-      - openwis
-  script:
-    - export JAVA_HOME=$JAVA_HOME
-    - cd openwis-harness
-    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_5
-    - mvn $M2_SETTINGS_OPTION compile -Popenwis
-    - *sec_script_sast
-  artifacts:
-      paths:
-        - target/classes/
-        - target/generated-sources/
-        - sast_reports.tar
-        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 report-dataservice:
   extends: .TriggerSecu
@@ -155,10 +167,3 @@ report-securityservice:
   extends: .TriggerSecu
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-securityservice'
-
-report-harness:
-  extends: .TriggerSecu
-  variables:
-    SECU_TARGET_JOB_BUILD_NAME: 'openwis-harness'
-
-
