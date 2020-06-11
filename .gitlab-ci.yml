@@ -80,7 +80,7 @@ openwis-metadataportal:
   script:
     - export JAVA_HOME=$JAVA_HOME
     - cd openwis-metadataportal
-    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_2
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_6
     - mvn $M2_SETTINGS_OPTION install -Popenwis,user
     - *sec_script_sast
   artifacts:
