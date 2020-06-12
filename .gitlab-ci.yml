@@ -9,6 +9,12 @@ include:
   - 'chmod +x ./security_build.sh'
   - '[ ${SECU_SAST_ENABLE^^} != "FALSE" ] && (./security_build.sh ${SECU_SONARQUBE_SERVER} ${SECU_SONARQUBE_TOKEN} --CI_PROJECT_DIR=${CI_PROJECT_DIR} ${SECU_BUILD_OPTION} --CI_PIPELINE_ID=$CI_PIPELINE_ID --CI_PROJECT_ID=$CI_PROJECT_ID "--CI_PROJECT_NAME=$CI_PROJECT_NAME" "--CI_PROJECT_TITLE=$CI_PROJECT_TITLE" --JOB_ID=$CI_JOB_ID "--CI_COMMIT_REF_NAME=$CI_COMMIT_REF_NAME" --CI_COMMIT_SHA=$CI_COMMIT_SHA || exit 1)' 
 
+.only-master-release-develop:
+  only:
+    - master
+    - develop
+    - release
+
 stages:
     - build
     - secu
@@ -26,7 +32,38 @@ cache:
     - .m2/repository/
     - target/
 
+# Needed to compile openwis-portal
+openwis-harness:
+  extends: .only-master-release-develop
+  stage: build
+  tags:
+    - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-harness
+    - mvn $M2_SETTINGS_OPTION install -Popenwis
+  artifacts:
+    paths:
+      - target/classes/
+      - target/generated-sources/
+
+# Needed to compile openwis-portal
+openwis-portal-wsdl:
+  extends: .only-master-release-develop
+  stage: build
+  tags:
+    - openwis
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - cd openwis-portal-client
+    - mvn $M2_SETTINGS_OPTION install -Popenwis
+  artifacts:
+    paths:
+      - target/classes/
+      - target/generated-sources/
+
 openwis-dataservice:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -46,14 +83,15 @@ openwis-dataservice:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
         
 openwis-metadataportal:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
   script:
     - export JAVA_HOME=$JAVA_HOME
     - cd openwis-metadataportal
-    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_2
-    - mvn $M2_SETTINGS_OPTION compile -Popenwis,user
+    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_6
+    - mvn $M2_SETTINGS_OPTION install -Popenwis,user
     - *sec_script_sast
   artifacts:
       paths:
@@ -63,6 +101,7 @@ openwis-metadataportal:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 openwis-portal:
+  extends: .only-master-release-develop
   stage: build
   tags:
     - openwis
@@ -80,6 +119,7 @@ openwis-portal:
       - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 openwis-management:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -97,6 +137,7 @@ openwis-management:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
         
 openwis-securityservice:
+  extends: .only-master-release-develop
   stage: build
   tags:
       - openwis
@@ -113,52 +154,48 @@ openwis-securityservice:
         - sast_reports.tar
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
-openwis-harness:
-  stage: build
-  tags:
-      - openwis
-  script:
-    - export JAVA_HOME=$JAVA_HOME
-    - cd openwis-harness
-    - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_5
-    - mvn $M2_SETTINGS_OPTION compile -Popenwis
-    - *sec_script_sast
-  artifacts:
-      paths:
-        - target/classes/
-        - target/generated-sources/
-        - sast_reports.tar
-        - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 report-dataservice:
   extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-dataservice'
 
 report-metadataportal:
   extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-metadataportal'
 
 report-portal:
   extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-portal'
 
 report-management:
   extends: .TriggerSecu
-
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-management'
 
 report-securityservice:
   extends: .TriggerSecu
+  only:
+    - master
+    - release
+    - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-securityservice'
-
-report-harness:
-  extends: .TriggerSecu
-  variables:
-    SECU_TARGET_JOB_BUILD_NAME: 'openwis-harness'
-
-
