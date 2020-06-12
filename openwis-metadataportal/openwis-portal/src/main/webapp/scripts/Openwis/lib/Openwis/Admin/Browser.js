@@ -817,12 +817,13 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
     					{
     						title : Openwis.i18n('Admin.Browser.System'),
     						tabTip : Openwis.i18n('Admin.Browser.System')
-    					}
+    					},
     				]
     			});
     			
     			if (systemConfiguration) {
     			    this.systemMenu.add(this.getSystemConfigurationMenu());
+    			    this.systemMenu.add(this.getSystemMaintenance());
     			}
 		    }
 		}
@@ -852,6 +853,31 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 			});
 		}
 		return this.systemConfigurationMenu;
+	},
+
+	getSystemMaintenance: function() {
+	    if(!this.systemMaintenancePanel) {
+	        this.systemMaintenancePanel = new Ext.Panel({
+	            title: Openwis.i18n('Admin.Browser.System.Maintenance'),
+	            listeners: {
+	                activate: function(ct) {
+	                    var systemMaintenancePanel = new Openwis.Admin.System.Maintenance();
+	                    ct.add(systemMaintenancePanel);
+
+	                    systemPanel.addListener('panelInitialized',function() {
+                                this.fireEvent('panelInitialized');
+                            }, this);
+
+                            ct.doLayout();
+                        },
+                        deactivate: function(ct) {
+                            ct.remove(ct.items.first(), true);
+                        },
+                        scope: this
+	                }
+	            });
+	        }
+	    return this.systemMaintenancePanel;
 	},
 	
 	getSystemLocalizationMenu: function() {

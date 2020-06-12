@@ -147,6 +147,7 @@
         	"Openwis/Admin/Viewport.js",
         	"Openwis/Admin/Init.js",
         	"Openwis/Admin/System/SystemConfiguration.js",
+        	"Openwis/Admin/System/Maintenance.js",
         	"Openwis/Admin/Availability/DeploymentAvailabilityUtils.js",
         	"Openwis/Admin/Availability/DeploymentAvailability.js",
         	"Openwis/Admin/Availability/LocalAvailability.js",
