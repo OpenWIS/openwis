@@ -5,7 +5,6 @@ import org.fao.geonet.kernel.setting.SettingManager;
 import org.openwis.metadataportal.services.system.dto.MaintenanceConfigurationDTO;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
 
-import javax.ejb.Local;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -74,19 +73,16 @@ public class MaintenanceConfiguration {
     /**
      * Update maintenance configuration
      * @param dbms
-     * @param startDate start date of maintenance
-     * @param endDate end date of maintenance
-     * @param enabled true if maintenance mode is enabled
      * @throws IllegalArgumentException if start data is after end date
      * @throws SQLException is data cannot be saved to db
      */
-    public void update(Dbms dbms, LocalDateTime startDate, LocalDateTime endDate, Boolean enabled) throws IllegalArgumentException, SQLException {
-        if (startDate.isAfter(endDate)) {
+    public void update(Dbms dbms, MaintenanceConfigurationDTO dto) throws IllegalArgumentException, SQLException {
+        if (dto.getStartDate().isAfter(dto.getEndDate())) {
             throw new IllegalArgumentException("start date is after end date");
         }
-        this.settingManager.setValue(dbms, START_DATE_KEY, startDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        this.settingManager.setValue(dbms, END_DATE_KEY, endDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        this.settingManager.setValue(dbms, END_DATE_KEY, enabled);
+        this.settingManager.setValue(dbms, START_DATE_KEY, dto.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        this.settingManager.setValue(dbms, END_DATE_KEY, dto.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        this.settingManager.setValue(dbms, ENABLED_KEY, dto.isEnabled());
     }
 
     /**
@@ -96,8 +92,8 @@ public class MaintenanceConfiguration {
     public MaintenanceConfigurationDTO getDTO() {
         MaintenanceConfigurationDTO dto = new MaintenanceConfigurationDTO();
         dto.setEnabled(this.enabled);
-        dto.setStartDate(this.startDate.format(DateTimeFormatter.ofPattern(datePattern)));
-        dto.setEndDate(this.endDate.format(DateTimeFormatter.ofPattern(datePattern)));
+        dto.setStartDate(this.startDate);
+        dto.setEndDate(this.endDate);
         return dto;
     }
 
