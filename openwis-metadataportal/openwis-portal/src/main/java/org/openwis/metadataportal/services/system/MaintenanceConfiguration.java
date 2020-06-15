@@ -19,9 +19,9 @@ import java.time.format.DateTimeParseException;
  *  The maintenance banner will be display on the home page from "start_date" to "end_date"
  */
 public class MaintenanceConfiguration {
-    private final String START_DATE_KEY = "system/maintenance/start_date";
+    private final String START_DATE_KEY = "system/maintenance/startDate";
 
-    private final String END_DATE_KEY = "system/maintenance/end_date";
+    private final String END_DATE_KEY = "system/maintenance/endDate";
 
     private final String ENABLED_KEY = "system/maintenance/enabled";
 
@@ -29,7 +29,6 @@ public class MaintenanceConfiguration {
 
     private final String MAINTENANCE_BANNER_STANDARD_TEMPLATE = "The WIS Portal will be undergoing scheduled maintenance and will be unavailable on {0} to {1}";
 
-    private final String datePattern = "yyyy-MM-dd HH:mm";
     private final SettingManager settingManager;
 
     // The date when the maintenance banner will be displayed
@@ -61,8 +60,8 @@ public class MaintenanceConfiguration {
      * @return maintenance banner
      */
     public String getMaintenanceBanner() {
-        String sDate = this.startDate.format(DateTimeFormatter.ofPattern(datePattern));
-        String eDate = this.endDate.format(DateTimeFormatter.ofPattern(datePattern));
+        String sDate = this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String eDate = this.endDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         try {
             return this.formatMaintenanceBanner(sDate, eDate);
         } catch (NullPointerException e) {
@@ -83,6 +82,7 @@ public class MaintenanceConfiguration {
         this.settingManager.setValue(dbms, START_DATE_KEY, dto.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         this.settingManager.setValue(dbms, END_DATE_KEY, dto.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         this.settingManager.setValue(dbms, ENABLED_KEY, dto.isEnabled());
+        dbms.commit();
     }
 
     /**
