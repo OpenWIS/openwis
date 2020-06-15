@@ -137,6 +137,27 @@ public class SystemConfigurationDTO {
    private String feedBackSmtpPort;
 
    /**
+    * Password expire period
+    * The period is used to schedule the task. It is not used as the expiration period of the password
+    */
+   private String pwdExpirePeriod;
+
+   /**
+    * Password expire timeunit
+    */
+   private String pwdExpireTimeunit;
+
+   /**
+    * Inactivity period.
+    * The period is used to schedule the task. It is not the period of inactivity.
+    */
+   private String inactivityPeriod;
+
+   /**
+    * Inactivity timeunit
+    */
+   private String inactivityTimeunit;
+   /**
     * The userSelfRegistrationEnable.
     */
    private boolean userSelfRegistrationEnable;
@@ -579,5 +600,37 @@ public class SystemConfigurationDTO {
     */
    public void setUserSelfRegistrationEnable(boolean userSelfRegistrationEnable) {
       this.userSelfRegistrationEnable = userSelfRegistrationEnable;
+   }
+
+   public String getPwdExpirePeriod() {
+      return pwdExpirePeriod;
+   }
+
+   public void setPwdExpirePeriod(String pwdExpirePeriod) {
+      this.pwdExpirePeriod = pwdExpirePeriod;
+   }
+
+   public String getInactivityPeriod() {
+      return this.inactivityPeriod;
+   }
+
+   public void setInactivityPeriod(String inactivityPeriod) {
+      this.inactivityPeriod = inactivityPeriod;
+   }
+
+   public String getPwdExpireTimeunit() {
+      return pwdExpireTimeunit;
+   }
+
+   public void setPwdExpireTimeunit(String pwdExpireTimeunit) {
+      this.pwdExpireTimeunit = pwdExpireTimeunit;
+   }
+
+   public String getInactivityTimeunit() {
+      return inactivityTimeunit;
+   }
+
+   public void setInactivityTimeunit(String inactivityTimeunit) {
+      this.inactivityTimeunit = inactivityTimeunit;
    }
 }
