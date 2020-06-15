@@ -5358,7 +5358,7 @@ ct.doLayout()
 },scope:this}})
 }return this.systemConfigurationMenu
 },getSystemMaintenance:function(){if(!this.systemMaintenancePanel){this.systemMaintenancePanel=new Ext.Panel({title:Openwis.i18n("Admin.Browser.System.Maintenance"),listeners:{activate:function(ct){var maintenancePanel=new Openwis.Admin.System.Maintenance();
-ct.add(systemMaintenancePanel);
+ct.add(maintenancePanel);
 maintenancePanel.addListener("panelInitialized",function(){this.fireEvent("panelInitialized")
 },this);
 ct.doLayout()
