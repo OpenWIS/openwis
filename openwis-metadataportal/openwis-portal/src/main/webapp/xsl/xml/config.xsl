@@ -36,6 +36,8 @@
 		<xsl:variable name="cswAddress" select="$cswInfo/address/children"/>
         <xsl:variable name="inspire"    select="children/inspire/children"/>
 		<xsl:variable name="cache"      select="children/cache/children"/>
+		<xsl:variable name="passwordExpire" select="children/passwordExpire/children"/>
+		<xsl:variable name="inactivity" select="children/inactivity/children"/>
 
 		<config>
 			<site>
@@ -85,6 +87,16 @@
 			<xlinkResolver>
 				<enable><xsl:value-of select="$xlinkResolver/enable/value"/></enable>
 			</xlinkResolver>
+
+			<passwordExpire>
+				<period><xsl:value-of select="$passwordExpire/period/value"/></period>
+				<timeunit><xsl:value-of select="$passwordExpire/timeunit/value"/></timeunit>
+			</passwordExpire>
+
+			<inactivity>
+				<period><xsl:value-of select="$inactivity/period/value"/></period>
+				<timeunit><xsl:value-of select="$inactivity/timeunit/value"/></timeunit>
+			</inactivity>
 
 			<downloadservice>
 				<leave><xsl:value-of select="$downloadservice/leave/value"/></leave>
