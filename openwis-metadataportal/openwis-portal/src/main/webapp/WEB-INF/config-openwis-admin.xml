@@ -441,6 +441,13 @@
 				<xml name="error" file="xml/privileges-error.xml"/>
 			</error>
 		</service>
+
+		<service name="xml.system.maintenance" type="xml">
+			<class name=".services.system.UpdateMaintenanceConfiguration"/>
+			<error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
+				<xml name="error" file="xml/privileges-error.xml"/>
+			</error>
+		</service>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- Harvest                                                       -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
