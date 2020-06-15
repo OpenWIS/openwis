@@ -7209,6 +7209,12 @@ INSERT INTO Settings VALUES (741, 739, 'timeunit', 'days');
 -- settings for z3950 added
 INSERT INTO Settings VALUES (1043,40,'sruMaxRecords','40');
 
+-- settings for maintenance
+INSERT INTO Settings VALUES (750, 1, 'maintenance',NULL);
+INSERT INTO Settings VALUE (751, 750, 'startDate', NULL);
+INSERT INTO Settings VALUE (752, 750, 'endDate', NULL);
+INSERT INTO Settings VALUE (753, 750, 'enabled', False);
+
 -- ======================================================================
 -- === Table: DataPolicy
 -- ======================================================================
