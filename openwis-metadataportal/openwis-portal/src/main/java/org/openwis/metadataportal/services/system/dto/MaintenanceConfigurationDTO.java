@@ -23,11 +23,23 @@ public class MaintenanceConfigurationDTO {
 
     @JsonProperty("startDate")
     public String getStartDateAsString() {
+        if (startDate == null) {
+            return "";
+        }
         return startDate.format(DateTimeFormatter.ofPattern(datePattern));
     }
 
+    @JsonIgnore
     public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
+    }
+
+    @JsonProperty("startDate")
+    public void setStartDate(String startDate) {
+        if (startDate.isEmpty()) {
+            return;
+        }
+        this.startDate = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     @JsonIgnore
@@ -37,11 +49,23 @@ public class MaintenanceConfigurationDTO {
 
     @JsonProperty("endDate")
     public String getEndDateAsString() {
+        if (endDate == null) {
+            return "";
+        }
         return endDate.format(DateTimeFormatter.ofPattern(datePattern));
     }
 
+    @JsonIgnore
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    @JsonProperty("endDate")
+    public void setEndDate(String endDate) {
+        if (endDate.isEmpty()) {
+            return;
+        }
+        this.endDate = LocalDateTime.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     public boolean isEnabled() {
