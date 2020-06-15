@@ -12,7 +12,9 @@ import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
 import org.apache.commons.collections.CollectionUtils;
+import org.fao.geonet.GeonetContext;
 import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.kernel.setting.SettingManager;
 import org.jdom.Element;
 import org.openwis.harness.mssfss.MSSFSS;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
@@ -22,6 +24,7 @@ import org.openwis.metadataportal.kernel.availability.IAvailabilityManager;
 import org.openwis.metadataportal.kernel.external.HarnessProvider;
 import org.openwis.metadataportal.services.mock.MockGetDisseminationParameters;
 import org.openwis.metadataportal.services.mock.MockMode;
+import org.openwis.metadataportal.services.system.MaintenanceConfiguration;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -117,6 +120,14 @@ public class Get implements Service, ServiceWithJsp {
             IAvailabilityManager availabilityManager = new AvailabilityManager(dbms);
             boolean isUserPortalEnabled = availabilityManager.isUserPortalEnable();
             attrMap.put("isUserPortalEnabled", isUserPortalEnabled);
+
+            // set maintenance mode if enabled
+            GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+            SettingManager sm = new SettingManager(dbms, context.getProviderManager());
+            MaintenanceConfiguration maintenanceConfiguration = new MaintenanceConfiguration(sm);
+            if (maintenanceConfiguration.isEnabled()) {
+                attrMap.put("maintenanceBanner", maintenanceConfiguration.getMaintenanceBanner());
+            }
 
             // get last login time
             if (context.getUserSession().isAuthenticated()) {

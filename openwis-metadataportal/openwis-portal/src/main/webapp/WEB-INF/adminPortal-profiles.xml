@@ -283,6 +283,8 @@
 		<allow service="xml.metadata.batchimport"/>
 		<allow service="xml.system.configuration.form"/>
 		<allow service="xml.system.configuration"/>
+		<allow service="xml.system.maintenance.form"/>
+		<allow service="xml.system.maintenance"/>
 		<allow service="xml.metadata.export"/>
       
         <!-- User profile -->

@@ -886,6 +886,7 @@ Openwis.Lang.Dictionary = {
     
     //----------------------------------------------------------------- System Configuration.
     'SystemConfiguration.Administration.Title' : 'System Configuration',
+    'SystemConfiguration.Maintenance.Title' : 'Maintenance Configuration',
     'SystemConfiguration.Site.Title' : 'SITE',
     'SystemConfiguration.Site.Name' : 'Name',
     'SystemConfiguration.Server.Title' : 'USER PORTAL (PUBLIC)',
@@ -954,6 +955,8 @@ Openwis.Lang.Dictionary = {
     'MonitorCurrentRequests.PRFilter.ADHOC' : 'Adhoc Requests only',
     'MonitorCurrentRequests.PRFilter.SUBSCRIPTION': 'Events of Subscriptions only',
     'MonitorCurrentRequests.PRFilter.BOTH': 'All kind of Requests',
+
+    'Maintenance.Enable': 'Enable',
     
     'TrackMyRequests.Title' : 'Track my requests',
     'TrackMyRequests.Local.Title' : 'Track my local requests',
@@ -1196,6 +1199,7 @@ Openwis.Lang.Dictionary = {
     
     'Admin.Browser.System' : 'System',
     'Admin.Browser.System.Configuration' : 'System configuration',
+    'Admin.Browser.System.Maintenance': 'Maintenance',
     
     'Admin.Browser.PersonalInformation' : 'Personal information',
     'Admin.Browser.PersonalInformation.UserInfo' : 'User information',

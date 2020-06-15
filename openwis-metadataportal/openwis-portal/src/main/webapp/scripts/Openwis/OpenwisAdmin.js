@@ -5345,8 +5345,9 @@ ct.doLayout()
 }}})
 }return this.availabilityStatisticsMenu
 },getSystemMenu:function(){if(!this.systemMenu){var systemConfiguration=this.isServiceAccessible("xml.system.configuration.form");
-if(systemConfiguration){this.systemMenu=new Ext.ux.GroupTab({expanded:true,items:[{title:Openwis.i18n("Admin.Browser.System"),tabTip:Openwis.i18n("Admin.Browser.System")}]});
-if(systemConfiguration){this.systemMenu.add(this.getSystemConfigurationMenu())
+if(systemConfiguration){this.systemMenu=new Ext.ux.GroupTab({expanded:true,items:[{title:Openwis.i18n("Admin.Browser.System"),tabTip:Openwis.i18n("Admin.Browser.System")},]});
+if(systemConfiguration){this.systemMenu.add(this.getSystemConfigurationMenu());
+this.systemMenu.add(this.getSystemMaintenance())
 }}}return this.systemMenu
 },getSystemConfigurationMenu:function(){if(!this.systemConfigurationMenu){this.systemConfigurationMenu=new Ext.Panel({title:Openwis.i18n("Admin.Browser.System.Configuration"),listeners:{activate:function(ct){var systemPanel=new Openwis.Admin.System.SystemConfiguration({isAdmin:true});
 ct.add(systemPanel);
@@ -5356,6 +5357,14 @@ ct.doLayout()
 },deactivate:function(ct){ct.remove(ct.items.first(),true)
 },scope:this}})
 }return this.systemConfigurationMenu
+},getSystemMaintenance:function(){if(!this.systemMaintenancePanel){this.systemMaintenancePanel=new Ext.Panel({title:Openwis.i18n("Admin.Browser.System.Maintenance"),listeners:{activate:function(ct){var maintenancePanel=new Openwis.Admin.System.Maintenance();
+ct.add(maintenancePanel);
+maintenancePanel.addListener("panelInitialized",function(){this.fireEvent("panelInitialized")
+},this);
+ct.doLayout()
+},deactivate:function(ct){ct.remove(ct.items.first(),true)
+},scope:this}})
+}return this.systemMaintenancePanel
 },getSystemLocalizationMenu:function(){if(!this.systemLocalizationMenu){this.systemLocalizationMenu=new Ext.Panel({title:"Localization",listeners:{activate:function(ct){},deactivate:function(ct){ct.remove(ct.items.first(),true)
 }}})
 }return this.systemLocalizationMenu
