@@ -87,7 +87,7 @@ Openwis.Admin.System.Maintenance = Ext.extend(Ext.Container, {
     				]
     			}]
     		});
-    		this.maintenanceFormPanel.addButton(new Ext.Button(this.getUpdateMaintenanceButton()));
+    		this.maintenanceFormPanel.addButton(new Ext.Button(this.getSaveMaintenanceButton()));
             }
             return this.maintenanceFormPanel;
         },
@@ -99,7 +99,8 @@ Openwis.Admin.System.Maintenance = Ext.extend(Ext.Container, {
         				name: 'searchFromDate',
         				width: 150,
         				allowBlank: true,
-        				format: this.dateFormat
+        				format: this.dateFormat,
+        				value: this.config.startDate,
         			});
         		}
         		return this.fromDateField;
@@ -112,22 +113,37 @@ Openwis.Admin.System.Maintenance = Ext.extend(Ext.Container, {
                     name: 'searchToDate',
                     width: 150,
                     allowBlank: true,
-                    format: this.dateFormat
+                    format: this.dateFormat,
+                    value: this.config.endDate,
                 });
             }
             return this.toDateField;
         },
 
-        getUpdateMaintenanceButton: function() {
-                if (!this.updateAction) {
-                    this.updateAction = new Ext.Action({
+        getSaveMaintenanceButton: function() {
+                if (!this.saveAction) {
+                    this.saveAction = new Ext.Action({
                         disabled: false,
                         text: Openwis.i18n('Common.Btn.Save'),
                         scope: this,
-                        handler: this.reload
+                        handler: function() {
+                            if(this.getMaintenanceForm().getForm().isValid()) {
+                                var saveHandler = new Openwis.Handler.Save({
+                                    url: configOptions.locService+ '/xml.system.maintenance',
+                                    params: this.getMaintenanceConfiguration(),
+                                    listeners: {
+                                        success: function() {
+                                            //console.log(/"config update");
+                                        },
+                                        scope: this
+                                    }
+                                });
+                                saveHandler.proceed();
+                            }
+                        }
                     });
                 }
-                return this.updateAction;
+                return this.saveAction;
             },
 
         getEnableCheckBox: function() {
@@ -135,11 +151,19 @@ Openwis.Admin.System.Maintenance = Ext.extend(Ext.Container, {
                 this.enableCheckBox = new Ext.form.Checkbox({
                     fieldLabel: Openwis.i18n('Maintenance.Enable'),
                     allowBlank: false,
-                    checked: this.config.maintenanceEnable,
+                    checked: this.config.enabled,
                     width: 125,
                 });
             }
             return this.enableCheckBox;
         },
+
+        getMaintenanceConfiguration : function() {
+            var config = {};
+            config.startDate = this.getFromDateField().getValue();
+            config.endDate = this.getToDateField().getValue();
+            config.enabled = this.getEnableCheckBox().getValue();
+            return config;
+        }
 
 })
