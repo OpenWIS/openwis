@@ -1,9 +1,12 @@
 package org.openwis.metadataportal.services.system;
 
+import jeeves.resources.dbms.Dbms;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.openwis.metadataportal.services.system.dto.MaintenanceConfigurationDTO;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
 
+import javax.ejb.Local;
+import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +31,7 @@ public class MaintenanceConfiguration {
     private final String MAINTENANCE_BANNER_STANDARD_TEMPLATE = "The WIS Portal will be undergoing scheduled maintenance and will be unavailable on {0} to {1}";
 
     private final String datePattern = "yyyy-MM-dd HH:mm";
+    private final SettingManager settingManager;
 
     // The date when the maintenance banner will be displayed
     private LocalDateTime startDate;
@@ -39,6 +43,7 @@ public class MaintenanceConfiguration {
     private boolean enabled;
 
     public MaintenanceConfiguration(SettingManager settingManager) {
+        this.settingManager = settingManager;
         this.readConfiguration(settingManager);
     }
 
@@ -64,6 +69,24 @@ public class MaintenanceConfiguration {
         } catch (NullPointerException e) {
             return MessageFormat.format(MAINTENANCE_BANNER_STANDARD_TEMPLATE, sDate, eDate);
         }
+    }
+
+    /**
+     * Update maintenance configuration
+     * @param dbms
+     * @param startDate start date of maintenance
+     * @param endDate end date of maintenance
+     * @param enabled true if maintenance mode is enabled
+     * @throws IllegalArgumentException if start data is after end date
+     * @throws SQLException is data cannot be saved to db
+     */
+    public void update(Dbms dbms, LocalDateTime startDate, LocalDateTime endDate, Boolean enabled) throws IllegalArgumentException, SQLException {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("start date is after end date");
+        }
+        this.settingManager.setValue(dbms, START_DATE_KEY, startDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        this.settingManager.setValue(dbms, END_DATE_KEY, endDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        this.settingManager.setValue(dbms, END_DATE_KEY, enabled);
     }
 
     /**
