@@ -12,6 +12,10 @@ body {
     display: none;
 }
 
+.dss-maintenance-container {
+    display: none;
+}
+
 .dss-menu-container {
     display: none;
 }
