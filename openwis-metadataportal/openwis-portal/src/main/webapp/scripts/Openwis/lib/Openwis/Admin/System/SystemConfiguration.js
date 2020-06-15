@@ -46,6 +46,7 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 		this.getSystemConfigurationFormPanel().add(this.getProxyFieldSet());
 		this.getSystemConfigurationFormPanel().add(this.getFeedBackFieldSet());
 		this.getSystemConfigurationFormPanel().add(this.getAuthenticationFieldSet());
+		this.getSystemConfigurationFormPanel().add(this.getPasswordExpireField());
 
 		this.add(this.getSystemConfigurationFormPanel());
 		
@@ -772,6 +773,94 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 		return this.userSelfRegistrationEnableCheckBox;
 	},
 
+    getPasswordExpireField: function() {
+        if(!this.pwdExpireFieldSet) {
+            this.pwdExpireFieldSet = new Ext.form.FieldSet({
+                title: Openwis.i18n('SystemConfiguration.PasswordExpire.Title'),
+    			autoHeight:true,
+    			collapsed: false,
+    			collapsible: true
+            });
+            this.pwdExpireFieldSet.add(this.getPwdExpireEnableCheckBox());
+            this.pwdExpireFieldSet.add(this.getPwdExpirePeriodTextBox());
+            this.pwdExpireFieldSet.add(this.getPwdExpireTimeunitComboBox());
+            if (!this.config.pwdExpireEnabled)
+        	{
+            	this.getPwdExpirePeriodTextBox().hide();
+			    this.getPwdExpireTimeunitComboBox().hide();
+        	}
+        }
+        return this.pwdExpireFieldSet;
+     },
+
+    getPwdExpireEnableCheckBox: function() {
+        if(!this.pwdExpireCheckBox) {
+            this.pwdExpireCheckBox = new Ext.form.Checkbox({
+                fieldLabel: Openwis.i18n('SystemConfiguration.Index.Enable'),
+                allowBlank: false,
+                checked: this.config.pwdExpireEnabled,
+                width: 125,
+                listeners : {
+                    check: function(checkbox, checked) {
+                        if(!checked) {
+                            this.getPwdExpirePeriodTextBox().hide();
+                            this.getPwdExpireTimeunitComboBox().hide();
+                        } else {
+                            this.getPwdExpirePeriodTextBox().show();
+                            this.getPwdExpireTimeunitComboBox().show();
+                        }
+                    },
+                    scope: this
+                }
+            });
+        }
+        return this.pwdExpireCheckBox;
+    },
+
+     getPwdExpireTimeunitComboBox: function() {
+    		if(!this.pwdExpirePeriodComboBox) {
+    			this.pwdExpirePeriodComboBox = new Ext.form.ComboBox({
+    			    store: new Ext.data.ArrayStore ({
+    					id: 0,
+    					fields: ['id', 'value'],
+    					data: [
+    					    ['minutes', 'minutes'], ['hours','hours'], ['days', 'days'],
+    					]
+    				}),
+    				allowBlank: false,
+    				fieldLabel: Openwis.i18n('SystemConfiguration.PasswordExpire.Timeunit'),
+    				name: 'pwdExpireTimeunit',
+    				mode: 'local',
+    				typeAhead: true,
+    				triggerAction: 'all',
+    				selectOnFocus:true,
+    				editable: false,
+    				allowBlank: false,
+    				width: 200,
+    				displayField: 'value',
+    				valueField: 'id',
+    				value: this.config.pwdExpireTimeunit
+    			});
+    		}
+
+    		return this.pwdExpirePeriodComboBox;
+    	},
+
+    	getPwdExpirePeriodTextBox: function() {
+            if(!this.pwdExpirePeriodTextBox) {
+                this.pwdExpirePeriodTextBox = new Ext.form.TextField({
+                    fieldLabel: Openwis.i18n('SystemConfiguration.PasswordExpire.Period'),
+                    allowBlank: false,
+                    border: false,
+                    width: 220,
+                    value: this.config.pwdExpirePeriod,
+                    style: {
+                       margin: '0px 0px 5px 0px'
+                    }
+                });
+            }
+            return this.pwdExpirePeriodTextBox;
+        	},
     /**
 	 *	The JSON object submitted to the server.
 	 */
@@ -813,6 +902,18 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 		systemConfigInfos.feedBackSmtpPort = this.getFeedBackSmtpPortTextField().getValue();
 		// AUTHENTICATION
 		systemConfigInfos.userSelfRegistrationEnable = this.getUserSelfRegistrationEnableCheckBox().getValue();
+
+        if (!this.getPwdExpireEnableCheckBox().getValue()) {
+            systemConfigInfos.pwdExpirePeriod = '0';
+        } else {
+            var parsed = parseInt(this.getPwdExpirePeriodTextBox().getValue(), 10);
+            if (parsed === 'Nan') {
+                parsed = 0;
+            }
+		    systemConfigInfos.pwdExpirePeriod = parsed;
+        }
+		systemConfigInfos.pwdExpireTimeunit = this.getPwdExpireTimeunitComboBox().getValue();
+
 		return systemConfigInfos;
 	}
 });
