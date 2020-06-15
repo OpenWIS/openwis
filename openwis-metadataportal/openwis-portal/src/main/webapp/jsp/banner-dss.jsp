@@ -101,14 +101,13 @@
    <div class="dss-menu-nav-item" id="produit">
    </div>
 </div>
-<% if (request.getAttribute("maintenanceDate") != null) {%>
+<% if (request.getAttribute("maintenanceBanner") != null) {%>
     <div class="dss-maintenance-container">
         <div class="dss-maintenance-title">
             <p>Maintenance Notice</p>
         </div>
         <div class="dss-maintenance-notice">
-            <p>The WIS Portal will be undergoing scheduled maintenance and will be unavailable on </p>
-            <p class="dss-maintenance-date"><%=request.getAttribute("maintenanceDate")%></p>
+            <p class="dss-maintenance-date"><%=request.getAttribute("maintenanceBanner")%></p>
         </div>
     </div>
 <% } %>
