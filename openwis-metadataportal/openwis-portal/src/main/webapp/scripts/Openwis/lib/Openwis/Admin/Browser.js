@@ -861,10 +861,10 @@ Openwis.Admin.Browser = Ext.extend(Ext.ux.GroupTabPanel, {
 	            title: Openwis.i18n('Admin.Browser.System.Maintenance'),
 	            listeners: {
 	                activate: function(ct) {
-	                    var systemMaintenancePanel = new Openwis.Admin.System.Maintenance();
-	                    ct.add(systemMaintenancePanel);
+	                    var maintenancePanel = new Openwis.Admin.System.Maintenance();
+	                    ct.add(maintenancePanel);
 
-	                    systemPanel.addListener('panelInitialized',function() {
+	                    maintenancePanel.addListener('panelInitialized',function() {
                                 this.fireEvent('panelInitialized');
                             }, this);
 
