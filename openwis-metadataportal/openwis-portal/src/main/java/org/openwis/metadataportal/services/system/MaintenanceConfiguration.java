@@ -51,7 +51,7 @@ public class MaintenanceConfiguration {
      * @return True if maintenance mode enabled
      */
     public boolean isEnabled() {
-        return enabled && (LocalDateTime.now().isAfter(startDate) && LocalDateTime.now().isBefore(endDate));
+        return enabled;
     }
 
     /**
@@ -60,8 +60,9 @@ public class MaintenanceConfiguration {
      * @return maintenance banner
      */
     public String getMaintenanceBanner() {
-        String sDate = this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        String eDate = this.endDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+         final String datePattern = "yyyy-MM-dd HH:mm";
+        String sDate = this.startDate.format(DateTimeFormatter.ofPattern(datePattern));
+        String eDate = this.endDate.format(DateTimeFormatter.ofPattern(datePattern));
         try {
             return this.formatMaintenanceBanner(sDate, eDate);
         } catch (NullPointerException e) {
