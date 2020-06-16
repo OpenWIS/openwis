@@ -5449,6 +5449,8 @@ Openwis.Admin.System.SystemConfiguration=Ext.extend(Ext.Container,{initComponent
 Openwis.Admin.System.SystemConfiguration.superclass.initComponent.apply(this,arguments);
 this.getInfosAndInitialize()
 },getInfosAndInitialize:function(){var getHandler=new Openwis.Handler.Get({url:configOptions.locService+"/xml.system.configuration.form",params:{},listeners:{success:function(config){this.config=config;
+this.config.pwdExpirePeriod!=="0"?this.config.pwdExpireEnabled=true:this.config.pwdExpireEnabled=false;
+this.config.inactivityPeriod!="0"?this.config.inactivityEnabled=true:this.config.inactivityEnabled=false;
 this.initialize()
 },failure:function(config){this.close()
 },scope:this}});
@@ -5464,6 +5466,7 @@ this.getSystemConfigurationFormPanel().add(this.getProxyFieldSet());
 this.getSystemConfigurationFormPanel().add(this.getFeedBackFieldSet());
 this.getSystemConfigurationFormPanel().add(this.getAuthenticationFieldSet());
 this.getSystemConfigurationFormPanel().add(this.getPasswordExpireField());
+this.getSystemConfigurationFormPanel().add(this.getInactivityFieldSet());
 this.add(this.getSystemConfigurationFormPanel());
 this.doLayout();
 this.fireEvent("panelInitialized")
@@ -5617,6 +5620,23 @@ this.getPwdExpireTimeunitComboBox().show()
 }return this.pwdExpirePeriodComboBox
 },getPwdExpirePeriodTextBox:function(){if(!this.pwdExpirePeriodTextBox){this.pwdExpirePeriodTextBox=new Ext.form.TextField({fieldLabel:Openwis.i18n("SystemConfiguration.PasswordExpire.Period"),allowBlank:false,border:false,width:220,value:this.config.pwdExpirePeriod,style:{margin:"0px 0px 5px 0px"}})
 }return this.pwdExpirePeriodTextBox
+},getInactivityFieldSet:function(){if(!this.inactivityFieldSet){this.inactivityFieldSet=new Ext.form.FieldSet({title:Openwis.i18n("SystemConfiguration.Inactivity.Title"),autoHeight:true,collapsed:false,collapsible:true});
+this.inactivityFieldSet.add(this.getInactivityEnableCheckBox());
+this.inactivityFieldSet.add(this.getInactivityPeriodTextBox());
+this.inactivityFieldSet.add(this.getInactivityTimeunitComboBox());
+if(!this.config.inactivityEnabled){this.getInactivityPeriodTextBox().hide();
+this.getInactivityTimeunitComboBox().hide()
+}}return this.inactivityFieldSet
+},getInactivityEnableCheckBox:function(){if(!this.inactivityCheckBox){this.inactivityCheckBox=new Ext.form.Checkbox({fieldLabel:Openwis.i18n("SystemConfiguration.Index.Enable"),allowBlank:false,checked:this.config.inactivityEnabled,width:125,listeners:{check:function(checkbox,checked){if(!checked){this.getInactivityPeriodTextBox().hide();
+this.getInactivityTimeunitComboBox().hide()
+}else{this.getInactivityPeriodTextBox().show();
+this.getInactivityTimeunitComboBox().show()
+}},scope:this}})
+}return this.inactivityCheckBox
+},getInactivityTimeunitComboBox:function(){if(!this.inactivityPeriodComboBox){this.inactivityPeriodComboBox=new Ext.form.ComboBox({store:new Ext.data.ArrayStore({id:0,fields:["id","value"],data:[["minutes","minutes"],["hours","hours"],["days","days"],]}),allowBlank:false,fieldLabel:Openwis.i18n("SystemConfiguration.Inactivity.Timeunit"),name:"inactivityTimeunit",mode:"local",typeAhead:true,triggerAction:"all",selectOnFocus:true,editable:false,allowBlank:false,width:200,displayField:"value",valueField:"id",value:this.config.inactivityTimeunit})
+}return this.inactivityPeriodComboBox
+},getInactivityPeriodTextBox:function(){if(!this.inactivityPeriodTextBox){this.inactivityPeriodTextBox=new Ext.form.TextField({fieldLabel:Openwis.i18n("SystemConfiguration.Inactivity.Period"),allowBlank:false,border:false,width:220,value:this.config.inactivityPeriod,style:{margin:"0px 0px 5px 0px"}})
+}return this.inactivityPeriodTextBox
 },getSystemConfigInfos:function(){var systemConfigInfos={};
 systemConfigInfos.siteName=this.getSiteNameTextField().getValue();
 systemConfigInfos.serverHost=this.getServerHostTextField().getValue();
@@ -5643,11 +5663,16 @@ systemConfigInfos.feedBackEmail=this.getFeedBackEmailTextField().getValue();
 systemConfigInfos.feedBackSmtpHost=this.getFeedBackSmtpHostTextField().getValue();
 systemConfigInfos.feedBackSmtpPort=this.getFeedBackSmtpPortTextField().getValue();
 systemConfigInfos.userSelfRegistrationEnable=this.getUserSelfRegistrationEnableCheckBox().getValue();
-if(!systemConfigInfos.pwdExpireEnabled){systemConfigInfos.pwdExpirePeriod="0"
-}else{var parsed=parseInt(this.getPwdExpirePeriodTextBox.getValue(),10);
-if(isNan(parsed)){parsed=0
+if(!this.getPwdExpireEnableCheckBox().getValue()){systemConfigInfos.pwdExpirePeriod="0"
+}else{var parsed=parseInt(this.getPwdExpirePeriodTextBox().getValue(),10);
+if(parsed==="Nan"){parsed=0
 }systemConfigInfos.pwdExpirePeriod=parsed
-}systemConfigInfos.pwdExpireTimeunit=this.getPwdExpireTimeunitComboBox.getValue();
+}systemConfigInfos.pwdExpireTimeunit=this.getPwdExpireTimeunitComboBox().getValue();
+if(!this.getInactivityEnableCheckBox().getValue()){systemConfigInfos.inactivityPeriod="0"
+}else{var parsed=parseInt(this.getInactivityPeriodTextBox().getValue(),10);
+if(parsed==="Nan"){parsed=0
+}systemConfigInfos.inactivityPeriod=parsed
+}systemConfigInfos.inactivityTimeunit=this.getInactivityTimeunitComboBox().getValue();
 return systemConfigInfos
 }});Ext.ns("Openwis.Admin.Availability.DeploymentAvailabilityUtils");
 Openwis.Admin.Availability.DeploymentAvailabilityUtils.simpleAvailabilityRenderer=function(availability){return Openwis.i18n("Availability.Level."+availability.level)

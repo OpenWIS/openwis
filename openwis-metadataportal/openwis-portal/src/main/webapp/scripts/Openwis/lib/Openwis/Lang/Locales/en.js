@@ -926,6 +926,9 @@ Openwis.Lang.Dictionary = {
     'SystemConfiguration.PasswordExpire.Timeunit': 'Time Unit',
     'SystemConfiguration.PasswordExpire.Period': 'Period',
     'SystemConfiguration.PasswordExpire.Title': 'Password expire task',
+    'SystemConfiguration.Inactivity.Timeunit': 'Time Unit',
+    'SystemConfiguration.Inactivity.Title': 'Inactivity task',
+    'SystemConfiguration.Inactivity.Period': 'Period',
 
     //----------------------------------------------------------------- My Account browser.
     'MyAccount.Browser.MetadataService' : 'Metadata service',
