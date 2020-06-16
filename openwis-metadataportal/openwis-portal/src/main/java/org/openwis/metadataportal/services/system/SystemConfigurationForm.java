@@ -88,6 +88,12 @@ public class SystemConfigurationForm implements Service {
       dto.setFeedBackSmtpPort(guiConfig.getChild("feedback").getChild("mailServer").getChild("port").getValue());
       // Authentication
       dto.setUserSelfRegistrationEnable(guiConfig.getChild("userSelfRegistration").getChild("enable").getValue().equals("true"));
+
+      dto.setPwdExpirePeriod(guiConfig.getChild("passwordExpire").getChild("period").getValue());
+      dto.setPwdExpireTimeunit(guiConfig.getChild("passwordExpire").getChild("timeunit").getValue());
+
+      dto.setInactivityPeriod(guiConfig.getChild("inactivity").getChild("period").getValue());
+      dto.setInactivityTimeunit(guiConfig.getChild("inactivity").getChild("timeunit").getValue());
       return JeevesJsonWrapper.send(dto);
    }
 

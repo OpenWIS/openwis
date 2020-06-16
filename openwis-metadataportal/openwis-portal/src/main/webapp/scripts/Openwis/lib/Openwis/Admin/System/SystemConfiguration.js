@@ -20,6 +20,8 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 			listeners: {
 				success: function(config) {
 					this.config = config;
+					this.config.pwdExpirePeriod !== '0' ? this.config.pwdExpireEnabled = true : this.config.pwdExpireEnabled = false;
+					this.config.inactivityPeriod != '0' ? this.config.inactivityEnabled = true : this.config.inactivityEnabled = false;
 					this.initialize();
 				},
 				failure: function(config) {
@@ -46,6 +48,8 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 		this.getSystemConfigurationFormPanel().add(this.getProxyFieldSet());
 		this.getSystemConfigurationFormPanel().add(this.getFeedBackFieldSet());
 		this.getSystemConfigurationFormPanel().add(this.getAuthenticationFieldSet());
+		this.getSystemConfigurationFormPanel().add(this.getPasswordExpireField());
+		this.getSystemConfigurationFormPanel().add(this.getInactivityFieldSet());
 
 		this.add(this.getSystemConfigurationFormPanel());
 		
@@ -772,6 +776,183 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 		return this.userSelfRegistrationEnableCheckBox;
 	},
 
+    getPasswordExpireField: function() {
+        if(!this.pwdExpireFieldSet) {
+            this.pwdExpireFieldSet = new Ext.form.FieldSet({
+                title: Openwis.i18n('SystemConfiguration.PasswordExpire.Title'),
+    			autoHeight:true,
+    			collapsed: false,
+    			collapsible: true
+            });
+            this.pwdExpireFieldSet.add(this.getPwdExpireEnableCheckBox());
+            this.pwdExpireFieldSet.add(this.getPwdExpirePeriodTextBox());
+            this.pwdExpireFieldSet.add(this.getPwdExpireTimeunitComboBox());
+            if (!this.config.pwdExpireEnabled)
+        	{
+            	this.getPwdExpirePeriodTextBox().hide();
+			    this.getPwdExpireTimeunitComboBox().hide();
+        	}
+        }
+        return this.pwdExpireFieldSet;
+     },
+
+    getPwdExpireEnableCheckBox: function() {
+        if(!this.pwdExpireCheckBox) {
+            this.pwdExpireCheckBox = new Ext.form.Checkbox({
+                fieldLabel: Openwis.i18n('SystemConfiguration.Index.Enable'),
+                allowBlank: false,
+                checked: this.config.pwdExpireEnabled,
+                width: 125,
+                listeners : {
+                    check: function(checkbox, checked) {
+                        if(!checked) {
+                            this.getPwdExpirePeriodTextBox().hide();
+                            this.getPwdExpireTimeunitComboBox().hide();
+                        } else {
+                            this.getPwdExpirePeriodTextBox().show();
+                            this.getPwdExpireTimeunitComboBox().show();
+                        }
+                    },
+                    scope: this
+                }
+            });
+        }
+        return this.pwdExpireCheckBox;
+    },
+
+     getPwdExpireTimeunitComboBox: function() {
+    		if(!this.pwdExpirePeriodComboBox) {
+    			this.pwdExpirePeriodComboBox = new Ext.form.ComboBox({
+    			    store: new Ext.data.ArrayStore ({
+    					id: 0,
+    					fields: ['id', 'value'],
+    					data: [
+    					    ['minutes', 'minutes'], ['hours','hours'], ['days', 'days'],
+    					]
+    				}),
+    				allowBlank: false,
+    				fieldLabel: Openwis.i18n('SystemConfiguration.PasswordExpire.Timeunit'),
+    				name: 'pwdExpireTimeunit',
+    				mode: 'local',
+    				typeAhead: true,
+    				triggerAction: 'all',
+    				selectOnFocus:true,
+    				editable: false,
+    				allowBlank: false,
+    				width: 200,
+    				displayField: 'value',
+    				valueField: 'id',
+    				value: this.config.pwdExpireTimeunit
+    			});
+    		}
+
+    		return this.pwdExpirePeriodComboBox;
+    	},
+
+    	getPwdExpirePeriodTextBox: function() {
+            if(!this.pwdExpirePeriodTextBox) {
+                this.pwdExpirePeriodTextBox = new Ext.form.TextField({
+                    fieldLabel: Openwis.i18n('SystemConfiguration.PasswordExpire.Period'),
+                    allowBlank: false,
+                    border: false,
+                    width: 220,
+                    value: this.config.pwdExpirePeriod,
+                    style: {
+                       margin: '0px 0px 5px 0px'
+                    }
+                });
+            }
+            return this.pwdExpirePeriodTextBox;
+        	},
+
+     getInactivityFieldSet: function() {
+             if(!this.inactivityFieldSet) {
+                 this.inactivityFieldSet = new Ext.form.FieldSet({
+                     title: Openwis.i18n('SystemConfiguration.Inactivity.Title'),
+         			autoHeight:true,
+         			collapsed: false,
+         			collapsible: true
+                 });
+                 this.inactivityFieldSet.add(this.getInactivityEnableCheckBox());
+                 this.inactivityFieldSet.add(this.getInactivityPeriodTextBox());
+                 this.inactivityFieldSet.add(this.getInactivityTimeunitComboBox());
+                 if (!this.config.inactivityEnabled)
+             	{
+                 	this.getInactivityPeriodTextBox().hide();
+     			    this.getInactivityTimeunitComboBox().hide();
+             	}
+             }
+             return this.inactivityFieldSet;
+          },
+
+     getInactivityEnableCheckBox: function() {
+             if(!this.inactivityCheckBox) {
+                 this.inactivityCheckBox = new Ext.form.Checkbox({
+                     fieldLabel: Openwis.i18n('SystemConfiguration.Index.Enable'),
+                     allowBlank: false,
+                     checked: this.config.inactivityEnabled,
+                     width: 125,
+                     listeners : {
+                         check: function(checkbox, checked) {
+                             if(!checked) {
+                                 this.getInactivityPeriodTextBox().hide();
+                                 this.getInactivityTimeunitComboBox().hide();
+                             } else {
+                                 this.getInactivityPeriodTextBox().show();
+                                 this.getInactivityTimeunitComboBox().show();
+                             }
+                         },
+                         scope: this
+                     }
+                 });
+             }
+             return this.inactivityCheckBox;
+         },
+
+          getInactivityTimeunitComboBox: function() {
+         		if(!this.inactivityPeriodComboBox) {
+         			this.inactivityPeriodComboBox = new Ext.form.ComboBox({
+         			    store: new Ext.data.ArrayStore ({
+         					id: 0,
+         					fields: ['id', 'value'],
+         					data: [
+         					    ['minutes', 'minutes'], ['hours','hours'], ['days', 'days'],
+         					]
+         				}),
+         				allowBlank: false,
+         				fieldLabel: Openwis.i18n('SystemConfiguration.Inactivity.Timeunit'),
+         				name: 'inactivityTimeunit',
+         				mode: 'local',
+         				typeAhead: true,
+         				triggerAction: 'all',
+         				selectOnFocus:true,
+         				editable: false,
+         				allowBlank: false,
+         				width: 200,
+         				displayField: 'value',
+         				valueField: 'id',
+         				value: this.config.inactivityTimeunit
+         			});
+         		}
+
+         		return this.inactivityPeriodComboBox;
+         	},
+
+         	getInactivityPeriodTextBox: function() {
+                 if(!this.inactivityPeriodTextBox) {
+                     this.inactivityPeriodTextBox = new Ext.form.TextField({
+                         fieldLabel: Openwis.i18n('SystemConfiguration.Inactivity.Period'),
+                         allowBlank: false,
+                         border: false,
+                         width: 220,
+                         value: this.config.inactivityPeriod,
+                         style: {
+                            margin: '0px 0px 5px 0px'
+                         }
+                     });
+                 }
+                 return this.inactivityPeriodTextBox;
+             	},
     /**
 	 *	The JSON object submitted to the server.
 	 */
@@ -813,6 +994,29 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
 		systemConfigInfos.feedBackSmtpPort = this.getFeedBackSmtpPortTextField().getValue();
 		// AUTHENTICATION
 		systemConfigInfos.userSelfRegistrationEnable = this.getUserSelfRegistrationEnableCheckBox().getValue();
+
+        if (!this.getPwdExpireEnableCheckBox().getValue()) {
+            systemConfigInfos.pwdExpirePeriod = '0';
+        } else {
+            var parsed = parseInt(this.getPwdExpirePeriodTextBox().getValue(), 10);
+            if (parsed === 'Nan') {
+                parsed = 0;
+            }
+		    systemConfigInfos.pwdExpirePeriod = parsed;
+        }
+		systemConfigInfos.pwdExpireTimeunit = this.getPwdExpireTimeunitComboBox().getValue();
+		
+		 if (!this.getInactivityEnableCheckBox().getValue()) {
+            systemConfigInfos.inactivityPeriod = '0';
+         } else {
+            var parsed = parseInt(this.getInactivityPeriodTextBox().getValue(), 10);
+            if (parsed === 'Nan') {
+                parsed = 0;
+            }
+            systemConfigInfos.inactivityPeriod = parsed;
+         }
+         systemConfigInfos.inactivityTimeunit = this.getInactivityTimeunitComboBox().getValue();
+
 		return systemConfigInfos;
 	}
 });

@@ -923,6 +923,12 @@ Openwis.Lang.Dictionary = {
     'SystemConfiguration.Feedback.SMTP.Port' : 'SMTP Port',
     'SystemConfiguration.Authentication.Title' : 'AUTHENTICATION',
     'SystemConfiguration.Authentication.UserSelfRegistration.Enable' : 'Enable user self-registration',
+    'SystemConfiguration.PasswordExpire.Timeunit': 'Time Unit',
+    'SystemConfiguration.PasswordExpire.Period': 'Period',
+    'SystemConfiguration.PasswordExpire.Title': 'Password expire task',
+    'SystemConfiguration.Inactivity.Timeunit': 'Time Unit',
+    'SystemConfiguration.Inactivity.Title': 'Inactivity task',
+    'SystemConfiguration.Inactivity.Period': 'Period',
 
     //----------------------------------------------------------------- My Account browser.
     'MyAccount.Browser.MetadataService' : 'Metadata service',

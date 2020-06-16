@@ -122,6 +122,22 @@ public class SystemConfiguration implements Service {
       // AUTHENTICATION
       values.put("system/userSelfRegistration/enable", dto.isUserSelfRegistrationEnable());
 
+      if (dto.getPwdExpirePeriod() != null) {
+         values.put("system/passwordExpire/period", dto.getPwdExpirePeriod());
+      }
+
+      if (dto.getPwdExpireTimeunit() != null) {
+         values.put("system/passwordExpire/timeunit", dto.getPwdExpireTimeunit());
+      }
+
+      if (dto.getInactivityPeriod() != null) {
+         values.put("system/inactivity/period", dto.getInactivityPeriod());
+      }
+
+      if (dto.getInactivityTimeunit() != null) {
+         values.put("system/inactivity/timeunit", dto.getInactivityTimeunit());
+      }
+
       // SAVE VALUES
       if (!sm.setValues(dbms, values))
          throw new OperationAbortedEx("Cannot set all values");
