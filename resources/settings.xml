@@ -51,6 +51,9 @@
                 <sonar.host.url>
                     http://172.25.140.132:9000
                 </sonar.host.url>
+                <sonar.java.binaries>
+                    **/target/classes
+                </sonar.java.binaries>
             </properties>
         </profile>
 
