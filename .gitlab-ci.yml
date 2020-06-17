@@ -109,7 +109,7 @@ openwis-portal:
     - export JAVA_HOME=$JAVA_HOME
     - cd openwis-metadataportal/openwis-portal
     - SECU_BUILD_OPTION=$SECU_BUILD_OPTION_2
-    - mvn $M2_SETTINGS_OPTION compile -Popenwis,user
+    - mvn $M2_SETTINGS_OPTION_PORTAL install -Popenwis
     - *sec_script_sast
   artifacts:
     paths:
