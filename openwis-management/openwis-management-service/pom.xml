@@ -4,13 +4,13 @@
   <parent>
     <artifactId>openwis-management</artifactId>
     <groupId>io.openwis.management</groupId>
-	<version>3.14.10-SNAPSHOT</version>
+	<version>3.14.10</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>io.openwis.management.service</groupId>
   <artifactId>openwis-management-service</artifactId>
-  <version>3.14.10-SNAPSHOT</version>
+  <version>3.14.10</version>
   <packaging>pom</packaging>
   <description>OpenWIS Management Service</description>
   <name>openwis-management-service</name>
