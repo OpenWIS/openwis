@@ -671,6 +671,7 @@
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Viewport.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Init.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/System/SystemConfiguration.js</include>
+                                <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/System/Maintenance.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Availability/DeploymentAvailabilityUtils.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Availability/DeploymentAvailability.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Admin/Availability/LocalAvailability.js</include>
