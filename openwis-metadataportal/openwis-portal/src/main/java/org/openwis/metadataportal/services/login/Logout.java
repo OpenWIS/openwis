@@ -75,7 +75,7 @@ public class Logout extends HttpServlet {
 
             //Get User token
             String token = (String) userSession.getProperty(LoginConstants.TOKEN);
-            String idpUrl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.IDP_URL);
+            String idpUrl = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.SSO_MANAGEMENT);
             Log.info(LoginConstants.LOG, "idpUrl: " + idpUrl);
             String entityID = (String) userSession.getProperty(LoginConstants.IDP_ENTITY_ID);
             String spEntityID = (String) userSession.getProperty(LoginConstants.SP_ENTITY_ID);

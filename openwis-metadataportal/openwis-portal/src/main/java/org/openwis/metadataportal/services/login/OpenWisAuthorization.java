@@ -265,37 +265,8 @@ public class OpenWisAuthorization extends HttpServlet {
     * @throws SAML2MetaException 
     */
    @SuppressWarnings("rawtypes")
-   private String getPreferredIdPURL(UserSession session) throws SAML2MetaException {
-      // Get RealM
-      String realm = LoginConstants.REALM;
-
-      // Get Preferred Idp Entity Id stored in the user session
-      String idpEntityID = (String) session.getProperty(LoginConstants.IDP_ENTITY_ID);
-
-      String urlSSO = new String();
-      //      try {
-      SAML2MetaManager sm = new SAML2MetaManager();
-
-      // Get IDP Descriptor
-      IDPSSODescriptorElement idpsso = sm.getIDPSSODescriptor(realm, idpEntityID);
-
-      // Get All the SSO Service
-      List ssoServiceList = idpsso.getSingleSignOnService();
-
-      // Get the first service. The service location URL is like this : http://idp-hostname:<port>/opensso/<sssoService>
-      SingleSignOnServiceElement ssoServiceElement = (SingleSignOnServiceElement) ssoServiceList
-            .get(0);
-
-      // Split with "opensso" string so the result is like this : http://idp-hostname:<port>
-      urlSSO = ssoServiceElement.getLocation().split("/openam/")[0];
-
-      // Add /opensso for get the IdP URL
-      urlSSO = urlSSO + "/openam";
-      //         
-      //      } catch (SAML2MetaException e) {
-      //         throw e;
-      //      }
-      return urlSSO;
+   private String getPreferredIdPURL(UserSession session) {
+      return OpenwisMetadataPortalConfig.getString(ConfigurationConstants.IDP_URL);
    }
 
    private void forwardError(HttpServletRequest request, HttpServletResponse response,
