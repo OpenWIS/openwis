@@ -87,9 +87,9 @@ public class OpenWisRequestAccount extends HttpServlet {
     private void forwardError(HttpServletRequest request, HttpServletResponse response,
                               String message) throws ServletException, IOException {
 
-        String[] uris = request.getRequestURI().split("/");
-        String redirect = "/" + uris[1] + "/srv/en/user.accountRequest.get?errorMessage=" + URLEncoder.encode(message, "UTF-8");
-        ;
+        String baseUrl = this.getBaseUrl(request.getRequestURI());
+        String redirect = baseUrl + "/srv/en/user.accountRequest.get?errorMessage=" + URLEncoder.encode(message, "UTF-8");
+
         response.setStatus(307); //this makes the redirection keep your requesting method as is.
         response.setHeader("Location", redirect);
     }
@@ -103,8 +103,8 @@ public class OpenWisRequestAccount extends HttpServlet {
      * @throws Exception
      */
     private void processRequest(ServiceContext context, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String[] uris = request.getRequestURI().split("/");
-        String redirect = "/" + uris[1] + "/jsp/requestAccountAck.jsp";
+        String baseUrl = this.getBaseUrl(request.getRequestURI());
+        String redirect = baseUrl + "/jsp/requestAccountAck.jsp";
         response.setStatus(307); //this makes the redirection keep your requesting method as is.
         response.addHeader("Location", redirect);
 
@@ -237,4 +237,21 @@ public class OpenWisRequestAccount extends HttpServlet {
         return password;
     }
 
+    private String getBaseUrl(String url) {
+        String[] uris=url.split("/");
+        StringBuilder baseUrl = new StringBuilder("/");
+        for (int i = 1; i<uris.length;i++ ) {
+
+            boolean done = false;
+            if ( uris[i].contains("user-portal") || uris[i].contains("admin-portal") ) {
+                done = true;
+            }
+            baseUrl.append(uris[i]).append("/");
+            if (done) {
+                break;
+            }
+        }
+
+        return baseUrl.toString();
+    }
 }

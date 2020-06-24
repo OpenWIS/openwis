@@ -6,7 +6,7 @@
 		<profiles>adminPortal-profiles.xml</profiles>
 		<uploadDir>../../data/tmp</uploadDir>
 		<maxUploadSize>100</maxUploadSize> <!-- Size must be in megabyte (integer), 100MB by default -->
-		<debug>true</debug>
+		<debug>false</debug>
 	</general>
 
 	<!-- ====================================================================== -->
