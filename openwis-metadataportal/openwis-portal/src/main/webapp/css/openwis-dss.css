@@ -111,6 +111,7 @@
 
 #produit {
     padding-left: 2px;
+    display: flex;
 }
 .dss-menu {
     margin-left: 30px;
