@@ -1,13 +1,13 @@
 function showItem(id) {
 
    const searchKeys = {
-        noaa20: 'noaa-20',
-        suomiNpp: 'suomi npp',
+        noaa20: 'noaa-20 image',
+        suomiNpp: 'suomi npp image',
         aqua: 'Satellite Imagery AQUA',
         terra: 'Satellite Imagery TERRA',
         haze: 'haze',
-        hotspotNoaa20: 'noaa20',
-        hotspotNpp: 'npp',
+        hotspotNoaa20: 'noaa20 record',
+        hotspotNpp: 'npp record',
         hotspotAqua: 'AQUA_hotspot_location',
         hotspotTerra: 'TERRA_hotspot_location',
         hazeDispersion: 'haze_dispersion',
