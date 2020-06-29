@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> WebHelp Navigation Mini-bar </title>
+
+<meta name="generator" content="Adobe RoboHelp 10" />
+<meta name="description" content="WebHelp 5.50" />
+<style>
+<!--
+body {margin:0;}
+-->
+</style>
+<script type="text/javascript"  src="xmlreadhelper.js" charset="utf-8"></script>
+<script  src="whver.js" charset="utf-8"></script>
+<script  src="whutils.js" charset="utf-8"></script>
+<script  src="whmsg.js" charset="utf-8"></script>
+<script  src="whproxy.js" charset="utf-8"></script>
+<script  src="whmozemu.js" charset="utf-8"></script>
+<script  src="whtbar.js" charset="utf-8"></script>
+</head>
+<body marginheight="0"  marginwidth="0"  bgcolor="#0000a0"    background="greyback.gif"  scroll="no">
+<script language="javascript1.2">
+<!--
+if (window.gbWhTBar)
+{
+	setButtonFont("avprev","Tahoma","8pt","White","Normal","Normal","none");
+setButtonFont("avnext","Tahoma","8pt","White","Normal","Normal","none");
+setButtonFont("synctoc","Tahoma","8pt","White","Normal","Normal","none");
+setButtonFont("hide2","Tahoma","8pt","White","Normal","Normal","none");
+setButtonFont("rolesel","Tahoma","8pt","White","Normal","Normal","none");
+
+	gsIPrev = "wht_prev.gif";
+	gsIPrevD = "wht_prev_g.gif";
+	gsINext = "wht_next.gif";
+	gsINextD = "wht_next_g.gif";
+	gsISync = "wht_sync.gif";
+	gsIHide = "wht_hide.gif";
+	setBackgroundcolor("#0000a0");
+	setBackground("greyback.gif");
+	
+	addButton("avprev",BTN_TEXT|BTN_IMG,"","","","","",0,0,"left-ar.gif","","","gray-left.gif","","");
+addButton("avnext",BTN_TEXT|BTN_IMG,"","","","","",0,0,"right-ar.gif","","","gray-rt.gif","","");
+addButton("synctoc",BTN_TEXT|BTN_IMG,"","","","","",0,0,"directional.gif","","","directional.gif","","");
+addButton("hide2",BTN_TEXT|BTN_IMG,"","","","","",0,0,"close.gif","","","close.gif","","");
+addButton("rolesel",BTN_TEXT,"","","","","",0,0,"","","","","","");
+
+	addButton("blankblock");
+	writeStyle(true);
+	ReSortMinibarButtons();
+}
+else
+	document.location.reload();
+
+if (window.gbNav6)
+{
+	var oMsg=new whMessage(WH_MSG_RELOADNS6,null,null);
+	notify(oMsg);
+}
+//-->
+</script>
+</body>
+</html>

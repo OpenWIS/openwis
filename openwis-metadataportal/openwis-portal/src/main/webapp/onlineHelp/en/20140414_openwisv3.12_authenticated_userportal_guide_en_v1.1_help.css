@@ -1,0 +1,790 @@
+﻿/*Créé avec Adobe RoboHelp 10.*/
+/* Feuille de style créée par ImportDoc 13.0 */
+p {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+h1 {
+	margin-top: 3.0pt;
+	margin-right: 0cm;
+	margin-bottom: 20.0pt;
+	margin-left: 18.0pt;
+	text-indent: -18.0pt;
+	layout-grid-mode: char;
+	font-size: 22.0pt;
+	font-family: Calibri, sans-serif;
+	font-variant: small-caps;
+	color: green;
+	font-weight: bold;
+}
+h2 {
+	margin-right: 36.000pt;
+	text-align: left;
+	text-indent: 0.000pt;
+	margin-bottom: 0.000pt;
+	word-spacing: 0.250em;
+	font-family: Arial;
+	font-style: normal;
+	font-weight: bold;
+	letter-spacing: 0.00em;
+	margin-left: 0pt;
+	margin-top: 6pt;
+	font-size: 18pt;
+	color: #2d6889;
+	x-next-class: TableauTitre;
+	x-next-type: p;text-decoration: none;
+}
+h3 {
+	margin-right: 0.000pt;
+	text-align: left;
+	text-indent: 0.000pt;
+	margin-bottom: 0.000pt;
+	word-spacing: 0.250em;
+	font-family: Arial;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 12.0pt;
+	color: #000000;
+	letter-spacing: 0.00em;
+	margin-left: 0pt;
+	margin-top: 6pt;
+	text-decoration: none;
+}
+h4 {
+	margin-right: 0.000pt;
+	text-align: left;
+	text-indent: 0.000pt;
+	margin-bottom: 0.000pt;
+	word-spacing: 0.250em;
+	font-family: Arial;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 11.0pt;
+	color: #000000;
+	letter-spacing: 0.00em;
+	margin-top: 6pt;
+	margin-left: 40pt;
+	text-decoration: none;
+}
+h5 {
+	font-weight: bold;
+	font-size: 10.0pt;
+	font-family: Arial;
+	x-next-class: ;
+	x-next-type: p;
+	margin-bottom: 0pt;
+	margin-left: 40pt;
+	margin-top: 12pt;
+}
+h6 {
+	font-weight: bold;
+	font-size: 8.0pt;
+}
+p.Heading7 {
+	margin-top: 12.0pt;
+	margin-right: 0cm;
+	margin-bottom: 3.0pt;
+	margin-left: 106.75pt;
+	text-indent: -21.55pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Heading8 {
+	margin-top: 12.0pt;
+	margin-right: 0cm;
+	margin-bottom: 3.0pt;
+	margin-left: 120.95pt;
+	text-indent: -21.55pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+	font-style: italic;
+}
+p.Heading9 {
+	margin-top: 12.0pt;
+	margin-right: 0cm;
+	margin-bottom: 3.0pt;
+	margin-left: 135.15pt;
+	text-indent: -21.55pt;
+	font-size: 11.0pt;
+	font-family: Arial, sans-serif;
+}
+p.Toc1 {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 42.55pt;
+	text-indent: -22.7pt;
+	font-size: 11.0pt;
+	font-family: Calibri, sans-serif;
+	text-transform: uppercase;
+}
+p.Toc2 {
+	margin-top: 3.0pt;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 63.8pt;
+	text-indent: -29.8pt;
+	font-size: 11.0pt;
+	font-family: Calibri, sans-serif;
+	font-variant: small-caps;
+	text-transform: uppercase;
+}
+p.Toc3 {
+	margin-top: 3.0pt;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 3.0cm;
+	text-indent: -1.0cm;
+	font-size: 9.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.NormalIndent {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 35.4pt;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.FootnoteText {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Header {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 8.0pt;
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+}
+p.Footer {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 8.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Tof {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 19.85pt;
+	margin-bottom: .0001pt;
+	text-align: justify;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.EnvelopeAddress {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 5.0cm;
+	margin-bottom: .0001pt;
+	font-size: 12.0pt;
+	font-family: Arial, sans-serif;
+}
+p.EnvelopeReturn {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Arial, sans-serif;
+}
+span.FootnoteReference {
+	vertical-align: super;
+}
+span.PageNumber {
+	font-weight: bold;
+}
+p.List {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 14.15pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListBullet {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 18.0pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.List2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 28.3pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.List3 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 42.45pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.List4 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 56.6pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.List5 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 70.75pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListBullet2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 32.15pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListBullet3 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 46.3pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListBullet4 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 60.45pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListBullet5 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 74.6pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListNumber2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 32.15pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListNumber3 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 46.3pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListNumber4 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 60.45pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListNumber5 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 74.6pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Closing {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 212.6pt;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Signature {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 212.6pt;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyText {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 0cm;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyTextIndent {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListContinue {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 14.15pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListContinue2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 28.3pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListContinue3 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 42.45pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListContinue4 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 56.6pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.ListContinue5 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 70.75pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.MessageHeader {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 2.0cm;
+	margin-bottom: .0001pt;
+	text-indent: -2.0cm;
+	background: #CCCCCC;
+	border: none;
+	padding: 0cm;
+	font-size: 12.0pt;
+	font-family: Arial, sans-serif;
+}
+p.Salutation {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Date {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyTextFirstIndent {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 0cm;
+	text-indent: 10.5pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyTextFirstIndent2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 14.15pt;
+	text-indent: 10.5pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.NoteHeading {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyText2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 0cm;
+	line-height: 200%;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyText3 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 0cm;
+	font-size: 8.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyTextIndent2 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 14.15pt;
+	line-height: 200%;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BodyTextIndent3 {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	margin-left: 14.15pt;
+	font-size: 8.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.BlockText {
+	margin-top: 0cm;
+	margin-right: 72.0pt;
+	margin-bottom: 6.0pt;
+	margin-left: 72.0pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+span.Hyperlink {
+	color: blue;
+	text-underline: single;
+	text-decoration: underline;
+}
+span.HyperlinkFollowed {
+	color: purple;
+	text-underline: single;
+	text-decoration: underline;
+}
+p.DocumentMap {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	background: navy;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.PlainText {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: "Courier New";
+}
+p.AutoSig {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Acetate {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	font-size: 8.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Paragraphesansretrait {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 42.55pt;
+	margin-bottom: .0001pt;
+	text-align: justify;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Puce1 {
+	margin-top: 3.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 74.7pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Puce2 {
+	margin-top: 2.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 103.05pt;
+	margin-bottom: .0001pt;
+	text-indent: -18.0pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.TitrePage1 {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 0cm;
+	margin-bottom: .0001pt;
+	text-align: center;
+	layout-grid-mode: char;
+	font-size: 18.0pt;
+	font-family: Calibri, sans-serif;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+p.Legende {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-bottom: .0001pt;
+	layout-grid-mode: char;
+	font-family: Calibri, sans-serif;
+	font-size: 10pt;
+	margin-left: 2cm;
+	font-style: italic;
+}
+p.Paragrapheretrait1 {
+	margin-top: 1.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 74.55pt;
+	margin-bottom: .0001pt;
+	text-align: justify;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Paragrapheretrait2 {
+	margin-top: 1.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 102.9pt;
+	margin-bottom: .0001pt;
+	text-align: justify;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Image {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 6.0pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+	margin-left: 2cm;
+}
+span.TableauParagrapheCar {
+	font-family: Calibri, sans-serif;
+}
+p.Soustitrepage1 {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	text-align: center;
+	font-size: 16.0pt;
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+}
+p.TitreTM {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	text-align: center;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+}
+p.TableauTitre {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	text-align: center;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+}
+p.TableauParagraphe {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Tableauavant {
+	margin: 0cm;
+	margin-bottom: .0001pt;
+	text-align: justify;
+	font-size: 6.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Tableauliste {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 14.2pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.2pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Listenumérotée {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 74.55pt;
+	margin-bottom: .0001pt;
+	text-indent: -17.85pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+p.Remarque {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 99.8pt;
+	margin-bottom: .0001pt;
+	text-align: justify;
+	text-indent: -57.25pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+	color: green;
+	font-style: italic;
+}
+p.Commande {
+	margin-top: 2.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 42.55pt;
+	margin-bottom: .0001pt;
+	layout-grid-mode: char;
+	background: #F3F3F3;
+	border: none;
+	padding: 0cm;
+	font-size: 9.0pt;
+	font-family: "Courier New";
+}
+p.Fichier {
+	margin-top: 2.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 42.55pt;
+	margin-bottom: .0001pt;
+	layout-grid-mode: char;
+	border: none;
+	padding: 0cm;
+	font-size: 9.0pt;
+	font-family: "Courier New";
+}
+span.FunctionTerm {
+	font-weight: bold;
+	font-style: italic;
+}
+p.TMintermediaire {
+	margin-top: 6.0pt;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 0cm;
+	margin-bottom: .0001pt;
+	text-align: right;
+	font-size: 12.0pt;
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+	font-style: italic;
+}
+span.ParagraphesansretraitCar {
+	font-family: Calibri, sans-serif;
+}
+span.TableaulisteCar {
+	font-family: Calibri, sans-serif;
+}
+span.Titre3CarTitle3Car {
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+}
+span.ListenumérotéeCar {
+	font-family: Calibri, sans-serif;
+}
+span.Paragrapheretrait1Car {
+	font-family: Calibri, sans-serif;
+}
+span.Titre5Car {
+	font-family: Calibri, sans-serif;
+	font-weight: bold;
+}
+span.LegendeCar {
+	font-family: Calibri, sans-serif;
+}
+p.Tableaulisteretrait {
+	margin-top: 0cm;
+	margin-right: 0cm;
+	margin-bottom: 0cm;
+	margin-left: 30.0pt;
+	margin-bottom: .0001pt;
+	text-indent: -14.15pt;
+	layout-grid-mode: char;
+	font-size: 10.0pt;
+	font-family: Calibri, sans-serif;
+}
+OL {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+UL {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}

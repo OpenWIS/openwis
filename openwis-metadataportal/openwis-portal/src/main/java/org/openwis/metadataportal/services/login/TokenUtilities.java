@@ -98,7 +98,7 @@ public class TokenUtilities {
             // Use caution: ensure correct character encoding and is not binary data
             result = StringUtils.contains(new String(responseBody), REST_TOKEN_EXPECTED_RESULT);
          } else {
-            Log.error(LoginConstants.LOG, "Method failed : " + method.getStatusLine());
+            Log.error(LoginConstants.LOG, "Method failed : " + method.getResponseBodyAsString());
             throw new OpenWisLoginEx(
                   "Error during test if token is valid : Server returned response code "
                         + statusCode);
