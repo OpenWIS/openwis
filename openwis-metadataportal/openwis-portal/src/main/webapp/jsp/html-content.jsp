@@ -99,10 +99,10 @@ else{
         </div>
     <% if ("user".equals(portalType)) { %>
         <%@include file="footer-dss.jsp"%>
-        <% if (pageId == null){ %>
+        <% if (pageId == null || pageId=="About" || pageId=="Help"){ %>
             <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/footer-dss-simple.css">
+            <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-no-menu.css">
         <% } %>
-
      <% } else { %>
         <%@include file="footer-common.jsp" %>
     <% } %>
