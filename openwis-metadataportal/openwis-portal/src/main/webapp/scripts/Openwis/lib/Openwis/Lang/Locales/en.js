@@ -232,26 +232,40 @@ Openwis.Lang.Dictionary = {
 	'HomePage.Main.Header' : '<h1>ASEAN Specialized<p>Meteorological Center</p></h1>',
 	
     'HomePage.Main.Content' : '<p>\
-                                      <h1>OpenWIS purpose is:</h1>\
-                                	  <ul>\
-                                	   	<li>To improve access to and integrated use of spatial data and information</li>\
-                                	  		<li>To support decision making</li>\
-                                	  		<li>To promote multidisciplinary approaches to sustainable development</li>\
-                                	  		<li>To enhance understanding of the benefits of geographic information</li>\
-                                	  </ul>\
-                            	  </p>\
+    <p>\
+    <span lang="EN-US"><h6>This portal provides operational information and products on the weather and smoke haze situation in the ASEAN region.</h6></span>\
+    </p>\
+    <br>\
+    <br/>\
+    <p>\
+    <h1>ASMC Products</h1>\
+    </p>\
+    <p>\
+    <a href="#" onclick="showItem(\'noaa20\')"><img src="/wis/openwis-user-portal/thumbnail/noaa20_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
+    <a href="#" onclick="showItem(\'suomiNpp\')"><img src="/wis/openwis-user-portal/thumbnail/npp_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
+    <a href="#" onclick="showItem(\'aqua\')"><img src="/wis/openwis-user-portal/thumbnail/aqua_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'terra\')"><img src="/wis/openwis-user-portal/thumbnail/terra_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'haze\')"><img src="/wis/openwis-user-portal/thumbnail/haze_map_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'hotspotNoaa20\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_noaa20_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'hotspotNpp\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_npp_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'hotspotTerra\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_terra_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'hotspotAqua\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_aqua_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    <a href="#" onclick="showItem(\'hazeDispersion\')"><img src="/wis/openwis-user-portal/thumbnail/dispersion_model_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
+    </p>\
+    <br>\
+    <br/>\
     	<h2>To receive the above products via email/ftp</h2>\
     	<p></p>\
     	<p>\
     	Login to your account and follow the instructions given in the \
-    	<a href="http://dsrcc.sadc.int/openwis-user-portal/onlineHelp/en/index.htm">Online Help</a>\
+    	<a href="/wis/openwis-user-portal/onlineHelp/en/index.htm">Online Help</a>\
     	</p>\
     	<br>\
     	<br>\
     	<p></p>\
     	<h2>To sign up for an account</h2>\
     	<p></p>\
-    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
+    	<p>Complete the <a href="/wis/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/wis/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
     	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a>.\
     	If your registration is successful, an email containing your login credentials will be sent to you within 3-5 working days.</p>\
     	<br>\
@@ -259,7 +273,7 @@ Openwis.Lang.Dictionary = {
     	<p></p>\
     	<h2>To recover a lost account</h2>\
     	<p></p>\
-    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRecovery.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRecovery.get\', \'_blank\',\
+    	<p>Complete the <a href="/wis/openwis-user-portal/srv/en/user.accountRecovery.get" onclick="open(\'/wis/openwis-user-portal/srv/en/user.accountRecovery.get\', \'_blank\',\
     	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Recovery form</a>.</p>\
     	<br>\
     	<br>\
