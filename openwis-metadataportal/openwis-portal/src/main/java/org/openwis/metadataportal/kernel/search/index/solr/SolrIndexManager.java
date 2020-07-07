@@ -741,7 +741,15 @@ public class SolrIndexManager implements IIndexManager {
             Coordinate[] coords = jts.getCoordinates();
             // substract the LIMIT OFFSET from polygon 180,90. Solr crashes if the limit of the polygon touch themselves.
             for (Coordinate coordinate : coords) {
+               if (Math.abs(coordinate.x) >= 180) {
+                  coordinate.x = coordinate.x / Math.abs(coordinate.x) * 180;
+               }
                coordinate.x = Math.abs(coordinate.x) == 180 ? coordinate.x - Math.copySign(LIMIT_OFFSET, coordinate.x) : coordinate.x;
+
+               if (Math.abs(coordinate.y) >= 90) {
+                  // copy the sign and set the value to 90 if abs(coordinate.y) > 90
+                  coordinate.y = coordinate.y / Math.abs(coordinate.y) *90;
+               }
                coordinate.y = Math.abs(coordinate.y) == 90 ? coordinate.y - Math.copySign(LIMIT_OFFSET, coordinate.y) : coordinate.y;
 
             }
