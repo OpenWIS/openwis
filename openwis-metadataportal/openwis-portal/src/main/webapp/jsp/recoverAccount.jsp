@@ -3,6 +3,7 @@
 	<head>
 		<% String title = "Request Account";%>
 		<%@include file="header-light.jsp" %>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"/>
 		<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/Openwis/lib/Openwis/RegistrationUser/RequestAccount.js"></script>
 		<link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-requestAccount.css">
 		
@@ -12,13 +13,6 @@
                 'sitekey' : '<%=OpenwisMetadataPortalConfig.getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SITE_KEY)%>'
                 });
             };
-          window.addEventListener("load", function() {
-                 document.getElementById("submit").onclick = function() {
-                     var att = document.createAttribute("disabled");
-                     document.getElementById("submit").setAttributeNode(att);
-                 };
-          });
-
         </script>
 	</head>
 	<body>

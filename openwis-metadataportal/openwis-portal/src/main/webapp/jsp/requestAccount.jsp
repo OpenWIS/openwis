@@ -14,13 +14,6 @@
                 'sitekey' : '<%=OpenwisMetadataPortalConfig.getString(ConfigurationConstants.GOOGLE_RECAPTCHA_SITE_KEY)%>'
                 });
             };
-             window.addEventListener("load", function() {
-                    document.getElementById("submit").onclick = function() {
-                        var att = document.createAttribute("disabled");
-                        document.getElementById("submit").setAttributeNode(att);
-                    };
-             });
-
         </script>
 	</head>
 	<body>
