@@ -3,7 +3,7 @@
 	<parent>
       <artifactId>openwis-harness</artifactId>
       <groupId>io.openwis.harness</groupId>
-	<version>3.14.14</version>
+	<version>3.14.15-SNAPSHOT</version>
 	  <relativePath>../pom.xml</relativePath>
 	</parent>
 	
