@@ -250,6 +250,8 @@ public interface ConfigurationConstants {
 
     // AWS SES region
     String AWS_EMAIL_REGION="openwis.metadataportal.email.region";
+    String EMAIL_SENDER_ADDRESS = "openwis.mail.senderAddress";
+    String EMAIL_ADMIN_ADDRESS = "openwis.mail.adminAddress";
 
     // Time unit used by account tasks
     String ACCOUNT_TASK_TIME_UNIT = "openwis.metadataportal.account.task.timeunit";

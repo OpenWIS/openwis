@@ -1,6 +1,8 @@
 package org.openwis.metadataportal.services.util.mail;
 
 import jeeves.server.context.ServiceContext;
+import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
+import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 
 import java.util.Map;
 
@@ -163,7 +165,8 @@ public class OpenWISMailFactory {
     }
 
     private static OpenWISMail buildAdminMail(ServiceContext context, String subject,  String templateName, Map<String, Object> contentVars) {
+        String adminMail = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.EMAIL_ADMIN_ADDRESS);
         EmailTemplate emailTemplate = new EmailTemplate(context.getAppPath(), templateName);
-        return new OpenWISMail(context, subject ,emailTemplate, contentVars);
+        return new OpenWISMail(context, subject, new String[]{adminMail}, emailTemplate, contentVars);
     }
 }

@@ -66,8 +66,8 @@ public class OpenWISMail implements IOpenWISMail {
     public String getAdministratorAddress() {
         GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
 
-        String from = OpenwisMetadataPortalConfig.getString("openwis.mail.senderAddress");
-        if (from == null) {
+        String from = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.EMAIL_SENDER_ADDRESS);
+        if (from.isEmpty()) {
             SettingManager sm = gc.getSettingManager();
             from = sm.getValue("system/feedback/email");
         }
