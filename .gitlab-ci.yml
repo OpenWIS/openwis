@@ -181,6 +181,7 @@ report-portal:
     - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-portal'
+    SECU_DAST_ENABLE: 'true'
 
 report-management:
   extends: .TriggerSecu
