@@ -88,7 +88,7 @@ http://www.fedji.com/blogs/forgerock/configuring-password-validator-in-forgerock
 
 Set the validators to password policy:
 ```$xslt
-./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set password-validator:"Length-Based Password Validator" --set password-validator:"Dictionary" --set password-validator:"Attribute Value"
+./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set password-validator:"Length-Based Password Validator" --set password-validator:"Dictionary" --set password-validator:"Attribute Value" --set password-validator:"Character Set"
 ```
 #### Set password history count to 3(generations) and password-history-duration:365d
 ```$xslt
@@ -145,7 +145,7 @@ password-expiration-warning-interval      : 51 w 1 d
 password-generator                        : Random Password Generator
 password-history-count                    : 3
 password-history-duration                 : 52 w 1 d
-password-validator                        : Attribute Value, Dictionary,
+password-validator                        : Attribute Value, Dictionary,Character Set
                                           : Length-Based Password Validator
 previous-last-login-time-format           : -
 require-change-by-time                    : -
