@@ -591,11 +591,9 @@ this.ftpFields.path=this.getPathTextField();
 this.ftpFields.user=this.getUserTextField();
 this.ftpFields.password=this.getPasswordTextField();
 this.ftpFields.port=this.getPortTextField();
-this.ftpFields.passive=this.getPassiveCheckbox();
 this.ftpFields.checkFileSize=this.getCheckFileSizeCheckbox();
-this.ftpFields.fileName=this.getFileNameTextField();
-this.ftpFields.encrypted=this.getEncryptedCheckbox()
-},getHostTextField:function(){if(!this.hostTextField){var hostStore=new Ext.data.JsonStore({id:0,fields:[{name:"host"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"passive"},{name:"checkFileSize"},{name:"fileName"},{name:"encrypted"}]});
+this.ftpFields.fileName=this.getFileNameTextField()
+},getHostTextField:function(){if(!this.hostTextField){var hostStore=new Ext.data.JsonStore({id:0,fields:[{name:"host"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"checkFileSize"},{name:"fileName"},]});
 this.hostTextField=new Ext.form.ComboBox({store:hostStore,valueField:"host",displayField:"host",mode:"local",typeAhead:true,triggerAction:"all",selectOnFocus:true,fieldLabel:Openwis.i18n("Common.Dissemination.FTPDiffusion.Host.label"),allowBlank:false,disabled:!this.allowHostEdition,width:210,listeners:{select:function(){this.notifyFTPSelected()
 },scope:this}})
 }return this.hostTextField
