@@ -140,9 +140,9 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 				title: Openwis.i18n('Common.Dissemination.FTPDiffusion.Options.label'),
 				items:
 				[
-					this.getPassiveCheckbox(),
+//					this.getPassiveCheckbox(),
 					this.getCheckFileSizeCheckbox(),
-					this.getEncryptedCheckbox()
+//					this.getEncryptedCheckbox()
 				]
 			});
 		}

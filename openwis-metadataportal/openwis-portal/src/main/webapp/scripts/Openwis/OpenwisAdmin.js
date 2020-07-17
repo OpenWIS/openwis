@@ -3752,7 +3752,6 @@ this.initialize()
 this.getAdvancedFieldSet().add(this.getHeaderLineTextField());
 this.getAdvancedFieldSet().add(this.getDispatchModeComboBox());
 this.getAdvancedFieldSet().add(this.getSubjectTextField());
-this.getAdvancedFieldSet().add(this.getAttachmentModeRadioGroup());
 this.getAdvancedFieldSet().add(this.getFileNameTextField());
 this.add(this.getAdvancedFieldSet());
 this.mailFields={};
@@ -3760,7 +3759,6 @@ this.mailFields.address=this.getAddressTextField();
 this.mailFields.headerLine=this.getHeaderLineTextField();
 this.mailFields.mailDispatchMode=this.getDispatchModeComboBox();
 this.mailFields.subject=this.getSubjectTextField();
-this.mailFields.mailAttachmentMode=this.getAttachmentModeRadioGroup();
 this.mailFields.fileName=this.getFileNameTextField()
 },getAddressTextField:function(){if(!this.addressTextField){var addressStore=new Ext.data.JsonStore({id:0,fields:[{name:"address"},{name:"headerLine"},{name:"mailDispatchMode"},{name:"subject"},{name:"mailAttachmentMode"},{name:"fileName"}]});
 this.addressTextField=new Ext.form.ComboBox({store:addressStore,valueField:"address",displayField:"address",typeAhead:true,mode:"local",triggerAction:"all",selectOnFocus:true,fieldLabel:Openwis.i18n("Common.Dissemination.MailDiffusion.MailAddress.label"),allowBlank:false,disabled:!this.allowAddressEdition,vtype:"email",width:210,validateOnChange:true,listeners:{select:function(){this.notifyMailSelected()
@@ -3791,7 +3789,7 @@ break
 }}this.initializeFields(mailSelected)
 }},initializeFields:function(mail){Ext.iterate(mail,function(key,value){if(this.mailFields[key]){this.mailFields[key].setValue(value)
 }},this)
-},getDisseminationValue:function(){var mail={};
+},getDisseminationValue:function(){var mail={mailAttachmentMode:"AS_ATTACHMENT"};
 this.getAddressTextField().setValue(this.getAddressTextField().getRawValue());
 Ext.iterate(this.mailFields,function(key,field){if(!Ext.isObject(field.getValue())){if(field.getValue()=="null"||field.getValue()==null){mail[key]=""
 }else{mail[key]=field.getValue()
@@ -3831,7 +3829,7 @@ this.hostTextField=new Ext.form.ComboBox({store:hostStore,valueField:"host",disp
 }return this.passwordTextField
 },getAdvancedFieldSet:function(){if(!this.advancedFieldSet){this.advancedFieldSet=new Ext.form.FieldSet({title:Openwis.i18n("Common.Dissemination.FTPDiffusion.Advanced.label"),autoHeight:true,collapsed:true,collapsible:true,labelWidth:90})
 }return this.advancedFieldSet
-},getOptionsCheckboxGroup:function(){if(!this.optionsCheckboxGroup){this.optionsCheckboxGroup=new Ext.form.CheckboxGroup({title:Openwis.i18n("Common.Dissemination.FTPDiffusion.Options.label"),items:[this.getPassiveCheckbox(),this.getCheckFileSizeCheckbox(),this.getEncryptedCheckbox()]})
+},getOptionsCheckboxGroup:function(){if(!this.optionsCheckboxGroup){this.optionsCheckboxGroup=new Ext.form.CheckboxGroup({title:Openwis.i18n("Common.Dissemination.FTPDiffusion.Options.label"),items:[this.getCheckFileSizeCheckbox(),]})
 }return this.optionsCheckboxGroup
 },getPortTextField:function(){if(!this.portTextField){this.portTextField=new Ext.form.TextField({fieldLabel:Openwis.i18n("Common.Dissemination.FTPDiffusion.Port.label"),name:"ftpPort",allowBlank:true,width:50})
 }return this.portTextField
