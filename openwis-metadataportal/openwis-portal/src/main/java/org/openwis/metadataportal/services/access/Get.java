@@ -136,7 +136,7 @@ public class Get implements Service, ServiceWithJsp {
                     String username = context.getUserSession().getUsername();
                     LocalDateTime lastLogin = getLastLogin(dbms, username);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    attrMap.put("userLastLogin", ZonedDateTime.of(lastLogin, ZoneOffset.UTC).format(formatter));
+                    attrMap.put("userLastLogin", ZonedDateTime.of(lastLogin, ZoneOffset.ofHours(8)).format(formatter));
                 } catch (SQLException ex) {
                     Log.error(Log.JEEVES, "Last login query error: " + ex.getMessage());
                 }
