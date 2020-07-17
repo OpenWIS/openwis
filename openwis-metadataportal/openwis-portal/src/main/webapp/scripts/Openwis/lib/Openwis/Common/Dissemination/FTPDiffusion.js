@@ -38,10 +38,10 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 		this.ftpFields['user'] = this.getUserTextField();
 		this.ftpFields['password'] = this.getPasswordTextField();
 		this.ftpFields['port'] = this.getPortTextField();
-		this.ftpFields['passive'] = this.getPassiveCheckbox();
+//		this.ftpFields['passive'] = this.getPassiveCheckbox();
 		this.ftpFields['checkFileSize'] = this.getCheckFileSizeCheckbox();
 		this.ftpFields['fileName'] = this.getFileNameTextField();
-		this.ftpFields['encrypted'] = this.getEncryptedCheckbox();
+//		this.ftpFields['encrypted'] = this.getEncryptedCheckbox();
 	},
 	
 	//----------------------------------------------------------------- Components.
@@ -55,10 +55,10 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 					{name:'user'},
 					{name:'password'},
 					{name:'port'},
-					{name:'passive'},
+			//		{name:'passive'},
 					{name:'checkFileSize'},
 					{name:'fileName'},
-					{name:'encrypted'}
+		//			{name:'encrypted'}
 				]
 			});
 			
