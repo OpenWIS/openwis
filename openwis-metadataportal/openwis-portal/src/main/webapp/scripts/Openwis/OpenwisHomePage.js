@@ -1409,7 +1409,7 @@ this.optionsFieldSet.addListener("expand",this.onGuiChanged,this)
 }return this.sortDirectionCombobox
 },getHitsCombobox:function(){if(!this.hitsCombobox){this.hitsCombobox=new Ext.form.ComboBox({store:new Ext.data.ArrayStore({id:0,fields:["id","value"],data:[["10","10"],["20","20"],["50","50"],["100","100"]]}),valueField:"id",displayField:"value",value:"10",name:"hitsPerPage",typeAhead:true,mode:"local",triggerAction:"all",editable:false,selectOnFocus:true,width:194,fieldLabel:Openwis.i18n("HomePage.Search.Criteria.Options.HitsPerPage")})
 }return this.hitsCombobox
-},getMapPanel:function(){if(!this.mapPanel){this.mapPanel=new Openwis.Common.Components.GeographicalExtentSelection({geoExtentType:"RECTANGLE",wmsUrl:"http://vmap0.tiles.osgeo.org/wms/vmap0?",layerName:"basic",maxExtent:new OpenLayers.Bounds(-180,-90,180,90),width:280,height:250,listeners:{valueChanged:function(bounds){var latMin=bounds.bottom;
+},getMapPanel:function(){if(!this.mapPanel){this.mapPanel=new Openwis.Common.Components.GeographicalExtentSelection({geoExtentType:"RECTANGLE",wmsUrl:"https://vmap0.tiles.osgeo.org/wms/vmap0?",layerName:"basic",maxExtent:new OpenLayers.Bounds(-180,-90,180,90),width:280,height:250,listeners:{valueChanged:function(bounds){var latMin=bounds.bottom;
 var latMax=bounds.top;
 var longMin=bounds.left;
 var longMax=bounds.right;
