@@ -472,7 +472,7 @@ Openwis.Lang.Dictionary = {
     'RequestSubscription.Dissemination.MSSFSS.Error.Channel.Mandatory' : 'The MSS/FSS Channel is mandatory.',
     'RequestSubscription.Dissemination.Diffusion.RMDCN.Title' : 'RMDCN Dissemination',
     'RequestSubscription.Dissemination.Diffusion.PUBLIC.Title' : 'Public Dissemination',
-    'RequestSubscription.Dissemination.Diffusion.FTP.Title' : 'FTP',
+    'RequestSubscription.Dissemination.Diffusion.FTP.Title' : 'SFTP',
     'RequestSubscription.Dissemination.Diffusion.Mail.Title' : 'Mail',
     'RequestSubscription.Dissemination.StagingPost.Title' : 'Staging post',
     'RequestSubscription.Dissemination.ZippedMode.Title' : 'Compression',
