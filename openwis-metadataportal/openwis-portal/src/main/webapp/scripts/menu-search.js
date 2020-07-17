@@ -5,7 +5,7 @@ function showItem(id) {
         suomiNpp: 'suomi npp image',
         aqua: 'Satellite Imagery AQUA',
         terra: 'Satellite Imagery TERRA',
-        haze: 'haze',
+        haze: 'haze_map',
         hotspotNoaa20: 'noaa20 record',
         hotspotNpp: 'npp record',
         hotspotAqua: 'AQUA_hotspot_location',
