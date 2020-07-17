@@ -15,7 +15,7 @@
                     <li><a class="footer-link" id="suomiNpp" onclick="showItem('suomiNpp')" href="#">Satellite Images (Suomi-NPP)</a></li>
                     <li><a class="footer-link" id="aqua" onclick="showItem('aqua')" href="#">Satellite Images (AQUA)</a></li>
                     <li><a class="footer-link" id="terra" onclick="showItem('terra')" href="#">Satellite Images (TERRA)</a></li>
-                    <li><a class="footer-link" id="haze" onclick="showItem('haze')" href="#">Regional Haze Situation</a></li>
+                    <li><a class="footer-link" id="haze" onclick="showItem('haze_map')" href="#">Regional Haze Situation</a></li>
                     <li><a class="footer-link" id="hotspotNoaa20" onclick="showItem('hotspotNoaa20')" href="#">Hotspot Reports (JPSS 1/NOAA-20)</a></li>
                     <li><a class="footer-link" id="hotspotNpp" onclick="showItem('hotspotNpp')" href="#">Hotspot Reports (Suomi-NPP)</a></li>
                     <li><a class="footer-link" id="hotspotAqua" onclick="showItem('hotspotAqua')" href="#">Hotspot Reports (AQUA)</a></li>
@@ -27,8 +27,8 @@
         </div>
         <div class="main-content-right">
             <ul class="links">
-                <li><p class="title">ABOUT</p></li>
-                <li><p class="title">CONTACT US</p></li>
+                <li><a onclick="redirectWarning()" href="http://asmc.asean.org/asmc-about/"><p class="title">ABOUT</p></a></li>
+                <li><a onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/"><p class="title">CONTACT US</p></a></li>
                 <li class="subtitle"><p>FOLLOW US ON</p>
 			<a  href="http://asmc.asean.org/feed/">
                     <img src="<%= context.getBaseUrl() %>/images/icon-rss.png" width="150"
@@ -49,9 +49,7 @@
                 <li><a class="footer-link" onclick="redirectWarning()" href="http://asmc.asean.org/terms-of-use/" target="_blank">Terms of use</a></li>
 		<li>|</li>
                 <li><a class="footer-link" onclick="redirectWarning()" href="http://asmc.asean.org/privacy-statement/" target="_blank">Privacy Statement</a></li>
-		<li>|</li>
-                <li><a class="footer-link" onclick="redirectWarning()" href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank">Rate this Website</a></li>
-            </ul>
+        </ul>
         </div>
         <script type="text/javascript">
             function redirectWarning() {

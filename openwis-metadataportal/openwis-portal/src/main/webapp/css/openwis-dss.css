@@ -31,7 +31,6 @@
 }
 
 .dss-logo-left {
-    width: 33%;
 }
 
 .dss-logo-middle {
@@ -49,7 +48,8 @@
 }
 
 .dss-logo-right {
-    width: 33%;
+    width: 75px;
+    height: 75px;
 }
 
 .dss-logo-right-container {

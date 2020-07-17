@@ -9,17 +9,19 @@
             <div class="dss-logo-middle dss-logo-common">
                 <div class="dss-logo-middle-container dss-logo-common">
                     <div>
-                        <a class="dss-logo-middle-link" href="<%= locService %>/about.home">About ASMC</a>&nbsp;
+                        <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-about/">About ASMC</a>&nbsp;
                     </div>
                     <div>
-                        <a class="dss-logo-middle-link" href="">Contact Us</a>
+                        <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/">Contact Us</a>
                     </div>
                 </div>
             </div>
             <div class="dss-logo-right dss-logo-common">
                 <div class="dss-logo-right-container">
+                    <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/">
                     <img src="<%= context.getBaseUrl() %>/images/logos/logo-asean.png" width="150"
                          alt="GeoNetwork opensource logo" align="top">
+                    </a>
                 </div>
             </div>
         </div>
@@ -84,7 +86,7 @@
                         <li><a class="prod" id="suomiNpp" onclick="showItem('suomiNpp')" href="#">Satellite Images (Suomi-NPP)</a></li>
                         <li><a class="prod" id="aqua" onclick="showItem('aqua')" href="#">Satellite Images (AQUA)</a></li>
                         <li><a class="prod" id="terra" onclick="showItem('terra')" href="#">Satellite Images (TERRA)</a></li>
-                        <li><a class="prod" id="haze" onclick="showItem('haze')" href="#">Regional Haze Situation</a></li>
+                        <li><a class="prod" id="haze" onclick="showItem('haze_map')" href="#">Regional Haze Situation</a></li>
                         <li><a class="prod" id="hotspotNoaa20" onclick="showItem('hotspotNoaa20')" href="#">Hotspot Reports (JPSS 1/NOAA-20)</a></li>
                         <li><a class="prod" id="hotspotNpp" onclick="showItem('hotspotNpp')" href="#">Hotspot Reports (Suomi-NPP)</a></li>
                         <li><a class="prod" id="hotspotAqua" onclick="showItem('hotspotAqua')" href="#">Hotspot Reports (AQUA)</a></li>
