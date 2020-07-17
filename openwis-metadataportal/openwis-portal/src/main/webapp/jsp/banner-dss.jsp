@@ -18,10 +18,8 @@
             </div>
             <div class="dss-logo-right dss-logo-common">
                 <div class="dss-logo-right-container">
-                    <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/">
                     <img class="logo-asean" src="<%= context.getBaseUrl() %>/images/logos/logo-asean.png" width="150"
                          alt="GeoNetwork opensource logo" align="top">
-                    </a>
                 </div>
             </div>
         </div>

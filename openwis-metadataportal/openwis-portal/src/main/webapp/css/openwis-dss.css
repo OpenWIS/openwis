@@ -248,6 +248,11 @@
 	line-height: 30px;
 }
 
+.main-content-right > ul > li > a {
+    text-decoration: none;
+    color: white;
+}
+
 .main-content-right a {
     margin: auto;
 }
