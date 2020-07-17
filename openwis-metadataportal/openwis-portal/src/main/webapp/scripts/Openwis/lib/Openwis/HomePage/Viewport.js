@@ -236,7 +236,7 @@ Openwis.HomePage.Viewport = Ext.extend(Ext.Viewport, {
 	getHeaderImage: function(){
 		if(!this.headerImage) {
 			this.headerImage = {tag:'div', cls:'header_img SearchPage', id:'header_img', 
-			html: "<div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div>"}
+			html: "<a onclick='redirectWarning()' style=\"text-decoration:none;\" href=\"http://asmc.asean.org/asmc-about/\"><div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div></a>"}
 		}
 		return this.headerImage;
 	},
