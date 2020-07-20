@@ -954,6 +954,7 @@ Openwis.Lang.Dictionary = {
     'MyAccount.Browser.TrackMyRequests.Request' : 'Requests',
     'MyAccount.Browser.TrackMyRequests.Subscription' : 'Subscriptions',
     'MyAccount.Browser.TrackMyRequests.MSSFSS' : 'MSS/FSS',
+    'MyAccount.TrackMyRequests.UserAlarms.Title': 'User alarms',
     'MyAccount.Browser.PersonalInformation' : 'Personal information',
     'MyAccount.Browser.PersonalInformation.UserInfo' : 'User information',
     'MyAccount.Browser.PersonalInformation.ChangeMyPassword' : 'Change my password',

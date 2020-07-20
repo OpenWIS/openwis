@@ -246,6 +246,7 @@
 
 .main-content-right > ul > li {
 	line-height: 30px;
+	line-style: none;
 }
 
 .main-content-right > ul > li > a {

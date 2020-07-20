@@ -1,3 +1,11 @@
+window.document.onload = function(e) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productKey = urlParams.get('productKey');
+    if (productKey !== null) {
+        showItem(productKey);
+    }
+}
+
 function showItem(id) {
 
    const searchKeys = {
@@ -29,7 +37,7 @@ function showItem(id) {
    if (whatInput !== null) {
            whatInput.value = searchKeys[id];
    } else {
-        console.log("cannot find 'what' input element");
+        window.location.replace = getBaseUrl();
          return
    }
    var buttons = document.getElementsByClassName('iconBtnSearch');
@@ -43,4 +51,28 @@ function getSearchInput() {
         }
 
         return null;
+}
+
+function getBaseUrl() {
+    var pathArray = window.location.pathname.split('/');
+    var baseUrl = "";
+
+    for(var i=0; i<pathArray.length; i++) {
+        var e = pathArray[i];
+        baseUrl += e + "/";
+        if (e === "openwis-user-portal") {
+            break;
+        }
+    }
+    return baseUrl;
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }

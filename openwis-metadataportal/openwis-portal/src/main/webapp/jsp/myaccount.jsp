@@ -23,7 +23,10 @@ if (availableServices == null) {
    <body>
       <div id="header">
         <%@include file="banner.jsp" %>
-         
+        <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-no-menu.css">
       </div>
+        <% if ("user".equals(portalType)) { %>
+            <%@include file="footer-dss.jsp"%>
+        <% } %>
    </body>
 </html>
