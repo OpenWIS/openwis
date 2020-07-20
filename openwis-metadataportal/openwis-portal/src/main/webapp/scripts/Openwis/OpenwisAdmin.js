@@ -5420,7 +5420,7 @@ var activeComp=activeTab.items.items[0];
 if(activeComp&&activeComp.getResizeEl()){browserPanelHeight=activeComp.getHeight()
 }}var bodyHeight=this.getHeight();
 if(headerHeight>browserPanelHeight){browserPanelHeight=headerHeight
-}}var height=browserPanelHeight+150;
+}}var height=browserPanelHeight+350;
 if(relayoutWidth){var contentWidth=993;
 var size=this.getEl().getViewSize(),w=size.width;
 var westP=this.getWestPanel();
@@ -5434,6 +5434,7 @@ if(height>bodyHeight){panelSideWidth-=8
 eastP.setWidth(panelSideWidth)
 }if(height>bodyHeight){w-=17
 }this.getViewportPanel().boxMaxWidth=w;
+console.log("height admin:"+height);
 this.doLayout()
 }if(relayoutHeight){this.getViewportPanel().boxMinHeight=height;
 this.doLayout()
