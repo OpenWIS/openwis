@@ -7211,9 +7211,9 @@ INSERT INTO Settings VALUES (1043,40,'sruMaxRecords','40');
 
 -- settings for maintenance
 INSERT INTO Settings VALUES (750, 1, 'maintenance',NULL);
-INSERT INTO Settings VALUE (751, 750, 'startDate', NULL);
-INSERT INTO Settings VALUE (752, 750, 'endDate', NULL);
-INSERT INTO Settings VALUE (753, 750, 'enabled', False);
+INSERT INTO Settings VALUES (751, 750, 'startDate', NULL);
+INSERT INTO Settings VALUES (752, 750, 'endDate', NULL);
+INSERT INTO Settings VALUES (753, 750, 'enabled', False);
 
 -- ======================================================================
 -- === Table: DataPolicy
