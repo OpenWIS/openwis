@@ -10,7 +10,6 @@
 ServiceContext context = (ServiceContext) request.getAttribute("context");
 String portalType = (String) request.getAttribute("portalType");
 String locService = context.getBaseUrl() + "/srv/" + context.getLanguage();
-String pageId=null;
 
 //Gt self registration enablement from DB
 GeonetContext  gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
@@ -140,6 +139,11 @@ if (devMode) {
         var pageLoaded;
         window.onload = function() {
             pageLoaded = true;
+            const urlParams = new URLSearchParams(window.location.search);
+            const productKey = urlParams.get('productKey');
+            if (productKey !== null) {
+                showItem(productKey);
+            }
         }
 
         // Fix scrolling issue with IE7
