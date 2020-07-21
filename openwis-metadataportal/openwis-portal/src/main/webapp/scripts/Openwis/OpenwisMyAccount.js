@@ -624,7 +624,7 @@ break
 }}this.initializeFields(ftpSelected)
 }},initializeFields:function(ftp){Ext.iterate(ftp,function(key,value){if(this.ftpFields[key]){this.ftpFields[key].setValue(value)
 }},this)
-},getDisseminationValue:function(){var ftp={};
+},getDisseminationValue:function(){var ftp={passive:false,encrypted:false,};
 Ext.iterate(this.ftpFields,function(key,field){ftp[key]=field.getValue()
 },this);
 return ftp

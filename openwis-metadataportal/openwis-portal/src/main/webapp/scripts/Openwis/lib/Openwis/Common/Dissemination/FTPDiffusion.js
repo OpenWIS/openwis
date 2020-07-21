@@ -228,7 +228,9 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 	},
 	
 	getDisseminationValue: function() {
-		var ftp = {};
+		var ftp = {'passive': false,
+		           'encrypted': false,
+		};
 		
 		Ext.iterate(this.ftpFields, function(key, field) {
 			ftp[key] = field.getValue();
