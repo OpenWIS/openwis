@@ -7215,6 +7215,10 @@ INSERT INTO Settings VALUES (751, 750, 'startDate', NULL);
 INSERT INTO Settings VALUES (752, 750, 'endDate', NULL);
 INSERT INTO Settings VALUES (753, 750, 'enabled', False);
 
+INSERT INTO Settings VALUES (760,1, 'failedLogin', NULL);
+INSERT INTO Settings VALUES (761, 760, 'period', 0);
+INSERT INTO Settings VALUES (762, 760, 'timeunit', 'days');
+
 -- ======================================================================
 -- === Table: DataPolicy
 -- ======================================================================
