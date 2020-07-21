@@ -167,12 +167,14 @@ public class CreateRequestSubscription implements Service {
         content.put("firstname", firstname);
         content.put("lastname", lastname);
         content.put("username", email);
+        content.put("isSubscription", submitRequestSubscriptionDTO.isSubscription());
         content.put("urn", submitRequestSubscriptionDTO.getProductMetadataURN());
         content.put("requestID", requestID);
         content.put("deliveryMethod", this.getDeliveryMethod(submitRequestSubscriptionDTO));
         content.put("title", title);
 
-        String subject = OpenWISMessages.format("SubscriptionMail.subject", context.getLanguage(), new String[]{submitRequestSubscriptionDTO.getProductMetadataURN()});
+        String subjectVar = submitRequestSubscriptionDTO.isSubscription() ? "SubscriptionMail.subject" : "RequestMail.subject";
+        String subject = OpenWISMessages.format(subjectVar, context.getLanguage(), new String[]{submitRequestSubscriptionDTO.getProductMetadataURN()});
         OpenWISMail openWISMail = OpenWISMailFactory.buildSubscriptionNotificationMail(context, subject, new String[]{email}, content);
         boolean result = mail.send(openWISMail);
         if (!result) {
