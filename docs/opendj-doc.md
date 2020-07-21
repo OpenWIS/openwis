@@ -23,6 +23,10 @@ Search all accounts
 
 - Set lock counts
 ```./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set "lockout-failure-count:2"```
+CHANGE 21/07
+DO NOT USE ldap to lock an account due to multiple failed login instead use OpenAM. OpenAM use inetUserStatus attribute to lock down an account. This attribute is also used
+by OpenWIS to lock/unlock account. LDAP is using different technique to lock an account which is not supported by OpenWIS.
+For more information, please see: https://backstage.forgerock.com/knowledge/kb/article/a50950116
 
 - Force user to change password if password has been reseted
 ```./dsconfig -D "cn=directory manager" -w password -n set-password-policy-prop   --policy-name "Default Password Policy" --set "force-change-on-reset:true"```
