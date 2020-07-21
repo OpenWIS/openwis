@@ -1,11 +1,3 @@
-window.document.onload = function(e) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productKey = urlParams.get('productKey');
-    if (productKey !== null) {
-        showItem(productKey);
-    }
-}
-
 function showItem(id) {
 
    const searchKeys = {
@@ -37,8 +29,7 @@ function showItem(id) {
    if (whatInput !== null) {
            whatInput.value = searchKeys[id];
    } else {
-        window.location.replace = getBaseUrl();
-         return
+        window.location.href = getBaseUrl() + "?productKey=" + id;
    }
    var buttons = document.getElementsByClassName('iconBtnSearch');
    buttons[0].click();
