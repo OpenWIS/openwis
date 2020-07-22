@@ -37,7 +37,9 @@ public class AlertAction implements AccountAction {
         } else if (action.equals(UserAction.LOCK)) {
             return "Account Lock Task";
         } else if (action.equals(UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL)) {
-            return "Password expiry notification";
+            return "Password expiring notification";
+        } else if (action.equals(UserAction.PASSWORD_EXPIRED_NOTIFICATION_MAIL)) {
+            return "Account lock expired password notification";
         }
         return "Unknown alert";
     }
@@ -48,6 +50,8 @@ public class AlertAction implements AccountAction {
             return String.format("Account locked for user: %s", user.getUsername());
         } else if (action.equals(UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL)) {
             return String.format("User [%s] notified due to password age", user.getUsername());
+        } else if (action.equals(UserAction.PASSWORD_EXPIRED_NOTIFICATION_MAIL)) {
+            return String.format("Account locked for user [%s] due to expired password", user.getUsername());
         }
         return "Unknown action";
     }

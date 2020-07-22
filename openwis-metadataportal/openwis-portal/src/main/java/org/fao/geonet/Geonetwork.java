@@ -629,6 +629,14 @@ public class Geonetwork implements ApplicationHandler {
                         (TimeUnit) params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT));
                 executor.scheduleAtFixedRate(passwordExpireTask, 0, passwordExecExpirePeriod, unitMap.get("passwordExpire"));
             }
+
+            // create account task which will notify users about their account suspension due to expired pwd
+            Log.info(Geonet.ADMIN, "Account suspension notification due to pwd expired");
+            AccountTask pwdExpireAccountLockedTask = AccountTaskFactory.buildPasswordExpireSuspensionTask(context,
+                    dbms,
+                    alertService
+            );
+            executor.scheduleAtFixedRate(pwdExpireAccountLockedTask, 0, passwordExecExpirePeriod, unitMap.get("passwordExpire"));
         } else {
             Log.info(Geonet.ADMIN, "Password expire notification task is DISABLED");
         }

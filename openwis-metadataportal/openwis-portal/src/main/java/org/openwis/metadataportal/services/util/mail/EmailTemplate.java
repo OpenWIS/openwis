@@ -39,6 +39,12 @@ public class EmailTemplate {
     // Template for account suspension admin mail due multiple failed login
     public static final String ACCOUNT_SUSPENTION_FAILED_LOGIN_ADMIN_TEMPLATE = "account-admin-suspended-failed-login.html";
 
+    // Template for account suspension due to expired password
+    public static final String ACCOUNT_SUSPENTION_PWD_EXPIRED_TEMPLATE = "account-suspended-pwd-expired.html";
+
+    // Template for account suspension admin mail due to expired password
+    public static final String ACCOUNT_SUSPENTION_PWD_EXPIRED_ADMIN_TEMPLATE = "account-admin-suspended-pwd-expired.html";
+
     // Template for account suspension mail due to inactivity
     public static final String ACCOUNT_SUSPENSION_TEMPLATE = "account-suspended.html";
 

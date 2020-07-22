@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * ------- | ------- x ----- | --- | --- | --- | --- |
  * </p>
  *
- * For each user the date of the password change is shifted with the {@param period}.
+ * For each user the date of the password expiration is shifted with the {@param period}.
  * The filter checks if there is a notification between the present time and the shifted date.
  * <p>For example if {@param period} is 7d the filter will check if there are notification between
  * the present date and pwdExpire - 7d. If there is a notification the user is filtered out.</p>
