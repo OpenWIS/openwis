@@ -55,7 +55,7 @@ public class EmailTemplate {
     public static final String ACCOUNT_INACTIVITY_TEMPLATE = "account-inactivity-notification.html";
 
     // template for account termination
-    public static final String ACCOUNT_TERMINATION_TEMPLATE = "account-termination.html";
+    public static final String ACCOUNT_TERMINATION_TEMPLATE = "account-terminated.html";
 
     // template for account termination
     public static final String ACCOUNT_CREATION_TEMPLATE = "creation-account.html";
