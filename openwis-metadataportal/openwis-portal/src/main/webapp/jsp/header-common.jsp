@@ -139,11 +139,7 @@ if (devMode) {
         var pageLoaded;
         window.onload = function() {
             pageLoaded = true;
-            const urlParams = new URLSearchParams(window.location.search);
-            const productKey = urlParams.get('productKey');
-            if (productKey !== null) {
-                showItem(productKey);
-            }
+
         }
 
         // Fix scrolling issue with IE7

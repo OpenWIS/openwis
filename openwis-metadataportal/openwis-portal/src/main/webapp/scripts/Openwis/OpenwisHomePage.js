@@ -2030,6 +2030,7 @@ this.doLayout()
 }});var homePageViewport;
 Ext.onReady(function(){Ext.QuickTips.init();
 homePageViewport=new Openwis.HomePage.Viewport();
+doMenuSearch(homePageViewport);
 if(remoteSearch.url){var params={};
 if(!remoteSearch.connection){params.any=remoteSearch.urn;
 params.sortBy="relevance";
@@ -2041,3 +2042,17 @@ if(remoteSearch.type=="ADHOC"){doAdhocRequest(remoteSearch.urn)
 }else{if(remoteSearch.type=="SUBSCRIPTION"){if(!remoteSearch.backupRequestId){doSubscription(remoteSearch.urn)
 }else{doSubscriptionFromCache(remoteSearch.urn,null,remoteSearch.backupRequestId,remoteSearch.backupDeployment)
 }}}}});
+function doMenuSearch(searchObj){const urlParams=new URLSearchParams(window.location.search);
+const productKey=urlParams.get("productKey");
+if(productKey!==null){var product={urn:getSearchKey(productKey)};
+searchObj.getSearchPanel().getNormalSearchPanel().whatTextField.setValue(getSearchKey(productKey));
+searchObj.doSearch(product)
+}}function getParameterByName(name,url){if(!url){url=window.location.href
+}name=name.replace(/[\[\]]/g,"\\$&");
+var regex=new RegExp("[?&]"+name+"(=([^&#]*)|&|#|$)"),results=regex.exec(url);
+if(!results){return null
+}if(!results[2]){return""
+}return decodeURIComponent(results[2].replace(/\+/g," "))
+}function getSearchKey(productKey){const searchKeys={noaa20:"noaa-20 image",suomiNpp:"suomi npp image",aqua:"Satellite Imagery AQUA",terra:"Satellite Imagery TERRA",haze:"haze_map",hotspotNoaa20:"noaa20 record",hotspotNpp:"npp record",hotspotAqua:"AQUA_hotspot_location",hotspotTerra:"TERRA_hotspot_location",hazeDispersion:"haze_dispersion",};
+return searchKeys[productKey]
+};

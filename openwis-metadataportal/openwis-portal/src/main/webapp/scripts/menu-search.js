@@ -27,12 +27,13 @@ function showItem(id) {
 
    var whatInput = getSearchInput();
    if (whatInput !== null) {
-           whatInput.value = searchKeys[id];
+        whatInput.value = searchKeys[id];
+        var buttons = document.getElementsByClassName('iconBtnSearch');
+        buttons[0].click();
    } else {
+        // not on the home page. go back to homepage & search..
         window.location.href = getBaseUrl() + "?productKey=" + id;
    }
-   var buttons = document.getElementsByClassName('iconBtnSearch');
-   buttons[0].click();
 }
 
 function getSearchInput() {
@@ -58,12 +59,4 @@ function getBaseUrl() {
     return baseUrl;
 }
 
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+
