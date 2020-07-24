@@ -11,14 +11,20 @@ import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConf
 import org.openwis.metadataportal.services.util.OpenWISMessages;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 public class OpenWisLoginCaptcha extends HttpServlet {
 
     private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE="g-recaptcha-response";
+
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
@@ -46,11 +52,16 @@ public class OpenWisLoginCaptcha extends HttpServlet {
             Boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
             if (captchaPassed)
             {
+                // generate one time init token. this token is used to allow access to openWisInit service.
+                String initToken = generateInitToken();
+                request.getSession().setAttribute("initToken", initToken);
 
                 String baseUrl = this.getBaseUrl(request.getRequestURI());
                 baseUrl += "openWisInit";
                 response.setStatus(307); //this makes the redirection keep your requesting method as is.
                 response.addHeader("Location", baseUrl );
+                Cookie cookie = new Cookie("OpenWISInitToken", initToken);
+                response.addCookie(cookie);
             }
             else {
                 String errorMessage= OpenWISMessages.format("LoginCaptcha.captchaFailed", "en");
@@ -88,5 +99,11 @@ public class OpenWisLoginCaptcha extends HttpServlet {
         }
 
         return baseUrl.toString();
+    }
+
+    private static String generateInitToken() {
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
     }
 }
