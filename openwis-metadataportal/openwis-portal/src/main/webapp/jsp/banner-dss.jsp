@@ -9,16 +9,16 @@
             <div class="dss-logo-middle dss-logo-common">
                 <div class="dss-logo-middle-container dss-logo-common">
                     <div>
-                        <a class="dss-logo-middle-link" href="<%= locService %>/about.home">About ASMC</a>&nbsp;
+                        <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-about/">About ASMC</a>&nbsp;
                     </div>
                     <div>
-                        <a class="dss-logo-middle-link" href="">Contact Us</a>
+                        <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/">Contact Us</a>
                     </div>
                 </div>
             </div>
             <div class="dss-logo-right dss-logo-common">
                 <div class="dss-logo-right-container">
-                    <img src="<%= context.getBaseUrl() %>/images/logos/logo-asean.png" width="150"
+                    <img class="logo-asean" src="<%= context.getBaseUrl() %>/images/logos/logo-asean.png" width="150"
                          alt="GeoNetwork opensource logo" align="top">
                 </div>
             </div>
@@ -28,9 +28,9 @@
                 <div class="dss-nav-item"><a href="<%= locService %>/main.home">DATA CATALOG</a></div>
                 <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {%>
                     <% if ("myaccount".equals(context.getService())) { %>
-                            <div class="dss-nav-item"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.MyAccount'))</script></div>
+                            <div class="dss-nav-item"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.MyAccount').toUpperCase())</script></div>
                     <% } else { %>
-                            <a class="dss-nav-item" href="<%= locService %>/myaccount"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.MyAccount').toUpperCase())</script></a>
+                            <div class="dss-nav-item"><a href="<%= locService %>/myaccount"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.MyAccount').toUpperCase())</script></a></div>
                     <% } %>
                 <% } %>
                 <div class="dss-nav-item"><a href="<%= locService %>/help.home">HELP</a></div>

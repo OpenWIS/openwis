@@ -21,7 +21,7 @@ Openwis.Common.Dissemination.MailDiffusion = Ext.extend(Ext.form.FormPanel, {
 		this.getAdvancedFieldSet().add(this.getHeaderLineTextField());
 		this.getAdvancedFieldSet().add(this.getDispatchModeComboBox());
 		this.getAdvancedFieldSet().add(this.getSubjectTextField());
-		this.getAdvancedFieldSet().add(this.getAttachmentModeRadioGroup());
+//		this.getAdvancedFieldSet().add(this.getAttachmentModeRadioGroup());
 		this.getAdvancedFieldSet().add(this.getFileNameTextField());
 		
 		this.add(this.getAdvancedFieldSet());
@@ -33,7 +33,7 @@ Openwis.Common.Dissemination.MailDiffusion = Ext.extend(Ext.form.FormPanel, {
 		this.mailFields['headerLine'] = this.getHeaderLineTextField();
 		this.mailFields['mailDispatchMode'] = this.getDispatchModeComboBox();
 		this.mailFields['subject'] = this.getSubjectTextField();
-		this.mailFields['mailAttachmentMode'] = this.getAttachmentModeRadioGroup();//mailAsAttachment;
+	//	this.mailFields['mailAttachmentMode'] = this.getAttachmentModeRadioGroup();//mailAsAttachment;
 		this.mailFields['fileName'] = this.getFileNameTextField();
 	},
 	
@@ -209,7 +209,7 @@ Openwis.Common.Dissemination.MailDiffusion = Ext.extend(Ext.form.FormPanel, {
 	},
 
 	getDisseminationValue: function() {
-		var mail = {};
+		var mail = {"mailAttachmentMode":"AS_ATTACHMENT"};
 		// Force address field value with raw value, as value happens to be not initialized sometimes...
 		this.getAddressTextField().setValue(this.getAddressTextField().getRawValue());
 		Ext.iterate(this.mailFields, function(key, field) {

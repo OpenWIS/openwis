@@ -78,6 +78,29 @@ public class OpenWISMailFactory {
     }
 
     /**
+     * Return a new account suspended mail due to expired password
+     * @param context service context
+     * @param subject subject property key
+     * @param destinations destination addresses
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountSuspensionPwdExpiredMail(ServiceContext context, String subject, String[] destinations, Map<String, Object> contentVars) {
+        return buildUserMail(context, subject, destinations, EmailTemplate.ACCOUNT_SUSPENTION_PWD_EXPIRED_TEMPLATE, contentVars);
+    }
+
+    /**
+     * Return a new account suspended mail due to pwd expired to be sent to admin
+     * @param context service context
+     * @param subject subject property key
+     * @param contentVars body data
+     * @return OpenWISMail
+     */
+    public static OpenWISMail buildAccountSuspensionPwdExpiredAdminMail(ServiceContext context, String subject,  Map<String, Object> contentVars) {
+        return buildAdminMail(context, subject, EmailTemplate.ACCOUNT_SUSPENTION_PWD_EXPIRED_ADMIN_TEMPLATE, contentVars);
+    }
+
+    /**
      * Return a new account suspended mail due to multiple failed login
      * @param context service context
      * @param subject subject property key

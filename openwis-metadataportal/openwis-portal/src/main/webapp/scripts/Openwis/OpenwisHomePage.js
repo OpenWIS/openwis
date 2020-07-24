@@ -6,7 +6,6 @@ this.initialize()
 this.getAdvancedFieldSet().add(this.getHeaderLineTextField());
 this.getAdvancedFieldSet().add(this.getDispatchModeComboBox());
 this.getAdvancedFieldSet().add(this.getSubjectTextField());
-this.getAdvancedFieldSet().add(this.getAttachmentModeRadioGroup());
 this.getAdvancedFieldSet().add(this.getFileNameTextField());
 this.add(this.getAdvancedFieldSet());
 this.mailFields={};
@@ -14,7 +13,6 @@ this.mailFields.address=this.getAddressTextField();
 this.mailFields.headerLine=this.getHeaderLineTextField();
 this.mailFields.mailDispatchMode=this.getDispatchModeComboBox();
 this.mailFields.subject=this.getSubjectTextField();
-this.mailFields.mailAttachmentMode=this.getAttachmentModeRadioGroup();
 this.mailFields.fileName=this.getFileNameTextField()
 },getAddressTextField:function(){if(!this.addressTextField){var addressStore=new Ext.data.JsonStore({id:0,fields:[{name:"address"},{name:"headerLine"},{name:"mailDispatchMode"},{name:"subject"},{name:"mailAttachmentMode"},{name:"fileName"}]});
 this.addressTextField=new Ext.form.ComboBox({store:addressStore,valueField:"address",displayField:"address",typeAhead:true,mode:"local",triggerAction:"all",selectOnFocus:true,fieldLabel:Openwis.i18n("Common.Dissemination.MailDiffusion.MailAddress.label"),allowBlank:false,disabled:!this.allowAddressEdition,vtype:"email",width:210,validateOnChange:true,listeners:{select:function(){this.notifyMailSelected()
@@ -45,7 +43,7 @@ break
 }}this.initializeFields(mailSelected)
 }},initializeFields:function(mail){Ext.iterate(mail,function(key,value){if(this.mailFields[key]){this.mailFields[key].setValue(value)
 }},this)
-},getDisseminationValue:function(){var mail={};
+},getDisseminationValue:function(){var mail={mailAttachmentMode:"AS_ATTACHMENT"};
 this.getAddressTextField().setValue(this.getAddressTextField().getRawValue());
 Ext.iterate(this.mailFields,function(key,field){if(!Ext.isObject(field.getValue())){if(field.getValue()=="null"||field.getValue()==null){mail[key]=""
 }else{mail[key]=field.getValue()
@@ -71,11 +69,9 @@ this.ftpFields.path=this.getPathTextField();
 this.ftpFields.user=this.getUserTextField();
 this.ftpFields.password=this.getPasswordTextField();
 this.ftpFields.port=this.getPortTextField();
-this.ftpFields.passive=this.getPassiveCheckbox();
 this.ftpFields.checkFileSize=this.getCheckFileSizeCheckbox();
-this.ftpFields.fileName=this.getFileNameTextField();
-this.ftpFields.encrypted=this.getEncryptedCheckbox()
-},getHostTextField:function(){if(!this.hostTextField){var hostStore=new Ext.data.JsonStore({id:0,fields:[{name:"host"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"passive"},{name:"checkFileSize"},{name:"fileName"},{name:"encrypted"}]});
+this.ftpFields.fileName=this.getFileNameTextField()
+},getHostTextField:function(){if(!this.hostTextField){var hostStore=new Ext.data.JsonStore({id:0,fields:[{name:"host"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"checkFileSize"},{name:"fileName"},]});
 this.hostTextField=new Ext.form.ComboBox({store:hostStore,valueField:"host",displayField:"host",mode:"local",typeAhead:true,triggerAction:"all",selectOnFocus:true,fieldLabel:Openwis.i18n("Common.Dissemination.FTPDiffusion.Host.label"),allowBlank:false,disabled:!this.allowHostEdition,width:210,listeners:{select:function(){this.notifyFTPSelected()
 },scope:this}})
 }return this.hostTextField
@@ -87,7 +83,7 @@ this.hostTextField=new Ext.form.ComboBox({store:hostStore,valueField:"host",disp
 }return this.passwordTextField
 },getAdvancedFieldSet:function(){if(!this.advancedFieldSet){this.advancedFieldSet=new Ext.form.FieldSet({title:Openwis.i18n("Common.Dissemination.FTPDiffusion.Advanced.label"),autoHeight:true,collapsed:true,collapsible:true,labelWidth:90})
 }return this.advancedFieldSet
-},getOptionsCheckboxGroup:function(){if(!this.optionsCheckboxGroup){this.optionsCheckboxGroup=new Ext.form.CheckboxGroup({title:Openwis.i18n("Common.Dissemination.FTPDiffusion.Options.label"),items:[this.getPassiveCheckbox(),this.getCheckFileSizeCheckbox(),this.getEncryptedCheckbox()]})
+},getOptionsCheckboxGroup:function(){if(!this.optionsCheckboxGroup){this.optionsCheckboxGroup=new Ext.form.CheckboxGroup({title:Openwis.i18n("Common.Dissemination.FTPDiffusion.Options.label"),items:[this.getCheckFileSizeCheckbox(),]})
 }return this.optionsCheckboxGroup
 },getPortTextField:function(){if(!this.portTextField){this.portTextField=new Ext.form.TextField({fieldLabel:Openwis.i18n("Common.Dissemination.FTPDiffusion.Port.label"),name:"ftpPort",allowBlank:true,width:50})
 }return this.portTextField
@@ -108,7 +104,7 @@ break
 }}this.initializeFields(ftpSelected)
 }},initializeFields:function(ftp){Ext.iterate(ftp,function(key,value){if(this.ftpFields[key]){this.ftpFields[key].setValue(value)
 }},this)
-},getDisseminationValue:function(){var ftp={};
+},getDisseminationValue:function(){var ftp={passive:false,encrypted:false,};
 Ext.iterate(this.ftpFields,function(key,field){ftp[key]=field.getValue()
 },this);
 return ftp
@@ -1413,7 +1409,7 @@ this.optionsFieldSet.addListener("expand",this.onGuiChanged,this)
 }return this.sortDirectionCombobox
 },getHitsCombobox:function(){if(!this.hitsCombobox){this.hitsCombobox=new Ext.form.ComboBox({store:new Ext.data.ArrayStore({id:0,fields:["id","value"],data:[["10","10"],["20","20"],["50","50"],["100","100"]]}),valueField:"id",displayField:"value",value:"10",name:"hitsPerPage",typeAhead:true,mode:"local",triggerAction:"all",editable:false,selectOnFocus:true,width:194,fieldLabel:Openwis.i18n("HomePage.Search.Criteria.Options.HitsPerPage")})
 }return this.hitsCombobox
-},getMapPanel:function(){if(!this.mapPanel){this.mapPanel=new Openwis.Common.Components.GeographicalExtentSelection({geoExtentType:"RECTANGLE",wmsUrl:"http://vmap0.tiles.osgeo.org/wms/vmap0?",layerName:"basic",maxExtent:new OpenLayers.Bounds(-180,-90,180,90),width:280,height:250,listeners:{valueChanged:function(bounds){var latMin=bounds.bottom;
+},getMapPanel:function(){if(!this.mapPanel){this.mapPanel=new Openwis.Common.Components.GeographicalExtentSelection({geoExtentType:"RECTANGLE",wmsUrl:"https://vmap0.tiles.osgeo.org/wms/vmap0?",layerName:"basic",maxExtent:new OpenLayers.Bounds(-180,-90,180,90),width:280,height:250,listeners:{valueChanged:function(bounds){var latMin=bounds.bottom;
 var latMax=bounds.top;
 var longMin=bounds.left;
 var longMax=bounds.right;
@@ -2003,7 +1999,7 @@ wizard.initialize(lastProduct.productMetadataURN,"SUBSCRIPTION",lastProduct.extr
 }return this.contentPanel
 },getHeaderPanel:function(){if(!this.headerPanel){this.headerPanel=new Ext.Container({region:"north",border:false,contentEl:"header",cls:"headerCtCls",height:"auto"})
 }return this.headerPanel
-},getHeaderImage:function(){if(!this.headerImage){this.headerImage={tag:"div",cls:"header_img SearchPage",id:"header_img",html:"<div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div>"}
+},getHeaderImage:function(){if(!this.headerImage){this.headerImage={tag:"div",cls:"header_img SearchPage",id:"header_img",html:"<a onclick='redirectWarning()' style=\"text-decoration:none;\" href=\"http://asmc.asean.org/asmc-about/\"><div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div></a>"}
 }return this.headerImage
 },getCenterPanel:function(){if(!this.centerPanel){this.centerPanel=new Ext.Panel({cls:"body-center-panel",region:"center",border:false,width:992,layout:"border",id:"bodyCenPan"})
 }return this.centerPanel
@@ -2034,6 +2030,7 @@ this.doLayout()
 }});var homePageViewport;
 Ext.onReady(function(){Ext.QuickTips.init();
 homePageViewport=new Openwis.HomePage.Viewport();
+doMenuSearch(homePageViewport);
 if(remoteSearch.url){var params={};
 if(!remoteSearch.connection){params.any=remoteSearch.urn;
 params.sortBy="relevance";
@@ -2045,3 +2042,17 @@ if(remoteSearch.type=="ADHOC"){doAdhocRequest(remoteSearch.urn)
 }else{if(remoteSearch.type=="SUBSCRIPTION"){if(!remoteSearch.backupRequestId){doSubscription(remoteSearch.urn)
 }else{doSubscriptionFromCache(remoteSearch.urn,null,remoteSearch.backupRequestId,remoteSearch.backupDeployment)
 }}}}});
+function doMenuSearch(searchObj){const urlParams=new URLSearchParams(window.location.search);
+const productKey=urlParams.get("productKey");
+if(productKey!==null){var product={urn:getSearchKey(productKey)};
+searchObj.getSearchPanel().getNormalSearchPanel().whatTextField.setValue(getSearchKey(productKey));
+searchObj.doSearch(product)
+}}function getParameterByName(name,url){if(!url){url=window.location.href
+}name=name.replace(/[\[\]]/g,"\\$&");
+var regex=new RegExp("[?&]"+name+"(=([^&#]*)|&|#|$)"),results=regex.exec(url);
+if(!results){return null
+}if(!results[2]){return""
+}return decodeURIComponent(results[2].replace(/\+/g," "))
+}function getSearchKey(productKey){const searchKeys={noaa20:"noaa-20 image",suomiNpp:"suomi npp image",aqua:"Satellite Imagery AQUA",terra:"Satellite Imagery TERRA",haze:"haze_map",hotspotNoaa20:"noaa20 record",hotspotNpp:"npp record",hotspotAqua:"AQUA_hotspot_location",hotspotTerra:"TERRA_hotspot_location",hazeDispersion:"haze_dispersion",};
+return searchKeys[productKey]
+};

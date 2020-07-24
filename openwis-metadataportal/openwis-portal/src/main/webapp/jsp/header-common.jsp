@@ -40,6 +40,7 @@ boolean devMode = context.isDebug();
     <% if ("user".equals(portalType)) { %>
 	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom-user.css">
 	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-dss.css">
+	    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/menu-search.js"></script>
     <%} else {%>
 	    <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/css/openwis-custom.css">
     <%  } %>
@@ -138,6 +139,7 @@ if (devMode) {
         var pageLoaded;
         window.onload = function() {
             pageLoaded = true;
+
         }
 
         // Fix scrolling issue with IE7
@@ -158,6 +160,3 @@ if (devMode) {
 
     <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/core/kernel/kernel.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/mfi.js"></script>
-	 <% if ("user".equals(portalType)) { %>
-	    <script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/menu-search.js"></script>
-	 <% } %>

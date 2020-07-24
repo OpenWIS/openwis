@@ -269,7 +269,7 @@
 
     <session-config>
         <!-- 3 hours -->
-        <session-timeout>180</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     
     <error-page>

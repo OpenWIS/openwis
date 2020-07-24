@@ -9,21 +9,18 @@
          }
          .note {
             font-size:12px;
-            font-weight: bold;
             font-style: italic;
           }
     </style>
 </head>
 <body>
     <p>Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,</p>
-    <p> Thank you for requesting an account MSS-ASMC WIS Portal.
-        We are required to forward the request for the creation of your account to the WIS Focal Point of your country.
-        Once we have approval to create the account, you will receive an email containing your login details.</p>
-    <p>If you have any questions or concerns, please do not hesitate to contact us.</p>
+    <p> Thank you for requesting an ASMC WIS User Account.</p>
+    <p> An email containing your login credentials will be sent to you within 3-5 working days if your registration is successful.</p>
+    <p>If you did not request for an account, please contact us at WISMET@winsys.com.sg or ASMC_Enquiries@nea.gov.sg.</p>
     <div class="footer">
-        <p class="end">Regards,</p>
-        <p class="end1">MSS Singapore Operations</p>
-        <p class="end1">MSS_Operations@nea.gov.sg</p>
-        <p class="note">NOTE: This email was sent automatically.  Please do not reply.</p>
+        <p class="note">This is an automatic generated message. Please do not reply to this email.</p>
+        <p class="note">Note: Please check your Spam/Junk Mail folder if you did no receive our reply in your Inbox.</p>
     </div>
+</body>
 </html>

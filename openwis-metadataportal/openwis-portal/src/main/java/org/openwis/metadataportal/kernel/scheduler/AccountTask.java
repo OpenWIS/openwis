@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class AccountTask implements Runnable {
 
-    private String name;
+    private final String name;
     private final UserManager userManager;
     private final List<AccountFilter> filters;
     private final List<AccountAction> actions;

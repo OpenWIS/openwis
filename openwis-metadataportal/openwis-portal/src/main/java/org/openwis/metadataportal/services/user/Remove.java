@@ -10,6 +10,8 @@ import jeeves.server.context.ServiceContext;
 
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
+import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
+import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 import org.openwis.metadataportal.kernel.request.RequestManager;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.user.User;
@@ -18,9 +20,15 @@ import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.user.dto.UserAction;
 import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 import org.openwis.metadataportal.services.user.dto.UsersDTO;
+import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.UserLogUtils;
+import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
+import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
+import org.openwis.securityservice.InetUserStatus;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Short Description goes here. <P>
@@ -61,7 +69,11 @@ public class Remove implements Service {
          requestManager.removeUserRequests(user.getUsername());
          
          // Remove user
+         User user1 = um.getUserByUserName(user.getUsername());
          um.removeUser(user.getUsername());
+         if (user1.getInetUserStatus() == InetUserStatus.INACTIVE) {
+            this.sendEmailToUser(context, user1);
+         }
 
          // save log
          userActionLogDTO = new UserLogDTO();
@@ -74,6 +86,17 @@ public class Remove implements Service {
 
       //Send Acknowledgement
       return JeevesJsonWrapper.send(acknowledgementDTO);
+   }
+
+   private boolean sendEmailToUser(ServiceContext context, User user) {
+      Map<String, Object> bodyData = new HashMap<>();
+      bodyData.put("firstname", user.getName());
+      bodyData.put("lastname", user.getSurname());
+      bodyData.put("period", OpenwisMetadataPortalConfig.getString(ConfigurationConstants.ACCOUNT_TASK_INACTIVITY_PERIOD));
+      bodyData.put("timeUnit", OpenwisMetadataPortalConfig.getString(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT));
+
+      IOpenWISMail mail = OpenWISMailFactory.buildAccountTerminationMail(context, "UserTermination.subject", new String[]{user.getEmailContact()}, bodyData);
+      return new MailUtilities().send(mail);
    }
 
 }

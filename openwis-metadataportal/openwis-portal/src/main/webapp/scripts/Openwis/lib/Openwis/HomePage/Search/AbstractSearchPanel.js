@@ -163,7 +163,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
         if(!this.mapPanel) {
             this.mapPanel = new Openwis.Common.Components.GeographicalExtentSelection({
                 geoExtentType: 'RECTANGLE',
-                wmsUrl: "http://vmap0.tiles.osgeo.org/wms/vmap0?",
+                wmsUrl: "https://vmap0.tiles.osgeo.org/wms/vmap0?",
                 layerName: 'basic',
                 maxExtent: new OpenLayers.Bounds(-180,-90,180,90),
                 width: 280,

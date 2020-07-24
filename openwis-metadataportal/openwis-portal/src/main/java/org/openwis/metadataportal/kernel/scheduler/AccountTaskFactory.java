@@ -116,8 +116,8 @@ public class AccountTaskFactory {
     public static AccountTask buildPasswordExpireNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
-                // only users
-                new ProfileFilter("user"),
+                // users and administrators
+                new ProfileFilter(new String[]{"user","administrator"}),
                 // users with an active account
                 new AccountStatusFilter(InetUserStatus.ACTIVE),
                 // user without the password expired
@@ -140,6 +140,45 @@ public class AccountTaskFactory {
         actions.add(new AlertAction(alertService, UserAction.PASSWORD_EXPIRE_NOTIFICATION_MAIL));
 
         return new AccountTask(String.format("Password expire notification task: Expire date - %d %s", period, timeUnit.toString()), userManager, filters, actions);
+    }
+
+    /**
+     * Creates a task which will notify users that their password has expired and their account has been suspended
+     * due to that.
+     * @param context
+     * @param dbms
+     * @param alertService
+     * @return Account task
+     */
+    public static AccountTask buildPasswordExpireSuspensionTask(ServiceContext context, Dbms dbms, AlertService alertService) {
+        UserManager userManager = new UserManager(dbms);
+        List<AccountFilter> filters = Arrays.asList(
+                // users and administrators
+                new ProfileFilter(new String[]{"user","administrator"}),
+                // users with an active account
+                new AccountStatusFilter(InetUserStatus.ACTIVE),
+                // user with the password expired
+                new ExpiredPasswordFilter(),
+                // check if there is already an expiration password notification
+                new ExpiredPasswordNotificationFilter(dbms)
+
+        );
+
+        List<AccountAction> actions = new ArrayList<>();
+        IOpenWISMail mail = OpenWISMailFactory.buildAccountSuspensionPwdExpiredMail(context, "Password.notification.subject", null, new HashMap<>());
+        actions.add(new MailAction(mail));
+
+        // action to send mail to admin about user account suspension due to pwd expired
+        IOpenWISMail adminMail = OpenWISMailFactory.buildAccountSuspensionPwdExpiredAdminMail(context, "Password.notification.subject",  new HashMap<>());
+        actions.add(new MailAction(adminMail));
+
+        // log action
+        actions.add(new LogAction(dbms, UserAction.PASSWORD_EXPIRED_NOTIFICATION_MAIL));
+
+        //alert action
+        actions.add(new AlertAction(alertService, UserAction.PASSWORD_EXPIRED_NOTIFICATION_MAIL));
+
+        return new AccountTask("Account suspension pwd notification task", userManager, filters, actions);
     }
 
     /**

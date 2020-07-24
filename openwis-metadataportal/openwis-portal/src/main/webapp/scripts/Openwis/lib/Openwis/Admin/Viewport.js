@@ -168,7 +168,7 @@ Openwis.Admin.Viewport = Ext.extend(Ext.Viewport, {
 			}
 		}
 		
-		var height = browserPanelHeight + 150;
+		var height = browserPanelHeight + 350;
 		
 	    if(relayoutWidth) {
             var contentWidth = 993;

@@ -66,14 +66,18 @@
 </p>
 <div>
     <div valign="top">
-        Thank you for subscribing to the product:
+        Thank you for <span th:if="${isSubscription} == true">subscribing to the product</span>
+        <span th:if="${isSubscription} == false">requesting the product</span>
+        :
         <span th:text="${title}" class="product">title</span> .
     </div>
 </div>
 <div height="20"></div>
 <div>
     <div valign="top" class="content">
-        <p>Please find below a summary of your subscription:</p>
+        <p>Please find below a summary of your
+            <span th:if="${isSubscription} == true">subscription</span>
+            <span th:if="${isSubscription} == false">request</span>:</p>
         <ul>
             <li>
                 <span class="label">Request ID:</span><span th:text="${requestID}">0001</span>

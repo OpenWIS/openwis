@@ -5,7 +5,7 @@ function showItem(id) {
         suomiNpp: 'suomi npp image',
         aqua: 'Satellite Imagery AQUA',
         terra: 'Satellite Imagery TERRA',
-        haze: 'haze',
+        haze: 'haze_map',
         hotspotNoaa20: 'noaa20 record',
         hotspotNpp: 'npp record',
         hotspotAqua: 'AQUA_hotspot_location',
@@ -27,13 +27,13 @@ function showItem(id) {
 
    var whatInput = getSearchInput();
    if (whatInput !== null) {
-           whatInput.value = searchKeys[id];
+        whatInput.value = searchKeys[id];
+        var buttons = document.getElementsByClassName('iconBtnSearch');
+        buttons[0].click();
    } else {
-        console.log("cannot find 'what' input element");
-         return
+        // not on the home page. go back to homepage & search..
+        window.location.href = getBaseUrl() + "?productKey=" + id;
    }
-   var buttons = document.getElementsByClassName('iconBtnSearch');
-   buttons[0].click();
 }
 
 function getSearchInput() {
@@ -44,3 +44,19 @@ function getSearchInput() {
 
         return null;
 }
+
+function getBaseUrl() {
+    var pathArray = window.location.pathname.split('/');
+    var baseUrl = "";
+
+    for(var i=0; i<pathArray.length; i++) {
+        var e = pathArray[i];
+        baseUrl += e + "/";
+        if (e === "openwis-user-portal") {
+            break;
+        }
+    }
+    return baseUrl;
+}
+
+

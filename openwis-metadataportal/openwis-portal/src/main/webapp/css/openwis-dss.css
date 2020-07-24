@@ -31,7 +31,6 @@
 }
 
 .dss-logo-left {
-    width: 33%;
 }
 
 .dss-logo-middle {
@@ -49,13 +48,17 @@
 }
 
 .dss-logo-right {
-    width: 33%;
+    margin-right: 30px;
 }
 
 .dss-logo-right-container {
     display: grid;
     justify-items: right;
-    padding-right: 20px;
+}
+
+.logo-asean {
+    width: 75px;
+    height: 75px;
 }
 
 .dss-main-nav {
@@ -243,6 +246,12 @@
 
 .main-content-right > ul > li {
 	line-height: 30px;
+	line-style: none;
+}
+
+.main-content-right > ul > li > a {
+    text-decoration: none;
+    color: white;
 }
 
 .main-content-right a {
