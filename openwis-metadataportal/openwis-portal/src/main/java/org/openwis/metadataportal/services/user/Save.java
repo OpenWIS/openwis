@@ -94,12 +94,10 @@ public class Save implements Service {
                 user.setSecretKey(storedUser.getSecretKey());
                 if ( !user.getPassword().isEmpty() ) {
                     if (user.getPassword().compareTo(user.getUsername()) == 0) {
-                        Log.info(Geonet.PRIVILEGES, "##### Password = <" + user.getPassword() + "> User name= <" + user.getUsername() + " - " + user.getName() + " - " + user.getId());
                         throw new Exception("Password must be different from user identifier");
                     } else {
                         // password changed so reset it
                         user.setPwdReset(true);
-                        Log.info(Geonet.PRIVILEGES, "!##### Password = <" + user.getPassword() + "> User name= <" + user.getUsername() + " - " + user.getName() + " - " + user.getId());
                     }
                 }
 
