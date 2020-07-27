@@ -170,6 +170,9 @@ public class OpenWISMailFactory {
         return buildUserMail(context, subject, destinations, EmailTemplate.PASSWORD_EXPIRE_NOTIFICATION_TEMPLATE, contentVars);
     }
 
+    public static OpenWISMail buildExtendProvilegesMail(ServiceContext context, String subject, Map<String,Object> contextVars) {
+        return buildAdminMail(context, subject, EmailTemplate.EXTEND_PRIVILEGES_TEMPLATE, contextVars);
+    }
     /**
      * Return a new password expire notification mail
      * @param context service context

@@ -68,6 +68,8 @@ public class EmailTemplate {
      */
     public static final String SUBSCRIPTION_NOTIFICATION_TEMPLATE = "subscription-notification.html";
 
+    public static final String EXTEND_PRIVILEGES_TEMPLATE = "extends-privileges.html";
+
     /**
      * Templates location
      */

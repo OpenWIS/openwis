@@ -4,7 +4,9 @@
 package org.openwis.metadataportal.services.privileges;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jeeves.interfaces.Service;
 import jeeves.server.ServiceConfig;
@@ -22,6 +24,8 @@ import org.openwis.metadataportal.services.common.json.SimpleStringDTO;
 import org.openwis.metadataportal.services.login.LoginConstants;
 import org.openwis.metadataportal.services.util.MailUtilities;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
+import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
+import org.openwis.metadataportal.services.util.mail.OpenWISMailFactory;
 
 /**
  * Extends UsePrivileges service. <P>
@@ -55,18 +59,18 @@ public class ExtendsPrivileges implements Service {
       Log.info(Geonet.PRIVILEGES, "Privilege Extension request: from " + username + "; message: " + msg.getContent());
       //Send Mail To User
       String subject = OpenWISMessages.format("ExtendsPrivileges.subject", context.getLanguage(), username);
-      String content = getContent(username, firstname,
-            lastname, msg.getContent(), context.getLanguage());
 
-      String from = context.getUserSession().getMail();
-      Log.debug(Geonet.PRIVILEGES, " from : " + from);
-      
-      MailUtilities mail = new MailUtilities();
-      boolean result = mail.sendMail( subject, from, new String[]{from},content);
+      Map<String,Object> mailContent = new HashMap<>();
+      mailContent.put("firstname", firstname);
+      mailContent.put("lastname", lastname);
+      mailContent.put("username", username);
+      mailContent.put("product", msg.getContent());
+      IOpenWISMail mail = OpenWISMailFactory.buildExtendProvilegesMail(context,subject,mailContent);
+      boolean result = new MailUtilities().send(mail);
       
       if (!result) {
          acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("ExtendsPrivileges.error", context.getLanguage()));
-         Log.error(Geonet.PRIVILEGES, "Privilege Extension: Error while sending email to feedback email " + from);
+         Log.error(Geonet.PRIVILEGES, "Privilege Extension: Error while sending email to feedback email." );
       } else {
          Log.info(Geonet.PRIVILEGES, "Privilege Extension: successfully requested");
       }
