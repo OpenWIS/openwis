@@ -1072,6 +1072,12 @@
             <groupId>org.mapfish.print</groupId>
             <artifactId>print-lib</artifactId>
             <version>1.2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jyaml</groupId>
+                    <artifactId>jyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
