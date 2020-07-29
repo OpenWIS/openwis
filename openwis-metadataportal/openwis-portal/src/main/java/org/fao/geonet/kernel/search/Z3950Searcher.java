@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -263,7 +264,11 @@ public class Z3950Searcher extends MetaSearcher {
                            + ".html";
                      File outHtmlFile = new File(filename);
                      try {
-                        Transformer xformer = TransformerFactory.newInstance().newTransformer();
+                        TransformerFactory factory = TransformerFactory.newInstance();
+                        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+                        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+                        Transformer xformer = factory.newTransformer();
+
                         xformer.setOutputProperty(OutputKeys.METHOD, "text");
                         Source source = new DOMSource(dochtml);
                         Result result = new StreamResult(outHtmlFile.toURI().getPath());
