@@ -217,7 +217,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-				<version>4.0.0.RELEASE</version>
+				<version>4.3.5.RELEASE</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
@@ -369,9 +369,9 @@
 
 			<!-- db -->
 			<dependency>
-				<groupId>postgresql</groupId>
+				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>8.4-701.jdbc4</version>
+				<version>42.2.14</version>
 			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
