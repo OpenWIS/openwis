@@ -49,94 +49,88 @@ import org.jdom.Element;
 
 //=============================================================================
 
-/** Removes a metadata from the system
-  */
+/**
+ * Removes a metadata from the system
+ */
 
-public class Delete implements Service
-{
-	public void init(String appPath, ServiceConfig params) throws Exception {}
+public class Delete implements Service {
+    public void init(String appPath, ServiceConfig params) throws Exception {
+    }
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Service
-	//---
-	//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //---
+    //--- Service
+    //---
+    //--------------------------------------------------------------------------
 
-	public Element exec(Element params, ServiceContext context) throws Exception
-	{
-		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-		DataManager   dataMan   = gc.getDataManager();
-		Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
-		AccessManager accessMan = new AccessManager(dbms);
+    public Element exec(Element params, ServiceContext context) throws Exception {
+        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+        DataManager dataMan = gc.getDataManager();
+        Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
+        AccessManager accessMan = new AccessManager(dbms);
 
-		String id = Utils.getIdentifierFromParameters(params, context);
-		
-		//-----------------------------------------------------------------------
-		//--- check access
+        String id = Utils.getIdentifierFromParameters(params, context);
 
-		MdInfo info = dataMan.getMetadataInfo(dbms, id);
+        //-----------------------------------------------------------------------
+        //--- check access
 
-		if (info == null)
-			throw new IllegalArgumentException("Metadata not found --> " + id);
+        MdInfo info = dataMan.getMetadataInfo(dbms, id);
 
-		if (!accessMan.canEdit(context, id))
-			throw new OperationNotAllowedEx();
+        if (info == null)
+            throw new IllegalArgumentException("Metadata not found --> " + id);
 
-		//-----------------------------------------------------------------------
-		//--- backup metadata in 'removed' folder
+        if (!accessMan.canEdit(context, id))
+            throw new OperationNotAllowedEx();
 
-		if (info.template != MdInfo.Template.SUBTEMPLATE)
-			backupFile(context, id, info.uuid, MEFLib.doExport(context, info.uuid, "full", false));
+        //-----------------------------------------------------------------------
+        //--- backup metadata in 'removed' folder
 
-		//-----------------------------------------------------------------------
-		//--- remove the public and private directories
-		// FIXME ? Is there any reason to keep the metadata directory
-		// and only remove public and private sub dir ?
-		
-		File pb = new File(Lib.resource.getDir(context, Params.Access.PUBLIC, id));
-		FileCopyMgr.removeDirectoryOrFile(pb);
-		File pr = new File(Lib.resource.getDir(context, Params.Access.PRIVATE, id));
-		FileCopyMgr.removeDirectoryOrFile(pr);
+        if (info.template != MdInfo.Template.SUBTEMPLATE)
+            backupFile(context, id, info.uuid, MEFLib.doExport(context, info.uuid, "full", false));
 
-		//-----------------------------------------------------------------------
-		//--- delete metadata and return status
+        //-----------------------------------------------------------------------
+        //--- remove the public and private directories
+        // FIXME ? Is there any reason to keep the metadata directory
+        // and only remove public and private sub dir ?
 
-		dataMan.deleteMetadataById(dbms, id);
+        File pb = new File(Lib.resource.getDir(context, Params.Access.PUBLIC, id));
+        FileCopyMgr.removeDirectoryOrFile(pb);
+        File pr = new File(Lib.resource.getDir(context, Params.Access.PRIVATE, id));
+        FileCopyMgr.removeDirectoryOrFile(pr);
 
-		Element elResp = new Element(Jeeves.Elem.RESPONSE);
-		elResp.addContent(new Element(Geonet.Elem.ID).setText(id));
+        //-----------------------------------------------------------------------
+        //--- delete metadata and return status
 
-		return elResp;
-	}
+        dataMan.deleteMetadataById(dbms, id);
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Private methods
-	//---
-	//--------------------------------------------------------------------------
+        Element elResp = new Element(Jeeves.Elem.RESPONSE);
+        elResp.addContent(new Element(Geonet.Elem.ID).setText(id));
 
-	private void backupFile(ServiceContext context, String id, String uuid, String file)
-	{
-		String outDir = Lib.resource.getRemovedDir(context, id);
-		String outFile= outDir + uuid +".mef";
+        return elResp;
+    }
 
-		new File(outDir).mkdirs();
+    //--------------------------------------------------------------------------
+    //---
+    //--- Private methods
+    //---
+    //--------------------------------------------------------------------------
 
-		try
-		{
-			FileInputStream  is = new FileInputStream(file);
-			FileOutputStream os = new FileOutputStream(outFile);
+    private void backupFile(ServiceContext context, String id, String uuid, String file) {
+        String outDir = Lib.resource.getRemovedDir(context, id);
+        String outFile = outDir + uuid + ".mef";
 
-			BinaryFile.copy(is, os, true, true);
-		}
-		catch(Exception e)
-		{
-			context.warning("Cannot backup mef file : "+e.getMessage());
-			e.printStackTrace();
-		}
+        new File(outDir).mkdirs();
 
-		new File(file).delete();
-	}
+        try (FileInputStream is = new FileInputStream(file)) {
+            FileOutputStream os = new FileOutputStream(outFile);
+            BinaryFile.copy(is, os, true, true);
+        } catch (Exception e) {
+            context.warning("Cannot backup mef file : " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        new File(file).delete();
+    }
 }
 
 //=============================================================================

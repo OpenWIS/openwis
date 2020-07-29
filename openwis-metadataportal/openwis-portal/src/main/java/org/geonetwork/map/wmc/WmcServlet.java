@@ -93,7 +93,7 @@ public class WmcServlet extends HttpServlet {
 
             addTempFile(tempFile, id);
 
-        // Method call: Load Web Map Context
+            // Method call: Load Web Map Context
         } else if (additionalPath.equals(LOAD_URL)) {
 
             response.setContentType("text/html");
@@ -108,7 +108,7 @@ public class WmcServlet extends HttpServlet {
                 return;
             }
 
-             try {
+            try {
                 // Create a factory for disk-based file items
                 FileItemFactory factory = new DiskFileItemFactory();
 
@@ -130,29 +130,27 @@ public class WmcServlet extends HttpServlet {
                         //create a temporary file that will contain the WMC
                         TempFile tempFile = new TempFile(File.createTempFile(TEMP_FILE_PREFIX, TEMP_FILE_SUFFIX, getTempDir()));
                         final String id = generateId(tempFile);
-                        try {
-                            FileWriter fw = new FileWriter(tempFile);
+                        try (FileWriter fw = new FileWriter(tempFile)) {
                             fw.write(new String(data));
                             fw.close();
                             out.write("{success: true, url: '" + getBaseUrl(request) + "/" + id + TEMP_FILE_SUFFIX + "'}");
-
                         } catch (IOException e) {
                             deleteFile(tempFile);
                             out.write("{success: false, error: '" + e.getMessage() + "'}");
 
                         }
                         addTempFile(tempFile, id);
-                        
+
                         break;
                     }
                 }
 
             } catch (Exception e) {
-               out.write("{success: false, error: '" + e.getMessage() + "'}");
+                out.write("{success: false, error: '" + e.getMessage() + "'}");
             }
 
 
-        // Unknow method call
+            // Unknow method call
         } else {
             out.write("{success: false, error: 'Unknown method: '" + additionalPath + "'}");
             //error(response, "Unknown method: " + additionalPath, 404);
@@ -208,11 +206,10 @@ public class WmcServlet extends HttpServlet {
 
         //create a temporary file that will contain the WMC
         TempFile tempFile = new TempFile(File.createTempFile(TEMP_FILE_PREFIX, TEMP_FILE_SUFFIX, getTempDir()));
-        try {
+        try (FileWriter fw = new FileWriter(tempFile)) {
             String wmcContent = RequestUtil.inputStreamAsString(httpServletRequest);
             wmcContent = XML_HEADER + "\n" + wmcContent;
 
-            FileWriter fw = new FileWriter(tempFile);
             fw.write(wmcContent);
             fw.close();
 
@@ -228,13 +225,14 @@ public class WmcServlet extends HttpServlet {
      * copy the WMC into the output stream
      */
     protected void sendWmcFile(HttpServletResponse httpServletResponse, File tempFile) throws IOException {
-        FileInputStream pdf = new FileInputStream(tempFile);
-        final OutputStream response = httpServletResponse.getOutputStream();
-        httpServletResponse.setContentType(WMC_CONTENT_TYPE);
-        httpServletResponse.setHeader("Content-disposition", "attachment; filename=" + tempFile.getName());
-        FileUtilities.copyStream(pdf, response);
-        pdf.close();
-        response.close();
+        try(FileInputStream pdf = new FileInputStream(tempFile)) {
+            final OutputStream response = httpServletResponse.getOutputStream();
+            httpServletResponse.setContentType(WMC_CONTENT_TYPE);
+            httpServletResponse.setHeader("Content-disposition", "attachment; filename=" + tempFile.getName());
+            FileUtilities.copyStream(pdf, response);
+            pdf.close();
+            response.close();
+        }
     }
 
     /**

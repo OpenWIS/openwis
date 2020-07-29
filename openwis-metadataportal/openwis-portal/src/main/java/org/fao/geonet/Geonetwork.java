@@ -1008,11 +1008,11 @@ public class Geonetwork implements ApplicationHandler {
      * @param nodeUuid
      */
     private void createSiteLogo(String nodeUuid) {
-        try {
+        try(FileInputStream is = new FileInputStream(path + "/images/logos/dummy.gif");
+            FileOutputStream os = new FileOutputStream(path + "/images/logos/" + nodeUuid + ".gif");
+        ) {
             File logo = new File(path + "/images/logos/" + nodeUuid + ".gif");
             if (!logo.exists()) {
-                FileInputStream is = new FileInputStream(path + "/images/logos/dummy.gif");
-                FileOutputStream os = new FileOutputStream(path + "/images/logos/" + nodeUuid + ".gif");
                 logger.info("      Setting catalogue logo for current node identified by: " + nodeUuid);
                 BinaryFile.copy(is, os, true, true);
             }

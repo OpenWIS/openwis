@@ -213,7 +213,7 @@ public class HarvesterRunnable implements Runnable {
          Log.error(
                Geonet.HARVESTER_EXECUTOR,
                MessageFormat.format("Error during harvesting task {0} ({1}) : {2}",
-                     harvestingTask.getName(), harvestingTask.getId()), e2);
+                     harvestingTask.getName(), harvestingTask.getId(), e2));
          //Abort connection.
          try {
             context.getResourceManager().abort();

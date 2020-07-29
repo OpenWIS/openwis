@@ -41,82 +41,50 @@ import java.util.HashSet;
 
 public class MakeISO
 {
-	public static void main(String args[]) throws Exception
-	{
+	public static void main(String args[]) throws Exception {
 		// check args
-		if (args.length != 1)
-		{
+		if (args.length != 1) {
 			System.err.println("usage: makeISO file");
 			System.exit(1);
 		}
 
-		FileInputStream  is = new FileInputStream(new File(args[0]));
-		FileOutputStream os = new FileOutputStream(new File(args[0]+".sql"));
+		try (
+				FileInputStream is = new FileInputStream(new File(args[0]));
+				FileOutputStream os = new FileOutputStream(new File(args[0] + ".sql"))) {
 
-		BufferedReader ir = new BufferedReader(new InputStreamReader(is));
-//		BufferedWriter ow = new BufferedWriter(new OutputStreamWriter(os));
+			BufferedReader ir = new BufferedReader(new InputStreamReader(is));
+			String line;
 
-		String line;
+			Element root = new Element("mapping");
 
-//		DbmsPool pool = Util.getDbmsPool("../config.xml");
-//		Dbms     dbms = (Dbms)pool.open();
+			HashSet<String> set = new HashSet<String>();
 
-		Element root = new Element("mapping");
+			while ((line = ir.readLine()) != null) {
+				FullTokenizer ft = new FullTokenizer(line, "|");
+				String longCode = ft.nextToken();
+				ft.nextToken();
+				String shortCode = ft.nextToken();
 
-		HashSet<String> set = new HashSet<String>();
+				if (shortCode.length() == 2) {
+					if (set.contains(shortCode))
+						System.out.println("Skipped short code : " + shortCode);
+					else {
+						set.add(shortCode);
 
-		while ((line = ir.readLine()) != null)
-		{
-			FullTokenizer ft = new FullTokenizer(line, "|");
-
-//			String code = ft.nextToken();
-//			ft.nextToken();
-//			ft.nextToken();
-//			String engDes = ft.nextToken().trim();
-//			String fraDes = ft.nextToken().trim();
-
-//			ow.write("INSERT INTO IsoLanguages(id, code) VALUES ("+ id +",\""+ code +"\");\n");
-//			ow.write("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES ("+ id +",\"en\", \""+up(engDes)+"\");\n");
-//			ow.write("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES ("+ id +",\"es\", \""+up(engDes)+"\");\n");
-//			ow.write("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES ("+ id +",\"cn\", \""+up(engDes)+"\");\n");
-//			ow.write("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES ("+ id +",\"fr\", \""+up(fraDes)+"\");\n");
-//			ow.write("\n");
-
-//			dbms.execute("INSERT INTO IsoLanguages(id, code) VALUES (?,?)", id, code);
-//			dbms.execute("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES (?,?,?)", id, "en", up(engDes));
-//			dbms.execute("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES (?,?,?)", id, "es", up(engDes));
-//			dbms.execute("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES (?,?,?)", id, "cn", up(engDes));
-//			dbms.execute("INSERT INTO IsoLanguagesDes(idDes, langId, label) VALUES (?,?,?)", id, "fr", up(fraDes));
-//			dbms.commit();
-
-			String longCode = ft.nextToken();
-			ft.nextToken();
-			String shortCode = ft.nextToken();
-
-			if (shortCode.length() == 2)
-			{
-				if (set.contains(shortCode))
-					System.out.println("Skipped short code : "+shortCode);
-				else
-				{
-					set.add(shortCode);
-
-					Element elem = new Element("map");
-					elem.setAttribute("longCode",  longCode);
-					elem.setAttribute("shortCode", shortCode);
-					root.addContent(elem);
+						Element elem = new Element("map");
+						elem.setAttribute("longCode", longCode);
+						elem.setAttribute("shortCode", shortCode);
+						root.addContent(elem);
+					}
 				}
 			}
-//			id++;
+
+			String xml = Xml.getString(new Document(root));
+			try (BufferedWriter ow = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"))) {
+				ow.write(xml);
+			}
+			ir.close();
 		}
-
-		String xml = Xml.getString(new Document(root));
-		BufferedWriter ow = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-		ow.write(xml);
-
-//		pool.close(dbms);
-		ir.close();
-		ow.close();
 	}
 
 }

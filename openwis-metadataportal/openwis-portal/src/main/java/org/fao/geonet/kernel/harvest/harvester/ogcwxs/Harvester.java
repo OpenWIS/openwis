@@ -756,8 +756,9 @@ class Harvester {
          if (result == 200) {
             // Save image document to temp directory
             // TODO: Check OGC exception
-            OutputStream fo = new FileOutputStream(dir + filename);
-            BinaryFile.copy(req.getResponseBodyAsStream(), fo, true, true);
+            try (OutputStream fo = new FileOutputStream(dir + filename)) {
+               BinaryFile.copy(req.getResponseBodyAsStream(), fo, true, true);
+            }
          } else {
             log.info(" Http error connecting");
             return null;

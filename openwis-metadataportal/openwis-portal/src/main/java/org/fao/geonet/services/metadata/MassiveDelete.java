@@ -52,107 +52,101 @@ import org.jdom.Element;
 
 //=============================================================================
 
-/** Removes a metadata from the system
-  */
+/**
+ * Removes a metadata from the system
+ */
 
-public class MassiveDelete implements Service
-{
-	public void init(String appPath, ServiceConfig params) throws Exception {}
+public class MassiveDelete implements Service {
+    public void init(String appPath, ServiceConfig params) throws Exception {
+    }
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Service
-	//---
-	//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    //---
+    //--- Service
+    //---
+    //--------------------------------------------------------------------------
 
-	public Element exec(Element params, ServiceContext context) throws Exception
-	{
-		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
-		DataManager   dataMan   = gc.getDataManager();
-		UserSession   session   = context.getUserSession();
+    public Element exec(Element params, ServiceContext context) throws Exception {
+        GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+        DataManager dataMan = gc.getDataManager();
+        UserSession session = context.getUserSession();
 
-		Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
-		AccessManager accessMan = new AccessManager(dbms);
+        Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
+        AccessManager accessMan = new AccessManager(dbms);
 
-		Set<Integer> metadata = new HashSet<Integer>();
-		Set<Integer> notFound = new HashSet<Integer>();
-		Set<Integer> notOwner = new HashSet<Integer>();
+        Set<Integer> metadata = new HashSet<Integer>();
+        Set<Integer> notFound = new HashSet<Integer>();
+        Set<Integer> notOwner = new HashSet<Integer>();
 
-		context.info("Get selected metadata");
-		SelectionManager sm = SelectionManager.getManager(session);
+        context.info("Get selected metadata");
+        SelectionManager sm = SelectionManager.getManager(session);
 
-		synchronized(sm.getSelection("metadata")) {
-		for (Iterator<String> iter = sm.getSelection("metadata").iterator(); iter.hasNext();) {
-			String uuid = (String) iter.next();
-			String id   = dataMan.getMetadataId(dbms, uuid);
+        synchronized (sm.getSelection("metadata")) {
+            for (Iterator<String> iter = sm.getSelection("metadata").iterator(); iter.hasNext(); ) {
+                String uuid = (String) iter.next();
+                String id = dataMan.getMetadataId(dbms, uuid);
 
-			context.info("Deleting metadata with id:"+ id);
+                context.info("Deleting metadata with id:" + id);
 
-			//-----------------------------------------------------------------------
-			//--- check access
+                //-----------------------------------------------------------------------
+                //--- check access
 
-			MdInfo info = dataMan.getMetadataInfo(dbms, id);
+                MdInfo info = dataMan.getMetadataInfo(dbms, id);
 
-			if (info == null) {
-				notFound.add(new Integer(id));
-			} else if (!accessMan.isOwner(context, id)) {
-				notOwner.add(new Integer(id));
-			} else {
+                if (info == null) {
+                    notFound.add(new Integer(id));
+                } else if (!accessMan.isOwner(context, id)) {
+                    notOwner.add(new Integer(id));
+                } else {
 
-				//--- backup metadata in 'removed' folder
-				if (info.template != MdInfo.Template.SUBTEMPLATE) {
-					backupFile(context, id, info.uuid, MEFLib.doExport(context, info.uuid, "full", false));
-				}
-		
-				//--- remove the public and private directories
-				File pb = new File(Lib.resource.getDir(context, Params.Access.PUBLIC, id));
-				FileCopyMgr.removeDirectoryOrFile(pb);
-				File pr = new File(Lib.resource.getDir(context, Params.Access.PRIVATE, id));
-				FileCopyMgr.removeDirectoryOrFile(pr);
+                    //--- backup metadata in 'removed' folder
+                    if (info.template != MdInfo.Template.SUBTEMPLATE) {
+                        backupFile(context, id, info.uuid, MEFLib.doExport(context, info.uuid, "full", false));
+                    }
 
-				//--- delete metadata and return status
-				dataMan.deleteMetadataById(dbms, id);
-				metadata.add(new Integer(id));
-			}
-		}
-		}
+                    //--- remove the public and private directories
+                    File pb = new File(Lib.resource.getDir(context, Params.Access.PUBLIC, id));
+                    FileCopyMgr.removeDirectoryOrFile(pb);
+                    File pr = new File(Lib.resource.getDir(context, Params.Access.PRIVATE, id));
+                    FileCopyMgr.removeDirectoryOrFile(pr);
 
-		// -- for the moment just return the sizes - we could return the ids
-		// -- at a later stage for some sort of result display
-		return new Element(Jeeves.Elem.RESPONSE)
-			.addContent(new Element("done")    .setText(metadata.size()+""))
-			.addContent(new Element("notOwner").setText(notOwner.size()+""))
-			.addContent(new Element("notFound").setText(notFound.size()+""));
-	}
+                    //--- delete metadata and return status
+                    dataMan.deleteMetadataById(dbms, id);
+                    metadata.add(new Integer(id));
+                }
+            }
+        }
 
-	//--------------------------------------------------------------------------
-	//---
-	//--- Private methods
-	//---
-	//--------------------------------------------------------------------------
+        // -- for the moment just return the sizes - we could return the ids
+        // -- at a later stage for some sort of result display
+        return new Element(Jeeves.Elem.RESPONSE)
+                .addContent(new Element("done").setText(metadata.size() + ""))
+                .addContent(new Element("notOwner").setText(notOwner.size() + ""))
+                .addContent(new Element("notFound").setText(notFound.size() + ""));
+    }
 
-	private void backupFile(ServiceContext context, String id, String uuid, String file)
-	{
-		String outDir = Lib.resource.getRemovedDir(context, id);
-		String outFile= outDir + uuid +".mef";
+    //--------------------------------------------------------------------------
+    //---
+    //--- Private methods
+    //---
+    //--------------------------------------------------------------------------
 
-		new File(outDir).mkdirs();
+    private void backupFile(ServiceContext context, String id, String uuid, String file) {
+        String outDir = Lib.resource.getRemovedDir(context, id);
+        String outFile = outDir + uuid + ".mef";
 
-		try
-		{
-			FileInputStream  is = new FileInputStream(file);
-			FileOutputStream os = new FileOutputStream(outFile);
+        new File(outDir).mkdirs();
 
-			BinaryFile.copy(is, os, true, true);
-		}
-		catch(Exception e)
-		{
-			context.warning("Cannot backup mef file : "+e.getMessage());
-			e.printStackTrace();
-		}
+        try (FileInputStream is = new FileInputStream(file)) {
+            FileOutputStream os = new FileOutputStream(outFile);
+            BinaryFile.copy(is, os, true, true);
+        } catch (Exception e) {
+            context.warning("Cannot backup mef file : " + e.getMessage());
+            e.printStackTrace();
+        }
 
-		new File(file).delete();
-	}
+        new File(file).delete();
+    }
 }
 
 //=============================================================================

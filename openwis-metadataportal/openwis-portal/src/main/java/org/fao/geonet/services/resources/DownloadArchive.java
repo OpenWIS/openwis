@@ -175,94 +175,91 @@ public class DownloadArchive implements Service {
 
       // set up zip output stream
       File zFile = File.createTempFile(username + "_" + info.uuid, ".zip");
-      ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zFile));
+      try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zFile))) {
 
-      //--- because often content has already been compressed
-      out.setLevel(Deflater.NO_COMPRESSION);
+         //--- because often content has already been compressed
+         out.setLevel(Deflater.NO_COMPRESSION);
 
-      //--- now add the files chosen from the interface and record in 'downloaded'
-      Element downloaded = new Element("downloaded");
-      File dir = new File(Lib.resource.getDir(context, access, id));
+         //--- now add the files chosen from the interface and record in 'downloaded'
+         Element downloaded = new Element("downloaded");
+         File dir = new File(Lib.resource.getDir(context, access, id));
 
-      List files = params.getChildren(Params.FNAME);
-      for (Object o : files) {
-         Element elem = (Element) o;
-         String fname = elem.getText();
+         List files = params.getChildren(Params.FNAME);
+         for (Object o : files) {
+            Element elem = (Element) o;
+            String fname = elem.getText();
 
-         File file = new File(dir, fname);
-         if (!file.exists())
-            throw new ResourceNotFoundEx(file.getAbsolutePath());
+            File file = new File(dir, fname);
+            if (!file.exists())
+               throw new ResourceNotFoundEx(file.getAbsolutePath());
 
-         Element fileInfo = new Element("file");
+            Element fileInfo = new Element("file");
 
-         Element details = BinaryFile.encode(200, file.getAbsolutePath(), false);
-         String remoteURL = details.getAttributeValue("remotepath");
-         if (remoteURL != null) {
-            context.debug("Downloading " + remoteURL + " to archive " + zFile.getName());
-            fileInfo.setAttribute("size", "unknown");
-            fileInfo.setAttribute("datemodified", "unknown");
-            fileInfo.setAttribute("name", remoteURL);
-            notifyAndLog(doNotify, id, info.uuid, access, username, remoteURL + " (local config: "
-                  + file.getAbsolutePath() + ")", context);
-            fname = details.getAttributeValue("remotefile");
-         } else {
-            context.debug("Writing " + fname + " to archive " + zFile.getName());
-            fileInfo.setAttribute("size", file.length() + "");
-            fileInfo.setAttribute("name", fname);
-            Date date = new Date(file.lastModified());
-            fileInfo.setAttribute("datemodified", sdf.format(date));
-            notifyAndLog(doNotify, id, info.uuid, access, username, file.getAbsolutePath(), context);
+            Element details = BinaryFile.encode(200, file.getAbsolutePath(), false);
+            String remoteURL = details.getAttributeValue("remotepath");
+            if (remoteURL != null) {
+               context.debug("Downloading " + remoteURL + " to archive " + zFile.getName());
+               fileInfo.setAttribute("size", "unknown");
+               fileInfo.setAttribute("datemodified", "unknown");
+               fileInfo.setAttribute("name", remoteURL);
+               notifyAndLog(doNotify, id, info.uuid, access, username, remoteURL + " (local config: "
+                       + file.getAbsolutePath() + ")", context);
+               fname = details.getAttributeValue("remotefile");
+            } else {
+               context.debug("Writing " + fname + " to archive " + zFile.getName());
+               fileInfo.setAttribute("size", file.length() + "");
+               fileInfo.setAttribute("name", fname);
+               Date date = new Date(file.lastModified());
+               fileInfo.setAttribute("datemodified", sdf.format(date));
+               notifyAndLog(doNotify, id, info.uuid, access, username, file.getAbsolutePath(), context);
+            }
+            addFile(out, file.getAbsolutePath(), details, fname);
+            downloaded.addContent(fileInfo);
          }
-         addFile(out, file.getAbsolutePath(), details, fname);
-         downloaded.addContent(fileInfo);
+
+         //--- get metadata
+         Element elMd = dm.getMetadata(context, id, false);
+         if (elMd == null)
+            throw new MetadataNotFoundEx("Metadata not found - deleted?");
+
+         //--- transform record into brief version
+         String briefXslt = stylePath + Geonet.File.METADATA_BRIEF;
+         Element elBrief = Xml.transform(elMd, briefXslt);
+
+         //--- create root element for passing all the info we've gathered
+         //--- to license annex xslt generator
+         Element root = new Element("root");
+         elBrief.setAttribute("changedate", info.changeDate);
+         elBrief.setAttribute("currdate", now());
+         root.addContent(elBrief);
+         root.addContent(downloaded);
+         root.addContent(entered);
+         root.addContent(userDetails);
+         context.debug("Passed to metadata-license-annex.xsl:\n " + Xml.getString(root));
+
+         //--- create the license annex html file using the info in root element and
+         //--- add it to the zip stream
+         String licenseAnnexXslt = stylePath + Geonet.File.LICENSE_ANNEX_XSL;
+         File licenseAnnex = File.createTempFile(username + "_" + info.uuid, ".annex");
+         FileOutputStream las = new FileOutputStream(licenseAnnex);
+         Xml.transform(root, licenseAnnexXslt, las);
+         las.close();
+         InputStream in = new FileInputStream(licenseAnnex);
+         addFile(out, Geonet.File.LICENSE_ANNEX, in);
+         in.close();
+
+         //--- if a license is specified include any license files mirrored locally
+         //--- for inclusion
+         includeLicenseFiles(context, out, root);
+
+         //--- export the metadata as a partial mef/zip file and add that to the zip
+         //--- stream FIXME: some refactoring required here to avoid metadata
+         //--- being read yet again(!) from the database by the MEF exporter
+         String outmef = MEFLib.doExport(context, info.uuid, MEFLib.Format.PARTIAL.toString(), false);
+         in = new FileInputStream(outmef);
+         addFile(out, "metadata.zip", in);
+         in.close();
       }
-
-      //--- get metadata
-      Element elMd = dm.getMetadata(context, id, false);
-      if (elMd == null)
-         throw new MetadataNotFoundEx("Metadata not found - deleted?");
-
-      //--- transform record into brief version
-      String briefXslt = stylePath + Geonet.File.METADATA_BRIEF;
-      Element elBrief = Xml.transform(elMd, briefXslt);
-
-      //--- create root element for passing all the info we've gathered
-      //--- to license annex xslt generator
-      Element root = new Element("root");
-      elBrief.setAttribute("changedate", info.changeDate);
-      elBrief.setAttribute("currdate", now());
-      root.addContent(elBrief);
-      root.addContent(downloaded);
-      root.addContent(entered);
-      root.addContent(userDetails);
-      context.debug("Passed to metadata-license-annex.xsl:\n " + Xml.getString(root));
-
-      //--- create the license annex html file using the info in root element and
-      //--- add it to the zip stream
-      String licenseAnnexXslt = stylePath + Geonet.File.LICENSE_ANNEX_XSL;
-      File licenseAnnex = File.createTempFile(username + "_" + info.uuid, ".annex");
-      FileOutputStream las = new FileOutputStream(licenseAnnex);
-      Xml.transform(root, licenseAnnexXslt, las);
-      las.close();
-      InputStream in = new FileInputStream(licenseAnnex);
-      addFile(out, Geonet.File.LICENSE_ANNEX, in);
-      in.close();
-
-      //--- if a license is specified include any license files mirrored locally
-      //--- for inclusion
-      includeLicenseFiles(context, out, root);
-
-      //--- export the metadata as a partial mef/zip file and add that to the zip
-      //--- stream FIXME: some refactoring required here to avoid metadata
-      //--- being read yet again(!) from the database by the MEF exporter
-      String outmef = MEFLib.doExport(context, info.uuid, MEFLib.Format.PARTIAL.toString(), false);
-      in = new FileInputStream(outmef);
-      addFile(out, "metadata.zip", in);
-      in.close();
-
-      //--- now close the zip file and send it out
-      if (out != null)
-         out.close();
       return BinaryFile.encode(200, zFile.getAbsolutePath(), true);
 
    }
