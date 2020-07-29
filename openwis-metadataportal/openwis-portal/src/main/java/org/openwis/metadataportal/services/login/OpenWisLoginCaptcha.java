@@ -61,6 +61,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
                 response.setStatus(307); //this makes the redirection keep your requesting method as is.
                 response.addHeader("Location", baseUrl );
                 Cookie cookie = new Cookie("OpenWISInitToken", initToken);
+                cookie.setHttpOnly(true);
                 response.addCookie(cookie);
             }
             else {
