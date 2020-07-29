@@ -23,6 +23,7 @@
 
 package org.fao.geonet.services.register;
 
+import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class SelfRegister implements Service {
 
 	private static final String PROFILE = "RegisteredUser";
 	private static final String PROTOCOL = "smtp";
-
+	private final Random random = new SecureRandom();
 	// --------------------------------------------------------------------------
 	// ---
 	// --- Init
@@ -273,7 +274,6 @@ public class SelfRegister implements Service {
 	 * Get init password.
 	 */
 	String getInitPassword() {
-		Random random = new Random();
 		String password = "";
 		String rand = "";
 		char c = 'a';

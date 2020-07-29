@@ -23,6 +23,7 @@
 
 package org.fao.geonet.guiservices.metadata;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
@@ -66,6 +67,7 @@ public class GetRandom implements Service {
    private long _lastUpdateTime;
 
    private ServiceConfig _config;
+   private final Random rnd = new SecureRandom();
 
    //--------------------------------------------------------------------------
    //---
@@ -127,7 +129,6 @@ public class GetRandom implements Service {
 
          _response = new Element("response");
          for (int i = 0; i < _maxItems && results.size() > 1; i++) {
-            Random rnd = new Random();
             int r = rnd.nextInt(results.size() - 1) + 1; // skip summary
 
             Element mdInfo = (Element) results.remove(r);

@@ -929,9 +929,8 @@ class Harvester
 		} catch (Exception e) {
 		log.debug("Caught exception "+e+" whilst attempting to query URL "+href);
 			e.printStackTrace();
-		} finally {
-			return result;
 		}
+		return result;
 	}
 
 
