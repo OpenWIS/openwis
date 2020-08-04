@@ -3,18 +3,19 @@
  */
 package org.openwis.metadataportal.model.user;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonSetter;
 import org.openwis.metadataportal.model.group.Group;
 import org.openwis.securityservice.ClassOfService;
+import org.openwis.securityservice.InetUserStatus;
 import org.openwis.securityservice.OpenWISEmail;
 import org.openwis.securityservice.OpenWISFTP;
-import org.openwis.securityservice.InetUserStatus;
 
-import java.time.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -102,6 +103,7 @@ public class User {
     /**
      * 2FA secret key
      */
+    @JsonIgnore
     private String secretKey;
 
     @JsonIgnore
@@ -234,18 +236,41 @@ public class User {
         this.emails = emails;
     }
 
-    /**
-     * Gets the ftps.
-     * @return the ftps.
-     */
+    @JsonIgnore
     public List<OpenWISFTP> getFtps() {
         return ftps;
+    }
+    /**
+     * FIX: 04/08/20 Remove ftp passwords before serialization
+     * @return the ftps.
+     */
+    @JsonProperty("ftps")
+    @JsonGetter("ftps")
+    public List<OpenWISFTP> getSecureFtps() {
+        // clone the list of ftps
+        List<OpenWISFTP> clones = new ArrayList<OpenWISFTP>();
+        for (OpenWISFTP ftp: ftps) {
+            OpenWISFTP clone = new OpenWISFTP();
+            clone.setHost(ftp.getHost());
+            clone.setPath(ftp.getPath());
+            clone.setUser(ftp.getUser());
+            clone.setPassword(ftp.getPassword().replaceAll(".","*"));
+            clone.setFileName(ftp.getFileName());
+            clone.setPort(ftp.getPort());
+            clone.setPassive(ftp.isPassive());
+            clone.setEncrypted(ftp.isEncrypted());
+            clone.setCheckFileSize(ftp.isCheckFileSize());
+            clone.setDisseminationTool(ftp.getDisseminationTool());
+            clones.add(clone);
+        }
+        return clones;
     }
 
     /**
      * Sets the ftps.
      * @param ftps the ftps to set.
      */
+    @JsonSetter("ftps")
     public void setFtps(List<OpenWISFTP> ftps) {
         this.ftps = ftps;
     }
