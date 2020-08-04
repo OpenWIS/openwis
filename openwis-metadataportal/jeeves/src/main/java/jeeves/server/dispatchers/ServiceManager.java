@@ -25,19 +25,12 @@ package jeeves.server.dispatchers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import jeeves.constants.ConfigFile;
 import jeeves.constants.Jeeves;
-import jeeves.exceptions.JeevesException;
-import jeeves.exceptions.ServiceNotAllowedEx;
-import jeeves.exceptions.ServiceNotFoundEx;
-import jeeves.exceptions.ServiceNotMatchedEx;
+import jeeves.exceptions.*;
 import jeeves.interfaces.Service;
 import jeeves.server.ProfileManager;
 import jeeves.server.ServiceConfig;
@@ -172,12 +165,16 @@ public class ServiceManager {
         String match = srv.getAttributeValue(ConfigFile.Service.Attr.MATCH);
         String sheet = srv.getAttributeValue(ConfigFile.Service.Attr.SHEET);
         String cache = srv.getAttributeValue(ConfigFile.Service.Attr.CACHE);
+        String methods = srv.getAttributeValue(ConfigFile.Service.Attr.METHODS);
+        String contentTypeHeader = srv.getAttributeValue(ConfigFile.Service.Attr.CONTENT_TYPE_HEADER);
 
         ServiceInfo si = new ServiceInfo(appPath);
 
         si.setMatch(match);
         si.setSheet(sheet);
         si.setCache(cache);
+        si.setMethods(methods);
+        si.setContentType(contentTypeHeader);
 
         ArrayList<ServiceInfo> al = htServices.get(name);
 
@@ -443,6 +440,27 @@ public class ServiceManager {
                     throw new ServiceNotAllowedEx(srvName);
                 }
 
+                // Fix: 04/08/2020
+                // Check if request methods is found in allowed methods. Throw wrong methods error
+                boolean hasMethod = srvInfo.getMethods().stream().anyMatch(m -> m.equals(req.getMethod().toLowerCase()));
+                if (!hasMethod) {
+                    error("Method not allowed: " + req.getInputMethod().name());
+                    throw new MethodNotAllowedEx(req.getInputMethod().name());
+                }
+
+                // FIx: 04/08/2020 Cosmin TUPANGIU
+                // Check content type header. If the service was defined without contentType attribute accepts everything, otherwise check is the content type is allowed
+                boolean contentMismatch = false;
+                if (srvInfo.getContentType().size() > 0) {
+                    // loop through service allowed content types to see if you find request content type
+                    contentMismatch = srvInfo.getContentType().stream().noneMatch(t -> t.equals(req.getInputMethod().name().toLowerCase()));
+                }
+
+                if (contentMismatch) {
+                    error("Bad request: content type mismatch");
+                    throw new BadRequestEx("Content type mismatch", null);
+                }
+
                 long accessChecked = System.currentTimeMillis();
                 if (Log.isStatEnabled()) {
                     Log.statTime(req.getService(), "ServiceManager.dispatch", "Access check", accessChecked - contextCreated);
@@ -507,6 +525,8 @@ public class ServiceManager {
         boolean cache = (srvInfo == null) ? false : srvInfo.isCacheSet();
 
         error("Raised exception while executing service", e);
+        Element showedError = new Element("error");
+        showedError.addContent(e.getMessage());
 
         try {
             InputMethod input = req.getInputMethod();
@@ -527,7 +547,7 @@ public class ServiceManager {
                     (context.getService().startsWith("xml."))) {
                 req.setStatusCode(code);
                 req.beginStream("application/xml; charset=UTF-8", cache);
-                req.write(error);
+                req.write(showedError);
             } else {
                 //--- try to dispatch to the error output
 
@@ -544,7 +564,7 @@ public class ServiceManager {
 
                     req.setStatusCode(code);
                     req.beginStream("application/xml; charset=UTF-8", cache);
-                    req.write(error);
+                    req.write(showedError);
                 }
             }
         } catch (Exception ex) {

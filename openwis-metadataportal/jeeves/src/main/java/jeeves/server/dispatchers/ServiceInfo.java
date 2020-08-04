@@ -23,6 +23,9 @@
 
 package jeeves.server.dispatchers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import jeeves.constants.Jeeves;
@@ -43,11 +46,13 @@ public class ServiceInfo
 	private String  appPath;
 	private String  match;
 	private String  sheet;
+	private List<String> methods;
 	private boolean cache = false;
 
 	private Vector<Service> vServices= new Vector<Service>();
 	private Vector<OutputPage> vOutputs = new Vector<OutputPage>();
 	private Vector<ErrorPage> vErrors  = new Vector<ErrorPage>();
+	private List<String> contentType = new ArrayList<>();
 
 	//--------------------------------------------------------------------------
 	//---
@@ -254,6 +259,52 @@ public class ServiceInfo
 
 			throw e;
 		}
+	}
+
+	public List<String> getMethods() {
+		return methods;
+	}
+
+	public void setMethods(List<String> methods) {
+		this.methods = methods;
+	}
+
+	public void setMethods(String methods) {
+		final String DEFAULT_METHODS = "get,post";
+
+		if (methods == null) {
+			methods = DEFAULT_METHODS;
+		}
+
+		if (methods.isEmpty()) {
+			methods = DEFAULT_METHODS;
+		}
+
+		this.methods = Arrays.asList(methods.split(","));
+	}
+
+	public void setContentType(String contentType) {
+	    if (contentType == null) {
+	    	return;
+		}
+	    if (contentType.isEmpty()) {
+	    	return;
+		}
+
+		List<String> acceptedTypes = Arrays.asList(contentType.split(";"));
+		acceptedTypes.forEach(t -> {
+			if (t.contains(":")) {
+				String[] ct = t.split(":");
+				if (ct.length == 2) {
+					acceptedTypes.add(ct[1]);
+				}
+			}
+		});
+		this.contentType = acceptedTypes;
+	}
+
+	public List<String> getContentType() {
+		return contentType;
 	}
 }
 

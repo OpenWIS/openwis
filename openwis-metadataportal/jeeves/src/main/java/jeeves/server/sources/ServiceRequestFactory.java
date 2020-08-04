@@ -96,6 +96,7 @@ public final class ServiceRequestFactory {
 		srvReq.setService(extractService(url));
 		srvReq.setAddress(req.getRemoteAddr());
 		//srvReq.setOutputStream(res.getOutputStream());
+		srvReq.setMethod(req.getMethod());
 
 		// --- discover the input/output methods
 

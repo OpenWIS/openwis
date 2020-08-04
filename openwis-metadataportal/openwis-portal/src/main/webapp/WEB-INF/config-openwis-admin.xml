@@ -19,7 +19,7 @@
 			</error>
 		</service>
 
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<!-- Data Policies                                                 -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<service name="xml.datapolicy.all" type="xml">
@@ -366,7 +366,7 @@
 			</error>
 		</service>
 		
-        <service name="xml.user.save" type="xml">
+        <service name="xml.user.save" type="xml" methods="post" contentTypes="json">
             <class name=".services.user.Save"/>
             <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
                 <xml name="error" file="xml/privileges-error.xml"/>
