@@ -343,6 +343,7 @@
             <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
                 <xml name="error" file="xml/privileges-error.xml"/>
             </error>
+			<csrf name="org.openwis.metadataportal.kernel.csrf.CsfrGeneratorImpl"/>
         </service>		
 
 		<service name="xml.user.remove" type="xml">
@@ -371,6 +372,7 @@
             <error id="operation-not-allowed" sheet="error-embedded.xsl" statusCode="403">
                 <xml name="error" file="xml/privileges-error.xml"/>
             </error>
+			<csrf name="org.openwis.metadataportal.kernel.csrf.CsrfValidatorImpl"/>
         </service>
 
 		<service name="xml.user.lock" type="xml">

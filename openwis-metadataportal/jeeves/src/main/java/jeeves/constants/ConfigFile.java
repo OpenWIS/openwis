@@ -310,7 +310,8 @@ public class ConfigFile
 
 		public final class Child
 		{
-			/**
+
+            /**
 			 * Default constructor.
 			 * Builds a Child.
 			 */
@@ -319,6 +320,7 @@ public class ConfigFile
 		   public static final String CLASS  = "class";
 			public static final String OUTPUT = "output";
 			public static final String ERROR  = "error";
+			public static final String CSRF = "csrf";
 		}
 	}
 

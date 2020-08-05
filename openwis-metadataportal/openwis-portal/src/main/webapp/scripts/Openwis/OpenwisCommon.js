@@ -333,7 +333,8 @@ this.addEvents("success","failure");
 this.listeners=config.listeners;
 Openwis.Handler.Save.superclass.constructor.call(this,config)
 },proceed:function(){this.window=Ext.MessageBox.wait("Please wait...","Submitting data");
-Ext.Ajax.request({url:this.url,success:this.cbSuccessful,failure:this.cbFailure,method:"POST",headers:{"Content-Type":"application/json; charset=utf-8",Accept:"application/json; charset=utf-8"},jsonData:this.params,scope:this})
+var h=this.getHeaders();
+Ext.Ajax.request({url:this.url,success:this.cbSuccessful,failure:this.cbFailure,method:"POST",headers:h,jsonData:this.params,scope:this})
 },cbSuccessful:function(ajaxResponse){this.window.hide();
 var responseHandler=new Openwis.Data.JeevesJsonResponseHandler();
 var response=responseHandler.handleResponse(ajaxResponse);
@@ -345,6 +346,11 @@ if(response.ok){if(this.successWindow){Openwis.Utils.MessageBox.displaySuccessMs
 }},cbFailure:function(response){this.window.hide();
 Openwis.Utils.MessageBox.displayInternalError(this.fireFailureEvent,this)
 },fireFailureEvent:function(){this.fireEvent("failure")
+},getHeaders:function(){var headers={"Content-Type":"application/json; charset=utf-8",Accept:"application/json; charset=utf-8",};
+var csrf_token=Openwis.Utils.Storage.get("csrf-token");
+if(csrf_token!==null){headers["csrf-token"]=csrf_token;
+Openwis.Utils.Storage.remove("csrf-token")
+}return headers
 }});Ext.ns("Openwis.Handler");
 Openwis.Handler.Remove=Ext.extend(Ext.util.Observable,{constructor:function(config){this.url=config.url;
 if(typeof(config.params)=="number"){this.params=config.params+""
@@ -404,7 +410,9 @@ this.loadMask.show()
 }Ext.Ajax.request({url:this.url,success:this.cbSuccessful,failure:this.cbFailure,method:"POST",headers:{"Content-Type":"application/json; charset=utf-8",Accept:"application/json; charset=utf-8"},jsonData:this.params,scope:this})
 },cbSuccessful:function(ajaxResponse){if(this.useLoadMask){this.loadMask.hide()
 }var responseHandler=new Openwis.Data.JeevesJsonResponseHandler();
-var response=responseHandler.handleResponse(ajaxResponse);
+var responseHeaders=Openwis.Utils.Header.getHeaders(ajaxResponse.getAllResponseHeaders());
+if(responseHeaders.hasOwnProperty("Csrf-token")){Openwis.Utils.Storage.save("csrf-token",responseHeaders["Csrf-token"])
+}var response=responseHandler.handleResponse(ajaxResponse);
 this.fireSuccessEvent(response)
 },fireSuccessEvent:function(response){this.fireEvent("success",response)
 },cbFailure:function(response){if(this.useLoadMask){this.loadMask.hide()

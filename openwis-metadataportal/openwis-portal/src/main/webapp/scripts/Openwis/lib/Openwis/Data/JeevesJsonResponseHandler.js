@@ -6,7 +6,7 @@ Openwis.Data.JeevesJsonResponseHandler = function () {
 		var jsonData = response.responseText;
 		var format = new OpenLayers.Format.XML();
 		var xmlResponse = format.read(jsonData);
-		
+
 //		Debug 
 //		console.log(xmlResponse);
 		

@@ -42,6 +42,13 @@ Openwis.Handler.Get = Ext.extend(Ext.util.Observable, {
 		    this.loadMask.hide();
 		}
 		var responseHandler = new Openwis.Data.JeevesJsonResponseHandler();
+		var responseHeaders = Openwis.Utils.Header.getHeaders(ajaxResponse.getAllResponseHeaders());
+
+        // save crsf token if any
+        if (responseHeaders.hasOwnProperty("csrf-token")) {
+            Openwis.Utils.Storage.save("csrf-token", responseHeaders["csrf-token"]);
+        }
+
 		var response = responseHandler.handleResponse(ajaxResponse);
 		this.fireSuccessEvent(response);
 	},

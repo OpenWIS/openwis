@@ -31,6 +31,7 @@ import java.util.Vector;
 import jeeves.constants.Jeeves;
 import jeeves.interfaces.Service;
 import jeeves.server.context.ServiceContext;
+import jeeves.services.session.csrf.Csrf;
 import jeeves.utils.Log;
 import jeeves.utils.Xml;
 
@@ -47,6 +48,7 @@ public class ServiceInfo
 	private String  match;
 	private String  sheet;
 	private List<String> methods;
+	private Csrf csrfObject;
 	private boolean cache = false;
 
 	private Vector<Service> vServices= new Vector<Service>();
@@ -305,6 +307,14 @@ public class ServiceInfo
 
 	public List<String> getContentType() {
 		return contentType;
+	}
+
+	public Csrf getCsrfObject() {
+		return csrfObject;
+	}
+
+	public void setCsrfObject(Csrf csrfObject) {
+		this.csrfObject = csrfObject;
 	}
 }
 
