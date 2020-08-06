@@ -411,7 +411,7 @@ this.loadMask.show()
 },cbSuccessful:function(ajaxResponse){if(this.useLoadMask){this.loadMask.hide()
 }var responseHandler=new Openwis.Data.JeevesJsonResponseHandler();
 var responseHeaders=Openwis.Utils.Header.getHeaders(ajaxResponse.getAllResponseHeaders());
-if(responseHeaders.hasOwnProperty("Csrf-token")){Openwis.Utils.Storage.save("csrf-token",responseHeaders["Csrf-token"])
+if(responseHeaders.hasOwnProperty("csrf-token")){Openwis.Utils.Storage.save("csrf-token",responseHeaders["csrf-token"])
 }var response=responseHandler.handleResponse(ajaxResponse);
 this.fireSuccessEvent(response)
 },fireSuccessEvent:function(response){this.fireEvent("success",response)
