@@ -3,19 +3,6 @@
  */
 package org.openwis.metadataportal.services.login;
 
-import java.io.IOException;
-import java.util.*;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import jeeves.utils.Log;
-
-import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
-
 import com.google.common.base.Strings;
 import com.sun.identity.saml2.common.SAML2Constants;
 import com.sun.identity.saml2.common.SAML2Exception;
@@ -23,6 +10,18 @@ import com.sun.identity.saml2.common.SAML2Utils;
 import com.sun.identity.saml2.meta.SAML2MetaManager;
 import com.sun.identity.saml2.profile.SPCache;
 import com.sun.identity.saml2.profile.SPSSOFederate;
+import jeeves.utils.Log;
+import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
+import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
+import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Class for initialize authorization and authentication.
@@ -59,7 +58,7 @@ public class OpenWisInit extends HttpServlet {
             forwardError(request, response, "Init failed. Token error.");
         }
 
-        String idpEntityID = null;
+        String idpEntityID;
         String metaAlias = null;
         Map paramsMap = null;
         boolean isConnectingToIDP = false;
@@ -95,7 +94,7 @@ public class OpenWisInit extends HttpServlet {
                     }
                 }
 
-                idpEntityID = request.getParameter(LoginConstants.IDP_ENTITY_ID);
+                idpEntityID = OpenwisMetadataPortalConfig.getString(ConfigurationConstants.IDP_NAME);
 
                 paramsMap = SAML2Utils.getParamsMap(request);
                 // always use transient

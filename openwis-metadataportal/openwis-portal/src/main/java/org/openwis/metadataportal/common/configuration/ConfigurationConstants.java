@@ -272,4 +272,5 @@ public interface ConfigurationConstants {
     String ACCOUNT_PASSWORD_EXPIRE_TIMEUNIT = "openwis.metadataportal.account.password.expire.timeUnit";
 
     String IDP_URL = "openwis.metadataportal.idp.url";
+    String IDP_NAME = "openwis.metadataportal.idp.name";
 }
