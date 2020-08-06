@@ -9,10 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 import jeeves.server.UserSession;
 import jeeves.utils.Log;
@@ -167,18 +164,21 @@ public class OpenWisAuthorization extends HttpServlet {
          session.authenticate(null, username, sName, sSurname, sProfile, email);
 
          // Get the token.
-         String requestURL = StringUtils.remove(request.getRequestURL().toString(),
+         String getTokenURL = StringUtils.remove(request.getRequestURL().toString(),
                request.getServletPath());
-         requestURL = requestURL.concat("/openWisGetToken?token=");
-         String idpUrl = session.getProperty(LoginConstants.PREFERRED_IDP_URL)
-               + "/spGetToken.jsp?spTokenAddress=" + requestURL;
+         getTokenURL = getTokenURL.concat("/openWisGetToken");
 
          session.setProperty(LoginConstants.IS_APPLY_GROUP_EMPTY, applyGroup.isEmpty());
          
          // store language
          session.setProperty(LoginConstants.LANG, language);
 
-         response.sendRedirect(idpUrl);
+         String token = this.getTokenFromCookie(request);
+         if (!token.isEmpty()) {
+            session.setProperty(LoginConstants.TOKEN, token);
+         }
+
+         response.sendRedirect(getTokenURL);
 
       } catch (SAML2Exception e) {
          Log.error(LoginConstants.LOG, e.getMessage(), e);
@@ -273,5 +273,18 @@ public class OpenWisAuthorization extends HttpServlet {
          String message) throws ServletException, IOException {
       request.getRequestDispatcher("/srv/en/show.error?message=" + message).forward(request,
             response);
+   }
+
+   private String getTokenFromCookie(HttpServletRequest request) {
+      Cookie[] cookies = request.getCookies();
+
+      for (Cookie cookie : cookies) {
+         String name = cookie.getName();
+         if (name.equals("iPlanetDirectoryPro")) {
+            return cookie.getValue();
+         }
+      }
+
+      return "";
    }
 }
