@@ -55,6 +55,8 @@ public class OpenWisAuthorization extends HttpServlet {
       List<String> isMemberOf = new ArrayList<String>();
       boolean needLocalAccount = false;
 
+
+
       try {
          Map map = getResponseForFedlet(request, response);
          Map<String, HashSet<String>> attrs = (Map<String, HashSet<String>>) map
@@ -122,6 +124,8 @@ public class OpenWisAuthorization extends HttpServlet {
             applyGroup.clear();
          }
 
+         // Fix session fixation. Invalidate the current session and create a new one.
+         request.getSession().invalidate();
          HttpSession httpSession = request.getSession();
          Log.debug(LoginConstants.LOG, "Session id is " + httpSession.getId());
 
