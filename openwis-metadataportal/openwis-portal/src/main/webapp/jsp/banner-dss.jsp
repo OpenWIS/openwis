@@ -55,15 +55,9 @@
                         </form>
                     </div>
                 <% } else { %>
-                    <% if ("user".equals(portalType) && !context.isDebug() ) { %>
                         <div class="dss-loginDiv">
                             <a class="dss-login-ref" href="<%= locService %>/user.loginCaptcha.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login').toUpperCase())</script></a>
                     	</div>
-                    	<%} else {%>
-                        <div class="dss-loginDiv">
-                            <a class="dss-login-ref" href="<%= context.getBaseUrl() %>/openWisInit"><script type="text/javascript">document.write(Openwis.i18n('Common.Btn.Login').toUpperCase())</script></a>
-                        </div>
-                    <% } %>
                 <% } %>
             </div>
         </div>
