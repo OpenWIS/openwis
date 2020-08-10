@@ -1,13 +1,6 @@
 package org.openwis.metadataportal.services.login;
 
 import jeeves.utils.Log;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.json.JSONObject;
-import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
-import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
 
 import javax.servlet.ServletException;
@@ -29,7 +22,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 
-       handleRequest(request,response);
+        throw new ServletException("Method forbidden");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -79,7 +72,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
                               String message) throws ServletException, IOException {
 
         String baseUrl= this.getBaseUrl(request.getRequestURI());
-        String redirect = baseUrl +"/srv/en/user.loginCaptcha.get?errorMessage="+message;
+        String redirect = baseUrl +"/srv/en/show.error";
         response.setStatus(307); //this makes the redirection keep your requesting method as is.
         response.addHeader("Location", redirect);
     }
