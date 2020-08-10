@@ -4,6 +4,7 @@
 package org.openwis.metadataportal.services.user;
 
 import jeeves.interfaces.Service;
+import org.openwis.securityservice.UserManagementException_Exception;
 import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
@@ -57,10 +58,14 @@ public class ChangePassword implements Service {
       UserManager um = new UserManager(dbms);
       String username = context.getUserSession().getUsername();
 
-      // When user changes himself the password, do not force him to reset hist password again at login time
-      um.changePassword(username, password.getPassword(), false);
-
       try {
+          boolean oldPwdValid = um.verifyUserPassword(username, password.getOldPassword());
+          if (!oldPwdValid) {
+              AcknowledgementDTO badRequest = new AcknowledgementDTO(false, "Old password not valid");
+              return JeevesJsonWrapper.send(badRequest);
+          }
+          // When user changes himself the password, do not force him to reset hist password again at login time
+          um.changePassword(username, password.getPassword(), false);
          updateLastPasswordChangeTimestamp(dbms, username);
 
          // save log
@@ -74,6 +79,9 @@ public class ChangePassword implements Service {
 
       } catch (SQLException e) {
          Log.error(LoginConstants.LOG, "Error during sql requests  : " + e.getMessage());
+      } catch (UserManagementException_Exception e) {
+        Log.error(LoginConstants.LOG, "Error during changing password: " + e.getMessage());
+        return JeevesJsonWrapper.send(new AcknowledgementDTO(false,"Error during updating password"));
       }
        //Send Acknowledgement
       return JeevesJsonWrapper.send(acknowledgementDTO);

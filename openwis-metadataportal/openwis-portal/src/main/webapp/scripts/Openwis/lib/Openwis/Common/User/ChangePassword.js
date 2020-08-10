@@ -41,6 +41,8 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
                     columns: 2
                 },
                 items: [
+                    this.createLabel(Openwis.i18n('Security.User.EnterOldPwd.label')),
+                    this.getOldPasswordTextField(),
                     this.createLabel(Openwis.i18n('Security.User.EnterPswd.label')),
     		        this.getPasswordTextField(),
     		        this.createLabel(Openwis.i18n('Security.User.ConfirmPswd.label')),
@@ -82,7 +84,19 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
         }
         return this.confirmPasswordTextField;
     },
-	
+
+    getOldPasswordTextField: function() {
+        if(!this.oldPasswordTextField) {
+            this.oldPasswordTextField = new Ext.form.TextField({
+                inputType: 'password',
+                name: 'password',
+                allowBlank:false,
+                width: 150
+            });
+        }
+        return this.oldPasswordTextField;
+    },
+
 	//-- Actions implemented on Data Policy Administration.
 	
 	getChangePasswordAction: function() {
@@ -92,12 +106,14 @@ Openwis.Common.User.ChangePassword = Ext.extend(Ext.Container, {
 				scope: this,
 				handler: function() {
 				    var isValid = this.getPswdForm().getForm().isValid();
+				    var oldPassword = this.getOldPasswordTextField().getValue();
 				    var firstPassword = this.getPasswordTextField().getValue();
     				var confirmPassword = this.getConfirmPasswordTextField().getValue();
-				    if (isValid && (firstPassword == confirmPassword)) {
+				    if (isValid && (firstPassword == confirmPassword) && (oldPassword !== "") ) {
         
 				        var params = {};
         				params.password = this.getPasswordTextField().getValue();
+        				params.oldPassword = this.getOldPasswordTextField().getValue();
 					
     					var saveHandler = new Openwis.Handler.Save({
     						url: configOptions.locService+ '/xml.user.changePassword',

@@ -525,6 +525,12 @@ public class UserManagementServiceImpl implements UserManagementService {
         UtilEntry.updateEntry(modList, dn);
     }
 
+    @Override
+    public boolean verifyUserPassword(String username, String password) throws UserManagementException {
+        String dn = String.format("uid=%s,ou=People,dc=opensso,dc=java,dc=net", username);
+        return UtilEntry.verifyUserPassword(dn, password);
+    }
+
     /**
      * {@inheritDoc}
      * @see org.openwis.usermanagement.UserManagementService#initialize(java.lang.String, java.lang.String, java.lang.String, java.lang.String)

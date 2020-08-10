@@ -137,6 +137,10 @@
     <wsdl:part name="parameters" element="tns:changePassword">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="verifyUserPassword">
+    <wsdl:part name="parameters" element="tns:verifyUserPassword">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="lockUser">
     <wsdl:part name="parameters" element="tns:lockUser">
     </wsdl:part>
@@ -167,6 +171,10 @@
   </wsdl:message>
   <wsdl:message name="changePasswordResponse">
     <wsdl:part name="parameters" element="tns:changePasswordResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verifyUserPasswordResponse">
+    <wsdl:part name="parameters" element="tns:verifyUserPasswordResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="importUserResponse">
@@ -201,6 +209,14 @@
     </wsdl:output>
       <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyUserPassword">
+      <wsdl:input name="verifyUserPassword" message="tns:verifyUserPassword">
+      </wsdl:input>
+      <wsdl:output name="verifyUserPasswordResponse" message="tns:verifyUserPasswordResponse">
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException" message="tns:UserManagementException">
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateUserProfile">
       <wsdl:input name="updateUserProfile" message="tns:updateUserProfile">
@@ -383,6 +399,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="changePasswordResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UserManagementException">
+        <soap:fault name="UserManagementException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyUserPassword">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verifyUserPassword">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verifyUserPasswordResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="UserManagementException">

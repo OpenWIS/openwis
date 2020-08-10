@@ -434,4 +434,15 @@ public class UserManager extends AbstractManager {
         return SecurityServiceProvider.getGroupManagementService().getAllUserNameByCentre(
                 OpenwisMetadataPortalConfig.getString(ConfigurationConstants.DEPLOY_NAME));
     }
+
+    /**
+     * Verify user's password
+     * @param username
+     * @param password
+     * @return true if password is valid false otherwise
+     * @throws UserManagementException_Exception
+     */
+    public boolean verifyUserPassword(String username, String password) throws UserManagementException_Exception {
+        return SecurityServiceProvider.getUserManagementService().verifyUserPassword(username, password);
+    }
 }
