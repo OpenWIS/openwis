@@ -567,11 +567,13 @@ Openwis.Lang.Dictionary = {
 	'Security.User.ChangePswd.title' : 'Change my password...',
 	'Security.User.EnterPswd.label' : 'Enter new password',
 	'Security.User.ConfirmPswd.label' : 'Confirm new password',
+	'Security.User.EnterOldPwd.label': 'Enter old password',
 	'Security.User.ChangePswd.Btn' : 'Change Password',
 	'Security.User.ChangePswdDlg.success.title' : 'Change my Password',
 	'Security.User.ChangePswdDlg.success.msg' : 'Password changed successfully',
 	'Security.User.ChangePswdDlg.failed.title' : 'Change my Password',
 	'Security.User.ChangePswdDlg.failed.msg' : 'Check if the two password fields are filled. <br> check if the two password fields have the same value. <br> Password must be made up of a minimum of 8 alphanumeric characters containing at least one letter and one numeral',
+	'Security.User.ChangePswdDlg.failed1.msg': 'Old password is incorrect',
        
     'Security.SSOManagement.title' : 'SSO management',
     'Security.SSOManagement.msg' :'Click here for access to OpenAM',
