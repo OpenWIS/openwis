@@ -251,6 +251,7 @@ public class User {
         List<OpenWISFTP> clones = new ArrayList<OpenWISFTP>();
         for (OpenWISFTP ftp: ftps) {
             OpenWISFTP clone = new OpenWISFTP();
+            clone.setUuid(ftp.getUuid());
             clone.setHost(ftp.getHost());
             clone.setPath(ftp.getPath());
             clone.setUser(ftp.getUser());

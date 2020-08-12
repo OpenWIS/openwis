@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public class OpenWISFTP implements Serializable {
 
+   private String uuid;
+
    /**
     * @member: host The ftp host.
     */
@@ -263,4 +265,44 @@ public class OpenWISFTP implements Serializable {
       return true;
    }
 
+   public void update(OpenWISFTP updateFTP) {
+      this.setHost(updateFTP.getHost());
+      this.setUser(updateFTP.getUser());
+      this.setPath(updateFTP.getPath());
+      this.setPort(updateFTP.getPort());
+
+      // if updateFTP password is only "*" (meaning the user did not change the password) keep the old password.
+      // change otherwise
+      if (!updateFTP.getPassword().replaceAll("\\*","").isEmpty()) {
+         this.setPassword(updateFTP.getPassword());
+      }
+      this.setFileName(updateFTP.getFileName());
+      this.setCheckFileSize(updateFTP.isCheckFileSize());
+      this.setEncrypted(updateFTP.isEncrypted());
+      this.setPassive(updateFTP.isPassive());
+      this.setDisseminationTool(updateFTP.getDisseminationTool());
+   }
+
+   public OpenWISFTP clone() {
+      OpenWISFTP clone = new OpenWISFTP();
+      clone.setUuid(this.getUuid());
+      clone.setHost(this.getHost());
+      clone.setUser(this.getUser());
+      clone.setPassword(this.getPassword());
+      clone.setPath(this.getPath());
+      clone.setFileName(this.getFileName());
+      clone.setPort(this.getPort());
+      clone.setPassive(this.isPassive());
+      clone.setEncrypted(this.isEncrypted());
+      clone.setDisseminationTool(this.getDisseminationTool());
+      clone.setCheckFileSize(this.isCheckFileSize());
+      return clone;
+   }
+   public String getUuid() {
+      return uuid;
+   }
+
+   public void setUuid(String uuid) {
+      this.uuid = uuid;
+   }
 }

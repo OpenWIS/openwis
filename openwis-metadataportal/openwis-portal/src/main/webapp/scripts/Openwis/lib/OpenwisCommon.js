@@ -67,6 +67,7 @@
     if(!singleFile) {
         var jsfiles = new Array(
             "Openwis/Utils/Array.js",
+            "Openwis/Utils/UUID.js",
             "Openwis/Utils/Header.js",
             "Openwis/Utils/Storage.js",
             "Openwis/Utils/Geo.js",

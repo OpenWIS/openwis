@@ -33,6 +33,7 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 		
 		//Associate each component to a value.
 		this.ftpFields = {};
+		this.ftpFields['uuid'] = this.getUUID();
 		this.ftpFields['host'] = this.getHostTextField();
 		this.ftpFields['path'] = this.getPathTextField();
 		this.ftpFields['user'] = this.getUserTextField();
@@ -50,6 +51,7 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 			var hostStore = new Ext.data.JsonStore ({
 				id: 0,
 				fields: [
+			        {name: 'uuid'},
 					{name:'host'},
 					{name:'path'},
 					{name:'user'},
@@ -202,6 +204,27 @@ Openwis.Common.Dissemination.FTPDiffusion = Ext.extend(Ext.form.FormPanel, {
 		}
 		return this.fileNameTextField;
 	},
+
+    /**
+    * Custom object to hold the uuid in the edit window.
+    */
+	getUUID: function() {
+        if (!this.UUIDField) {
+            this.UUIDField = {
+                  uuid: Openwis.Utils.UUID.generateUUID(),
+                  setValue: function(uuid) {
+                      if (uuid) {
+                        this.uuid = uuid;
+                      }
+                  },
+                  getValue: function() {
+                      return this.uuid;
+                  }
+              }
+        }
+        return this.UUIDField;
+    },
+
 
 	//----------------------------------------------------------------- Utility methods.
 	
