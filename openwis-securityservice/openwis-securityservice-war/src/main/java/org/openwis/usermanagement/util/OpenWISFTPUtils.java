@@ -1,10 +1,21 @@
 package org.openwis.usermanagement.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openwis.usermanagement.UserManagementServiceImpl;
 import org.openwis.usermanagement.model.user.DisseminationTool;
 import org.openwis.usermanagement.model.user.OpenWISFTP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utilities for transform FTP object to String 
@@ -12,40 +23,14 @@ import org.openwis.usermanagement.model.user.OpenWISFTP;
  */
 public final class OpenWISFTPUtils {
 
-   /**
-    * @member: ftpParameter Delimiter for email.
-    */
-   private final String ftpDelimiter = "@@@";
+   /** The logger */
+   private final Logger logger = LoggerFactory.getLogger(OpenWISFTPUtils.class);
 
    /**
-    * 
-    * @member: ftpParameterDelimiter Delimiter for email parameter.
-    */
-   private final String ftpParameterDelimiter = "!DEL!";
-
-   /**
-    * Default constructor.
-    * Builds a OpenWISFTPUtils.
+    * Default constructor
     */
    private OpenWISFTPUtils() {
-      
-   }
-   
-   /**
-    * Transform ftp object to String
-    * @param openWISFTP FTP Object
-    * @return ftp string
-    */
-   private String convertToString(OpenWISFTP openWISFTP) {
-      String result = new String();
-      result = openWISFTP.getDisseminationTool().toString() + ftpParameterDelimiter
-            + openWISFTP.getFileName() + ftpParameterDelimiter + openWISFTP.getPath()
-            + ftpParameterDelimiter + openWISFTP.getUser() + ftpParameterDelimiter
-            + openWISFTP.getPassword() + ftpParameterDelimiter + openWISFTP.getPort()
-            + ftpParameterDelimiter + openWISFTP.isPassive() + ftpParameterDelimiter
-            + openWISFTP.isCheckFileSize() + ftpParameterDelimiter + openWISFTP.getHost()
-            + ftpParameterDelimiter + openWISFTP.isEncrypted() + ftpParameterDelimiter;
-      return result;
+
    }
 
    /**
@@ -53,43 +38,45 @@ public final class OpenWISFTPUtils {
     * @param openWISFTPs Open WIS FTP Object list
     * @return ftp The ftp string
     */
-   public static String convertToString(List<OpenWISFTP> openWISFTPs) {
+   private String toString(List<OpenWISFTP> openWISFTPs) {
+      String result = "";
+      if (openWISFTPs == null) {
+         return result;
+      }
+      final ByteArrayOutputStream out = new ByteArrayOutputStream();
+      final ObjectMapper objectMapper = new ObjectMapper();
+      try {
+         objectMapper.writeValue(out, openWISFTPs);
+         // encode to base64
+         result = Base64.getEncoder().encodeToString(out.toByteArray());
 
-      OpenWISFTPUtils openWISFTPUtils = new OpenWISFTPUtils();
-      String result = new String();
-
-      if (openWISFTPs != null) {
-         for (OpenWISFTP openWISFTP : openWISFTPs) {
-            result = result + openWISFTPUtils.convertToString(openWISFTP);
-            result = result + openWISFTPUtils.ftpDelimiter;
-         }
+      } catch (IOException e) {
+         logger.error(e.toString());
       }
       return result;
    }
 
-   /**
-    * Transform ftp string to ftp object
-    * @param ftp string of ftp
-    * @return Open WIS FTP Object
-    */
-   private OpenWISFTP convertToOpenWISFTP(String ftp) {
-      OpenWISFTP openWISFTP = new OpenWISFTP();
 
-      String[] result = ftp.split(ftpParameterDelimiter);
-      openWISFTP.setDisseminationTool(DisseminationTool.valueOf(result[0]));
-      openWISFTP.setHost(result[8]);
-      openWISFTP.setPath(result[2]);
-      openWISFTP.setUser(result[3]);
-      openWISFTP.setPassword(result[4]);
-      openWISFTP.setPort(result[5]);
-      openWISFTP.setPassive(new Boolean(result[6]));
-      openWISFTP.setCheckFileSize(new Boolean(result[7]));
-      openWISFTP.setFileName(result[1]);
-      if (result.length >= 10) {
-         openWISFTP.setEncrypted(new Boolean(result[9]));
+   private List<OpenWISFTP> fromString(String ftps) {
+      //decode to json
+      String json = new String(Base64.getDecoder().decode(ftps));
+      ObjectMapper mapper = new ObjectMapper();
+      try {
+         return mapper.readValue(json, new TypeReference<List<OpenWISFTP>>(){});
+      } catch (JsonProcessingException e) {
+         logger.error(e.toString());
       }
+      return new ArrayList<>();
+   }
 
-      return openWISFTP;
+   /**
+    * Transform ftp objects to a json encoded in base64
+    * @param openWISFTPs
+    * @return json as base64 string
+    */
+   public static String convertToString(List<OpenWISFTP> openWISFTPs) {
+      OpenWISFTPUtils openWISFTPUtils = new OpenWISFTPUtils();
+      return openWISFTPUtils.toString(openWISFTPs);
    }
 
    /**
@@ -98,14 +85,7 @@ public final class OpenWISFTPUtils {
     * @return Open WIS FTP Object list
     */
    public static List<OpenWISFTP> convertToOpenWISFTPs(String openWISFTPs) {
-      List<OpenWISFTP> openWisFTPs = new ArrayList<OpenWISFTP>();
-      OpenWISFTPUtils openWISFTPUtils = new OpenWISFTPUtils();
-      String[] ftps = openWISFTPs.split(openWISFTPUtils.ftpDelimiter);
-      for (String ftp : ftps) {
-         OpenWISFTP openWisFTP = openWISFTPUtils.convertToOpenWISFTP(ftp);
-         openWisFTPs.add(openWisFTP);
-      }
-
-      return openWisFTPs;
+       OpenWISFTPUtils openWISFTPUtils = new OpenWISFTPUtils();
+       return openWISFTPUtils.fromString(openWISFTPs);
    }
 }

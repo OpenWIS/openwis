@@ -262,5 +262,4 @@ public class OpenWISFTP implements Serializable {
       }
       return true;
    }
-
 }
