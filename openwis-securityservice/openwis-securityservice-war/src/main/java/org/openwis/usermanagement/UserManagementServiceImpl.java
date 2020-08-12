@@ -22,6 +22,7 @@ import org.openwis.management.utils.SecurityServiceAlerts;
 import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.model.group.OpenWISGroup;
 import org.openwis.usermanagement.model.user.OpenWISAddress;
+import org.openwis.usermanagement.model.user.OpenWISFTP;
 import org.openwis.usermanagement.model.user.OpenWISUser;
 import org.openwis.usermanagement.model.user.OpenWISUserUpdateLog;
 import org.openwis.usermanagement.util.GroupUtils;
@@ -308,9 +309,12 @@ public class UserManagementServiceImpl implements UserManagementService {
         userManagementServiceUtil.updateField(
                 OpenWISEmailUtils.convertToString(ldapUser.getEmails()),
                 OpenWISEmailUtils.convertToString(user.getEmails()), EMAILS, modList);
+
         // ftps
-        userManagementServiceUtil.updateField(OpenWISFTPUtils.convertToString(ldapUser.getFtps()),
-                OpenWISFTPUtils.convertToString(user.getFtps()), FTPS, modList);
+        // update the old ones
+        String ldapFTPString = OpenWISFTPUtils.convertToString(ldapUser.getFtps());
+        List<OpenWISFTP> ftps = OpenWISFTPUtils.updateFTPs(ldapUser.getFtps(),user.getFtps());
+        userManagementServiceUtil.updateField(ldapFTPString,OpenWISFTPUtils.convertToString(ftps), FTPS, modList);
 
         if (!updatePersoInfo) {
             userManagementServiceUtil.updateUserPrivileges(user, modList, ldapUser);
