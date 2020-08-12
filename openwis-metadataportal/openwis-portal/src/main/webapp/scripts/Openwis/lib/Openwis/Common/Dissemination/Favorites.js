@@ -68,6 +68,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
 				// reader configs
 				fields: [
                     {name:'host', sortType: Ext.data.SortTypes.asUCString},
+                    {name: 'uuid'},
 					{name:'path'},
 					{name:'user'},
 					{name:'password'},
@@ -145,7 +146,7 @@ Openwis.Common.Dissemination.Favorites = Ext.extend(Ext.Panel, {
                                 var ftpToRemove;
                                 for (var i=0; i < this.getFtpFavoritesGrid().getStore().getCount(); i++) {
                                     var record = this.getFtpFavoritesGrid().getStore().getAt(i);
-                                    if ((record.get('host') == ftpUpdated.host) && (record.get('disseminationTool') == ftpUpdated.disseminationTool)) {
+                                    if (record.get('uuid') === ftpUpdated.uuid) {
                                          ftpToRemove = record;
                                     }
                                 }

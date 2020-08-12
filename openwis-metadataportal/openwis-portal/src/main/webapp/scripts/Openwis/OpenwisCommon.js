@@ -620,7 +620,7 @@ this.ftpFavoritesGrid.addButton(new Ext.Button(this.getNewFtpPublicAction()));
 this.ftpFavoritesGrid.addButton(new Ext.Button(this.getFtpEditAction()));
 this.ftpFavoritesGrid.addButton(new Ext.Button(this.getFtpRemoveAction()))
 }return this.ftpFavoritesGrid
-},getFtpStore:function(){if(!this.ftpStore){this.ftpStore=new Ext.data.JsonStore({autoDestroy:true,fields:[{name:"host",sortType:Ext.data.SortTypes.asUCString},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"passive"},{name:"checkFileSize"},{name:"fileName"},{name:"encrypted"},{name:"disseminationTool"}]})
+},getFtpStore:function(){if(!this.ftpStore){this.ftpStore=new Ext.data.JsonStore({autoDestroy:true,fields:[{name:"host",sortType:Ext.data.SortTypes.asUCString},{name:"uuid"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"passive"},{name:"checkFileSize"},{name:"fileName"},{name:"encrypted"},{name:"disseminationTool"}]})
 }return this.ftpStore
 },getNewFtpRMDCNAction:function(){if(!this.newFtpRMDCNAction){this.newFtpRMDCNAction=new Ext.Action({text:Openwis.i18n("Common.Dissemination.Favorites.FTP.NewRMDCNFTP.button"),scope:this,handler:function(){new Openwis.Common.Dissemination.FavoriteFTPWindow({listeners:{favoriteFTPSaved:function(ftpCreated){this.getFtpFavoritesGrid().getStore().add(new Ext.data.Record(ftpCreated))
 },scope:this},ftp:{disseminationTool:"RMDCN"},isEdition:false})
@@ -635,7 +635,7 @@ new Openwis.Common.Dissemination.FavoriteFTPWindow({listeners:{favoriteFTPSaved:
 for(var i=0;
 i<this.getFtpFavoritesGrid().getStore().getCount();
 i++){var record=this.getFtpFavoritesGrid().getStore().getAt(i);
-if((record.get("host")==ftpUpdated.host)&&(record.get("disseminationTool")==ftpUpdated.disseminationTool)){ftpToRemove=record
+if(record.get("uuid")===ftpUpdated.uuid){ftpToRemove=record
 }}if(ftpToRemove){this.getFtpFavoritesGrid().getStore().remove(ftpToRemove)
 }this.getFtpFavoritesGrid().getStore().add(new Ext.data.Record(ftpUpdated))
 },scope:this},ftp:selectedRec.data,isEdition:true})
