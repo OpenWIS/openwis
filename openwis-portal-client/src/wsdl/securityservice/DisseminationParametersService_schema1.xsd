@@ -24,6 +24,7 @@
     </xs:complexType>
     <xs:complexType name="openWISFTP">
         <xs:sequence>
+            <xs:element minOccurs="0" name="uuid" type="xs:string"/>
             <xs:element minOccurs="0" name="host" type="xs:string"/>
             <xs:element minOccurs="0" name="path" type="xs:string"/>
             <xs:element minOccurs="0" name="user" type="xs:string"/>
