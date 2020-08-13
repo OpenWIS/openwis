@@ -59,7 +59,7 @@ Openwis.Utils.MessageBoxServiceNotAllowed = Ext.extend(Ext.Window, {
 					textAlign: 'center'
 				},
 				handler: function() {					
-				    window.location.href= configOptions.url +  "/openWisInit";
+				    window.location.href= configOptions.url +  "/user.loginCaptcha.get";
 				}
 			});
 		}

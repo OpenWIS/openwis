@@ -269,7 +269,7 @@ this.show()
 },getServiceNotAllowedText:function(){return new Ext.Container({html:Openwis.i18n("MessageBoxServiceNotAllowed.msg"),style:{marginTop:"10px",marginLeft:"10px",marginRight:"10px",textAlign:"center"}})
 },getLoginButton:function(){this.loginButton=new Ext.Panel({buttonAlign:"center",border:false,buttons:[new Ext.Button(this.getLoginAction())]});
 return this.loginButton
-},getLoginAction:function(){if(!this.loginAction){this.loginAction=new Ext.Action({text:"Reconnect",scope:this,style:{textAlign:"center"},handler:function(){window.location.href=configOptions.url+"/openWisInit"
+},getLoginAction:function(){if(!this.loginAction){this.loginAction=new Ext.Action({text:"Reconnect",scope:this,style:{textAlign:"center"},handler:function(){window.location.href=configOptions.url+"/srv/en/user.loginCaptcha.get"
 }})
 }return this.loginAction
 }});Ext.ns("Openwis.Utils.Xml");
