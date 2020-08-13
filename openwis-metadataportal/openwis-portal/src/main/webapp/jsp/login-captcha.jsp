@@ -27,21 +27,17 @@ String title = "ASEAN | WIS Portal";
       <div id="header">
         <%@include file="banner.jsp" %>
       </div>
-        <%
-        if (request.getParameter("errorMessage") != null) {
-        %>
-            <script type="text/javascript">
-            var Msg ='<%=request.getParameter("errorMessage")%>';
-            alert(Msg);
-            </script>
-        <%
-        }
-        %>
       <div class="main">
         <div class="form-container">
             <form action="<%= context.getBaseUrl() %>/loginCaptcha" method="POST">
                   <div id="html_element"></div>
                 <br>
+                <% String errorMessage = (String) request.getServletContext().getAttribute("errorMessage");
+                if (errorMessage != null) { %>
+                    <div class="error">
+                        <p><%=errorMessage%></p>
+                    </div>
+                <% } %>
                 <div class="submitContainer">
                     <input id="submitButton" type="submit" value="Submit">
                 </div>

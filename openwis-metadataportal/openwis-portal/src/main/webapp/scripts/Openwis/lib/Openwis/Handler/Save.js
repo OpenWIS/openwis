@@ -19,15 +19,13 @@ Openwis.Handler.Save = Ext.extend(Ext.util.Observable, {
 	
 	proceed: function() {
 		this.window = Ext.MessageBox.wait('Please wait...', 'Submitting data');
+		var h = this.getHeaders();
 		Ext.Ajax.request({
 			url: this.url,
 			success: this.cbSuccessful,
 			failure: this.cbFailure,
 			method: "POST",
-			headers: {
-			   'Content-Type': 'application/json; charset=utf-8',
-			   'Accept':'application/json; charset=utf-8'
-			},
+			headers: h,
 			jsonData: this.params,
 			scope: this
 		});
@@ -63,5 +61,21 @@ Openwis.Handler.Save = Ext.extend(Ext.util.Observable, {
 	
 	fireFailureEvent: function() {
 		this.fireEvent("failure");
+	},
+
+	getHeaders: function() {
+		var headers = {
+	        'Content-Type': 'application/json; charset=utf-8',
+			'Accept':'application/json; charset=utf-8',
+		};
+		var csrf_token = Openwis.Utils.Storage.get("csrf-token");
+		if (csrf_token !== null) {
+		    headers['csrf-token'] = csrf_token;
+
+		    // use once
+		    Openwis.Utils.Storage.remove("csrf-token");
+		}
+
+		return headers;
 	}
 });

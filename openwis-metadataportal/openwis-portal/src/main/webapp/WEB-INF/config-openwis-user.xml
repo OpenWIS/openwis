@@ -134,7 +134,7 @@
 
 		<service name="user.loginCaptcha.get">
 			<output sheet="/jsp/login-captcha.jsp">
-				<call name="services" class="org.openwis.metadataportal.services.access.Get" >
+				<call name="services" class="org.openwis.metadataportal.services.access.Get">
 					<param name="portal"    value="user"/>
 				</call>
 			</output>

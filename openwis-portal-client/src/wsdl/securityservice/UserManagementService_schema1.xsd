@@ -6,6 +6,8 @@
     <xs:element name="addUserToLocalGroupResponse" type="tns:addUserToLocalGroupResponse"/>
     <xs:element name="changePassword" type="tns:changePassword"/>
     <xs:element name="changePasswordResponse" type="tns:changePasswordResponse"/>
+    <xs:element name="verifyUserPassword" type="tns:verifyUserPassword"/>
+    <xs:element name="verifyUserPasswordResponse" type="tns:verifyUserPasswordResponse"/>
     <xs:element name="lockUser" type="tns:lockUser"/>
     <xs:element name="lockUserResponse" type="tns:lockUserResponse"/>
     <xs:element name="unlockUser" type="tns:unlockUser"/>
@@ -61,6 +63,12 @@
             <xs:element minOccurs="0" name="arg2" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="verifyUserPassword">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="updateLoginTimestamp">
         <xs:sequence>
             <xs:element minOccurs="0" name="username" type="xs:string"/>
@@ -85,6 +93,11 @@
     </xs:complexType>
     <xs:complexType name="changePasswordResponse">
         <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="verifyUserPasswordResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:boolean"/>
+        </xs:sequence>
     </xs:complexType>
     <xs:complexType name="updateLoginTimestampResponse">
         <xs:sequence/>
@@ -140,6 +153,7 @@
     </xs:complexType>
     <xs:complexType name="openWISFTP">
         <xs:sequence>
+            <xs:element minOccurs="0" name="uuid" type="xs:string"/>
             <xs:element minOccurs="0" name="host" type="xs:string"/>
             <xs:element minOccurs="0" name="path" type="xs:string"/>
             <xs:element minOccurs="0" name="user" type="xs:string"/>

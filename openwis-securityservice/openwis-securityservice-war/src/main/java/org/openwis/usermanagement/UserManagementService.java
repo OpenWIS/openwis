@@ -216,6 +216,15 @@ public interface UserManagementService {
    public void changePassword(String username, String password, Boolean forceReset) throws UserManagementException;
 
    /**
+    * Verify if user's password is valid.
+    * @param username
+    * @param password
+    * @return true if password valid, false otherwise
+    * @throws UserManagementException if username do not exists
+    */
+   public boolean verifyUserPassword(String username, String password) throws UserManagementException;
+
+   /**
     *  Update login timestamp
     * @param username username
     * @param timestamp timestamp

@@ -82,6 +82,7 @@ public final class Jeeves
 		public static final String FORWARD   = "forward";
 		public static final String ERROR     = "error";
 		public static final String SESSION   = "session";
+		public static final String CSRF_TOKEN_HEADER = "csrf-token";
 
 		public static final String BASE_URL     = "url";
 		public static final String LOC_URL      = "locUrl";
@@ -89,7 +90,7 @@ public final class Jeeves
 		public static final String LOC_SERVICE  = "locService";
 		public static final String LANGUAGE     = "language";
 		public static final String REQ_SERVICE  = "reqService";
-      public static final String PORTAL_TYPE = "portalType";
+        public static final String PORTAL_TYPE = "portalType";
 	}
 
 	//--------------------------------------------------------------------------

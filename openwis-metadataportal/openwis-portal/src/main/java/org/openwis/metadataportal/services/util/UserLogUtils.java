@@ -42,6 +42,7 @@ public class UserLogUtils {
     public static List<UserLogDTO> getLogs(Dbms dbms) throws SQLException, BadInputEx {
         String query = "SELECT * from user_log;";
         List<Element> elements = dbms.select(query).getChildren();
+        dbms.commit();
         if (elements.size() == 0) {
             return new ArrayList<>();
         }

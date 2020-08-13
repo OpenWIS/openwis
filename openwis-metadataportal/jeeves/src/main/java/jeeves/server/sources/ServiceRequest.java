@@ -55,6 +55,7 @@ public class ServiceRequest
 	protected int          statusCode= 200;
 	protected InputMethod  input     = InputMethod.GET;
 	protected OutputMethod output    = OutputMethod.DEFAULT;
+	protected String	   method 	 = "get";
 	private Map<String, String> headers = new HashMap<String, String>();
 
 	//---------------------------------------------------------------------------
@@ -86,6 +87,9 @@ public class ServiceRequest
 	 * @return Map of the request headers
 	 */
 	public Map<String, String> getHeaders() {	return headers; }
+
+	// Return the real method of the request
+	public String getMethod() {return method;}
 
 	//---------------------------------------------------------------------------
 	/** true if the request has the debug option turned on */
@@ -120,6 +124,7 @@ public class ServiceRequest
 
 	public void setInputMethod (InputMethod m)  { input  = m; }
 	public void setOutputMethod(OutputMethod m) { output = m; }
+	public void setMethod(String method) {this.method = method;}
 
 	//---------------------------------------------------------------------------
 

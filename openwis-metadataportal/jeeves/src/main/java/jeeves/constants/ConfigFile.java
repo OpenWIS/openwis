@@ -279,7 +279,9 @@ public class ConfigFile
 	{
 		public final class Attr
 		{
-			/**
+
+
+            /**
 			 * Default constructor.
 			 * Builds a Attr.
 			 */
@@ -290,6 +292,8 @@ public class ConfigFile
 			public static final String MATCH = "match";
 			public static final String SHEET = "sheet";
 			public static final String CACHE = "cache";
+			public static final String METHODS = "methods";
+			public static final String CONTENT_TYPE_HEADER = "contentTypes";
 
 			public final class Type
 			{
@@ -306,7 +310,8 @@ public class ConfigFile
 
 		public final class Child
 		{
-			/**
+
+            /**
 			 * Default constructor.
 			 * Builds a Child.
 			 */
@@ -315,6 +320,7 @@ public class ConfigFile
 		   public static final String CLASS  = "class";
 			public static final String OUTPUT = "output";
 			public static final String ERROR  = "error";
+			public static final String CSRF = "csrf";
 		}
 	}
 

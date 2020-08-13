@@ -333,7 +333,8 @@ this.addEvents("success","failure");
 this.listeners=config.listeners;
 Openwis.Handler.Save.superclass.constructor.call(this,config)
 },proceed:function(){this.window=Ext.MessageBox.wait("Please wait...","Submitting data");
-Ext.Ajax.request({url:this.url,success:this.cbSuccessful,failure:this.cbFailure,method:"POST",headers:{"Content-Type":"application/json; charset=utf-8",Accept:"application/json; charset=utf-8"},jsonData:this.params,scope:this})
+var h=this.getHeaders();
+Ext.Ajax.request({url:this.url,success:this.cbSuccessful,failure:this.cbFailure,method:"POST",headers:h,jsonData:this.params,scope:this})
 },cbSuccessful:function(ajaxResponse){this.window.hide();
 var responseHandler=new Openwis.Data.JeevesJsonResponseHandler();
 var response=responseHandler.handleResponse(ajaxResponse);
@@ -345,6 +346,11 @@ if(response.ok){if(this.successWindow){Openwis.Utils.MessageBox.displaySuccessMs
 }},cbFailure:function(response){this.window.hide();
 Openwis.Utils.MessageBox.displayInternalError(this.fireFailureEvent,this)
 },fireFailureEvent:function(){this.fireEvent("failure")
+},getHeaders:function(){var headers={"Content-Type":"application/json; charset=utf-8",Accept:"application/json; charset=utf-8",};
+var csrf_token=Openwis.Utils.Storage.get("csrf-token");
+if(csrf_token!==null){headers["csrf-token"]=csrf_token;
+Openwis.Utils.Storage.remove("csrf-token")
+}return headers
 }});Ext.ns("Openwis.Handler");
 Openwis.Handler.Remove=Ext.extend(Ext.util.Observable,{constructor:function(config){this.url=config.url;
 if(typeof(config.params)=="number"){this.params=config.params+""
@@ -404,7 +410,9 @@ this.loadMask.show()
 }Ext.Ajax.request({url:this.url,success:this.cbSuccessful,failure:this.cbFailure,method:"POST",headers:{"Content-Type":"application/json; charset=utf-8",Accept:"application/json; charset=utf-8"},jsonData:this.params,scope:this})
 },cbSuccessful:function(ajaxResponse){if(this.useLoadMask){this.loadMask.hide()
 }var responseHandler=new Openwis.Data.JeevesJsonResponseHandler();
-var response=responseHandler.handleResponse(ajaxResponse);
+var responseHeaders=Openwis.Utils.Header.getHeaders(ajaxResponse.getAllResponseHeaders());
+if(responseHeaders.hasOwnProperty("csrf-token")){Openwis.Utils.Storage.save("csrf-token",responseHeaders["csrf-token"])
+}var response=responseHandler.handleResponse(ajaxResponse);
 this.fireSuccessEvent(response)
 },fireSuccessEvent:function(response){this.fireEvent("success",response)
 },cbFailure:function(response){if(this.useLoadMask){this.loadMask.hide()
@@ -612,7 +620,7 @@ this.ftpFavoritesGrid.addButton(new Ext.Button(this.getNewFtpPublicAction()));
 this.ftpFavoritesGrid.addButton(new Ext.Button(this.getFtpEditAction()));
 this.ftpFavoritesGrid.addButton(new Ext.Button(this.getFtpRemoveAction()))
 }return this.ftpFavoritesGrid
-},getFtpStore:function(){if(!this.ftpStore){this.ftpStore=new Ext.data.JsonStore({autoDestroy:true,fields:[{name:"host",sortType:Ext.data.SortTypes.asUCString},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"passive"},{name:"checkFileSize"},{name:"fileName"},{name:"encrypted"},{name:"disseminationTool"}]})
+},getFtpStore:function(){if(!this.ftpStore){this.ftpStore=new Ext.data.JsonStore({autoDestroy:true,fields:[{name:"host",sortType:Ext.data.SortTypes.asUCString},{name:"uuid"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"passive"},{name:"checkFileSize"},{name:"fileName"},{name:"encrypted"},{name:"disseminationTool"}]})
 }return this.ftpStore
 },getNewFtpRMDCNAction:function(){if(!this.newFtpRMDCNAction){this.newFtpRMDCNAction=new Ext.Action({text:Openwis.i18n("Common.Dissemination.Favorites.FTP.NewRMDCNFTP.button"),scope:this,handler:function(){new Openwis.Common.Dissemination.FavoriteFTPWindow({listeners:{favoriteFTPSaved:function(ftpCreated){this.getFtpFavoritesGrid().getStore().add(new Ext.data.Record(ftpCreated))
 },scope:this},ftp:{disseminationTool:"RMDCN"},isEdition:false})
@@ -627,7 +635,7 @@ new Openwis.Common.Dissemination.FavoriteFTPWindow({listeners:{favoriteFTPSaved:
 for(var i=0;
 i<this.getFtpFavoritesGrid().getStore().getCount();
 i++){var record=this.getFtpFavoritesGrid().getStore().getAt(i);
-if((record.get("host")==ftpUpdated.host)&&(record.get("disseminationTool")==ftpUpdated.disseminationTool)){ftpToRemove=record
+if(record.get("uuid")===ftpUpdated.uuid){ftpToRemove=record
 }}if(ftpToRemove){this.getFtpFavoritesGrid().getStore().remove(ftpToRemove)
 }this.getFtpFavoritesGrid().getStore().add(new Ext.data.Record(ftpUpdated))
 },scope:this},ftp:selectedRec.data,isEdition:true})
@@ -786,18 +794,22 @@ this.initialize()
 this.add(this.getPswdForm())
 },getHeader:function(){if(!this.header){this.header=new Ext.Container({html:Openwis.i18n("Security.User.ChangePswd.title"),cls:"administrationTitle1"})
 }return this.header
-},getPswdForm:function(){if(!this.pswdForm){this.pswdForm=new Ext.form.FormPanel({layout:"table",border:true,layoutConfig:{columns:2},items:[this.createLabel(Openwis.i18n("Security.User.EnterPswd.label")),this.getPasswordTextField(),this.createLabel(Openwis.i18n("Security.User.ConfirmPswd.label")),this.getConfirmPasswordTextField()],buttons:[this.add(new Ext.Button(this.getChangePasswordAction()))]})
+},getPswdForm:function(){if(!this.pswdForm){this.pswdForm=new Ext.form.FormPanel({layout:"table",border:true,layoutConfig:{columns:2},items:[this.createLabel(Openwis.i18n("Security.User.EnterOldPwd.label")),this.getOldPasswordTextField(),this.createLabel(Openwis.i18n("Security.User.EnterPswd.label")),this.getPasswordTextField(),this.createLabel(Openwis.i18n("Security.User.ConfirmPswd.label")),this.getConfirmPasswordTextField()],buttons:[this.add(new Ext.Button(this.getChangePasswordAction()))]})
 }return this.pswdForm
 },createLabel:function(label){return new Openwis.Utils.Misc.createLabel(label)
 },getPasswordTextField:function(){if(!this.passwordTextField){this.passwordTextField=new Ext.form.TextField({inputType:"password",name:"password",allowBlank:false,width:150})
 }return this.passwordTextField
 },getConfirmPasswordTextField:function(){if(!this.confirmPasswordTextField){this.confirmPasswordTextField=new Ext.form.TextField({inputType:"password",name:"password",allowBlank:false,width:150})
 }return this.confirmPasswordTextField
+},getOldPasswordTextField:function(){if(!this.oldPasswordTextField){this.oldPasswordTextField=new Ext.form.TextField({inputType:"password",name:"password",allowBlank:false,width:150})
+}return this.oldPasswordTextField
 },getChangePasswordAction:function(){if(!this.changePasswordAction){this.changePasswordAction=new Ext.Action({text:Openwis.i18n("Security.User.ChangePswd.Btn"),scope:this,handler:function(){var isValid=this.getPswdForm().getForm().isValid();
+var oldPassword=this.getOldPasswordTextField().getValue();
 var firstPassword=this.getPasswordTextField().getValue();
 var confirmPassword=this.getConfirmPasswordTextField().getValue();
-if(isValid&&(firstPassword==confirmPassword)){var params={};
+if(isValid&&(firstPassword==confirmPassword)&&(oldPassword!=="")){var params={};
 params.password=this.getPasswordTextField().getValue();
+params.oldPassword=this.getOldPasswordTextField().getValue();
 var saveHandler=new Openwis.Handler.Save({url:configOptions.locService+"/xml.user.changePassword",params:params,listeners:{success:function(){Ext.Msg.show({title:Openwis.i18n("Security.User.ChangePswdDlg.success.title"),msg:Openwis.i18n("Security.User.ChangePswdDlg.success.msg"),buttons:Ext.Msg.OK,scope:this,icon:Ext.MessageBox.INFO})
 },scope:this}});
 saveHandler.proceed()

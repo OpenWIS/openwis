@@ -3,7 +3,9 @@ package org.openwis.usermanagement;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import com.novell.ldap.resources.ExceptionMessages;
 import org.openwis.usermanagement.exception.UserManagementException;
+import org.openwis.usermanagement.util.JNDIUtils;
 import org.openwis.usermanagement.util.LdapConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,6 +228,45 @@ public final class UtilEntry {
       UtilEntry utilEntry = new UtilEntry();
       LDAPAttribute ldapMember = new LDAPAttribute(member, valueToReplace);
       utilEntry.actionParamToEntry(dn, LDAPModification.REPLACE, ldapMember);
+   }
+
+   /**
+    * Verify the password with a simple bind to ldap.
+    * @param dn
+    * @param password
+    * @return false if connection impossible meaning the password or dn are incorrect.
+    * @throws UserManagementException if something else wrong happen
+    */
+   public static boolean verifyUserPassword(String dn, String password) throws UserManagementException {
+       LDAPConnection lc = null;
+      try {
+         // create a new connection to lDAP because we bind with normal user credentials.
+         lc = new LDAPConnection();
+         lc.connect(JNDIUtils.getInstance().getLdapHost(), JNDIUtils
+                 .getInstance().getLdapPort());
+         lc.bind(LDAPConnection.LDAP_V3, dn, password.getBytes("UTF8"));
+         return true;
+      } catch (LDAPException e) {
+         LOGGER.error("Verify password error: ", e);
+         if (e.getMessage().toLowerCase().equals("invalid credentials")) {
+            return false;
+         } else {
+            throw new UserManagementException(e.getLDAPErrorMessage());
+         }
+      } catch (UnsupportedEncodingException e) {
+         LOGGER.error("Unsupported EncodingException : Error during during searching entries", e);
+         throw new UserManagementException();
+      } finally {
+         if (lc != null) {
+            if (lc.isConnected()) {
+               try {
+                  lc.disconnect();
+               } catch (LDAPException e) {
+                   LOGGER.error(e.getMessage());
+               }
+            }
+         }
+      }
    }
 
    /**

@@ -111,6 +111,10 @@ public class HttpServiceRequest extends ServiceRequest
 		}
 	}
 
+	public void addHeader(String key, String value) {
+		httpRes.addHeader(key, value);
+	}
+
 	//---------------------------------------------------------------------------
 
 	public void endStream() throws IOException

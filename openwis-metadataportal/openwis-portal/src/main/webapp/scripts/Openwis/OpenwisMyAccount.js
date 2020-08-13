@@ -584,6 +584,7 @@ this.getAdvancedFieldSet().add(this.getOptionsCheckboxGroup());
 this.getAdvancedFieldSet().add(this.getFileNameTextField());
 this.add(this.getAdvancedFieldSet());
 this.ftpFields={};
+this.ftpFields.uuid=this.getUUID();
 this.ftpFields.host=this.getHostTextField();
 this.ftpFields.path=this.getPathTextField();
 this.ftpFields.user=this.getUserTextField();
@@ -591,7 +592,7 @@ this.ftpFields.password=this.getPasswordTextField();
 this.ftpFields.port=this.getPortTextField();
 this.ftpFields.checkFileSize=this.getCheckFileSizeCheckbox();
 this.ftpFields.fileName=this.getFileNameTextField()
-},getHostTextField:function(){if(!this.hostTextField){var hostStore=new Ext.data.JsonStore({id:0,fields:[{name:"host"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"checkFileSize"},{name:"fileName"},]});
+},getHostTextField:function(){if(!this.hostTextField){var hostStore=new Ext.data.JsonStore({id:0,fields:[{name:"uuid"},{name:"host"},{name:"path"},{name:"user"},{name:"password"},{name:"port"},{name:"checkFileSize"},{name:"fileName"},]});
 this.hostTextField=new Ext.form.ComboBox({store:hostStore,valueField:"host",displayField:"host",mode:"local",typeAhead:true,triggerAction:"all",selectOnFocus:true,fieldLabel:Openwis.i18n("Common.Dissemination.FTPDiffusion.Host.label"),allowBlank:false,disabled:!this.allowHostEdition,width:210,listeners:{select:function(){this.notifyFTPSelected()
 },scope:this}})
 }return this.hostTextField
@@ -615,6 +616,10 @@ this.hostTextField=new Ext.form.ComboBox({store:hostStore,valueField:"host",disp
 }return this.encryptedCheckbox
 },getFileNameTextField:function(){if(!this.fileNameTextField){this.fileNameTextField=new Ext.form.TextField({fieldLabel:Openwis.i18n("Common.Dissemination.FTPDiffusion.FileName.label"),name:"fileName",allowBlank:true,width:200})
 }return this.fileNameTextField
+},getUUID:function(){if(!this.UUIDField){this.UUIDField={uuid:Openwis.Utils.UUID.generateUUID(),setValue:function(uuid){if(uuid){this.uuid=uuid
+}},getValue:function(){return this.uuid
+}}
+}return this.UUIDField
 },notifyFTPSelected:function(){var ftpHostSelected=this.getHostTextField().getValue();
 if(ftpHostSelected){var ftpSelected=null;
 for(var i=0;
