@@ -121,6 +121,8 @@ public interface ConfigurationInfo {
 
    String MAIL_FROM = "mail.from";
 
+   String MAIL_AWS_REGION = "mail.aws.region";
+
    // -------------------------------------------------------------------------
    // Staging Post Settings
    // -------------------------------------------------------------------------
