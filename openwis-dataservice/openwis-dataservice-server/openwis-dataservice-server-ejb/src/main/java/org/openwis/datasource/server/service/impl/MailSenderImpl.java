@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * The Class MailSender.
  */
 @Remote(MailSender.class)
-@Stateless(name = "MailSender")
+@Stateless(name = "SmtpMailSender")
 public class MailSenderImpl implements MailSender {
 
    /** The logger. */
