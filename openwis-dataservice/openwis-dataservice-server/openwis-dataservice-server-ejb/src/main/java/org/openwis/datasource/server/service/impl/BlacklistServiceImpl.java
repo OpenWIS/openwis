@@ -63,7 +63,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    protected EntityManager entityManager;
 
    /** The mail sender. */
-   @EJB
+   @EJB(beanName = "AwsMailSender")
    private MailSender mailSender;
    
    /**
