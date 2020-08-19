@@ -559,6 +559,9 @@
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/MessageBoxAccessDenied.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/MessageBoxServiceNotAllowed.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/Xml.js</include>
+                                <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/Header.js</include>
+                                <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/Storage.js</include>
+                                <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/UUID.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/RegistrationUser/RegistrationUserSuccessful.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Utils/Misc.js</include>
                                 <include>${geonetwork.build.dir}/scripts/Openwis/lib/Openwis/Handler/Save.js</include>
