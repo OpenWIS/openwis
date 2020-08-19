@@ -73,6 +73,10 @@ public final class OpenWISFTPUtils {
     * @return list of updated sftps
     */
    public static List<OpenWISFTP> updateFTPs(List<OpenWISFTP> oldFtps, List<OpenWISFTP> openWISFTPS) {
+      if (openWISFTPS == null) {
+          return oldFtps == null ? new ArrayList<>() : oldFtps;
+      }
+
       OpenWISFTPUtils openWISFTPUtils = new OpenWISFTPUtils();
       List<OpenWISFTP> ftps = new ArrayList<>();
       for (OpenWISFTP newFtp: openWISFTPS) {

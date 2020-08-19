@@ -269,7 +269,7 @@ this.show()
 },getServiceNotAllowedText:function(){return new Ext.Container({html:Openwis.i18n("MessageBoxServiceNotAllowed.msg"),style:{marginTop:"10px",marginLeft:"10px",marginRight:"10px",textAlign:"center"}})
 },getLoginButton:function(){this.loginButton=new Ext.Panel({buttonAlign:"center",border:false,buttons:[new Ext.Button(this.getLoginAction())]});
 return this.loginButton
-},getLoginAction:function(){if(!this.loginAction){this.loginAction=new Ext.Action({text:"Reconnect",scope:this,style:{textAlign:"center"},handler:function(){window.location.href=configOptions.url+"/srv/en/user.loginCaptcha.get"
+},getLoginAction:function(){if(!this.loginAction){this.loginAction=new Ext.Action({text:"Reconnect",scope:this,style:{textAlign:"center"},handler:function(){window.location.href=configOptions.url+"/user.loginCaptcha.get"
 }})
 }return this.loginAction
 }});Ext.ns("Openwis.Utils.Xml");
@@ -287,6 +287,30 @@ var parser=new OpenLayers.Format.XML();
 var document=parser.read(xmlText);
 if(document!=null){element=parser.getChildEl(document,elementName)
 }return element
+};Ext.ns("Openwis.Utils.Header");
+Openwis.Utils.Header.getHeaders=function(headerString){var headerArray=headerString.replace(/\r\n/g,"$").split("$");
+var header={};
+for(var i=0;
+i<headerArray.length;
+i++){if(headerArray[i]!==""){var items=headerArray[i].split(":");
+header[items[0].trim()]=items[1].trim()
+}}return header
+};Ext.ns("Openwis.Utils.Storage");
+Openwis.Utils.Storage.save=function(key,value){window.sessionStorage.setItem(key,value)
+};
+Openwis.Utils.Storage.get=function(key){return window.sessionStorage.getItem(key)
+};
+Openwis.Utils.Storage.remove=function(key){if(window.sessionStorage.key(key)>=0){window.sessionStorage.removeItem(key)
+}};Ext.ns("Openwis.Utils.UUID");
+Openwis.Utils.UUID.generateUUID=function(){var d=new Date().getTime();
+var d2=(performance&&performance.now&&(performance.now()*1000))||0;
+return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16;
+if(d>0){r=(d+r)%16|0;
+d=Math.floor(d/16)
+}else{r=(d2+r)%16|0;
+d2=Math.floor(d2/16)
+}return(c==="x"?r:(r&3|8)).toString(16)
+})
 };Ext.ns("Openwis.RegistrationUser");
 Openwis.RegistrationUser.RegistrationUserSuccessful=Ext.extend(Ext.Window,{initComponent:function(){Ext.apply(this,{closeAction:"close",autoScroll:false,resizable:false,closable:false,layout:"table",title:Openwis.i18n("RegistrationUserSuccessful.title"),layoutConfig:{columns:2},items:[this.getSuccessText(),this.getLoginButton(),this.getHomePageButton()]});
 Openwis.RegistrationUser.RegistrationUserSuccessful.superclass.initComponent.apply(this,arguments);
