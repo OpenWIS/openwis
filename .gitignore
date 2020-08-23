@@ -21,3 +21,4 @@ tags
 
 # Ignore vagrant working files
 .vagrant/
+.vimspector.json
