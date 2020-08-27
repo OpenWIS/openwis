@@ -77,6 +77,7 @@ public class GNTransformer extends FragmentTransformer {
 
       try {
          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+         dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl",false);
          dbf.setValidating(false);
          dbf.setNamespaceAware(true);
          dbf.setIgnoringComments(false);
