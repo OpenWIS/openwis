@@ -155,7 +155,7 @@ openwis-securityservice:
         - ${SECU_PLANNER_AUTHORIZED_FILE_NAME}
 
 
-report-dataservice:
+.report-dataservice:
   extends: .TriggerSecu
   only:
     - master
@@ -164,7 +164,7 @@ report-dataservice:
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-dataservice'
 
-report-metadataportal:
+.report-metadataportal:
   extends: .TriggerSecu
   only:
     - master
@@ -181,9 +181,9 @@ report-portal:
     - develop
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-portal'
-    SECU_DAST_ENABLE: 'true'
+//    SECU_DAST_ENABLE: 'true'
 
-report-management:
+.report-management:
   extends: .TriggerSecu
   only:
     - master
@@ -192,7 +192,7 @@ report-management:
   variables:
     SECU_TARGET_JOB_BUILD_NAME: 'openwis-management'
 
-report-securityservice:
+.report-securityservice:
   extends: .TriggerSecu
   only:
     - master
