@@ -55,6 +55,13 @@ public class AwsDbmsPool extends DbmsPool {
             ObjectMapper objectMapper = new ObjectMapper();
             AwsDBSecret awsDBSecret = objectMapper.readValue(secret, AwsDBSecret.class);
             dbmsConfig = fromSecret(awsDBSecret);
+
+            // add properties from initial config
+            Element properties = config.getChild("properties");
+            if (properties != null) {
+                properties.detach();
+                dbmsConfig.addContent(properties);
+            }
         } else {
             throw  new Exception("Got secret from AWS but it is empty");
         }
@@ -66,14 +73,6 @@ public class AwsDbmsPool extends DbmsPool {
         Element config = secret.toElement();
         config.addContent(new Element("driver").setText("org.postgresql.Driver"));
         config.addContent(new Element("poolSize").setText("10"));
-
-        Element properties = new Element("properties");
-        Element propertyString = new Element("property");
-        propertyString.setAttribute(new Attribute("key","stringtype"));
-        propertyString.setText("unspecified");
-        properties.setContent(propertyString);
-
-        config.addContent(properties);
         return config;
 
     }
