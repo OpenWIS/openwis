@@ -247,6 +247,11 @@ public final class Jeeves
 			public static final String MAX_WAIT       = "maxWait";
 			public static final String RECONNECT_TIME = "reconnectTime";
 
+			// 01/09/2020 add elements name for aws secrets
+			public static final String AWS_SECRET = "aws-secret";
+			public static final String AWS_REGION = "aws-region";
+			public static final String AWS_ENDPOINT = "aws-endpoint";
+
 			public static final int DEF_POOL_SIZE      = 2;
 			public static final int DEF_MAX_TRIES      = 20;  // number of connection attempts
 			public static final int DEF_MAX_WAIT       = 200; // msecs between attempts         

@@ -95,6 +95,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-secretsmanager</artifactId>
+			<version>1.11.851</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
