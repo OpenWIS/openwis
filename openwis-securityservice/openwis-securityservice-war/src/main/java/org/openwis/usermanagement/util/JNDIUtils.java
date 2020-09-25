@@ -32,6 +32,11 @@ public final class JNDIUtils {
    private final String ldapPort = "ldap_port";
 
    /**
+    * Secure connection
+    */
+   private final String ldapSSL= "ldap_ssl";
+
+   /**
     * @member: ldapUser The LDAP user name
     */
    private final String ldapUser = "ldap_user";
@@ -152,5 +157,8 @@ public final class JNDIUtils {
    public int getLogTimerSplitIndexForLogin() {
       return jndiConnection.getInt(logTimerSplitIndexForLogin);
    }
-   
+
+   public Boolean isLdapSSL() {
+      return Boolean.valueOf(jndiConnection.getString(ldapSSL));
+   }
 }
