@@ -1312,9 +1312,10 @@ request.frequency=this.config.frequency
 }else{request.parameters=this.getSubSelectionParametersPanel().buildSSPs();
 request.frequency=this.getSubSelectionParametersPanel().buildFrequency()
 }request.primaryDissemination=this.getPrimaryDisseminationPanel().buildDissemination();
-try{delete (request.primaryDissemination.publicDifussion.ftp.uuid)
+try{delete (request.primaryDissemination.publicDiffusion.ftp.uuid)
 }catch(error){}request.secondaryDissemination=this.secondaryDisseminationPanel?this.getSecondaryDisseminationPanel().buildDissemination():null;
-request.backupRequestId=this.backupRequestId;
+try{delete (request.secondaryDissemination.publicDiffusion.ftp.uuid)
+}catch(error){}request.backupRequestId=this.backupRequestId;
 request.backupDeployment=this.backupDeployment;
 return request
 },createParametersForNotInitialized:function(){var ssps=[];

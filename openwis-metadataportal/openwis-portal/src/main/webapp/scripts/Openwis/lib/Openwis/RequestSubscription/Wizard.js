@@ -289,11 +289,16 @@ Openwis.RequestSubscription.Wizard = Ext.extend(Ext.Window, {
 		}
 		request.primaryDissemination = this.getPrimaryDisseminationPanel().buildDissemination();
 		try {
-		    delete(request.primaryDissemination.publicDifussion.ftp.uuid);
+		    delete(request.primaryDissemination.publicDiffusion.ftp.uuid);
 		} catch(error) {
 		    //silent
 		}
 		request.secondaryDissemination = this.secondaryDisseminationPanel ? this.getSecondaryDisseminationPanel().buildDissemination() : null;
+		try {
+		    delete(request.secondaryDissemination.publicDiffusion.ftp.uuid);
+		} catch(error) {
+		    //silent
+		}
 		request.backupRequestId = this.backupRequestId;
 		request.backupDeployment = this.backupDeployment;
 		return request;
