@@ -1798,7 +1798,8 @@ request.frequency=this.config.frequency
 }else{request.parameters=this.getSubSelectionParametersPanel().buildSSPs();
 request.frequency=this.getSubSelectionParametersPanel().buildFrequency()
 }request.primaryDissemination=this.getPrimaryDisseminationPanel().buildDissemination();
-request.secondaryDissemination=this.secondaryDisseminationPanel?this.getSecondaryDisseminationPanel().buildDissemination():null;
+try{delete (request.primaryDissemination.publicDifussion.ftp.uuid)
+}catch(error){}request.secondaryDissemination=this.secondaryDisseminationPanel?this.getSecondaryDisseminationPanel().buildDissemination():null;
 request.backupRequestId=this.backupRequestId;
 request.backupDeployment=this.backupDeployment;
 return request
