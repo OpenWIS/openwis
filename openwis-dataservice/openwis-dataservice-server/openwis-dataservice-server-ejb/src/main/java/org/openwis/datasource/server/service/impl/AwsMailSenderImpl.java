@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.core.client.config.ClientOverrideConfiguration;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.RawMessage;
@@ -21,10 +23,12 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.Properties;
 
 import static org.openwis.dataservice.ConfigurationInfo.MAIL_AWS_REGION;
+import software.amazon.awssdk.http.apache.ProxyConfiguration;
 
 @Remote(MailSender.class)
 @Stateless(name = "AwsMailSender")
@@ -32,14 +36,36 @@ public class AwsMailSenderImpl implements MailSender {
 
     private static Logger logger = LoggerFactory.getLogger(AwsMailSenderImpl.class);
 
+    private static final String HTTPS_PROXY = "https_proxy";
     @Override
     public void sendMail(String from, String to, String subject, String content) {
 
         try {
             InstanceProfileCredentialsProvider provider = InstanceProfileCredentialsProvider.builder().build();
             Region region = Region.of(ConfigServiceFacade.getInstance().getString(MAIL_AWS_REGION));
-            SesClient client = SesClient.builder().credentialsProvider(provider).region(region).build();
 
+            SesClient client;
+            if (System.getenv(HTTPS_PROXY) != null) {
+                ProxyConfiguration.Builder proxyConfig =
+                        ProxyConfiguration.builder();
+
+                ProxyConfiguration proxyConfiguration = proxyConfig.endpoint(new URI(System.getenv(HTTPS_PROXY))).build();
+
+                ApacheHttpClient.Builder httpClientBuilder =
+                        ApacheHttpClient.builder()
+                                .proxyConfiguration(proxyConfiguration);
+
+                ClientOverrideConfiguration.Builder overrideConfig =
+                        ClientOverrideConfiguration.builder();
+
+                client = SesClient.builder()
+                        .httpClientBuilder(httpClientBuilder)
+                        .overrideConfiguration(overrideConfig.build())
+                        .credentialsProvider(provider).region(region).build();
+            } else {
+                client = SesClient.builder()
+                        .credentialsProvider(provider).region(region).build();
+            }
             MimeMessage message = createMessage(subject, from, to, content);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             message.writeTo(outputStream);

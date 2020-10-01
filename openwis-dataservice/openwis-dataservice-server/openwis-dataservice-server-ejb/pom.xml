@@ -228,6 +228,11 @@
             <artifactId>regions</artifactId>
             <version>2.10.89</version>
         </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+            <version>2.10.89</version>
+        </dependency>
     </dependencies>
 
     <build>
