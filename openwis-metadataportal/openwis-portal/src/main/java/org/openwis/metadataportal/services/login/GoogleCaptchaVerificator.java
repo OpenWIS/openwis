@@ -1,21 +1,25 @@
 package org.openwis.metadataportal.services.login;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
+import jeeves.utils.Log;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
+import java.net.URI;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GoogleCaptchaVerificator {
 
     // Url for verifying client captcha response
     private static final String GOOGLE_CAPTCHA_VERIFICATION_URL = "https://www.google.com/recaptcha/api/siteverify";
+
+    private static final String HTTPS_PROXY = "https_proxy";
 
     /**
      * Verify against user response if google captcha passses
@@ -28,7 +32,18 @@ public class GoogleCaptchaVerificator {
     public static Boolean verify(String userCaptchaResponse) throws IOException, JSONException {
 
         HttpClient client = new HttpClient();
+
+        if (System.getenv(HTTPS_PROXY) != null) {
+            String proxyHttps = System.getenv(HTTPS_PROXY);
+            try {
+                URI proxyUrl = new URI(proxyHttps);
+                client.getHostConfiguration().setProxy(proxyUrl.getHost(), proxyUrl.getPort());
+            } catch (URISyntaxException e) {
+                Log.error(LoginConstants.LOG, "Proxy malformed " + proxyHttps);
+            }
+        }
         PostMethod method = new PostMethod(GOOGLE_CAPTCHA_VERIFICATION_URL);
+
         // set headers
         method.setRequestHeader("Content-Type", "application/json");
         method.setRequestHeader("Accept", "application/json");
