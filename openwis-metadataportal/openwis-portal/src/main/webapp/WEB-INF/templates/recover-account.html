@@ -22,24 +22,37 @@
         <ul>
             <li> Username: <span th:text="${username}">username</span></li>
             <li> Password: <span th:text="${password}">password</span></li>
-            <li> MFA Secret key: <span th:text="${secretKey}">secretkey</span></li>
-
-            <p>Please use Google Authenticator to scan the following QR Code
-            </p>
-            <img src="src"
-                 th:src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + ${secretKey}"
-                 alt="QR code"
-                 width="150"
-                 height="150"
-            />
         </ul>
-        To change your password:
-        <ol>
-            <li>Select 'My Account'</li>
-            <li>Select 'Personal information' and click 'Change my password'</li>
-            <li>Enter your new password into the form and click 'Change Password...' </li>
-        </ol>
-        <p>If you have any questions or concerns, please do not hesitate to contact us.</p>
+        <div>
+            <p>
+                Please login to the portal using the above credentials.
+                You will be prompted to change your password at first login.
+                You are encouraged to use a passphrase that is unique and easy for you to remember.
+                It should comprise at least 12 characters and contain a mixture of at least three characters from the following categories:
+            </p>
+            <ol type="i">
+                <li>Upper case (A-Z)</li>
+                <li>Lower case letters (a-z)</li>
+                <li>Digits (0-9)</li>
+                <li>Special Characters (!@#$%^&*)</li>
+            </ol>
+        </div>
+        <div>
+            <p>
+                Our security policy requires a change of password at least once every year. To change your password:
+            </p>
+            <ol>
+                <li>Login to the portal</li>
+                <li>Select 'My Account'</li>
+                <li>Select 'Personal information' and click 'Change my password'</li>
+                <li>Enter your new password into the form the click 'Change Password...'</li>
+            </ol>
+        </div>
+        <p>If you require further assistance, please contact us at
+            <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
+            or
+            <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+        </p>
     </div>
     <div class="footer">
         <p class="end">Regards,</p>
