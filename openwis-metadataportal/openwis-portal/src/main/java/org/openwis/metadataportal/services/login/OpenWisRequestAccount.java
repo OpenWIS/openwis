@@ -113,6 +113,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         String organisation = request.getParameter("organisation");
         String country = request.getParameter("country");
         String email = request.getParameter("email");
+        String reason = request.getParameter("reason");
 
         Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
 
@@ -143,7 +144,7 @@ public class OpenWisRequestAccount extends HttpServlet {
 
         //Send Mail To Openwis Administrator
         Log.debug(Geonet.SELF_REGISTER, "Sending an email to the administrator");
-        sendEmailToAdministrator(context, email, firstname, lastname, organisation, country);
+        sendEmailToAdministrator(context, email, firstname, lastname, organisation, country, reason);
 
         // create action log entry
         UserLogDTO userLogDTO = new UserLogDTO();
@@ -183,15 +184,15 @@ public class OpenWisRequestAccount extends HttpServlet {
 
     /**
      * Sending email notification to the administrator after the end user has requested an account
-     *
-     * @param context   context
+     *  @param context   context
      * @param email     user email address
      * @param firstname firstname of the user
      * @param lastname  last name of the user
      * @param organisation organisation
      * @param country country
+     * @param reason
      */
-    private void sendEmailToAdministrator(ServiceContext context, String email, String firstname, String lastname, String organisation, String country) {
+    private void sendEmailToAdministrator(ServiceContext context, String email, String firstname, String lastname, String organisation, String country, String reason) {
 
         MailUtilities mail = new MailUtilities();
 
@@ -201,6 +202,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         content.put("username", email);
         content.put("organization", organisation);
         content.put("country", country);
+        content.put("reason", reason);
 
         OpenWISMail openWISMail = OpenWISMailFactory.buildRequestAccountAdminMail(context, "AccountRequest.subject2", content);
         boolean result = mail.send(openWISMail);

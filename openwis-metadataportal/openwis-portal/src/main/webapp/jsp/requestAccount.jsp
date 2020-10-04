@@ -306,6 +306,10 @@
 						<option value="ZW">Zimbabwe</option>
 					</select>
 				</div>
+				<div>
+				    <label for="reason">Reason:</label>
+				    <input name="reason" id="reason" type="text" required="required" data-validation="required"/>
+				</div>
 				
 				<div class="spacer"></div>
 				
