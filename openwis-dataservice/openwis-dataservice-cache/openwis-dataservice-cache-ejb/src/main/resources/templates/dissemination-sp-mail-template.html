@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <style type="text/css">
+        .content {
+            font-size: 16px;
+            line-height: 24px;
+        }
+        .product {
+            font-weight: 600;
+            word-wrap: break-word;
+        }
+        .label {
+            color: #666;
+	        padding-right:5px;
+        }
+        a.email:link, a.email:visited, a.email:visited {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 300;
+            color: #006fc4;
+            font-family: 'Raleway', Arial;
+        }
+        a.email:hover {
+            text-decoration: underline;
+        }
+        ul {
+            padding: 0 0 0 60px;
+            padding-bottom: 15px;
+            margin: 10px 0 0 0;
+        }
+        ul ul {
+            list-style-type: circle;
+        }
+        li {
+            display: list-item;
+        }
+        li::marker {
+            font-size: 0.8em;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 0 0 0 0;
+        }
+
+        .downloadLink {
+            margin-top: 1Opx;
+        }
+
+        .name {
+            padding-bottom: 15px;
+        }
+        .prefooter {
+            margin-top: 30px;
+        }
+        .footer {
+            font-size:12px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+
+
+    </style>
+</head>
+<body class="greyedbg" style="margin:0;">
+<p class="name">
+    Hello,
+</p>
+<div class="content">
+    <div valign="top">
+        Your <span th:if="${isSubscription} == true">subscription to the product</span>
+        <span th:if="${isSubscription} == false">request of the product</span>
+        :
+        <span th:text="${title}" class="product">title</span> has been completed.
+    </div>
+</div>
+<div height="20"></div>
+<div>
+    <div valign="top" class="content">
+        <p>Please find below a summary of your
+            <span th:if="${isSubscription} == true">subscription</span>
+            <span th:if="${isSubscription} == false">request</span>:</p>
+        <ul>
+            <li>
+                <div th:if="${isSubscription} == false" class="label">
+                    <span>Request ID:</span>
+                    <span th:text="${requestID}">0001</span>
+                </div>
+                <div th:if="${isSubscription} == true" class="label">
+                    <span>Subscription ID:</span>
+                    <span th:text="${requestID}">0001</span>
+                </div>
+            </li>
+            <li>
+                <span class="label">Product URN:</span> <span th:text="${urn}">urn</span>
+            </li>
+        </ul>
+        <div class="content downloadLink">
+            <span>You can download your file from </span><a th:href="${downloadLink}">link</a><span>.</span>
+        </div>
+    </div>
+</div>
+<div class="prefooter">
+    <p>If you require further assistance, please contact us at
+        <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
+        or
+        <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+    </p>
+</divc>
+<div class="footer">
+    <span>This is an automatically generated message. Please do not reply to this email.</span>
+</div>
+</body>
+</html>
