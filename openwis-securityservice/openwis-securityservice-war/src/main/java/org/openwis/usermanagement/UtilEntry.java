@@ -3,20 +3,13 @@ package org.openwis.usermanagement;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import com.novell.ldap.*;
 import com.novell.ldap.resources.ExceptionMessages;
 import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.util.JNDIUtils;
 import org.openwis.usermanagement.util.LdapConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.novell.ldap.LDAPAttribute;
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPEntry;
-import com.novell.ldap.LDAPException;
-import com.novell.ldap.LDAPModification;
-import com.novell.ldap.LDAPSearchConstraints;
-import com.novell.ldap.LDAPSearchResults;
 
 /**
  * Utilities for add or remove Entry. <P>
@@ -241,7 +234,11 @@ public final class UtilEntry {
        LDAPConnection lc = null;
       try {
          // create a new connection to lDAP because we bind with normal user credentials.
-         lc = new LDAPConnection();
+         if (JNDIUtils.getInstance().isLdapSSL()) {
+            lc = new LDAPConnection(new LDAPJSSESecureSocketFactory());
+         } else {
+            lc = new LDAPConnection();
+         }
          lc.connect(JNDIUtils.getInstance().getLdapHost(), JNDIUtils
                  .getInstance().getLdapPort());
          lc.bind(LDAPConnection.LDAP_V3, dn, password.getBytes("UTF8"));
