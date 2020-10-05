@@ -309,7 +309,7 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 				}),
 				valueField: 'id',
 				displayField:'value',
-				value: 'NONE',
+				value: 'XSD_ONLY',
                 name: 'validationModeCombobox',
                 typeAhead: true,
 				mode: 'local',
