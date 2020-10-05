@@ -9,10 +9,10 @@
             <div class="dss-logo-middle dss-logo-common">
                 <div class="dss-logo-middle-container dss-logo-common">
                     <div>
-                        <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-about/">About ASMC</a>&nbsp;
+                        <a class="dss-logo-middle-link" href="http://asmc.asean.org/asmc-about/">About ASMC</a>&nbsp;
                     </div>
                     <div>
-                        <a class="dss-logo-middle-link" onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/">Contact Us</a>
+                        <a class="dss-logo-middle-link" href="http://asmc.asean.org/asmc-contact-us/">Contact Us</a>
                     </div>
                 </div>
             </div>
