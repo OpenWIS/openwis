@@ -29,7 +29,6 @@ boolean devMode = context.isDebug();
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 	<META HTTP-EQUIV="Expires" CONTENT="-1">
 	
-    // WOGAAAAA
     <script src="https://assets.dcube.cloud/scripts/wogaa.js"></script>
 
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext/resources/css/ext-all.css">

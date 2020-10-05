@@ -27,8 +27,8 @@
         </div>
         <div class="main-content-right">
             <ul class="links">
-                <li><a onclick="redirectWarning()" href="http://asmc.asean.org/asmc-about/"><p class="title">ABOUT</p></a></li>
-                <li><a onclick="redirectWarning()" href="http://asmc.asean.org/asmc-contact-us/"><p class="title">CONTACT US</p></a></li>
+                <li><a href="http://asmc.asean.org/asmc-about/"><p class="title">ABOUT</p></a></li>
+                <li><a href="http://asmc.asean.org/asmc-contact-us/"><p class="title">CONTACT US</p></a></li>
                 <li class="subtitle"><p>FOLLOW US ON</p>
 			<a  href="http://asmc.asean.org/feed/">
                     <img src="<%= context.getBaseUrl() %>/images/icon-rss.png" width="150"
