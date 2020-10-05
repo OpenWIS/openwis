@@ -112,8 +112,8 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
          	                        scope : this,
          	                        params: this.getMetadataInsertInfos(),
          	                        success : function(fp, action) {
-         	                            //var jsonData = fp.errorReader.xmlData.childNodes[0].textContent;
-         	                            var jsonData = fp.errorReader.xmlData.getElementsByTagName("message")[0].childNodes[0].nodeValue;
+         	                            var jsonData = fp.errorReader.xmlData.childNodes[0].textContent;
+         	                            //var jsonData = fp.errorReader.xmlData.getElementsByTagName("message")[0].childNodes[0].nodeValue;
          	                            var result = Ext.decode(jsonData);
          	                            new Openwis.Common.Metadata.Report({
                                             lastResult: result

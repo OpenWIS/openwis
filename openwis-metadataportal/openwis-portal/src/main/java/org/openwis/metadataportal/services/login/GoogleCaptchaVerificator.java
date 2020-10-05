@@ -34,6 +34,7 @@ public class GoogleCaptchaVerificator {
         HttpClient client = new HttpClient();
 
         if (System.getenv(HTTPS_PROXY) != null) {
+            Log.info(LoginConstants.LOG,"Use proxy: " + System.getenv(HTTPS_PROXY));
             String proxyHttps = System.getenv(HTTPS_PROXY);
             try {
                 URI proxyUrl = new URI(proxyHttps);

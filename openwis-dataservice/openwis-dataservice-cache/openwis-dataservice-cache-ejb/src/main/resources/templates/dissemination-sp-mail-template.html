@@ -71,14 +71,6 @@
 <p class="name">
     Hello,
 </p>
-<div class="content">
-    <div valign="top">
-        Your <span th:if="${isSubscription} == true">subscription to the product</span>
-        <span th:if="${isSubscription} == false">request of the product</span>
-        :
-        <span th:text="${title}" class="product">title</span> has been completed.
-    </div>
-</div>
 <div height="20"></div>
 <div>
     <div valign="top" class="content">
@@ -101,7 +93,9 @@
             </li>
         </ul>
         <div class="content downloadLink">
-            <span>You can download your file from </span><a th:href="${downloadLink}">link</a><span>.</span>
+            <span>You can download the product: </span>
+            <span th:text="${title}" class="product">title</span> from 
+            <a th:href="${downloadLink}">link</a><span>.</span>
         </div>
     </div>
 </div>
@@ -111,7 +105,7 @@
         or
         <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
     </p>
-</divc>
+</div>
 <div class="footer">
     <span>This is an automatically generated message. Please do not reply to this email.</span>
 </div>
