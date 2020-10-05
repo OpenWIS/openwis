@@ -303,7 +303,6 @@ Openwis.Common.Metadata.Insert = Ext.extend(Ext.Container, {
 					id: 0,
 					fields: ['id', 'value'],
 					data: [
-					    ['NONE', Openwis.i18n('Metadata.Validation.None')], 
 					    ['XSD_ONLY', Openwis.i18n('Metadata.Validation.XsdOnly')], 
 					    ['FULL',     Openwis.i18n('Metadata.Validation.Full')] 
 					]
