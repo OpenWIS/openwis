@@ -144,7 +144,7 @@
 		<!-- postgresql -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		
-		<resource enabled="false">
+		<resource enabled="true">
 			<name>main-db</name>
 			<provider>jeeves.resources.dbms.DbmsPool</provider>
 			<config>
@@ -170,7 +170,7 @@
 		- type of db: postgres..
 		- dnInstanceName NOT USED
 		-->
-		<resource enabled="true">
+		<resource enabled="false">
 			<name>main-db</name>
 			<provider>jeeves.resources.dbms.AwsDbmsPool</provider>
 			<config>
