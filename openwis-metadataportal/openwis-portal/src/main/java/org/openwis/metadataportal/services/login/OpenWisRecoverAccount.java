@@ -109,6 +109,16 @@ public class OpenWisRecoverAccount extends HttpServlet{
         UserManager um = new UserManager(dbms);
         User user = um.getUserByUserName(email);
 
+        // Bug fixed 13/10/2020
+        /*  *
+         *  When they requested for an account, they receive a notification email which is correct. Then their account need to be elevated from candidate to user by the admin.
+         *  But when their privilege has not been elevated from candidate to user,
+         *  some of them tried to request for lost account recovery and they could receive a login credential this way.
+         */
+        if (user.getProfile().equals("Candidate")) {
+            return;
+        }
+
         //Generate new Password
         String newPassword = generateRandomPassword();
         //Change User Password
