@@ -21,9 +21,7 @@ public class MailAction implements AccountAction {
     public void doAction(User user) {
         MailUtilities mailUtilities = new MailUtilities();
 
-        if (this.mail.getDestinations() == null) {
-            this.mail.setDestinations(new String[]{user.getEmailContact()});
-        }
+        this.mail.setDestinations(new String[]{user.getEmailContact()});
         this.mail.addContentVariable("firstname", user.getName());
         this.mail.addContentVariable("lastname", user.getSurname());
         mailUtilities.send(this.mail);
