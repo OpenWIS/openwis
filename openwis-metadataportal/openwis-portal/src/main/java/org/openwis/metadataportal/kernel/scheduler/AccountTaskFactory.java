@@ -34,7 +34,7 @@ public class AccountTaskFactory {
         UserManager userManager = new UserManager(dbms);
         // Create filters
         List<AccountFilter> filters = Arrays.asList(
-                new ProfileFilter(Profile.User.name()),
+                new ProfileFilter(new String[]{Profile.User.name(),Profile.Operator.name(), Profile.Editor.name()}),
                 new AccountStatusFilter(InetUserStatus.ACTIVE),
                 new ValidPasswordFilter(),
                 new LastLoginFilter(period, timeUnit)
@@ -77,8 +77,8 @@ public class AccountTaskFactory {
     public static AccountTask buildAccountInactivityNotificationTask(ServiceContext context, Dbms dbms, AlertService alertService, Integer period, Integer threshold, TimeUnit timeUnit) {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
-                // users only
-                new ProfileFilter(Profile.User.name()),
+                // users,editors and operators only
+                new ProfileFilter(new String[]{Profile.User.name(),Profile.Operator.name(), Profile.Editor.name()}),
                 // active accounts only
                 new AccountStatusFilter(InetUserStatus.ACTIVE),
                 // users with password not expired
@@ -117,7 +117,7 @@ public class AccountTaskFactory {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
                 // users and administrators
-                new ProfileFilter(new String[]{"user","administrator"}),
+                new ProfileFilter(new String[]{Profile.Administrator.name(), Profile.User.name(),Profile.Operator.name(), Profile.Editor.name()}),
                 // users with an active account
                 new AccountStatusFilter(InetUserStatus.ACTIVE),
                 // user without the password expired
@@ -154,7 +154,7 @@ public class AccountTaskFactory {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
                 // users and administrators
-                new ProfileFilter(new String[]{"user","administrator"}),
+                new ProfileFilter(new String[]{Profile.Administrator.name(), Profile.User.name(),Profile.Operator.name(), Profile.Editor.name()}),
                 // users with an active account
                 new AccountStatusFilter(InetUserStatus.ACTIVE),
                 // user with the password expired
@@ -195,7 +195,7 @@ public class AccountTaskFactory {
         UserManager userManager = new UserManager(dbms);
         List<AccountFilter> filters = Arrays.asList(
                 // Only users
-                new ProfileFilter("user"),
+                new ProfileFilter(new String[]{Profile.Administrator.name(),Profile.User.name(),Profile.Operator.name(), Profile.Editor.name()}),
                 // Only inactive accounts
                 new AccountStatusFilter(InetUserStatus.INACTIVE),
                 // only users with the account locked out due to multiple failed logins
