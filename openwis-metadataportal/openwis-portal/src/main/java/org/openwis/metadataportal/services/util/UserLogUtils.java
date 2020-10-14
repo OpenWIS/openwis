@@ -13,6 +13,7 @@ import org.openwis.metadataportal.services.user.dto.UserLogDTO;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class UserLogUtils {
         userActionLogDTO.setAction(UserAction.valueOf(Strings.toUpperCase(openwisLog.getAction())));
         userActionLogDTO.setUsername(openwisLog.getUsername());
         userActionLogDTO.setAttribute(openwisLog.getAttribute());
-        userActionLogDTO.setDate(LocalDateTime.now());
+        userActionLogDTO.setDate(LocalDateTime.now(ZoneOffset.UTC));
         return userActionLogDTO;
     }
 

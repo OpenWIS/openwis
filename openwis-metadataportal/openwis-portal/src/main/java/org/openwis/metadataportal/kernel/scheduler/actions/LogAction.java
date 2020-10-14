@@ -9,6 +9,7 @@ import org.openwis.metadataportal.services.util.UserLogUtils;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class LogAction implements AccountAction {
 
@@ -24,7 +25,7 @@ public class LogAction implements AccountAction {
     public void doAction(User user) {
         UserLogDTO userActionLogDTO = new UserLogDTO();
         userActionLogDTO.setAction(action);
-        userActionLogDTO.setDate(LocalDateTime.now());
+        userActionLogDTO.setDate(LocalDateTime.now(ZoneOffset.UTC));
         userActionLogDTO.setUsername(user.getUsername());
         userActionLogDTO.setActioner("admin");
         try {

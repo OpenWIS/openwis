@@ -54,4 +54,5 @@ public interface IOpenWISMail {
      * @param destinations
      */
     public void setDestinations(String[] destinations);
+
 }

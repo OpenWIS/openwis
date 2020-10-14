@@ -53,7 +53,7 @@ public class AccountTaskFactory {
 
         // create admin mail action
         IOpenWISMail adminMail = OpenWISMailFactory.buildAccountSuspensionAdminMail(context, "Account.lock.subject", mailContent);
-        actions.add(new MailAction(adminMail));
+        actions.add(new AdminMailAction(adminMail));
 
         //log action
         actions.add(new LogAction(dbms, UserAction.LOCK));
@@ -170,7 +170,7 @@ public class AccountTaskFactory {
 
         // action to send mail to admin about user account suspension due to pwd expired
         IOpenWISMail adminMail = OpenWISMailFactory.buildAccountSuspensionPwdExpiredAdminMail(context, "Password.notification.subject",  new HashMap<>());
-        actions.add(new MailAction(adminMail));
+        actions.add(new AdminMailAction(adminMail));
 
         // log action
         actions.add(new LogAction(dbms, UserAction.PASSWORD_EXPIRED_NOTIFICATION_MAIL));
@@ -199,7 +199,7 @@ public class AccountTaskFactory {
                 // Only inactive accounts
                 new AccountStatusFilter(InetUserStatus.INACTIVE),
                 // only users with the account locked out due to multiple failed logins
-                new FailedLoginFilter(dbms)
+                new FailedLoginFilter(dbms, alertService)
         );
 
         List<AccountAction> actions = new ArrayList<>();
@@ -209,7 +209,7 @@ public class AccountTaskFactory {
 
         // admin mail action
         IOpenWISMail adminMail = OpenWISMailFactory.buildAccountSuspensionAdminFailedLoginMail(context, "Account.locked.notification.subject", new HashMap<>());
-        actions.add(new MailAction(adminMail));
+        actions.add(new AdminMailAction(adminMail));
 
         // log action
         actions.add(new LogAction(dbms, UserAction.ACCOUNT_LOCKED_NOTIFICATION_MAIL));

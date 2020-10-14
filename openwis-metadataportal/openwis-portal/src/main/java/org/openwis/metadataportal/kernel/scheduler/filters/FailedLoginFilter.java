@@ -4,12 +4,19 @@ import jeeves.resources.dbms.Dbms;
 import jeeves.utils.Log;
 import org.fao.geonet.constants.Geonet;
 import org.jdom.Element;
+import org.openwis.management.alert.AlarmEvent;
+import org.openwis.management.alert.AlertService;
 import org.openwis.metadataportal.model.user.User;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FailedLoginFilter implements AccountFilter {
@@ -17,8 +24,14 @@ public class FailedLoginFilter implements AccountFilter {
     private final Dbms dbms;
     private final String datePattern = "YYYY-MM-dd HH:mm:ss.SSS";
 
-    public FailedLoginFilter(Dbms dbms) {
+    /** Date/time format used in OpenAM logs */
+    private final String ALARM_DATE_TIME_FORMAT = new String("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    private final AlertService alertService;
+
+    public FailedLoginFilter(Dbms dbms, AlertService alertService) {
         this.dbms = dbms;
+        this.alertService = alertService;
     }
 
     @Override
@@ -34,7 +47,7 @@ public class FailedLoginFilter implements AccountFilter {
                         filteredUsers.add(user);
                     }
                 }
-            } catch (SQLException | NullPointerException e) {
+            } catch (Exception e) {
                 Log.error(Geonet.ADMIN, String.format("%s. User %s: %s",
                         FailedLoginFilter.class.getSimpleName(),
                         user.getUsername(),
@@ -53,21 +66,20 @@ public class FailedLoginFilter implements AccountFilter {
      * @return Element
      */
     @SuppressWarnings("unchecked case")
-    private LocalDateTime getAccountLockedDate(User user) throws SQLException {
-        String query = String.format("select * from openwis_alarms where message like '%%Account locked%%%s%%' and source = 'Security Service' ORDER BY date DESC LIMIT 1;", user.getUsername());
+    private LocalDateTime getAccountLockedDate(User user) {
+        String filterExp = String.format("LOWER(openwis_alarms.severity) = 'warn' and LOWER(openwis_alarms.module) like '%%log timer service%%' and LOWER(openwis_alarms.source) like '%%security service%%' and LOWER(openwis_alarms.message) like '%%account locked %%%s%%'", user.getUsername());
+        String sortColumn = "date";
+        String sortOrder = "DESC";
+        int index = 0;
+        int limit = 1;
 
-        List<Element> result = this.dbms.select(query).getChildren();
-        if (result.size() == 0) {
+        List<AlarmEvent> events = this.alertService.getFilteredEventsSorted(filterExp, sortColumn, sortOrder, index, limit);
+        if (events.size() == 0) {
             return null;
         }
 
-        List<Element> elements = (List<Element>) result.get(0).getContent();
-        for (Element e: elements) {
-            if (e.getName().equals("date")) {
-                return LocalDateTime.parse(e.getText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            }
-        }
-        return null;
+         AlarmEvent event = events.get(0);
+         return LocalDateTime.parse(event.getDate().toString(), DateTimeFormatter.ofPattern(ALARM_DATE_TIME_FORMAT));
     }
 
     private boolean isAccountLockedLastNotification(User user, LocalDateTime lockedDate) throws SQLException {

@@ -9,27 +9,17 @@ import org.openwis.metadataportal.services.util.mail.IOpenWISMail;
  * General mail action.
  * This class sends a mail to user.
  */
-public class MailAction implements AccountAction {
+public class AdminMailAction implements AccountAction {
 
     private final IOpenWISMail mail;
 
-    public MailAction(IOpenWISMail mail) {
+    public AdminMailAction(IOpenWISMail mail) {
         this.mail = mail;
     }
 
     @Override
     public void doAction(User user) {
         MailUtilities mailUtilities = new MailUtilities();
-
-        // check if this is admin mail and do not set destination in this case
-        boolean isAdminMail = false;
-        if (this.mail.getDestinations() != null) {
-            isAdminMail = this.mail.getAdministratorAddress().equals(this.mail.getDestinations()[0]);
-        }
-
-        if (!isAdminMail) {
-            this.mail.setDestinations(new String[]{user.getEmailContact()});
-        }
 
         this.mail.addContentVariable("firstname", user.getName());
         this.mail.addContentVariable("lastname", user.getSurname());
