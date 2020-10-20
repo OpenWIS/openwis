@@ -66,10 +66,10 @@
 	   for (SearchResultDocument doc : sr) {
 	     pageContext.setAttribute("doc",doc);
 	     id = doc.getId();
-	     title = doc.getFieldAsString(IndexField._TITLE);
+	     title = StringEscapeUtils.escapeHtml(doc.getFieldAsString(IndexField._TITLE));
 	     titleForJs = StringEscapeUtils.escapeJavaScript(title);
 	     keywords = doc.getFieldAsListOfString(IndexField.KEYWORD);
-	     abst = doc.getFieldAsString(IndexField.ABSTRACT);
+	     abst = StringEscapeUtils.escapeHtml(doc.getFieldAsString(IndexField.ABSTRACT));
 	     graphicOverview = doc.getFieldAsString(IndexField.GRAPHIC_OVERVIEW);
 	     source =  doc.getFieldAsString(IndexField.SOURCE);
 	     isGlobal = "true".equals(doc.getField(IndexField.IS_GLOBAL));
