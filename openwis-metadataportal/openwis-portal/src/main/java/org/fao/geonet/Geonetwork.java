@@ -605,7 +605,7 @@ public class Geonetwork implements ApplicationHandler {
                     continue;
                 }
 
-                Log.info(Geonet.ADMIN, String.format("Account inactivity notification T - %d %s", threshold, unitMap.get("inactivity")));
+                Log.info(Geonet.ADMIN, String.format("Account inactivity notification T - %d %s", threshold, params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT)));
                 AccountTask accountLockingNotificationTask = AccountTaskFactory.buildAccountInactivityNotificationTask(context,
                         dbms,
                         alertService,
@@ -621,7 +621,7 @@ public class Geonetwork implements ApplicationHandler {
         if (passwordExecExpirePeriod != 0) {
             int[] values = (int[]) params.get(ConfigurationConstants.ACCOUNT_TASK_PASSWORD_EXPIRE_NOTIFICATIONS_PERIOD);
             for (int v : values) {
-                Log.info(Geonet.ADMIN, String.format("Password expire notification: T - %d %s", v, unitMap.get("passwordExpire")));
+                Log.info(Geonet.ADMIN, String.format("Password expire notification: T - %d %s", v, params.get(ConfigurationConstants.ACCOUNT_TASK_TIME_UNIT)));
                 AccountTask passwordExpireTask = AccountTaskFactory.buildPasswordExpireNotificationTask(context,
                         dbms,
                         alertService,
@@ -643,12 +643,12 @@ public class Geonetwork implements ApplicationHandler {
 
         if (failedLoginExecPeriod != 0) {
             Log.info(Geonet.ADMIN, "Multiple failed login notification task");
-            AccountTask passwordExpireTask = AccountTaskFactory.buildLockedAccountNotificationTask(context,
+            AccountTask failedLoginTask = AccountTaskFactory.buildLockedAccountNotificationTask(context,
                     dbms,
                     alertService,
                     failedLoginExecPeriod,
                     unitMap.get("failedLogin"));
-            executor.scheduleAtFixedRate(passwordExpireTask, 0, failedLoginExecPeriod, unitMap.get("failedLogin"));
+            executor.scheduleAtFixedRate(failedLoginTask, 0, failedLoginExecPeriod, unitMap.get("failedLogin"));
         }
 
     }
