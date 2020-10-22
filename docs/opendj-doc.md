@@ -1,5 +1,7 @@
 # OpenDJ
 
+> Update 22/10/2020: For all requests use ```--useSSL``` argument. The MSS LDAP is set only on SSL. The port remains the same 1389.
+
 ## Search
 
 Search the attribute pwdFailureTime, pwdAccountLockedTime and sunAMAuthInvalidAttemptsData for account cosmin
