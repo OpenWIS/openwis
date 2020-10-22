@@ -53,6 +53,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import com.google.json.JsonSanitizer;
+import org.json.JSONException;
 import org.owasp.encoder.Encode;
 
 //=============================================================================
@@ -297,10 +298,15 @@ public final class ServiceRequestFactory {
 
         Element jsonDataEl = new Element("jsonData");
 
-        Log.debug(Log.ENGINE, "Sanitizing json data: " + node.toString());
-        SanitizeJson sanitizeJson = new SanitizeJson();
-        String wellFormedJson = sanitizeJson.sanitize(JsonSanitizer.sanitize(node.toString()));
-        Log.debug(Log.ENGINE, "Sanitized json data: " + wellFormedJson);
+        String wellFormedJson = node.toString();
+        try {
+            Log.debug(Log.ENGINE, "Sanitizing json data: " + node.toString());
+            SanitizeJson sanitizeJson = new SanitizeJson();
+            wellFormedJson = sanitizeJson.sanitize(JsonSanitizer.sanitize(node.toString()));
+            Log.debug(Log.ENGINE, "Sanitized json data: " + wellFormedJson);
+        } catch (JSONException e) {
+            Log.error(Log.ENGINE, e.getMessage());
+        }
 
         jsonDataEl.setText(wellFormedJson);
         params.addContent(jsonDataEl);
