@@ -499,6 +499,16 @@ public class ServiceManager {
 
                 response = srvInfo.execServices(req.getParams(), context);
 
+                // Fix 02/11/2020 Sanitize the output json
+                Element jsonData = response.getName().equals("jsonData") ? response : response.getChild("jsonData");
+                if (jsonData != null) {
+                        SanitizeJson sanitizeJson = new SanitizeJson();
+                        String sanitizedJson = sanitizeJson.sanitize(jsonData.getValue());
+                    Log.debug(Log.SERVICE, "Sanitized output json: " + sanitizedJson);
+                    jsonData.setText(sanitizedJson);
+                }
+
+
                 long serviceExecuted = System.currentTimeMillis();
                 if (Log.isStatEnabled()) {
                     Log.statTime(req.getService(), "ServiceManager.dispatch", "Exec service", serviceExecuted - accessChecked);

@@ -1,6 +1,5 @@
 package jeeves.utils;
 
-import com.google.json.JsonSanitizer;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,28 +12,33 @@ public class SanitizeJson {
     public SanitizeJson() {}
 
     public String sanitize(String unsecuredJson) {
-        /**
-         * THIS IS PURE CRAP!!!!
-         * The problem here is that the frontend does not always send a valid JSON as payload. Some services send
-         * just a string like "["val1", "val2]". Therefore creating a json from this will fail. I can spent some time to fix it,
-         * but God knows what crap is hiding behind all these services. So, I choose the easy path. Just return the string if
-         * it cannot be transformed in a JSON. BUT THIS IS A VULNERABILITY. An attacker can insert malicious data in a string and
-         * bypass the sanitize method.
-         * The unsecuredJson MUST BE SANITIZED before usage.
-         *
-         * One more thing: why the try / catch at this point. It's because {@link JeevesJsonWrapper}#send method which
-         * throws an {@link Exception}. Happy day!!!
-         */
+        Log.debug(Log.ENGINE, "Sanitize json array: " + unsecuredJson);
         try {
-            JSONObject obj = new JSONObject(JsonSanitizer.sanitize(unsecuredJson));
-            Map<String, Object> map = convertToMap(obj);
-            return new JSONObject(map).toString();
+            if (unsecuredJson.startsWith("[")) {
+                JSONArray jsonArray = new JSONArray(unsecuredJson);
+                List<JSONObject> l = new ArrayList<>();
+                for(int i=0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    l.add(sanitize0(jsonObject));
+                }
+
+                JSONArray sanitizedArray = new JSONArray(l);
+                Log.debug(Log.ENGINE, "Sanitized json array: " + sanitizedArray.toString());
+                return sanitizedArray.toString();
+            } else {
+                return sanitize0(new JSONObject(unsecuredJson)).toString();
+            }
         } catch (JSONException e) {
             return unsecuredJson;
         }
     }
 
-    public Map<String, Object> convertToMap(JSONObject jsonObject) {
+    private JSONObject sanitize0(JSONObject unsafeJSON) {
+        Map<String, Object> map = convertToMap(unsafeJSON);
+        return new JSONObject(map);
+    }
+
+    private Map<String, Object> convertToMap(JSONObject jsonObject) {
         Map<String, Object> map = new HashMap<>();
         List<Object> mapArr = null;
         for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
