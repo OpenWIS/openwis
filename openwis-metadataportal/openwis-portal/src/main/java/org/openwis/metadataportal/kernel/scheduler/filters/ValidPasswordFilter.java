@@ -1,5 +1,6 @@
 package org.openwis.metadataportal.kernel.scheduler.filters;
 
+import jeeves.utils.Log;
 import org.openwis.metadataportal.model.user.User;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ValidPasswordFilter implements AccountFilter {
         List<User> filteredUsers = new ArrayList<>();
         for (User user: users) {
             if (user.getPwdChangedTime().isBefore(user.getPwdExpireTime())) {
+                Log.debug(Log.SCHEDULER,String.format("User [%s] has a valid password", user.getUsername()));
                 filteredUsers.add(user);
             }
         }

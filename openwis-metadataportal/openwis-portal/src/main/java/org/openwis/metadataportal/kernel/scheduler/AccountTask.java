@@ -32,12 +32,14 @@ public class AccountTask implements Runnable {
         try {
             List<User> filteredUsers = userManager.getAllUsers();
             for (AccountFilter filter : filters) {
+                Log.debug(Log.SCHEDULER, "Applying filter: " + filter.getClass().getSimpleName());
                 filteredUsers = filter.filter(filteredUsers);
             }
 
             Log.info(Log.SCHEDULER, String.format("Found %d users", filteredUsers.size()));
             for (User user : filteredUsers) {
                 for (AccountAction action : actions) {
+                    Log.debug(Log.SCHEDULER, "Performing action: " + action.getClass().getSimpleName());
                     action.doAction(user);
                 }
             }

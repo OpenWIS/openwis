@@ -32,7 +32,12 @@ public class InactivityNotificationFilter extends BaseNotificationFilter impleme
 
     @Override
     public LocalDateTime shiftDate(User user, int period, TimeUnit timeUnit) {
-        return user.getLastLogin().plus(period, ChronoUnit.valueOf(timeUnit.toString()));
+        LocalDateTime lastLogin = user.getLastLogin();
+        if (lastLogin != null) {
+            return lastLogin.plus(period, ChronoUnit.valueOf(timeUnit.toString()));
+        }
+
+        return LocalDateTime.now();
     }
 
 

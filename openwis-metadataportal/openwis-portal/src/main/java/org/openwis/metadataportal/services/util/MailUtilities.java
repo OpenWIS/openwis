@@ -66,6 +66,7 @@ public class MailUtilities {
                 ProxyConfiguration.Builder proxyConfig =
                         ProxyConfiguration.builder();
 
+                Log.debug(Log.SERVICE, "Send mail using proxy: " + System.getenv(HTTPS_PROXY));
                 ProxyConfiguration proxyConfiguration = proxyConfig.endpoint(new URI(System.getenv(HTTPS_PROXY))).build();
 
                 ApacheHttpClient.Builder httpClientBuilder =

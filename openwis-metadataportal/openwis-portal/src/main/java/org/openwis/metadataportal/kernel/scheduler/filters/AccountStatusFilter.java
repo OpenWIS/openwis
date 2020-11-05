@@ -1,5 +1,6 @@
 package org.openwis.metadataportal.kernel.scheduler.filters;
 
+import jeeves.utils.Log;
 import org.openwis.metadataportal.model.user.User;
 
 import java.util.ArrayList;

@@ -24,16 +24,19 @@ public class MailAction implements AccountAction {
         // check if this is admin mail and do not set destination in this case
         boolean isAdminMail = false;
         if (this.mail.getDestinations() != null) {
+            Log.debug(Log.SCHEDULER, "Admin mail: true");
             isAdminMail = this.mail.getAdministratorAddress().equals(this.mail.getDestinations()[0]);
         }
 
         if (!isAdminMail) {
+            Log.debug(Log.SCHEDULER, "Admin mail: false");
             this.mail.setDestinations(new String[]{user.getEmailContact()});
         }
 
+        Log.debug(Log.SCHEDULER, String.format("Sending mail to [%s]", this.mail.getDestinations()[0]));
         this.mail.addContentVariable("firstname", user.getName());
         this.mail.addContentVariable("lastname", user.getSurname());
         mailUtilities.send(this.mail);
-        Log.debug(Log.SCHEDULER, String.format("Mail sent to [%s]", this.mail.getDestinations()[0]));
+        Log.info(Log.SCHEDULER, String.format("Mail sent to [%s]", this.mail.getDestinations()[0]));
     }
 }

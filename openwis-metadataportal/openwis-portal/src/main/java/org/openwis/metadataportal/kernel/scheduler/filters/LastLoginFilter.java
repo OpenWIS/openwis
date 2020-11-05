@@ -44,13 +44,15 @@ public class LastLoginFilter implements AccountFilter {
                     user.getUsername(),
                     user.getLastLogin()));
 
-            if (user.getLastLogin().isBefore(threshold)) {
-                Log.debug(Log.SCHEDULER, String.format("%s : User: %s. Last login: %s. Threshold: %s",
-                        LastLoginFilter.class.getSimpleName(),
-                        user.getUsername(),
-                        user.getLastLoginAsString(),
-                        threshold.toString()));
-                filteredUsers.add(user);
+            if (user.getLastLogin() != null) {
+                if (user.getLastLogin().isBefore(threshold)) {
+                    Log.debug(Log.SCHEDULER, String.format("%s : User: %s. Last login: %s. Threshold: %s",
+                            LastLoginFilter.class.getSimpleName(),
+                            user.getUsername(),
+                            user.getLastLoginAsString(),
+                            threshold.toString()));
+                    filteredUsers.add(user);
+                }
             }
         }
 

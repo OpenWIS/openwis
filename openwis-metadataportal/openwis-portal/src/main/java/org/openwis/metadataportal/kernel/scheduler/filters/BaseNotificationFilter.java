@@ -40,7 +40,10 @@ public abstract class BaseNotificationFilter {
             for (User user : users) {
                 // shift last login
                 LocalDateTime shiftedDate = this.shiftDate(user, this.period, this.timeUnit);
-
+                if (shiftedDate == null) {
+                    Log.warning(Log.SCHEDULER, "Shift date null for user: %s. Skip it" + user.getUsername());
+                    continue;
+                }
                 // if now < shifted date continue
                 if (shiftedDate.isAfter(now)) {
                     continue;
