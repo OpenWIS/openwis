@@ -20,7 +20,7 @@
 String title = "ASEAN | WIS Portal";
 %>
 
-	<%@include file="header-common.jsp" %>
+	<%@include file="header-common-captcha.jsp" %>
 
    </head>
    <body>
