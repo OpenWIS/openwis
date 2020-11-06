@@ -144,7 +144,7 @@
 		<!-- postgresql -->
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 		
-		<resource enabled="true">
+		<resource enabled="false">
 			<name>main-db</name>
 			<provider>jeeves.resources.dbms.DbmsPool</provider>
 			<config>
@@ -154,7 +154,7 @@
                 <url>jdbc:postgresql://openwis-db-1.cxaczg5nxvqg.eu-west-3.rds.amazonaws.com:5432/OpenWIS</url>
                 <poolSize>10</poolSize>
                 <properties>
-                 <property key="stringtype">unspecified</property>
+                 	<property key="stringtype">unspecified</property>
                 </properties>
 			</config>
 		</resource>
@@ -170,10 +170,12 @@
 		- type of db: postgres..
 		- dnInstanceName NOT USED
 		-->
-		<resource enabled="false">
+		<resource enabled="true">
 			<name>main-db</name>
 			<provider>jeeves.resources.dbms.AwsDbmsPool</provider>
 			<config>
+				<driver>org.postgresql.Driver</driver>
+				<poolSize>20</poolSize>
 				<aws-secret>/openwis/postgres</aws-secret>
 				<aws-region>eu-west-3</aws-region>
 				<aws-endpoint>secretsmanager.eu-west-3.amazonaws.com</aws-endpoint>

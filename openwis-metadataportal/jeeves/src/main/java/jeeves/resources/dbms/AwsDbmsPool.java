@@ -54,8 +54,17 @@ public class AwsDbmsPool extends DbmsPool {
             secret = getSecretValueResult.getSecretString();
             ObjectMapper objectMapper = new ObjectMapper();
             AwsDBSecret awsDBSecret = objectMapper.readValue(secret, AwsDBSecret.class);
-            dbmsConfig = fromSecret(awsDBSecret);
+            dbmsConfig = awsDBSecret.toElement();
 
+            Element driver = config.getChild(Jeeves.Res.Pool.DRIVER);
+            if (driver != null) {
+                dbmsConfig.addContent(driver.detach());
+            }
+
+            Element poolSize = config.getChild(Jeeves.Res.Pool.POOL_SIZE);
+            if (poolSize != null) {
+                dbmsConfig.addContent(poolSize.detach());
+            }
             // add properties from initial config
             Element properties = config.getChild("properties");
             if (properties != null) {
@@ -67,13 +76,5 @@ public class AwsDbmsPool extends DbmsPool {
         }
 
         super.init(name,dbmsConfig);
-    }
-
-    private Element fromSecret(AwsDBSecret secret) {
-        Element config = secret.toElement();
-        config.addContent(new Element("driver").setText("org.postgresql.Driver"));
-        config.addContent(new Element("poolSize").setText("10"));
-        return config;
-
     }
 }

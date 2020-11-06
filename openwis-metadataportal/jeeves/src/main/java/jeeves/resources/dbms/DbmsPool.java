@@ -160,7 +160,7 @@ public class DbmsPool implements ResourceProvider
 				Boolean locked = htDbms.get(dbms);
 				debug("DBMS Resource "+i+" is "+locked);
 
-				if (!locked.booleanValue())
+				if (!locked)
 				{
 					try
 					{
@@ -185,7 +185,7 @@ public class DbmsPool implements ResourceProvider
 						}
 
 						debug("SUCCESS: DBMS Resource "+i+" is not locked");
-						htDbms.put(dbms, new Boolean(true));
+						htDbms.put(dbms, Boolean.TRUE);
 						return dbms;
 					}
 					catch (Exception ex)
@@ -223,7 +223,7 @@ public class DbmsPool implements ResourceProvider
         }
 		finally
 		{
-		    htDbms.put((Dbms) resource, new Boolean(false));
+		    htDbms.put((Dbms) resource, Boolean.FALSE);
         }
 
 		synchronized(hsListeners) {
@@ -283,7 +283,7 @@ public class DbmsPool implements ResourceProvider
 		if (locked == null)
 			throw new IllegalArgumentException("Resource not found :"+resource);
 
-		if (!locked.booleanValue())
+		if (!locked)
 			throw new IllegalArgumentException("Resource not locked :"+resource);
 	}
 
