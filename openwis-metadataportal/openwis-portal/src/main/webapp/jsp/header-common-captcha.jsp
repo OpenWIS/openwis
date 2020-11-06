@@ -50,7 +50,6 @@ boolean devMode = context.isDebug();
 <%
 if (devMode) {
 %>  
-	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/prototype.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext/adapter/ext/ext-base.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext/ext-all-debug.js"></script>
 	<script type="text/javascript" src="<%= context.getBaseUrl() %>/scripts/ext-ux/GroupTab.js"></script>
