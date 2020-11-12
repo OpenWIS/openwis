@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .end1 {
+            margin: 0;
+         }
+         .note {
+            font-size:12px;
+            font-weight: bold;
+            font-style: italic;
+          }
+    </style>
+</head>
+<body>
+    <p>Dear ASMC WIS User,</p>
+    <p>Thank you for using our service.</p>
+    <p>We would like to take this opportunity to inform that the ASMC WIS portal URL will be changed to
+        <a href="https://wis.asmc.asean.org">https://wis.asmc.asean.org</a>
+        with effect from 16 Nov 2020.
+    </p>
+    <div class="login-detailed">
+        Your temporary login credentials for the new ASMC WIS Portal are as follows:
+        <ul>
+            <li> Username: <span th:text="${username}">username</span></li>
+            <li> Password: <span th:text="${password}">password</span></li>
+        </ul>
+        <div>
+            <p>
+                Please login to the portal using the above credentials.
+                You will be prompted to change your password at first login.
+                You are encouraged to use a passphrase that is unique and easy for you to remember.
+                It should comprise at least 12 characters and contain a mixture of at least three characters from the following categories:
+            </p>
+            <ol type="i">
+                <li>Upper case (A-Z)</li>
+                <li>Lower case letters (a-z)</li>
+                <li>Digits (0-9)</li>
+                <li>Special Characters (!@#$%^&*)</li>
+            </ol>
+        </div>
+        <div>
+            <p>
+                Our security policy requires a change of password at least once every year. To change your password:
+            </p>
+            <ol>
+                <li>Login to the portal</li>
+                <li>Select 'My Account'</li>
+                <li>Select 'Personal information' and click 'Change my password'</li>
+                <li>Enter your new password into the form the click 'Change Password...'</li>
+            </ol>
+            <p>We have also migrated your subscriptions (if any) that you previously setup to the new portal.</p>
+        </div>
+        <p>If you require further assistance, please contact us at
+            <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
+            or
+            <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+        </p>
+    </div>
+    <div class="footer">
+        <p class="note">This is an automatic generated message. Please do not reply to this email.</p>
+        <p class="note">Note: Please check your Spam/Junk Mail folder if you did no receive our reply in your Inbox.</p>
+    </div>
+</html>
