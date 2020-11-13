@@ -4019,12 +4019,12 @@ if(!this.userGrid){this.userGrid=new Ext.grid.GridPanel({id:"userGrid",height:40
 grid.getStore().load()
 }},sm:new Ext.grid.RowSelectionModel({listeners:{rowselect:function(sm,rowIndex,record){sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount()!=1);
 sm.grid.ownerCt.getRemoveAction().setDisabled(sm.getCount()==0);
-if(sm.getCount()==1){sm.grid.ownerCt.getLockAccountAction().setDisabled(!that.canLockAccount(record.get("profile")));
+if(sm.getCount()==1){sm.grid.ownerCt.getLockAccountAction().setDisabled(false);
 sm.grid.ownerCt.getLockAccountAction().setText(that.getLockAccountActionText(record.get("inetUserStatus")))
 }else{sm.grid.ownerCt.getLockAccountAction().setDisabled(true)
 }},rowdeselect:function(sm,rowIndex,record){sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount()!=1);
 sm.grid.ownerCt.getRemoveAction().setDisabled(sm.getCount()==0);
-if(sm.getCount()==1){sm.grid.ownerCt.getLockAccountAction().setDisabled(!that.canLockAccount(record.get("profile")));
+if(sm.getCount()==1){sm.grid.ownerCt.getLockAccountAction().setDisabled(false);
 sm.grid.ownerCt.getLockAccountAction().setText(that.getLockAccountActionText(record.get("inetUserStatus")))
 }else{sm.grid.ownerCt.getLockAccountAction().setDisabled(true)
 }}}})});
@@ -4090,8 +4090,7 @@ if(username){this.getUserStore().setBaseParam("userFilter",username)
 }return this.searchAction
 },getLockAccountActionText:function(inetUserStatus){if(inetUserStatus==="ACTIVE"){return Openwis.i18n("Common.Btn.Lock")
 }else{return Openwis.i18n("Common.Btn.Unlock")
-}},canLockAccount:function(userProfile){return userProfile!=="Administrator"
-}});Ext.ns("Openwis.Admin.User");
+}},});Ext.ns("Openwis.Admin.User");
 Openwis.Admin.User.Report=Ext.extend(Ext.Container,{initComponent:function(){Ext.apply(this,{style:{margin:"10px 30px 10px 30px"}});
 Openwis.Admin.User.Report.superclass.initComponent.apply(this,arguments);
 this.initialize()

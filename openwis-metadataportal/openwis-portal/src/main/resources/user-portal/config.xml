@@ -158,7 +158,34 @@
                 </properties>
 			</config>
 		</resource>
-	    
+
+		<!--
+		Definition of db configuration using AWS Secret Manager. The secret must be created as DB Secret which includes
+		the following fields:
+		- user
+		- password
+		-host
+		-port
+		-db name
+		- type of db: postgres..
+		- dnInstanceName NOT USED
+		-->
+		<resource enabled="false">
+			<name>main-db</name>
+			<provider>jeeves.resources.dbms.AwsDbmsPool</provider>
+			<config>
+				<driver>org.postgresql.Driver</driver>
+				<poolSize>20</poolSize>
+				<aws-secret>/openwis/postgres</aws-secret>
+				<aws-region>eu-west-3</aws-region>
+				<aws-endpoint>secretsmanager.eu-west-3.amazonaws.com</aws-endpoint>
+				<properties>
+					<property key="stringtype">unspecified</property>
+					<property key="sslmode">verify-full</property>
+					<property key="sslrootcert">/home/ec2-user/rds-ca-2019-root.pem</property>
+				</properties>
+			</config>
+		</resource>
 	</resources>
 
 	<!-- ====================================================================== -->

@@ -77,7 +77,7 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 						    sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount() != 1);
 							sm.grid.ownerCt.getRemoveAction().setDisabled(sm.getCount() == 0);
 							if (sm.getCount() == 1) {
-							    sm.grid.ownerCt.getLockAccountAction().setDisabled(!that.canLockAccount(record.get('profile')));
+							    sm.grid.ownerCt.getLockAccountAction().setDisabled(false);
 							    sm.grid.ownerCt.getLockAccountAction().setText(that.getLockAccountActionText(record.get('inetUserStatus')));
                             } else {
                             	sm.grid.ownerCt.getLockAccountAction().setDisabled(true);
@@ -87,7 +87,7 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
 							sm.grid.ownerCt.getEditAction().setDisabled(sm.getCount() != 1);
 							sm.grid.ownerCt.getRemoveAction().setDisabled(sm.getCount() == 0);
 							if (sm.getCount() == 1) {
-                                sm.grid.ownerCt.getLockAccountAction().setDisabled(!that.canLockAccount(record.get('profile')));
+							    sm.grid.ownerCt.getLockAccountAction().setDisabled(false);
                                 sm.grid.ownerCt.getLockAccountAction().setText(that.getLockAccountActionText(record.get('inetUserStatus')));
                             } else {
                                 sm.grid.ownerCt.getLockAccountAction().setDisabled(true);
@@ -381,8 +381,4 @@ Openwis.Admin.User.All = Ext.extend(Ext.Container, {
             return Openwis.i18n('Common.Btn.Unlock');
         }
      },
-
-     canLockAccount: function(userProfile) {
-        return userProfile !== 'Administrator';
-     }
 });
