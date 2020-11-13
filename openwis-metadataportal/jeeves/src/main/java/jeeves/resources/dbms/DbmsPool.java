@@ -194,6 +194,13 @@ public class DbmsPool implements ResourceProvider
 						lastMessage = ex.getMessage();
 					}
 				}
+				StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+				// print the first 5 elements
+				StringBuilder b = new StringBuilder();
+				for (StackTraceElement element: stack) {
+					b.append(String.format("Class: %s. Method: %s#%d\n", element.getClassName(), element.getMethodName(),element.getLineNumber()));
+				}
+				debug("Resource locked: " + b.toString());
 				i++;
 			}
 			// wait MAX_WAIT msecs (but not after last try)
