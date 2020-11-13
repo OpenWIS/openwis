@@ -74,12 +74,18 @@ public class OpenWisRequestAccount extends HttpServlet {
                 String errorMessage = OpenWISMessages.format("AccountRequest.captchaFailed", context.getLanguage());
                 forwardError(request, response, errorMessage);
             }
+            context.getResourceManager().close();
         } catch (UserAlreadyExistsException e) {
             String errorMessage = OpenWISMessages.format("AccountRequest.userAlreadyExists", context.getLanguage());
             forwardError(request, response, errorMessage);
         } catch (Exception e) {
-            Log.error(LoginConstants.LOG, "Error processing Account Request  : " + e.getMessage());
-            forwardError(request, response, "Error during acccount request - " + e.getMessage());
+            Log.error(LoginConstants.LOG, "Error processing Account Request  : " + e.getMessage(),e);
+            try {
+                context.getResourceManager().abort();
+            } catch (Exception ex) {
+                Log.error(LoginConstants.LOG, "Cannot abort resource: " + e.getMessage(),e);
+            }
+            forwardError(request, response, "Error during account request - " + e.getMessage());
         }
     }
 
