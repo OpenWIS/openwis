@@ -28,54 +28,57 @@ import java.util.stream.Collectors;
 
 /**
  * Account Request
- * @author gibaultr
  *
+ * @author gibaultr
  */
-public class OpenWisRecoverAccount extends HttpServlet{
+public class OpenWisRecoverAccount extends HttpServlet {
 
-    private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE="g-recaptcha-response";
+    private final String GOOGLE_CAPTCHA_PARAMETER_RESPONSE = "g-recaptcha-response";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        handleRequest(request,response);
+            throws ServletException, IOException {
+        handleRequest(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        handleRequest(request,response);
+            throws ServletException, IOException {
+        handleRequest(request, response);
 
     }
+
     /**
      * Method called once the end user has submitted his account request
-     * @param request HTTP request
+     *
+     * @param request  HTTP request
      * @param response HTTP response
      * @throws ServletException
      * @throws IOException
      */
     private void handleRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
 
+        ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
         try {
             //Check whether the captcha passed or not
             boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
-            ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
 
 
             //If captcha passed, send mail to end user
             if (captchaPassed) {
                 processRequest(context, request, response);
-            }
-            else {
-                String errorMessage= OpenWISMessages.format("AccountRequest.captchaFailed", context.getLanguage());
+            } else {
+                String errorMessage = OpenWISMessages.format("AccountRequest.captchaFailed", context.getLanguage());
                 forwardError(request, response, errorMessage);
             }
-
+            context.getResourceManager().close();
         } catch (Exception e) {
-            Log.error(LoginConstants.LOG, "Error processing Account Recovery  : " + e.getMessage());
-            forwardError(request, response, "Error during acccount recovery - " + e.getMessage());
+            Log.error(LoginConstants.LOG, "Error processing Account Recovery  : " + e.getMessage(),e);
+            try {
+                context.getResourceManager().abort();
+            } catch (Exception exception) {
+                Log.error(LoginConstants.LOG, "Cannot abort resource: " + e.getMessage(),e);
+            }
+            forwardError(request, response, "Error during account recovery - " + e.getMessage());
         }
     }
 
@@ -83,28 +86,28 @@ public class OpenWisRecoverAccount extends HttpServlet{
                               String message) throws ServletException, IOException {
 
         String baseUrl = this.getBaseUrl(request.getRequestURI());
-        String redirect = baseUrl +"/srv/en/user.accountRecovery.get?errorMessage="+message;
+        String redirect = baseUrl + "/srv/en/user.accountRecovery.get?errorMessage=" + message;
         response.setStatus(307); //this makes the redirection keep your requesting method as is.
         response.addHeader("Location", redirect);
     }
+
     /**
      * Process account request when captcha passed
-     * @param context context
-     * @param request HTTP request
+     *
+     * @param context  context
+     * @param request  HTTP request
      * @param response HTTP response
      * @throws Exception
      */
-    private void processRequest(ServiceContext context, HttpServletRequest request, HttpServletResponse response) throws Exception
-    {
-        String baseUrl= this.getBaseUrl(request.getRequestURI());
-        String redirect  = baseUrl +"/jsp/recoverAccountAck.jsp";
+    private void processRequest(ServiceContext context, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String baseUrl = this.getBaseUrl(request.getRequestURI());
+        String redirect = baseUrl + "/jsp/recoverAccountAck.jsp";
         response.setStatus(307); //this makes the redirection keep your requesting method as is.
         response.addHeader("Location", redirect);
 
         String email = request.getParameter("email");
 
         Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
-
         // Get User
         UserManager um = new UserManager(dbms);
         User user = um.getUserByUserName(email);
@@ -140,11 +143,15 @@ public class OpenWisRecoverAccount extends HttpServlet{
         userLogDTO.setUsername(user.getUsername());
         userLogDTO.setDate(LocalDateTime.now());
         UserLogUtils.save(dbms, userLogDTO);
+
+
     }
+
     /**
      * Sending email notification to the end user just after he has requested an account
+     *
      * @param context context
-     * @param user user
+     * @param user    user
      */
     private void sendEmailToUser(ServiceContext context, User user) {
 
@@ -156,25 +163,27 @@ public class OpenWisRecoverAccount extends HttpServlet{
         content.put("username", user.getEmailContact());
         content.put("password", user.getPassword());
         String decodedKey = TwoFactorAuthenticationUtils.decodeBase16(user.getSecretKey());
-        content.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getEmailContact(),TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
+        content.put("secretKey", TwoFactorAuthenticationUtils.getGoogleAuthenticatorBarCode(user.getEmailContact(), TwoFactorAuthenticationUtils.encodeBase32(decodedKey)));
 
 
-        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountUserMail(context, "AccountRecovery.subject1",new String[]{user.getEmailContact()}, content);
+        OpenWISMail openWISMail = OpenWISMailFactory.buildRecoverAccountUserMail(context, "AccountRecovery.subject1", new String[]{user.getEmailContact()}, content);
         boolean result = mail.send(openWISMail);
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user("+user.getEmailContact()+")");
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the end user(" + user.getEmailContact() + ")");
         } else {
-            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user("+user.getEmailContact()+") from "+openWISMail.getAdministratorAddress());
+            Log.info(Geonet.SELF_REGISTER, "Account recovery email sent successfully to the end user(" + user.getEmailContact() + ") from " + openWISMail.getAdministratorAddress());
         }
     }
+
     /**
      * Sending email notification to the administrator after the end user has requested an account
-     * @param context context
-     * @param email user email address
+     *
+     * @param context   context
+     * @param email     user email address
      * @param firstname firstname of the user
-     * @param lastname last name of the user
+     * @param lastname  last name of the user
      */
     private void sendEmailToAdministrator(ServiceContext context, String email, String firstname, String lastname, String password) {
 
@@ -191,9 +200,9 @@ public class OpenWisRecoverAccount extends HttpServlet{
         if (!result) {
             // To be confirmed: Set ack dto if error message is requested
             //acknowledgementDTO = new AcknowledgementDTO(false, OpenWISMessages.getString("SelfRegister.errorSendingMail", context.getLanguage()));
-            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the administrator ("+openWISMail.getAdministratorAddress()+") about account recovery of user "+email);
+            Log.error(Geonet.SELF_REGISTER, "Error during Account Recovery : error while sending email to the administrator (" + openWISMail.getAdministratorAddress() + ") about account recovery of user " + email);
         } else {
-            Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator ("+openWISMail.getAdministratorAddress()+") about account recovery of user "+email);
+            Log.info(Geonet.SELF_REGISTER, "Email sent successfully to the administrator (" + openWISMail.getAdministratorAddress() + ") about account recovery of user " + email);
         }
     }
 
@@ -224,12 +233,12 @@ public class OpenWisRecoverAccount extends HttpServlet{
     }
 
     private String getBaseUrl(String url) {
-        String[] uris=url.split("/");
+        String[] uris = url.split("/");
         StringBuilder baseUrl = new StringBuilder("/");
-        for (int i = 1; i<uris.length;i++ ) {
+        for (int i = 1; i < uris.length; i++) {
 
             boolean done = false;
-            if ( uris[i].contains("user-portal") || uris[i].contains("admin-portal") ) {
+            if (uris[i].contains("user-portal") || uris[i].contains("admin-portal")) {
                 done = true;
             }
             baseUrl.append(uris[i]).append("/");

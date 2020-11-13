@@ -185,6 +185,7 @@ public class DbmsPool implements ResourceProvider
 						}
 
 						debug("SUCCESS: DBMS Resource "+i+" is not locked");
+						dbms.setStackTrace(getCallerStackTrace());
 						htDbms.put(dbms, Boolean.TRUE);
 						return dbms;
 					}
@@ -194,13 +195,7 @@ public class DbmsPool implements ResourceProvider
 						lastMessage = ex.getMessage();
 					}
 				}
-				StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-				// print the first 5 elements
-				StringBuilder b = new StringBuilder();
-				for (StackTraceElement element: stack) {
-					b.append(String.format("Class: %s. Method: %s#%d\n", element.getClassName(), element.getMethodName(),element.getLineNumber()));
-				}
-				debug("Resource locked: " + b.toString());
+				debug("Resource locked: " + dbms.getStackTrace());
 				i++;
 			}
 			// wait MAX_WAIT msecs (but not after last try)
@@ -214,6 +209,7 @@ public class DbmsPool implements ResourceProvider
 		}
 		throw new Exception("unable to open resource " + name + " after " + maxTries + "attempts: " + lastMessage);
 	}
+
 
 	//--------------------------------------------------------------------------
 	/** Releases one element from the pool
@@ -231,6 +227,7 @@ public class DbmsPool implements ResourceProvider
 		finally
 		{
 		    htDbms.put((Dbms) resource, Boolean.FALSE);
+			((Dbms)resource).setStackTrace("");
         }
 
 		synchronized(hsListeners) {
@@ -292,6 +289,16 @@ public class DbmsPool implements ResourceProvider
 
 		if (!locked)
 			throw new IllegalArgumentException("Resource not locked :"+resource);
+	}
+
+	// return the caller stack trace
+	private String getCallerStackTrace() {
+		StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+		StringBuilder b = new StringBuilder();
+		for (StackTraceElement element: stack) {
+			b.append(String.format("Class: %s. Method: %s#%d\n", element.getClassName(), element.getMethodName(),element.getLineNumber()));
+		}
+		return b.toString();
 	}
 
 	private void debug  (String message) { Log.debug  (Log.DBMSPOOL, message); }

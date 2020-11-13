@@ -62,6 +62,9 @@ public class Dbms {
     private Connection conn;
     private long lastConnTime;
 
+    // holds the stack trace of the callers who holds this resource
+    private String stackTrace;
+
     //--------------------------------------------------------------------------
     //---
     //--- Constructor
@@ -449,6 +452,14 @@ public class Dbms {
         }
 
         return sb.toString();
+    }
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
     }
 }
 
