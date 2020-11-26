@@ -140,7 +140,7 @@ idle-lockout-interval                     : 0 s
 last-login-time-attribute                 : OpenWISLastLoginTime
 last-login-time-format                    : yyyy-MM-dd'T'HH:mm:ss
 lockout-duration                          : 0 s
-lockout-failure-count                     : 10
+lockout-failure-count                     : 0
 lockout-failure-expiration-interval       : 0 s
 max-password-age                          : 52 w 1 d
 max-password-reset-age                    : 0 s
