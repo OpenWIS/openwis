@@ -46,9 +46,9 @@
 		<ul class="bottom-links">
                 <li><a class="footer-link" onclick="redirectWarning()" href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a></li>
 		<li>|</li>
-                <li><a class="footer-link" onclick="redirectWarning()" href="http://asmc.asean.org/terms-of-use/" target="_blank">Terms of use</a></li>
+                <li><a class="footer-link" href="http://asmc.asean.org/terms-of-use/" target="_blank">Terms of use</a></li>
 		<li>|</li>
-                <li><a class="footer-link" onclick="redirectWarning()" href="http://asmc.asean.org/privacy-statement/" target="_blank">Privacy Statement</a></li>
+                <li><a class="footer-link" href="http://asmc.asean.org/privacy-statement/" target="_blank">Privacy Statement</a></li>
         </ul>
         </div>
         <script type="text/javascript">

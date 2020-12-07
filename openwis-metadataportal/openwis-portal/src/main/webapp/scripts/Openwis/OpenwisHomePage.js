@@ -2006,7 +2006,11 @@ wizard.initialize(lastProduct.productMetadataURN,"SUBSCRIPTION",lastProduct.extr
 }return this.contentPanel
 },getHeaderPanel:function(){if(!this.headerPanel){this.headerPanel=new Ext.Container({region:"north",border:false,contentEl:"header",cls:"headerCtCls",height:"auto"})
 }return this.headerPanel
-},getHeaderImage:function(){if(!this.headerImage){this.headerImage={tag:"div",cls:"header_img SearchPage",id:"header_img",html:"<a onclick='redirectWarning()' style=\"text-decoration:none;\" href=\"http://asmc.asean.org/asmc-about/\"><div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div></a>"}
+},getHeaderImage:function(){if(!this.headerImage){
+this.headerImage={
+tag:"div",cls:"header_img SearchPage",id:"header_img"
+}
+<div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div></a>"}
 }return this.headerImage
 },getCenterPanel:function(){if(!this.centerPanel){this.centerPanel=new Ext.Panel({cls:"body-center-panel",region:"center",border:false,width:992,layout:"border",id:"bodyCenPan"})
 }return this.centerPanel
