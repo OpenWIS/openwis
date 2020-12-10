@@ -4,7 +4,6 @@ target/
 *.releaseBackup
 release.properties
 *.log
-*.tag
 openwis-metadataportal/openwis-portal/openwis-admin-portal
 openwis-metadataportal/openwis-portal/openwis-user-portal
 
@@ -16,8 +15,6 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 # Ignore IDEA files
 .idea/
 *.iml
-# Ignore vim tags
-tags
 
 # Ignore vagrant working files
 .vagrant/
