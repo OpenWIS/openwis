@@ -65,7 +65,7 @@ public class OpenWisRequestAccount extends HttpServlet {
         ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
         try {
             //Check whether the captcha passed or not
-            boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE), context);
+            boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
 
             //If captcha passed, send mail to end user
             if (captchaPassed) {

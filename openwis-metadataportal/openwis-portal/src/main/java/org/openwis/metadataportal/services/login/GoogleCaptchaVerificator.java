@@ -33,25 +33,11 @@ public class GoogleCaptchaVerificator {
      * @throws IOException
      * @throws JSONException
      */
-    public static Boolean verify(String userCaptchaResponse, ServiceContext context) throws IOException, JSONException {
+    public static Boolean verify(String userCaptchaResponse) throws IOException, JSONException {
 
         HttpClient client = new HttpClient();
-        // get proxy parameters
-        NetLib netLib = new NetLib();
+        Lib.net.setupProxy(client);
 
-        netLib.setupProxy(context, client);
-/**
-        if (System.getenv(HTTPS_PROXY) != null) {
-            Log.info(LoginConstants.LOG,"Use proxy: " + System.getenv(HTTPS_PROXY));
-            String proxyHttps = System.getenv(HTTPS_PROXY);
-            try {
-                URI proxyUrl = new URI(proxyHttps);
-                client.getHostConfiguration().setProxy(proxyUrl.getHost(), proxyUrl.getPort());
-            } catch (URISyntaxException e) {
-                Log.error(LoginConstants.LOG, "Proxy malformed " + proxyHttps);
-            }
-        }
- */
         PostMethod method = new PostMethod(GOOGLE_CAPTCHA_VERIFICATION_URL);
 
         // set headers

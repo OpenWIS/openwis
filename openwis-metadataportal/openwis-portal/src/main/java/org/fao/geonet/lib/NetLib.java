@@ -53,6 +53,54 @@ public class NetLib
 	public static final String USERNAME = "system/proxy/username";
 	public static final String PASSWORD = "system/proxy/password";
 
+	/**
+	 * Initialisation of proxy config to be used in non-jeeves servlet
+	 */
+	private ProxyConfig proxyConfig = null;
+	private class ProxyConfig  {
+		private boolean enabled ;
+		private String  host;
+		private String  port;
+		private String  username;
+		private String  password;
+		public ProxyConfig(SettingManager sm) {
+			enabled = sm.getValueAsBool(ENABLED, false);
+			host    = sm.getValue(HOST);
+			port    = sm.getValue(PORT);
+			username= sm.getValue(USERNAME);
+			password= sm.getValue(PASSWORD);
+		}
+
+		@Override
+		public String toString() {
+			return username + "@" + proxyConfig.host + ":" + proxyConfig.port;
+		}
+	}
+
+	/**
+	 * Initialisation of proxy config to be used in non-jeeves servlet
+	 * @return true if proxy is enabled
+	 */
+	public boolean initProxyConfig(SettingManager sm) {
+		proxyConfig = new ProxyConfig(sm);
+		if (proxyConfig.enabled) {
+			Log.info(Geonet.GEONETWORK,"  - Proxy Enabled : " + proxyConfig);
+		} else {
+			Log.info(Geonet.GEONETWORK,"  - Proxy Disabled");
+		}
+		return proxyConfig.enabled;
+	}
+
+	/**
+	 * Setup proxy for http client to be used in non-jeeves servlet
+	 */
+	public void setupProxy(HttpClient client)
+	{
+		if (proxyConfig != null) {
+			new NetLib().setupProxy(proxyConfig, client);
+		}
+	}
+
 	//---------------------------------------------------------------------------
 	//---
 	//--- API methods
@@ -112,23 +160,22 @@ public class NetLib
 	  */
 	public void setupProxy(SettingManager sm, HttpClient client)
 	{
-		boolean enabled = sm.getValueAsBool(ENABLED, false);
-		String  host    = sm.getValue(HOST);
-		String  port    = sm.getValue(PORT);
-		String  username= sm.getValue(USERNAME);
-		String  password= sm.getValue(PASSWORD);
+		setupProxy(new ProxyConfig(sm), client);
+	}
 
-		if (enabled) {
-			if (!Lib.type.isInteger(port)) {
-				Log.error(Geonet.GEONETWORK, "Proxy port is not an integer : "+ port);
+	private void setupProxy(ProxyConfig proxyConfig, HttpClient client)
+	{
+		if (proxyConfig.enabled) {
+			if (!Lib.type.isInteger(proxyConfig.port)) {
+				Log.error(Geonet.GEONETWORK, "Proxy port is not an integer : "+ proxyConfig.port);
 			} else {
 				HostConfiguration config = client.getHostConfiguration();
 				if (config == null) config = new HostConfiguration();
-				config.setProxy(host,Integer.parseInt(port));
+				config.setProxy(proxyConfig.host,Integer.parseInt(proxyConfig.port));
 				client.setHostConfiguration(config);
 
-				if (username.trim().length()!=0) {
-					Credentials cred = new UsernamePasswordCredentials(username, password);
+				if (proxyConfig.username.trim().length()!=0) {
+					Credentials cred = new UsernamePasswordCredentials(proxyConfig.username, proxyConfig.password);
 					AuthScope scope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, AuthScope.ANY_REALM);
 
 					client.getState().setProxyCredentials(scope, cred);
@@ -141,6 +188,7 @@ public class NetLib
 			}
 		}
 	}
+
 
 	//---------------------------------------------------------------------------
 

@@ -190,6 +190,11 @@ public class Geonetwork implements ApplicationHandler {
         migrateDatabase(dbms, settingMan, version, subVersion);
 
         //------------------------------------------------------------------------
+        //--- initialize proxy settings
+        logger.info("  - Proxy settings...");
+        Lib.net.initProxyConfig(settingMan);
+
+        //------------------------------------------------------------------------
         //--- Initialize thesaurus
 
         logger.info("  - Thesaurus...");

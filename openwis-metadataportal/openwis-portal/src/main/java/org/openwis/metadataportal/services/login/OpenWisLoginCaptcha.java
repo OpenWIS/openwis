@@ -42,10 +42,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
     {
 
         try {
-
-            ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
-
-            Boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE),context);
+            Boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
             if (captchaPassed)
             {
                 // generate one time init token. this token is used to allow access to openWisInit service.
