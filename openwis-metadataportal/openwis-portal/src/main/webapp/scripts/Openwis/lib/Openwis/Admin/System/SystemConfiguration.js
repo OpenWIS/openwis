@@ -680,6 +680,7 @@ Openwis.Admin.System.SystemConfiguration = Ext.extend(Ext.Container, {
         if(!this.proxyPasswordTextField) {
             this.proxyPasswordTextField = new Ext.form.TextField({
                 fieldLabel: Openwis.i18n('SystemConfiguration.Proxy.Password'),
+                inputType: 'password',
                 border: false,
                 width: 220,
                 value: this.config.proxyPassword,

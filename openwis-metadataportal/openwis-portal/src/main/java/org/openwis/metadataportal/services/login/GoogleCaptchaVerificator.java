@@ -1,6 +1,7 @@
 package org.openwis.metadataportal.services.login;
 
 import jeeves.utils.Log;
+import org.fao.geonet.lib.*;
 import jeeves.server.context.ServiceContext;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -23,8 +24,6 @@ public class GoogleCaptchaVerificator {
     private static final String GOOGLE_CAPTCHA_VERIFICATION_URL = "https://www.google.com/recaptcha/api/siteverify";
 
     private static final String HTTPS_PROXY = "https_proxy";
-    public static String PROXY_USER = "proxy_user";
-    public static String USER_PASSWORD = "proxy_pwd";
 
     /**
      * Verify against user response if google captcha passses
@@ -34,10 +33,14 @@ public class GoogleCaptchaVerificator {
      * @throws IOException
      * @throws JSONException
      */
-    public static Boolean verify(String userCaptchaResponse) throws IOException, JSONException {
+    public static Boolean verify(String userCaptchaResponse, ServiceContext context) throws IOException, JSONException {
 
         HttpClient client = new HttpClient();
+        // get proxy parameters
+        NetLib netLib = new NetLib();
 
+        netLib.setupProxy(context, client);
+/**
         if (System.getenv(HTTPS_PROXY) != null) {
             Log.info(LoginConstants.LOG,"Use proxy: " + System.getenv(HTTPS_PROXY));
             String proxyHttps = System.getenv(HTTPS_PROXY);
@@ -47,14 +50,8 @@ public class GoogleCaptchaVerificator {
             } catch (URISyntaxException e) {
                 Log.error(LoginConstants.LOG, "Proxy malformed " + proxyHttps);
             }
-            if (System.getenv(PROXY_USER) != null && System.getenv(USER_PASSWORD) != null) {
-                Credentials cred = new UsernamePasswordCredentials(System.getenv(PROXY_USER) , System.getenv(USER_PASSWORD));
-                AuthScope scope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, AuthScope.ANY_REALM);
-
-                client.getState().setProxyCredentials(scope, cred);
-
-            }
         }
+ */
         PostMethod method = new PostMethod(GOOGLE_CAPTCHA_VERIFICATION_URL);
 
         // set headers

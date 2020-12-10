@@ -2,7 +2,7 @@ package org.openwis.metadataportal.services.login;
 
 import jeeves.utils.Log;
 import org.openwis.metadataportal.services.util.OpenWISMessages;
-
+import jeeves.server.context.ServiceContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +42,10 @@ public class OpenWisLoginCaptcha extends HttpServlet {
     {
 
         try {
-            Boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE));
+
+            ServiceContext context = (ServiceContext) request.getSession().getAttribute("context");
+
+            Boolean captchaPassed = GoogleCaptchaVerificator.verify(request.getParameter(GOOGLE_CAPTCHA_PARAMETER_RESPONSE),context);
             if (captchaPassed)
             {
                 // generate one time init token. this token is used to allow access to openWisInit service.
@@ -62,7 +65,7 @@ public class OpenWisLoginCaptcha extends HttpServlet {
                 forwardError(request, response, errorMessage);
             }
         } catch (Exception e) {
-            Log.error(LoginConstants.LOG, "Error processing Login captcha  : " + e.getMessage());
+            Log.error(LoginConstants.LOG, "Error processing Login captcha  : " + e.getMessage(), e);
             forwardError(request, response, "Error during login captcha - " + e.getMessage());
         }
     }
