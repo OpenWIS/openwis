@@ -14,6 +14,8 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.RawMessage;
 import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
+import software.amazon.awssdk.http.apache.ProxyConfiguration.Builder;
+import sun.net.www.ParseUtil;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -24,6 +26,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.Properties;
 
@@ -62,12 +65,31 @@ public class MailUtilities {
             Region region = Region.of(OpenwisMetadataPortalConfig.getString(ConfigurationConstants.AWS_EMAIL_REGION));
 
             SesClient client;
+
+
             if (System.getenv(HTTPS_PROXY) != null) {
+
                 ProxyConfiguration.Builder proxyConfig =
                         ProxyConfiguration.builder();
 
-                Log.debug(Log.SERVICE, "Send mail using proxy: " + System.getenv(HTTPS_PROXY));
-                ProxyConfiguration proxyConfiguration = proxyConfig.endpoint(new URI(System.getenv(HTTPS_PROXY))).build();
+                URL url=new URL(System.getenv(HTTPS_PROXY));
+
+                String userInfo = url.getUserInfo();
+                if (userInfo != null) { // get the user and password
+                    int delimiter = userInfo.indexOf(':');
+                    if (delimiter == -1) {
+                        proxyConfig.username(ParseUtil.decode(userInfo));
+                        Log.debug(Log.SERVICE, "Send mail using proxy: "+ParseUtil.decode(userInfo));
+                    } else {
+
+                        proxyConfig.username(ParseUtil.decode(userInfo.substring(0, delimiter++)));
+                        proxyConfig.password(ParseUtil.decode(userInfo.substring(delimiter)));
+                        Log.debug(Log.SERVICE, "Send mail using proxy: "+ParseUtil.decode(userInfo.substring(0, delimiter++)));
+                    }
+                }
+
+                Log.debug(Log.SERVICE, "Send mail using proxy: " + url.getProtocol()+"://"+url.getHost()+":"+url.getPort());
+                ProxyConfiguration proxyConfiguration = (ProxyConfiguration) proxyConfig.endpoint(new URI(url.getProtocol()+"://"+url.getHost()+":"+url.getPort())).build();
 
                 ApacheHttpClient.Builder httpClientBuilder =
                         ApacheHttpClient.builder()

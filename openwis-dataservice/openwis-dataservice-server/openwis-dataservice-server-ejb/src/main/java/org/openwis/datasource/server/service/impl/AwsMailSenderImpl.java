@@ -24,6 +24,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
+import java.net.URL;
+import sun.net.www.ParseUtil;
 import java.nio.ByteBuffer;
 import java.util.Properties;
 
@@ -46,10 +48,27 @@ public class AwsMailSenderImpl implements MailSender {
 
             SesClient client;
             if (System.getenv(HTTPS_PROXY) != null) {
+
                 ProxyConfiguration.Builder proxyConfig =
                         ProxyConfiguration.builder();
 
-                ProxyConfiguration proxyConfiguration = proxyConfig.endpoint(new URI(System.getenv(HTTPS_PROXY))).build();
+                URL url=new URL(System.getenv(HTTPS_PROXY));
+
+                String userInfo = url.getUserInfo();
+                if (userInfo != null) { // get the user and password
+                    int delimiter = userInfo.indexOf(':');
+                    if (delimiter == -1) {
+                        proxyConfig.username(ParseUtil.decode(userInfo));
+                        logger.debug("Send mail using proxy user: "+ParseUtil.decode(userInfo));
+                    } else {
+                        proxyConfig.username(ParseUtil.decode(userInfo.substring(0, delimiter++)));
+                        proxyConfig.password(ParseUtil.decode(userInfo.substring(delimiter)));
+                        logger.debug("Send mail using proxy user: "+ParseUtil.decode(userInfo.substring(0, delimiter++)));
+                    }
+                }
+
+                logger.debug("Send mail using proxy: " + url.getProtocol()+"://"+url.getHost()+":"+url.getPort());
+                ProxyConfiguration proxyConfiguration = (ProxyConfiguration) proxyConfig.endpoint(new URI(url.getProtocol()+"://"+url.getHost()+":"+url.getPort())).build();
 
                 ApacheHttpClient.Builder httpClientBuilder =
                         ApacheHttpClient.builder()
