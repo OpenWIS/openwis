@@ -111,6 +111,10 @@ public class OpenWisRecoverAccount extends HttpServlet {
         // Get User
         UserManager um = new UserManager(dbms);
         User user = um.getUserByUserName(email);
+        if(user == null || user.getUsername() == null){
+            Log.warning(Geonet.SELF_REGISTER, "user: "+email+" is not found");
+            return;
+        }
 
         // Bug fixed 13/10/2020
         /*  *
@@ -118,7 +122,7 @@ public class OpenWisRecoverAccount extends HttpServlet {
          *  But when their privilege has not been elevated from candidate to user,
          *  some of them tried to request for lost account recovery and they could receive a login credential this way.
          */
-        if (user.getProfile().equals("Candidate")) {
+        if (user.getProfile() != null && user.getProfile().equals("Candidate")) {
             return;
         }
 

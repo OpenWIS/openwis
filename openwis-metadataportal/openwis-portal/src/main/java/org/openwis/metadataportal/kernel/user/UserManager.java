@@ -246,8 +246,9 @@ public class UserManager extends AbstractManager {
         if (openWISUser.getLastLoginTime() != null) {
             user.setLastLogin(LocalDateTime.parse(openWISUser.getLastLoginTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
-        user.setPwdChangedTime(LocalDateTime.parse(openWISUser.getPwdChangedTime(), DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
-
+        if(openWISUser.getPwdChangedTime() != null) {
+            user.setPwdChangedTime(LocalDateTime.parse(openWISUser.getPwdChangedTime(), DateTimeFormatter.ofPattern(LDAP_PWD_DATE_FORMAT)));
+        }
         /**
          * Fix: DO NOT USE getPwdExpireTime
          * Password expiration is computed from pwdChangedTime + the period of password valability
@@ -271,13 +272,16 @@ public class UserManager extends AbstractManager {
                 default:
                     periodTimeUnit = ChronoUnit.DAYS;
             }
-            user.setPwdExpireTime(user.getPwdChangedTime().plus(period, periodTimeUnit));
+            if(user.getPwdChangedTime() != null) {
+                user.setPwdExpireTime(user.getPwdChangedTime().plus(period, periodTimeUnit));
+            }
         } catch (NumberFormatException ex) {
             Log.error(Log.WEBAPP, "Not a number: " + ConfigurationConstants.ACCOUNT_PASSWORD_EXPIRE_PERIOD);
         }
-
-        user.getEmails().addAll(openWISUser.getEmails());
-        user.getFtps().addAll(openWISUser.getFtps());
+        if(openWISUser.getEmails() != null)
+            user.getEmails().addAll(openWISUser.getEmails());
+        if(openWISUser.getFtps() != null)
+            user.getFtps().addAll(openWISUser.getFtps());
 
         return  user;
     }

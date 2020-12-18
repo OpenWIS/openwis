@@ -63,7 +63,7 @@
                                     <fileset dir="${basedir}/src/main/config" />
                                 </copy>
                                 <echo message="========== Preparing PopulateLDAP archive =============" />
-                                <zip destfile="${basedir}/target/PopulateLDAP.zip" basedir="${basedir}/target" excludes="maven-archiver/**, generated-sources/**, classes/**" />
+                                <zip destfile="${basedir}/target/PopulateLDAP.zip" basedir= "${basedir}/target" excludes=  "*PopulateLDAP.zip, maven-archiver/**, generated-sources/**, classes/**" />
 							</tasks>
 						</configuration>
 					</execution>
