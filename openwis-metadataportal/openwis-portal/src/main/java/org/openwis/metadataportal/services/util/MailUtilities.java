@@ -79,12 +79,12 @@ public class MailUtilities {
                     int delimiter = userInfo.indexOf(':');
                     if (delimiter == -1) {
                         proxyConfig.username(ParseUtil.decode(userInfo));
-                        Log.debug(Log.SERVICE, "Send mail using proxy: "+ParseUtil.decode(userInfo));
+                        Log.debug(Log.SERVICE, "Send mail using proxy User: "+ParseUtil.decode(userInfo));
                     } else {
 
                         proxyConfig.username(ParseUtil.decode(userInfo.substring(0, delimiter++)));
                         proxyConfig.password(ParseUtil.decode(userInfo.substring(delimiter)));
-                        Log.debug(Log.SERVICE, "Send mail using proxy: "+ParseUtil.decode(userInfo.substring(0, delimiter++)));
+                        Log.debug(Log.SERVICE, "Send mail using proxy User: "+ParseUtil.decode(userInfo.substring(0, delimiter++)));
                     }
                 }
 
