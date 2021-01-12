@@ -79,7 +79,15 @@ public class LocalDataSourceExtractServiceImpl implements LocalDataSourceExtract
    private Map<String, LocalDataSourceService> getLocalDataSourceServiceMap() {
       if (localDataSourceServiceMap == null) {
          localDataSourceServiceMap = new HashMap<String, LocalDataSourceService>();
+//         InitialContext ctx;
+//         try {
+//            ctx = new InitialContext();
+//            Properties properties = (Properties) ctx
+//                  .lookup(DataServiceConfiguration.LOCA_DATA_SOURCE_CONFIGURATION_LOCATION);
             initialize(localDataSourcePropertySource.getProperties());
+//         } catch (NamingException e1) {
+//            logger.error("Can not initialize the initial context JNDI.", e1);
+//         }
       }
       return localDataSourceServiceMap;
    }

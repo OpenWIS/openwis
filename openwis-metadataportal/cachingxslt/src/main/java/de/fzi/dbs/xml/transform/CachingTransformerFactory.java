@@ -23,31 +23,25 @@ import org.apache.log4j.Logger;
  * so that consequent calls to local stylesheets require stylesheet reparsing
  * only if stylesheet was changed.
  */
-public class CachingTransformerFactory extends TransformerFactoryImpl {
-    /**
-     * Map to hold templates cache.
-     */
+public class CachingTransformerFactory extends TransformerFactoryImpl
+{
+  /** Map to hold templates cache. */
     private static Map<String, TemplatesCacheEntry> templatesCache = new HashMap<String, TemplatesCacheEntry>();
 
-    /**
-     * Factory logger.
-     */
+  /** Factory logger. */
     protected static Logger logger =
             Logger.getLogger(CachingTransformerFactory.class);
 
-    /**
-     * Active readers count.
-     */
+  /** Active readers count. */
     protected static int activeReaders = 0;
-    /**
-     * Active writers count.
-     */
+  /** Active writers count. */
     protected static int activeWriters = 0;
 
     /**
-     * Clear the stylesheet cache. This is not part of the
-     * JAXP TransformerFactoryImpl so users should test for existence of this
+	 * Clear the stylesheet cache. This is not part of the
+	 * JAXP TransformerFactoryImpl so users should test for existence of this
      * method before calling otherwise JAXP compatibility will be broken.
+	 *
      */
     public void clearCache() {
         beforeWrite();
@@ -60,18 +54,20 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
      * with <code>systemID</code> pointing to a file, transformer is produced
      * from a cached templates object. Cache is done in soft references; cached
      * objects are reloaded, when file's date of last modification changes.
-     *
      * @param source An object that holds a URI, input stream, etc.
      * @return A Transformer object that may be used to perform a transformation
      * in a single thread, never null.
      * @throws TransformerConfigurationException - May throw this during the
-     *                                           parse when it is constructing the Templates object and fails.
+   * parse when it is constructing the Templates object and fails.
+   *
      */
     public Transformer newTransformer(final Source source)
-            throws TransformerConfigurationException {
+    throws TransformerConfigurationException
+  {
         // Check that source in a StreamSource
         if (source instanceof StreamSource)
-            try {
+      try
+      {
                 // Create URI of the source
                 String srcId = source.getSystemId();
                 if (srcId.indexOf(':') == 1) { // fix up windows path so that uri works
@@ -84,7 +80,9 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
                 // (or from the cache)
                 if ("file".equalsIgnoreCase(uri.getScheme()))
                     return newTransformer(new File(uri.getPath()));
-            } catch (URISyntaxException urise) {
+      }
+      catch (URISyntaxException urise)
+      {
                 throw new TransformerConfigurationException(urise);
             }
         return super.newTransformer(source);
@@ -93,29 +91,32 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
     /**
      * Creates a transformer from a file (and caches templates) or from
      * cached templates object.
-     *
      * @param file file to load transformer from.
      * @return Transformer, built from given file.
      * @throws TransformerConfigurationException if there was a problem loading
-     *                                           transformer from the file.
+   * transformer from the file.
      */
     protected Transformer newTransformer(final File file)
-            throws TransformerConfigurationException {
+    throws TransformerConfigurationException
+  {
         // Search the cache for the templates entry
         TemplatesCacheEntry templatesCacheEntry = read(file.getAbsolutePath());
 
         // If entry found
-        if (templatesCacheEntry != null) {
+    if (templatesCacheEntry != null)
+    {
             // Check timestamp of modification
             if (templatesCacheEntry.lastModified
                     < templatesCacheEntry.templatesFile.lastModified())
                 templatesCacheEntry = null;
         }
         // If no templatesEntry is found or this entry was obsolete
-        if (templatesCacheEntry == null) {
+    if (templatesCacheEntry == null)
+    {
 //      System.out.println("Loading transformation [" + file.getAbsolutePath() + "].");
             // If this file does not exists, throw the exception
-            if (!file.exists()) {
+      if (!file.exists())
+      {
                 throw new TransformerConfigurationException(
                         "Requested transformation ["
                                 + file.getAbsolutePath()
@@ -138,11 +139,11 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
 
     /**
      * Returns a templates cache entry for the specified absolute path.
-     *
      * @param absolutePath absolute path of the entry.
      * @return Templates cache entry for the specified path.
      */
-    protected TemplatesCacheEntry read(String absolutePath) {
+  protected TemplatesCacheEntry read(String absolutePath)
+  {
         beforeRead();
         final TemplatesCacheEntry templatesCacheEntry = templatesCache.get(absolutePath);
         afterRead();
@@ -151,11 +152,11 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
 
     /**
      * Saves templates cache entry for the specified absolute path.
-     *
      * @param absolutePath        absolute path of the entry.
      * @param templatesCacheEntry templates cache entry to save.
      */
-    protected void write(String absolutePath, TemplatesCacheEntry templatesCacheEntry) {
+  protected void write(String absolutePath, TemplatesCacheEntry templatesCacheEntry)
+  {
         beforeWrite();
         templatesCache.put(absolutePath, templatesCacheEntry);
         afterWrite();
@@ -164,11 +165,14 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
     /**
      * Invoked just before reading, waits until reading is allowed.
      */
-    protected synchronized void beforeRead() {
+  protected synchronized void beforeRead()
+  {
         while (activeWriters > 0)
-            try {
+      try
+      {
                 wait();
-            } catch (InterruptedException iex) {
+            } catch (InterruptedException iex)
+      {
                 Thread.currentThread().interrupt();
             }
         ++activeReaders;
@@ -177,7 +181,8 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
     /**
      * Invoked just after reading.
      */
-    protected synchronized void afterRead() {
+  protected synchronized void afterRead()
+  {
         --activeReaders;
         notifyAll();
     }
@@ -185,11 +190,14 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
     /**
      * Invoked just before writing, waits until writing is allowed.
      */
-    protected synchronized void beforeWrite() {
+  protected synchronized void beforeWrite()
+  {
         while (activeReaders > 0 || activeWriters > 0)
-            try {
+      try
+      {
                 wait();
-            } catch (InterruptedException iex) {
+            } catch (InterruptedException iex)
+      {
                 Thread.currentThread().interrupt();
             }
         ++activeWriters;
@@ -198,7 +206,8 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
     /**
      * Invoked just after writing.
      */
-    protected synchronized void afterWrite() {
+  protected synchronized void afterWrite()
+  {
         --activeWriters;
         notifyAll();
     }
@@ -206,29 +215,24 @@ public class CachingTransformerFactory extends TransformerFactoryImpl {
     /**
      * Private class to hold templates cache entry.
      */
-    private class TemplatesCacheEntry {
-        /**
-         * When was the cached entry last modified.
-         */
+  private class TemplatesCacheEntry
+  {
+    /** When was the cached entry last modified. */
         private long lastModified;
 
-        /**
-         * Cached templates object.
-         */
+    /** Cached templates object. */
         private Templates templates;
 
-        /**
-         * Templates file object.
-         */
+    /** Templates file object. */
         private File templatesFile;
 
         /**
          * Constructs a new cache entry.
-         *
          * @param templates     templates to cache.
          * @param templatesFile file, from which this transformer was loaded.
          */
-        private TemplatesCacheEntry(final Templates templates, final File templatesFile) {
+    private TemplatesCacheEntry(final Templates templates, final File templatesFile)
+    {
             this.templates = templates;
             this.templatesFile = templatesFile;
             this.lastModified = templatesFile.lastModified();

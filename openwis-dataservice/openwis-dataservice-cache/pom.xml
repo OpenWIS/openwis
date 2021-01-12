@@ -4,15 +4,14 @@
     <parent>
         <artifactId>openwis-dataservice</artifactId>
         <groupId>io.openwis.dataservice</groupId>
-		<version>3.14.8</version>
-		<relativePath>../pom.xml</relativePath>
+	<version>3.14.10-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>io.openwis.dataservice.cache</groupId>
     <artifactId>openwis-dataservice-cache</artifactId>
-    <name>openwis-dataservice-cache</name>
-
     <packaging>pom</packaging>
+    <name>openwis-dataservice-cache</name>
 
     <modules>
         <module>openwis-dataservice-cache-core</module>

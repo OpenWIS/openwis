@@ -152,7 +152,7 @@ public class AlertServiceImpl implements AlertService {
 
       if (filterExp != null && !filterExp.isEmpty()) {
          // build the SQL query (sorted)
-         String sql = getQuery(filterExp, sortField, sortOrder);
+         String sql = getQuery(filterExp, sortField, sortOrder, index, count);
          Query query = entityManager.createQuery(sql);
          query.setFirstResult(index);
          query.setMaxResults(count);
@@ -209,7 +209,7 @@ public class AlertServiceImpl implements AlertService {
          filterExp = DATABASE_TABLE_NAME + "." + DEFAULT_SORT_FIELD + " <= '" + to + "'";
       }
       // build the SQL query (sorted)
-      String sql = getQuery(filterExp, sortField, sortOrder);
+      String sql = getQuery(filterExp, sortField, sortOrder, index, count);
 
       Query query = entityManager.createQuery(sql);
       query.setFirstResult(index);
@@ -382,7 +382,9 @@ public class AlertServiceImpl implements AlertService {
 
    private String getQuery(final String filterExp,
                            final String sortColumn,
-                           final String sortOrder) {
+                           final String sortOrder,
+                           final int index,
+                           final int maxCount) {
       StringBuffer sql = new StringBuffer();
       sql.append(SQL_SELECT);
 
@@ -409,6 +411,22 @@ public class AlertServiceImpl implements AlertService {
       else {
          sql.append(DEFAULT_SORT_ORDER);
       }
+
+      //Zhan
+      //solution for openwis issue #282
+      //The following two statements will generate an error because HQL 3 does not support "LIMIT" anymore
+      //we need to comment them out
+      //the calling method needs to adjust to fulfill this component when using this method
+      //sql.append(" LIMIT '");
+      //sql.append(maxCount);
+
+      //Zhan
+      //solution for openwis issue #282
+      //the following statement will generate error because HQL 3 does not support "OFFSET". we need to comment it out
+      //the calling method needs to adjust to fulfill this component when using this method
+      //sql.append("' OFFSET '");
+     // sql.append(index);
+      //sql.append("'");
 
       return sql.toString();
    }

@@ -1,8 +1,14 @@
 package org.openwis.datasource.server.service.impl;
 
+import java.util.Arrays;
+
+import javax.ejb.EJB;
+import javax.naming.NamingException;
+
 import junit.framework.Assert;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openwis.dataservice.cache.CacheIndex;
@@ -14,10 +20,8 @@ import org.openwis.dataservice.common.service.BlacklistService;
 import org.openwis.dataservice.common.service.ProductMetadataService;
 import org.openwis.dataservice.common.util.DateTimeUtils;
 import org.openwis.datasource.server.ArquillianDBTestCase;
-
-import javax.ejb.EJB;
-import javax.naming.NamingException;
-import java.util.Arrays;
+import org.openwis.management.JndiManagementServiceBeans;
+import org.openwis.management.ManagementServiceBeans;
 
 @RunWith(Arquillian.class)
 public class BlacklistServiceImplIntegrationTestCase extends ArquillianDBTestCase {

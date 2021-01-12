@@ -52,6 +52,10 @@ public class ConfigServiceFacade {
    public String getString(String key) {
       String value = configService.getString(key);
       log.debug("Using ConfigServiceFacade to look up '" + key + "'.  The value was '" + value + "'");
+
+      //Zhan added the following for diagnostic purpose
+      log.info("Using ConfigServiceFacade to look up '" + key + "'.  The value was '" + value + "'");
+
       return value;
    }
    

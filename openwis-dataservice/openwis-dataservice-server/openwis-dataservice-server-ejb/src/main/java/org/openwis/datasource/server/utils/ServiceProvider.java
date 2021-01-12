@@ -133,7 +133,9 @@ public final class ServiceProvider {
       String jndiName = String.format("%s/%s!%s", CACHE_SERVICE_JNDI_PREFIX, beanName, 
             remoteInterfaceClass.getName());
       
-      logger.info("*** Getting remote bean: " + jndiName);
+      logger.info("getRemoteBean Bean Name: {}", beanName);
+      logger.info("getRemoteBean JNDI Name: {}", jndiName);
+
       return remoteInterfaceClass.cast(initialContext.lookup(jndiName));
    }
 }

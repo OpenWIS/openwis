@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.geonetwork-opensource</groupId>
         <artifactId>geonetwork</artifactId>
-        <version>3.14.8</version>
+		<version>3.14.10-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,7 +16,7 @@
     <groupId>org.geonetwork-opensource</groupId>
     <artifactId>openwis-portal</artifactId>
     <packaging>war</packaging>
-    <version>3.14.8</version>
+	<version>3.14.10-SNAPSHOT</version>
     <name>OpenWIS module</name>
 
     <description>
@@ -31,6 +31,22 @@
         <geonetwork.webapp.css.dir>${geonetwork.webapp.dir}</geonetwork.webapp.css.dir>
         <minify.verbose>false</minify.verbose>
         <war.name>openwis-user-portal</war.name>
+
+		<sonar.exclusions>src/main/webapp/scripts/*.js,
+			src/main/webapp/scripts/core/**,
+			src/main/webapp/scripts/editor/**,
+			src/main/webapp/scripts/ext/**,
+			src/main/webapp/scripts/ext-ux/**,
+			src/main/webapp/scripts/geo/**,
+			src/main/webapp/scripts/geoext/**,
+			src/main/webapp/scripts/lib/**,
+			src/main/webapp/scripts/localization/**,
+			src/main/webapp/scripts/map/**,
+			src/main/webapp/scripts/mapfish/**,
+			src/main/webapp/scripts/openlayers/**,
+			src/main/webapp/scripts/ownership/**,
+			src/main/webapp/scripts/scriptaculous/**
+		</sonar.exclusions>
     </properties>
 
     <!-- =========================================================== -->
@@ -95,164 +111,6 @@
             </build>
         </profile>
         <profile>
-            <id>user-dev</id>
-            <activation>
-                <activeByDefault>${user.module}</activeByDefault>
-            </activation>
-            <properties>
-                <profile-id>user-dev</profile-id>
-                <war.name>openwis-user-portal</war.name>
-            </properties>
-            <build>
-                <directory>openwis-user-portal</directory>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.4.3</version>
-                        <executions>
-                            <execution>
-                                <id>copy-userPortal-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/user-dev</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-opensso-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include> **/*.properties </include>
-                                            </includes>
-                                            <excludes>
-                                                <exclude>src/main/resources/openwis-metadataportal.properties</exclude>
-                                            </excludes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-dev-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/user-dev/properties</directory>
-                                            <includes>
-                                                <include> **/*.properties </include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>user-wismet</id>
-            <activation>
-                <activeByDefault>${user.module}</activeByDefault>
-            </activation>
-            <properties>
-                <profile-id>user-wismet</profile-id>
-                <war.name>openwis-user-portal</war.name>
-            </properties>
-            <build>
-                <directory>openwis-user-portal</directory>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.4.3</version>
-                        <executions>
-                            <execution>
-                                <id>copy-userPortal-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/user-wismet</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-opensso-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include> **/*.properties </include>
-                                            </includes>
-                                            <excludes>
-                                                <exclude>src/main/resources/openwis-metadataportal.properties</exclude>
-                                            </excludes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-dev-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/user-wismet/properties</directory>
-                                            <includes>
-                                                <include> **/*.properties </include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>admin</id>
             <activation>
                 <activeByDefault>${admin.module}</activeByDefault>
@@ -297,120 +155,6 @@
                                     <resources>
                                         <resource>
                                             <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include> **/*.properties </include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>admin-dev</id>
-            <activation>
-                <activeByDefault>${admin.module}</activeByDefault>
-            </activation>
-            <properties>
-                <war.name>openwis-admin-portal</war.name>
-                <profile-id>admin-dev</profile-id>
-            </properties>
-            <build>
-                <directory>openwis-admin-portal</directory>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.4.3</version>
-                        <executions>
-                            <execution>
-                                <id>copy-adminPortal-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/admin-dev</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-opensso-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/admin-dev/properties</directory>
-                                            <includes>
-                                                <include> **/*.properties </include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>admin-wismet</id>
-            <activation>
-                <activeByDefault>${admin.module}</activeByDefault>
-            </activation>
-            <properties>
-                <war.name>openwis-admin-portal</war.name>
-                <profile-id>admin-wismet</profile-id>
-            </properties>
-            <build>
-                <directory>openwis-admin-portal</directory>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.4.3</version>
-                        <executions>
-                            <execution>
-                                <id>copy-adminPortal-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/admin-wismet</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-opensso-resources</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${geonetwork.webapp.target.dir}/WEB-INF/classes</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources/admin-wismet/properties</directory>
                                             <includes>
                                                 <include> **/*.properties </include>
                                             </includes>
