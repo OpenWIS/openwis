@@ -5587,7 +5587,7 @@ this.getProxyPasswordTextField().show()
 }return this.proxyPortTextField
 },getProxyUserNameTextField:function(){if(!this.proxyUserNameTextField){this.proxyUserNameTextField=new Ext.form.TextField({fieldLabel:Openwis.i18n("SystemConfiguration.Proxy.UserName"),border:false,width:220,value:this.config.proxyUserName,style:{margin:"0px 0px 5px 0px"}})
 }return this.proxyUserNameTextField
-},getProxyPasswordTextField:function(){if(!this.proxyPasswordTextField){this.proxyPasswordTextField=new Ext.form.TextField({fieldLabel:Openwis.i18n("SystemConfiguration.Proxy.Password"),border:false,width:220,value:this.config.proxyPassword,style:{margin:"0px 0px 5px 0px"}})
+},getProxyPasswordTextField:function(){if(!this.proxyPasswordTextField){this.proxyPasswordTextField=new Ext.form.TextField({fieldLabel:Openwis.i18n("SystemConfiguration.Proxy.Password"),inputType:"password",border:false,width:220,value:this.config.proxyPassword,style:{margin:"0px 0px 5px 0px"}})
 }return this.proxyPasswordTextField
 },getFeedBackFieldSet:function(){if(!this.feedBackFieldSet){this.feedBackFieldSet=new Ext.form.FieldSet({title:Openwis.i18n("SystemConfiguration.Feedback.Title"),autoHeight:true,collapsed:false,collapsible:true});
 this.feedBackFieldSet.add(this.getFeedBackEmailTextField());

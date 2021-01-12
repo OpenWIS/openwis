@@ -148,6 +148,7 @@
 			<name>main-db</name>
 			<provider>jeeves.resources.dbms.DbmsPool</provider>
 			<config>
+				<driver>org.postgresql.Driver</driver>
 				<user>openwis</user>
 				<password>openwis31</password>
 				<driver>org.postgresql.Driver</driver>

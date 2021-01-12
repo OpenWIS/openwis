@@ -274,7 +274,7 @@ Openwis.HomePage.Search.AbstractSearchPanel = Ext.extend(Ext.Panel, {
 				scope: this,
 				handler: function() {
 					this.reset();
-					document.title = "ASEAN | WIS Portal";
+					document.title = "WIS Portal";
 					document.getElementById("produit").innerHTML = "";
 				}
             });

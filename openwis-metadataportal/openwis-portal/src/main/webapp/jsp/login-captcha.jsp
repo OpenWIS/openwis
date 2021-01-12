@@ -17,7 +17,7 @@
 </script>
 
 <%
-String title = "ASEAN | WIS Portal";
+String title = "WIS Portal";
 %>
 
 	<%@include file="header-common-captcha.jsp" %>

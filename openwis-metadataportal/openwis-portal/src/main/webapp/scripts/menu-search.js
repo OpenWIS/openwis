@@ -1,16 +1,8 @@
 function showItem(id) {
 
    const searchKeys = {
-        noaa20: 'noaa-20 image',
-        suomiNpp: 'suomi npp image',
-        aqua: 'Satellite Imagery AQUA',
-        terra: 'Satellite Imagery TERRA',
-        haze: 'haze_map',
-        hotspotNoaa20: 'noaa20 record',
-        hotspotNpp: 'npp record',
-        hotspotAqua: 'AQUA_hotspot_location',
-        hotspotTerra: 'TERRA_hotspot_location',
-        hazeDispersion: 'haze_dispersion',
+        category1: 'category1',
+        category2: 'category2',
     };
    product = document.getElementById("produit");
    product.innerHTML = "";
@@ -23,7 +15,7 @@ function showItem(id) {
 
    product.appendChild(separator);
    product.appendChild(productName);
-   document.title = 'ASEAN | ' + document.getElementById(id).innerHTML;
+   document.title = 'WIS | ' + document.getElementById(id).innerHTML;
 
    var whatInput = getSearchInput();
    if (whatInput !== null) {

@@ -16,14 +16,12 @@
 </head>
 <body>
     <p>Dear <span th:text="${#strings.capitalize(firstname)}">Firstname</span> <span th:text="${#strings.capitalize(lastname)}">lastname</span>,</p>
-    <p>Your account for ASMC WIS Portal will be disabled in
+    <p>Your account for WIS Portal will be disabled in
         <span th:text="${period}">7</span> <span style="padding-left:5px" th:text="${timeUnit}">days</span>.</p>
     Please log in to
-    <a href="https://wis.asmc.asean.org/wis/">https://asmc.asean.org/wis/</a> to keep your account active.</p>
+    <a href="portal-url">openwis-portal</a> to keep your account active.</p>
     <p>If you require further assistance, please contact us at
-        <a href="mailto:WISMET@winsys.com.sg">WISMET@winsys.com.sg</a>
-        or
-        <a href="mailto:ASMC_Enquiries@nea.gov.sg">ASMC_Enquiries@nea.gov.sg</a>
+        <a href="mailto:contact@openwis.io">WISMET@winsys.com.sg</a>
     </p>
     <div class="footer">
         <p class="note">This is an automatically generated message. Please do not reply to this email.</p>

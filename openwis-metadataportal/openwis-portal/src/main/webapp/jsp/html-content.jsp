@@ -50,7 +50,7 @@ else{
                                 <div id="urlTitleCont">
                                         <div id="urlTitle">
                                                 <%if (pageId=="About"){ %>
-                                                        About <strong>ASMC</strong>
+                                                        Search Results
                                                 <% } %>
                                                 <%if (pageId=="Help"){ %>
                                                         Online <strong>Help</strong>
@@ -58,7 +58,7 @@ else{
                                         </div>
                                         <div id="urlSubTitle">
                                                 <%if (pageId=="About"){ %>
-                                                        ASEAN Specialised Meteorological Centre.
+                                                        Find Interactive Maps, GIS datasets, Satellite Imagery and Related Applications
                                                 <% } %>
                                                 <%if (pageId=="Help"){ %>
 

@@ -418,7 +418,7 @@
  }
 
  #banner-logo td:nth-child(3) {
-     padding-top: 3%
+     padding-top: 0%
  }
 
  #openWISLogo {
@@ -613,7 +613,7 @@
  .header_img {
      height: 330px;
      position: relative;
-     background: url(../images/openwis/headerBack/header_img.jpg) no-repeat center;
+     background: url(../images/logos/header_img.jpg) no-repeat center;
      z-index: 50;
      margin: auto;
  }

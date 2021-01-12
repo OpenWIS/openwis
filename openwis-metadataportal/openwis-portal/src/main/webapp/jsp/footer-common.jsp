@@ -26,10 +26,7 @@ color: #3C4751;
  </STYLE>
 <div id="mss-footer">
    <div id="tos">
-        <a href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a> | 
-        <a href="http://asmc.asean.org/terms-of-use/" target="_blank">Privacy Statement</a> | 
-        <a href="http://asmc.asean.org/privacy-statement/" target="_blank">Terms of Use</a> | 
-        <a href="https://form.sg/#!/forms/nea/5a5ff71aba8b0c6b0022dead" target="_blank">Rate this Website</a>
+       <%-- <a href="https://tech.gov.sg/report_vulnerability" target="_blank">Report Vulnerability</a> --%>
    </div>
-   <div id="copyrights">&copy;2019 National Environment Agency</div>
+   <div id="copyrights">&copy;2020 OpenWIS Association</div>
 </div>

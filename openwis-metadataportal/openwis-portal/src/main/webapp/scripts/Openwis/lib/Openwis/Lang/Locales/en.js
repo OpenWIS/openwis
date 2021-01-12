@@ -229,37 +229,36 @@ Openwis.Lang.Dictionary = {
    
     
     //----------------------------------------------------------------- Home page.
-	'HomePage.Main.Header' : '<h1>ASEAN Specialized<p>Meteorological Center</p></h1>',
+	'HomePage.Main.Header' : '<h1>Find Interactive Maps, GIS datasets<p>Satellite Imagery and Related Applications</p></h1>',
 	
     'HomePage.Main.Content' : '<p>\
-    <p>\
-    <span lang="EN-US"><h6>This portal provides operational information and products on the weather and smoke haze situation in the ASEAN region.</h6></span>\
-    </p>\
-    <br>\
-    <br/>\
-    <p>\
-    <h1>ASMC Products</h1>\
-    </p>\
-    <p>\
-    <a href="#" onclick="showItem(\'noaa20\')"><img src="/wis/openwis-user-portal/thumbnail/noaa20_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
-    <a href="#" onclick="showItem(\'suomiNpp\')"><img src="/wis/openwis-user-portal/thumbnail/npp_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10"  vspace="10"></a>\
-    <a href="#" onclick="showItem(\'aqua\')"><img src="/wis/openwis-user-portal/thumbnail/aqua_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'terra\')"><img src="/wis/openwis-user-portal/thumbnail/terra_sat_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'haze\')"><img src="/wis/openwis-user-portal/thumbnail/haze_map_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'hotspotNoaa20\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_noaa20_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'hotspotNpp\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_npp_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'hotspotTerra\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_terra_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'hotspotAqua\')"><img src="/wis/openwis-user-portal/thumbnail/hotspot_report_aqua_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    <a href="#" onclick="showItem(\'hazeDispersion\')"><img src="/wis/openwis-user-portal/thumbnail/dispersion_model_icon.png" style="width:150px;height:170px;border:0;" hspace="10" vspace="10"></a>\
-    </p>\
-    <br>\
-    <br/>\
-    	<h2>To receive the above products via email/ftp</h2>\
-    	<p></p>\
-    	<p>\
-    	Login to your account and follow the instructions given in the \
-    	<a href="/wis/openwis-user-portal/onlineHelp/en/index.htm">Online Help</a>\
-    	</p>\
+        <br>\
+        <br/>\
+        <p>\
+        <h1>THE WIS</h1>\
+        </p>\
+        <p>The World Meteorological Organization (WMO) has been working for several years towards\
+        upgrading its global infrastructure to support all of its international programmes of work, both\
+        operational and research-based, to collect, share and disseminate information. The new infrastructure\
+        is called the WIS, the WMO Information System, and identifies three top level functions. These are:\
+        <br/>\
+        GISC: Global Information System Centre\
+        <br/>\
+        DCPC: Data Collection and Production Centre\
+        <br/>\
+         NC: National Centre\
+        </p>\
+        <br>\
+        <br/>\
+    	<h1>OPENWIS PORTALS</h1>\
+    	<P>Portals, based on the OpenWIS software and coupled with the existing systems, perform the three\
+        functions required by the WMO Information System.\
+        <br/>\
+        All three functions contribute to the circulation of priority data, system wide security, monitoring and\
+        implementation of WMO data policies. GISCs and DCPCs allow the Discovery Access and Retrieval\
+        of data, products and services offered by WIS Centres, but GISCs offer a global view of this\
+        information and provide distributed and resilient access to critical data and product.\
+        </p>\
     	<br>\
     	<br>\
     	<p></p>\

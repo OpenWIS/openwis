@@ -5,7 +5,7 @@
 <html>
 <head>
 <%
-String title = "ASMC | WIS Portal";
+String title = "WIS Portal";
 %>
 
 	<%@include file="header-common.jsp" %>

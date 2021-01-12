@@ -1439,7 +1439,7 @@ this.updateMapFields(bounds,false)
 }return this.regionsCombobox
 },createCriteriaLabel:function(label){return new Ext.Container({border:false,cls:"critLabelCls",html:label})
 },getResetAction:function(){if(!this.resetAction){this.resetAction=new Ext.Action({text:Openwis.i18n("Common.Btn.Reset"),iconCls:"iconBtnReset",cls:"openwisAction homePageSearchAction",scope:this,handler:function(){this.reset();
-document.title="ASEAN | WIS Portal";
+document.title="WIS Portal";
 document.getElementById("produit").innerHTML=""
 }})
 }return this.resetAction
@@ -2006,11 +2006,7 @@ wizard.initialize(lastProduct.productMetadataURN,"SUBSCRIPTION",lastProduct.extr
 }return this.contentPanel
 },getHeaderPanel:function(){if(!this.headerPanel){this.headerPanel=new Ext.Container({region:"north",border:false,contentEl:"header",cls:"headerCtCls",height:"auto"})
 }return this.headerPanel
-},getHeaderImage:function(){if(!this.headerImage){
-this.headerImage={
-tag:"div",cls:"header_img SearchPage",id:"header_img"
-}
-<div id='urlTitleCont'><div id='urlTitle'>About <strong>ASMC</strong></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div></a>"}
+},getHeaderImage:function(){if(!this.headerImage){this.headerImage={tag:"div",cls:"header_img SearchPage",id:"header_img",html:" <div id='urlTitleCont'><div id='urlTitle'><a style=\"text-decoration:none;color:inherit;\" href=\"http://www.openwis.io/\">Search Results</a></div><div id='urlSubTitle'>"+Openwis.i18n("HomePage.Main.Header")+"</div></div>"}
 }return this.headerImage
 },getCenterPanel:function(){if(!this.centerPanel){this.centerPanel=new Ext.Panel({cls:"body-center-panel",region:"center",border:false,width:992,layout:"border",id:"bodyCenPan"})
 }return this.centerPanel
