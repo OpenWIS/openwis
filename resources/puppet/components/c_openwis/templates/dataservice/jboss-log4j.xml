@@ -1,0 +1,40 @@
+<log4j:configuration debug="true"
+    xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+    <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="append" value="false" />
+        <param name="file" value="log4j.log" />
+        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+            <param name="FileNamePattern" value="myserver.%d{yyyy-MM-dd-HH-mm}.log.zip" />
+        </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="Threshold" value="WARN" />
+            <param name="ConversionPattern" value="%-5p;%d{yyyy-MM-dd;HH:mm:ss.SSS};%c;(%t);%m%n" />
+        </layout>
+    </appender>
+    
+    <!-- A time/date based rolling appender -->
+   <appender name="FILE" class="org.jboss.logging.appender.DailyRollingFileAppender">
+      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
+      <param name="File" value="server.log"/> 
+      <param name="Append" value="true"/>
+
+      <!-- Rollover at midnight each day -->
+      <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+ 
+      <param name="Threshold" value="WARN" />
+       <layout class="org.apache.log4j.PatternLayout">
+         <!-- The default pattern: Date Priority [Category] (Thread) Message\n -->
+         <param name="ConversionPattern" value="%-5p;%d{yyyy-MM-dd;HH:mm:ss.SSS};%c;(%t);%m%n"/> 
+         <!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n
+         <param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/>
+          -->
+      </layout>
+    </appender>
+
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="fileAppender" />
+    </root>
+
+</log4j:configuration>

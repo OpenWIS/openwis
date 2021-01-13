@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>openwis-securityservice</artifactId>
 		<groupId>io.openwis.securityservice</groupId>		
-		<version>3.14.10-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
