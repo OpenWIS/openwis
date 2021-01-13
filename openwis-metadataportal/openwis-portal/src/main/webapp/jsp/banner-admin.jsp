@@ -3,7 +3,7 @@
 			<!-- title -->
 			<tr id="banner-logo">
 				<td align="left" width="50%">
-					<img src="<%= context.getBaseUrl() %>/images/openwis/header-left.png" width="240" alt="World picture" align="top">
+					<img src="<%= context.getBaseUrl() %>/images/openwis/header-left.png" width="200" alt="World picture" align="top">
 				</td>
 				<td align="center" width="0%">
 					<!-- <img src="<%= context.getBaseUrl() %>/images/openwis/titre_site.png" alt="World picture" align="top"> -->

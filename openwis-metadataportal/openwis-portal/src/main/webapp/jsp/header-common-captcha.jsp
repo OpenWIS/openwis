@@ -20,7 +20,7 @@ boolean selfRegistrationEnabled = sm.getValueAsBool("system/userSelfRegistration
 boolean devMode = context.isDebug();
 %>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="description" content="" />
+	<meta name="description" content="This portal provides operational information and products on the weather" />
 	<title><%= title %></title>
 
 	<link href="<%= context.getBaseUrl() %>/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -28,9 +28,6 @@ boolean devMode = context.isDebug();
 	
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 	<META HTTP-EQUIV="Expires" CONTENT="-1">
-	
-    <!-- <script src="https://assets.dcube.cloud/scripts/wogaa.js"></script> -->
-    <!-- <script src="https://assets.wogaa.sg/scripts/wogaa.js"></script> -->
 
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="<%= context.getBaseUrl() %>/scripts/geoext/resources/css/geoext-all-debug.css">
