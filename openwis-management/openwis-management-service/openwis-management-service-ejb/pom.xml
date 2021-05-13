@@ -3,7 +3,7 @@
   <parent>
 	<artifactId>openwis-management-service</artifactId>
 	<groupId>io.openwis.management.service</groupId>
-		<version>3.14.15</version>
+		<version>3.14.16-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
   </parent>
 

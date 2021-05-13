@@ -3,7 +3,7 @@
 
   <groupId>io.openwis</groupId>
   <artifactId>openwis</artifactId>
-  <version>3.14.15</version>
+  <version>3.14.16-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>OpenWIS</name>
 
@@ -18,7 +18,7 @@
     <url>https://github.com/OpenWIS/openwis</url>
     <connection>scm:git:ssh://git@github.com/OpenWIS/openwis.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/OpenWIS/openwis.git</developerConnection>
-    <tag>openwis-3.14.15-release</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <organization>
