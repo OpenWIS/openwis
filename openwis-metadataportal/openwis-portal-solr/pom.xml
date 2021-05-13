@@ -20,7 +20,7 @@
 	<description>OpenWIS SolR search engine module</description>
 	<properties>
 		<openwis-portal-solr>openwis-portal-solr</openwis-portal-solr>
-		<solr.version>1.4.1</solr.version>
+		<solr.version>8.8.2</solr.version>
 	</properties>
 
 	<build>
