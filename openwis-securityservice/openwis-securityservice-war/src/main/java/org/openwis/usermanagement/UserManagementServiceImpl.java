@@ -71,7 +71,7 @@ public class UserManagementServiceImpl implements UserManagementService {
             NEEDUSERACCOUNT, INET_USER_STATUS, OBJECT_CLASS,
             FTPS, CLASSOFSERVICE, BACKUPS, EMAILS,
             ADDRESS_ADDRESS, ADDRESS_COUNTRY, ADDRESS_STATE, ADDRESS_ZIP, ADDRESS_CITY,
-            SECRET_KEY, LAST_LOGIN_TIME,
+            SECRET_KEY, LAST_LOGIN_TIME, LAST_LOGIN_TIMESTAMP,
             PWD_CHANGED_TIME, PWD_EXPIRE_TIME };
     /**
      * The user management service utilities.
@@ -576,6 +576,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         user.setNeedUserAccount(true);
         user.setPassword(adminPassword);
         user.setProfile("Administrator");
+        user.setSecretKey("ATTRIBUTE_NOT_USED");
         createUser(user, centreName);
 
     }
