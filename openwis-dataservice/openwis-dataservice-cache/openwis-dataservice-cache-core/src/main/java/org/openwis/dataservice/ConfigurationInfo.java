@@ -133,16 +133,16 @@ public interface ConfigurationInfo {
    // JMS Queue
    // -------------------------------------------------------------------------
    /** Identifies the name of the Request message queue. */
-   String REQUEST_QUEUE_NAME = "java:/queue/RequestQueue";
+   String REQUEST_QUEUE_NAME = "java:/jms/queue/RequestQueue";
    /** Identifies the name of the Incoming message queue. */
-   String INCOMING_DATA_QUEUE_NAME = "java:/queue/IncomingDataQueue";
+   String INCOMING_DATA_QUEUE_NAME = "java:/jms/queue/IncomingDataQueue";
 
    /** Identifies the names of the feeding queues. */
-   String PACKED_FEEDING_QUEUE_NAME = "java:/queue/PackedFeedingQueue";
-   String UNPACKED_FEEDING_QUEUE_NAME = "java:/queue/UnpackedFeedingQueue";
+   String PACKED_FEEDING_QUEUE_NAME = "java:/jms/queue/PackedFeedingQueue";
+   String UNPACKED_FEEDING_QUEUE_NAME = "java:/jms/queue/UnpackedFeedingQueue";
 
    /** Identifies the name of the Dissemination message queue. */
-   String DISSEMINATION_QUEUE_NAME = "java:/queue/DisseminationQueue";
+   String DISSEMINATION_QUEUE_NAME = "java:/queue/jms/DisseminationQueue";
 
    // -------------------------------------------------------------------------
    // Operator config

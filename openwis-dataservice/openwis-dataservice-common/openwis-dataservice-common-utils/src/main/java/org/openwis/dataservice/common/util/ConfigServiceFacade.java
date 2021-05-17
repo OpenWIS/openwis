@@ -54,7 +54,7 @@ public class ConfigServiceFacade {
       log.debug("Using ConfigServiceFacade to look up '" + key + "'.  The value was '" + value + "'");
 
       //Zhan added the following for diagnostic purpose
-      log.info("Using ConfigServiceFacade to look up '" + key + "'.  The value was '" + value + "'");
+      //log.info("Using ConfigServiceFacade to look up '" + key + "'.  The value was '" + value + "'");
 
       return value;
    }
