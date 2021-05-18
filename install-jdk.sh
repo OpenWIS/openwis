@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# this is step 1 in solving the sonar jkd 11 issue encountered in openWIS
 #
 # Install JDK for Linux and Mac OS
 #
