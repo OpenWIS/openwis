@@ -28,7 +28,7 @@ script:
 - mvn clean install -Pdependencies,openwis,admin -q
 - mvn clean install -Puser -q
 - export JAVA_HOME=$HOME/openjdk11
-- $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+- bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
 # - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
