@@ -26,6 +26,8 @@ before_install:
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
+install: "npm install"
+
 script:
 - jdk_switcher use openjdk8
 - mvn clean install -Pdependencies,openwis,admin -q
