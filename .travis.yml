@@ -4,6 +4,9 @@ jdk: openjdk8
 
 git:
   depth: false
+  
+node_js:
+  - "10"
 
 addons:
   sonarcloud:
