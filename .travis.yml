@@ -1,25 +1,26 @@
-#language: java
-#jdk: openjdk8
+language: java
+jdk: openjdk8
+
 #node_js:
 #  - "10"
 #install: "npm install"
 
-jobs:
-    include:
-        - language: java
-          jdk: openjd8
-          script:
-          - jdk_switcher use openjdk8
-          - mvn clean install -Pdependencies,openwis,admin -q
-          - mvn clean install -Puser -q
-        - language: node_js
-          node_js:
-          - "10"
-          script:
-          - npm install
-          - export JAVA_HOME=$HOME/openjdk11
-          - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
-          - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+#jobs:
+#    include:
+#        - language: java
+#          jdk: openjd8
+#          script:
+#          - jdk_switcher use openjdk8
+#          - mvn clean install -Pdependencies,openwis,admin -q
+#          - mvn clean install -Puser -q
+#        - language: node_js
+#          node_js:
+#          - "10"
+#          script:
+#          - npm install
+#          - export JAVA_HOME=$HOME/openjdk11
+#          - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+#          - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
           
 git:
   depth: false
@@ -44,12 +45,12 @@ before_install:
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
-#script:
-#- jdk_switcher use openjdk8
-#- mvn clean install -Puser -q
-#- export JAVA_HOME=$HOME/openjdk11
-#- bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
-#- mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+script:
+- jdk_switcher use openjdk8
+- mvn clean install -Puser -q
+- export JAVA_HOME=$HOME/openjdk11
+- bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+- mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
   openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
