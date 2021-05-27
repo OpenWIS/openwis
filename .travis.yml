@@ -34,6 +34,7 @@ addons:
 before_install:
 - npm --version
 - node --version
+- nvm --version
 - openssl aes-256-cbc -K $encrypted_62b1a583e357_key -iv $encrypted_62b1a583e357_iv
   -in resources/travis_copy_artifacts_rsa.enc -out /tmp/travis_copy_artifacts_rsa
   -d
