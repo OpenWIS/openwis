@@ -49,6 +49,7 @@ before_install:
 
 script:
 - jdk_switcher use openjdk8
+- mvn clean install -Pdependencies,openwis,admin -q
 - mvn clean install -Puser -q
 - export JAVA_HOME=$HOME/openjdk11
 - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
