@@ -44,6 +44,8 @@ before_install:
 - ssh-add /tmp/github_deploy_key
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- sudo apt-get update
+- sudo apt-get -y install nodejs
 
 script:
 - jdk_switcher use openjdk8
