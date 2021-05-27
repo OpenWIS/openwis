@@ -14,6 +14,8 @@ addons:
       secure: "Epycm5G2JUKhsB7b3L4ZwSrQ4y9AfgBAVaBkRI+tUMSK4L3HZrwlHkKPdWdmPUGORIWW6V5ue8bXv9yL0pcikOWo8eaJACFGV7aWykQMcDjR0umJ2leJf3hA/TqZY4PTRWPM+3fJiTg6qE8v4J9Q63PY0SEFHsomh8wh1zSdUf4I7Hbc+y8N6/NQWwmFSUVaA0G2YESUtkRU6bk3Q9vVJGJa5FJ9LdRnySl3kb8Lh4cyQwsbFEgF/j1yuCY4jNPyeGUwem99xYfA5SF/oRdR0T9So80UnAiNtX022GlA3k7TuqKL8GEM38YeHioygSFKU76oRda0izqWmTWpVKeuDkkhV0IfIzF/OZvK0pvYPLZ0o+QRiI4uO0LCpw+gjc3qmN/jGqlGj7LwgcKirFEjVTL14Dme/KtLzwVWClH8qYKzFcVnD+ymbpY7jselsck4Mnufiv4Y51tDs1Ka+B826Bku0HdGYS5Yj/E4IxWRE110DfXxfuFDIyGyeLusx/2mewMCLzSFYTbitH3ew3zIFk0DReWxaOcLKZ8KwmnpOr1bDaxKKS09yajaq4eH7ugdbidWzCcxqWawnlT2BEQhdgfS577u7G+C0+LZ/Kv4WXZ0GuajIKlTSrhJelxXkmRFKpSi/yfN96/viYgCcVPzu6PBDgNIu2T9phMuG0ny1zY="
 
 before_install:
+- npm --version
+- node --version
 - openssl aes-256-cbc -K $encrypted_62b1a583e357_key -iv $encrypted_62b1a583e357_iv
   -in resources/travis_copy_artifacts_rsa.enc -out /tmp/travis_copy_artifacts_rsa
   -d
