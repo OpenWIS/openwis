@@ -26,7 +26,7 @@ before_install:
 script:
 - mvn clean install -Pdependencies,openwis,admin -q
 - mvn clean install -Puser -q
-# - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+- mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
 
 after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
   openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
