@@ -1,13 +1,12 @@
 language: java
-
 jdk: openjdk8
+node_js:
+  - "10"
+install: "npm install"
 
 git:
   depth: false
   
-node_js:
-  - "10"
-
 addons:
   sonarcloud:
     organization: "openwis"
@@ -25,8 +24,6 @@ before_install:
 - ssh-add /tmp/github_deploy_key
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-
-install: "npm install"
 
 script:
 - jdk_switcher use openjdk8
