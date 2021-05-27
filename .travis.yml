@@ -48,7 +48,7 @@ before_install:
 - sudo apt-get -y install nodejs
 #- sudo apt-get -y install node
 #- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
-- ls -al node
+- which node
 
 script:
 - jdk_switcher use openjdk8
