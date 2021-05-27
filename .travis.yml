@@ -46,6 +46,8 @@ before_install:
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - sudo apt-get update
 - sudo apt-get -y install nodejs
+- sudo apt-get -y install node
+- node --version
 
 script:
 - jdk_switcher use openjdk8
