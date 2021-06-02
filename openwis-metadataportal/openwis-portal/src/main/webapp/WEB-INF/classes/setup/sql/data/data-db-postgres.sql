@@ -7231,7 +7231,7 @@ INSERT INTO DataPolicy VALUES (nextval('datapolicy_seq'), 'unknown', 'Products h
 -- === Table: Users
 -- ======================================================================
 
-INSERT INTO Users VALUES  (nextval('users_seq'),'admin','d033e22ae348aeb566fc214aec3585c4da997','admin','admin','Administrator','','','','','','','','');
+INSERT INTO Users VALUES  (nextval('users_seq'),'admin','d033e22ae348aeb566fc214aec3585c4da997','admin','admin','Administrator','','','','','','','','', NOW(), NOW());
 
 -- ======================================================================
 -- === Table: Availability

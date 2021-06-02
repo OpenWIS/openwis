@@ -7340,4 +7340,4 @@ REM ======================================================================
 REM === Table: Users
 REM ======================================================================
 
-INSERT INTO Users VALUES  (1,'admin','d033e22ae348aeb566fc214aec3585c4da997','admin','admin','Administrator','','','','','','','','');
+INSERT INTO Users VALUES  (1,'admin','d033e22ae348aeb566fc214aec3585c4da997','admin','admin','Administrator','','','','','','','','', NOW(), NOW());

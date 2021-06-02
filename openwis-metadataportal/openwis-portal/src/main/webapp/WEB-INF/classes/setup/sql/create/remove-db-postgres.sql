@@ -37,4 +37,7 @@ drop table categories;
 drop table isolanguagesdes;
 drop table isolanguages;
 drop table languages;
+drop table availability_statistics;
 drop table availability;
+drop table activebackup;
+

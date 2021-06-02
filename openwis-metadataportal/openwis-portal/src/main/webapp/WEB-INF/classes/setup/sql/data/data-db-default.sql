@@ -7340,7 +7340,7 @@ INSERT INTO Settings VALUES (723,722,'enable','false');
 -- === Table: Users
 -- ======================================================================
 
-INSERT INTO Users VALUES  (1,'admin','d033e22ae348aeb566fc214aec3585c4da997','admin','admin','Administrator','','','','','','','','');
+INSERT INTO Users VALUES  (1,'admin','d033e22ae348aeb566fc214aec3585c4da997','admin','admin','Administrator','','','','','','','','', NOW(), NOW());
 
 -- ======================================================================
 -- === Table: Availability

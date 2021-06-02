@@ -128,7 +128,9 @@ CREATE TABLE Users
     email         varchar(128),
     organisation  varchar(128),
     kind          varchar(16),
-
+    lastlogin     timestamp without time zone   not null,
+    lastpasswordchange     timestamp without time zone,
+	
     primary key(id),
     unique(username)
   );
