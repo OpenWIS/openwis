@@ -1,9 +1,9 @@
 language: java
 jdk: openjdk8
 
-#node_js:
-#   - "10"
-#install: "npm install"
+node_js:
+   - "10"
+install: "npm install"
 
 jobs:
     include:
