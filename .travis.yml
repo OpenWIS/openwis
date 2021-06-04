@@ -5,19 +5,19 @@ jdk: openjdk8
 #   - "10"
 #install: "npm install"
 
-#jobs:
- #   include:
- #       - language: java
-#          jdk: openjd8
- #         script:
+jobs:
+    include:
+        - language: java
+          jdk: openjd8
+          script:
           #- jdk_switcher use openjdk8
- #         - export JAVA_HOME=$HOME/openjdk11
- #         - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
- #         - mvn clean install -Pdependencies,openwis,admin -q
- #         - mvn clean install -Puser -q
- #         - export JAVA_HOME=$HOME/openjdk11
- #         - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
- #         - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+         - export JAVA_HOME=$HOME/openjdk11
+         - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+          - mvn clean install -Pdependencies,openwis,admin -q
+          - mvn clean install -Puser -q
+          - export JAVA_HOME=$HOME/openjdk11
+          - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+          - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
         #- language: node_js
  #         node_js:
   #        - 10
@@ -51,9 +51,9 @@ before_install:
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - sudo apt-get update
-#- sudo apt-get -y install nodejs
+- sudo apt-get -y install nodejs
 - sudo apt-get -y install npm
-- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
+#- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
 - npm install -g node@10.9.0 
 - which node
 
