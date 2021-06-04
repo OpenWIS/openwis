@@ -1,7 +1,7 @@
 language: java
 jdk: openjdk8
 
-#The recommended approach of using travis node js language and version keys does not work after extensive testing.
+# To solve the sonar node js issue, it appears that the recommended approach of using travis node js language and version keys does not work after extensive testing.
 #node_js:
 #   - "10"
 #install: "npm install"
