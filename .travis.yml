@@ -57,7 +57,7 @@ before_install:
 - which node
 
 script:
-- jdk_switcher use openjdk8
+#- jdk_switcher use openjdk8
 - mvn clean install -Pdependencies,openwis,admin -q
 - mvn clean install -Puser -q
 - export JAVA_HOME=$HOME/openjdk11
