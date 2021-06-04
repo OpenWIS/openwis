@@ -15,14 +15,17 @@ jobs:
           - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
           - mvn clean install -Pdependencies,openwis,admin -q
           - mvn clean install -Puser -q
-        - language: node_js
+          - export JAVA_HOME=$HOME/openjdk11
+          - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+          - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+        #- language: node_js
           node_js:
           - 10
           script:
-          - npm install
+        #  - npm install
           #- export JAVA_HOME=$HOME/openjdk11
           #- bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
-          - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+        #  - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
           
 git:
   depth: false
