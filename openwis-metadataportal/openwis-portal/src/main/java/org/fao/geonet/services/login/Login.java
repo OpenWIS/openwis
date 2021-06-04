@@ -25,6 +25,7 @@ package org.fao.geonet.services.login;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import jeeves.exceptions.UserLoginEx;
 import jeeves.interfaces.Service;
@@ -138,10 +139,10 @@ public class Login implements Service
 		{
 			int id = SerialFactory.getSerial(dbms, "Users");
 
-			query = 	"INSERT INTO Users(id, username, password, surname, name, profile) "+
-						"VALUES(?,?,?,?,?,?)";
+			query = 	"INSERT INTO Users(id, username, password, surname, name, profile, lastLogin) "+
+					"VALUES(?,?,?,?,?,?,?)";
 
-			dbms.execute(query, id, info.username, Util.scramble(info.password), "(LDAP)", info.name, info.profile);
+			dbms.execute(query, id, info.username, Util.scramble(info.password), "(LDAP)", info.name, info.profile, LocalDateTime.now());
 		}
 
 		dbms.commit();

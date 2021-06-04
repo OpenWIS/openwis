@@ -19,3 +19,7 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 # Ignore vagrant working files
 .vagrant/
 .vimspector.json
+
+# generated 
+mem.properties
+mem.script

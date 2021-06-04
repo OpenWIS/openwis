@@ -139,11 +139,11 @@ public class OpenWisLogin implements Service {
 
       if (res == 0) {
          int id = SerialFactory.getSerial(dbms, "Users");
-         query = "INSERT INTO Users(id, username, password, surname, name, profile) "
-               + "VALUES(?,?,?,?,?,?)";
+         query = "INSERT INTO Users(id, username, password, surname, name, profile, lastLogin) "
+                 + "VALUES(?,?,?,?,?,?,?)";
 
          dbms.execute(query, id, info.getUsername(), "DUMMY", info.getSurname(), info.getName(),
-               info.getProfile());
+                 info.getProfile(), LocalDateTime.now());
          Log.debug(LoginConstants.LOG, "User does not exits, insert into Users " + info.getUsername());
       }
 

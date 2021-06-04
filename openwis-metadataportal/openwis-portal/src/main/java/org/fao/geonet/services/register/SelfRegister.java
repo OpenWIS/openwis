@@ -29,6 +29,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
+import java.time.LocalDateTime;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -125,12 +126,12 @@ public class SelfRegister implements Service {
 					+ "";
 			String group = getGroupID(dbms);
 			String query = "INSERT INTO Users (id, username, password, surname, name, profile, "
-					+ "address, city, state, zip, country, email, organisation, kind) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "address, city, state, zip, country, email, organisation, kind, lastLogin) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			dbms.execute(query, new Integer(id), username, Util
-					.scramble(password), surname, name, PROFILE, address,
-					state, zip, country, email, organ, kind);
+							.scramble(password), surname, name, PROFILE, address,
+					state, zip, country, email, organ, kind, LocalDateTime.now());
 
 			dbms.execute(
 					"INSERT INTO UserGroups(userId, groupId) VALUES (?, ?)",
