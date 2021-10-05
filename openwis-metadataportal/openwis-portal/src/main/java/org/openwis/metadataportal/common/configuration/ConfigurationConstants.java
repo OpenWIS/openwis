@@ -234,4 +234,7 @@ public interface ConfigurationConstants {
     */
    String REPORT_FILE_EXT = "openwis.metadataportal.report.file.ext";
 
+   String IDP_URL = "openwis.metadataportal.idp.url";
+   String IDP_NAME = "openwis.metadataportal.idp.name";
+
 }

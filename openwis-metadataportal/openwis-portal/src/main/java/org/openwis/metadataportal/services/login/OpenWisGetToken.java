@@ -26,6 +26,10 @@ import org.openwis.metadataportal.kernel.external.ManagementServiceProvider;
  * Servlet which gets the response of the user token preferred IdP requests. <P>
  * And Stores the user token session in the Jeeves user session. <P>
  * 
+ * Mod: 06/08/2020 Cosmin TUPANGIU
+ * To fix MSS vulnerabilities, the token is read directly from cookie and not with spGetToken.jsp.
+ * The call to spGetToken has been removed. This class is kept for compatibilities reasons. It can be integrated into
+ * OpenWisAuthorization but it is better to keep it for future revert changes.
  */
 @SuppressWarnings("serial")
 public class OpenWisGetToken extends HttpServlet {
@@ -40,17 +44,6 @@ public class OpenWisGetToken extends HttpServlet {
 
       HttpSession httpSession = req.getSession();
       UserSession session = (UserSession) httpSession.getAttribute(LoginConstants.SESSION);
-
-      // Get token
-      String token = req.getParameter(LoginConstants.TOKEN);
-      token = URLEncoder.encode(token, "UTF-8");
-
-      // retrieve language
-//      String language = (String) session.getProperty(LoginConstants.LANG);
-//      if (StringUtils.isBlank(language)) {
-//         // English is the default language
-//         language = "en";
-//      }
 
       String language = "en";
       Object relayState = session.getProperty(LoginConstants.RELAY_STATE);
@@ -67,13 +60,9 @@ public class OpenWisGetToken extends HttpServlet {
             }
          }
       }
-      
-      session.setProperty(LoginConstants.TOKEN, token);
 
       boolean isApplyGroupEmpty = (Boolean) session
             .getProperty(LoginConstants.IS_APPLY_GROUP_EMPTY);
-
-      Log.debug(LoginConstants.LOG, "Token id is " + token);
 
       if (isApplyGroupEmpty) {
          AlertService alertService = ManagementServiceProvider.getAlertService();

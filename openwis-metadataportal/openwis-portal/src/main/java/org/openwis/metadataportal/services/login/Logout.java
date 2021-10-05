@@ -58,13 +58,14 @@ public class Logout extends HttpServlet {
 
       try {
          String lang = request.getParameter(LoginConstants.LANG);
-         
+
          UserSession userSession = (UserSession) request.getSession().getAttribute("session");
          if (userSession != null) {
 
             //Get User token
             String token = (String) userSession.getProperty(LoginConstants.TOKEN);
             String idpUrl = (String) userSession.getProperty(LoginConstants.PREFERRED_IDP_URL);
+            Log.info(LoginConstants.LOG, "idpUrl: " + idpUrl);
             String entityID = (String) userSession.getProperty(LoginConstants.IDP_ENTITY_ID);
             String spEntityID = (String) userSession.getProperty(LoginConstants.SP_ENTITY_ID);
             String sessionIndex = (String) userSession.getProperty(LoginConstants.SESSION_INDEX);
@@ -86,7 +87,7 @@ public class Logout extends HttpServlet {
 
             //Check if token is valid
             TokenUtilities tokenUtilities = new TokenUtilities();
-            String redirectURL = new String();
+            String redirectURL;
             if (tokenUtilities.isTokenValid(idpUrl, token)) {
                redirectURL = FEDLET_SLO_SP_ENTITY_ID + spEntityID + FEDLET_SLO_IDP_ENTITY_ID
                      + entityID + FEDLET_SLO_NAME_ID_VALUE + nameId + FEDLET_SLO_SESSION_INDEX
@@ -100,33 +101,9 @@ public class Logout extends HttpServlet {
             } else {
                redirectURL = LoginConstants.HOME_PAGE;
             }
-            
-            /*
-            //added by zhan
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-            	 int cookieLenght = cookies.length;
-            
-            	 for (int i = 0; i < cookieLenght; i++) {
-            		 Cookie cookie = new Cookie(cookies[i].getName(), "");
-            		 cookie.setMaxAge(0);
-            		   // cookie.setDomain(cookies[i].getDomain());
-            		   //cookie.setPath(cookies[i].getPath());
-            		 response.addCookie(cookie);
-            		 
-            	 }
-            }
-           */
-            //added by zhan
-            /** This code modification is to solve the openwis github issue #285
-             ** The details of this issue can be viewed at https://github.com/OpenWIS/openwis/issues/285
-             **/
-            //Cookie[] cookies = request.getCookies();
             String str = request.getServerName();
             String str1= str.substring(str.indexOf(".")+1);
             response.addHeader("Set-Cookie","iPlanetDirectoryPro=; Path=/; Domain=" + str1 + "; Max-Age=0");
-            //response.addHeader("Set-Cookie","iPlanetDirectoryPro=; Path=/testfunny; Domain=" + str1);
-            
             response.sendRedirect(redirectURL);
          } else {
             forwardError(request, response, "No session defined");

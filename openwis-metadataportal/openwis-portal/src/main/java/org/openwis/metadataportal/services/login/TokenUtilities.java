@@ -12,6 +12,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.StringUtils;
 import org.openwis.metadataportal.services.login.error.OpenWisLoginEx;
@@ -25,21 +26,18 @@ public class TokenUtilities {
 
    /**
     * @member: REST_TOKEN_VALID
-    * Was: private static final String REST_TOKEN_VALID = "/identity/isTokenValid?tokenid=";
     */
-   private static final String REST_TOKEN_ENDPT = "/json/sessions/";
-   private static final String REST_TOKEN_VALID = "?action=validate";
+   private static final String REST_TOKEN_VALID = "/json/sessions?_action=validate";
 
    /**
     * @member: REST_TOKEN_EXPECTED_RESULT
     */
-   private static final String REST_TOKEN_EXPECTED_RESULT = "boolean=true";
+   private static final String REST_TOKEN_EXPECTED_RESULT = "\"valid\":true";
 
    /**
     * @member: REST_USER_BY_TOKEN
-    * Was: private static final String REST_USER_BY_TOKEN = "/identity/attributes?attributes_names=uid&subjectid=";
     */
-   private static final String REST_USER_BY_TOKEN = "/json/users?attributes_names=uid&subjectid=";
+   private static final String REST_USER_BY_TOKEN = "/identity/attributes?attributes_names=uid&subjectid=";
 
    /**
     * @member: UD_ATT_NAME_EQUAL_CN
@@ -71,7 +69,14 @@ public class TokenUtilities {
       HttpClient client = new HttpClient();
 
       // Create a method instance. Call an OpenSSO REST Service.
-      GetMethod method = new GetMethod(idpUrl + REST_TOKEN_ENDPT + token + REST_TOKEN_VALID);
+      PostMethod method = new PostMethod(idpUrl + REST_TOKEN_VALID);
+      Log.debug(LoginConstants.LOG, "Verify token at: " + method.getPath());
+
+      // set headers
+      method.setRequestHeader("Content-Type","application/json");
+      method.setRequestHeader("Accept", "application/json");
+      method.setRequestHeader("Accept-API-Version","resource=1.2");
+      method.setRequestHeader("iPlanetDirectoryPro",token);
 
       // Provide custom retry handler is necessary
       method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
@@ -88,11 +93,12 @@ public class TokenUtilities {
          } else if (statusCode == HttpStatus.SC_OK) {
             // Read the response body.
             byte[] responseBody = method.getResponseBody();
+
             // Deal with the response.
             // Use caution: ensure correct character encoding and is not binary data
             result = StringUtils.contains(new String(responseBody), REST_TOKEN_EXPECTED_RESULT);
          } else {
-            Log.error(LoginConstants.LOG, "Method failed : " + method.getStatusLine());
+            Log.error(LoginConstants.LOG, "Method failed : " + method.getResponseBodyAsString());
             throw new OpenWisLoginEx(
                   "Error during test if token is valid : Server returned response code "
                         + statusCode);
