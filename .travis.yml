@@ -53,8 +53,9 @@ before_install:
 - sudo apt-get -y install nodejs
 - sudo apt-get -y install npm
 #- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
-- npm install -g node@10.9.0 
+- npm install -g node@12.18.1
 - which node
+- node --version
 
 script:
 #- jdk_switcher use openjdk8
