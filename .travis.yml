@@ -73,6 +73,9 @@ after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-data
   openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war openwis-stagingpost/target/stagingPost.war
   openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
 
+
+#test for git hub workflow to accomodate a lot of code changes
+
 deploy:
   provider: script
   skip_cleanup: true
