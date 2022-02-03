@@ -205,13 +205,12 @@ public class UserManagementServiceImpl implements UserManagementService {
          logger.info("Removing User " + username);
          String deleteDN = UserUtils.getDn(username);
          UtilEntry.deleteEntry(deleteDN);
-      } else {
-         //User belongs to several local centres 
-         // => remove the user of the centre where the admin wants to remove the user.
-         logger.info("Removing User " + username + " from Centre " + centre);
-         for (String groupId : userLocalCentre.getGroupIds()) {
-            removeUserToGroup(username, userLocalCentre.getCentreName(), groupId);
-         }
+      } 
+      //User belongs to several local centres 
+      // => remove the user of the centre where the admin wants to remove the user.
+      logger.info("Removing User " + username + " from Centre " + centre);
+      for (String groupId : userLocalCentre.getGroupIds()) {
+         removeUserToGroup(username, userLocalCentre.getCentreName(), groupId);
       }
    }
 
