@@ -7,15 +7,16 @@ import javax.naming.NamingException;
 
 import org.openwis.management.ManagementServiceBeans;
 import org.openwis.management.monitoring.IngestedDataStatistics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Provides access to the Remote management EJBs.
  */
 public final class ManagementServiceProvider {
    
-   private static final Logger log = LoggerFactory.getLogger(ManagementServiceProvider.class);
+   private static final Logger log = LogManager.getLogger(ManagementServiceProvider.class);
 	
    private static ManagementServiceProvider instance;
    

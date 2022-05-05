@@ -34,6 +34,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tools.ant.util.FileUtils;
 import org.jboss.ejb3.annotation.Depends;
 import org.jboss.ejb3.annotation.TransactionTimeout;
@@ -61,8 +63,6 @@ import org.openwis.management.service.IngestedDataStatistics;
 import org.openwis.management.service.ReplicatedDataStatistics;
 import org.openwis.management.utils.DataServiceAlerts;
 import org.openwis.management.utils.ManagementServiceProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Depends({"jboss.ha:service=HASingletonDeployer,type=Barrier"})
 @Stateless(name = "CacheManager")
@@ -95,7 +95,7 @@ public class CacheManagerImpl implements CacheManager, ConfigurationInfo {
 
 	private final long LARGE_PRODUCT_THRESHOLD = 1073741824; // 1 GB (in bytes)
 
-	private final Logger LOG = LoggerFactory.getLogger(CacheManagerImpl.class);
+	private final Logger LOG = LogManager.getLogger(CacheManagerImpl.class);
 
 	@EJB
 	private Feeder feeder;

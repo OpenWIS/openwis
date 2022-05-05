@@ -33,8 +33,6 @@ import org.openwis.usermanagement.model.user.OpenWISUser;
 import org.openwis.usermanagement.util.GroupUtils;
 import org.openwis.usermanagement.util.LdapUtils;
 import org.openwis.usermanagement.util.UserUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPAttributeSet;
@@ -43,6 +41,8 @@ import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPSearchConstraints;
 import com.novell.ldap.LDAPSearchResults;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Implements the Group Management Service : <P>
@@ -63,7 +63,7 @@ public class GroupManagementServiceImpl implements GroupManagementService {
     * The logger
     * @member: logger
     */
-   private final Logger logger = LoggerFactory.getLogger(GroupManagementServiceImpl.class);
+   private final Logger logger = LogManager.getLogger(GroupManagementServiceImpl.class);
 
    /**
     * {@inheritDoc}

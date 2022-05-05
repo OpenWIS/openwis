@@ -10,20 +10,21 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.apache.logging.log4j.LogManager;
 import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.model.user.OpenWISEmail;
 import org.openwis.usermanagement.model.user.OpenWISFTP;
 import org.openwis.usermanagement.util.OpenWISEmailUtils;
 import org.openwis.usermanagement.util.OpenWISFTPUtils;
 import org.openwis.usermanagement.util.UserUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPAttributeSet;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 /**
  * Implements the Dissemination Parameters management interface.
  *  The Dissemination Parameters Component is used for managed user's dissemination parameters. <P>
@@ -33,7 +34,7 @@ import com.novell.ldap.LDAPEntry;
 public class DisseminationParametersServiceImpl implements DisseminationParametersService {
 
    /** The logger */
-   private final Logger logger = LoggerFactory.getLogger(DisseminationParametersServiceImpl.class);
+   private final Logger logger = LogManager.getLogger(DisseminationParametersServiceImpl.class);
 
    /**
     * {@inheritDoc}

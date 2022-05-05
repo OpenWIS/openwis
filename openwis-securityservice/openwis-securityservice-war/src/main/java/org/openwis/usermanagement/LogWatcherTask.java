@@ -19,14 +19,13 @@ import java.util.List;
 import org.openwis.management.alert.AlertService;
 import org.openwis.management.utils.SecurityServiceAlerts;
 import org.openwis.usermanagement.model.user.OpenWISUser;
-import org.openwis.usermanagement.util.JNDIUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openwis.usermanagement.util.JNDIUtils;import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class LogWatcherTask {
 
    /** The logger. */
-   private static Logger logger = LoggerFactory.getLogger(LogWatcherTask.class);
+   private static Logger logger = LogManager.getLogger(LogWatcherTask.class);
 
    /** The authentication log timer name. */
    public static final String NAME = "AUTH_LOG_TIMER";

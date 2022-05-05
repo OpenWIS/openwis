@@ -51,9 +51,8 @@ import org.openwis.usermanagement.util.OpenWISEmailUtils;
 import org.openwis.usermanagement.util.OpenWISFTPUtils;
 import org.openwis.usermanagement.util.OpenWiSBackupUtils;
 import org.openwis.usermanagement.util.UserUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPAttributeSet;
 import com.novell.ldap.LDAPConnection;
@@ -78,7 +77,7 @@ import com.novell.ldap.LDAPSearchResults;
 public class UserManagementServiceImpl implements UserManagementService {
 
    /** The logger */
-   private final Logger logger = LoggerFactory.getLogger(UserManagementServiceImpl.class);
+   private final Logger logger = LogManager.getLogger(UserManagementServiceImpl.class);
 
    private static int MAX_RESULT = 1000;
 

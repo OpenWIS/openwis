@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.openwis.usermanagement.exception.UserManagementException;
 import org.openwis.usermanagement.util.LdapConnectionPool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
@@ -25,7 +25,7 @@ public final class UtilEntry {
     * The logger
     * @member: logger
     */
-   private static final Logger LOGGER = LoggerFactory.getLogger(UtilEntry.class);
+   private static final Logger LOGGER = LogManager.getLogger(UtilEntry.class);
 
    /**
     * Default constructor.

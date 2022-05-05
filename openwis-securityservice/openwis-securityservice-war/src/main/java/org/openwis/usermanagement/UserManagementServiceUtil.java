@@ -41,8 +41,8 @@ import org.openwis.usermanagement.util.OpenWISEmailUtils;
 import org.openwis.usermanagement.util.OpenWISFTPUtils;
 import org.openwis.usermanagement.util.OpenWiSBackupUtils;
 import org.openwis.usermanagement.util.UserUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPAttributeSet;
@@ -57,7 +57,7 @@ import com.novell.ldap.LDAPModification;
 public class UserManagementServiceUtil {
 
    /** The logger */
-   private final Logger logger = LoggerFactory.getLogger(UserManagementServiceUtil.class);
+   private final Logger logger = LogManager.getLogger(UserManagementServiceUtil.class);
    
    /**
     * Get all groups of an user.
