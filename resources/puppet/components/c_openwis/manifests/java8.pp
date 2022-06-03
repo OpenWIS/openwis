@@ -1,5 +1,5 @@
 ###############################################################################
-# == Component: Configure Java 7 for OpenWIS Portals
+# == Component: Configure Java 7 for OpenWIS services (not Portals)
 #
 # === Authors
 #
@@ -13,18 +13,17 @@
 # === Actions
 #
 # This class ensures that the correct version of Java is installed on the
-# OpenWIS portal servers, by invoking the 'java7' function with the 'is_portal'
-# flag set.
+# OpenWIS servers (other than the portal servers), by invoking the 'java8'
+# function with the 'is_portal' flag unset.
 #
 # === Notes
 #
 #
 ###############################################################################
 
-class c_openwis::java7_portal (
+class c_openwis::java8 (
 ) {
-  c_openwis::java::java7 { ensure_java7_portal:
-    is_portal => true
+  c_openwis::java::java8 { ensure_java8:
+    is_portal => false
   }
 }
-

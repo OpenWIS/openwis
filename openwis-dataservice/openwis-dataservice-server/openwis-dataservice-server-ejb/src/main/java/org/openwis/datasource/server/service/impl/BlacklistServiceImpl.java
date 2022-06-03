@@ -65,7 +65,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    /** The mail sender. */
    @EJB
    private MailSender mailSender;
-   
+
    /**
     * injection ConnectionFactory
     */
@@ -75,7 +75,7 @@ public class BlacklistServiceImpl implements BlacklistService {
    /**
     * injection queue
     */
-   @Resource(mappedName = "java:/queue/StatisticsQueue")
+   @Resource(mappedName = "java:/jms/queue/StatisticsQueue")
    private Queue queue;
 
    /** The data statistics. */
@@ -101,7 +101,7 @@ public class BlacklistServiceImpl implements BlacklistService {
             dataStatistics = null;
          }
       }
-      
+
       return dataStatistics;
    }
 
@@ -126,7 +126,7 @@ public class BlacklistServiceImpl implements BlacklistService {
       message.setTotalSize(totalSize);
       message.setCommand(StatisticsMessage.CMD_UPDATE_USER_EXTRACTED_DATA);
       sendStatisticsUpdate(message);
-      
+
       // as the statistics are updated asynchronously, the blacklisting check
       // is done with last available values in db + current ones
       if (data == null) {
@@ -181,7 +181,7 @@ public class BlacklistServiceImpl implements BlacklistService {
          }
       }
    }
-   
+
    /**
     * Check blacklist status.
     *
@@ -303,21 +303,37 @@ public class BlacklistServiceImpl implements BlacklistService {
          result = (BlacklistInfo) query.getSingleResult();
       } catch (NoResultException e) {
          logger.info("No blacklist information found for user: {}", user);
-         
-         ConfigServiceFacade configServiceFacade = ConfigServiceFacade.getInstance();
+
+         try {
+             ConfigServiceFacade BlacklistDefault = ConfigServiceFacade.getInstance();
+
+
+//      String from = ConfigServiceFacade.getInstance().getString(DataServiceConfiguration.MAIL_FROM);
+
          // Build default result
          result = new BlacklistInfo();
          result.setUser(user);
          result.setStatus(BlacklistStatus.NOT_BLACKLISTED);
-         result.setNbDisseminationWarnThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
-         result.setNbDisseminationBlacklistThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
-         result.setVolDisseminationWarnThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
-         result.setVolDisseminationBlacklistThreshold(JndiUtils
-               .getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+//         result.setNbDisseminationWarnThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
+         result.setNbDisseminationWarnThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
+//         result.setNbDisseminationWarnThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_WARN));
 
+//         result.setNbDisseminationBlacklistThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+         result.setNbDisseminationBlacklistThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+//         result.setNbDisseminationBlacklistThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_NB_BLACKLIST));
+
+//         result.setVolDisseminationWarnThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+         result.setVolDisseminationWarnThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+//         result.setVolDisseminationWarnThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_WARN));
+
+//         result.setVolDisseminationBlacklistThreshold(JndiUtils.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+         result.setVolDisseminationBlacklistThreshold(BlacklistDefault.getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+//         result.setVolDisseminationBlacklistThreshold(ConfigServiceFacade.getInstance().getLong(DataServiceConfiguration.BLACKLIST_DEFAULT_VOL_BLACKLIST));
+//
+         logger.info("New Blacklist record created for user: {}", user);
+         } catch (Exception e_Zhan) {
+             logger.info("ConfigServiceFacade.getInstance() failed: {}", e_Zhan.getMessage());
+         }
       }
       return result;
    }
@@ -331,6 +347,7 @@ public class BlacklistServiceImpl implements BlacklistService {
       BlacklistInfo result = getUserBlackListInfoIfExists(user);
       if (create && result.getId() == null) {
          entityManager.persist(result);
+         logger.info("New Blacklist record persistence update for user: {}", user);
       }
       return result;
    }

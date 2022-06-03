@@ -19,3 +19,7 @@ openwis-metadataportal/openwis-portal/openwis-user-portal
 
 # Ignore vagrant working files
 .vagrant/
+
+# Ignore dataservice generated properties
+openwis-dataservice/openwis-dataservice-common/openwis-dataservice-common-domain/mem.lck
+openwis-dataservice/openwis-dataservice-common/openwis-dataservice-common-domain/mem.properties

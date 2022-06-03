@@ -139,7 +139,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
    /**
     * injection queue
     */
-   @Resource(mappedName = "java:/queue/StatisticsQueue")
+   @Resource(mappedName = "java:/jms/queue/StatisticsQueue")
    private Queue queue;
    
    @PostConstruct

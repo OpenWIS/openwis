@@ -1,8 +1,12 @@
 package org.openwis.dataservice.util;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
 
-@Local
+//Zhan
+//the following change is for openWIS issue #281
+//@Local
+@Remote
 public interface FilePackerDatabaseAccessor {
 	
 	public void initialize(String instanceName);

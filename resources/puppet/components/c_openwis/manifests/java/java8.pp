@@ -37,7 +37,7 @@
 #
 ###############################################################################
 
-define c_openwis::java::java7 (
+define c_openwis::java::java8 (
   $is_portal,
   #
   ) {
@@ -49,61 +49,62 @@ define c_openwis::java::java7 (
   $use_ssl       = $c_openwis::use_ssl
 
   #============================================================================
-  # For Portals install specific version of Java7 (1.7.0.19)
+  # For Portals install specific version of Java7 (1.7.0.19) # discarded, delete.
   #============================================================================
   if $is_portal {
-    $version = "1.7.0.19-2.3.9.1.el6_4"
+    #$version = "1.7.0.19-2.3.9.1.el6_4"
+	$version =""
 
-    # install the Java 7 packages at the specified version
-    c_openwis::common::wget { "java-1.7.0-openjdk":
-      source => "${binaries_repo}/java-1.7.0-openjdk-${version}.x86_64.rpm",
-      unless => "yum list installed java-1.7.0-openjdk | grep \"${version}\"",
+    # install the Java 8 packages at the specified version
+    c_openwis::common::wget { "java-1.8.0-openjdk":
+      source => "${binaries_repo}/java-1.8.0-openjdk-${version}.x86_64.rpm",
+      unless => "yum list installed java-1.8.0-openjdk | grep \"${version}\"",
     } ->
-    package { "java-1.7.0-openjdk":
+    package { "java-1.8.0-openjdk":
       ensure          => "${version}",
       provider        => rpm,
-      source          => "${downloads_dir}/java-1.7.0-openjdk-${version}.x86_64.rpm",
+      source          => "${downloads_dir}/java-1.8.0-openjdk-${version}.x86_64.rpm",
       install_options => ["--nodeps"],
-      before          => [Class[c_openwis::common::tidy_downloads], Exec[ensure-java7]]
+      before          => [Class[c_openwis::common::tidy_downloads], Exec[ensure-java8]]
     } ->
-    c_openwis::common::wget { "java-1.7.0-openjdk-devel":
-      source => "${binaries_repo}/java-1.7.0-openjdk-devel-${version}.x86_64.rpm",
-      unless => "yum list installed java-1.7.0-openjdk-devel | grep \"${version}\"",
+    c_openwis::common::wget { "java-1.8.0-openjdk-devel":
+      source => "${binaries_repo}/java-1.8.0-openjdk-devel-${version}.x86_64.rpm",
+      unless => "yum list installed java-1.8.0-openjdk-devel | grep \"${version}\"",
     } ->
-    package { "java-1.7.0-openjdk-devel":
+    package { "java-1.8.0-openjdk-devel":
       ensure          => "${version}",
       provider        => rpm,
-      source          => "${downloads_dir}/java-1.7.0-openjdk-devel-${version}.x86_64.rpm",
+      source          => "${downloads_dir}/java-1.8.0-openjdk-devel-${version}.x86_64.rpm",
       install_options => ["--nodeps"],
-      before          => [Class[c_openwis::common::tidy_downloads], Exec[ensure-java7]]
+      before          => [Class[c_openwis::common::tidy_downloads], Exec[ensure-java8]]
     } ->
-    # Ensure that "headless" version of Java 7 is NOT installed
-    package { "java-1.7.0-openjdk-headless":
+    # Ensure that "headless" version of Java 8 is NOT installed
+    package { "java-1.8.0-openjdk-headless":
       ensure => absent,
-      before => Exec[ensure-java7]
+      before => Exec[ensure-java8]
     }
   }
   #============================================================================
-  # Otherwise, install current version of Java7
+  # Otherwise, install current version of Java8
   #============================================================================
    else {
-    # install the Java 7 packages
-    package { "java-1.7.0-openjdk":
+    # install the Java 8 packages
+    package { "java-1.8.0-openjdk":
       ensure => installed,
-      before => Exec[ensure-java7]
+      before => Exec[ensure-java8]
     } ->
-    package { "java-1.7.0-openjdk-devel":
+    package { "java-1.8.0-openjdk-devel":
       ensure => installed,
-      before => Exec[ensure-java7]
+      before => Exec[ensure-java8]
     }
   }
 
   # ============================================================================
-  # Ensure the system is using Java 7,
+  # Ensure the system is using Java 8,
   # if Java 8 is also installed
   #============================================================================
-  exec { ensure-java7:
-    command => 'alternatives --set java `alternatives --display java | grep priority | grep 1.7.0 | cut -d" " -f 1`',
+  exec { ensure-java8:
+    command => 'alternatives --set java `alternatives --display java | grep priority | grep 1.8.0 | cut -d" " -f 1`',
     onlyif  => 'alternatives --display java | grep auto',
     user    => root,
     path    => $::path,
@@ -120,7 +121,7 @@ define c_openwis::java::java7 (
       ensure  => file,
       owner   => root,
       source  => "${ssl_cert_file}",
-      require => Exec[ensure-java7]
+      require => Exec[ensure-java8]
     } ->
     exec { backup-cacerts:
       cwd     => "${jvm_security_dir}",

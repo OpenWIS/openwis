@@ -30,13 +30,13 @@ public class IngestionFilenameFilter implements FileFilter {
 				
 				
 			}
-		};
+		}
 	
 	public IngestionFilenameFilter(Pattern[] includePatterns, Pattern[] excludePatterns){
 		this.includePatterns = includePatterns;
 		this.excludePatterns = excludePatterns;
 		
-		this.sortedFiles = new TreeSet<File>(new FileTimestampComparator());
+		this.sortedFiles = new TreeSet<>(new FileTimestampComparator());
 	}
 
 	@Override

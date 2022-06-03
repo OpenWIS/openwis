@@ -31,7 +31,7 @@ public abstract class ProductArrivalHandler {
    private ConnectionFactory cf;
 
    /** Incoming product JMS queue. */
-   @Resource(mappedName = "java:/queue/IncomingDataQueue")
+   @Resource(mappedName = "java:/jms/queue/IncomingDataQueue")
    private Queue queue;
 
    public boolean sendProductArrival(String productDate, List<String> urns) {

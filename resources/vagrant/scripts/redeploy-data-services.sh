@@ -9,7 +9,7 @@ source /vagrant/resources/vagrant/provisioning/provision-functions.sh
 
 
 openwisHome="/home/openwis"
-jbossHome="$openwisHome"/jboss-as-7.1.1.Final
+jbossHome="$openwisHome"/wildfly-8.2.1.Final
 
 
 function jbossCli()
@@ -25,4 +25,7 @@ jbossCli "undeploy `basename $ARTEFACT_DATA_SERVICE_EAR`"
 jbossCli "undeploy `basename $ARTEFACT_MANAGEMENT_SERVICE_EAR`"
 
 jbossCli "deploy $ARTEFACT_MANAGEMENT_SERVICE_EAR"
+
+jbossCli ':reload'
+
 jbossCli "deploy $ARTEFACT_DATA_SERVICE_EAR"

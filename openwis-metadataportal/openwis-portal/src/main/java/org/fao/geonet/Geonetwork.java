@@ -460,7 +460,7 @@ public class Geonetwork implements ApplicationHandler {
 
                   boolean isServiceAvailable = true;
                   if (servicesAvailability.containsKey(backupName)) {
-                     isServiceAvailable = Boolean.valueOf(servicesAvailability.get(backupName));
+                     isServiceAvailable = servicesAvailability.get(backupName);
                   }
 
                   double remoteBackUpWarnRate = checkDeploymentAvailability(deployment);
