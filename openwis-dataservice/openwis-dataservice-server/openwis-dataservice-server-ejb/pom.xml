@@ -4,13 +4,13 @@
 	<parent>
 		<artifactId>openwis-dataservice</artifactId>
 		<groupId>io.openwis.dataservice</groupId>
-		<version>3.14.10-SNAPSHOT</version>
+		<version>3.14.16-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	
 	<groupId>io.openwis.dataservice.server</groupId>
 	<artifactId>openwis-dataservice-server-ejb</artifactId>
-  <version>3.14.10-SNAPSHOT</version>
+  <version>3.14.16-SNAPSHOT</version>
 	<name>openwis-dataservice-server-ejb</name>
 	<packaging>jar</packaging>
 
@@ -194,7 +194,7 @@
         <dependency>
            <groupId>commons-collections</groupId>
            <artifactId>commons-collections</artifactId>
-           <version>3.1</version>
+           <version>3.2.2</version>
         </dependency>
 
         <!-- 
