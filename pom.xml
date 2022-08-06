@@ -3,7 +3,7 @@
 
   <groupId>io.openwis</groupId>
   <artifactId>openwis</artifactId>
-  <version>3.14.15-SNAPSHOT</version>
+  <version>3.14.16-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>OpenWIS</name>
 
@@ -50,7 +50,7 @@
     <file.encoding>UTF-8</file.encoding>
     <cxf.version>2.2.12</cxf.version>
     <!--security service is using 3.0.0.-->
-    <junit.version>4.8.1</junit.version>
+    <junit.version>4.13.1</junit.version>
     <hibernate.version>3.4.0.GA</hibernate.version>
     <solr.version>1.4.1</solr.version>
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
