@@ -1,63 +1,57 @@
-from copy import deepcopy
 import json
-
-
-header = {
-    "wmo_wis_monitoring": "1.0",
-    "centre": None,
-    "timestamp": None
-}
-
-gisc_properties = {
-    "catalogue_url": None,
-    "monitor_url": None,
-    "oai_url": None,
-    "events_url": None,
-    "centres_inAoR_url": None,
-    "backup_giscs": None,  # A list of GISC city names, e.g. ['exeter', 'melbourne', 'toulouse']
-    "contact_info": {
-        "voice": None,
-        "email": None
-    }
-}
-
-metrics = {
-    "rmdcn": None,
-    "metadata_catalogue": {
-        "number_of_records_at00UTC": None,
-        "number_of_changes_insert_modify": None,
-        "number_of_changes_delete": None
-    },
-    "cache_24h": {
-        "number_of_products_all": None,
-        "number_of_products_without_metadata": None,
-        "bytes_of_cache_all": None,
-        "bytes_of_cache_without_metadata": None,
-        "number_of_unique_products_without_metadata_AMDCN": None,
-        "number_of_unique_products_without_metadata_all": None
-    },
-    "services": {
-        "oai_pmh": {
-            "status": None
-        },
-        "catalogue": {
-            "status": None
-        },
-        "distribution_system": {
-            "status": None
-        }
-    }
-}
+from copy import deepcopy
 
 
 class Message(object):
+    stub = {}
+
     def __init__(self, gisc_name, timestamp):
-        self.data = deepcopy(header)
-        self.data['centre'] = gisc_name
-        self.data['timestamp'] = timestamp
+        self.data = {
+            'wmo_wis_monitoring': '1.1',
+            'centre': gisc_name,
+            'timestamp': timestamp
+        }
+        self.data.update(self.stub)
 
     def serialize(self, indent=0):
         return json.dumps(self.data, indent=indent)
+
+    def to_file(self, filename):
+        with open(filename, 'w') as outs:
+            outs.write(self.serialize(indent=4))
+
+    @staticmethod
+    def parse_path_component(path_component):
+        if path_component.endswith(']'):
+            assert path_component.count('[') == 1, 'Invalid indexing: {0}'.format(path_component)
+
+            name, index_string = path_component[:-1].split('[')
+            return name, int(index_string)
+        else:
+            return path_component, None
+
+    def set(self, path, value):
+        """
+        Set a new value to a child node pointed by the given value.
+
+        :param path: A comma separated names each specifying a key name.
+                     It can optionally has a trailing indexing component.
+                     For an example, 'centres[0].metrics.number_of_metadata'
+        :param value: A new value to be set.
+        """
+        path = path.replace(' ', '')  # remove all whites
+        assert path, 'Invalid path for setting value: {0}'.format(path)
+        path_components = path.split('.')
+        data = self.data
+        for i, path_component in enumerate(path_components):
+            name, index = Message.parse_path_component(path_component)
+            if i < len(path_components) - 1:
+                data = data[name] if index is None else data[name][index]
+            else:
+                if index is None:
+                    data[name] = value
+                else:
+                    data[name][index] = value
 
     @staticmethod
     def update_dict(d, **kwargs):
@@ -71,11 +65,61 @@ class Message(object):
 
 
 class MonitorJSON(Message):
+    stub = {
+        'gisc_properties': {
+            'portal_url': None,
+            'oaipmh_url': None,
+            'sru_url': None,
+            'monitor_url': None,
+            'cache_url': None,
+            'centres_url': None,
+            'events_url': None,
+            'backup_giscs': None,
+            'rmdcn': {
+                'main': None,
+                'sub': None,
+                'DR_main': None
+            },
+            'contact_info': {
+                'voice': None,
+                'email': None
+            }
+        },
+
+        'metrics': {
+            'metadata_catalogue': {
+                'number_of_metadata': None,
+                'number_of_changes_insert_modify': None,
+                'number_of_changes_delete': None
+            },
+            'cache_24h': {
+                'number_of_product_instances': None,
+                'number_of_product_instances_missing_metadata': None,
+                'size_of_cache': None,
+                'size_of_product_instances_missing_metadata': None,
+                'number_of_unique_products_missing_metadata': None,
+                'number_of_unique_products_missing_metadata_AoR': None
+            },
+            'services': {
+                'portal': {
+                    'status': None
+                },
+                'oaipmh': {
+                    'status': None
+                },
+                'sru': {
+                    'status': None
+                },
+                'distribution_system': {
+                    'status': None
+                }
+            }
+        },
+        'remarks': ''
+    }
+
     def __init__(self, gisc_name, timestamp):
         super(MonitorJSON, self).__init__(gisc_name, timestamp)
-        self.data['gisc_properties'] = deepcopy(gisc_properties)
-        self.data['metrics'] = deepcopy(metrics)
-        self.data['remarks'] = None
 
     def gisc_properties(self, **kwargs):
         properties = self.data['gisc_properties']
@@ -100,108 +144,68 @@ class MonitorJSON(Message):
         self.data['remarks'] = value
 
 
+class CacheJSON(Message):
+    stub = {
+        'centres': []
+    }
+
+    member_stub = {
+        'centre': None,
+        'metrics': {
+            'number_of_product_instances': None,
+            'size_of_product_instances': None,
+            'number_of_product_instances_missing_metadata': None,
+            'size_of_product_instances_missing_metadata': None,
+            'number_of_unique_products_missing_metadata': None,
+            'number_of_metadata': None,
+        }
+    }
+
+    def __init__(self, gisc_name, timestamp):
+        super(CacheJSON, self).__init__(gisc_name, timestamp)
+
+    def new_member(self):
+        self.data['centres'].append(deepcopy(self.member_stub))
+        return len(self.data['centres']) - 1
+
+
 class CentresJSON(Message):
+    stub = {
+        'centres': []
+    }
+
+    member_stub = {
+        'centre': None,
+        'metrics': {
+            'portal_response_time': None,
+            'oaipmh_response_time': None,
+            'sru_response_time': None,
+        }
+    }
 
     def __init__(self, gisc_name, timestamp):
         super(CentresJSON, self).__init__(gisc_name, timestamp)
-        self.data['centres'] = []
 
-    def add_centre(self, name, n_products, size_cache):
-        self.data['centres'].append({
-            'centre': name,
-            'count': n_products,
-            'volumesize': size_cache
-        })
+    def new_member(self):
+        self.data['centres'].append(deepcopy(self.member_stub))
+        return len(self.data['centres']) - 1
 
 
 class EventsJSON(Message):
+    stub = {
+        'events': []
+    }
+    member_stub = {
+        'id': None,
+        'title': None,
+        'text': None,
+        'start': None,
+        'end': None,
+    }
 
     def __init__(self, gisc_name, timestamp):
         super(EventsJSON, self).__init__(gisc_name, timestamp)
-        self.data['events'] = []
 
-    def add_event(self, startdatetime, enddatetime, title, text=''):
-        self.data['events'].append({
-            'id': len(self.data['events']) + 1,
-            'title': title,
-            'text': text,
-            'start': startdatetime,
-            'end': enddatetime
-        })
-
-
-CONFIG_TEMPLATE = """[system]
-# ALL options in this section are Compulsory.
-#
-# OpenWIS database hostname, port, username, password and database name
-openwis_db_host=
-openwis_db_port=5432
-openwis_db_user=
-openwis_db_pass=
-openwis_db_name=
-# Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-logging_level=INFO
-
-[monitor]
-# Options are Compulsory unless indicated otherwise.
-#
-# Name of the GISC, e.g. GISC Melbourne
-centre=
-# Name of the WIMMS set (WIS Interim Metadata Maintenance Service).
-# The authoritative copy of this set is hosted by JMA as "WIS-UNASSOCIATED".
-# So the default "WIS-UNASSOCIATED" value is often appropriate.
-# However, in case when the set has a different name (e.g. UKMO has this set named
-# as "WIS-Interim-Metadata"). The actual name should be used to replace the default value.
-WIMMS_name=WIS-UNASSOCIATED
-# Portal URL, e.g. http://wis.bom.gov.au
-catalogue_url=
-# URL of oai-pmh server, e.g. http://wis.bom.gov.au/openwis-user-portal/srv/en/oaipmh
-oai_url=
-# The spec requires the status (up/down) of the distribution system.
-# We can use the portal status as an approximation, e.g. http://wis.bom.gov.au
-dissemination_url=
-# URL where centres.json file is hosted. This value depends on where the JSON files
-# are served. This message is required in monitor.json so that other JSON files can be
-# located by simply checking with this central JSON file (monitor.json).
-# This entry is Optional but recommended since all three JSON files are created anyway.
-centres_inAoR_url=
-# URL where events.json file is hosted. Similar to centres_inAoR_url but for events.json
-# This entry is Optional but recommended since all three JSON files are created anyway.
-events_url=
-# Url to GISC's own monitoring website (Optional).
-monitor_url=
-# Comma separated list for backup giscs, e.g. Exeter, Toulouse (Optional).
-backup_giscs=
-# Phone contact (Optional)
-contact_info_voice=
-# Email contact (Optional)
-contact_info_email=
-# URL of the GISC's RMDCN statistics published to the ECMWF web (Optional).
-rmdcn=
-
-[centre]
-# This section is Optional.
-#
-# It is used to generate centres.json. An placeholder centres.json is generated
-# if no entry is provided in this section.
-# List centre names and regex patterns corresponding to their metadata urns
-# i.e. Centre_Name=URN_REGEX_PATTERNS
-#
-# Since urn cannot contain spaces, it is safe to separate them with whitespace
-# if there are more than one such as the follows:
-#   centre_name=^urn.*XYZ$    ^urn.*ABC$
-#
-# The following are a few more examples to show centre definitions:
-#
-#   Australia=^urn:x-wmo:md:int.wmo.wis::.*(AMMC|ABRF|ADRM|APRF|AMRF)$
-#   Fiji=^urn:x-wmo:md:int.wmo.wis::.*(NFFN|NFNA)$
-#   Auckland - New Zealand=^urn:x-wmo:md:int.wmo.wis::.*NZAK$
-
-[analysis]
-# This section is Optional.
-#
-# It is to perform some statistical analysis to the snapshot of metadata catalogue.
-#
-metadata_source_breakdown=False
-
-"""
+    def new_member(self):
+        self.data['events'].append(deepcopy(self.member_stub))
+        return len(self.data['events']) - 1
