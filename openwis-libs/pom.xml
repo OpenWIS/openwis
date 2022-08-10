@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.openwis</groupId>
     <artifactId>openwis</artifactId>
-    <version>3.14.15-SNAPSHOT</version>
+    <version>3.14.16-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -278,6 +278,35 @@
               <version>1.3.2</version>
               <packaging>jar</packaging>
               <file>libs/forgerock-util-1.3.2.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <!-- jaxrpc-impl 1.1.3_01-041406 -->
+          <execution>
+            <id>jaxrpc-impl-1.1.3_01-041406-pom-install</id>
+            <configuration>
+              <groupId>external</groupId>
+              <artifactId>jaxrpc-impl</artifactId>
+              <version>1.1.3_01-041406</version>
+              <packaging>pom</packaging>
+              <file>libs/jaxrpc-impl-1.1.3_01-041406.pom</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jaxrpc-impl-1.1.3_01-041406-jar-install</id>
+            <configuration>
+              <groupId>external</groupId>
+              <artifactId>jaxrpc-impl</artifactId>
+              <version>1.1.3_01-041406</version>
+              <packaging>jar</packaging>
+              <file>libs/jaxrpc-impl-1.1.3_01-041406.jar</file>
             </configuration>
             <phase>install</phase>
             <goals>
@@ -613,6 +642,35 @@
               <version>2.11.0</version>
               <packaging>jar</packaging>
               <file>libs/xml-serializer-2.11.0.jar</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <!-- xml-resolver 2.11.0 -->
+          <execution>
+            <id>xml-resolver-pom-install</id>
+            <configuration>
+              <groupId>xerces-J</groupId>
+              <artifactId>xml-resolver</artifactId>
+              <version>2.11.0</version>
+              <packaging>pom</packaging>
+              <file>libs/xml-resolver-2.11.0.pom</file>
+            </configuration>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>xml-resolver-jar-install</id>
+            <configuration>
+              <groupId>xerces-J</groupId>
+              <artifactId>xml-resolver</artifactId>
+              <version>2.11.0</version>
+              <packaging>jar</packaging>
+              <file>libs/xml-resolver-2.11.0.jar</file>
             </configuration>
             <phase>install</phase>
             <goals>
@@ -1679,9 +1737,9 @@
           <execution>
             <id>jss4-2007-08-11-jar-install</id>
             <configuration>
-              <groupId>org.forgerock.openam</groupId>
-              <artifactId>openam-certs</artifactId>
-              <version>13.0.0</version>
+              <groupId>external</groupId>
+              <artifactId>jss4</artifactId>
+              <version>2007-08-11</version>
               <packaging>jar</packaging>
               <file>libs/jss4-2007-08-11.jar</file>
             </configuration>
