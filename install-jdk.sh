@@ -33,6 +33,7 @@ function initialize() {
     emit_url=false
 
     feature='ea'
+    # added by zhan 9/19/2022 https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
     license='GPL' # Force GPLv2+CE
     os='?'
     url='?'
