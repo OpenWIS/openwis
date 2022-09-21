@@ -203,9 +203,10 @@ function determine_url() {
     local properties='https://github.com/OpenWIS/openwis/blob/travis-build-issue-9-19-2022/zhan-intall-jdk.properties'
     
     # commented out by zhan 9/21/2022
-    
-    
     url=$(wget --quiet --output-document - ${properties} | grep -i "${feature}-${os}=" | awk -F "=" '{print $2}')
+    
+    # addd by zhan
+    url=$(grep -i "${feature}-${os}=" $TRAVIS_BUILD_DIR/zhan-intall-jdk.properties | awk -F "=" '{print $2}')
     
 
     
