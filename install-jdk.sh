@@ -200,7 +200,7 @@ function determine_url() {
     #local properties='https://github.com/sormuras/bach/raw/master/install-jdk.properties'
     
     #added by zhan
-    local properties='https://github.com/sormuras/bach/raw/master/zhan-install-jdk.properties'
+    local properties='https://github.com/OpenWIS/openwis/blob/travis-build-issue-9-19-2022/zhan-intall-jdk.properties'
     
     # commented out by zhan 9/21/2022
     
