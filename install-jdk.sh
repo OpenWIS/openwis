@@ -196,12 +196,18 @@ function perform_sanity_checks() {
 }
 
 function determine_url() {
-    local properties='https://github.com/sormuras/bach/raw/master/install-jdk.properties'
+     # commented out by zhan
+    #local properties='https://github.com/sormuras/bach/raw/master/install-jdk.properties'
+    
+    #added by zhan
+    local properties='https://github.com/sormuras/bach/raw/master/zhan-install-jdk.properties'
     
     # commented out by zhan 9/21/2022
-    # url=$(wget --quiet --output-document - ${properties} | grep -i "${feature}-${os}=" | awk -F "=" '{print $2}')
-    # added by zhan 9/21/2022
-    url="https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz"
+    
+    
+    url=$(wget --quiet --output-document - ${properties} | grep -i "${feature}-${os}=" | awk -F "=" '{print $2}')
+    
+
     
     if [[ -z ${url} ]]; then
         script_exit "Couldn't determine a download url for ${feature}-${license} on ${os}" 1
