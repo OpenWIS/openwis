@@ -196,9 +196,21 @@ function perform_sanity_checks() {
 }
 
 function determine_url() {
-    local properties='https://github.com/sormuras/bach/raw/master/install-jdk.properties'
-    url=$(wget --quiet --output-document - ${properties} | grep -i "${feature}-${os}=" | awk -F "=" '{print $2}')
+     # commented out by zhan
+    #local properties='https://github.com/sormuras/bach/raw/master/install-jdk.properties'
+    
+    #added by zhan
+    #this is for the convenience of testing. We can delete this later
+    local properties='https://github.com/OpenWIS/openwis/blob/travis-build-issue-9-19-2022/zhan-intall-jdk.properties'
+    
+    # commented out by zhan 9/21/2022
+    # url=$(wget --quiet --output-document - ${properties} | grep -i "${feature}-${os}=" | awk -F "=" '{print $2}')
+    
+    # addd by zhan
+    url=$(grep -i "${feature}-${os}=" $TRAVIS_BUILD_DIR/zhan-intall-jdk.properties | awk -F "=" '{print $2}')
+    
 
+    
     if [[ -z ${url} ]]; then
         script_exit "Couldn't determine a download url for ${feature}-${license} on ${os}" 1
     fi
