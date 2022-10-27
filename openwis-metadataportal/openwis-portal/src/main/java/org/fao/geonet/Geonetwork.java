@@ -768,7 +768,7 @@ public class Geonetwork implements ApplicationHandler {
     /**
      * Send Mail.
      *
-     * @param adminMail The admin mail.
+     * @param adminMails The admin mail.
      * @param sm        The setting manager.
      */
     private void sendMail(String[] adminMails, SettingManager sm, String backUpName, double remoteBackUpWarnRate) {

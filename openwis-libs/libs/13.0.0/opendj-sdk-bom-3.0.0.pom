@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ! CDDL HEADER START
+  !
+  ! The contents of this file are subject to the terms of the
+  ! Common Development and Distribution License, Version 1.0 only
+  ! (the "License").  You may not use this file except in compliance
+  ! with the License.
+  !
+  ! You can obtain a copy of the license at legal-notices/CDDLv1_0.txt
+  ! or http://forgerock.org/license/CDDLv1.0.html.
+  ! See the License for the specific language governing permissions
+  ! and limitations under the License.
+  !
+  ! When distributing Covered Code, include this CDDL HEADER in each
+  ! file and include the License file at legal-notices/CDDLv1_0.txt.
+  ! If applicable, add the following below this CDDL HEADER, with the
+  ! fields enclosed by brackets "[]" replaced with your own identifying
+  ! information:
+  !      Portions Copyright [yyyy] [name of copyright owner]
+  !
+  ! CDDL HEADER END
+  !
+  !      Copyright 2015 ForgeRock AS.
+  !
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.forgerock</groupId>
+        <artifactId>forgerock-parent</artifactId>
+        <version>2.0.3</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.forgerock.opendj</groupId>
+    <artifactId>opendj-sdk-bom</artifactId>
+    <version>3.0.0</version>
+
+    <packaging>pom</packaging>
+
+    <name>OpenDJ SDK BOM</name>
+    <description>OpenDJ BOM.
+        Provides a list of OpenDJ dependencies
+        which are known to be compatible with each other.
+    </description>
+    <inceptionYear>2011</inceptionYear>
+    <url>http://opendj.forgerock.org</url>
+
+    <issueManagement>
+        <system>Jira</system>
+        <url>https://bugster.forgerock.org/jira/browse/OPENDJSDK</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>OpenDJ Users Mailing List</name>
+            <archive>http://lists.forgerock.org/pipermail/opendj/</archive>
+            <subscribe>https://lists.forgerock.org/mailman/listinfo/opendj/</subscribe>
+            <unsubscribe>https://lists.forgerock.org/mailman/listinfo/opendj/</unsubscribe>
+            <post>opendj@forgerock.org</post>
+        </mailingList>
+
+        <mailingList>
+            <name>OpenDJ Developers Mailing List</name>
+            <archive>http://lists.forgerock.org/pipermail/opendj-dev/</archive>
+            <subscribe>https://lists.forgerock.org/mailman/listinfo/opendj-dev/</subscribe>
+            <unsubscribe>https://lists.forgerock.org/mailman/listinfo/opendj-dev/</unsubscribe>
+            <post>opendj-dev@forgerock.org</post>
+        </mailingList>
+    </mailingLists>
+
+    <scm>
+        <url>https://stash.forgerock.org/projects/OPENDJ/repos/opendj-sdk/browse</url>
+        <connection>scm:git:ssh://git@stash.forgerock.org:7999/opendj/opendj-sdk.git</connection>
+        <developerConnection>scm:git:ssh://git@stash.forgerock.org:7999/opendj/opendj-sdk.git</developerConnection>
+        <tag>3.0.0</tag>
+    </scm>
+
+    <ciManagement>
+        <system>jenkins</system>
+        <url>https://ci.forgerock.org/view/OpenDJ/job/OpenDJ%20-%20SDK%20-%20postcommit</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnSuccess>false</sendOnSuccess>
+                <sendOnWarning>false</sendOnWarning>
+                <address>opendj-dev@forgerock.org</address>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+
+    <distributionManagement>
+        <site>
+            <id>forgerock.org</id>
+            <name>OpenDJ Community</name>
+            <url>${site.distribution.url}</url>
+        </site>
+    </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>CDDL-1.0</name>
+            <url>http://www.opensource.org/licenses/CDDL-1.0</url>
+            <comments>Common Development and Distribution License (CDDL) 1.0.
+                This license applies to OpenDJ source code as indicated in the
+                source files.
+            </comments>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <repositories>
+        <repository>
+            <id>forgerock-staging-repository</id>
+            <name>ForgeRock Release Repository</name>
+            <url>http://maven.forgerock.org/repo/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>forgerock-snapshots-repository</id>
+            <name>ForgeRock Snapshot Repository</name>
+            <url>http://maven.forgerock.org/repo/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+
+        <repository>
+            <id>jvnet-nexus-snapshots</id>
+            <url>https://maven.java.net/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <modules>
+        <module>opendj-sdk-parent</module>
+    </modules>
+
+    <properties>
+        <site.distribution.url>
+            scp://community.internal.forgerock.com/var/www/vhosts/opendj.forgerock.org/httpdocs
+        </site.distribution.url>
+
+        <opendj.sdk.version>3.0.0</opendj.sdk.version>
+        <i18n-framework.version>1.4.2</i18n-framework.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ForgeRock BOM -->
+            <dependency>
+                <groupId>org.forgerock.commons</groupId>
+                <artifactId>forgerock-bom</artifactId>
+                <version>4.1.1</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <!-- I18N framework -->
+            <dependency>
+                <groupId>org.forgerock.commons</groupId>
+                <artifactId>i18n-core</artifactId>
+                <version>${i18n-framework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.forgerock.commons</groupId>
+                <artifactId>i18n-slf4j</artifactId>
+                <version>${i18n-framework.version}</version>
+            </dependency>
+
+
+            <!-- OpenDJ SDK -->
+            <dependency>
+                <groupId>org.forgerock.opendj</groupId>
+                <artifactId>opendj-core</artifactId>
+                <version>${opendj.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.forgerock.opendj</groupId>
+                <artifactId>opendj-cli</artifactId>
+                <version>${opendj.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.forgerock.opendj</groupId>
+                <artifactId>opendj-grizzly</artifactId>
+                <version>${opendj.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.forgerock.opendj</groupId>
+                <artifactId>opendj-rest2ldap</artifactId>
+                <version>${opendj.sdk.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>mailing-list</report>
+                            <report>issue-tracking</report>
+                            <report>license</report>
+                            <report>scm</report>
+                            <report>cim</report>
+                            <report>distribution-management</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

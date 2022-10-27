@@ -73,10 +73,10 @@ public class LogWatcherTask {
                 logger.debug("Checking logs from date {}", DATE_TIME_FORMAT.format(lastDate.getTime()));
             }
 
-            if (lastDate == null) {
+           /* if (lastDate == null) {
                 logger.warn("Checking logs from openWisLogDate failed. Either file is not found or it is empty.");
                 return;
-            }
+            }*/
 
             FileInputStream fstream = new FileInputStream(amAuthenticationErrorFile);
             DataInputStream in = new DataInputStream(fstream);

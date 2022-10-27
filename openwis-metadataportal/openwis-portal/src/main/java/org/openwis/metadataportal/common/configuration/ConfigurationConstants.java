@@ -273,4 +273,14 @@ public interface ConfigurationConstants {
 
     String IDP_URL = "openwis.metadataportal.idp.url";
     String IDP_NAME = "openwis.metadataportal.idp.name";
+
+
+    //smtp properies
+    String SMTP_FROM = "mail.smtp.from";
+    String SMTP_PROTOCOL ="mail.transport.protocol";
+    String SMTP_HOST ="mail.smtp.host";
+    String SMTP_PORT = "mail.smtp.port";
+    String SMTP_PASSWORD = "mail.smtp.password";
+    String SMTP_AUTH = "mail.smtp.auth";
+    String SMTP_STARTTLS = "mail.smtp.starttls";
 }

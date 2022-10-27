@@ -26,6 +26,18 @@
         <div class="dss-main-nav">
             <div class="dss-nav-left">
                 <div class="dss-nav-item"><a href="<%= locService %>/main.home">DATA CATALOG</a></div>
+
+                <% if ( context.getUserSession().getUserId() == null){%>
+                      <div class="dss-nav-item" >
+                        <% if ("user.register.get".equals(context.getService())) { %>
+                          <font class="dss-nav-item"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.Register').toUpperCase())</script></font>
+                            <% } else { %>
+                         <a class="dss-nav-item" href="<%= locService %>/user.register.get"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.Register').toUpperCase())</script></a>
+                        <% } %>
+                      </div>
+                <% } %>
+
+
                 <% if (context.getUserSession() != null && context.getUserSession().getUserId() != null) {%>
                     <% if ("myaccount".equals(context.getService())) { %>
                             <div class="dss-nav-item"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.MyAccount').toUpperCase())</script></div>

@@ -68,7 +68,7 @@ Openwis.RegistrationUser.RegistrationUserSuccessful = Ext.extend(Ext.Window, {
 					textAlign: 'center'
 				},
 				handler: function() {
-					window.location.href= configOptions.url +  "/openWisInit";
+					window.location.href= configOptions.url +  "/srv/en/user.loginCaptcha.get";
 				}
 			});
 		}
