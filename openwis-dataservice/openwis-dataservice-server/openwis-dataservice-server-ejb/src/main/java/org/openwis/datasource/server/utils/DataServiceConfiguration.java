@@ -43,8 +43,12 @@ public interface DataServiceConfiguration {
    /** The Constant MAIL_SMTP_STARTTLS_ENABLE. */
    public static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 
+   /** The Constant MAIL_SMTP_FROM.
+   public static final String MAIL_SMTP_FROM = "mail.smtp.from"; */
+
    /** The Constant MAIL_SMTP_FROM. */
-   public static final String MAIL_SMTP_FROM = "mail.smtp.from";
+   public static final String MAIL_SMTP_FROM = "mail.from";
+
 
    /** The Constant MAIL_SMTP_PASSWORD. */
    public static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
