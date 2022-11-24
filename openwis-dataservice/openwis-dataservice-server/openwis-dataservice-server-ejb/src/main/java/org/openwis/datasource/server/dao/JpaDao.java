@@ -1,6 +1,7 @@
 package org.openwis.datasource.server.dao;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -33,22 +34,22 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     */
    @SuppressWarnings("unchecked")
    public JpaDao() {
-      ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-      this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[1];
 
-      /*
-      Class<?> cls = getClass();
-      while (!(cls.getSuperclass() == null
-          || cls.getSuperclass().equals(AbstractExpression.class))) {
-        cls = cls.getSuperclass();
+      //ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+      //this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[1];
+
+
+      Type genericSuperClass = getClass().getGenericSuperclass();
+      ParameterizedType parametrizedType = null;
+      while (parametrizedType == null) {
+         if ((genericSuperClass instanceof ParameterizedType)) {
+            parametrizedType = (ParameterizedType) genericSuperClass;
+         } else {
+            genericSuperClass = ((Class<?>) genericSuperClass).getGenericSuperclass();
+         }
       }
+      this.entityClass = (Class<E>) parametrizedType.getActualTypeArguments()[0];
 
-      if (cls.getSuperclass() == null)
-        throw new RuntimeException("Unexpected exception occurred.");
-
-      this.entityClass = ((Class) ((ParameterizedType)
-        cls.getGenericSuperclass()).getActualTypeArguments()[0]);
-      */
    }
 
    /**
