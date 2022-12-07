@@ -160,10 +160,8 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
     }
 
     /**
-     * Process JMS message.
      *
-     * @param entityManager the {@link EntityManager}
-     * @param message       the message to process
+     * @param dissRequestInfo
      */
     @Override
     public void processMessage(DisseminationRequestInfo dissRequestInfo) {
@@ -1036,7 +1034,7 @@ public class DisseminationDelegateImpl implements ConfigurationInfo, Disseminati
                 File f = new File(srcFilePath, filename);
 
                 // Regular file
-                if (f.isFile()) {
+                if (f.isFile() && !f.isHidden() && !filename.equalsIgnoreCase("tmp.zip")) {
                     if (logger.isDebugEnabled()) {
                         logger.debug("Adding " + filename + " to zip file");
                     }

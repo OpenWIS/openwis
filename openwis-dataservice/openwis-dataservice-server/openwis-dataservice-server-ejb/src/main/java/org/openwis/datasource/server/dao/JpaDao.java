@@ -35,9 +35,6 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
    @SuppressWarnings("unchecked")
    public JpaDao() {
 
-      //ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-      //this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[1];
-
 
       Type genericSuperClass = getClass().getGenericSuperclass();
       ParameterizedType parametrizedType = null;
@@ -48,7 +45,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
             genericSuperClass = ((Class<?>) genericSuperClass).getGenericSuperclass();
          }
       }
-      this.entityClass = (Class<E>) parametrizedType.getActualTypeArguments()[0];
+      this.entityClass = (Class<E>) parametrizedType.getActualTypeArguments()[1];
 
    }
 

@@ -27,7 +27,8 @@
             <div class="dss-nav-left">
                 <div class="dss-nav-item"><a href="<%= locService %>/main.home">DATA CATALOG</a></div>
 
-                <% if ( context.getUserSession().getUserId() == null){%>
+               <% if (context.getUserSession() != null && context.getUserSession().getUserId() == null
+                   && selfRegistrationEnabled && "user".equals(portalType)) { %>
                       <div class="dss-nav-item" >
                         <% if ("user.register.get".equals(context.getService())) { %>
                           <font class="dss-nav-item"><script type="text/javascript">document.write(Openwis.i18n('Common.Banner.Register').toUpperCase())</script></font>

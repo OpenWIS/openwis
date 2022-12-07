@@ -17,6 +17,7 @@ import org.fao.geonet.kernel.setting.SettingManager;
 import org.jdom.Element;
 import org.openwis.metadataportal.common.configuration.ConfigurationConstants;
 import org.openwis.metadataportal.common.configuration.OpenwisMetadataPortalConfig;
+import org.openwis.metadataportal.kernel.user.TwoFactorAuthenticationUtils;
 import org.openwis.metadataportal.kernel.user.UserAlreadyExistsException;
 import org.openwis.metadataportal.kernel.user.UserManager;
 import org.openwis.metadataportal.model.group.Group;
@@ -62,6 +63,7 @@ public class SelfRegister implements Service {
 
       if (selfRegistrationEnabled) {
          User user = userDTO.getUser();
+
          try {
 
             // Check that the user profile is anything other than "User".  If it isn't,
@@ -73,7 +75,8 @@ public class SelfRegister implements Service {
                         + Profile.User.name());
                }
             }
-
+            // set user setSecretKey
+            user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
             // Force the user's profile
             user.setProfile(Profile.User.name());
             user.setGroups(Lists.<Group> newArrayList());
