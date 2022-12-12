@@ -71,8 +71,9 @@ public class Save implements Service {
             User user = userDTO.getUser();
             if (userDTO.isCreationMode()) {
                 user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
-                user.setPwdReset(true); // force user to change his password
-                user.setPassword(generateRandomPassword());
+                //user.setPwdReset(true); // force user to change his password
+                //user.setPassword(generateRandomPassword());
+                user.setPassword(user.getPassword());
                 um.createUser(user);
 
                 if (!user.getProfile().equals(Profile.Candidate.toString())) {

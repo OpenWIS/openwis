@@ -77,6 +77,7 @@ public class SelfRegister implements Service {
             }
             // set user setSecretKey
             user.setSecretKey(TwoFactorAuthenticationUtils.generateKey());
+            user.setNeedUserAccount(true);
             // Force the user's profile
             user.setProfile(Profile.User.name());
             user.setGroups(Lists.<Group> newArrayList());
