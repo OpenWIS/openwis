@@ -5,7 +5,7 @@
 
 <div class="footer">
     <div class="main-content">
-        <div class="main-content-left">
+        <!--<div class="main-content-left">
             <div class="title title-border">
                 <p>DATA CATALOG</p>
             </div>
@@ -15,7 +15,7 @@
                     <li><a class="footer-link" id="suomiNpp" onclick="showItem('category2')" href="#">Category 2</a></li>
                 </ul>
             </div>
-        </div>
+        </div>-->
         <div class="main-content-right">
             <ul class="links">
                 <li><a href="http://www.openwis.io/"><p class="title">ABOUT</p></a></li>

@@ -25,7 +25,7 @@
         </div>
         <div class="dss-main-nav">
             <div class="dss-nav-left">
-                <div class="dss-nav-item"><a href="<%= locService %>/main.home">DATA CATALOG</a></div>
+                <div class="dss-nav-item"><a href="<%= locService %>/main.home">HOME</a></div>
 
                <% if (context.getUserSession() != null && context.getUserSession().getUserId() == null
                    && selfRegistrationEnabled && "user".equals(portalType)) { %>
@@ -77,7 +77,7 @@
     </div>
 </div>
 <div class="dss-menu-container">
-<table class="dss-menu">
+<!--<table class="dss-menu">
     <tr>
         <td class="dss-menu-nav-item">WIS</td>
         <td class="dss-menu-nav-item dss-menu-nav-separator">/</td>
@@ -94,7 +94,7 @@
         </td>
 
     </tr>
-</table>
+</table>-->
    <div class="dss-menu-nav-item" id="produit">
    </div>
 </div>
