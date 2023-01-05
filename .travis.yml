@@ -1,0 +1,102 @@
+language: java
+jdk: openjdk8
+
+# To solve the sonar node js issue, it appears that the recommended approach of using travis node js language and version keys does not work after extensive testing.
+#node_js:
+#   - "10"
+#install: "npm install"
+#jobs:
+#    include:
+#       - language: java
+#          jdk: openjd8
+#         script:
+          #- jdk_switcher use openjdk8
+   #       - export JAVA_HOME=$HOME/openjdk11
+     ##    - mvn clean install -Pdependencies,openwis,admin -q
+     #     - mvn clean install -Puser -q
+    #      - export JAVA_HOME=$HOME/openjdk11
+     #     - bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+     #     - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+        #- language: node_js
+ #         node_js:
+  #        - 10
+  #        script:
+        #  - npm install
+          #- export JAVA_HOME=$HOME/openjdk11
+          #- bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+        #  - mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+          
+git:
+  depth: false
+  
+addons:
+  sonarcloud:
+    organization: "openwis"
+    token:
+      secure: "Epycm5G2JUKhsB7b3L4ZwSrQ4y9AfgBAVaBkRI+tUMSK4L3HZrwlHkKPdWdmPUGORIWW6V5ue8bXv9yL0pcikOWo8eaJACFGV7aWykQMcDjR0umJ2leJf3hA/TqZY4PTRWPM+3fJiTg6qE8v4J9Q63PY0SEFHsomh8wh1zSdUf4I7Hbc+y8N6/NQWwmFSUVaA0G2YESUtkRU6bk3Q9vVJGJa5FJ9LdRnySl3kb8Lh4cyQwsbFEgF/j1yuCY4jNPyeGUwem99xYfA5SF/oRdR0T9So80UnAiNtX022GlA3k7TuqKL8GEM38YeHioygSFKU76oRda0izqWmTWpVKeuDkkhV0IfIzF/OZvK0pvYPLZ0o+QRiI4uO0LCpw+gjc3qmN/jGqlGj7LwgcKirFEjVTL14Dme/KtLzwVWClH8qYKzFcVnD+ymbpY7jselsck4Mnufiv4Y51tDs1Ka+B826Bku0HdGYS5Yj/E4IxWRE110DfXxfuFDIyGyeLusx/2mewMCLzSFYTbitH3ew3zIFk0DReWxaOcLKZ8KwmnpOr1bDaxKKS09yajaq4eH7ugdbidWzCcxqWawnlT2BEQhdgfS577u7G+C0+LZ/Kv4WXZ0GuajIKlTSrhJelxXkmRFKpSi/yfN96/viYgCcVPzu6PBDgNIu2T9phMuG0ny1zY="
+
+before_install:
+- npm --version
+- node --version
+- nvm --version
+- openssl aes-256-cbc -K $encrypted_62b1a583e357_key -iv $encrypted_62b1a583e357_iv
+  -in resources/travis_copy_artifacts_rsa.enc -out /tmp/travis_copy_artifacts_rsa
+  -d
+- openssl aes-256-cbc -K $encrypted_20c662c74536_key -iv $encrypted_20c662c74536_iv -in resources/github_deploy_key.enc -out /tmp/github_deploy_key -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/travis_copy_artifacts_rsa /tmp/github_deploy_key
+- ssh-add /tmp/travis_copy_artifacts_rsa
+- ssh-add /tmp/github_deploy_key
+- echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- sudo apt-get update
+- sudo apt-get -y install nodejs
+- sudo apt-get -y install npm
+#- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
+- npm install -g node@14.20.0
+- which node
+- node --version
+
+script:
+#- jdk_switcher use openjdk8
+- mvn clean install -Pdependencies,openwis,admin -q
+- mvn clean install -Puser -q
+- export JAVA_HOME=$HOME/openjdk11
+- bash $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
+- mvn sonar:sonar -Popenwis,admin,user -Dsonar.projectKey=OpenWIS_openwis
+
+after_success: tar acf openwis_artifacts.tar.gz openwis-dataservice/openwis-dataservice-server/openwis-dataservice-server-ear/target/openwis-dataservice.ear
+  openwis-dataservice/openwis-dataservice-config/target/openwis-dataservice-config-files.zip
+  openwis-harness/openwis-harness-client/target/openwis-harness-client.jar openwis-securityservice/openwis-securityservice-war/target/openwis-securityservice.war
+  openwis-metadataportal/openwis-portal/openwis-user-portal/openwis-user-portal-user.war
+  openwis-metadataportal/openwis-portal/openwis-admin-portal/openwis-admin-portal-admin.war
+  openwis-metadataportal/openwis-portal-solr/target/openwis-portal-solr.war openwis-stagingpost/target/stagingPost.war
+  openwis-management/openwis-management-service/openwis-management-service-ear/target/openwis-management-service.ear
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: rsync -r --quiet --delete-after ${TRAVIS_BUILD_DIR}/openwis_artifacts.tar.gz
+    ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
+  on:
+    branch: develop
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: sh resources/maven_release.sh
+  on:
+    branch: master
+
+notifications:
+  email:
+    recipients:
+      secure: "KlPjq3ro9+SsrGIW1LhPGfXkE/q2jIjzxLdboDJ3oZlCytFR1l8OpajzEoCt5AQBbs/46p+zPVY84IQ4k3/Ca1BjLKs2sK+r4QxYMcIbkcRo+q2unY8Fa2BrcRRXCwO6A3ti6UrfcwsX45SuFYIBAWcJsyR5IXJIGJT5yYFEcpYXQw6IU+zk0DUE6Ry98H0797NqWTBNscO1yOj0cVt368vbMO470vV+SvEQR1kvuczqJgSSkGyzn224SwgdHWvMP0A/9C1y8XHkQNlmOoYqpkJaiZ0NBT/8oc821PEvjGf93wK2BGOySqwgQei51/39YnKcMnejtmS1+FRKMBHKmESCwSkLkPXcsXAOWJ0hKDdFZzjhmvmVnUcOBOl4bTbORj1vELN9G4pWYTdaIVqG6dCxWugzlrRE0vpiGcmfxamod8potEbX63Nlq6VCZ1h3FjBpt1RMpAuPEhhYdh3yy/3CJ+DazLlIh6waDeKS9riDD9BYK8tEUFaFQHTDo/UNB00TozlbrWuIZfG3fTGBXbIpn8UTY3bSxxC3PHYZ8US6S3gYkkJZwFS3umSQpsFLYkBWdUU78Qv/4c/1kq3ik6Ka5kYXUQHXjz4vgIsFhKqqPDZij1ApLjzuK/h2KiC+Sbigzey61c3EuIaklWJqAzhIlt16aoEnpZy1qKKahGE="
+    on_success: change
+    on_failure: change
+
+env:
+  global:
+  - secure: HMhlfrn9UmSd5IPND82xlWrCYMQz/lga20JHO7nSPFT+qOdApNSdfPecG2MEMS7Ry8n8NOfNth6kNjaB4y7KVb9d3UPSBIbs6+whhPUWG6NXDCjQcUAAaMdxzTF60h3sg6x4BnnJUwaUKiOYWtRITivRJ2OD/uN3LPg1e5Mnwdh+MvDU1rR00k3UAuO+2uxziZjFsha0NTAXj/GoJput7g7+p3vbNPdsohSP94Tj3pjOOk7UKHNpfh8JYePKBWQDjwpkivY5dL8xUYzybkFqdY/cVQGEKFoD3tNEynvRqTSs4onEvH7qH1caU4vLJNluI1uJ9vDsZs0PpZT+hGF0UAIKdB0S+Xkhfk67qxRHa8mzMKCqW1SQDtKqCCcF8pNbgdh73An4sGhmbhA9SU7r5kf8LZ1tytSaZ3JwB6lGBFlygFV7biv+Su0PR13lFSB4hMMC9EOicoT1VFFAdMePD9DrzKvWpxtJQFXvAAPDkNV76SOE+V5fNtLXaYuIhTPbJ20lqRh6GuapcxymuhLgFy7gbmTGZ9Q54h+KCahlZ1UWY+ZhGmbCHgBueC10J4cDL7l8LakLRmJEZ3Eu63a2rBqtcoeCGlPXLOJQP4TNvh/s7eGC4DtkOP1xNVoQS/QGpPAcGYpRg6WqQBpW93hKJjSfcW4baUm6t7CPyUzw2RQ=
+  - secure: YMlqqbP1fc3+LxnyCOWy3j4I6FQrecIO5uUtbXMSOx/2dJB8MqelLhpMUawbRDGo36OY+bjKB7QnzakczBBhkG1zahp8r7fKcPyDmlzRRrj8GHDpXtrzq+yAqIHYuAOp7zadU97UKmteT5AvT+hRL3UQElAWLVMIgOTvO7w5GV6KHbrkisb6+utxgALtUWOzTJlMJi8SnVaNfEeFP3QN3iZR2mZDFWDJqcdsgJVL5nZe0Dk1+70TW/pDP/aLnXrtENrbTahC2s1jzJHGJbcOSQtsK7nUwUJePLxbdReCiyBoup0NLghzl2un2yDbX6wdjdXfi3kye2jXv6SyOzwnuCfStv9P0SZIwzfJGBswaa+4bMH0CkYBq7GjOZSNkVdH2GUxxbezICzp16O3qWYll7zieAM24HwH1c+eeP7xJd6lyhKWeIwKMdbpHnXukfm863EJoTPjD15uv6dqiamWDAAMG7b4rHhZ79qyeHNT4RLXGc61oPnGfQSsgVhr6W2A61J1lAori33dEgqWikLrPEvWLQsS68UzqJ0RKWi5X4CBn0VVyXRLQOZ5O1tzLk6HRTzeSTj4D3NUV01i6r0NS9XhchkFQ8S8nGxcOEmUPXyf1dFQ1RTQK3m6UGIfCRV2a1Q8IZ4cv4ggurMzXpqx9DZdb424/22UkfesFFbjpV8=
+  - secure: OZYV39+d6D8kLtk2WzXCHg4cJO70BDezgI8JxSFK2c5M0djiArfmDLsZJrMI8HFV2Sow1ByT7+FHSD73r/bQbuF7QOxI7TnoNgYCfgUL+nXi9f5upQXDMT7udhi0OI4qOu+1tVRe1FO9loMG5q24XJNghsQxd8KfK7IeIoG+XvIKQAQYPsMNj4cX6Y2Z7vOWOtP3d3JKHzqer6wsDj/SpO4tWI9Y5az9iO1XR2jMtroPnGRRrL7R1UqAplecJCk0Cs/kCeer5WnTXtJ+bPUwv9b8gvuT0rP2RFFNmfdmd7Fr/HoY5yHlZ6LvcM/scFijHWiGbViPIaSn0IAEU/pU5DshanJ4DfxsjR8GDQFnqZms28H6X5/N+WMu3lFTMnEWPM2ZX91kzJcAQ6uJ7Y+DXCyFfxhDfRw9q5MsZHeaAPx+3vVMclGNTHdlEvbSRZkKaJP892eH8Ys5xqdmCTAtpYVWWPd9FrxEBYeBE1nCqERhZ419VbORq7gEHMApNHqp7T1xDuCYmu+n+XYpzc/DcQMIh7LyQ6uEvUzOKPgDXu/3K5ww0MG0wSVKVpc94LoFszEya5jD8+wvBWoGg9GIwBxzRhjVUEjNZV/wngzvbVQ9u6GidTXud22YHkeWMEELhL8R9U0BsEqAqps2LQqXvmsBDyJ4L8mAI4ynpga2cWk=
