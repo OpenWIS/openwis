@@ -497,6 +497,7 @@ public class Geonet
    public static final String ADMIN = OPENWIS + ".admin";
    public static final String METADATA_ALIGNER = OPENWIS + ".metadataaligner";
    public static final String EXTRACT_PRODUCT_METADATA = OPENWIS + ".extract.productmetadata";
+	public static final String WRONG_PRODUCT_METADATA = OPENWIS + ".wrong.productmetadata";
    public static final String HARVESTER_EXECUTOR = OPENWIS + ".harvester.executor";
    public static final String PRIVILEGES = OPENWIS + ".privileges";
    public static final String SELF_REGISTER = OPENWIS + ".selfRegister";
