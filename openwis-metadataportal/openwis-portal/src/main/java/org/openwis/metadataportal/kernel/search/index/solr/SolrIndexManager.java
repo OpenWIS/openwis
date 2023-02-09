@@ -226,7 +226,7 @@ public class SolrIndexManager implements IIndexManager {
             if (server == null) {
                 throw new IndexException("Unavailable SolR Server");
             }
-                response = server.commit();
+            response = server.commit();
             if (Log.isDebug(Geonet.INDEX_ENGINE)) {
                 Log.debug(Geonet.INDEX_ENGINE, "Commit: " + response);
             }
@@ -384,13 +384,15 @@ public class SolrIndexManager implements IIndexManager {
         }
         UpdateResponse response = null;
 
-        try {
-            response = server.add(documents);
-        } catch (SolrException e) {
-            Log.info(Geonet.WRONG_PRODUCT_METADATA,"***************");
-            Log.info(Geonet.WRONG_PRODUCT_METADATA,   documents.iterator().next().get("fileId") + "    ERROR:" + e.getMessage());
-            Log.info(Geonet.WRONG_PRODUCT_METADATA,"***************");
-        }
+        //Object obj = documents.iterator().next().getFieldValue("_geometry");
+
+       // try {
+           response = server.add(documents);
+       /* } catch (SolrException e) {
+            Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+            Log.info(Geonet.WRONG_PRODUCT_METADATA, documents.iterator().next().get("fileId") + "    ERROR:" + e.getMessage());
+            Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+        }*/
         long after = System.currentTimeMillis();
         if (Log.isStatEnabled()) {
             Log.statTime("SolrIndexManager", "SolrIndexManager#add(elements, commit)",
@@ -755,62 +757,110 @@ public class SolrIndexManager implements IIndexManager {
                     jts = (Polygon) JTS.transform(jts, tform);
                 }
 
-            Coordinate[] coords = jts.getCoordinates();
-            // substract the LIMIT OFFSET from polygon 180,90. Solr crashes if the limit of the polygon touch themselves.
-            for (Coordinate coordinate : coords) {
-                double tmpx = Math.abs(coordinate.x);
-                double tmpy = Math.abs(coordinate.y);
-               if (Math.abs(coordinate.x) > 180) {
-                  coordinate.x = coordinate.x / Math.abs(coordinate.x) * 180;
-                   Log.info(Geonet.WRONG_PRODUCT_METADATA,"***************");
-                   Log.error(Geonet.WRONG_PRODUCT_METADATA,  "***The coordinate::"+tmpx+" are over limmits should be" +
-                           "  -180 < x < 180 " + "     meta data uiid:" + elt.getUuid());
-                   Log.info(Geonet.WRONG_PRODUCT_METADATA,"***************");
-               }
-               coordinate.x = Math.abs(coordinate.x) == 180 ? coordinate.x - Math.copySign(LIMIT_OFFSET, coordinate.x) : coordinate.x;
+                Coordinate[] coords = jts.getCoordinates();
+                // substract the LIMIT OFFSET from polygon 180,90. Solr crashes if the limit of the polygon touch themselves.
+                double tmpx = 0.0;//Math.abs(coordinate.x);
+                double tmpy = 0.0; //Math.abs(coordinate.y);
+                for (Coordinate coordinate : coords) {
+                      tmpx = Math.abs(coordinate.x);
+                      tmpy = Math.abs(coordinate.y);
+                    if (Math.abs(coordinate.x) > 180) {
+                        coordinate.x = coordinate.x / Math.abs(coordinate.x) * 180;
+                        /* Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+                        Log.error(Geonet.WRONG_PRODUCT_METADATA, "***The coordinate::  " + tmpx + "    are over limmits should be" +
+                                "   -180 < x < 180 " + "     meta data uiid:" + elt.getUuid());
+*/
+                    }
+                    coordinate.x = Math.abs(coordinate.x) == 180 ? coordinate.x - Math.copySign(LIMIT_OFFSET, coordinate.x) : coordinate.x;
 
-               if (Math.abs(coordinate.y) > 90) {
-                  // copy the sign and set the value to 90 if abs(coordinate.y) > 90
-                  coordinate.y = coordinate.y / Math.abs(coordinate.y) *90;
-                   Log.info(Geonet.WRONG_PRODUCT_METADATA,"***************");
-                   Log.error(Geonet.WRONG_PRODUCT_METADATA, "The coordinate :: " +tmpy+
-                           "are over limmits should be  -90 < y < 90 " + "    meta data uiid::" + elt.getUuid());
-                   Log.info(Geonet.WRONG_PRODUCT_METADATA,"***************");
-               }
-               coordinate.y = Math.abs(coordinate.y) == 90 ? coordinate.y - Math.copySign(LIMIT_OFFSET, coordinate.y) : coordinate.y;
+                    if (Math.abs(coordinate.y) > 90) {
+                        // copy the sign and set the value to 90 if abs(coordinate.y) > 90
+                        coordinate.y = coordinate.y / Math.abs(coordinate.y) * 90;
+                       /*Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+                        Log.error(Geonet.WRONG_PRODUCT_METADATA, "The coordinate ::   " + tmpy +
+                                "    are over limmits should be  -90 < y < 90 " + "    meta data uiid::" + elt.getUuid());
+*/
+                    }
+                    coordinate.y = Math.abs(coordinate.y) == 90 ? coordinate.y - Math.copySign(LIMIT_OFFSET, coordinate.y) : coordinate.y;
 
-            }
+                }
 
-            // if the length of polygon is 0 (one point) create a small polygon by adding the LIMIT_OFFSET.
-            // Solr doesn't accept points
-            if (jts.getLength() == 0) {
-               for (int i = 0; i < coords.length; i++) {
-                  double x_offset = 0.0, y_offset = 0.0;
-                  switch (i) {
-                     case 4:
-                     case 0:
-                        x_offset = -LIMIT_OFFSET;
-                        y_offset = LIMIT_OFFSET;
-                        break;
-                     case 1:
-                        x_offset = -LIMIT_OFFSET;
-                        y_offset = -LIMIT_OFFSET;
-                        break;
-                     case 2:
-                        x_offset = LIMIT_OFFSET;
-                        y_offset = -LIMIT_OFFSET;
-                        break;
-                     case 3:
-                        x_offset = LIMIT_OFFSET;
-                        y_offset = LIMIT_OFFSET;
-                        break;
-                  }
-                  Coordinate coordinate = coords[i];
-                  coordinate.x = coordinate.x + x_offset;
-                  coordinate.y = coordinate.y - y_offset;
-               }
-            }
+                if (tmpx > 180) {
 
+                    Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+                    Log.error(Geonet.WRONG_PRODUCT_METADATA, "***The coordinate::  " + tmpx + "    are over limmits should be" +
+                            "   -180 < x < 180 " + "     meta data uiid:" + elt.getUuid());
+
+                }
+
+                if (tmpy > 90) {
+                    Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+                    Log.error(Geonet.WRONG_PRODUCT_METADATA, "The coordinate ::   " + tmpy +
+                            "    are over limmits should be  -90 < y < 90 " + "    meta data uiid::" + elt.getUuid());
+
+                }
+
+                // if the length of polygon is 0 (one point) create a small polygon by adding the LIMIT_OFFSET.
+                // Solr doesn't accept points
+                if (jts.getLength() == 0) {
+                    for (int i = 0; i < coords.length; i++) {
+                        double x_offset = 0.0, y_offset = 0.0;
+                        switch (i) {
+                            case 4:
+                            case 0:
+                                x_offset = -LIMIT_OFFSET;
+                                y_offset = LIMIT_OFFSET;
+                                break;
+                            case 1:
+                                x_offset = -LIMIT_OFFSET;
+                                y_offset = -LIMIT_OFFSET;
+                                break;
+                            case 2:
+                                x_offset = LIMIT_OFFSET;
+                                y_offset = -LIMIT_OFFSET;
+                                break;
+                            case 3:
+                                x_offset = LIMIT_OFFSET;
+                                y_offset = LIMIT_OFFSET;
+                                break;
+                        }
+                        Coordinate coordinate = coords[i];
+                        coordinate.x = coordinate.x + x_offset;
+                        coordinate.y = coordinate.y - y_offset;
+                    }
+                }
+               // if polygon is not valid it create a small polygon by adding the LIMIT_OFFSET.
+                // Solr doesn't accept points
+                if (!jts.isValid()) {
+                    Log.info(Geonet.WRONG_PRODUCT_METADATA, "***************");
+                    Log.error(Geonet.WRONG_PRODUCT_METADATA, elt.getUuid() + "   wrong polygon   :" + jts.toString());
+
+                    for (int i = 0; i < coords.length; i++) {
+                        double x_offset = 0.0, y_offset = 0.0;
+                        switch (i) {
+                            case 4:
+                            case 0:
+                                x_offset = -LIMIT_OFFSET;
+                                y_offset = LIMIT_OFFSET;
+                                break;
+                            case 1:
+                                x_offset = -LIMIT_OFFSET;
+                                y_offset = -LIMIT_OFFSET;
+                                break;
+                            case 2:
+                                x_offset = LIMIT_OFFSET;
+                                y_offset = -LIMIT_OFFSET;
+                                break;
+                            case 3:
+                                x_offset = LIMIT_OFFSET;
+                                y_offset = LIMIT_OFFSET;
+                                break;
+                        }
+                        Coordinate coordinate = coords[i];
+                        coordinate.x = coordinate.x + x_offset;
+                        coordinate.y = coordinate.y - y_offset;
+                    }
+                }
                 // make sure the polygon is in counter clockwise
                 if (!CGAlgorithms.isCCW(coords)) {
                     jts = (Polygon) jts.reverse();
