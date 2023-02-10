@@ -264,7 +264,7 @@ Openwis.Lang.Dictionary = {
     	<p></p>\
     	<h2>To sign up for an account</h2>\
     	<p></p>\
-    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/wis/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
+    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRequest.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRequest.get\', \'_blank\',\
     	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Request form</a>.\
     	If your registration is successful, an email containing your login credentials will be sent to you within 3-5 working days.</p>\
     	<br>\
@@ -272,7 +272,7 @@ Openwis.Lang.Dictionary = {
     	<p></p>\
     	<h2>To recover a lost account</h2>\
     	<p></p>\
-    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRecovery.get" onclick="open(\'/wis/openwis-user-portal/srv/en/user.accountRecovery.get\', \'_blank\',\
+    	<p>Complete the <a href="/openwis-user-portal/srv/en/user.accountRecovery.get" onclick="open(\'/openwis-user-portal/srv/en/user.accountRecovery.get\', \'_blank\',\
     	\'width=600,height=550,resizable=true,scrollbars=true\'); return false;">Account Recovery form</a>.</p>\
     	<br>\
     	<br>\
