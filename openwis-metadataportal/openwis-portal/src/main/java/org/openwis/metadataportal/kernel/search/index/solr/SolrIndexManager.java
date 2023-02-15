@@ -226,7 +226,9 @@ public class SolrIndexManager implements IIndexManager {
             if (server == null) {
                 throw new IndexException("Unavailable SolR Server");
             }
+
             response = server.commit();
+
             if (Log.isDebug(Geonet.INDEX_ENGINE)) {
                 Log.debug(Geonet.INDEX_ENGINE, "Commit: " + response);
             }
