@@ -52,6 +52,8 @@ before_install:
 - sudo apt-get update
 - sudo apt-get -y install nodejs
 - sudo apt-get -y install npm
+- which node
+- node --version
 #- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
 - npm install --location=global node@14.20.0
 - which node
