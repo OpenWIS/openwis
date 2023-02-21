@@ -99,6 +99,9 @@ public class SelfRegister implements Service {
 
             SettingInfo si = new SettingInfo(context);
             String siteURL = si.getSiteUrl() + context.getBaseUrl();
+            String target = "http";
+            String replacement = "https";
+            siteURL = siteURL.replace(target, replacement);
             String content = getContent(userDTO.getUser().getUsername(), userDTO.getUser()
                   .getPassword(), siteURL, thisSite, context.getLanguage());
 
