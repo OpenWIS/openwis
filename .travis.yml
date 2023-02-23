@@ -59,9 +59,10 @@ before_install:
 - npm update
 # - npm install
 - npm install node-linux-x64
-- npm install installArchSpecificPackage
-- sudo mkdir -p /home/travis/.nvm/versions/node/v16.16.0/lib/node_modules/node/bin
-- npm install --location=global --force node@14.20.0
+# - npm install installArchSpecificPackage
+# - sudo mkdir -p /home/travis/.nvm/versions/node/v16.16.0/lib/node_modules/node/bin
+# - npm install --location=global --force node@14.20.0
+- npm install node@14.20.0
 - which node
 - node --version
 
