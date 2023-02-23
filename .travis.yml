@@ -53,7 +53,10 @@ before_install:
 - sudo apt-get -y install nodejs
 - sudo apt-get -y install npm
 #- sudo  apt-get install nodejs=10.9.0-1chl1~precise1
+- sudo rm -rf node_modules
+- sudo rm -f package-lock.json
 - npm cache clean --force
+- npm update
 - npm install node-linux-x64
 #- sudo mkdir -p /home/travis/.nvm/versions/node/v16.16.0/lib/node_modules/node/bin
 - npm install --location=global --force node@14.20.0
