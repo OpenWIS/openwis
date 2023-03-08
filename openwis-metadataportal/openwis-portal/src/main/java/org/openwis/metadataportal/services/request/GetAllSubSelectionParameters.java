@@ -6,6 +6,7 @@ package org.openwis.metadataportal.services.request;
 import java.util.Set;
 
 import jeeves.interfaces.Service;
+import jeeves.resources.dbms.Dbms;
 import jeeves.server.ServiceConfig;
 import jeeves.server.context.ServiceContext;
 import jeeves.utils.Log;
@@ -18,6 +19,8 @@ import org.openwis.harness.subselectionparameters.ModeType;
 import org.openwis.harness.subselectionparameters.Parameters;
 import org.openwis.harness.subselectionparameters.SubSelectionParameters;
 import org.openwis.metadataportal.kernel.external.HarnessProvider;
+import org.openwis.metadataportal.kernel.metadata.MetadataManager;
+import org.openwis.metadataportal.model.metadata.Metadata;
 import org.openwis.metadataportal.services.common.json.JeevesJsonWrapper;
 import org.openwis.metadataportal.services.mock.MockMode;
 import org.openwis.metadataportal.services.mock.MockSubSelectionParameters;
@@ -99,14 +102,18 @@ public class GetAllSubSelectionParameters implements Service {
             } else {
                 Log.info(Geonet.OPENWIS, "Using static mode for subselection parameters with static harness");
                 // via SubSelectionParameters interface
+                Dbms dbms = (Dbms) context.getResourceManager().open(Geonet.Res.MAIN_DB);
+                Metadata metadata = new MetadataManager(dbms).getMetadataInfoByUrn(dto.getUrn());
+
+
                 SubSelectionParameters subSelectionParameters = HarnessProvider
                         .getSubSelectionParametersService();
                 if (dto.isSubscription()) {
                     subSelParam = subSelectionParameters.getSubSelectionParametersForSubscription(
-                            dto.getUrn(), lang);
+                            metadata.getUrn(), lang);
                 } else {
-                    subSelParam = subSelectionParameters.getSubSelectionParametersForRequest(dto.getUrn(),
-                            lang);
+                    subSelParam = subSelectionParameters.getSubSelectionParametersForRequest(
+                            metadata.getUrn(), lang);
                 }
             }
         }
